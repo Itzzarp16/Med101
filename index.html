@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Med 101 — Intro to Clinic</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0ede8;
+  --white:#ffffff;
+  --dark:#111318;
+  --mid:#6b7280;
+  --c1:#ff6b35;--c2:#3b82f6;--c3:#10b981;--c4:#f59e0b;
+  --c5:#8b5cf6;--c6:#ec4899;--c7:#06b6d4;--c8:#84cc16;
+  --c9:#f43f5e;--c10:#0ea5e9;--c11:#a855f7;--c12:#14b8a6;
+  --c13:#fb923c;--c14:#6366f1;
+}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--dark);min-height:100vh;overflow-x:hidden}
+
+/* ── LOGIN SCREEN ── */
+#login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--dark);position:relative;overflow:hidden;
+}
+#login-screen::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 70% 60% at 80% 20%,#ff6b3530,transparent),
+              radial-gradient(ellipse 50% 70% at 10% 80%,#3b82f630,transparent),
+              radial-gradient(ellipse 40% 40% at 50% 50%,#8b5cf620,transparent);
+}
+.login-box{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:28px;padding:52px 44px;
+  width:100%;max-width:440px;
+  position:relative;z-index:1;
+  backdrop-filter:blur(20px);
+  animation:loginIn .5s cubic-bezier(.4,0,.2,1);
+}
+@keyframes loginIn{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+.login-emoji{font-size:3rem;margin-bottom:16px;display:block;text-align:center;}
+.login-title{font-family:'Syne',sans-serif;font-size:2rem;font-weight:800;color:white;text-align:center;margin-bottom:6px;}
+.login-title span{color:var(--c1);}
+.login-sub{font-size:0.88rem;color:rgba(255,255,255,0.45);text-align:center;line-height:1.6;margin-bottom:36px;}
+.login-label{font-size:0.72rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:10px;display:block;}
+.login-input{
+  width:100%;padding:16px 20px;
+  background:rgba(255,255,255,0.07);border:1.5px solid rgba(255,255,255,0.12);
+  border-radius:14px;color:white;
+  font-family:'Outfit',sans-serif;font-size:1.05rem;font-weight:500;
+  outline:none;transition:all .2s;margin-bottom:20px;
+}
+.login-input::placeholder{color:rgba(255,255,255,0.2);}
+.login-input:focus{border-color:var(--c1);background:rgba(255,107,53,0.08);}
+.login-btn{
+  width:100%;padding:16px;background:var(--c1);color:white;border:none;
+  border-radius:14px;font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;
+  cursor:pointer;transition:all .2s;letter-spacing:0.02em;
+}
+.login-btn:hover{background:#e85d2a;transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,53,0.35);}
+.login-btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none;}
+.login-consent{font-size:0.72rem;color:rgba(255,255,255,0.25);text-align:center;margin-top:16px;line-height:1.5;}
+.login-consent strong{color:rgba(255,255,255,0.4);}
+.login-error{font-size:0.8rem;color:#f87171;text-align:center;margin-top:-12px;margin-bottom:12px;display:none;}
+
+/* ── VISITOR LOG ── */
+#visitor-modal{
+  display:none;position:fixed;inset:0;z-index:999;
+  background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;
+}
+#visitor-modal.open{display:flex;}
+.vmodal-box{background:white;border-radius:24px;width:100%;max-width:480px;margin:20px;animation:loginIn .3s ease;overflow:hidden;}
+.vmodal-head{background:var(--dark);padding:24px 28px;display:flex;align-items:center;justify-content:space-between;}
+.vmodal-title{font-family:'Syne',sans-serif;font-size:1.1rem;font-weight:700;color:white;}
+.vmodal-close{background:rgba(255,255,255,0.1);border:none;color:white;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background .15s;}
+.vmodal-close:hover{background:rgba(255,255,255,0.2);}
+.vmodal-body{padding:24px 28px;max-height:380px;overflow-y:auto;}
+.vmodal-empty{text-align:center;color:var(--mid);font-size:0.9rem;padding:20px 0;}
+.visitor-row{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f3f4f6;}
+.visitor-row:last-child{border-bottom:none;}
+.visitor-avatar{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:0.9rem;color:white;flex-shrink:0;}
+.visitor-name{font-weight:600;font-size:0.9rem;color:var(--dark);}
+.visitor-time{font-size:0.72rem;color:var(--mid);margin-top:2px;}
+.vmodal-foot{background:#f9fafb;border-top:1px solid #f3f4f6;padding:14px 28px;font-size:0.8rem;color:var(--mid);display:flex;align-items:center;gap:6px;}
+.vcount-num{font-family:'Syne',sans-serif;font-weight:800;color:var(--dark);font-size:1rem;}
+
+/* ── HOME SCREEN ── */
+#home{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  padding:0;
+}
+.home-hero{
+  background:var(--dark);
+  padding:60px 40px 48px;
+  position:relative;
+  overflow:hidden;
+}
+.home-hero::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 110% -10%,#ff6b3540,transparent),
+              radial-gradient(ellipse 60% 80% at -10% 110%,#3b82f640,transparent);
+}
+.hero-label{
+  font-family:'Outfit',sans-serif;font-weight:500;font-size:0.75rem;
+  letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.45);
+  margin-bottom:16px;position:relative;
+}
+.hero-title{
+  font-family:'Syne',sans-serif;font-size:clamp(2.2rem,6vw,4.5rem);font-weight:800;
+  color:white;line-height:1.0;margin-bottom:12px;position:relative;
+}
+.hero-title span{color:var(--c1);}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,0.55);position:relative;font-weight:300;max-width:480px;line-height:1.6;}
+.hero-credit{
+  position:absolute;top:24px;right:32px;
+  font-size:0.75rem;color:rgba(255,255,255,0.35);
+  font-weight:500;letter-spacing:0.05em;
+}
+.hero-credit strong{color:var(--c1);}
+
+.progress-strip{
+  background:white;padding:16px 40px;
+  display:flex;align-items:center;gap:16px;
+  border-bottom:1px solid #e5e7eb;
+}
+.prog-label{font-size:0.8rem;font-weight:600;color:var(--mid);white-space:nowrap;}
+.prog-outer{flex:1;height:8px;background:#f3f4f6;border-radius:99px;overflow:hidden;}
+.prog-inner{height:100%;background:linear-gradient(90deg,var(--c1),var(--c9));border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+.prog-pct{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--c1);white-space:nowrap;}
+
+/* ── TOPIC GRID ── */
+.grid-section{padding:32px 40px 60px;}
+.grid-heading{
+  font-family:'Syne',sans-serif;font-size:0.7rem;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;color:var(--mid);
+  margin-bottom:20px;display:flex;align-items:center;gap:10px;
+}
+.grid-heading::after{content:'';flex:1;height:1px;background:#ddd;}
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+
+.topic-card{
+  background:white;border-radius:20px;padding:22px 20px;
+  cursor:pointer;transition:transform .2s,box-shadow .2s;
+  border:2px solid transparent;position:relative;overflow:hidden;
+}
+.topic-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.12);}
+.topic-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:var(--tc);
+}
+.tc-emoji{font-size:2rem;margin-bottom:10px;display:block;}
+.tc-num{
+  font-family:'Syne',sans-serif;font-size:0.65rem;font-weight:700;
+  letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--tc);margin-bottom:5px;
+}
+.tc-title{font-weight:700;font-size:0.88rem;line-height:1.35;color:var(--dark);}
+.tc-done{
+  position:absolute;top:14px;right:14px;
+  width:22px;height:22px;border-radius:50%;
+  background:var(--tc);display:none;align-items:center;justify-content:center;
+  font-size:0.65rem;color:white;font-weight:700;
+}
+.topic-card.done .tc-done{display:flex;}
+
+/* ── STUDY SCREEN ── */
+#study{display:none;min-height:100vh;flex-direction:column;}
+#study.active{display:flex;}
+
+.study-topbar{
+  background:white;padding:14px 32px;
+  display:flex;align-items:center;gap:16px;
+  border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:10;
+}
+.back-btn{
+  display:flex;align-items:center;gap:6px;
+  background:var(--bg);border:none;border-radius:10px;
+  padding:8px 14px;cursor:pointer;font-family:'Outfit',sans-serif;
+  font-size:0.82rem;font-weight:600;color:var(--dark);transition:background .15s;
+}
+.back-btn:hover{background:#e5e7eb;}
+.study-topic-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;flex:1;}
+.card-counter{font-size:0.8rem;color:var(--mid);font-weight:500;white-space:nowrap;}
+
+/* ── SWIPE AREA ── */
+.swipe-area{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:32px 24px;
+  position:relative;
+}
+
+.card-stack{
+  position:relative;width:100%;max-width:620px;
+}
+
+/* ghost cards behind */
+.card-stack::before,.card-stack::after{
+  content:'';position:absolute;
+  background:white;border-radius:24px;
+  left:50%;transform:translateX(-50%);
+  width:calc(100% - 40px);height:calc(100% + 0px);
+}
+.card-stack::before{top:12px;opacity:.4;width:calc(100% - 20px);}
+.card-stack::after{top:6px;opacity:.7;width:calc(100% - 10px);}
+
+.study-card{
+  background:white;border-radius:24px;
+  padding:40px 36px;
+  position:relative;z-index:1;
+  box-shadow:0 8px 40px rgba(0,0,0,0.10);
+  min-height:360px;display:flex;flex-direction:column;
+  animation:cardIn .35s cubic-bezier(.4,0,.2,1);
+  border-top:6px solid var(--tc);
+}
+@keyframes cardIn{from{opacity:0;transform:scale(.96) translateY(12px)}to{opacity:1;transform:none}}
+
+.card-type-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--tc);background:color-mix(in srgb,var(--tc) 12%,white);
+  padding:5px 12px;border-radius:99px;margin-bottom:20px;align-self:flex-start;
+}
+
+.card-question{
+  font-family:'Syne',sans-serif;font-size:1.5rem;font-weight:700;
+  line-height:1.3;color:var(--dark);margin-bottom:auto;flex:1;
+  display:flex;align-items:center;
+}
+
+/* ANSWER section */
+.card-answer{
+  margin-top:24px;padding-top:24px;
+  border-top:1px solid #f3f4f6;
+  display:none;
+  animation:fadeUp .25s ease;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card-answer.visible{display:block;}
+
+.answer-label{
+  font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--mid);margin-bottom:10px;
+}
+.answer-text{
+  font-size:0.95rem;line-height:1.7;color:#374151;font-weight:400;
+}
+.answer-text strong{color:var(--dark);}
+.answer-text .tag{
+  display:inline-block;background:color-mix(in srgb,var(--tc) 12%,white);
+  color:var(--tc);padding:2px 10px;border-radius:99px;font-size:0.8rem;
+  font-weight:600;margin:2px;
+}
+
+/* MNEMONIC box */
+.mnemonic-box{
+  background:var(--dark);color:white;
+  border-radius:14px;padding:16px 20px;margin-top:14px;
+}
+.mnemonic-label{font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--c4);font-weight:700;margin-bottom:6px;}
+.mnemonic-text{font-size:0.9rem;line-height:1.6;}
+.mnemonic-text b{color:var(--c1);}
+
+/* VISUAL DIAGRAM inline */
+.mini-diagram{
+  display:flex;gap:0;margin:14px 0 4px;
+  border-radius:12px;overflow:hidden;
+  font-size:0.72rem;font-weight:700;text-align:center;
+}
+.md-block{
+  flex:1;padding:10px 6px;display:flex;flex-direction:column;
+  align-items:center;gap:4px;
+}
+.md-block .md-icon{font-size:1.2rem;}
+
+/* PYRAMID */
+.mini-pyramid{display:flex;flex-direction:column;align-items:center;gap:3px;margin:12px 0;}
+.mp-row{border-radius:6px;padding:7px 10px;font-size:0.72rem;font-weight:700;text-align:center;color:white;transition:transform .15s;}
+.mp-row:hover{transform:scaleX(1.03);}
+
+/* QUIZ card */
+.quiz-opts{display:flex;flex-direction:column;gap:9px;margin-top:14px;}
+.qopt{
+  padding:12px 16px;border-radius:12px;border:2px solid #e5e7eb;
+  background:white;cursor:pointer;font-family:'Outfit',sans-serif;
+  font-size:0.88rem;font-weight:500;color:var(--dark);
+  transition:all .15s;text-align:left;
+}
+.qopt:hover:not(:disabled){border-color:var(--tc);background:color-mix(in srgb,var(--tc) 6%,white);}
+.qopt.correct{background:#d1fae5;border-color:#10b981;color:#065f46;}
+.qopt.wrong{background:#fee2e2;border-color:#ef4444;color:#991b1b;}
+.qopt:disabled{cursor:default;}
+.quiz-result{margin-top:12px;font-size:0.85rem;font-weight:600;padding:10px 14px;border-radius:10px;display:none;}
+.quiz-result.show{display:block;}
+.quiz-result.ok{background:#d1fae5;color:#065f46;}
+.quiz-result.no{background:#fee2e2;color:#991b1b;}
+
+/* REVEAL button */
+.reveal-btn{
+  width:100%;margin-top:28px;padding:15px;
+  background:var(--dark);color:white;border:none;border-radius:14px;
+  font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;
+  cursor:pointer;transition:all .2s;letter-spacing:0.02em;
+}
+.reveal-btn:hover{background:#1f2937;transform:translateY(-1px);}
+.reveal-btn.hidden-btn{display:none;}
+
+/* NEXT / controls */
+.nav-controls{
+  display:flex;gap:12px;margin-top:20px;
+  width:100%;max-width:620px;
+}
+.nav-btn{
+  flex:1;padding:13px;border-radius:14px;border:2px solid #e5e7eb;
+  background:white;font-family:'Outfit',sans-serif;font-size:0.9rem;
+  font-weight:600;cursor:pointer;transition:all .18s;color:var(--dark);
+}
+.nav-btn:hover{border-color:var(--tc);color:var(--tc);}
+.nav-btn.primary{background:var(--tc);color:white;border-color:var(--tc);}
+.nav-btn.primary:hover{opacity:.9;transform:translateY(-1px);}
+.nav-btn:disabled{opacity:.4;cursor:default;transform:none;}
+
+/* topic complete card */
+.done-card{
+  background:var(--dark);border-radius:24px;padding:48px 36px;
+  text-align:center;color:white;animation:cardIn .4s ease;
+  width:100%;max-width:620px;
+}
+.done-card .done-emoji{font-size:4rem;margin-bottom:16px;}
+.done-card h2{font-family:'Syne',sans-serif;font-size:2rem;margin-bottom:8px;}
+.done-card p{color:rgba(255,255,255,.55);font-size:0.95rem;margin-bottom:28px;line-height:1.6;}
+.done-card .done-score{font-family:'Syne',sans-serif;font-size:3.5rem;font-weight:800;color:var(--c1);}
+.done-card .done-label{font-size:0.75rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:4px;}
+
+/* progress dots */
+.dots{display:flex;gap:5px;justify-content:center;margin-top:18px;}
+.dot{
+  width:8px;height:8px;border-radius:99px;background:#e5e7eb;
+  transition:all .3s;
+}
+.dot.active{background:var(--tc);width:24px;}
+.dot.done-dot{background:var(--c3);}
+
+@media(max-width:600px){
+  .home-hero{padding:40px 20px 36px;}
+  .grid-section{padding:24px 16px 48px;}
+  .study-topbar{padding:12px 16px;}
+  .swipe-area{padding:20px 16px;}
+  .study-card{padding:28px 22px;}
+  .card-question{font-size:1.25rem;}
+  .topic-grid{grid-template-columns:repeat(2,1fr);}
+  .progress-strip{padding:12px 20px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ LOGIN ══════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <span class="login-emoji">🩺</span>
+    <h1 class="login-title">Intro to <span>Clinic</span></h1>
+    <p class="login-sub">Your personal medical flashcard app.<br>Enter your name to get started — it helps track who's using this resource.</p>
+    <label class="login-label" for="name-input">Your Full Name</label>
+    <input class="login-input" id="name-input" type="text" placeholder="e.g. Priya Sharma" autocomplete="name" maxlength="60" oninput="onNameInput()" onkeydown="if(event.key==='Enter')doLogin()">
+    <div class="login-error" id="login-error">Please enter your name to continue.</div>
+    <button class="login-btn" id="login-btn" onclick="doLogin()" disabled>Enter App →</button>
+    <p class="login-consent">By entering, you consent to your name being recorded as a visitor.<br><strong>No other data is collected.</strong></p>
+  </div>
+</div>
+
+<!-- ══════════ VISITOR MODAL ══════════ -->
+<div id="visitor-modal">
+  <div class="vmodal-box">
+    <div class="vmodal-head">
+      <div class="vmodal-title">👥 Visitors Log</div>
+      <button class="vmodal-close" onclick="closeVisitors()">✕</button>
+    </div>
+    <div class="vmodal-body" id="visitor-list"></div>
+    <div class="vmodal-foot">
+      <span class="vcount-num" id="visitor-count">0</span>&nbsp;visitor(s) have opened this file
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ HOME ══════════ -->
+<div id="home" style="display:none;">
+  <div class="home-hero">
+    <div class="hero-credit">Made by <strong>Abhishek Verma</strong></div>
+    <div style="position:absolute;bottom:24px;right:32px;">
+      <button onclick="openVisitors()" style="display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:99px;padding:6px 14px 6px 10px;cursor:pointer;font-family:Outfit,sans-serif;font-size:0.75rem;color:rgba(255,255,255,0.7);transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
+        <span style="width:8px;height:8px;border-radius:50%;background:#10b981;display:inline-block;"></span>
+        👥 View Visitors
+      </button>
+    </div>
+    <div class="hero-label">1st Year · 2nd Semester</div>
+    <h1 class="hero-title">Intro to<br><span>Clinic</span> 🩺</h1>
+    <p class="hero-sub">14 topics. Flashcard-style. Tap a card, learn it, ace your exam.</p>
+  </div>
+
+  <div class="progress-strip">
+    <span class="prog-label">Overall progress</span>
+    <div class="prog-outer"><div class="prog-inner" id="main-prog" style="width:0%"></div></div>
+    <span class="prog-pct" id="main-pct">0%</span>
+  </div>
+
+  <div class="grid-section">
+    <div class="grid-heading">Module 1 — Clinical Foundations</div>
+    <div class="topic-grid" id="topic-grid"></div>
+    <div class="grid-heading" style="margin-top:32px">Module 2 — Evidence-Based Medicine</div>
+    <div class="topic-grid" id="topic-grid-2"></div>
+  </div>
+</div>
+
+<!-- ══════════ STUDY ══════════ -->
+<div id="study">
+  <div class="study-topbar">
+    <button class="back-btn" onclick="goHome()">← Back</button>
+    <div class="study-topic-name" id="study-title"></div>
+    <div class="card-counter" id="card-counter"></div>
+  </div>
+  <div class="swipe-area" id="swipe-area"></div>
+</div>
+
+<script>
+// ════════════════════════════════════════════
+//  DATA
+// ════════════════════════════════════════════
+const topics = [
+  {
+    id:0, emoji:'👨‍⚕️', title:'Medicine as a Profession', color:'--c1', module:1,
+    cards:[
+      {type:'concept', q:'What is the core bridge between basic sciences and clinical medicine?', a:'<strong>Pathophysiology & Clinical Skills</strong> connect what you learn in anatomy/physiology to what you see in patients. Basic sciences explain <span class="tag">HOW</span> the body works. Clinical medicine addresses <span class="tag">WHAT TO DO</span> when it fails.'},
+      {type:'compare', q:'Individual health vs Population health — what\'s the difference?', a:'<strong>Individual health</strong> = one patient, one diagnosis, one treatment plan.<br><strong>Population health</strong> = patterns, risk factors, epidemiology across communities.<br><br>Example: <em>"Why does THIS patient have diabetes?"</em> vs <em>"Why does this city have 3× the national diabetes rate?"</em>'},
+      {type:'list', q:'What are the 5 pillars of physician professionalism?', a:'<span class="tag">Professional appearance</span> <span class="tag">Personal hygiene</span> <span class="tag">Empathy</span> <span class="tag">Accountability</span> <span class="tag">Lifelong learning</span><br><br>A physician\'s appearance communicates trust before a single word is spoken.'},
+      {type:'quiz', q:'A physiology lecture teaches you how the heart pumps blood. Which type of discipline is this?', opts:['Clinical discipline','Basic science discipline','Pathological discipline','Surgical discipline'], ans:1, exp:'Physiology is a <strong>basic science</strong> — it explains normal function. Clinical disciplines apply this knowledge to diagnosing and treating disease.'},
+    ]
+  },
+  {
+    id:1, emoji:'📜', title:'History, Ethics & Responsibility', color:'--c2', module:1,
+    cards:[
+      {type:'timeline', q:'Key milestones in medical history — can you name 4?', a:'', timeline:[
+        {year:'~400 BCE',event:'Hippocrates separates medicine from religion. "First, do no harm."'},
+        {year:'1543',event:'Vesalius publishes modern human anatomy based on dissection'},
+        {year:'1865',event:'Lister introduces antiseptic surgery — mortality plummets'},
+        {year:'1948',event:'Bradford Hill runs the first RCT (streptomycin for TB) — EBM is born'},
+      ]},
+      {type:'concept', q:'What are the Four Pillars of Medical Ethics?', a:'<div class="mini-diagram"><div class="md-block" style="background:#eff6ff"><div class="md-icon">⚖️</div><strong>Autonomy</strong><br><span style="font-size:.7rem;color:#6b7280">Patient decides</span></div><div class="md-block" style="background:#f0fdf4"><div class="md-icon">✅</div><strong>Beneficence</strong><br><span style="font-size:.7rem;color:#6b7280">Do good</span></div><div class="md-block" style="background:#fff7ed"><div class="md-icon">🚫</div><strong>Non-maleficence</strong><br><span style="font-size:.7rem;color:#6b7280">Do no harm</span></div><div class="md-block" style="background:#fdf4ff"><div class="md-icon">🤝</div><strong>Justice</strong><br><span style="font-size:.7rem;color:#6b7280">Be fair</span></div></div>'},
+      {type:'concept', q:'What is "Deontology" in medicine?', a:'Deontology = acting by <strong>duty and rules</strong>, regardless of outcome.<br><br>A deontological physician tells the patient the truth about a terminal diagnosis — not because it makes them feel better, but because <em>honesty is a professional duty.</em>'},
+      {type:'quiz', q:'A patient refuses a life-saving blood transfusion due to religious beliefs. Which ethical principle guides you to respect this?', opts:['Beneficence','Justice','Autonomy','Non-maleficence'], ans:2, exp:'<strong>Autonomy</strong> — every competent adult has the right to refuse treatment. Beneficence means acting in their interest, but autonomy means respecting their choice even when you disagree.'},
+    ]
+  },
+  {
+    id:2, emoji:'💬', title:'Doctor–Patient Communication', color:'--c3', module:1,
+    cards:[
+      {type:'concept', q:'What is the single most impactful communication skill for a clinician?', a:'<strong>Active Listening</strong> — giving the patient your full, undivided attention without interrupting.<br><br>Studies show doctors interrupt patients on average after just <strong>11 seconds</strong>. Patients who feel heard disclose more diagnostically relevant information.'},
+      {type:'compare', q:'Open vs Closed questions — when do you use each?', a:'<strong>Open questions</strong> → "Tell me about your pain."<br>Use at the START. Gets narrative, context, emotional cues.<br><br><strong>Closed questions</strong> → "Is the pain sharp?"<br>Use to CONFIRM specific details. Gets yes/no answers.<br><br><em>Strategy: Open first, close to clarify.</em>'},
+      {type:'list', q:'What are the 4 most common doctor communication errors?', a:'<span class="tag">Using medical jargon</span> — say "heart attack" not "myocardial infarction"<br><br><span class="tag">Premature closure</span> — settling on a diagnosis too early<br><br><span class="tag">Leading questions</span> — "The pain is sharp, isn\'t it?"<br><br><span class="tag">Ignoring silence</span> — discomfort before an important disclosure'},
+      {type:'quiz', q:'You say "You have acute cholecystitis." The patient nods but looks blank. What went wrong?', opts:['Premature closure','Leading question','Medical jargon','Ignoring silence'], ans:2, exp:'Using <strong>medical jargon</strong> — the patient didn\'t understand. Always translate: "Your gallbladder is inflamed." Communication is only successful when the patient understands.'},
+    ]
+  },
+  {
+    id:3, emoji:'🧩', title:'Symptoms, Signs & Clinical Thinking', color:'--c4', module:1,
+    cards:[
+      {type:'compare', q:'What is the difference between a Symptom, a Sign, and a Syndrome?', a:'<div class="mini-diagram"><div class="md-block" style="background:#fff7ed"><div class="md-icon">🗣️</div><strong>Symptom</strong><br><span style="font-size:.7rem;color:#92400e">Patient reports it<br>"I have chest pain"</span></div><div class="md-block" style="background:#f0fdf4"><div class="md-icon">🔍</div><strong>Sign</strong><br><span style="font-size:.7rem;color:#065f46">Doctor detects it<br>Fever 38.9°C</span></div><div class="md-block" style="background:#eff6ff"><div class="md-icon">🔗</div><strong>Syndrome</strong><br><span style="font-size:.7rem;color:#1e40af">Both together<br>Cushing\'s syndrome</span></div></div>'},
+      {type:'concept', q:'What are the 4 steps of clinical reasoning?', a:'<div style="display:flex;flex-direction:column;gap:8px;margin-top:4px"><div style="display:flex;gap:10px;align-items:center"><div style="min-width:28px;height:28px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem">1</div><div><strong>Collect</strong> — History + examination → all symptoms and signs</div></div><div style="display:flex;gap:10px;align-items:center"><div style="min-width:28px;height:28px;border-radius:50%;background:#d1fae5;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem">2</div><div><strong>Pattern</strong> — Group findings into recognizable syndromes</div></div><div style="display:flex;gap:10px;align-items:center"><div style="min-width:28px;height:28px;border-radius:50%;background:#dbeafe;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem">3</div><div><strong>Differential</strong> — List possible diagnoses, ranked by likelihood</div></div><div style="display:flex;gap:10px;align-items:center"><div style="min-width:28px;height:28px;border-radius:50%;background:#f3e8ff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem">4</div><div><strong>Test</strong> — Investigations to confirm or exclude</div></div></div>'},
+      {type:'mnemonic', q:'How do you describe a patient\'s pain systematically?', mnemonic:'O-P-Q-R-S-T', breakdown:'<b>O</b>nset · <b>P</b>rovocation/Palliation · <b>Q</b>uality · <b>R</b>adiation · <b>S</b>everity (0–10) · <b>T</b>iming', a:'Use OPQRST for every single pain complaint. Example:<br>"Sharp pain (Q) in left chest (location), started 2 hrs ago (O) suddenly, radiates to left arm (R), severity 8/10 (S), constant (T), worse with exertion (P)"'},
+      {type:'quiz', q:'Patient says "I have a headache" — you see them squinting in bright light. What are these two findings?', opts:['Both are signs','Both are symptoms','Symptom + Sign respectively','Sign + Symptom respectively'], ans:2, exp:'"I have a headache" = <strong>symptom</strong> (patient reports it). Squinting in bright light (photophobia) = <strong>sign</strong> (you observe it). Together these could suggest meningitis!'},
+    ]
+  },
+  {
+    id:4, emoji:'📋', title:'Medical History & Case Records', color:'--c5', module:1,
+    cards:[
+      {type:'list', q:'What are the 6 parts of a complete medical history?', a:'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px"><div style="background:#f5f3ff;padding:10px;border-radius:10px"><strong>1. CC</strong><br><span style="font-size:.78rem;color:#6b7280">Chief Complaint</span></div><div style="background:#f0fdf4;padding:10px;border-radius:10px"><strong>2. HPI</strong><br><span style="font-size:.78rem;color:#6b7280">History of Present Illness</span></div><div style="background:#fff7ed;padding:10px;border-radius:10px"><strong>3. PMH</strong><br><span style="font-size:.78rem;color:#6b7280">Past Medical History</span></div><div style="background:#eff6ff;padding:10px;border-radius:10px"><strong>4. FH</strong><br><span style="font-size:.78rem;color:#6b7280">Family History</span></div><div style="background:#fdf4ff;padding:10px;border-radius:10px"><strong>5. SH</strong><br><span style="font-size:.78rem;color:#6b7280">Social History</span></div><div style="background:#fef2f2;padding:10px;border-radius:10px"><strong>6. SR</strong><br><span style="font-size:.78rem;color:#6b7280">Systems Review</span></div></div>'},
+      {type:'concept', q:'What makes a medical record a legal document? What are the rules?', a:'Every entry must include: <span class="tag">Date</span> <span class="tag">Time</span> <span class="tag">Signature</span><br><br>❌ Never erase — strike through errors with a single line<br>❌ Never leave blank spaces<br>✅ If it wasn\'t documented, legally it didn\'t happen<br><br>Medical records can be subpoenaed in court.'},
+      {type:'concept', q:'What does OPQRST stand for and why does it matter?', a:'', mnemonic:'O·P·Q·R·S·T', breakdown:'<b>O</b>nset · <b>P</b>rovocation & Palliation · <b>Q</b>uality · <b>R</b>adiation · <b>S</b>everity · <b>T</b>iming'},
+      {type:'quiz', q:'A patient says "my back hurts." What is the FIRST thing you document in the case record?', opts:['Family history','Past medical history','Chief complaint in patient\'s own words','Systems review'], ans:2, exp:'The <strong>Chief Complaint (CC)</strong> always comes first — documented in the patient\'s exact words. "Back pain" not "lumbar disc herniation" — that\'s your diagnosis, not their complaint.'},
+    ]
+  },
+  {
+    id:5, emoji:'🔍', title:'General Physical Examination', color:'--c6', module:1,
+    cards:[
+      {type:'concept', q:'What are the 4 techniques of physical examination in order?', a:'<div class="mini-diagram"><div class="md-block" style="background:#fdf4ff"><div class="md-icon">👁️</div><strong>Inspection</strong><br><span style="font-size:.7rem;color:#6b7280">Look first, always</span></div><div class="md-block" style="background:#f0fdf4"><div class="md-icon">✋</div><strong>Palpation</strong><br><span style="font-size:.7rem;color:#6b7280">Feel with hands</span></div><div class="md-block" style="background:#fff7ed"><div class="md-icon">🥁</div><strong>Percussion</strong><br><span style="font-size:.7rem;color:#6b7280">Tap & listen</span></div><div class="md-block" style="background:#eff6ff"><div class="md-icon">👂</div><strong>Auscultation</strong><br><span style="font-size:.7rem;color:#6b7280">Stethoscope last</span></div></div><div style="background:#fef2f2;border-radius:10px;padding:10px;margin-top:12px;font-size:.82rem"><strong>⚠️ Exception for abdomen:</strong> Inspect → Auscultate → Percuss → Palpate<br>(percussion/palpation can alter bowel sounds)</div>'},
+      {type:'compare', q:'What does percussion tell you? What do the sounds mean?', a:'Tapping creates vibrations — the sound reveals what\'s underneath:<br><br><span class="tag" style="background:#d1fae5;color:#065f46">Resonant</span> = Normal air-filled lung<br><span class="tag" style="background:#fee2e2;color:#991b1b">Dull</span> = Solid organ, fluid (pleural effusion, consolidation)<br><span class="tag" style="background:#dbeafe;color:#1e40af">Hyperresonant</span> = Excess air (pneumothorax)<br><span class="tag" style="background:#fef3c7;color:#92400e">Stony dull</span> = Large pleural effusion'},
+      {type:'concept', q:'What clinical information does auscultation of the lungs give you?', a:'Normal breath sounds:<br>• <strong>Vesicular</strong> — soft, heard over normal lung fields<br>• <strong>Bronchial</strong> — harsh, normally only over trachea<br><br>Abnormal sounds:<br>• <strong>Crackles/Rales</strong> — fluid in alveoli → pneumonia, heart failure<br>• <strong>Wheeze</strong> — narrowed airways → asthma, COPD<br>• <strong>Stridor</strong> — upper airway obstruction → emergency!'},
+      {type:'quiz', q:'You percuss the left lower lung base and hear a dull sound. What does this most likely indicate?', opts:['Normal lung','Pneumothorax (too much air)','Pleural effusion (fluid)','Emphysema'], ans:2, exp:'<strong>Dullness on percussion</strong> = fluid or solid tissue replacing air. At the lung base, this is classic for <strong>pleural effusion</strong> (fluid in the pleural space).'},
+    ]
+  },
+  {
+    id:6, emoji:'💓', title:'Vital Signs', color:'--c7', module:1,
+    cards:[
+      {type:'concept', q:'What are the 4 vital signs and their normal ranges?', a:'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px"><div style="background:#fef2f2;padding:14px;border-radius:12px;border-left:4px solid #ef4444"><div style="font-size:1.4rem">🌡️</div><strong>Temperature</strong><br><span style="font-size:.8rem;color:#6b7280">Normal: 36.6–37.2°C</span><br><span style="font-size:.75rem;color:#ef4444">Fever >38°C</span></div><div style="background:#fdf4ff;padding:14px;border-radius:12px;border-left:4px solid #a855f7"><div style="font-size:1.4rem">💓</div><strong>Pulse</strong><br><span style="font-size:.8rem;color:#6b7280">Normal: 60–100 bpm</span><br><span style="font-size:.75rem;color:#a855f7">Tachy >100 · Brady <60</span></div><div style="background:#eff6ff;padding:14px;border-radius:12px;border-left:4px solid #3b82f6"><div style="font-size:1.4rem">🫁</div><strong>Resp. Rate</strong><br><span style="font-size:.8rem;color:#6b7280">Normal: 12–20/min</span><br><span style="font-size:.75rem;color:#3b82f6">Tachypnoea >20</span></div><div style="background:#f0fdf4;padding:14px;border-radius:12px;border-left:4px solid #10b981"><div style="font-size:1.4rem">🩺</div><strong>Blood Pressure</strong><br><span style="font-size:.8rem;color:#6b7280">Normal: <120/80 mmHg</span><br><span style="font-size:.75rem;color:#10b981">HTN ≥140/90</span></div></div>'},
+      {type:'concept', q:'Why must vital signs always be interpreted IN CONTEXT?', a:'Context is everything:<br><br>HR 100 in a <strong>marathon runner</strong> post-race = completely normal<br>HR 100 in a <strong>resting elderly patient</strong> with chest pain = red flag<br><br>Fever of 37.8°C in a <strong>healthy adult</strong> = mild<br>Same temperature in a <strong>neutropenic cancer patient</strong> = medical emergency<br><br><em>Always ask: "What is normal for THIS patient?"</em>'},
+      {type:'list', q:'What do you assess when checking a pulse manually?', a:'<span class="tag">Rate</span> — beats per minute<br><span class="tag">Rhythm</span> — regular or irregular? (irregular = possible AF)<br><span class="tag">Character</span> — volume and waveform (bounding, weak, collapsing)<br><span class="tag">Symmetry</span> — same in both arms? (difference = aortic dissection)<br><span class="tag">Radio-femoral delay</span> — check for aortic coarctation'},
+      {type:'quiz', q:'A 72-year-old confused patient has temp 35.5°C, HR 112, BP 85/50. What emergency does this picture suggest?', opts:['Hypertensive crisis','Septic shock','Anxiety attack','Hypothyroidism'], ans:1, exp:'This triad — <strong>low temp or high temp + tachycardia + hypotension + confusion</strong> — is classic <strong>septic shock</strong>. The body\'s response to overwhelming infection causes vasodilation and cardiovascular collapse.'},
+    ]
+  },
+  {
+    id:7, emoji:'🔤', title:'Medical Terminology', color:'--c8', module:1,
+    cards:[
+      {type:'concept', q:'How is a medical term structured?', a:'<div class="mini-diagram"><div class="md-block" style="background:#dbeafe"><div class="md-icon">🔵</div><strong>Prefix</strong><br><span style="font-size:.7rem;color:#1e40af">Modifies meaning<br><em>brady-</em> = slow</span></div><div class="md-block" style="background:#d1fae5"><div class="md-icon">🟢</div><strong>Root</strong><br><span style="font-size:.7rem;color:#065f46">Core meaning<br><em>cardio</em> = heart</span></div><div class="md-block" style="background:#fef3c7"><div class="md-icon">🟡</div><strong>Suffix</strong><br><span style="font-size:.7rem;color:#92400e">Type of condition<br><em>-itis</em> = inflammation</span></div></div><div style="margin-top:14px;background:#f9fafb;padding:12px;border-radius:10px;font-size:.88rem"><strong>Example:</strong> <em>Brady</em> + <em>cardio</em> + <em>-ia</em> = <strong>Bradycardia</strong> = Slow heart rate ✓</div>'},
+      {type:'list', q:'Essential medical roots — can you decode these?', a:'<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.82rem"><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#8b5cf6">cardio-</em> = heart</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#8b5cf6">hepato-</em> = liver</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#8b5cf6">nephro-</em> = kidney</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#8b5cf6">pneumo-</em> = lung/air</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#8b5cf6">osteo-</em> = bone</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#8b5cf6">derma-</em> = skin</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#3b82f6">-itis</em> = inflammation</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#3b82f6">-ectomy</em> = removal</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#10b981">tachy-</em> = fast</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#10b981">brady-</em> = slow</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#f59e0b">hyper-</em> = above normal</div><div style="padding:6px 10px;background:#f9fafb;border-radius:8px"><em style="color:#f59e0b">hypo-</em> = below normal</div></div>'},
+      {type:'concept', q:'Decode: Hepatosplenomegaly. What does it mean?', a:'Break it down letter by letter:<br><br><span class="tag">Hepato</span> = liver<br><span class="tag">Spleno</span> = spleen<br><span class="tag">-megaly</span> = enlargement<br><br>= <strong>Enlargement of both liver AND spleen</strong><br><br><em>Once you know the roots, you can decode terms you\'ve never seen before. That\'s the superpower of medical terminology.</em>'},
+      {type:'quiz', q:'What does "Nephritis" mean?', opts:['Removal of the kidney','Enlargement of the kidney','Inflammation of the kidney','Study of the kidney'], ans:2, exp:'<em>Nephr</em> = kidney + <em>-itis</em> = inflammation → <strong>Nephritis</strong> = inflammation of the kidney. Most commonly caused by autoimmune disease or infection.'},
+    ]
+  },
+  // ── MODULE 2 ──
+  {
+    id:8, emoji:'📊', title:'Introduction to EBM', color:'--c9', module:2,
+    cards:[
+      {type:'concept', q:'What are the 3 pillars of Evidence-Based Medicine?', a:'<div style="display:flex;flex-direction:column;gap:10px;margin-top:4px"><div style="display:flex;gap:12px;align-items:flex-start;background:#fef2f2;padding:14px;border-radius:12px"><div style="font-size:1.5rem">🩺</div><div><strong>Clinical Expertise</strong><br><span style="font-size:.82rem;color:#6b7280">Your experience, pattern recognition, clinical judgement</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;background:#fdf4ff;padding:14px;border-radius:12px"><div style="font-size:1.5rem">🙋</div><div><strong>Patient Values & Preferences</strong><br><span style="font-size:.82rem;color:#6b7280">What the patient wants, fears, and believes</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;background:#f0fdf4;padding:14px;border-radius:12px"><div style="font-size:1.5rem">📊</div><div><strong>Best Available Evidence</strong><br><span style="font-size:.82rem;color:#6b7280">Results from well-designed studies</span></div></div></div>'},
+      {type:'concept', q:'What is the Hierarchy of Evidence? (Lowest to Highest)', a:'<div class="mini-pyramid"><div class="mp-row" style="width:95%;background:#6b7280">Animal & Lab Studies</div><div class="mp-row" style="width:82%;background:#8b5cf6">Expert Opinion</div><div class="mp-row" style="width:70%;background:#ec4899">Case Reports</div><div class="mp-row" style="width:57%;background:#f59e0b">Cohort & Case-Control Studies</div><div class="mp-row" style="width:44%;background:#3b82f6">Randomised Controlled Trials (RCTs)</div><div class="mp-row" style="width:30%;background:#10b981">Systematic Reviews & Meta-analyses ⭐</div></div><div style="text-align:center;font-size:.75rem;color:#6b7280;margin-top:4px">⬆️ Highest quality at top</div>'},
+      {type:'concept', q:'Who created EBM and when?', a:'<strong>Gordon Guyatt</strong> coined the term "Evidence-Based Medicine" in <strong>1991</strong> at McMaster University, Canada.<br><br><strong>David Sackett</strong> popularized it globally with his landmark textbook.<br><br>The first formal <strong>RCT</strong> was Bradford Hill\'s streptomycin trial for tuberculosis in <strong>1948</strong> — this is considered the birth of modern clinical research.'},
+      {type:'quiz', q:'A professor says "Give this drug — I\'ve used it for 30 years." A meta-analysis of 10 RCTs says it doesn\'t work. Which should you follow?', opts:['The professor — experience beats everything','The meta-analysis — it\'s the highest level of evidence','Flip a coin','Neither — ask a different professor'], ans:1, exp:'The <strong>meta-analysis of RCTs</strong> represents the highest level of evidence. Experience is valuable but susceptible to bias and cognitive errors. EBM exists precisely to correct for this.'},
+    ]
+  },
+  {
+    id:9, emoji:'📐', title:'Research Methods & Study Designs', color:'--c10', module:2,
+    cards:[
+      {type:'compare', q:'What are the main types of study designs?', a:'<div style="display:flex;flex-direction:column;gap:8px;margin-top:4px;font-size:.83rem"><div style="display:flex;gap:8px;align-items:center;background:#f9fafb;padding:10px;border-radius:10px"><span style="font-weight:700;color:#0ea5e9;min-width:100px">Cross-sectional</span><span style="color:#6b7280">Snapshot in time. Measures everything at once. Shows correlation, not causation.</span></div><div style="display:flex;gap:8px;align-items:center;background:#f9fafb;padding:10px;border-radius:10px"><span style="font-weight:700;color:#10b981;min-width:100px">Cohort</span><span style="color:#6b7280">Follow people forward in time. Exposed vs unexposed. Good for incidence.</span></div><div style="display:flex;gap:8px;align-items:center;background:#f9fafb;padding:10px;border-radius:10px"><span style="font-weight:700;color:#f59e0b;min-width:100px">Case-Control</span><span style="color:#6b7280">Look backward. Has disease vs doesn\'t. Good for rare conditions.</span></div><div style="display:flex;gap:8px;align-items:center;background:#dbeafe;padding:10px;border-radius:10px"><span style="font-weight:700;color:#1d4ed8;min-width:100px">RCT ⭐</span><span style="color:#1e3a5f">Random allocation to treatment/control. Only design that proves causation.</span></div></div>'},
+      {type:'concept', q:'What is the PICO framework for forming a research question?', a:'<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px"><div style="background:#dbeafe;padding:14px;border-radius:12px;text-align:center"><div style="font-family:Syne,sans-serif;font-size:2rem;font-weight:800;color:#1d4ed8">P</div><strong>Population</strong><br><span style="font-size:.75rem;color:#6b7280">Who are we studying?</span></div><div style="background:#d1fae5;padding:14px;border-radius:12px;text-align:center"><div style="font-family:Syne,sans-serif;font-size:2rem;font-weight:800;color:#065f46">I</div><strong>Intervention</strong><br><span style="font-size:.75rem;color:#6b7280">What treatment/exposure?</span></div><div style="background:#fef3c7;padding:14px;border-radius:12px;text-align:center"><div style="font-family:Syne,sans-serif;font-size:2rem;font-weight:800;color:#92400e">C</div><strong>Comparison</strong><br><span style="font-size:.75rem;color:#6b7280">vs what alternative?</span></div><div style="background:#fce7f3;padding:14px;border-radius:12px;text-align:center"><div style="font-family:Syne,sans-serif;font-size:2rem;font-weight:800;color:#9d174d">O</div><strong>Outcome</strong><br><span style="font-size:.75rem;color:#6b7280">What are we measuring?</span></div></div>'},
+      {type:'compare', q:'Qualitative vs Quantitative research — what\'s the key difference?', a:'<strong>Quantitative</strong> → Numbers, statistics, "how much?"<br>Examples: survival rates, blood pressure, lab values<br><br><strong>Qualitative</strong> → Words, themes, "why?" and "how does it feel?"<br>Examples: patient experience interviews, focus groups<br><br><em>Both are valid! The research question determines which approach to use.</em>'},
+      {type:'quiz', q:'You want to study whether smoking causes lung cancer. You follow 10,000 smokers and 10,000 non-smokers for 20 years. This is a:', opts:['Case-control study','Cross-sectional study','Cohort study','Randomised controlled trial'], ans:2, exp:'This is a <strong>Cohort study</strong> — you\'re following people forward in time (prospectively) comparing an exposed group (smokers) to an unexposed group (non-smokers) and waiting for the outcome (lung cancer).'},
+    ]
+  },
+  {
+    id:10, emoji:'📄', title:'Reading & Applying Medical Evidence', color:'--c11', module:2,
+    cards:[
+      {type:'list', q:'What are the 7 sections of a scientific article and why does each matter?', a:'<div style="display:flex;flex-direction:column;gap:6px;font-size:.82rem"><div style="display:flex;gap:8px"><div style="min-width:20px;height:20px;border-radius:50%;background:#3b82f6;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.65rem">T</div><div><strong>Title & Abstract</strong> — Read first to decide if it\'s relevant</div></div><div style="display:flex;gap:8px"><div style="min-width:20px;height:20px;border-radius:50%;background:#8b5cf6;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.65rem">I</div><div><strong>Introduction</strong> — What\'s known, what\'s the gap, why this study</div></div><div style="display:flex;gap:8px"><div style="min-width:20px;height:20px;border-radius:50%;background:#ec4899;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.65rem">M</div><div><strong>Methods</strong> — Study design + validity. <em>Most important for critical appraisal!</em></div></div><div style="display:flex;gap:8px"><div style="min-width:20px;height:20px;border-radius:50%;background:#f59e0b;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.65rem">R</div><div><strong>Results</strong> — The actual data. Check tables + confidence intervals</div></div><div style="display:flex;gap:8px"><div style="min-width:20px;height:20px;border-radius:50%;background:#10b981;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.65rem">D</div><div><strong>Discussion</strong> — Authors\' interpretation (read critically!)</div></div><div style="display:flex;gap:8px"><div style="min-width:20px;height:20px;border-radius:50%;background:#06b6d4;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.65rem">C</div><div><strong>Conclusion</strong> — Summary of findings</div></div><div style="display:flex;gap:8px"><div style="min-width:20px;height:20px;border-radius:50%;background:#f43f5e;display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:.65rem">L</div><div><strong>Limitations</strong> — Crucial. Every study has them.</div></div></div>'},
+      {type:'concept', q:'Association vs Causation — why can\'t you confuse them?', a:'<strong>Association</strong> = two things occur together<br><strong>Causation</strong> = one thing directly causes the other<br><br>🍦 Ice cream sales peak in summer. So do drowning rates. They\'re associated — but <strong>ice cream doesn\'t cause drowning</strong>. The hidden cause (confounder) is hot weather → more swimming.<br><br>To prove causation you need: <span class="tag">RCT</span> or at minimum <span class="tag">biological plausibility</span> + <span class="tag">dose-response</span> + <span class="tag">temporality</span>'},
+      {type:'list', q:'What are the 4 main sources of error in research?', a:'<div style="display:flex;flex-direction:column;gap:8px"><div style="background:#fef2f2;border-left:4px solid #ef4444;padding:10px;border-radius:0 10px 10px 0"><strong>Bias</strong> — Systematic error. E.g., only enrolling patients who agree to treatment → selection bias</div><div style="background:#fff7ed;border-left:4px solid #f59e0b;padding:10px;border-radius:0 10px 10px 0"><strong>Confounding</strong> — Hidden variable affecting both exposure and outcome. E.g., alcohol & liver cancer (smoking is confounder)</div><div style="background:#fdf4ff;border-left:4px solid #a855f7;padding:10px;border-radius:0 10px 10px 0"><strong>Publication Bias</strong> — Positive results get published; negative trials disappear into file drawers</div><div style="background:#eff6ff;border-left:4px solid #3b82f6;padding:10px;border-radius:0 10px 10px 0"><strong>Small sample size</strong> — Study of 8 patients ≠ reliable conclusions. May miss true effects.</div></div>'},
+      {type:'quiz', q:'A study finds ice cream consumption correlates with higher drowning rates (r=0.92). What is the CORRECT conclusion?', opts:['Ice cream causes drowning','This is a confounded association — hot weather drives both','Ice cream prevents swimming safely','The study must have had selection bias'], ans:1, exp:'This is a classic <strong>confounding</strong> example. Hot weather causes people to eat more ice cream AND swim more. The variable (hot weather) is the true driver of both — ice cream and drowning are associated but not causally linked.'},
+    ]
+  },
+  {
+    id:11, emoji:'🦠', title:'Infection Control', color:'--c12', module:2,
+    cards:[
+      {type:'compare', q:'Asepsis vs Antisepsis — what\'s the difference?', a:'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:6px"><div style="background:#f0fdf4;padding:16px;border-radius:12px"><div style="font-size:1.2rem;margin-bottom:6px">🧤</div><strong>Asepsis</strong><br><span style="font-size:.82rem;color:#6b7280">PREVENT contamination from entering<br><br>Sterile gloves, sterile drapes, sterile instruments</span></div><div style="background:#fdf4ff;padding:16px;border-radius:12px"><div style="font-size:1.2rem;margin-bottom:6px">🧴</div><strong>Antisepsis</strong><br><span style="font-size:.82rem;color:#6b7280">KILL/REDUCE microbes already present on living tissue<br><br>Iodine, chlorhexidine, alcohol on skin</span></div></div>'},
+      {type:'list', q:'What are the 6 links in the chain of infection?', a:'<div style="display:flex;align-items:center;gap:0;flex-wrap:wrap;margin-top:6px;font-size:.78rem"><div style="background:#fef2f2;padding:8px 10px;border-radius:8px;text-align:center;flex:1;min-width:70px"><div style="font-size:1.1rem">🦠</div><strong>Agent</strong></div><div style="color:#ccc;padding:0 4px">→</div><div style="background:#fff7ed;padding:8px 10px;border-radius:8px;text-align:center;flex:1;min-width:70px"><div style="font-size:1.1rem">🏠</div><strong>Reservoir</strong></div><div style="color:#ccc;padding:0 4px">→</div><div style="background:#fef9c3;padding:8px 10px;border-radius:8px;text-align:center;flex:1;min-width:70px"><div style="font-size:1.1rem">🚪</div><strong>Portal of Exit</strong></div><div style="color:#ccc;padding:0 4px">→</div><div style="background:#f0fdf4;padding:8px 10px;border-radius:8px;text-align:center;flex:1;min-width:70px"><div style="font-size:1.1rem">🚌</div><strong>Transmission</strong></div><div style="color:#ccc;padding:0 4px">→</div><div style="background:#eff6ff;padding:8px 10px;border-radius:8px;text-align:center;flex:1;min-width:70px"><div style="font-size:1.1rem">🔓</div><strong>Portal of Entry</strong></div><div style="color:#ccc;padding:0 4px">→</div><div style="background:#fdf4ff;padding:8px 10px;border-radius:8px;text-align:center;flex:1;min-width:70px"><div style="font-size:1.1rem">🙍</div><strong>Host</strong></div></div><div style="margin-top:12px;font-size:.82rem;color:#374151;background:#f9fafb;padding:10px;border-radius:10px">💡 Break ANY link → prevent infection. Hand hygiene breaks the transmission link.</div>'},
+      {type:'mnemonic', q:'WHO\'s 5 Moments of Hand Hygiene — what are they?', mnemonic:'BEFORE · BEFORE · AFTER · AFTER · AFTER', breakdown:'1. <b>Before</b> touching patient · 2. <b>Before</b> clean/aseptic procedure · 3. <b>After</b> body fluid exposure · 4. <b>After</b> touching patient · 5. <b>After</b> touching patient surroundings', a:'Hand hygiene is the single most effective infection control measure. Healthcare-associated infections affect 1 in 10 hospitalized patients globally. Proper hand hygiene reduces this by up to 50%.'},
+      {type:'quiz', q:'Iodine applied to skin before a surgical incision is an example of:', opts:['Asepsis','Sterilization','Antisepsis','Disinfection'], ans:2, exp:'<strong>Antisepsis</strong> = applying antimicrobial agents to <em>living tissue</em> to reduce microbes. Iodine/chlorhexidine on skin = antisepsis. Sterilization = complete destruction of all microbes on non-living objects.'},
+    ]
+  },
+  {
+    id:12, emoji:'👁️', title:'Inspection as Clinical Examination', color:'--c13', module:2,
+    cards:[
+      {type:'list', q:'What 6 color changes do you look for during inspection?', a:'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px"><div style="background:#fef9c3;padding:10px;border-radius:10px;border-left:4px solid #eab308"><strong>🟡 Jaundice</strong><br><span style="font-size:.75rem;color:#6b7280">Yellow skin/sclera<br>→ liver disease, bile obstruction</span></div><div style="background:#eff6ff;padding:10px;border-radius:10px;border-left:4px solid #3b82f6"><strong>🔵 Cyanosis</strong><br><span style="font-size:.75rem;color:#6b7280">Blue lips/fingertips<br>→ low oxygen</span></div><div style="background:#f9fafb;padding:10px;border-radius:10px;border-left:4px solid #9ca3af"><strong>⬜ Pallor</strong><br><span style="font-size:.75rem;color:#6b7280">Pale conjunctiva/skin<br>→ anaemia, shock</span></div><div style="background:#fef2f2;padding:10px;border-radius:10px;border-left:4px solid #ef4444"><strong>🔴 Erythema</strong><br><span style="font-size:.75rem;color:#6b7280">Redness<br>→ inflammation, infection</span></div><div style="background:#f0fdf4;padding:10px;border-radius:10px;border-left:4px solid #10b981"><strong>🟢 Mottling</strong><br><span style="font-size:.75rem;color:#6b7280">Patchy discoloration<br>→ poor perfusion, sepsis</span></div><div style="background:#fff7ed;padding:10px;border-radius:10px;border-left:4px solid #f97316"><strong>🟠 Oedema</strong><br><span style="font-size:.75rem;color:#6b7280">Swelling/pitting<br>→ heart failure, low albumin</span></div></div>'},
+      {type:'concept', q:'What is the difference between central and peripheral cyanosis?', a:'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div style="background:#dbeafe;padding:14px;border-radius:12px"><strong>Central Cyanosis</strong><br><div style="font-size:.82rem;color:#1e40af;margin-top:6px">Blue lips, tongue, mucous membranes<br><br>→ Cardiorespiratory cause<br>→ Blood leaving heart is desaturated<br>→ e.g., heart failure, pneumonia, PE</div></div><div style="background:#f3e8ff;padding:14px;border-radius:12px"><strong>Peripheral Cyanosis</strong><br><div style="font-size:.82rem;color:#6b21a8;margin-top:6px">Blue fingertips only, lips are pink<br><br>→ Poor peripheral circulation<br>→ Tissues extract more O₂<br>→ e.g., Raynaud\'s, cold, shock</div></div></div>'},
+      {type:'concept', q:'What are the limitations of inspection as a clinical tool?', a:'Inspection is powerful but has real limits:<br><br>• <strong>Skin tone</strong> — Jaundice and cyanosis are harder to detect in darker skin. Always check mucous membranes and sclera.<br><br>• <strong>Silent diseases</strong> — Hypertension, early diabetes, early cancer have <em>no visible signs</em><br><br>• <strong>Lighting</strong> — Poor lighting = missed findings. Always examine in good, ideally natural light<br><br>• <strong>Never enough alone</strong> — Inspection is always followed by palpation, percussion, auscultation'},
+      {type:'quiz', q:'A dark-skinned patient may have anaemia you cannot see in their skin. Where is the BEST place to check for pallor?', opts:['The back of the hand','The forehead','The conjunctiva and palmar creases','The chest'], ans:2, exp:'The <strong>conjunctiva (inner eyelid) and palmar creases</strong> are the most reliable places to check for pallor in patients with darker skin tones — these areas have less melanin and show pallor regardless of skin tone.'},
+    ]
+  },
+  {
+    id:13, emoji:'📚', title:'EBM Sources & Evidence Hierarchy', color:'--c14', module:2,
+    cards:[
+      {type:'compare', q:'Reliable vs Unreliable sources of medical information — how do you tell them apart?', a:'<div style="display:flex;flex-direction:column;gap:8px"><div style="background:#f0fdf4;border-left:4px solid #10b981;padding:12px;border-radius:0 10px 10px 0"><strong>✅ Reliable</strong><br><span style="font-size:.82rem;color:#374151">PubMed/MEDLINE · Cochrane Library · WHO guidelines · NICE · Peer-reviewed journals · Evidence-based textbooks</span></div><div style="background:#fef2f2;border-left:4px solid #ef4444;padding:12px;border-radius:0 10px 10px 0"><strong>❌ Unreliable</strong><br><span style="font-size:.82rem;color:#374151">Social media · Health blogs · Predatory journals · Wikipedia for clinical decisions · Non-peer-reviewed websites</span></div></div><div style="margin-top:12px;font-size:.82rem;background:#f9fafb;padding:10px;border-radius:10px"><strong>How to recognize quality:</strong> Peer review ✓ · Transparent methods ✓ · COI disclosure ✓ · Indexed in PubMed ✓ · Results replicated ✓</div>'},
+      {type:'concept', q:'What is a Predatory Journal? Why is it dangerous?', a:'Predatory journals <strong>charge authors fees to publish</strong> without genuine peer review.<br><br>They accept almost any paper — regardless of quality — to collect the fee.<br><br>Danger: Clinicians may cite these papers not knowing they\'re unreliable, leading to <strong>patient harm.</strong><br><br>How to check: <span class="tag">Beall\'s List</span> · Verify journal on <span class="tag">PubMed</span> · Check <span class="tag">impact factor</span> · Look for editorial board'},
+      {type:'compare', q:'Evidence vs Authority — which wins in EBM?', a:'<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div style="background:#d1fae5;padding:14px;border-radius:12px"><strong>Evidence wins 🏆</strong><br><div style="font-size:.82rem;color:#065f46;margin-top:8px">"3 RCTs with 5,000 patients show statins reduce MI risk by 30%"<br><br>→ Transparent<br>→ Reproducible<br>→ Can be updated</div></div><div style="background:#fef2f2;padding:14px;border-radius:12px"><strong>Authority ❌</strong><br><div style="font-size:.82rem;color:#991b1b;margin-top:8px">"My professor has used this drug for 30 years"<br><br>→ Susceptible to bias<br>→ "Eminence-based medicine"<br>→ Resistant to change</div></div></div>'},
+      {type:'quiz', q:'Which database is the GOLD STANDARD for finding peer-reviewed medical literature?', opts:['Google','Wikipedia','PubMed/MEDLINE','Reddit r/medicine'], ans:2, exp:'<strong>PubMed/MEDLINE</strong>, maintained by the US National Library of Medicine, is the gold standard. It indexes thousands of peer-reviewed biomedical journals and is the starting point for any evidence search. <strong>Cochrane</strong> is the gold standard for systematic reviews specifically.'},
+    ]
+  },
+];
+
+// ════════════════════════════════════════════
+//  STATE
+// ════════════════════════════════════════════
+let completedTopics = new Set();
+let currentTopic = null;
+let currentCard = 0;
+let quizAnswered = false;
+let revealed = false;
+
+// ════════════════════════════════════════════
+//  BUILD HOME GRID
+// ════════════════════════════════════════════
+function buildGrid(){
+  const g1 = document.getElementById('topic-grid');
+  const g2 = document.getElementById('topic-grid-2');
+  topics.forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'topic-card' + (completedTopics.has(t.id) ? ' done' : '');
+    el.style.cssText = `--tc:var(${t.color})`;
+    el.innerHTML = `
+      <div class="tc-done">✓</div>
+      <span class="tc-emoji">${t.emoji}</span>
+      <div class="tc-num">Topic ${t.id < 8 ? t.id+1 : t.id+1}</div>
+      <div class="tc-title">${t.title}</div>
+    `;
+    el.onclick = () => startTopic(t.id);
+    (t.module === 1 ? g1 : g2).appendChild(el);
+  });
+}
+
+function updateProgress(){
+  const pct = Math.round(completedTopics.size / topics.length * 100);
+  document.getElementById('main-prog').style.width = pct + '%';
+  document.getElementById('main-pct').textContent = pct + '%';
+}
+
+// ════════════════════════════════════════════
+//  TOPIC NAVIGATION
+// ════════════════════════════════════════════
+function startTopic(id){
+  currentTopic = topics.find(t => t.id === id);
+  currentCard = 0;
+  document.getElementById('home').style.display = 'none';
+  const study = document.getElementById('study');
+  study.style.display = 'flex';
+  study.style.cssText = `display:flex;--tc:var(${currentTopic.color})`;
+  document.getElementById('study-title').textContent = currentTopic.emoji + ' ' + currentTopic.title;
+  renderCard();
+}
+
+function goHome(){
+  document.getElementById('home').style.display = 'flex';
+  document.getElementById('study').style.display = 'none';
+  // Rebuild grid to update done state
+  document.getElementById('topic-grid').innerHTML = '';
+  document.getElementById('topic-grid-2').innerHTML = '';
+  buildGrid();
+  updateProgress();
+}
+
+// ════════════════════════════════════════════
+//  RENDER CARD
+// ════════════════════════════════════════════
+function renderCard(){
+  const area = document.getElementById('swipe-area');
+  const cards = currentTopic.cards;
+  quizAnswered = false;
+  revealed = false;
+
+  if(currentCard >= cards.length){
+    // DONE
+    completedTopics.add(currentTopic.id);
+    area.innerHTML = `
+      <div class="done-card">
+        <div class="done-emoji">🎉</div>
+        <h2>Topic Complete!</h2>
+        <p>${currentTopic.title}</p>
+        <div class="done-label">Cards reviewed</div>
+        <div class="done-score">${cards.length}/${cards.length}</div>
+        <div style="display:flex;gap:12px;margin-top:28px">
+          <button class="nav-btn" style="flex:1" onclick="currentCard=0;renderCard()">↺ Review again</button>
+          <button class="nav-btn primary" style="flex:1" onclick="goHome()">← Back to topics</button>
+        </div>
+      </div>`;
+    updateProgress();
+    return;
+  }
+
+  const c = cards[currentCard];
+  const total = cards.length;
+  document.getElementById('card-counter').textContent = `${currentCard+1} / ${total}`;
+
+  // Dots
+  let dotsHtml = '<div class="dots">';
+  for(let i=0;i<total;i++){
+    dotsHtml += `<div class="dot ${i===currentCard?'active':i<currentCard?'done-dot':''}"></div>`;
+  }
+  dotsHtml += '</div>';
+
+  const typeLabels = {concept:'💡 Concept',compare:'⚖️ Compare',list:'📋 Key Points',quiz:'🧠 Quick Quiz',mnemonic:'🔑 Mnemonic',timeline:'📅 Timeline'};
+
+  let answerHtml = '';
+  if(c.type === 'quiz'){
+    answerHtml = buildQuiz(c);
+  } else {
+    // Build answer content
+    let content = '';
+    if(c.type === 'timeline'){
+      content = '<div style="display:flex;flex-direction:column;gap:12px;">';
+      c.timeline.forEach(item=>{
+        content += `<div style="display:flex;gap:12px;align-items:flex-start">
+          <div style="min-width:60px;font-family:Syne,sans-serif;font-weight:700;font-size:.8rem;color:var(--tc);padding-top:2px">${item.year}</div>
+          <div style="flex:1;font-size:.85rem;line-height:1.5;color:#374151">${item.event}</div>
+        </div>`;
+      });
+      content += '</div>';
+    } else if(c.mnemonic){
+      content = `${c.a ? c.a+'<br><br>' : ''}
+      <div class="mnemonic-box">
+        <div class="mnemonic-label">🔑 Mnemonic</div>
+        <div class="mnemonic-text">${c.breakdown}</div>
+      </div>`;
+    } else {
+      content = c.a;
+    }
+
+    answerHtml = `
+      <div class="card-answer" id="card-ans">
+        <div class="answer-label">Answer</div>
+        <div class="answer-text">${content}</div>
+      </div>
+      <button class="reveal-btn" id="rev-btn" onclick="revealAnswer()">Tap to reveal answer 👇</button>`;
+  }
+
+  area.innerHTML = `
+    <div class="card-stack">
+      <div class="study-card">
+        <div class="card-type-badge">${typeLabels[c.type]||c.type}</div>
+        <div class="card-question">${c.q}</div>
+        ${answerHtml}
+      </div>
+    </div>
+    ${dotsHtml}
+    <div class="nav-controls" id="nav-ctrl">
+      <button class="nav-btn" onclick="prevCard()" ${currentCard===0?'disabled':''}>← Prev</button>
+      <button class="nav-btn primary" id="next-btn" onclick="nextCard()" ${c.type==='quiz'&&!quizAnswered?'disabled':''}>Next →</button>
+    </div>`;
+}
+
+function revealAnswer(){
+  document.getElementById('card-ans').classList.add('visible');
+  document.getElementById('rev-btn').classList.add('hidden-btn');
+  revealed = true;
+}
+
+function buildQuiz(c){
+  let opts = c.opts.map((o,i)=>`<button class="qopt" id="qopt-${i}" onclick="answerQuiz(${i},${c.ans},'${escQ(c.exp)}')">${o}</button>`).join('');
+  return `<div class="card-answer visible" id="card-ans">
+    <div class="answer-label">Choose the correct answer</div>
+    <div class="quiz-opts">${opts}</div>
+    <div class="quiz-result" id="quiz-res"></div>
+  </div>`;
+}
+
+function escQ(s){ return s.replace(/'/g,"&#39;").replace(/"/g,"&quot;"); }
+
+function answerQuiz(chosen, correct, exp){
+  if(quizAnswered) return;
+  quizAnswered = true;
+  document.querySelectorAll('.qopt').forEach((b,i)=>{
+    b.disabled = true;
+    if(i===correct) b.classList.add('correct');
+    else if(i===chosen && chosen!==correct) b.classList.add('wrong');
+  });
+  const res = document.getElementById('quiz-res');
+  res.classList.add('show');
+  if(chosen===correct){
+    res.className = 'quiz-result show ok';
+    res.innerHTML = '✅ ' + exp;
+  } else {
+    res.className = 'quiz-result show no';
+    res.innerHTML = '❌ ' + exp;
+  }
+  document.getElementById('next-btn').disabled = false;
+}
+
+function nextCard(){
+  currentCard++;
+  renderCard();
+}
+function prevCard(){
+  if(currentCard > 0){ currentCard--; renderCard(); }
+}
+
+// ════════════════════════════════════════════
+//  LOGIN & VISITOR LOG
+// ════════════════════════════════════════════
+const AVATAR_COLORS = ['#ff6b35','#3b82f6','#10b981','#f59e0b','#8b5cf6','#ec4899','#06b6d4','#f43f5e','#84cc16','#6366f1'];
+let visitors = JSON.parse(localStorage.getItem('med_visitors') || '[]');
+let currentUser = '';
+
+function onNameInput(){
+  const val = document.getElementById('name-input').value.trim();
+  document.getElementById('login-btn').disabled = val.length < 2;
+  document.getElementById('login-error').style.display = 'none';
+}
+
+function doLogin(){
+  const name = document.getElementById('name-input').value.trim();
+  if(name.length < 2){
+    document.getElementById('login-error').style.display = 'block';
+    return;
+  }
+  currentUser = name;
+  // Record visitor
+  const entry = {
+    name: name,
+    time: new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}),
+    color: AVATAR_COLORS[Math.floor(Math.random()*AVATAR_COLORS.length)]
+  };
+  visitors.unshift(entry);
+  localStorage.setItem('med_visitors', JSON.stringify(visitors));
+  // Send to Formspree
+  try {
+    fetch('https://formspree.io/f/maqpbegk', {
+      method: 'POST',
+      headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: name,
+        time: entry.time,
+        _subject: 'New Visitor: ' + name
+      })
+    }).catch(()=>{});
+  } catch(e){}
+  // Animate out login, show home
+  const ls = document.getElementById('login-screen');
+  ls.style.transition = 'opacity .4s ease, transform .4s ease';
+  ls.style.opacity = '0';
+  ls.style.transform = 'scale(1.04)';
+  setTimeout(()=>{
+    ls.style.display = 'none';
+    const home = document.getElementById('home');
+    home.style.display = 'flex';
+    home.style.animation = 'loginIn .4s ease';
+    // Show welcome in hero
+    const label = document.querySelector('.hero-label');
+    if(label) label.textContent = '👋 Welcome, ' + name + ' · 1st Year · 2nd Semester';
+  }, 380);
+}
+
+function openVisitors(){
+  const modal = document.getElementById('visitor-modal');
+  modal.classList.add('open');
+  renderVisitors();
+}
+function closeVisitors(){
+  document.getElementById('visitor-modal').classList.remove('open');
+}
+// Close modal on backdrop click
+document.getElementById('visitor-modal').addEventListener('click', function(e){
+  if(e.target === this) closeVisitors();
+});
+
+function renderVisitors(){
+  const list = document.getElementById('visitor-list');
+  const count = document.getElementById('visitor-count');
+  count.textContent = visitors.length;
+  if(visitors.length === 0){
+    list.innerHTML = '<div class="vmodal-empty">No visitors yet.<br>Be the first! 👋</div>';
+    return;
+  }
+    list.innerHTML = visitors.map((v,i)=>{
+    const initials = v.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const isYou = i === 0 && v.name === currentUser ? ' <span style="font-size:.68rem;background:#d1fae5;color:#065f46;padding:2px 8px;border-radius:99px;font-weight:700;">YOU</span>' : '';
+    return '<div class="visitor-row"><div class="visitor-avatar" style="background:'+v.color+'">'+initials+'</div><div><div class="visitor-name">'+v.name+isYou+'</div><div class="visitor-time">📅 '+v.time+'</div></div></div>';
+  }).join('');
+}
+
+// ════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════
+buildGrid();
+updateProgress();
+</script>
+</body>
+</html>
