@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Human Physiology 1 – MCQ Quiz</title>
+<title>Medical MCQ Quiz – Multi-Subject</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
@@ -472,9 +472,85 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 .login-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,229,255,.4),0 8px 24px rgba(0,0,0,.5);}
 .login-btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none;}
 .login-consent{font-size:.68rem;color:var(--text3);text-align:center;margin-top:14px;line-height:1.5;}
+
+/* ══════════════════════════════
+   SUBJECT SELECTOR SCREEN
+══════════════════════════════ */
+#screen-subject{
+  position:fixed;inset:0;z-index:9000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--bg);overflow:hidden;padding:24px 16px;
+}
+#screen-subject.hidden{display:none!important;}
+.subject-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.subject-ring{position:absolute;border-radius:50%;border:1px solid;animation:ringPulse ease infinite;}
+.subj-header{text-align:center;margin-bottom:36px;position:relative;z-index:1;}
+.subj-icon{font-size:60px;filter:drop-shadow(0 0 24px rgba(0,229,255,.5));margin-bottom:14px;}
+.subj-title{
+  font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;
+  background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--violet) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  line-height:1.1;margin-bottom:8px;
+}
+.subj-sub{color:var(--text2);font-size:.88rem;}
+.subj-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:14px;width:100%;max-width:640px;position:relative;z-index:1;
+}
+.subj-card{
+  background:var(--surface);border:1.5px solid var(--border2);
+  border-radius:16px;padding:20px 22px;cursor:pointer;
+  transition:all .22s;position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:16px;
+}
+.subj-card::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,229,255,.07),transparent);opacity:0;transition:opacity .2s;}
+.subj-card:hover::before{opacity:1;}
+.subj-card:hover{border-color:rgba(0,229,255,.55);transform:translateY(-3px);
+  box-shadow:0 6px 28px rgba(0,229,255,.12);}
+.subj-card.all-subjects{
+  border-color:rgba(167,139,250,.4);
+  background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(0,229,255,.04));
+}
+.subj-card.all-subjects:hover{border-color:var(--violet);box-shadow:0 6px 28px rgba(167,139,250,.18);}
+.subj-emoji{font-size:32px;flex-shrink:0;}
+.subj-name{font-weight:700;font-size:15px;color:var(--text);line-height:1.3;}
+.subj-count{font-size:12px;color:var(--text3);margin-top:3px;}
+.subj-arrow{margin-left:auto;color:var(--text3);font-size:18px;flex-shrink:0;transition:transform .2s color .2s;}
+.subj-card:hover .subj-arrow{color:var(--cyan);transform:translateX(4px);}
+.subj-card.all-subjects .subj-arrow{color:var(--violet);}
+.subj-card.all-subjects:hover .subj-arrow{color:var(--violet);}
+/* subject badge on quiz header */
+#active-subject-pill{
+  display:inline-flex;align-items:center;gap:5px;
+  padding:3px 10px;border-radius:100px;font-size:11px;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;
+  background:rgba(167,139,250,.12);color:var(--violet);
+  border:1px solid rgba(167,139,250,.25);
+  margin-bottom:4px;
+}
+
 </style>
 </head>
 <body>
+
+<!-- ══════════════════════════════
+     SUBJECT SELECTOR SCREEN
+══════════════════════════════ -->
+<div id="screen-subject">
+  <div class="subject-rings">
+    <div class="subject-ring" style="width:700px;height:700px;border-color:rgba(0,229,255,.05);animation-duration:4.5s;"></div>
+    <div class="subject-ring" style="width:480px;height:480px;border-color:rgba(167,139,250,.08);animation-duration:3.8s;animation-delay:.4s;"></div>
+    <div class="subject-ring" style="width:300px;height:300px;border-color:rgba(0,229,255,.12);animation-duration:3.2s;animation-delay:.9s;"></div>
+  </div>
+  <div class="subj-header">
+    <div class="subj-icon">🩺</div>
+    <div class="subj-title">Choose a Subject</div>
+    <div class="subj-sub">OSH State University · International Medical Faculty</div>
+  </div>
+  <div class="subj-grid" id="subj-cards"></div>
+</div>
+
 
 <!-- ══════════════════════════════
      LOGIN SCREEN
@@ -486,11 +562,11 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     <div style="width:260px;height:260px;border-color:rgba(0,229,255,.13);animation-duration:3s;animation-delay:.8s;"></div>
   </div>
   <div class="login-box">
-    <div class="login-icon">🧬</div>
-    <div class="login-title">Human Physiology 1</div>
+    <div class="login-icon">👨‍⚕️</div>
+    <div class="login-title">Welcome Future Doctors</div>
     <div class="login-sub">OSH State University · International Medical Faculty<br>Enter your name to start the quiz</div>
     <label class="login-label" for="login-name-input">Your Name</label>
-    <input class="login-input" id="login-name-input" type="text" placeholder="e.g. Abhishek Verma" autocomplete="off" oninput="onLoginInput()" onkeydown="if(event.key==='Enter')doLoginSubmit()">
+    <input class="login-input" id="login-name-input" type="text" placeholder="Please enter your good name" autocomplete="off" oninput="onLoginInput()" onkeydown="if(event.key==='Enter')doLoginSubmit()">
     <div class="login-error" id="login-error-msg">Please enter at least 2 characters.</div>
     <button class="login-btn" id="login-submit-btn" onclick="doLoginSubmit()" disabled>Start Quiz →</button>
     <div class="login-consent">By entering, your name &amp; time are recorded for analytics.</div>
@@ -528,7 +604,8 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     <div class="max-w-2xl mx-auto" style="position:relative;z-index:1;">
       <div style="font-size:60px;margin-bottom:16px;filter:drop-shadow(0 0 24px rgba(0,229,255,.5));">🧬</div>
       <h1 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;">Human Physiology 1</h1>
-      <p style="color:var(--text2);font-size:.95rem;margin-bottom:6px;">MCQ Quiz · <span style="color:var(--cyan);font-weight:700;">400 Questions</span> · 6 Topics</p>
+      <div id="active-subject-pill" style="margin-bottom:10px;">📚 All Subjects</div>
+      <p style="color:var(--text2);font-size:.95rem;margin-bottom:6px;">MCQ Quiz · <span id="home-q-count" style="color:var(--cyan);font-weight:700;">398 Questions</span> · <span id="home-t-count">6</span> Topics</p>
       <p style="color:var(--text3);font-size:.82rem;">OSH State University – International Medical Faculty</p>
       <!-- Stats row -->
       <div style="display:flex;justify-content:center;gap:24px;margin-top:24px;flex-wrap:wrap;">
@@ -1247,6 +1324,432 @@ const rawQ = [
 {s:"Higher Nervous Activity",q:"During acute stress, a person becomes instantly alert with increased heart rate. Which brain structure initiates this alarm response?",o:["Amygdala","Cerebellum","Occipital cortex","Hippocampus"],c:0},
 {s:"Higher Nervous Activity",q:"An unconditional reflex can be modified by cortical influence. This phenomenon demonstrates:",o:["Cortical modulation of subcortical reflexes","Absolute autonomy of reflexes","Complete independence from CNS","Loss of reflex arc"],c:0},
 {s:"Higher Nervous Activity",q:"Which factor most strongly synchronizes human circadian rhythms with the environment?",o:["Light–dark cycle","Food intake","Physical activity","Social interaction"],c:0},
+
+// ══════════════════════════════════════════════
+//  BIOCHEMISTRY QUESTIONS
+// ══════════════════════════════════════════════
+// ── CLASSIFICATION OF AMINO ACIDS (20 Qs) ──
+{s:"Classification of Amino Acids",q:"All proteins contain the",o:["Same 20 amino acids","Different amino acids","300 Amino acids occurring in nature","Only a few amino acids"],c:0},
+{s:"Classification of Amino Acids",q:"Identify the amino acids containing nonpolar, aliphatic R groups.",o:["Phenylalanine, tyrosine, and tryptophan","Glycine, alanine, leucine","Lysine, arginine, histidine","Serine, threonine, cysteine"],c:1},
+{s:"Classification of Amino Acids",q:"The optically inactive amino acid is",o:["Glycine","Serine","Threonine","Valine"],c:0},
+{s:"Classification of Amino Acids",q:"At neutral pH, a mixture of amino acids in solution would be predominantly:",o:["Dipolar ions","Nonpolar molecules","Positive and monovalent","Hydrophobic"],c:0},
+{s:"Classification of Amino Acids",q:"Sulphur containing amino acid is",o:["Methionine","Leucine","Valine","Asparagine"],c:0},
+{s:"Classification of Amino Acids",q:"Selenocysteine is coded by:",o:["UAG","UGA","UAA","GUA"],c:1},
+{s:"Classification of Amino Acids",q:"All of the following are essential amino acids EXCEPT:",o:["Methionine","Lysine","Alanine","Leucine"],c:2},
+{s:"Classification of Amino Acids",q:"Biuret reaction is specific for",o:["-CONH-linkages","-CSNH2 group","-(NH)NH2 group","All of these"],c:0},
+{s:"Classification of Amino Acids",q:"Which of the following is a tripeptide?",o:["Anserine","Oxytocin","Glutathione","Kallidin"],c:2},
+{s:"Classification of Amino Acids",q:"Which bond is present in the primary structure of protein?",o:["Ester","Hydrogen","Ionic bond","Peptide"],c:3},
+{s:"Classification of Amino Acids",q:"Which of the following is not an aromatic amino acid?",o:["Phenylalanine","Tyrosine","Tryptophan","Valine"],c:3},
+{s:"Classification of Amino Acids",q:"Which of the following group contains only nonessential amino acid?",o:["Acidic amino acid","Basic amino acid","Aromatic amino acid","Branched chain amino acid"],c:0},
+{s:"Classification of Amino Acids",q:"Semiessential amino acids are:",o:["Arginine","Methionine","Glycine","Lysine"],c:0},
+{s:"Classification of Amino Acids",q:"Identify the amino acid given in the diagram (CH3-S-CH2-CH2-CH(NH2)-COO).",o:["Cysteine","Cystine","Methionine","Homocysteine"],c:2},
+{s:"Classification of Amino Acids",q:"Which of the following is the amino acid marked X, that enters at the level of Fumarate in the TCA cycle?",o:["Alanine","Tryptophan","Tyrosine","Histidine"],c:2},
+{s:"Classification of Amino Acids",q:"All amino acids found in proteins are optically active, except:",o:["Serine","Glycine","Threonine","Tyrosine"],c:1},
+{s:"Classification of Amino Acids",q:"All of the following forces may play a role in the formation of tertiary structure, except:",o:["Hydrogen bond","Disulfide bridges","Hydrophobic interaction","Peptide bonds"],c:3},
+{s:"Classification of Amino Acids",q:"The greatest buffering capacity at physiological pH would be provided by a protein rich in which amino acid:",o:["Glycine","Lysine","Histidine","Valine"],c:2},
+{s:"Classification of Amino Acids",q:"Which of the following amino acid is exclusively ketogenic?",o:["Leucine","Phenylalanine","Threonine","Isoleucine"],c:0},
+{s:"Classification of Amino Acids",q:"Which class of amino acids contain only nonessential amino acids?",o:["Aromatic","Acidic","Branched chain","Basic"],c:1},
+
+// ── PROPERTIES OF AMINO ACIDS (40 Qs) ──
+{s:"Properties of Amino Acids",q:"Replacing alanine by which amino acid will increase UV absorbance of protein at 280 nm wavelength?",o:["Leucine","Proline","Arginine","Tryptophan"],c:3},
+{s:"Properties of Amino Acids",q:"Which of the following proteins cannot be phosphorylated using protein kinase in prokaryotic organisms?",o:["Threonine","Tyrosine","Serine","Asparagine"],c:3},
+{s:"Properties of Amino Acids",q:"Carboxylation of clotting factors by vitamin K is required to be biologically active. Which amino acid is carboxylated?",o:["Histidine","Histamine","Glutamate","Aspartate"],c:2},
+{s:"Properties of Amino Acids",q:"The property of proteins to absorb ultraviolet rays of light is due to:",o:["Peptide bond","Imino group","Disulfide bond","Aromatic amino acid"],c:3},
+{s:"Properties of Amino Acids",q:"All biologically active amino acids are:",o:["L-forms","D-forms","Mostly D-forms","D- and L-forms"],c:0},
+{s:"Properties of Amino Acids",q:"Optically inactive amino acid is:",o:["Proline","Glycine","Lycine","Leucine"],c:1},
+{s:"Properties of Amino Acids",q:"2-Amino 3-OH propanoic acid is",o:["Glycine","Alanine","Valine","Serine"],c:3},
+{s:"Properties of Amino Acids",q:"Amino acids excepting histidine are not good buffering agents in cell because",o:["They exist as zwitter ions","Their pK is not in the physiological pH of a cell","Only Histidine has pK of its R group at 6.0 unlike the others","None of these"],c:1},
+{s:"Properties of Amino Acids",q:"Isoelectric pH of an amino acid is that pH at which it has a",o:["Positive charge","Negative charge","No net charge","All of these"],c:2},
+{s:"Properties of Amino Acids",q:"The factor which does not affect pKa value of an amino acid is",o:["The loss of charge in the alpha-carboxyl and alpha-amino groups","The interactions with other peptide R groups","Other environmental factors","Molecular weight"],c:3},
+{s:"Properties of Amino Acids",q:"Which of the following is not the classified form of conjugated proteins?",o:["Lipoproteins","Glycoproteins","Metalloproteins","Complete proteins"],c:3},
+{s:"Properties of Amino Acids",q:"Which part of the amino acid gives it uniqueness?",o:["Amino group","Carboxyl group","Side chain","None of the mentioned"],c:2},
+{s:"Properties of Amino Acids",q:"Which of the following information is responsible to specify the three-dimensional shape of a protein?",o:["The protein's peptide bond","The protein's amino acid sequence","The protein's interaction with other polypeptides","The protein's interaction with molecular chaperons"],c:1},
+{s:"Properties of Amino Acids",q:"What are the following is not a factor responsible for the denaturation of proteins?",o:["pH change","Organic solvents","Heat","Charge"],c:3},
+{s:"Properties of Amino Acids",q:"If the basic formula of an alpha-amino acid is R-CH(NH2)-COOH, what is the primary point of distinction between any two proteins?",o:["Number of amino groups","Number of carboxyl groups","The side chain R","Relative positions of amino, carboxyl groups and R"],c:2},
+{s:"Properties of Amino Acids",q:"Cysteine is a/an ________ amino acid.",o:["Acidic","Essential","Aromatic","Sulphur containing"],c:3},
+{s:"Properties of Amino Acids",q:"The structure shown is proline with its cyclic ring (COOH, NH-H, CH2). What is it?",o:["Side chain of histidine","Side chain of tryptophan","Side chain of proline","Proline"],c:3},
+{s:"Properties of Amino Acids",q:"Identify the amino acid with the formula HOOC-CH2-CH2-CH(NH2)-COOH",o:["Glutamic acid","Aspartic acid","Glutamine","Asparagine"],c:0},
+{s:"Properties of Amino Acids",q:"An example of chromoprotein is",o:["Hemoglobin","Sturine","Nuclein","Gliadin"],c:0},
+{s:"Properties of Amino Acids",q:"The two amino acids having R groups with a negative net charge at pH 7.0 are",o:["Aspartate and glutamate","Arginine and histidine","Cysteine and methionine","Proline and valine"],c:0},
+{s:"Properties of Amino Acids",q:"Which among the following is a non-essential amino acid?",o:["Serine","Threonine","Lysine","Histidine"],c:0},
+{s:"Properties of Amino Acids",q:"An amino acid that yields aceto-acetyl CoA during catabolism of its carbon skeleton will be considered as",o:["Glycogenic","Ketogenic","Both glycogenic and ketogenic","Essential"],c:1},
+{s:"Properties of Amino Acids",q:"Amino acids are mostly synthesised from",o:["Fatty acids","Mineral salts","alpha-ketoglutaric acid","Volatile acids"],c:2},
+{s:"Properties of Amino Acids",q:"Which of the following amino acids has to be supplemented in the diet?",o:["Phenylalanine","Cysteine","Glutamine","Asparagine"],c:0},
+{s:"Properties of Amino Acids",q:"Amino acids with aromatic side chain are",o:["Tryptophan, asparagine, tyrosine","Tryptophan, threonine, tyrosine","Phenylalanine, tryptophan, serine","Phenylalanine, tryptophan, tyrosine"],c:3},
+{s:"Properties of Amino Acids",q:"The first amino acid of any polypeptide chain in eukaryotes is",o:["Valine","Methionine","Glycine","Alanine"],c:1},
+{s:"Properties of Amino Acids",q:"Which of the following amino acids is not necessary to be taken in the diet?",o:["Histidine","Threonine","Serine","Lysine"],c:2},
+{s:"Properties of Amino Acids",q:"The naturally occurring form of amino acid in proteins",o:["L-amino acids only","D-amino acids only","Both L and D amino acids","None of these"],c:0},
+{s:"Properties of Amino Acids",q:"Sulphur containing amino acids are",o:["Cysteine and methionine","Methionine and threonine","Cysteine and threonine","Cysteine and serine"],c:0},
+{s:"Properties of Amino Acids",q:"Of the 20 standard amino acids, only _____ is not optically active. The reason is that its side chain _____ .",o:["Alanine: is simple methyl group","Glycine: is a hydrogen atom","Glycine: is unbranched","Lysine: contains only nitrogen"],c:1},
+{s:"Properties of Amino Acids",q:"The element found in all amino acids but not found in carbohydrates is",o:["Sulphur","Nitrogen","Carbon","Hydrogen"],c:1},
+{s:"Properties of Amino Acids",q:"When the amino acid alanine (R-group is CH3) is added to a solution with a pH of 7.3, alanine becomes",o:["A cation","Nonpolar","A zwitterion","An isotope"],c:2},
+{s:"Properties of Amino Acids",q:"Which of the following amino acids can form hydrogen bonds with their side (R) groups?",o:["Asparagine","Aspartic acid","Glutamine","All of these"],c:3},
+{s:"Properties of Amino Acids",q:"The isoelectric point of an amino acid is defined as the pH",o:["Where the molecule carries no electric charge","Where the carboxyl group is uncharged","Where the amino group is uncharged","Of maximum electrolytic mobility"],c:0},
+{s:"Properties of Amino Acids",q:"An essential amino acid is one that",o:["Is essentially easy to synthesize","Is essential to flagella motion","The body cannot synthesize","The body can synthesize under essential conditions"],c:2},
+{s:"Properties of Amino Acids",q:"In a polypeptide average mass of an amino acid residue is",o:["110 daltons","118 daltons","80 daltons","150 daltons"],c:0},
+{s:"Properties of Amino Acids",q:"Which pair of amino acids absorbs the most UV light at 280 nm?",o:["Threonine & Histidine","Trp & Tyrosine","Cysteine & Asparagine","Phenylalanine & Proline"],c:1},
+{s:"Properties of Amino Acids",q:"Albumin is deficient in which of the following amino acid?",o:["Glycine","Tryptophan","Cysteine","Methionine"],c:1},
+{s:"Properties of Amino Acids",q:"Which of the following is a kind of secondary structure?",o:["alpha-helix","beta-bend","Triple helix","All of the above"],c:3},
+{s:"Properties of Amino Acids",q:"Which of the following is a non-protein amino acid?",o:["Proline","Histidine","Ornithine","Aspargine"],c:2},
+
+// ── PEPTIDES AND PROTEINS (9 Qs) ──
+{s:"Peptides and Proteins",q:"Proteins are formed primarily from ______ bonds.",o:["Glycosidic","Peptide","Phosphodiester","Disulphide"],c:1},
+{s:"Peptides and Proteins",q:"Alanylglycyl phenylalanine is an example of a ______",o:["Dipeptide","Tripeptide","Tetrapeptide","Polypeptide"],c:1},
+{s:"Peptides and Proteins",q:"Which of the following bonds is not found in fibrous proteins?",o:["Phosphodiester","Peptide","Hydrogen bonds","Disulphide"],c:0},
+{s:"Peptides and Proteins",q:"The sequence in which amino acids are arranged in a protein is called ______ structure.",o:["Primary","Secondary","Fibrous","Sheet"],c:0},
+{s:"Peptides and Proteins",q:"Which type of bonds govern the secondary structure of proteins?",o:["Covalent","Hydrogen","Electrostatic","Peptide"],c:1},
+{s:"Peptides and Proteins",q:"Which of the following is soluble in water?",o:["Insulin","Elastin","Fibroin","Collagen"],c:0},
+{s:"Peptides and Proteins",q:"The structure in which all peptide chains are stretched out to full extension and laid side by side through intermolecular hydrogen bonds is called ______",o:["alpha-helix","beta-pleated sheet","Tertiary structure","Quaternary structure"],c:1},
+{s:"Peptides and Proteins",q:"Which amino acid when exposed to ninhydrin produces a brown color?",o:["Asparagine","Proline","Alanine","Valine"],c:1},
+{s:"Peptides and Proteins",q:"Glutathione is found in all mammalian cells except:",o:["RBC","Neurons","Skeletal muscle","Argentaffin cells"],c:3},
+{s:"Peptides and Proteins",q:"Plasma albumin performs the following function, except:",o:["Maintenance of osmotic pressure","Transport","Solubilization of glucose","Nutritive"],c:2},
+
+// ── CLASSIFICATION OF ENZYMES & ENZYME KINETICS (55 Qs) ──
+{s:"Enzymes and Enzyme Kinetics",q:"Enzymes increase reaction rates by:",o:["Selectively enhancing the rate of the forward reaction","Altering the change in free energy of the reaction","Changing the equilibrium constant of the reaction","Decreasing the activation energy"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"The Michaelis constant (Km) is:",o:["Not changed by the presence of non competitive inhibitor","Equal to 1/2 Vmax","The substrate concentration at 1/2 Vmax","The equilibrium constant for the dissociation of ES to E + P"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"All are true about oxygenases, except:",o:["Can incorporate 2 atoms of O2 in a substance","Can incorporate 1 atom of O2 in a substance","Important in hydroxylation of steroids","Catalyse carboxylation of drugs"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"All of the following enzymes are involved in oxidation-reduction, except:",o:["Dehydrogenases","Hydrolases","Oxygenases","Peroxidases"],c:1},
+{s:"Enzymes and Enzyme Kinetics",q:"Enzyme which cleaves C-C bond:",o:["Lyase","Oxidoreductase","Ligase","Isomerase"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Velocity at Km is:",o:["Half the substrate concentration","Same as Vmax","Quarter the Vmax","Half the Vmax"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"Coenzyme in decarboxylation reaction:",o:["Niacin","Biotin","Pyridoxine","Riboflavin"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"The type of enzyme inhibition in which Succinate dehydrogenase reaction is inhibited by malonate is an example of:",o:["Noncompetitive","Uncompetitive","Competitive","Allosteric"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"Km changes and Vmax remains the same. What is the type of Enzyme inhibition?",o:["Competitive Inhibition","Noncompetitive Inhibition","Uncompetitive inhibition","Suicide Inhibition"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"All of the covalent modification regulate enzyme kinetics except:",o:["Phosphorylation","Acetylation","ADP Ribosylation","Glycosylation"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"The following affect enzyme activity except:",o:["Methylation","Acetylation","Induction","Phosphorylation"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Marker enzyme for Golgi apparatus:",o:["Galactosyltransferase","Glucose 6 Phosphatase","5' Nucleotidase","Catalase"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"True about isoenzymes is:",o:["Catalyse the same reaction","Same quaternary structure","Same distribution in different organs","Same enzyme classification with same number and name"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Which of the following estimates blood creatinine level most accurately:",o:["Jaffe method","Kinetic Jaffe method","Technicon method","Enzyme assay"],c:1},
+{s:"Enzymes and Enzyme Kinetics",q:"LDH-5 level elevated in which cell injury:",o:["Liver","Heart","Muscle","RBC"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Which of the following LDH is having fastest electrophoretic mobility?",o:["LDH-1","LDH-2","LDH-3","LDH-5"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Example of an extracellular enzyme is",o:["Lactate dehydrogenase","Cytochrome oxidase","Pancreatic lipase","Hexokinase"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"An example of ligases is",o:["Succinate thiokinase","Alanine racemase","Fumarase","Aldolase"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"In reversible non-competitive enzyme activity inhibition",o:["Vmax is increased","Km is increased","Km is decreased","Concentration of active enzyme is reduced"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"The pH optima of most of the enzymes is",o:["Between 2 and 4","Between 5 and 9","Between 8 and 12","Above 12"],c:1},
+{s:"Enzymes and Enzyme Kinetics",q:"Hexokinase is best described as",o:["Heat stable, dialyzable, non protein organic molecules","Soluble, colloidal, protein molecules","Structural analogue of enzymes","Different forms of enzymes"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"An example of group transferring coenzyme is",o:["NAD+","NADP+","FAD","CoA"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"The normal serum acid phosphatase activity ranges from",o:["5.0-13.0 KA units/100 ml","1.0-5.0 KA units/100 ml","13.0-18.0 KA units/100 ml","0.2-0.8 KA units/100 ml"],c:1},
+{s:"Enzymes and Enzyme Kinetics",q:"Isoenzymes can be characterized by",o:["Proteins lacking enzymatic activity necessary for activation","Proteolytic enzymes activated by hydrolysis","Enzymes with identical primary structure","Similar enzymes that catalyze different reaction"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"The isoenzymes of LDH",o:["Differ only in a single amino acid","Differ in catalytic activity","Exist in 5 forms depending on M and H monomer contents","Occur as monomers"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"Which enzyme is responsible for the browning oxidation reaction in fruits and vegetables?",o:["Polyenol oxidase","Bromelain","Serrapeptidase","Papain"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Enzyme-driven metabolic pathways can be made more efficient by",o:["Concentrating enzymes within specific cellular compartments","Grouping enzymes into free-floating, multienzyme complexes","Fixing enzymes into membranes so that they are adjacent to each other","All of the above"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"In the enzyme-catalyzed chain A→B→C→D, inactivating E2 results in:",o:["A, B, C, and D will all still be produced","A, B, and C will still be produced, but not D","A and B will still be produced, but not C or D","A will still be produced, but not B, C, or D"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"The role of Asp 102 and His 57 during trypsin catalysis is to",o:["Neutralize the charge on the other's side chain","Keep the specificity pocket open","Function as a proton shuttle","Clamp the substrate into the active site"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"A competitive inhibitor of an enzyme is usually",o:["A highly reactive compound","A metal ion such as Hg2+ or Pb2+","Structurally similar to the substrate","Water insoluble"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"Linear inhibition is sometimes called as",o:["Complete inhibition","Incomplete inhibition","Partial inhibition","Mixed inhibition"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"The types of inhibition pattern based on Michaelis Menten equation are",o:["Competitive","Non-competitive","Uncompetitive","All of the above"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"The effect of non-competitive inhibition on a Lineweaver-Burk Plot is that",o:["It can move the entire curve to the right","It can change the y-intercept","It can change the x-intercept","All of these"],c:1},
+{s:"Enzymes and Enzyme Kinetics",q:"The rate-determining step of Michaelis Menten kinetics is",o:["The complex formation step","The complex dissociation step to produce product","The product formation step","Both (a) and (c)"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"Which category of enzymes belongs to class two in the international classification?",o:["Hydrolases","Ligases","Transferases","Isomerase"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"The relationship between Keq, Km and Vmax is known as",o:["Haldane equation","Michaelis Menten equation","Numerical solution approach","Gibbs-Helmholtz equation"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"The reciprocal equation for non competitive inhibition can be arranged to the equation for the",o:["Dixon plot","Woolf-Augusteinsson-Hofstee plot","Eadie-Scatchard plot","Hanes-Woolf plot"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Which of the following statements is true for enzymatically catalyzed reaction?",o:["The activation energy is lowered so that a larger proportion of substrate qualifies to overcome it","Additional substrate molecules are energized to overcome the activation energy","The activation energy is increased, decreasing the likelihood substrate overcomes it","The activation energy is lowered so that fewer substrate molecules can overcome it"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Which of the following common drugs is not a specific enzyme inhibitor?",o:["Iodine","Methotrexate","Sulfbnilamide","Penicillin"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Which of these enzymes contains a Zinc (Zn) ion?",o:["Carboxypeptidase A","Phosphorylase B kinase","Tyrosine hydroxylase","Phosphodiesterase"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"A noncompetitive inhibitor of an enzyme-catalyzed reaction",o:["Increases KM and increases Vmax","Increases KM and reduces Vmax","Reduces KM and increases Vmax","Reduces KM and reduces Vmax"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"An allosteric inhibitor of an enzyme usually",o:["Participates in feedback regulation","Denatures the enzyme","Is a hydrophobic compound","Causes the enzyme to work faster"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"A classical uncompetitive inhibitor is a compound that binds",o:["Reversibly to the enzyme substrate complex yielding an inactive ESI complex","Irreversibly to the enzyme substrate complex yielding an inactive ESI complex","Reversibly to the enzyme substrate complex yielding an active ESI complex","Irreversibly to the enzyme substrate complex yielding an active ESI complex"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"The membrane proteins that catalyze active transport reactions differ from soluble enzymes as:",o:["They are permanently changed during the reaction","The substrates of the reaction are all outside the cell","They do not enhance the rates of reaction","The products of the reaction move in a specific direction"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"Hexokinase activity in glycolysis is inhibited by",o:["Glucose-6-phosphate","Fructose-6-phosphate","Fructose-1,6-biphosphate","Phosphofructokinase"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Which of the following non-proteins can act as an enzyme?",o:["DNA","RNA","Phospholipid","Glycolipid"],c:1},
+{s:"Enzymes and Enzyme Kinetics",q:"All of the following serum enzymes are elevated in myocardial infarction, except:",o:["Alkaline phosphatase","Lactate dehydrogenase","Aspartate transaminase","Creatine kinase"],c:0},
+{s:"Enzymes and Enzyme Kinetics",q:"Enzymes may be used as the following, except:",o:["Therapeutic agents","Nutrients","Diagnostic agents","Laboratory reagents"],c:1},
+{s:"Enzymes and Enzyme Kinetics",q:"Enzyme activity in biological systems may be affected by the following:",o:["Negative modifiers","Change in pH","Change in enzyme concentration","All of the above"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"Isoenzymes can be characterized as:",o:["Non-protein part of enzyme","Enzymes with same quaternary structure","Similar enzymes that catalyze different reactions","Multiple forms of given enzyme that catalyze same type of reactions"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"Transaminase enzymes belong to the class:",o:["Hydrolases","Transferases","Oxidoreductases","Isomerases"],c:1},
+{s:"Enzymes and Enzyme Kinetics",q:"Liver diagnostic enzyme is:",o:["Alkaline phosphatase","Acid phosphatase","Alanine transaminase","Amylase"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"Which of the following enzyme levels increases in obstructive jaundice?",o:["Lipase","Amylase","Acid phosphatase","Alkaline phosphatase"],c:3},
+{s:"Enzymes and Enzyme Kinetics",q:"The digestive enzymes belong to:",o:["Isomerases","Transferases","Hydrolases","Ligases"],c:2},
+{s:"Enzymes and Enzyme Kinetics",q:"The enzyme useful in the treatment of leukemia is:",o:["alpha-chymotrypsin","Hyaluronidase","Asparginase","Streptokinase"],c:2},
+
+// ── VITAMINS (40 Qs) ──
+{s:"Vitamins",q:"The composition of pyridine dependent dehydrogenases include:",o:["Vitamin B2","Vitamin B1","Vitamin PP","Pantothenic acid and cytochromes"],c:2},
+{s:"Vitamins",q:"The composition of flavin dependent dehydrogenases include:",o:["Inositol","Ubiquinone","Coenzyme A (CoA)","Vitamin B2"],c:3},
+{s:"Vitamins",q:"The structure of rhodopsin-retinal receptor protein includes:",o:["Riboflavin","Calciferol","Retinal","Tocopherol"],c:2},
+{s:"Vitamins",q:"The structure of the FAD-dependent oxidoreductases include vitamin:",o:["B3","B2","B5","A"],c:1},
+{s:"Vitamins",q:"What vitamins are deposited in the animal organism:",o:["A, B2, C, D","B1, H, P, E","D, E, K, A","A, E, D, H"],c:2},
+{s:"Vitamins",q:"S. Funk established structure of vitamin:",o:["PP","Pyridoxine","Retinol","Thiamine"],c:3},
+{s:"Vitamins",q:"The sulfur atom is included in the composition of vitamins:",o:["B6 and B1","B1 and H","H and B3","S and K"],c:1},
+{s:"Vitamins",q:"Vitamins are classified into:",o:["Fat-soluble, water-soluble","Antivitamins","Water-soluble, nonfat-vitamins","Hormone"],c:0},
+{s:"Vitamins",q:"Indicate any vitamin formula shown (the tocopherol structure with chromanol ring and isoprenoid tail):",o:["Vitamin C","Vitamin PP","Vitamin E","Vitamin B12"],c:2},
+{s:"Vitamins",q:"Which substance is a member of folic acid?",o:["Ascorbic acid","Paraaminobenzoic acid","Pantothenic acid","Isoalloxazine"],c:1},
+{s:"Vitamins",q:"Vitamin B6 is involved in the reactions:",o:["Carboxylation","Phosphorylation","Transamination","Deamination"],c:2},
+{s:"Vitamins",q:"Vitamin D regulates the body content:",o:["Sodium","Calcium","Potassium","Magnesium"],c:1},
+{s:"Vitamins",q:"When thiamine vitamin deficiency develops disease:",o:["Rickets","Anemia","Beri-Beri","Dermatitis"],c:2},
+{s:"Vitamins",q:"A deficiency of vitamin B12 causes",o:["Beri-Beri","Pernicious anemia","Scurvy","Iron deficiency"],c:1},
+{s:"Vitamins",q:"A provitamin D synthesized in human beings is",o:["Ergosterol","25-Hydroxycholecalciferol","7-Dehydrocholesterol","Cholecalciferol"],c:2},
+{s:"Vitamins",q:"Anti-egg white injury factor is:",o:["Pyridoxine","Biotin","Liponic acid","Thiamin"],c:1},
+{s:"Vitamins",q:"Deficiency of vitamin D causes",o:["Tuberculosis of bone","Rickets and osteomalacia","Hypothyroidism","Skin cancer"],c:1},
+{s:"Vitamins",q:"Riboflavin deficiency symptoms are:",o:["Glossitis","Stomatis","Vomiting","Glossitis and Stomatis"],c:3},
+{s:"Vitamins",q:"When kidney diseases are present, oral doses of vitamin D may not be effective in curing rickets, because:",o:["Hydroxylation reaction is taking place in kidney which activates vitamin","Dehydrogenation of vitamin D is taking place in kidney","Hydroxylation of vitamin D is taking place in kidney which destroys vitamin","Vitamin D is stored in liver"],c:0},
+{s:"Vitamins",q:"Biochemical function of vitamin K is for:",o:["Converting proline to hydroxyproline","Conversion of prothrombin to thrombin","Gamma carboxylation of clotting factors","Inhibition of lipid peroxidation in biomembranes"],c:2},
+{s:"Vitamins",q:"All are true about vitamin D metabolism, except:",o:["1-alpha hydroxylation occurs in kidney","25-alpha hydroxylation occurs in Liver","In absence of sun light, the daily requirement is 400-600 IU per day","Williams syndrome is associated with mental retardation, precocious puberty and obesity"],c:3},
+{s:"Vitamins",q:"Vitamin A intoxication causes injury to:",o:["Lysosomes","Mitochondria","Endoplasmic reticulum","Microtubules"],c:0},
+{s:"Vitamins",q:"Which of the following is true about vitamin K?",o:["Vit K dependent factors undergo post-transcriptional modification","Prothrombin is a vitamin K dependent factor","Stuart-Prower factor is not vitamin K dependent","Menadione is a natural water insoluble vitamin K used in clinical practice"],c:1},
+{s:"Vitamins",q:"Pantothenate Kinase associated neuro degeneration is:",o:["Wilson's Disease","Hallervorden-Spatz syndrome","McLeod Syndrome","Lesch-Nyhan Syndrome"],c:1},
+{s:"Vitamins",q:"Severe thiamine deficiency is associated with:",o:["Decreased RBC transketolase activity","Increased clotting time","Decreased RBC transaminase activity","Increased xanthurenic acid excretion"],c:0},
+{s:"Vitamins",q:"The skin image showing Casal's necklace rash: Identify the vitamin deficiency.",o:["Pellagra","Scurvy","Beriberi","Burning foot syndrome"],c:0},
+{s:"Vitamins",q:"The primary function of vitamin C (ascorbic acid) is to:",o:["Act as a cofactor in enzyme catalysis","Facilitate blood clotting","Aid in the absorption of iron","Promote bone mineralization"],c:0},
+{s:"Vitamins",q:"Which of the following vitamins is synthesized in the body from cholesterol?",o:["Vitamin D","Vitamin A","Vitamin E","Vitamin K"],c:0},
+{s:"Vitamins",q:"Which of the following vitamins is required for collagen synthesis?",o:["Vitamin D","Vitamin C","Vitamin B6","Vitamin B9"],c:1},
+{s:"Vitamins",q:"Which of the following is the coenzyme form of vitamin B3 (Niacin)?",o:["NAD+","NADP+","Coenzyme A","FMN"],c:0},
+{s:"Vitamins",q:"The main function of vitamin K is to:",o:["Act as an antioxidant","Support immune function","Regulate calcium absorption","Facilitate blood clotting"],c:3},
+{s:"Vitamins",q:"Which of the following coenzymes is not derived from vitamins?",o:["CoASH","TPP","Pyrodoxal phosphate (PLP)","Coenzyme Q"],c:3},
+{s:"Vitamins",q:"Which of the following vitamins would most likely become deficient in a person who developed a completely vegetarian lifestyle?",o:["Vitamin C","Niacin","Cobalamin","Vitamin E"],c:2},
+{s:"Vitamins",q:"Pyridoxal phosphate is a coenzyme for the reactions, except:",o:["Transamination","Deamination","Decarboxylation","Oxidation-reduction"],c:3},
+{s:"Vitamins",q:"Both folic acid and methylcobalamin are required in:",o:["Phosphorylation","Deamination","Methylation of homocysteine to methionine","Conversion of pyruvate to acetyl-CoA"],c:2},
+{s:"Vitamins",q:"Biotin is involved in:",o:["Oxidation-reduction","Carboxylation","Decarboxylation","Dehydration"],c:1},
+{s:"Vitamins",q:"Both Wernicke's disease and beriberi can be treated by administering vitamin:",o:["Thiamine","Niacin","Riboflavin","Ascorbic acid"],c:0},
+{s:"Vitamins",q:"All of the following vitamins have antioxidant property, except:",o:["beta-carotene","Ascorbic acid","Tocopherol","Cholecalciferol"],c:3},
+{s:"Vitamins",q:"Excretion of FIGLU in urine occurs in deficiency of:",o:["Thiamin","Folic acid","Ascorbic acid","Nicotinic acid"],c:1},
+{s:"Vitamins",q:"Which of the following is used as an assay of riboflavin status?",o:["Transketolase","Glutathione reductase","FIGLU","Pyruvate dehydrogenase"],c:1},
+
+// ── CARBOHYDRATE METABOLISM (104 Qs) ──
+{s:"Carbohydrate Metabolism",q:"Glucose-6-phosphatase is not present in",o:["Liver and kidneys","Kidneys and muscles","Kidneys and adipose tissue","Muscles and adipose tissue"],c:3},
+{s:"Carbohydrate Metabolism",q:"Glucose-6-phosphatase is absent or deficient in",o:["Von Gierke's disease","Pompe's disease","Cori's disease","McArdle's disease"],c:0},
+{s:"Carbohydrate Metabolism",q:"An amphibolic pathway among the following is",o:["HMP shunt","Glycolysis","Citric acid cycle","Gluconeogenesis"],c:2},
+{s:"Carbohydrate Metabolism",q:"Excessive intake of ethanol increases the ratio:",o:["NADH : NAD+","NAD+ : NADH","FADH2 : FAD","FAD : FADH2"],c:0},
+{s:"Carbohydrate Metabolism",q:"Which of the following enzyme catalyzes the first step of glycolysis?",o:["Hexokinase","Pyruvate kinase","Glucokinase","Phosphofructokinase-1"],c:0},
+{s:"Carbohydrate Metabolism",q:"The general test for detection of carbohydrates is",o:["Iodine test","Molisch test","Barfoed test","Osazone test"],c:1},
+{s:"Carbohydrate Metabolism",q:"Synthetase activity is depressed by",o:["Glucose","Insulin","Cyclic AMP","Fructokinase"],c:2},
+{s:"Carbohydrate Metabolism",q:"Cleavage of Fructose 1,6-bisphosphate yields ___________",o:["Two aldoses","Two ketoses","An aldose and a ketose","Only a ketose"],c:2},
+{s:"Carbohydrate Metabolism",q:"The reaction succinyl CoA to succinate requires",o:["CDP","ADP","GDP","NADP+"],c:2},
+{s:"Carbohydrate Metabolism",q:"The carrier of the citric acid cycle is",o:["Succinate","Fumarate","Malate","Oxaloacetate"],c:3},
+{s:"Carbohydrate Metabolism",q:"What is the first step in the payoff phase of glycolysis?",o:["Reduction of 1,3-bisphosphoglycerate to glyceraldehyde 3-phosphate","Oxidation of glyceraldehyde 3-phosphate to 1,3-bisphosphoglycerate","Reversible conversion of DHAP to glyceraldehyde 3-phosphate","Irreversible conversion of DHAP to glyceraldehyde 3-phosphate"],c:1},
+{s:"Carbohydrate Metabolism",q:"Pyruvate dehydrogenase complex and alpha-ketoglutarate dehydrogenase complex require the following for their oxidative decarboxylation:",o:["CoASH and Lipoic acid","NAD+ and FAD","CoASH and TPP","CoASH, TPP, NAD+, FAD, Lipoate"],c:3},
+{s:"Carbohydrate Metabolism",q:"Oxidative decarboxylation of pyruvate requires",o:["NADP+","Cytochromes","Pyridoxal phosphate","CoASH"],c:3},
+{s:"Carbohydrate Metabolism",q:"Conversion of Alanine to carbohydrate is termed:",o:["Glycogenesis","Gluconeogenesis","Glycogenolysis","Photosynthesis"],c:1},
+{s:"Carbohydrate Metabolism",q:"The following is an enzyme required for glycolysis:",o:["Pyruvate kinase","Pyruvate carboxylase","Glucose-6-phosphatase","Glycerokinase"],c:0},
+{s:"Carbohydrate Metabolism",q:"Which substrate is used in the last step of glycolysis?",o:["Glyceraldehyde 3-phosphate","Pyruvate","Phosphoenolpyruvate","1,3-bisphosphoglycerate"],c:2},
+{s:"Carbohydrate Metabolism",q:"Glycogen is converted to glucose-1-phosphate by",o:["UDPG transferase","Branching enzyme","Phosphorylase","Phosphatase"],c:2},
+{s:"Carbohydrate Metabolism",q:"Which of the following is not an enzyme involved in glycolysis?",o:["Enolase","Aldolase","Hexokinase","Glucose oxidase"],c:3},
+{s:"Carbohydrate Metabolism",q:"Tissues form lactic acid from glucose. This phenomenon is termed as",o:["Aerobic glycolysis","Oxidation","Oxidative phosphorylation","Anaerobic glycolysis"],c:3},
+{s:"Carbohydrate Metabolism",q:"Fluoride inhibits ______ and arrests glycolysis.",o:["Glyceraldehyde-3-phosphate dehydrogenase","Aconitase","Enolase","Succinate dehydrogenase"],c:2},
+{s:"Carbohydrate Metabolism",q:"High concentration of glucose 6-phosphate is inhibitory to ___________",o:["Hexokinase","Pyruvate kinase","Glucokinase","Phosphofructokinase-1"],c:0},
+{s:"Carbohydrate Metabolism",q:"The product formed in the first substrate level phosphorylation in glycolysis is ___________",o:["Pyruvate","3-phosphoglycerate","1,3-bisphosphoglycerate","2-phosphoglycerate"],c:1},
+{s:"Carbohydrate Metabolism",q:"Glycolysis converts ___________",o:["Glucose into pyruvate","Glucose into phosphoenolpyruvate","Fructose into pyruvate","Fructose into phosphoenolpyruvate"],c:0},
+{s:"Carbohydrate Metabolism",q:"Name the hormone that stimulates the process of glycolysis",o:["Growth hormone","Insulin","Glucagon","All of the above"],c:1},
+{s:"Carbohydrate Metabolism",q:"A specific inhibitor for succinate dehydrogenase is",o:["Arsinite","Melouate","Citrate","Cyanide"],c:1},
+{s:"Carbohydrate Metabolism",q:"Which of the following is not an important precursor of glucose in animals?",o:["Lactate","Pyruvate","Glycerol","Glucose 6-phosphate"],c:3},
+{s:"Carbohydrate Metabolism",q:"An essential for converting Glucose to Glycogen in Liver is",o:["Lactic acid","GTP","CTP","UTP"],c:3},
+{s:"Carbohydrate Metabolism",q:"Which of the following statements is false about gluconeogenesis?",o:["From the hydrolysis of tri-acyl-glycerol, fatty acids can be used as a carbon source","From red blood cells, lactate can be used as a carbon source","From the hydrolysis of tri-acyl-glycerol, glycerol is converted to glucose in gluconeogenesis","From muscle vigorous muscle activity, lactate can be used as a carbon source"],c:0},
+{s:"Carbohydrate Metabolism",q:"The carbohydrate reserved in human body is",o:["Starch","Glucose","Glycogen","Inulin"],c:2},
+{s:"Carbohydrate Metabolism",q:"The reaction catalysed by phosphofructokinase",o:["Is activated by high concentrations of ATP and citrate","Uses fructose-1-phosphate as substrate","Is the rate-limiting reaction of the glycolytic pathway","Is inhibited by fructose 2,6-bisphosphate"],c:2},
+{s:"Carbohydrate Metabolism",q:"Compared to the resting state, vigorously contracting muscle shows",o:["An increased conversion of pyruvate to lactate","Decreased oxidation of pyruvate to CO2 and water","A decreased NADH/NAD+ ratio","Decreased concentration of AMP"],c:0},
+{s:"Carbohydrate Metabolism",q:"The concentration of blood lactate is normal:",o:["4.4-6.6 mmol/l","1-2 mmol/l","3.3-5.5 mmol/l","4.4-5.5 mmol/l"],c:1},
+{s:"Carbohydrate Metabolism",q:"A basic role in digestion of carbohydrates in a digestive tract belongs to following enzymes:",o:["Alfa-amylase, hexokinase, lactase","Maltase, sucrase, enterokinase","Lactase, alfa-amylase, sucrase","Sucrase, maltase, glycogen phosphorylase"],c:2},
+{s:"Carbohydrate Metabolism",q:"After a well-rounded breakfast, which of the following would be expected to occur?",o:["Increased activity of pyruvate carboxylase","Decreased activity of acetyl CoA carboxylase","Decreased rate of glycogenolysis","Decreased rate of protein synthesis"],c:2},
+{s:"Carbohydrate Metabolism",q:"Formation of one molecule of glucose from pyruvate requires ____________",o:["4 ATP, 2 GTP and 2 NADH","3 ATP, 2 GTP and 2 NADH","4 ATP, 1 GTP and 2 NADH","2 ATP, 2 GTP and 2 NADH"],c:0},
+{s:"Carbohydrate Metabolism",q:"The key regulatory enzyme of the pentose phosphate pathway is positively regulated by",o:["Reduced nicotinamide dinucleotide (NADH)","Adenosine diphosphate (ADP)","Guanosine triphosphate (GTP)","Nicotinamide dinucleotide phosphate (NADP+)"],c:3},
+{s:"Carbohydrate Metabolism",q:"A Nigerian medical student develops hemolytic anemia after taking the oxidizing antimalarial drug pamaquine. This severe reaction is most likely due to:",o:["Glucose-6-phosphate dehydrogenase deficiency","Concomitant scurvy","Vitamin C deficiency","Diabetes"],c:0},
+{s:"Carbohydrate Metabolism",q:"Citrate has a positive allosteric effect on which one of the following enzymes?",o:["Pyruvate kinase","Acetyl CoA carboxylase","Phosphofructokinase","Fatty acid synthetase"],c:1},
+{s:"Carbohydrate Metabolism",q:"A child ingested cyanide. Which of the following components of the citric acid cycle will be depleted first?",o:["NAD+ cofactor","Citrate synthase","Aconitase","Citrate production"],c:0},
+{s:"Carbohydrate Metabolism",q:"Which of the following reactions generates ATP?",o:["Glucose-6-phosphate to fructose-6-phosphate","Glucose to glucose-6-phosphate","Phosphoenolpyruvate to pyruvate","Pyruvate to lactate"],c:2},
+{s:"Carbohydrate Metabolism",q:"The major metabolic product recycled through the liver in the Cori cycle (from erythrocytes and exercising muscle) is",o:["Oxaloacetate","Glycerol","Alanine","Lactate"],c:3},
+{s:"Carbohydrate Metabolism",q:"Given AG° for ATP hydrolysis is -7.3 kcal/mol and glucose-6-phosphate hydrolysis is -3.3 kcal/mol, the AG° for phosphorylation of glucose is",o:["-10.6 kcal/mol","-7.3 kcal/mol","-4.0 kcal/mol","+4.0 kcal/mol"],c:2},
+{s:"Carbohydrate Metabolism",q:"Keratansulphate is found in abundance in:",o:["Heart muscle","Liver","Adrenal cortex","Cornea"],c:3},
+{s:"Carbohydrate Metabolism",q:"Gluconeogenesis is decreased by",o:["Glucagon","Epinephrine","Glucocorticoids","Insulin"],c:3},
+{s:"Carbohydrate Metabolism",q:"During starvation, ketone bodies are used as a fuel by",o:["Erythrocytes","Brain","Liver","All of these"],c:1},
+{s:"Carbohydrate Metabolism",q:"Glucose is absorbed by gastrointestinal cells by:",o:["Passive diffusion","Carrier mediated co-transport system, along with sodium","Carrier mediated antiport system, along with potassium","Needs no ATP"],c:1},
+{s:"Carbohydrate Metabolism",q:"The product of glycolysis in erythrocytes is:",o:["NADPH","Lactate","Pyruvate","Carbon dioxide"],c:1},
+{s:"Carbohydrate Metabolism",q:"Glucokinase is more active after a meal, because:",o:["It is an inducible enzyme","It has more affinity to glucose than hexokinase","It is present in all tissues","Can act on all monosaccharides"],c:0},
+{s:"Carbohydrate Metabolism",q:"Which enzyme catalyzes an irreversible reaction?",o:["Transketolase","Phosphofructokinase","Aldolase","Glyceraldehyde-3-phosphate dehydrogenase"],c:1},
+{s:"Carbohydrate Metabolism",q:"Complete oxidation of one molecule of glucose yields how many ATPs?",o:["12","24","32","129"],c:2},
+{s:"Carbohydrate Metabolism",q:"Catalytic activity of phosphofructokinase is increased by all the following, except:",o:["AMP","Fructose-2,6-bisphosphate","ATP","Fructose-6-phosphate"],c:2},
+{s:"Carbohydrate Metabolism",q:"All the following coenzymes are involved in the pyruvate dehydrogenase reaction, except:",o:["Thiamine pyrophosphate (TPP)","Biotin","NAD+","FAD"],c:1},
+{s:"Carbohydrate Metabolism",q:"Malate shuttle is necessary for:",o:["Glucogen","Growth hormone","Insulin","Glucocorticoids"],c:0},
+{s:"Carbohydrate Metabolism",q:"Blood glucose level can be raised by glyconeogenesis only by liver because:",o:["Glucokinase is present exclusively in liver","Glucose-6-phosphatase is active only in liver","Transaminase are present in liver","Liver is the site of storage of glucose as glycogen"],c:1},
+{s:"Carbohydrate Metabolism",q:"HMP pathway is essential for all, except:",o:["Transparency of lens","Integrity of RBC membrane","Reduce methemoglobin level","Provide 2,3-BPG for RBCs"],c:3},
+{s:"Carbohydrate Metabolism",q:"Which of the following drugs can precipitate G6PD deficiency?",o:["Primaquan","Aspirin","Statin","Penicillin"],c:0},
+{s:"Carbohydrate Metabolism",q:"Lactate is the product of glycolysis in RBCs because:",o:["RBC can convert lactate to glucose","Formation of lactate produces more energy","NAD+ is regenerated in the cytoplasm","Accumulation of lactate activates glycolysis"],c:2},
+{s:"Carbohydrate Metabolism",q:"The normal fasting plasma glucose level is:",o:["40-60 mg/100 ml","70-110 mg/100 ml","120-150 mg/100 ml","60-180 mg/100 ml"],c:1},
+{s:"Carbohydrate Metabolism",q:"Glucose level in plasma is increased by:",o:["Gluconeogenesis","Glycolysis","Glycogen synthesis","Glycosuria"],c:0},
+{s:"Carbohydrate Metabolism",q:"Blood is collected in fluoride oxalate bottle to:",o:["Prevent clotting","Preserve glucose","Preserve glucose and prevent clotting","Get quick results"],c:2},
+{s:"Carbohydrate Metabolism",q:"Which of the following lab results indicate poor glycemic control?",o:["PPBS of 180 mg/dl","Glyconemoglobin of 10 %","Serum cholesterol of 240 mg/dl","Blood urea level of 35 mg/dl"],c:1},
+{s:"Carbohydrate Metabolism",q:"One of the following enzymes in glycolysis catalyses an irreversible reaction",o:["Hexokinase","Pyruvate kinase","Phosphofructokinase","All of them"],c:3},
+{s:"Carbohydrate Metabolism",q:"The hormone that lowers c-AMP concentration in liver cells is:",o:["Glucagon","Insulin","Epinephrine","Thyroxine"],c:1},
+{s:"Carbohydrate Metabolism",q:"The connecting link between HMP shunt and lipid synthesis",o:["Ribose","NADPH","Sedoheptulose-7-phosphate","NADH"],c:1},
+{s:"Carbohydrate Metabolism",q:"Glucose and Galactose are:",o:["Anomers","Constituents of sucrose","Diastereoisomers","Epimers"],c:3},
+{s:"Carbohydrate Metabolism",q:"D-mannose is:",o:["The 4th epimer of glucose","A keto sugar","A component of maltose","Is the 2nd epimer of glucose"],c:3},
+{s:"Carbohydrate Metabolism",q:"A pair of sugars differing from each other in the functional group is called:",o:["Anomers","Epimers","Racemers","Stereoisomers"],c:3},
+{s:"Carbohydrate Metabolism",q:"Reducing sugars are differentiated from nonreducing sugars by:",o:["Iodine test","Molish's test","Selwanoff's test","Benedict's test"],c:3},
+{s:"Carbohydrate Metabolism",q:"In monosaccharides, all properties go hand in hand, except:",o:["Reducing property","Formation of furfural","Formation of osazone","Mutarotation"],c:1},
+{s:"Carbohydrate Metabolism",q:"All the following are sugar alcohols, except:",o:["Dulcitol","Mannitol","Xylose","Sorbitol"],c:2},
+{s:"Carbohydrate Metabolism",q:"The glucosidic linkage seen in sucrose is:",o:["Alpha-1,4-linkage","beta-1,4-linkage","alpha-1,6-linkage","1,2-linkage"],c:3},
+{s:"Carbohydrate Metabolism",q:"All the following have glycosidic bond, except",o:["Maltose","Sucrose","N-acetylglucosamine","Alpha methyl glucose"],c:2},
+{s:"Carbohydrate Metabolism",q:"The sugar found in milk is:",o:["Galactose","Glucose","Fructose","Lactose"],c:3},
+{s:"Carbohydrate Metabolism",q:"The glycosidic linkage seen in maltose is:",o:["Alpha-1,4-linkage","beta-1,4-linkage","Alpha-1,6-linkage","Alpha-1,2-linkage"],c:0},
+{s:"Carbohydrate Metabolism",q:"Ethanol is oxidized to acetaldehyde in the liver cytoplasm by ____________",o:["Alcohol dehydrogenase","Alcohol carboxylase","Pyruvate carboxylase","Pyruvate kinase"],c:0},
+{s:"Carbohydrate Metabolism",q:"Which of the following statements about gluconeogenesis is correct?",o:["Pyruvate is first converted to PEP by PEP carboxykinase","Fructose 1,6-biphosphatase converts F1,6-bisphosphate into fructose 1-phosphate","Glucose 6-phosphatase hydrolyzes glucose 6-phosphate to release glucose into the blood","Glucose 6-phosphatase hydrolyzes glucose 6-phosphate and is found in liver and muscle"],c:2},
+{s:"Carbohydrate Metabolism",q:"Which of the following enzyme is not involved in galactose metabolism?",o:["Glucokinase","Galactokinase","Galactose-1-Phosphate Uridyl transferase","UDP-Galactose 4-epimerase"],c:0},
+{s:"Carbohydrate Metabolism",q:"Which of the following enzyme is defective in galactosemia (type I) - a fatal genetic disorder in infants?",o:["Glucokinase","Galactokinase","Galactose-1-Phosphate Uridyl transferase","UDP-Galactose 4-epimerase"],c:2},
+{s:"Carbohydrate Metabolism",q:"In the liver, the accumulation of which metabolite attenuates the inhibitory effect of ATP on phosphofructokinase?",o:["Glucose-6-Phosphate","Citrate","Fructose-1,6-Bisphosphate","Fructose-2,6-Bisphosphate"],c:3},
+{s:"Carbohydrate Metabolism",q:"Mutation in which of the following enzymes leads to glycogen storage disease known as 'Tarui's disease'?",o:["Glucokinase","Phosphofructokinase","Phosphoglucomutase","Pyruvate Kinase"],c:1},
+{s:"Carbohydrate Metabolism",q:"Erythrocytes undergo glycolysis for production of ATP. Deficiency of which enzyme leads to hemolytic anemia?",o:["Glucokinase","Phosphofructokinase","Phosphoglucomutase","Pyruvate Kinase"],c:3},
+{s:"Carbohydrate Metabolism",q:"Cancer cells have high energy demands. Which enzyme plays an important role in tumor metabolism?",o:["Glucokinase","Phosphofructokinase","Phosphoglucomutase","Pyruvate Kinase M2"],c:3},
+{s:"Carbohydrate Metabolism",q:"Which of the following glucose transporter (GLUT) is important in insulin-dependent glucose uptake?",o:["GLUT1","GLUT2","GLUT3","GLUT4"],c:3},
+{s:"Carbohydrate Metabolism",q:"Which of the following glucose transporter (GLUT) is present in the beta cells of the pancreas?",o:["GLUT1","GLUT2","GLUT3","GLUT4"],c:1},
+{s:"Carbohydrate Metabolism",q:"Which of the following glucose transporter (GLUT) is important in fructose transport in the intestine?",o:["GLUT1","GLUT3","GLUT5","GLUT7"],c:2},
+{s:"Carbohydrate Metabolism",q:"Which of the following metabolite negatively regulates pyruvate kinase?",o:["Fructose-1,6-Bisphosphate","Citrate","Acetyl CoA","Alanine"],c:3},
+{s:"Carbohydrate Metabolism",q:"In absence of oxygen, pyruvate is converted into lactate in muscle because",o:["Lactate is the substrate from the downstream pathway","Lactate acts as a substrate for the formation of amino acid","During the product of lactate two ATP are produced","During lactate formation, NADH is reconverted into NAD"],c:3},
+{s:"Carbohydrate Metabolism",q:"Which of the following glycolytic enzyme is inhibited by the accumulation of long-chain fatty acid in the liver?",o:["Hexokinase","Glucokinase","Phosphofructokinase","Pyruvate kinase"],c:3},
+{s:"Carbohydrate Metabolism",q:"Which of the following statement about Phosphofructokinase-2 (PFK-2) is false?",o:["PFK-2 is a bifunctional enzyme having a kinase domain, phosphatase domain, and a regulatory domain","Activated protein kinase A phosphorylates PFK-2 and activates the phosphatase domain","PFK-2 catalyzes the conversion of fructose-6-phosphate to fructose 2-6 bisphosphate","PFK-2 is inhibited by AMP"],c:1},
+{s:"Carbohydrate Metabolism",q:"Which hormone helps in regulating blood sugar levels and promotes uptake of glucose by muscle, adipose, and liver cells?",o:["Glucagon","Epinephrine","Cortisol","Insulin"],c:3},
+{s:"Carbohydrate Metabolism",q:"Which of the following statement is true regarding glycolysis pathway?",o:["Glycolysis occurs only in mammalian cells","Glycolysis occurs in mitochondria","Glycolysis occurs in the presence and absence of oxygen","Glycolysis occurs when ATP concentration is high"],c:2},
+{s:"Carbohydrate Metabolism",q:"What is the rate-limiting enzyme in glycolysis?",o:["Hexokinase","Phosphohexose isomerase","Glyceraldehyde-3-phosphate dehydrogenase","Enolase"],c:2},
+{s:"Carbohydrate Metabolism",q:"The net gain of adenosine triphosphate (ATP) during the conversion of glucose to pyruvate is:",o:["1 ATP","2 ATP","1 ATP +1 GTP","4 ATP"],c:1},
+{s:"Carbohydrate Metabolism",q:"During the conversion of glucose to pyruvate, which step generates NADH?",o:["Conversion of fructose-6-phosphate to fructose-1-6-bisphosphate","Conversion of glyceraldehydes-3-phosphate to 1-3-bisphosphoglycerate","Conversion of 3-phosphoglycerate to 2-phosphoglycerate","Conversion of phosphoenolpyruvate to pyruvate"],c:1},
+{s:"Carbohydrate Metabolism",q:"What is the committed step in glycolysis?",o:["Conversion of glucose to glucose-6-phosphate","Conversion of fructose-6-phosphate to fructose-1,6-bisphosphate","Conversion of glyceraldehydes-3-phosphate to 1-3-bisphosphoglycerate","Conversion of 3-phosphoglycerate to 2-phosphoglycerate"],c:1},
+{s:"Carbohydrate Metabolism",q:"Which enzyme-catalyzed reaction is NOT an irreversible step in glycolysis?",o:["Hexokinase","Phosphofructokinase","Glyceraldehyde-3-phosphate kinase","Pyruvate kinase"],c:2},
+{s:"Carbohydrate Metabolism",q:"All of the following are negative regulators of phosphofructokinase (PFK) that can inhibit its activity, except?",o:["Adenosine triphosphate (ATP)","Adenosine monophosphate (AMP)","Citrate","pH"],c:1},
+{s:"Carbohydrate Metabolism",q:"Which enzyme is inhibited by sodium fluoride used as anticoagulant during blood collection?",o:["Glyceraldehyde-3-phosphate dehydrogenase","3-phosphoglycerate mutase","Enolase","AMP"],c:2},
+{s:"Carbohydrate Metabolism",q:"During gluconeogenesis, which of the following statement is false regarding conversion of pyruvate to phosphoenolpyruvate?",o:["This reaction involves a two-step process catalyzed by pyruvate carboxylase and PEP carboxykinase","Conversion of oxaloacetate from pyruvate occurs in mitochondria and shuttled into the cytosol","Formation of phosphoenolpyruvate requires both ATP and GTP as an energy source","Acetyl CoA is an activator of the enzyme pyruvate carboxylase"],c:2},
+{s:"Carbohydrate Metabolism",q:"During gluconeogenesis, which of the following statement is true about conversion of glucose-6-P to glucose?",o:["Conversion of glucose-6-phosphate to glucose releases one ATP molecule","It is a highly active enzyme in skeletal muscle","Defect in glucose-6-phosphatase leads to abnormal accumulation of glycogen in the liver","The reaction occurs in mitochondria"],c:2},
+{s:"Carbohydrate Metabolism",q:"Which of the following statement is true about Cori Cycle?",o:["The Cori cycle involves three tissues: muscle, liver, and brain","It involves the transport of lactate from the liver to skeletal tissue for gluconeogenesis","It involves the transport of lactate from skeletal muscle to the liver for gluconeogenesis","It is active during resting stages and in well-fed condition"],c:2},
+{s:"Carbohydrate Metabolism",q:"During prolonged starvation, which hormone is responsible for increasing gluconeogenesis in the liver?",o:["Insulin","Glucagon","TSH","Thyroxine"],c:1},
+{s:"Carbohydrate Metabolism",q:"During catabolism, only about 40% of the energy available from oxidizing glucose is used to synthesize ATP. Remaining 60%:",o:["Is lost as heat","Is used to reduce NADP","Remains in the products of metabolism","Is stored as fat"],c:0},
+{s:"Carbohydrate Metabolism",q:"Why does the glycolytic pathway continue in the direction of glucose catabolism?",o:["There are essentially three irreversible reactions that act as the driving force for the pathway","High levels of ATP keep the pathway going in a forward direction","The enzymes of glycolysis only function in one direction","Glycolysis occurs in either direction"],c:0},
+
+// ── KREBS CYCLE / TCA CYCLE (38 Qs, combined with Pentose Phosphate) ──
+{s:"Krebs Cycle & TCA",q:"Which of the following is not an intermediate of TCA Cycle?",o:["Acetyl CoA","Citrate","Succinyl CoA","Alpha Ketoglutarate"],c:0},
+{s:"Krebs Cycle & TCA",q:"Which of the following is true about Krebs Cycle?",o:["Pyruvate condenses with Oxaloacetate to form Citrate","Alpha ketoglutarate is a five Carbon compound","Oxidative Phosphorylation occurs in the cytoplasm only","Krebs cycle can operate in anaerobic condition"],c:1},
+{s:"Krebs Cycle & TCA",q:"Which of the following substance binds to CoA and condenses oxaloacetate to inhibit the TCA cycle?",o:["Malonate","Arsenite","Fluoroacetate","Fumarate"],c:2},
+{s:"Krebs Cycle & TCA",q:"First substrate of Krebs cycle is:",o:["Pyruvate","Glycine","HCI","Lipoprotein"],c:0},
+{s:"Krebs Cycle & TCA",q:"Hyperammonemia inhibits TCA cycle by depleting:",o:["Oxaloacetate","Alpha ketoglutarate","Citrate","Succinyl CoA"],c:1},
+{s:"Krebs Cycle & TCA",q:"False about reducing equivalents is:",o:["They are NADH and NADPH","Only produced during primary metabolic pathway","Formed in TCA cycle","Formed in mitochondria"],c:1},
+{s:"Krebs Cycle & TCA",q:"All contain high energy bond, except:",o:["ATP","Glucose-6-phosphate","Acetyl-CoA","Phosphoenolpyruvate"],c:1},
+{s:"Krebs Cycle & TCA",q:"Coenzyme Q catalizes electron transport between:",o:["FADH and cytochrome B","It is the last member in the electron transport chain","NADH and ubiquinone","Cytochrome Q and cytochrome C"],c:3},
+{s:"Krebs Cycle & TCA",q:"Death due to cyanide poisoning is a result of:",o:["Cyanide hemoglobin complex formation","Cyanide inhibiting complex I of respiratory chain","Cyanide inhibiting cytochrome oxidase","Cyanide blocking oxygen transport in blood"],c:2},
+{s:"Krebs Cycle & TCA",q:"Which is true with cytochrome reductase?",o:["It catalyzes the electron transport between FADH and cytochrome b","It is the last member in the electron transport chain","It catalyzes the electron transport between NADH and ubiquinone","It catalyzes the electron transport between CoQ and cytochrome C"],c:3},
+{s:"Krebs Cycle & TCA",q:"Why is the TCA cycle the central pathway of metabolism of the cell?",o:["It occurs in the center of the cell","Its intermediates are commonly used by other metabolic reactions","All other metabolic pathways depend upon it","None of the above"],c:1},
+{s:"Krebs Cycle & TCA",q:"In what form does the product of glycolysis enter the TCA cycle?",o:["Acetyl-CoA","Pyruvate","NADH","Glucose"],c:0},
+{s:"Krebs Cycle & TCA",q:"Malate-aspartate shuttle operates in",o:["Lungs and liver","Heart and liver","Pancreas and liver","None of these"],c:1},
+{s:"Krebs Cycle & TCA",q:"Oxidation of a molecule involves",o:["Gain of electron","Loss of electron","Gain of proton","Loss of proton"],c:1},
+{s:"Krebs Cycle & TCA",q:"During cellular respiration, most of the ATP made is generated by",o:["Oxidative phosphorylation","Photophosphorylation","Glycolysis","Substrate-level phosphorylation"],c:0},
+{s:"Krebs Cycle & TCA",q:"To stop ATP synthesis which chemical is generally used?",o:["DNSA","2,4 dinitrophenol","DDT","None of the chemical can stop ATP synthesis"],c:1},
+{s:"Krebs Cycle & TCA",q:"The enzymes of the TCA cycle in a eukaryotic cell are located in the",o:["Nucleus","Mitochondria","Plasma membrane","Lysosomal bodies"],c:1},
+{s:"Krebs Cycle & TCA",q:"FAD is reduced to FADH2 during",o:["Electron transport phosphorylation","Lactate fermentation","Krebs cycle","Glycolysis"],c:2},
+{s:"Krebs Cycle & TCA",q:"During glycolysis, electrons removed from glucose are passed to",o:["FAD","NAD+","Acetyl CoA","Pyruvic acid"],c:1},
+{s:"Krebs Cycle & TCA",q:"The carbon dioxide is primarily a product of",o:["Krebs cycle","Glycolysis","Electron transport phosphorylation","Lactate fermentation"],c:0},
+{s:"Krebs Cycle & TCA",q:"What is the pH of the medium when sucrose is used as substrate for the production of citric acid?",o:["3","4","5","6"],c:0},
+{s:"Krebs Cycle & TCA",q:"All of the following cells are dependent on glycolysis except?",o:["Neurons","RBC","Renal medulla","Red muscle fibres"],c:3},
+{s:"Krebs Cycle & TCA",q:"The irreversible steps of glycolysis are all except",o:["Pyruvate kinase","Phosphoglycerate kinase","Hexokinase","Phosphofructokinase"],c:1},
+{s:"Krebs Cycle & TCA",q:"The steps in which oxidative phosphorylation occurs in glycolysis are:",o:["Pyruvate kinase","Phosphoglycerate kinase","PFK","Glyceraldehyde 3 Phosphate Dehydrogenase"],c:3},
+{s:"Krebs Cycle & TCA",q:"In aerobic glycolysis, lactate is formed",o:["For the generation of ATP","For the regeneration of lactate","For the regeneration of pyruvate","For the regeneration of NAD"],c:3},
+{s:"Krebs Cycle & TCA",q:"The significance of Rapoport Leubering Shunt is",o:["ATP production","Lactate formation","Source of fatty acids","2,3 BPG production"],c:3},
+{s:"Krebs Cycle & TCA",q:"The enzyme involved in Rapoport Leubering Shunt is",o:["Phosphoglycerate kinase","Bisphosphoglycerate formation","Bisphosphoglycerate mutase","Phosphoglycerate mutase"],c:2},
+
+// ── PENTOSE PHOSPHATE PATHWAY (25 Qs) ──
+{s:"Pentose Phosphate Pathway",q:"HMP shunt is required for which kind of metabolism?",o:["Carbohydrate metabolism","Fat metabolism","Lipid metabolism","Amino acid metabolism"],c:2},
+{s:"Pentose Phosphate Pathway",q:"What is the product generated after the completion of 1st phase?",o:["Ribulose-5-phosphate","CO2","NADPH","All of the above"],c:3},
+{s:"Pentose Phosphate Pathway",q:"What is the location of pentose phosphate pathway?",o:["Cell membrane","Cytosol","Ribosomes","Mitochondria"],c:1},
+{s:"Pentose Phosphate Pathway",q:"What type of reactions occurs in 2nd phase of pentose phosphate pathway?",o:["Oxidative reversible","Non-oxidative reversible","Non-oxidative irreversible","Oxidative irreversible"],c:1},
+{s:"Pentose Phosphate Pathway",q:"What is the role of NADPH in RBCs?",o:["Transports O2","Forms Hb","Keeps iron of Hb in ferrous form","None of the above"],c:2},
+{s:"Pentose Phosphate Pathway",q:"Trans aldolase enzyme catalyzes the transfer of how many carbon units from sedoheptulose-7-phosphate?",o:["2 units","3 units","4 units","5 units"],c:1},
+{s:"Pentose Phosphate Pathway",q:"Which of the following statement is NOT true about HMP shunt?",o:["HMP shunt stands for hexose monophosphate shunt","HMP shunt does not generate CO2","HMP does not generate ATP","Pentose phosphate pathway takes place in cytosol"],c:1},
+{s:"Pentose Phosphate Pathway",q:"What stimulates the pentose phosphate pathway?",o:["High concentration of insulin","Low level of NADPH","High level of NADPH","Both A and B"],c:3},
+{s:"Pentose Phosphate Pathway",q:"Which enzyme requires thiamine pyrophosphate as the co-enzyme?",o:["Transketolase","Ribulose-5-phosphate isomerase","Transaldolase","Glucose-6-phosphate dehydrogenase"],c:0},
+{s:"Pentose Phosphate Pathway",q:"What is the product generated after transketolase catalyzes transfer of 2 carbon units from xylulose-5-phosphate to erythrose-4-phosphate?",o:["Fructose-4-phosphate","Glyceraldehyde 3 phosphate","Fructose-6-phosphate","Both B and C"],c:3},
+{s:"Pentose Phosphate Pathway",q:"Which enzyme belongs to the 2nd phase of HMP shunt?",o:["Glucose-6-phosphate dehydrogenase","6-phosphogluconate","6-phosphogluconate dehydrogenase","None of the above"],c:3},
+{s:"Pentose Phosphate Pathway",q:"What type of reactions occurs in the 1st phase of pentose phosphate pathway?",o:["Oxidative reversible","Non-oxidative reversible","Non-oxidative irreversible","Oxidative irreversible"],c:3},
+{s:"Pentose Phosphate Pathway",q:"What is the function of ribulose-5-phosphate epimerase?",o:["Epimerization of glucose-6-phosphate","Epimerization of ribulose-5-phosphate","Epimerization of xylulose-5-phosphate","Epimerization of fructose-4-phosphate"],c:1},
+{s:"Pentose Phosphate Pathway",q:"Which form of energy is used by the glucose-6-phosphate dehydrogenase enzyme?",o:["ATP","AMP","GTP","NADPH"],c:3},
+{s:"Pentose Phosphate Pathway",q:"A 24-year-old presents with Mees lines diagnosed with arsenic poisoning. Arsenic poisoning inhibits which enzyme?",o:["Citrate synthase","Isocitrate dehydrogenase","Succinate dehydrogenase","alpha-Keto glutarate dehydrogenase complex"],c:3},
+{s:"Pentose Phosphate Pathway",q:"Oxidation of which substrate in the citric acid cycle is NOT coupled to NADH production?",o:["Succinate","Malate","alpha-Ketoglutarate","Isocitrate"],c:0},
+{s:"Pentose Phosphate Pathway",q:"Which cofactor is NOT required by pyruvate dehydrogenase complex to convert pyruvate to acetyl-CoA?",o:["Thiamine","Lipoic acid","Ascorbic acid","Pantothenic acid"],c:2},
+{s:"Pentose Phosphate Pathway",q:"Pyruvate dehydrogenase complex deficiency leads to metabolic acidosis. Which metabolite accumulates?",o:["Beta-hydroxybutyric acid","Acetoacetic acid","Lactic acid","Hydrochloric acid"],c:2},
+{s:"Pentose Phosphate Pathway",q:"Which intermediate of the TCA cycle is used as a precursor for heme biosynthesis?",o:["Succinyl-CoA","Acetyl-CoA","Malate","Pyruvate"],c:0},
+{s:"Pentose Phosphate Pathway",q:"Which of the following is utilized as a precursor for cholesterol biosynthesis?",o:["Succinyl-CoA","Acetyl-CoA","Malate","Pyruvate"],c:1},
+{s:"Pentose Phosphate Pathway",q:"Which TCA cycle intermediate is involved in the formation of glutamate?",o:["Succinate","alpha-Ketoglutarate","Isocitrate","Malate"],c:1},
+{s:"Pentose Phosphate Pathway",q:"Fluoroacetate is a known inhibitor of the TCA cycle. Which enzyme is inhibited by fluoroacetate?",o:["Citrate synthase","Aconitase","Succinate dehydrogenase","Isocitrate dehydrogenase"],c:1},
+{s:"Pentose Phosphate Pathway",q:"Malonate is an inhibitor of which of the following enzymes?",o:["Citrate synthase","Aconitase","Succinate dehydrogenase","Isocitrate dehydrogenase"],c:2},
+{s:"Pentose Phosphate Pathway",q:"Which compound inhibits oxidative phosphorylation by inhibiting the transporter of ADP into and ATP out of the mitochondrion?",o:["Malonate","Oxamate","Atractyloside","Cyanide"],c:2},
+{s:"Pentose Phosphate Pathway",q:"Which of the following intermediates of glycolysis is a high energy compound?",o:["Fructose-6-P","Glyceraldehyde-3-P","Fructose-1,6-bisphosphate","Phosphoenol pyruvate"],c:3},
+{s:"Pentose Phosphate Pathway",q:"Aspirin in high dosage produces hyperthermia because:",o:["Aspirin affects hypothalamic functions","It uncouples oxidative phosphorylation","It stimulates metabolism","It is itself metabolized to high energy compound"],c:1},
+{s:"Pentose Phosphate Pathway",q:"For each acetyl-CoA oxidized by the citric cycle, what is the energy gain by substrate-level phosphorylation?",o:["2 ATP","4 ATP","6 ATP","1 ATP"],c:3},
+{s:"Pentose Phosphate Pathway",q:"Which component of the electron transport chain does not contain the Iron-sulfur center?",o:["NADH dehydrogenase complex","Cytochrome a-a3 oxidase","Succinate dehydrogenase","Cytochrome bc1-c reductase"],c:1},
+{s:"Pentose Phosphate Pathway",q:"What products of glucose oxidation are essential for oxidative phosphorylation?",o:["Pyruvate","NADPH and ATP","Acetyl-CoA","NADH and FADH2"],c:3},
+{s:"Pentose Phosphate Pathway",q:"Which of the following enzymes takes part in the malate shuttle?",o:["Aspartate transaminase","Alkaline phosphatase","Aconitase","Citrate synthase"],c:0},
+{s:"Pentose Phosphate Pathway",q:"What is the immediate consequence of cyanide poisoning on the electron transport chain?",o:["Prevent reduction of NADH","Prevent oxidation of oxygen","Prevent oxidation of NADH","Prevent reduction of oxygen"],c:3},
+{s:"Pentose Phosphate Pathway",q:"Which electron carrier would have the greatest negative impact on ATP production during oxidative phosphorylation if its production was inhibited?",o:["NADH","Water","Oxygen","FADH2"],c:0},
+{s:"Pentose Phosphate Pathway",q:"What would occur if all available hydrogen ions were used by ATP synthase?",o:["It would increase the pH of the mitochondrial intermembrane space","It would increase the levels of inorganic phosphate in the mitochondrial matrix","It would increase the pH of the mitochondrial matrix","It would decrease the levels of inorganic phosphate in the intermembrane space"],c:2},
+{s:"Pentose Phosphate Pathway",q:"Which complex of the electron transport chain does not directly impact the intermembrane space's pH?",o:["Complex II","Complex I","Complex IV","Complex III"],c:0},
+{s:"Pentose Phosphate Pathway",q:"The proton pump in oxidative phosphorylation creates a gradient. What kind of energy is generated?",o:["Membrane energy","Kinetic energy","Potential energy","Protonic energy"],c:2},
+{s:"Pentose Phosphate Pathway",q:"Disruption of which process will have the greatest impact on the number of electron carriers used by the electron transport chain?",o:["Anaerobic pathways","Formation of FADH2","Glycolysis","The citric acid cycle"],c:3},
+{s:"Pentose Phosphate Pathway",q:"What is the primary function of purine and pyrimidine metabolism in the body?",o:["Energy production","Nucleotide synthesis","Hormone production","Amino acid synthesis"],c:1},
+
+// ── HORMONES (30 Qs) ──
+{s:"Hormones (Biochemistry)",q:"Binding of the following hormones to receptor activate adenylate cyclase, except:",o:["Vasopressin","Glucagon","Thyroxine","Epinephrine"],c:2},
+{s:"Hormones (Biochemistry)",q:"The following are the intracellular second messenger for hormone action, except:",o:["c-AMP","c-GMP","Phosphatidylinositol","NADPH"],c:3},
+{s:"Hormones (Biochemistry)",q:"Water soluble hormones have cell surface receptors, except:",o:["Glucagon","Epinephrine","Thyroxine","Vasopressin"],c:2},
+{s:"Hormones (Biochemistry)",q:"Hormone that has intracellular receptor:",o:["Glucocorticoids","ACTH","TSH","Glucagon"],c:0},
+{s:"Hormones (Biochemistry)",q:"Second messenger that mobilizes intracellular calcium is:",o:["Phosphatidic acid","Diacylglycerol","Inositol triphosphate","c-GMP"],c:2},
+{s:"Hormones (Biochemistry)",q:"A dietary deficiency of iodine would result in which of the following?",o:["Directly affect the synthesis of Thyroiodin","Result in increased secretion of Thyroid stimulating hormone (TSH)","Result in decreased production of Thyrotropin-releasing hormone","Result in increased basal metabolic rate"],c:1},
+{s:"Hormones (Biochemistry)",q:"Which of the following acts to increase the release of Ca++ from the endoplasmic reticulum?",o:["Diacylglycerol (DAG)","Inositol tri-phosphate","Parathyroid hormone","Calcitonin"],c:1},
+{s:"Hormones (Biochemistry)",q:"Which of the following stimulates the synthesis of milk protein?",o:["Luteinizing hormone (LH)","Prolactin (PRL)","Thyroid stimulating hormone (TSH)","Growth hormone (GH)"],c:1},
+{s:"Hormones (Biochemistry)",q:"The release of which of the following is inhibited by Thyroxin?",o:["LH","PRL","TSH","GH"],c:2},
+{s:"Hormones (Biochemistry)",q:"Which of the following hormones promotes hypoglycemia?",o:["Epinephrine","Norepinephrine","Insulin","Growth hormone"],c:2},
+{s:"Hormones (Biochemistry)",q:"Increased reabsorption of water from the kidney is the major consequence of which hormone?",o:["Cortisol","Insulin","Vasopressin","Glucagon"],c:2},
+{s:"Hormones (Biochemistry)",q:"Lack of glucocorticoids and mineralocorticoids might be a consequence of which defect in the adrenal cortex?",o:["C 21-hydroxylase deficiency","Testosterone deficiency","17-alpha hydroxy progesterone deficiency","Androstenedione deficiency"],c:0},
+{s:"Hormones (Biochemistry)",q:"Which of the following hormones can cause hyperglycemia without known effects on gluconeogenesis?",o:["Thyroxin","Epinephrine","Glucocorticoids","Glucagon"],c:0},
+{s:"Hormones (Biochemistry)",q:"Which of the following statements best describes Insulin?",o:["Its action is antagonistic to that of glucagon","It is a small peptide composed of a single chain bridged by disulfide groups","It does not have a prohormone form","It promotes glucose absorption from the intestine and renal tubular cells"],c:0},
+{s:"Hormones (Biochemistry)",q:"Which of the following is noted in Cushing's syndrome?",o:["Decreased production of epinephrine","Excessive production of vasopressin","Decreased production of cortisol","Excessive production of cortisol"],c:3},
+{s:"Hormones (Biochemistry)",q:"Which of the following statements best describes the mechanism of action of sex hormones?",o:["They bind specific membrane receptors","They interact with DNA directly","They cause the release of the second messenger from the cell membrane","They enhance transcription when bound to receptors"],c:3},
+{s:"Hormones (Biochemistry)",q:"Which of the following stimulates the production of progesterone by the corpus luteum?",o:["LH","PRL","TSH","GH"],c:0},
+{s:"Hormones (Biochemistry)",q:"Which of the following pituitary hormones will increase if communication from the hypothalamus is severed?",o:["GH","TSH","PRL","Vasopressin"],c:2},
+{s:"Hormones (Biochemistry)",q:"Which of the following hormones is associated with diuresis?",o:["Oxytocin","Vasopressin","Prolactin","None of the above"],c:3},
+{s:"Hormones (Biochemistry)",q:"A cosyntropin test evaluates the body's ability to produce which hormone?",o:["Oxytocin","Vasopressin","Cortisol","Corticotropin-releasing hormone"],c:2},
+{s:"Hormones (Biochemistry)",q:"Which of the following hormones is secreted in response to Angiotensin II?",o:["Cortisol","Aldosterone","Thyroxin","Estrogen"],c:1},
+{s:"Hormones (Biochemistry)",q:"In Cushing disease, which of the following is found?",o:["Decreased absorption of glucose from the intestine","Decreased lipolysis","Increased protein synthesis","Decreased liver glycogen stores"],c:1},
+{s:"Hormones (Biochemistry)",q:"Hormones secreted by the posterior pituitary gland are made in the _____.",o:["Hypothalamus","Medulla oblongata","Cerebellum","Thalamus"],c:0},
+{s:"Hormones (Biochemistry)",q:"What hormone promotes water retention by the kidneys?",o:["Follicle-stimulating hormone (FSH)","Prolactin","Antidiuretic hormone (ADH)","Melatonin"],c:2},
+{s:"Hormones (Biochemistry)",q:"The primary chemical precursor for all steroid hormones is:",o:["Protein","Carbohydrate","Cholesterol","Amino acids"],c:2},
+{s:"Hormones (Biochemistry)",q:"A lack of iodine in the diet can lead to which condition?",o:["Diabetes mellitus","Addison's disease","Goiter (enlargement of the thyroid gland)","Cushing's syndrome"],c:2},
+{s:"Hormones (Biochemistry)",q:"The half life of insulin is",o:["< 3-5 minutes","< 8-10 minutes","< 15 minutes","< 20 minutes"],c:1},
+{s:"Hormones (Biochemistry)",q:"A diabetic woman skips breakfast but takes her insulin shot. This may result in",o:["Heightened glycogenolysis","Hypoglycemia","Increased lipolysis","Glycosuria"],c:1},
+{s:"Hormones (Biochemistry)",q:"A hormone produced by corpus luteum and placenta, concerned with relaxation of pelvis tissue is",o:["HCG","Chorionic somatomammotropin","Relaxin","Progestins"],c:2},
+{s:"Hormones (Biochemistry)",q:"Melanocyte stimulating hormone is secreted by",o:["Pineal gland","Anterior lobe of pituitary gland","Posterior lobe of pituitary gland","Intermediate lobe of pituitary gland"],c:3},
+
+// ── NUCLEIC ACIDS METABOLISM (14 Qs) ──
+{s:"Nucleic Acids Metabolism",q:"Rate controlling step of pyrimidine biosynthesis is catalyzed by:",o:["Orotidylate decarboxylase","Aspartate transcarbamoylase","Carbamoyl phosphate synthase II","Orotate phosphoribosyl transferase"],c:2},
+{s:"Nucleic Acids Metabolism",q:"Which statement for purine biosynthesis is incorrect?",o:["Requires vitamin B12","Assembled on ribose phosphate","Requires PRPP","Requires glycine"],c:0},
+{s:"Nucleic Acids Metabolism",q:"Purines and pyrimidines are:",o:["Dietary essential","Dietary non-essential","Derived from essential fatty acids","Derivatives of essential amino acid"],c:1},
+{s:"Nucleic Acids Metabolism",q:"The two nitrogens of the pyrimidine ring are contributed by:",o:["Glutamate and ammonia","Glutamate and aspartate","Glutamate and glutamine","Aspartate and carbamoyl phosphate"],c:3},
+{s:"Nucleic Acids Metabolism",q:"Nitrogen or carbon atoms are contributed to the structure of the purine ring by amino acids, except:",o:["Glycine","Glutamine","Aspartate","Glutamate"],c:3},
+{s:"Nucleic Acids Metabolism",q:"Lesch-Nyhan syndrome may lead to:",o:["Self-destructive behavior","Gout","Elevated levels of PRPP","All of the above"],c:3},
+{s:"Nucleic Acids Metabolism",q:"Hyperuricemia can result from defect in enzymes, except:",o:["Carbamoyl phosphate synthase II","HGPRTase","PRPP synthase","Glucose-6-phosphatase"],c:0},
+{s:"Nucleic Acids Metabolism",q:"The end product of purine metabolism in human is:",o:["Creatinine","Uric acid","Urea","Ammonia"],c:1},
+{s:"Nucleic Acids Metabolism",q:"The salvage pathway for purines involves enzyme:",o:["PRPP amidotransferase","PRPP synthase","HGPRTase","Xanthine oxidase"],c:2},
+{s:"Nucleic Acids Metabolism",q:"Enzyme involved with immunodeficiency disease of purine metabolism is:",o:["Adenosine deaminase","Xanthine oxidase","PRPP synthetase","HGPRTase"],c:0},
+{s:"Nucleic Acids Metabolism",q:"Purine salvage occurs in the tissues, except:",o:["RBC","Brain","Liver","Polymorphonuclear leukocytes"],c:2},
+{s:"Nucleic Acids Metabolism",q:"Allopurinol is used in the treatment of:",o:["Rickets","Cancer","Gout","Pellagra"],c:2},
+{s:"Nucleic Acids Metabolism",q:"Lesch-Nyhan syndrome is due to the lack of:",o:["HGPRTase","APRTase","Adenosine deaminase","PRPP amidotransferase"],c:0},
+{s:"Nucleic Acids Metabolism",q:"Hereditary orotic aciduria type II is due to deficiency of the following enzyme:",o:["Dihydro-orotate dehydrogenase","Orotate phosphoribosyl transferase","Aspartate transcarbamoylase","Orotidylate decarboxylase"],c:3},
+
+// ── REPLICATION, TRANSCRIPTION & TRANSLATION (15 Qs) ──
+{s:"Replication, Transcription & Translation",q:"A promoter site on DNA:",o:["Transcribes repressor","Codes for RNA polymerase","Initiates transcription","Regulates termination"],c:2},
+{s:"Replication, Transcription & Translation",q:"A codon AUG is a:",o:["Chain initiating codon","Chain terminating codon","Releasing factor for peptide chains","Recognition site on the tRNA"],c:0},
+{s:"Replication, Transcription & Translation",q:"Release of a polypeptide chain from a ribosome is catalyzed by:",o:["Release factors","Dissociation of ribosomes","Peptidyl transferase","Stop codons"],c:0},
+{s:"Replication, Transcription & Translation",q:"In contrast to eukaryotic mRNA, prokaryotic mRNA:",o:["Has a poly A tail","Has 7-methylguanosine at the 5' end","Can be polycistronic","None of the above"],c:2},
+{s:"Replication, Transcription & Translation",q:"Erythromycin prevents synthesis of polypeptide:",o:["By inhibiting binding of aminoacyl tRNA to mRNA","By inhibiting translocation reaction","By inhibiting binding of tRNA to mRNA","Blocking mRNA formation from DNA"],c:1},
+{s:"Replication, Transcription & Translation",q:"Formation of Okazaki fragments occur in the process of:",o:["Transcription","Translation","Replication","Reverse transcription"],c:2},
+{s:"Replication, Transcription & Translation",q:"Termination of protein biosynthesis requires presence of:",o:["Termination sequences 'ter'","Rho factor","Nonsense codons","Sigma factor"],c:2},
+{s:"Replication, Transcription & Translation",q:"Which of the following enzyme joins Okazaki fragments?",o:["DNA polymerase","DNA ligase","RNA polymerase","Peptidyl transferase"],c:1},
+{s:"Replication, Transcription & Translation",q:"Which of the following enzyme fills the gap between Okazaki fragments?",o:["DNA polymerase","RNA polymerase","Translocase","Helicase"],c:0},
+{s:"Replication, Transcription & Translation",q:"Which of the following nucleotide base is not present in codons?",o:["Adenine","Guanine","Thymine","Cytosine"],c:2},
+{s:"Replication, Transcription & Translation",q:"Total number of codons are:",o:["64","61","62","63"],c:0},
+{s:"Replication, Transcription & Translation",q:"Which of the following eukaryotic DNA polymerases is required for mitochondrial DNA synthesis?",o:["DNA polymerase alpha","DNA polymerase beta","DNA polymerase gamma","DNA polymerase delta"],c:2},
+{s:"Replication, Transcription & Translation",q:"Degeneracy of the genetic code means that:",o:["Codons are not ambiguous","A given amino acid can be coded for by more than one base triplet","A given codon can code for more than one amino acid","There is no punctuation in the code sequence"],c:1},
+{s:"Replication, Transcription & Translation",q:"Which of the following inhibits eukaryotic protein synthesis?",o:["Tetracycline","Erythromycin","Streptomycin","Puromycin"],c:3},
+{s:"Replication, Transcription & Translation",q:"Consensus sequence is:",o:["Initiation site of replication in eukaryotes","Initiation site of replication in prokaryotes","Initiation site of transcription in eukaryotes","Initiation site of transcription in prokaryotes"],c:3},
+
+// ── GENE EXPRESSION AND MUTATION (7 Qs) ──
+{s:"Gene Expression & Mutation",q:"Restriction endonuclease has the following characteristics, except:",o:["Cut DNA in a sequence specific manner","Named according to the bacteria from which they are isolated","Most of the DNA sequences recognized by it are palindromic","Cut DNA randomly"],c:3},
+{s:"Gene Expression & Mutation",q:"Most commonly used cloning vectors are:",o:["Bacterial plasmids","Bacteriophages","Cosmids","All of the above"],c:3},
+{s:"Gene Expression & Mutation",q:"Cloning is a technique developed for:",o:["Amplifying the quantity of DNA in vivo","Amplifying the quantity of DNA in vitro","To search specific gene from DNA library","To visualize specific DNA, RNA or proteins"],c:0},
+{s:"Gene Expression & Mutation",q:"Southern blot is a technique used for visualization of specific:",o:["RNA","DNA","Protein","Carbohydrate"],c:1},
+{s:"Gene Expression & Mutation",q:"Polymerase chain reaction (PCR) is a technique for:",o:["Amplification of DNA in vitro","Amplification of DNA in vivo","Amplification of protein","Amplification of RNA"],c:0},
+{s:"Gene Expression & Mutation",q:"Which one of the following enzymes is required for PCR?",o:["DNA ligase","Thymidine kinase","Taq polymerase","Restriction endonuclease"],c:2},
+{s:"Gene Expression & Mutation",q:"Restriction endonucleases are enzymes:",o:["Used to joining DNA to cloning vector","Which cleaves DNA at specific sequence","Which cleaves DNA randomly","Which digest DNA molecule from ends"],c:1},
 ];
 
 
@@ -1361,14 +1864,27 @@ function selTopicFn(name,btn){
 }
 
 function startQuiz(){
-  allQ=rawQ.map(shuffleQ);autoAdv=document.getElementById('tog-auto').classList.contains('on');
-  timerOn=document.getElementById('tog-timer').classList.contains('on');timerSec=parseInt($('timer-custom').value)||20;
+  // Respect active subject / topic filter
+  let pool;
+  if(typeof activeSubjectFilter==='undefined'||!activeSubjectFilter) pool=rawQ;
+  else if(activeSubjectFilter.startsWith('__MAIN__')){
+    const ms=activeSubjectFilter.replace('__MAIN__','');
+    pool=rawQ.filter(q=>subjectGroup[q.s]===ms);
+  } else {
+    pool=rawQ.filter(q=>q.s===activeSubjectFilter);
+  }
+
+  allQ=pool.map(shuffleQ);
+  autoAdv=document.getElementById('tog-auto').classList.contains('on');
+  timerOn=document.getElementById('tog-timer').classList.contains('on');
+  timerSec=parseInt($('timer-custom').value)||20;
+
   if(selMode==='topic'&&selTopic) quizQ=shuffle(allQ.filter(q=>q.s===selTopic));
   else if(selMode==='rand25') quizQ=shuffle([...allQ]).slice(0,25);
   else if(selMode==='rand50') quizQ=shuffle([...allQ]).slice(0,50);
   else if(selMode==='all-seq') quizQ=[...allQ];
   else if(selMode==='all-rand') quizQ=shuffle([...allQ]);
-  else if(selMode==='custom'){let s=Math.max(1,parseInt($('range-start').value)||1),e=Math.min(400,parseInt($('range-end').value)||50);quizQ=allQ.slice(s-1,e);}
+  else if(selMode==='custom'){let s=Math.max(1,parseInt($('range-start').value)||1),e=Math.min(pool.length,parseInt($('range-end').value)||50);quizQ=allQ.slice(s-1,e);}
   if(!quizQ.length){alert('No questions found!');return;}
   userAnswers=new Array(quizQ.length).fill(-1);qTimes=new Array(quizQ.length).fill(0);cur=0;
   $('quiz-mode-label').textContent=selMode==='topic'?selTopic:{rand25:'Random 25',rand50:'Random 50','all-seq':'All Sequential','all-rand':'All Random',custom:'Custom Range'}[selMode];
@@ -1516,13 +2032,13 @@ function doLoginSubmit(){
       })
     }).catch(()=>{});
   } catch(e){}
-  // Animate out login screen then show splash
+  // Animate out login screen then show Subject Selector
   const ls = document.getElementById('login-screen');
   ls.classList.add('hide');
   setTimeout(()=>{
     ls.style.display='none';
-    const splash = document.getElementById('splash');
-    splash.style.display='flex';
+    // Show subject selector (no further login needed)
+    document.getElementById('screen-subject').classList.remove('hidden');
   }, 520);
 }
 
@@ -1533,6 +2049,225 @@ document.addEventListener('keydown',e=>{
   if(e.key in m)answerQ(m[e.key]);
   else if(e.key==='ArrowRight')navQ(1);
   else if(e.key==='ArrowLeft')navQ(-1);
+});
+
+
+// ════════════════════════════════════════════
+//  SUBJECT SYSTEM
+// ════════════════════════════════════════════
+
+// Subject metadata: emoji, description, color accent
+const subjectMeta = {
+  "Excitable Tissues":        { emoji:"⚡", desc:"Action potentials, synapses & muscle", accent:"var(--cyan)" },
+  "Endocrine System":         { emoji:"🧪", desc:"Hormones, glands & regulation", accent:"var(--violet)" },
+  "Sensory System":           { emoji:"👁️", desc:"Vision, hearing & sensory physiology", accent:"var(--pink)" },
+  "Central Nervous System":   { emoji:"🧠", desc:"Brain, spinal cord & reflexes", accent:"var(--green)" },
+  "Autonomic Nervous System": { emoji:"🫀", desc:"Sympathetic, parasympathetic & ANS", accent:"var(--amber)" },
+  "Higher Nervous Activity":  { emoji:"💡", desc:"Conditioned reflexes, sleep & HNA", accent:"#60a5fa" },
+  // ── Add new subjects here as you upload them ──
+  "Classification of Amino Acids":        { emoji:"🧬", desc:"Amino acid types, properties & classification", accent:"#34d399" },
+  "Properties of Amino Acids":            { emoji:"⚗️", desc:"Chemical & physical properties of amino acids", accent:"#34d399" },
+  "Peptides and Proteins":                { emoji:"🔗", desc:"Protein structure, bonds & properties", accent:"#34d399" },
+  "Enzymes and Enzyme Kinetics":          { emoji:"⚙️", desc:"Enzyme classes, inhibition & kinetics", accent:"#f59e0b" },
+  "Vitamins":                             { emoji:"💊", desc:"Fat & water soluble vitamins & deficiencies", accent:"#a78bfa" },
+  "Carbohydrate Metabolism":              { emoji:"🍬", desc:"Glycolysis, gluconeogenesis & glycogen", accent:"#60a5fa" },
+  "Krebs Cycle & TCA":                    { emoji:"🔄", desc:"TCA cycle, electron transport & oxidative phosphorylation", accent:"#f472b6" },
+  "Pentose Phosphate Pathway":            { emoji:"🧪", desc:"HMP shunt, NADPH & related pathways", accent:"#34d399" },
+  "Hormones (Biochemistry)":              { emoji:"🫀", desc:"Hormone action, receptors & second messengers", accent:"#fb923c" },
+  "Nucleic Acids Metabolism":             { emoji:"🧬", desc:"Purines, pyrimidines & nucleotide metabolism", accent:"#a78bfa" },
+  "Replication, Transcription & Translation": { emoji:"📋", desc:"DNA replication, RNA transcription & translation", accent:"#60a5fa" },
+  "Gene Expression & Mutation":           { emoji:"🔬", desc:"Gene regulation, cloning & PCR techniques", accent:"#f472b6" },
+};
+
+let activeSubjectFilter = null; // null = all subjects
+
+// Subject to main-subject mapping (for grouping)
+const subjectGroup = {
+  "Excitable Tissues":"Physiology","Endocrine System":"Physiology",
+  "Sensory System":"Physiology","Central Nervous System":"Physiology",
+  "Autonomic Nervous System":"Physiology","Higher Nervous Activity":"Physiology",
+  "Classification of Amino Acids":"Biochemistry","Properties of Amino Acids":"Biochemistry",
+  "Peptides and Proteins":"Biochemistry","Enzymes and Enzyme Kinetics":"Biochemistry",
+  "Vitamins":"Biochemistry","Carbohydrate Metabolism":"Biochemistry",
+  "Krebs Cycle & TCA":"Biochemistry","Pentose Phosphate Pathway":"Biochemistry",
+  "Hormones (Biochemistry)":"Biochemistry","Nucleic Acids Metabolism":"Biochemistry",
+  "Replication, Transcription & Translation":"Biochemistry","Gene Expression & Mutation":"Biochemistry",
+};
+const mainSubjectMeta = {
+  "Physiology":   { emoji:"🫀", desc:"Human Physiology – 6 topics, 398 questions", accent:"var(--cyan)" },
+  "Biochemistry": { emoji:"🔬", desc:"Biochemistry – 12 topics, 399 questions",    accent:"#34d399" },
+};
+
+function buildSubjectSelector() {
+  const grid = document.getElementById('subj-cards');
+  grid.innerHTML = '';
+
+  // ── "All Subjects" card ──────────────────────────────
+  const allQ_count = rawQ.length;
+  const allCard = document.createElement('div');
+  allCard.className = 'subj-card all-subjects';
+  allCard.innerHTML = `
+    <div class="subj-emoji">📚</div>
+    <div>
+      <div class="subj-name">All Subjects</div>
+      <div class="subj-count">${allQ_count} questions combined</div>
+    </div>
+    <div class="subj-arrow">›</div>`;
+  allCard.onclick = () => selectSubject(null);
+  grid.appendChild(allCard);
+
+  // ── Main subject group cards (Physiology / Biochemistry) ──
+  Object.entries(mainSubjectMeta).forEach(([mainSubj, meta]) => {
+    const count = rawQ.filter(q => subjectGroup[q.s] === mainSubj).length;
+    const topicCount = [...new Set(rawQ.filter(q => subjectGroup[q.s] === mainSubj).map(q => q.s))].length;
+    const card = document.createElement('div');
+    card.className = 'subj-card';
+    card.style.borderColor = 'rgba(255,255,255,0.15)';
+    card.style.background = 'linear-gradient(135deg,rgba(255,255,255,.04),transparent)';
+    card.innerHTML = `
+      <div class="subj-emoji">${meta.emoji}</div>
+      <div>
+        <div class="subj-name" style="font-size:16px;">${mainSubj}</div>
+        <div class="subj-count">${count} questions · ${topicCount} topics</div>
+        <div class="subj-count" style="margin-top:2px;color:var(--text3);font-size:11px;">Tap to browse topics →</div>
+      </div>
+      <div class="subj-arrow" style="color:${meta.accent}">›</div>`;
+    card.onclick = () => showTopicsFor(mainSubj);
+    grid.appendChild(card);
+  });
+}
+
+function showTopicsFor(mainSubj) {
+  const grid = document.getElementById('subj-cards');
+  grid.innerHTML = '';
+
+  // ── Back button ──────────────────────────────────────
+  const backBtn = document.createElement('div');
+  backBtn.className = 'subj-card all-subjects';
+  backBtn.innerHTML = `<div class="subj-emoji">←</div><div><div class="subj-name">Back to Subjects</div></div>`;
+  backBtn.onclick = buildSubjectSelector;
+  grid.appendChild(backBtn);
+
+  // ── "All [MainSubj]" card ────────────────────────────
+  const filteredQ = rawQ.filter(q => subjectGroup[q.s] === mainSubj);
+  const allMainCard = document.createElement('div');
+  allMainCard.className = 'subj-card';
+  const mainMeta = mainSubjectMeta[mainSubj];
+  allMainCard.style.borderColor = 'rgba(255,255,255,0.2)';
+  allMainCard.innerHTML = `
+    <div class="subj-emoji">${mainMeta.emoji}</div>
+    <div>
+      <div class="subj-name">All ${mainSubj}</div>
+      <div class="subj-count">${filteredQ.length} questions combined</div>
+    </div>
+    <div class="subj-arrow">›</div>`;
+  allMainCard.onclick = () => selectMainSubject(mainSubj);
+  grid.appendChild(allMainCard);
+
+  // ── Per-topic cards ──────────────────────────────────
+  const topics = [...new Set(filteredQ.map(q => q.s))];
+  topics.forEach(subj => {
+    const meta = subjectMeta[subj] || { emoji:"📖", desc:"", accent:"var(--cyan)" };
+    const count = rawQ.filter(q => q.s === subj).length;
+    const card = document.createElement('div');
+    card.className = 'subj-card';
+    card.innerHTML = `
+      <div class="subj-emoji">${meta.emoji}</div>
+      <div>
+        <div class="subj-name">${subj}</div>
+        <div class="subj-count">${count} questions · ${meta.desc}</div>
+      </div>
+      <div class="subj-arrow" style="color:${meta.accent}">›</div>`;
+    card.onclick = () => selectSubject(subj);
+    grid.appendChild(card);
+  });
+}
+
+function selectMainSubject(mainSubj) {
+  activeSubjectFilter = '__MAIN__' + mainSubj;
+  const meta = mainSubjectMeta[mainSubj];
+  const pill = document.getElementById('active-subject-pill');
+  if (pill) pill.textContent = meta.emoji + ' ' + mainSubj;
+  // Hide subject selector, go straight to splash → home (login already done)
+  document.getElementById('screen-subject').classList.add('hidden');
+  const splash = document.getElementById('splash');
+  splash.style.display = 'flex';
+  rebuildTopicsForSubject(null, mainSubj);
+}
+
+function selectSubject(subjectName) {
+  activeSubjectFilter = subjectName;
+
+  // Update splash and home screen titles
+  const label = subjectName || 'All Subjects';
+
+  // Update home hero
+  const heroTitle = document.querySelector('#screen-home h1');
+  if (heroTitle) heroTitle.textContent = label;
+
+  // Update subject pill if present
+  const pill = document.getElementById('active-subject-pill');
+  if (pill) {
+    const pillMeta = subjectName ? (subjectMeta[subjectName] || {emoji:'📖'}) : {emoji:'📚'};
+    pill.textContent = pillMeta.emoji + ' ' + label;
+  }
+
+  // Hide subject selector, go straight to splash → home (login already done)
+  document.getElementById('screen-subject').classList.add('hidden');
+  const splash = document.getElementById('splash');
+  splash.style.display = 'flex';
+
+  // Rebuild topics for selected subject
+  rebuildTopicsForSubject(subjectName);
+}
+
+function rebuildTopicsForSubject(subjectName, mainSubjName) {
+  let filtered;
+  if (subjectName) filtered = rawQ.filter(q => q.s === subjectName);
+  else if (mainSubjName) filtered = rawQ.filter(q => subjectGroup[q.s] === mainSubjName);
+  else filtered = rawQ;
+  const topicSet = [...new Set(filtered.map(q => q.s))];
+  const c = document.getElementById('topic-buttons');
+  if (!c) return;
+  c.innerHTML = '';
+  topicSet.forEach(s => {
+    const b = document.createElement('button');
+    b.className = 'topic-chip';
+    b.textContent = s;
+    b.onclick = () => selTopicFn(s, b);
+    c.appendChild(b);
+  });
+}
+
+// startQuiz now handles subject filtering directly (see startQuiz function above)
+
+// Add "Change Subject" button to home hero
+function addChangeSubjectBtn() {
+  const hero = document.querySelector('.hero .max-w-2xl');
+  if (!hero || document.getElementById('change-subj-btn')) return;
+  const btn = document.createElement('button');
+  btn.id = 'change-subj-btn';
+  btn.className = 'btn-ghost';
+  btn.style.cssText = 'margin-top:16px;font-size:13px;padding:8px 20px;';
+  btn.textContent = '← Change Subject';
+  btn.onclick = () => {
+    buildSubjectSelector(); // reset to top-level subject view
+    document.getElementById('screen-subject').classList.remove('hidden');
+  };
+  hero.appendChild(btn);
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  buildSubjectSelector();
+  addChangeSubjectBtn();
+
+  // NEW FLOW: Login first → Subject selector → Home
+  // Subject selector hidden at start
+  document.getElementById('screen-subject').classList.add('hidden');
+  // Login screen visible at start
+  const loginEl = document.getElementById('login-screen');
+  if (loginEl) loginEl.style.display = 'flex';
 });
 
 </script>
