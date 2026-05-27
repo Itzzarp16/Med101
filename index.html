@@ -2444,6 +2444,23 @@ function buildSubjectSelector() {
     card.onclick = () => showTopicsFor(mainSubj);
     grid.appendChild(card);
   });
+
+  // ── Kyrgyz Language external link card ──────────────────
+  const kyrgyzCard = document.createElement('div');
+  kyrgyzCard.className = 'subj-card';
+  kyrgyzCard.style.cssText = 'border-color:rgba(255,195,0,.35);background:linear-gradient(135deg,rgba(255,195,0,.07),rgba(255,100,0,.04));cursor:pointer;';
+  kyrgyzCard.innerHTML = `
+    <div class="subj-emoji">🇰🇬</div>
+    <div>
+      <div class="subj-name" style="font-size:16px;">Kyrgyz Language</div>
+      <div class="subj-count">401 questions · Exam prep</div>
+      <div class="subj-count" style="margin-top:2px;color:var(--text3);font-size:11px;">Opens on abhisekmed102.netlify.app →</div>
+    </div>
+    <div class="subj-arrow" style="color:#fbbf24;">›</div>`;
+  kyrgyzCard.onclick = () => window.open('https://abhisekmed102.netlify.app/kyrgyz_quiz.html', '_blank');
+  kyrgyzCard.onmouseover = () => { kyrgyzCard.style.borderColor='rgba(255,195,0,.7)'; kyrgyzCard.style.boxShadow='0 6px 28px rgba(255,195,0,.15)'; kyrgyzCard.style.transform='translateY(-3px)'; };
+  kyrgyzCard.onmouseout  = () => { kyrgyzCard.style.borderColor='rgba(255,195,0,.35)'; kyrgyzCard.style.boxShadow=''; kyrgyzCard.style.transform=''; };
+  grid.appendChild(kyrgyzCard);
 }
 
 function showTopicsFor(mainSubj) {
