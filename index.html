@@ -578,10 +578,10 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   position:fixed;top:0;left:0;right:0;bottom:0;
   width:100%;height:100%;min-height:100vh;
   z-index:9000;
-  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
   background:var(--bg);overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:62px 16px 80px;
+  padding:62px 16px 24px;
 }
 #screen-subject::before{
   content:'';position:fixed;inset:-200px;z-index:-1;
@@ -590,7 +590,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 #screen-subject.hidden{display:none!important;}
 .subject-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
 .subject-ring{position:absolute;border-radius:50%;border:1px solid;animation:ringPulse ease infinite;}
-.subj-header{text-align:center;margin-bottom:36px;position:relative;z-index:1;margin-top:20px;}
+.subj-header{text-align:center;margin-bottom:36px;position:relative;z-index:1;}
 .subj-icon{font-size:60px;filter:drop-shadow(0 0 24px rgba(0,229,255,.5));margin-bottom:14px;}
 .subj-title{
   font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;
@@ -602,7 +602,6 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 .subj-grid{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:14px;width:100%;max-width:640px;position:relative;z-index:1;
-  padding-bottom:20px;
 }
 .subj-card{
   background:var(--surface);border:1.5px solid var(--border2);
@@ -656,6 +655,9 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
   import {
+    getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, getDocs, updateDoc, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -689,6 +691,21 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   window._fbOnAuthStateChanged = onAuthStateChanged;
   window._fbSendEmailVerification = sendEmailVerification;
   window._fbResetPassword = sendPasswordResetEmail;
+
+  // Firestore
+  const db = getFirestore(app);
+  window._db = db;
+  window._fsDoc = doc;
+  window._fsSetDoc = setDoc;
+  window._fsGetDoc = getDoc;
+  window._fsCollection = collection;
+  window._fsAddDoc = addDoc;
+  window._fsQuery = query;
+  window._fsOrderBy = orderBy;
+  window._fsLimit = limit;
+  window._fsGetDocs = getDocs;
+  window._fsUpdateDoc = updateDoc;
+  window._fsServerTimestamp = serverTimestamp;
 
   // Watch auth state — auto-proceed if already logged in
   onAuthStateChanged(auth, (user) => {
@@ -983,6 +1000,22 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       </div>
     </div>
 
+
+    <!-- ── RESUME BANNER (shown if interrupted session exists) ── -->
+    <div id="resume-banner" style="display:none;margin-bottom:16px;padding:16px 18px;background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(0,229,255,.06));border:1.5px solid rgba(251,191,36,.4);border-radius:14px;">
+      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+        <div style="font-size:28px;">⏸️</div>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:14px;color:var(--amber);margin-bottom:3px;">Resume Last Session</div>
+          <div id="resume-info" style="font-size:12px;color:var(--text2);"></div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="resumeSession()" style="padding:8px 16px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--amber),#f59e0b);color:#000;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">Resume →</button>
+          <button onclick="clearResume()" style="padding:8px 12px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--text3);font-family:'Space Grotesk',sans-serif;font-size:12px;cursor:pointer;">✕</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Start button -->
     <button class="btn-glow" style="width:100%;font-size:16px;padding:16px;margin-bottom:28px;" onclick="startQuiz()">
       Start Quiz →
@@ -996,6 +1029,14 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       Keyboard: <span class="kbd">A</span> <span class="kbd">B</span> <span class="kbd">C</span> <span class="kbd">D</span> to answer ·
       <span class="kbd">→</span> next · <span class="kbd">←</span> prev
     </p>
+
+    <!-- ── QUIZ HISTORY ── -->
+    <div id="history-section" style="margin-top:28px;display:none;">
+      <div class="section-label">📊 Your Quiz History</div>
+      <div id="history-list" style="display:flex;flex-direction:column;gap:10px;"></div>
+      <div id="history-empty" style="display:none;text-align:center;padding:20px;color:var(--text3);font-size:13px;">No quiz attempts yet. Start your first quiz!</div>
+    </div>
+
 
   </div>
 </div>
@@ -2528,6 +2569,7 @@ function renderQ(){
 }
 
 function answerQ(idx){
+  setTimeout(saveProgress, 500); // save after answering
   if(userAnswers[cur]!==-1)return;stopQT();userAnswers[cur]=idx;
   const q=quizQ[cur],btns=$('opts').querySelectorAll('.opt-btn');
   btns.forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add('correct');else if(i===idx)b.classList.add('wrong');});
@@ -2542,6 +2584,11 @@ function navQ(dir){
 }
 
 function endQuiz(){
+  // Save to history before showing results
+  const _total = quizQ ? quizQ.length : 0;
+  const _cor = quizQ ? userAnswers.filter((a,i)=>a>=0&&a===quizQ[i].c).length : 0;
+  const _pct = _total ? Math.round(_cor/_total*100) : 0;
+  saveQuizHistory(_cor, _total, _pct).catch(()=>{});
   if(advTimer){clearTimeout(advTimer);advTimer=null;}
   closeSubmitModal();
   stopQT();recQT();swElapsed=Date.now()-swStart;stopSW();
@@ -2739,6 +2786,8 @@ function _proceedAfterLogin(user) {
       tu.style.display = 'flex';
     }
     document.getElementById('global-topbar').style.display = 'flex';
+    // Load Firestore history + resume
+    loadUserData().catch(()=>{});
     // Show subject selector — keep body locked until subject is chosen
     document.getElementById('screen-subject').classList.remove('hidden');
     document.body.classList.add('overlay-open');
@@ -2827,6 +2876,159 @@ async function doTopbarSignOut() {
   document.getElementById('screen-subject').classList.add('hidden');
   showScreen('screen-home');
 }
+
+
+// ════════════════════════════════════════════
+//  FIRESTORE — HISTORY & RESUME
+// ════════════════════════════════════════════
+
+// Save progress mid-quiz (called on every answer + page unload)
+async function saveProgress() {
+  const user = window._fbCurrentUser;
+  if (!user || !quizQ || !quizQ.length) return;
+  try {
+    const db = window._db;
+    const ref = window._fsDoc(db, 'users', user.uid, 'session', 'current');
+    await window._fsSetDoc(ref, {
+      quizQ: quizQ.map(q => ({ q: q.q, o: q.o, c: q.c, s: q.s, correct: q.correct })),
+      userAnswers,
+      cur,
+      reviewFlags,
+      selMode,
+      elapsedSecs: elapsedSec,
+      subject: typeof activeSubjectFilter !== 'undefined' ? (activeSubjectFilter || 'All') : 'All',
+      savedAt: window._fsServerTimestamp()
+    });
+  } catch(e) { console.warn('saveProgress failed', e); }
+}
+
+// Save completed quiz to history
+async function saveQuizHistory(score, total, pct) {
+  const user = window._fbCurrentUser;
+  if (!user) return;
+  try {
+    const db = window._db;
+    const col = window._fsCollection(db, 'users', user.uid, 'history');
+    await window._fsAddDoc(col, {
+      score, total, pct,
+      mode: selMode || 'unknown',
+      subject: typeof activeSubjectFilter !== 'undefined' ? (activeSubjectFilter || 'All') : 'All',
+      date: window._fsServerTimestamp()
+    });
+    // Clear the resume session since quiz is done
+    const ref = window._fsDoc(db, 'users', user.uid, 'session', 'current');
+    await window._fsSetDoc(ref, { cleared: true, savedAt: window._fsServerTimestamp() });
+  } catch(e) { console.warn('saveQuizHistory failed', e); }
+}
+
+// Load history and resume from Firestore
+async function loadUserData() {
+  const user = window._fbCurrentUser;
+  if (!user) return;
+  const db = window._db;
+
+  // Load resume session
+  try {
+    const ref = window._fsDoc(db, 'users', user.uid, 'session', 'current');
+    const snap = await window._fsGetDoc(ref);
+    if (snap.exists()) {
+      const data = snap.data();
+      if (!data.cleared && data.quizQ && data.quizQ.length && data.userAnswers) {
+        window._savedSession = data;
+        const answered = data.userAnswers.filter(a => a !== -1).length;
+        const total = data.quizQ.length;
+        const subj = data.subject || 'All';
+        const mode = data.mode || data.selMode || '';
+        const banner = document.getElementById('resume-banner');
+        const info = document.getElementById('resume-info');
+        if (banner && info) {
+          info.textContent = `${subj} · Q${data.cur + 1}/${total} · ${answered} answered · ${formatTime(data.elapsedSecs || 0)} elapsed`;
+          banner.style.display = 'block';
+        }
+      }
+    }
+  } catch(e) { console.warn('loadResume failed', e); }
+
+  // Load history
+  try {
+    const col = window._fsCollection(db, 'users', user.uid, 'history');
+    const q = window._fsQuery(col, window._fsOrderBy('date', 'desc'), window._fsLimit(8));
+    const snaps = await window._fsGetDocs(q);
+    const histSection = document.getElementById('history-section');
+    const histList = document.getElementById('history-list');
+    const histEmpty = document.getElementById('history-empty');
+    if (!histSection) return;
+    histSection.style.display = 'block';
+    histList.innerHTML = '';
+    if (snaps.empty) {
+      histEmpty.style.display = 'block';
+      return;
+    }
+    histEmpty.style.display = 'none';
+    snaps.forEach(docSnap => {
+      const d = docSnap.data();
+      const pct = d.pct || 0;
+      const color = pct >= 80 ? 'var(--green)' : pct >= 60 ? 'var(--amber)' : 'var(--red)';
+      const grade = pct >= 90 ? 'A+' : pct >= 80 ? 'A' : pct >= 70 ? 'B' : pct >= 60 ? 'C' : pct >= 50 ? 'D' : 'F';
+      const dateStr = d.date?.toDate ? d.date.toDate().toLocaleString('en-GB', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '—';
+      const subj = d.subject || 'All';
+      const mode = {rand25:'Random 25',rand50:'Random 50','all-seq':'All Sequential','all-rand':'All Random',custom:'Custom',topic:'Topic',unknown:'Quiz'}[d.mode] || d.mode || 'Quiz';
+      const card = document.createElement('div');
+      card.style.cssText = 'display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;border-left:3px solid ' + color + ';';
+      card.innerHTML = `
+        <div style="text-align:center;min-width:48px;">
+          <div style="font-size:1.3rem;font-weight:800;color:${color};">${grade}</div>
+          <div style="font-size:10px;color:var(--text3);">${pct}%</div>
+        </div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:700;color:var(--text);">${subj} · ${mode}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px;">${d.score}/${d.total} correct · ${dateStr}</div>
+        </div>
+      `;
+      histList.appendChild(card);
+    });
+  } catch(e) { console.warn('loadHistory failed', e); }
+}
+
+function formatTime(secs) {
+  const m = Math.floor(secs / 60), s = secs % 60;
+  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+}
+
+// Resume a saved session
+function resumeSession() {
+  const data = window._savedSession;
+  if (!data) return;
+  quizQ = data.quizQ.map(q => ({...q, opts: q.o, userAns: null}));
+  userAnswers = data.userAnswers;
+  cur = data.cur || 0;
+  reviewFlags = data.reviewFlags || new Array(quizQ.length).fill(false);
+  elapsedSec = data.elapsedSecs || 0;
+  selMode = data.selMode || 'all-seq';
+  $('quiz-mode-label').textContent = 'Resumed';
+  document.getElementById('resume-banner').style.display = 'none';
+  showScreen('screen-quiz');
+  startSW();
+  renderQ();
+}
+
+// Clear resume session
+async function clearResume() {
+  window._savedSession = null;
+  document.getElementById('resume-banner').style.display = 'none';
+  const user = window._fbCurrentUser;
+  if (!user) return;
+  try {
+    const ref = window._fsDoc(window._db, 'users', user.uid, 'session', 'current');
+    await window._fsSetDoc(ref, { cleared: true, savedAt: window._fsServerTimestamp() });
+  } catch(e) {}
+}
+
+// Auto-save on page unload/hide
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'hidden') saveProgress();
+});
+window.addEventListener('beforeunload', () => { saveProgress(); });
 
 // ======================== KEYBOARD ========================
 document.addEventListener('keydown',e=>{
@@ -2939,10 +3141,10 @@ function buildSubjectSelector() {
     <div>
       <div class="subj-name" style="font-size:16px;">Kyrgyz Language</div>
       <div class="subj-count">401 questions · Exam prep</div>
-      <div class="subj-count" style="margin-top:2px;color:var(--text3);font-size:11px;">Tap to start →</div>
+      <div class="subj-count" style="margin-top:2px;color:var(--text3);font-size:11px;">Opens on itzzarp16.github.io/Med102/ →</div>
     </div>
     <div class="subj-arrow" style="color:#fbbf24;">›</div>`;
-  kyrgyzCard.onclick = () => window.location.href = '/kyrgyz.html'
+  kyrgyzCard.onclick = () => window.open('https://itzzarp16.github.io/Med102', '_blank');
   kyrgyzCard.onmouseover = () => { kyrgyzCard.style.borderColor='rgba(255,195,0,.7)'; kyrgyzCard.style.boxShadow='0 6px 28px rgba(255,195,0,.15)'; kyrgyzCard.style.transform='translateY(-3px)'; };
   kyrgyzCard.onmouseout  = () => { kyrgyzCard.style.borderColor='rgba(255,195,0,.35)'; kyrgyzCard.style.boxShadow=''; kyrgyzCard.style.transform=''; };
   grid.appendChild(kyrgyzCard);
