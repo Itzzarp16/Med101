@@ -147,67 +147,24 @@ input[type=number]:focus{border-color:var(--cyan);}
 .topic-chip:hover{border-color:var(--violet);color:var(--violet);background:rgba(167,139,250,.1);}
 .topic-chip.active{border-color:var(--violet);color:var(--violet);background:rgba(167,139,250,.15);}
 
-/* LOGIN SCREEN */
-#screen-login.active{display:flex;align-items:center;justify-content:center;}
-#screen-login{position:relative;z-index:1;min-height:100vh;padding:24px 16px;}
-#screen-login::before{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(0,229,255,.07) 0%,transparent 60%),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(167,139,250,.06) 0%,transparent 60%);}
-.login-card{background:linear-gradient(160deg,rgba(17,24,39,.98) 0%,rgba(13,18,32,.98) 100%);border:1px solid var(--border2);border-radius:24px;box-shadow:0 8px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);padding:40px 32px 36px;width:100%;max-width:460px;position:relative;z-index:1;overflow:hidden;}
-.login-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));}
-.login-card::after{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,255,.05),transparent 70%);pointer-events:none;}
-.login-doctor{font-size:72px;display:block;text-align:center;margin-bottom:20px;filter:drop-shadow(0 0 24px rgba(0,229,255,.35));animation:iconIn 1s cubic-bezier(.34,1.56,.64,1) .1s both;}
-.login-title{font-family:'Syne',sans-serif;font-size:clamp(2rem,7vw,2.8rem);font-weight:800;text-align:center;line-height:1.1;background:linear-gradient(135deg,#4a8fa8 0%,#2d6e85 40%,#1e5470 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:16px;letter-spacing:-.01em;}
-.login-subtitle{color:var(--text2);font-size:.88rem;text-align:center;line-height:1.6;margin-bottom:32px;}
-.login-field-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;display:block;}
-.login-input{width:100%;background:rgba(255,255,255,.04);border:1.5px solid var(--border2);border-radius:14px;padding:16px 20px;color:var(--text);font-family:'Space Grotesk',sans-serif;font-size:15px;outline:none;transition:all .2s;box-shadow:inset 0 2px 8px rgba(0,0,0,.2);}
-.login-input::placeholder{color:var(--text3);}
-.login-input:focus{border-color:rgba(0,229,255,.5);background:rgba(0,229,255,.04);box-shadow:0 0 0 3px rgba(0,229,255,.08),inset 0 2px 8px rgba(0,0,0,.15);}
-.login-btn{width:100%;background:linear-gradient(135deg,rgba(0,180,220,.3) 0%,rgba(100,80,200,.3) 100%);border:1.5px solid rgba(0,229,255,.2);border-radius:14px;padding:16px;color:rgba(255,255,255,.5);font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:16px;cursor:not-allowed;transition:all .25s;margin-top:14px;letter-spacing:.01em;}
-.login-btn.ready{background:linear-gradient(135deg,var(--cyan2) 0%,var(--violet) 100%);border-color:transparent;color:#fff;cursor:pointer;box-shadow:0 0 24px rgba(0,229,255,.25),0 4px 20px rgba(0,0,0,.4);}
-.login-btn.ready:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(0,229,255,.4),0 8px 28px rgba(0,0,0,.5);}
-.login-btn.ready:active{transform:translateY(0);}
-.login-btn.loading{opacity:.7;cursor:wait;}
-.login-note{text-align:center;font-size:12px;color:var(--text3);margin-top:18px;line-height:1.6;}
-.login-error{color:var(--red);font-size:12px;margin-top:8px;text-align:center;display:none;}
-@keyframes loginFadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.login-card{animation:loginFadeIn .7s cubic-bezier(.34,1.2,.64,1) .1s both;}
+
 </style>
 </head>
 <body>
 
 <!-- GLOBAL TOP BAR -->
 <div id="global-topbar" style="display:none;position:fixed;top:0;left:0;right:0;z-index:999;height:38px;background:rgba(8,12,20,.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(30,45,69,.7);align-items:center;justify-content:space-between;padding:0 16px;">
-  <a href="https://wa.me/996755001319" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:7px;text-decoration:none;">
+  <a href="https://wa.me/996554259092" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:7px;text-decoration:none;">
     <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="16" cy="16" r="16" fill="#25D366"/>
       <path d="M23.5 8.5A10.44 10.44 0 0 0 16 5.5C10.75 5.5 6.5 9.75 6.5 15a9.44 9.44 0 0 0 1.27 4.74L6.5 24.5l4.93-1.29A9.5 9.5 0 0 0 16 24.5c5.25 0 9.5-4.25 9.5-9.5a9.44 9.44 0 0 0-2-5.5zm-7.5 14.6a7.87 7.87 0 0 1-4.02-1.1l-.29-.17-2.93.77.78-2.86-.19-.3A7.88 7.88 0 0 1 8.13 15 7.87 7.87 0 0 1 16 7.13 7.87 7.87 0 0 1 23.87 15 7.87 7.87 0 0 1 16 22.87zm4.32-5.9c-.24-.12-1.4-.69-1.61-.77-.22-.08-.38-.12-.54.12s-.62.77-.76.93c-.14.16-.28.18-.52.06a6.53 6.53 0 0 1-1.92-1.18 7.2 7.2 0 0 1-1.33-1.65c-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3s-.84.82-.84 2 .86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.4 1.37.51.58.18 1.1.16 1.51.1.46-.07 1.4-.57 1.6-1.12.2-.55.2-1.02.14-1.12-.06-.1-.22-.16-.46-.28z" fill="white"/>
     </svg>
-    <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;color:#25D366;letter-spacing:.01em;">+996 755 001 319</span>
+    <span style="font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;color:#25D366;letter-spacing:.01em;">+996 554 259 092</span>
   </a>
   <div style="font-family:'Space Grotesk',sans-serif;font-size:11px;font-weight:500;color:rgba(138,160,192,.6);letter-spacing:.03em;">Made by <span style="background:linear-gradient(90deg,#00e5ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">Abhishek Verma</span></div>
 </div>
 
-<!-- LOGIN SCREEN -->
-<div id="screen-login" class="screen active">
-  <div class="login-card">
-    <div style="position:absolute;top:14px;right:18px;font-size:10.5px;color:var(--text3);font-family:'Space Grotesk',sans-serif;font-weight:500;letter-spacing:.04em;opacity:.7;">Made by <span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">Abhishek Verma</span></div>
-    <span class="login-doctor">👨‍⚕️</span>
-    <div class="login-title">Welcome<br>Future<br>Doctors</div>
-    <div class="login-subtitle">OSH State University · International Medical Faculty<br>Enter your name to start the quiz</div>
-    <label class="login-field-label" for="login-name-input">Your Name</label>
-    <input
-      class="login-input"
-      id="login-name-input"
-      type="text"
-      placeholder="Please enter your good name"
-      autocomplete="off"
-      spellcheck="false"
-      oninput="onLoginInput(this)"
-    />
-    <div class="login-error" id="login-error">Please enter your name to continue.</div>
-    <button class="login-btn" id="login-btn" onclick="submitLogin()">Start Quiz →</button>
-    <div class="login-note">By entering, your name &amp; time are recorded for analytics.</div>
-  </div>
-</div>
+
 
 <!-- SPLASH -->
 <div id="splash" style="display:none;">
@@ -221,7 +178,7 @@ input[type=number]:focus{border-color:var(--cyan);}
 </div>
 
 <!-- HOME SCREEN -->
-<div id="screen-home" class="screen" style="position:relative;z-index:1;padding-top:38px;">
+<div id="screen-home" class="screen active" style="position:relative;z-index:1;padding-top:38px;">
   <div class="hero py-12 px-6" style="text-align:center;">
     <div style="max-width:640px;margin:0 auto;position:relative;z-index:1;">
       <div style="font-size:60px;margin-bottom:16px;filter:drop-shadow(0 0 24px rgba(0,229,255,.5));">🇰🇬</div>
@@ -232,7 +189,7 @@ input[type=number]:focus{border-color:var(--cyan);}
         <div style="width:1px;background:var(--border2);"></div>
         <div style="text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--violet);">4</div><div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Options</div></div>
         <div style="width:1px;background:var(--border2);"></div>
-        <div style="text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--pink);">2025</div><div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Year</div></div>
+        <div style="text-align:center;"><div style="font-size:1.5rem;font-weight:800;color:var(--pink);">2026</div><div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Year</div></div>
       </div>
     </div>
   </div>
@@ -372,12 +329,43 @@ input[type=number]:focus{border-color:var(--cyan);}
 
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;" id="opts"></div>
 
+    <!-- Mark for Review button -->
+    <div style="display:flex;justify-content:center;margin-bottom:12px;">
+      <button id="btn-flag" onclick="toggleFlag()" style="display:inline-flex;align-items:center;gap:7px;padding:7px 18px;border-radius:100px;border:1.5px solid rgba(251,191,36,.35);background:rgba(251,191,36,.08);color:var(--amber);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(251,191,36,.18)'" onmouseout="if(!reviewFlags[qIdx])this.style.background='rgba(251,191,36,.08)'">
+        <span id="flag-icon">🔖</span> <span id="flag-label">Mark for Review</span>
+      </button>
+    </div>
+    <!-- Prev / Next -->
     <div style="display:flex;gap:10px;">
       <button class="btn-ghost flex-1" id="btn-prev" onclick="navQ(-1)">← Prev</button>
       <button class="btn-glow flex-1" id="btn-next" onclick="navQ(1)" style="padding:12px;">Next →</button>
     </div>
-    <div style="text-align:center;margin-top:14px;">
+    <!-- Flagged pills strip -->
+    <div id="flagged-strip" style="display:none;margin-top:12px;padding:10px 14px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25);border-radius:12px;">
+      <div style="font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">🔖 Flagged for Review</div>
+      <div id="flagged-pills" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+    </div>
+    <!-- Submit Quiz + End -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-top:16px;">
+      <button id="btn-submit-quiz" onclick="confirmSubmit()" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;font-family:'Space Grotesk',sans-serif;padding:9px 22px;border-radius:10px;border:1.5px solid rgba(0,229,255,.4);background:rgba(0,229,255,.08);color:var(--cyan);cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">📋 Submit Quiz</button>
       <button style="font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;transition:color .2s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'" onclick="endQuiz()">End &amp; See Results</button>
+    </div>
+
+    <!-- Submit confirmation modal -->
+    <div id="submit-modal" style="display:none;position:fixed;inset:0;z-index:99000;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:16px;">
+      <div style="width:100%;max-width:400px;background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px solid var(--border2);border-radius:20px;padding:32px 28px;box-shadow:0 16px 60px rgba(0,0,0,.6);position:relative;">
+        <div style="font-size:40px;text-align:center;margin-bottom:12px;">📋</div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;text-align:center;color:var(--text);margin-bottom:6px;">Submit Quiz?</h3>
+        <p id="submit-modal-msg" style="font-size:13px;color:var(--text3);text-align:center;line-height:1.6;margin-bottom:20px;"></p>
+        <div id="submit-modal-flagged" style="display:none;margin-bottom:16px;padding:10px 14px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;">
+          <div style="font-size:11px;font-weight:700;color:var(--amber);margin-bottom:6px;">🔖 Flagged questions will be marked as skipped</div>
+          <div id="submit-modal-flags" style="font-size:12px;color:var(--text2);"></div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button onclick="closeSubmitModal()" style="flex:1;padding:12px;border-radius:10px;border:1.5px solid var(--border2);background:transparent;color:var(--text2);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='transparent'">Cancel</button>
+          <button onclick="endQuiz();closeSubmitModal();" style="flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">Submit →</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -608,6 +596,7 @@ const rawQ = [
 //  STATE
 // ═══════════════════════════════════════════
 let questions=[], qIdx=0, correctCount=0, answeredQs=new Set();
+let reviewFlags=[];
 let autoAdv=true, timerOn=false, timerSec=20;
 let timerInt=null, stopwatchInt=null, elapsedSec=0;
 let qTimings=[], qStart=0;
@@ -642,6 +631,7 @@ function startQuiz(){
   }
   questions=pool.map(q=>({...q,opts:shuffle([...q.o]),userAns:null,correct:q.o[0]}));
   qIdx=0;correctCount=0;answeredQs=new Set();qTimings=[];elapsedSec=0;
+  reviewFlags=new Array(pool.length).fill(false);
   document.getElementById('quiz-mode-label').textContent=
     mode==='rand25'?'Random 25':
     mode==='rand50'?'Random 50':
@@ -700,6 +690,7 @@ function renderQ(){
   });
 
   document.getElementById('btn-prev').disabled=qIdx===0;
+  renderFlagBtn();
 
   const tw=document.getElementById('timer-wrap');
   const tbw=document.getElementById('timer-bar-wrap');
@@ -804,63 +795,74 @@ function endQuiz(){
   });
 }
 
-// ═══════════════════════════════════════════
-//  LOGIN + FORMSPREE
-// ═══════════════════════════════════════════
-let studentName = '';
+let studentName = 'Student';
 
-function onLoginInput(inp){
-  const val = inp.value.trim();
-  const btn = document.getElementById('login-btn');
-  const err = document.getElementById('login-error');
-  err.style.display = 'none';
-  if(val.length > 0){
-    btn.classList.add('ready');
+
+
+
+// ── REVIEW FLAGS ──────────────────────────────────────
+function toggleFlag(){
+  reviewFlags[qIdx]=!reviewFlags[qIdx];
+  renderFlagBtn();
+  renderFlaggedStrip();
+}
+
+function renderFlagBtn(){
+  const flagged=reviewFlags[qIdx];
+  const btn=document.getElementById('btn-flag');
+  if(!btn)return;
+  const icon=document.getElementById('flag-icon');
+  const lbl=document.getElementById('flag-label');
+  if(flagged){
+    btn.style.background='rgba(251,191,36,.25)';
+    btn.style.borderColor='rgba(251,191,36,.75)';
+    icon.textContent='🔖';
+    lbl.textContent='Flagged — Click to Remove';
   } else {
-    btn.classList.remove('ready');
+    btn.style.background='rgba(251,191,36,.08)';
+    btn.style.borderColor='rgba(251,191,36,.35)';
+    icon.textContent='🔖';
+    lbl.textContent='Mark for Review';
   }
 }
 
-function submitLogin(){
-  const inp = document.getElementById('login-name-input');
-  const btn = document.getElementById('login-btn');
-  const err = document.getElementById('login-error');
-  const name = inp.value.trim();
-  if(!name){
-    err.style.display = 'block';
-    inp.focus();
-    return;
-  }
-  studentName = name;
-  btn.classList.add('loading');
-  btn.textContent = 'Loading…';
-
-  // Fire-and-forget to Formspree — don't await, never block the user
-  fetch('https://formspree.io/f/xzdwybpd', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json', 'Accept': 'application/json'},
-    body: JSON.stringify({
-      name: name,
-      startedAt: new Date().toISOString(),
-      quiz: 'Kyrgyz Language Quiz'
-    })
-  }).catch(()=>{});
-
-  // Show home first, then splash on top
-  document.getElementById('global-topbar').style.display='flex';
-  showScreen('screen-home');
-  triggerSplash();
+function renderFlaggedStrip(){
+  const flaggedIdxs=reviewFlags.map((f,i)=>f?i:-1).filter(i=>i>=0);
+  const strip=document.getElementById('flagged-strip');
+  const pills=document.getElementById('flagged-pills');
+  if(flaggedIdxs.length===0){strip.style.display='none';return;}
+  strip.style.display='block';
+  pills.innerHTML='';
+  flaggedIdxs.forEach(i=>{
+    const btn=document.createElement('button');
+    const answered=questions[i]&&questions[i].userAns!==null;
+    btn.style.cssText=`padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;transition:all .18s;border:1.5px solid ${answered?'rgba(251,191,36,.5)':'rgba(251,191,36,.8)'};background:${answered?'rgba(251,191,36,.1)':'rgba(251,191,36,.2)'};color:var(--amber);`;
+    btn.innerHTML=`Q${i+1}${answered?' ✓':' ?'}`;
+    btn.onclick=()=>{qIdx=i;renderQ();};
+    pills.appendChild(btn);
+  });
 }
 
-// Allow Enter key on login input
-document.addEventListener('DOMContentLoaded', () => {
-  const inp = document.getElementById('login-name-input');
-  if(inp){
-    inp.addEventListener('keydown', e => {
-      if(e.key === 'Enter') submitLogin();
-    });
-  }
-});
+function confirmSubmit(){
+  const total=questions.length;
+  const answered=answeredQs.size;
+  const skipped=total-answered;
+  const flaggedIdxs=reviewFlags.map((f,i)=>f?i:-1).filter(i=>i>=0);
+  const modal=document.getElementById('submit-modal');
+  const msg=document.getElementById('submit-modal-msg');
+  msg.innerHTML=`<strong style="color:var(--cyan)">${answered}</strong> of <strong>${total}</strong> answered · <strong style="color:${skipped>0?'var(--amber)':'var(--green)'}">${skipped}</strong> unanswered`;
+  const flagSection=document.getElementById('submit-modal-flagged');
+  const flagList=document.getElementById('submit-modal-flags');
+  if(flaggedIdxs.length>0){
+    flagSection.style.display='block';
+    flagList.textContent='Q'+flaggedIdxs.map(i=>i+1).join(', Q');
+  } else {flagSection.style.display='none';}
+  modal.style.display='flex';
+}
+
+function closeSubmitModal(){
+  document.getElementById('submit-modal').style.display='none';
+}
 
 // keyboard shortcuts
 document.addEventListener('keydown',e=>{
@@ -877,7 +879,7 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-// SPLASH — only show after login transitions to home
+// SPLASH — auto-triggers on page load
 function triggerSplash(){
   const sp=document.getElementById('splash');
   sp.classList.remove('hide');
@@ -889,7 +891,8 @@ function triggerSplash(){
 }
 
 window.addEventListener('load',()=>{
-  // Don't auto-trigger splash — it runs after login
+  document.getElementById('global-topbar').style.display='flex';
+  triggerSplash();
 });
 </script>
 </body>
