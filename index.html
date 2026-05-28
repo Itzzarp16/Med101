@@ -30,8 +30,61 @@
   --text2:#8ba0c0;
   --text3:#4a6080;
 }
+
+/* ── LIGHT MODE OVERRIDES ── */
+body.light-mode{
+  --bg:#f0f4ff;
+  --bg2:#e6ecf8;
+  --surface:#ffffff;
+  --surface2:#eef2fb;
+  --border:#c8d4e8;
+  --border2:#b8c8e0;
+  --cyan:#0077aa;
+  --cyan2:#005f8a;
+  --violet:#6d44d4;
+  --green:#1a8a4a;
+  --red:#cc2244;
+  --amber:#b07000;
+  --pink:#b0306e;
+  --text:#0d1a2e;
+  --text2:#3a5070;
+  --text3:#7090b0;
+}
+body.light-mode .hero{background:linear-gradient(180deg,#dde6f8 0%,#f0f4ff 100%);}
+body.light-mode .hero::before{background:radial-gradient(ellipse 80% 120% at 50% -20%,rgba(0,100,180,.1) 0%,transparent 70%);}
+body.light-mode .results-hero{background:linear-gradient(180deg,#dde6f8 0%,#f0f4ff 100%);}
+body.light-mode .time-card{background:linear-gradient(135deg,#e8f0fc,#dce8f8);border-color:rgba(0,100,180,.25);}
+body.light-mode .q-card{box-shadow:0 8px 40px rgba(0,0,0,.08);}
+body.light-mode .glass{box-shadow:0 4px 20px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.8);}
+body.light-mode .glass-hi{box-shadow:0 8px 32px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.9);}
+body.light-mode .score-ring-inner{background:var(--bg2);}
+body.light-mode #login-screen,body.light-mode #screen-subject,body.light-mode #splash{background:var(--bg);}
+body.light-mode #global-topbar{background:rgba(240,244,255,.92);border-bottom-color:var(--border2);}
+body.light-mode .splash-title{background:linear-gradient(135deg,#0077aa 0%,#6d44d4 60%,#b0306e 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+body.light-mode h1{background:linear-gradient(135deg,#0d1a2e 0%,var(--cyan) 60%,var(--violet) 100%)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;background-clip:text!important;}
+body.light-mode .login-title{background:linear-gradient(135deg,#0d1a2e 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+body.light-mode .review-item{background:var(--surface2);}
+body.light-mode ::-webkit-scrollbar-track{background:var(--bg2);}
+body.light-mode ::-webkit-scrollbar-thumb{background:var(--border2);}
+body.light-mode .subj-title{background:linear-gradient(135deg,#0d1a2e 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* ── THEME TOGGLE BUTTON ── */
+#theme-toggle{
+  position:fixed;top:46px;right:16px;z-index:99999;
+  width:30px;height:30px;border-radius:50%;
+  background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.3);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .22s;font-size:15px;line-height:1;
+  box-shadow:0 2px 8px rgba(0,0,0,.2);
+}
+#theme-toggle:hover{transform:scale(1.12);background:rgba(0,229,255,.22);}
+body.light-mode #theme-toggle{background:rgba(0,100,180,.12);border-color:rgba(0,100,180,.3);}
+body.light-mode #theme-toggle:hover{background:rgba(0,100,180,.22);}
+
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
+html{height:100%;overflow:hidden;}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100%;height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+body.overlay-open{overflow:hidden!important;height:100vh!important;position:fixed!important;width:100%!important;}
 h1,h2,.display{font-family:'Syne',sans-serif;}
 
 /* ── SCROLLBAR ── */
@@ -43,9 +96,15 @@ h1,h2,.display{font-family:'Syne',sans-serif;}
    SPLASH SCREEN
 ══════════════════════════════ */
 #splash{
-  position:fixed;inset:0;z-index:9999;
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  width:100%;height:100%;min-height:100vh;
+  z-index:9999;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   background:var(--bg);overflow:hidden;
+}
+#splash::before{
+  content:'';position:fixed;inset:-200px;z-index:-1;
+  background:var(--bg);pointer-events:none;
 }
 #splash.hide{animation:splashHide .8s cubic-bezier(.7,0,.3,1) forwards;}
 @keyframes splashHide{to{opacity:0;transform:scale(1.06);pointer-events:none;}}
@@ -82,6 +141,7 @@ h1,h2,.display{font-family:'Syne',sans-serif;}
 .splash-bar-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));border-radius:2px;animation:barLoad 2s ease .9s both;}
 @keyframes barLoad{from{width:0}to{width:100%}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 
 /* ══════════════════════════════
    BACKGROUND NOISE TEXTURE
@@ -437,9 +497,19 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
 
 #login-screen{
-  position:fixed;inset:0;z-index:10000;
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  width:100%;height:100%;min-height:100vh;
+  z-index:10000;
   display:flex;align-items:center;justify-content:center;
-  background:var(--bg);overflow:hidden;
+  background:var(--bg);overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  /* Fill overscroll bounce area on iOS/Android */
+  background-attachment:fixed;
+}
+/* Extra pseudo-element to fill any overscroll area above/below */
+#login-screen::before{
+  content:'';position:fixed;inset:-200px;z-index:-1;
+  background:var(--bg);pointer-events:none;
 }
 #login-screen.hide{
   animation:loginHide .5s cubic-bezier(.7,0,.3,1) forwards;
@@ -505,9 +575,17 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
    SUBJECT SELECTOR SCREEN
 ══════════════════════════════ */
 #screen-subject{
-  position:fixed;inset:0;z-index:9000;
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  width:100%;height:100%;min-height:100vh;
+  z-index:9000;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:var(--bg);overflow:hidden;padding:62px 16px 24px;
+  background:var(--bg);overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  padding:62px 16px 24px;
+}
+#screen-subject::before{
+  content:'';position:fixed;inset:-200px;z-index:-1;
+  background:var(--bg);pointer-events:none;
 }
 #screen-subject.hidden{display:none!important;}
 .subject-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
@@ -571,21 +649,90 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/109460260" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+  import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+    updateProfile,
+    sendEmailVerification,
+    sendPasswordResetEmail
+  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAQAAQe6H0pIJvmPi7TTjw42-UcvFewFzU",
+    authDomain: "med101-95018.firebaseapp.com",
+    projectId: "med101-95018",
+    storageBucket: "med101-95018.firebasestorage.app",
+    messagingSenderId: "356519126985",
+    appId: "1:356519126985:web:f4f1330f0957cd3d1daa18",
+    measurementId: "G-PYH76SPJPY"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+
+  // Expose auth functions to global scope for inline handlers
+  window._fbAuth = auth;
+  window._fbCreateUser = createUserWithEmailAndPassword;
+  window._fbSignIn = signInWithEmailAndPassword;
+  window._fbSignOut = signOut;
+  window._fbUpdateProfile = updateProfile;
+  window._fbOnAuthStateChanged = onAuthStateChanged;
+  window._fbSendEmailVerification = sendEmailVerification;
+  window._fbResetPassword = sendPasswordResetEmail;
+
+  // Watch auth state — auto-proceed if already logged in
+  onAuthStateChanged(auth, (user) => {
+    if (user && user.emailVerified) {
+      window._fbCurrentUser = user;
+      // If login screen is still showing, dismiss it
+      const ls = document.getElementById('login-screen');
+      if (ls && ls.style.display !== 'none') {
+        _proceedAfterLogin(user);
+      }
+    } else {
+      window._fbCurrentUser = null;
+      // If user exists but unverified, sign them out silently
+      if (user && !user.emailVerified) {
+        signOut(auth).catch(() => {});
+      }
+    }
+  });
+</script>
 </head>
 <body>
+
+<!-- ══════════════════════════════
+     THEME TOGGLE
+══════════════════════════════ -->
+<button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
 
 <!-- ══════════════════════════════
      GLOBAL TOP BAR
 ══════════════════════════════ -->
 <div id="global-topbar">
-  <a class="wa-link" href="https://wa.me/996755001319" target="_blank" rel="noopener">
+  <a class="wa-link" href="https://wa.me/996554259092" target="_blank" rel="noopener">
     <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="16" cy="16" r="16" fill="#25D366"/>
       <path d="M23.5 8.5A10.44 10.44 0 0 0 16 5.5C10.75 5.5 6.5 9.75 6.5 15a9.44 9.44 0 0 0 1.27 4.74L6.5 24.5l4.93-1.29A9.5 9.5 0 0 0 16 24.5c5.25 0 9.5-4.25 9.5-9.5a9.44 9.44 0 0 0-2-5.5zm-7.5 14.6a7.87 7.87 0 0 1-4.02-1.1l-.29-.17-2.93.77.78-2.86-.19-.3A7.88 7.88 0 0 1 8.13 15 7.87 7.87 0 0 1 16 7.13 7.87 7.87 0 0 1 23.87 15 7.87 7.87 0 0 1 16 22.87zm4.32-5.9c-.24-.12-1.4-.69-1.61-.77-.22-.08-.38-.12-.54.12s-.62.77-.76.93c-.14.16-.28.18-.52.06a6.53 6.53 0 0 1-1.92-1.18 7.2 7.2 0 0 1-1.33-1.65c-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3s-.84.82-.84 2 .86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.4 1.37.51.58.18 1.1.16 1.51.1.46-.07 1.4-.57 1.6-1.12.2-.55.2-1.02.14-1.12-.06-.1-.22-.16-.46-.28z" fill="white"/>
     </svg>
-    <span class="wa-num">+996 755 001 319</span>
+    <span class="wa-num">+996 554 259 092</span>
   </a>
-  <div class="madeby">Made by <span>Abhishek Verma</span></div>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div class="madeby">Made by <span>Abhishek Verma</span></div>
+    <div id="topbar-user" style="display:none;align-items:center;gap:7px;">
+      <span style="font-size:11px;color:var(--text2);font-family:'Space Grotesk',sans-serif;">👤 <span id="topbar-username" style="color:var(--cyan);font-weight:700;"></span></span>
+      <button onclick="doTopbarSignOut()" style="font-size:10px;font-weight:700;font-family:'Space Grotesk',sans-serif;padding:3px 9px;border-radius:20px;border:1px solid rgba(255,79,107,.4);background:rgba(255,79,107,.1);color:var(--red);cursor:pointer;transition:all .2s;letter-spacing:.02em;" onmouseover="this.style.background='rgba(255,79,107,.25)'" onmouseout="this.style.background='rgba(255,79,107,.1)'">Logout</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══════════════════════════════
@@ -600,14 +747,14 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   <div class="subj-header">
     <div class="subj-icon">🩺</div>
     <div class="subj-title">Choose a Subject</div>
-    <div class="subj-sub">OSH State University · International Medical Faculty</div>
+    <div class="subj-sub"></div>
   </div>
   <div class="subj-grid" id="subj-cards"></div>
 </div>
 
 
 <!-- ══════════════════════════════
-     LOGIN SCREEN
+     LOGIN SCREEN  (Firebase Auth)
 ══════════════════════════════ -->
 <div id="login-screen">
   <div class="login-rings">
@@ -616,15 +763,68 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     <div style="width:260px;height:260px;border-color:rgba(0,229,255,.13);animation-duration:3s;animation-delay:.8s;"></div>
   </div>
   <div class="login-box">
-    <div style="position:absolute;top:14px;right:18px;font-size:10.5px;color:var(--text3);font-family:'Space Grotesk',sans-serif;font-weight:500;letter-spacing:.04em;opacity:.7;">Made by <span style="background:linear-gradient(90deg,var(--cyan),var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;">Abhishek Verma</span></div>
     <div class="login-icon">👨‍⚕️</div>
-    <div class="login-title">Welcome Future Doctors</div>
-    <div class="login-sub">OSH State University · International Medical Faculty<br>Enter your name to start the quiz</div>
-    <label class="login-label" for="login-name-input">Your Name</label>
-    <input class="login-input" id="login-name-input" type="text" placeholder="Please enter your good name" autocomplete="off" oninput="onLoginInput()" onkeydown="if(event.key==='Enter')doLoginSubmit()">
-    <div class="login-error" id="login-error-msg">Please enter at least 2 characters.</div>
-    <button class="login-btn" id="login-submit-btn" onclick="doLoginSubmit()" disabled>Start Quiz →</button>
-    <div class="login-consent">By entering, your name &amp; time are recorded for analytics.</div>
+    <div class="login-title" id="auth-title">Welcome Back</div>
+    <div class="login-sub" id="auth-sub">Enter your email and password to continue</div>
+
+    <!-- Tab switcher -->
+    <div style="display:flex;gap:0;background:var(--bg2);border-radius:10px;padding:3px;margin-bottom:22px;border:1px solid var(--border2);">
+      <button id="tab-signin" onclick="switchAuthTab('signin')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);">Sign In</button>
+      <button id="tab-signup" onclick="switchAuthTab('signup')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);">Sign Up</button>
+    </div>
+
+    <!-- Name field (sign up only) -->
+    <div id="field-name" style="display:none;">
+      <label class="login-label" for="auth-name-input">Your Name</label>
+      <input class="login-input" id="auth-name-input" type="text" placeholder="Your name" autocomplete="name" onkeydown="if(event.key==='Enter')doAuthSubmit()">
+    </div>
+
+    <!-- Email -->
+    <label class="login-label" for="auth-email-input">Email</label>
+    <input class="login-input" id="auth-email-input" type="email" placeholder="yourname@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')doAuthSubmit()">
+
+    <!-- Password -->
+    <label class="login-label" for="auth-pass-input" style="margin-top:4px;">Password</label>
+    <div style="position:relative;margin-bottom:8px;">
+      <input class="login-input" id="auth-pass-input" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuthSubmit()" style="margin-bottom:0;padding-right:44px;">
+      <button onclick="togglePassVis()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:4px;" id="pass-eye">👁</button>
+    </div>
+
+    <!-- Confirm Password field (sign up only) -->
+    <div id="field-confirm-pass" style="display:none;">
+      <label class="login-label" for="auth-confirm-pass-input" style="margin-top:4px;">Confirm Password</label>
+      <div style="position:relative;margin-bottom:8px;">
+        <input class="login-input" id="auth-confirm-pass-input" type="password" placeholder="Re-enter your password" autocomplete="new-password" onkeydown="if(event.key==='Enter')doAuthSubmit()" style="margin-bottom:0;padding-right:44px;">
+        <button onclick="toggleConfirmPassVis()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:4px;" id="confirm-pass-eye">👁</button>
+      </div>
+    </div>
+
+    <!-- Forgot password link (sign in only) -->
+    <div id="field-forgot" style="text-align:right;margin-bottom:6px;margin-top:-2px;">
+      <button onclick="doForgotPassword()" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-weight:600;padding:0;opacity:.8;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.8'">Forgot password?</button>
+    </div>
+
+    <!-- Error message -->
+    <div class="login-error" id="auth-error-msg" style="display:none;margin-bottom:10px;"></div>
+
+    <!-- Submit button -->
+    <button class="login-btn" id="auth-submit-btn" onclick="doAuthSubmit()">
+      <span id="auth-btn-text">Sign In →</span>
+      <span id="auth-btn-spinner" style="display:none;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;">
+          <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3"/>
+          <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </span>
+    </button>
+
+    <!-- Already logged in: show user + sign out -->
+    <div id="auth-signout-row" style="display:none;text-align:center;margin-top:10px;">
+      <span style="font-size:.75rem;color:var(--text3);">Logged in as <strong id="auth-user-label" style="color:var(--cyan);"></strong></span>
+      <button onclick="doSignOut()" style="font-size:.75rem;color:var(--red);background:none;border:none;cursor:pointer;font-weight:600;margin-left:8px;">Sign out</button>
+    </div>
+
+    <div class="login-consent"></div>
   </div>
 </div>
 
@@ -641,7 +841,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   <!-- Content -->
   <div class="splash-icon">🧬</div>
   <div class="splash-title" style="margin-top:16px;">Human Physiology 1</div>
-  <div class="splash-sub">OSH State University · International Medical Faculty<br>Semester 2 · 2025–2026 · 400 MCQs</div>
+  <div class="splash-sub">Semester 2 · 2025–2026 · MCQ Practice</div>
   <div class="splash-bar"><div class="splash-bar-fill"></div></div>
 </div>
 
@@ -653,15 +853,11 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   <!-- Hero banner -->
   <div class="hero py-14 px-6" style="text-align:center;">
     <div class="hero-glow"></div>
-    <div style="position:absolute;top:14px;right:18px;font-size:12px;color:var(--text3);">
-      Made by <span style="color:var(--cyan);font-weight:700;">Abhishek Verma</span>
-    </div>
     <div class="max-w-2xl mx-auto" style="position:relative;z-index:1;">
       <div style="font-size:60px;margin-bottom:16px;filter:drop-shadow(0 0 24px rgba(0,229,255,.5));">🧬</div>
       <h1 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;">Human Physiology 1</h1>
       <div id="active-subject-pill" style="margin-bottom:10px;">📚 All Subjects</div>
       <p style="color:var(--text2);font-size:.95rem;margin-bottom:6px;">MCQ Quiz · <span id="home-q-count" style="color:var(--cyan);font-weight:700;">398 Questions</span> · <span id="home-t-count">6</span> Topics</p>
-      <p style="color:var(--text3);font-size:.82rem;">OSH State University – International Medical Faculty</p>
       <!-- Stats row -->
       <div style="display:flex;justify-content:center;gap:24px;margin-top:24px;flex-wrap:wrap;">
         <div style="text-align:center;">
@@ -709,7 +905,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
         <div style="display:flex;align-items:center;gap:12px;">
           <div style="font-size:26px;">📚</div>
           <div>
-            <div style="font-weight:700;color:var(--text);">All 400 — Sequential</div>
+            <div style="font-weight:700;color:var(--text);">All <span id="mode-all-count-seq">?</span> — Sequential</div>
             <div style="font-size:12px;color:var(--text3);margin-top:2px;">Questions in order</div>
           </div>
         </div>
@@ -718,7 +914,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
         <div style="display:flex;align-items:center;gap:12px;">
           <div style="font-size:26px;">🔀</div>
           <div>
-            <div style="font-weight:700;color:var(--text);">All 400 — Random</div>
+            <div style="font-weight:700;color:var(--text);">All <span id="mode-all-count-rand">?</span> — Random</div>
             <div style="font-size:12px;color:var(--text3);margin-top:2px;">Fully shuffled</div>
           </div>
         </div>
@@ -786,14 +982,15 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       </div>
     </div>
 
+    <!-- Start button -->
+    <button class="btn-glow" style="width:100%;font-size:16px;padding:16px;margin-bottom:28px;" onclick="startQuiz()">
+      Start Quiz →
+    </button>
+
     <!-- Topics -->
     <div class="section-label">Quick Topic Select</div>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;" id="topic-buttons"></div>
 
-    <!-- Start button -->
-    <button class="btn-glow" style="width:100%;font-size:16px;padding:16px;" onclick="startQuiz()">
-      Start Quiz →
-    </button>
     <p style="text-align:center;font-size:12px;color:var(--text3);margin-top:12px;">
       Keyboard: <span class="kbd">A</span> <span class="kbd">B</span> <span class="kbd">C</span> <span class="kbd">D</span> to answer ·
       <span class="kbd">→</span> next · <span class="kbd">←</span> prev
@@ -880,13 +1077,41 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     <!-- Options -->
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;" id="opts"></div>
 
-    <!-- Nav -->
+    <!-- Flag for review + Nav -->
+    <div style="display:flex;justify-content:center;margin-bottom:12px;">
+      <button id="btn-flag" onclick="toggleFlag()" style="display:inline-flex;align-items:center;gap:7px;padding:7px 18px;border-radius:100px;border:1.5px solid rgba(251,191,36,.35);background:rgba(251,191,36,.08);color:var(--amber);font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(251,191,36,.18)'" onmouseout="if(!reviewFlags[cur])this.style.background='rgba(251,191,36,.08)'">
+        <span id="flag-icon">🔖</span> <span id="flag-label">Mark for Review</span>
+      </button>
+    </div>
     <div style="display:flex;gap:10px;">
       <button class="btn-ghost flex-1" id="btn-prev" onclick="navQ(-1)">← Prev</button>
       <button class="btn-glow flex-1" id="btn-next" onclick="navQ(1)" style="padding:12px;">Next →</button>
     </div>
-    <div style="text-align:center;margin-top:14px;">
+    <!-- Flagged question pill row -->
+    <div id="flagged-strip" style="display:none;margin-top:12px;padding:10px 14px;background:rgba(251,191,36,.07);border:1px solid rgba(251,191,36,.25);border-radius:12px;">
+      <div style="font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;">🔖 Flagged for Review</div>
+      <div id="flagged-pills" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:20px;margin-top:16px;">
+      <button id="btn-submit-quiz" onclick="confirmSubmit()" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;font-family:'Space Grotesk',sans-serif;padding:9px 22px;border-radius:10px;border:1.5px solid rgba(0,229,255,.4);background:rgba(0,229,255,.08);color:var(--cyan);cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(0,229,255,.18)'" onmouseout="this.style.background='rgba(0,229,255,.08)'">📋 Submit Quiz</button>
       <button style="font-size:12px;color:var(--text3);background:none;border:none;cursor:pointer;transition:color .2s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text3)'" onclick="endQuiz()">End & See Results</button>
+    </div>
+
+    <!-- Submit confirmation modal -->
+    <div id="submit-modal" style="display:none;position:fixed;inset:0;z-index:99000;background:rgba(0,0,0,.7);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:16px;">
+      <div style="width:100%;max-width:400px;background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px solid var(--border2);border-radius:20px;padding:32px 28px;box-shadow:0 16px 60px rgba(0,0,0,.6);position:relative;">
+        <div style="font-size:40px;text-align:center;margin-bottom:12px;">📋</div>
+        <h3 style="font-family:'Syne',sans-serif;font-size:1.3rem;font-weight:800;text-align:center;color:var(--text);margin-bottom:6px;">Submit Quiz?</h3>
+        <p id="submit-modal-msg" style="font-size:13px;color:var(--text3);text-align:center;line-height:1.6;margin-bottom:20px;"></p>
+        <div id="submit-modal-flagged" style="display:none;margin-bottom:16px;padding:10px 14px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.25);border-radius:10px;">
+          <div style="font-size:11px;font-weight:700;color:var(--amber);margin-bottom:6px;">🔖 Flagged questions will be marked as skipped</div>
+          <div id="submit-modal-flags" style="font-size:12px;color:var(--text2);"></div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button onclick="closeSubmitModal()" style="flex:1;padding:12px;border-radius:10px;border:1.5px solid var(--border2);background:transparent;color:var(--text2);font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background='transparent'">Cancel</button>
+          <button onclick="endQuiz();closeSubmitModal();" style="flex:1;padding:12px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">Submit →</button>
+        </div>
+      </div>
     </div>
 
   </div>
@@ -2087,6 +2312,7 @@ const sections=[...new Set(rawQ.map(q=>q.s))];
 
 // ======================== STATE ========================
 let allQ=[],quizQ=[],cur=0,userAnswers=[],autoAdv=true,selMode='rand25',selTopic=null,advTimer=null;
+let selectedTopics = new Set();
 let timerOn=false,timerSec=20,timerRem=0,timerIv=null;
 const CIRC=2*Math.PI*21; // r=21
 let swStart=0,swElapsed=0,swIv=null,qStart=0,qTimes=[];
@@ -2114,7 +2340,6 @@ function fmtShort(ms){if(ms<=0)return'—';const s=ms/1000;return s<60?s.toFixed
 function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
 // ======================== TIMER SETTINGS UI ========================
-function toggleTimerUI(){timerOn=document.getElementById('tog-timer').classList.contains('on');$('timer-settings').style.display=timerOn?'block':'none';}
 function setTP(btn){document.querySelectorAll('.timer-preset').forEach(b=>b.classList.remove('sel'));btn.classList.add('sel');timerSec=parseInt(btn.dataset.sec);$('timer-custom').value=timerSec;}
 function setCT(inp){let v=parseInt(inp.value)||20;v=Math.max(5,Math.min(300,v));timerSec=v;document.querySelectorAll('.timer-preset').forEach(b=>b.classList.remove('sel'));}
 
@@ -2157,7 +2382,8 @@ function updScore(){
 // ======================== HOME ========================
 function buildTopics(){
   const c=$('topic-buttons');c.innerHTML='';
-  sections.forEach(s=>{const b=document.createElement('button');b.className='topic-chip';b.textContent=s;b.onclick=()=>selTopicFn(s,b);c.appendChild(b);});
+  selectedTopics.clear();
+  sections.forEach(s=>{const b=document.createElement('button');b.className='topic-chip';b.textContent=s;b.onclick=()=>toggleTopicChip(s,b);c.appendChild(b);});
 }
 buildTopics();
 
@@ -2165,7 +2391,8 @@ function selectMode(el){
   document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');selMode=el.dataset.mode;
   $('custom-range').classList.toggle('hidden',selMode!=='custom');
-  selTopic=null;document.querySelectorAll('.topic-chip').forEach(b=>b.classList.remove('active'));
+  selectedTopics.clear();
+  document.querySelectorAll('.topic-chip').forEach(b=>b.classList.remove('active'));
 }
 function selTopicFn(name,btn){
   selTopic=name;selMode='topic';
@@ -2190,19 +2417,86 @@ function startQuiz(){
   timerOn=document.getElementById('tog-timer').classList.contains('on');
   timerSec=parseInt($('timer-custom').value)||20;
 
-  if(selMode==='topic'&&selTopic) quizQ=shuffle(allQ.filter(q=>q.s===selTopic));
-  else if(selMode==='rand25') quizQ=shuffle([...allQ]).slice(0,25);
-  else if(selMode==='rand50') quizQ=shuffle([...allQ]).slice(0,50);
+  if(selMode==='topic'&&selectedTopics.size>0) quizQ=shuffle(allQ.filter(q=>selectedTopics.has(q.s)));
+  else if(selMode==='rand25') quizQ=shuffle([...allQ]).slice(0,Math.min(25,allQ.length));
+  else if(selMode==='rand50') quizQ=shuffle([...allQ]).slice(0,Math.min(50,allQ.length));
   else if(selMode==='all-seq') quizQ=[...allQ];
   else if(selMode==='all-rand') quizQ=shuffle([...allQ]);
   else if(selMode==='custom'){let s=Math.max(1,parseInt($('range-start').value)||1),e=Math.min(pool.length,parseInt($('range-end').value)||50);quizQ=allQ.slice(s-1,e);}
+  else quizQ=shuffle([...allQ]);
   if(!quizQ.length){alert('No questions found!');return;}
   userAnswers=new Array(quizQ.length).fill(-1);qTimes=new Array(quizQ.length).fill(0);cur=0;
-  $('quiz-mode-label').textContent=selMode==='topic'?selTopic:{rand25:'Random 25',rand50:'Random 50','all-seq':'All Sequential','all-rand':'All Random',custom:'Custom Range'}[selMode];
+  reviewFlags=new Array(quizQ.length).fill(false);
+  $('quiz-mode-label').textContent=selMode==='topic'?[...selectedTopics].join(', '):{rand25:'Random 25',rand50:'Random 50','all-seq':'All Sequential','all-rand':'All Random',custom:'Custom Range'}[selMode]||'All Questions';
   showScreen('screen-quiz');startSW();renderQ();
 }
 
 // ======================== QUIZ ========================
+// ── REVIEW FLAGS ────────────────────────────────────────────
+let reviewFlags = [];
+
+function toggleFlag(){
+  reviewFlags[cur] = !reviewFlags[cur];
+  renderFlagBtn();
+  renderFlaggedStrip();
+}
+
+function renderFlagBtn(){
+  const flagged = reviewFlags[cur];
+  const btn = document.getElementById('btn-flag');
+  const icon = document.getElementById('flag-icon');
+  const lbl = document.getElementById('flag-label');
+  if(flagged){
+    btn.style.background='rgba(251,191,36,.25)';
+    btn.style.borderColor='rgba(251,191,36,.75)';
+    icon.textContent='🔖';
+    lbl.textContent='Flagged — Click to Remove';
+  } else {
+    btn.style.background='rgba(251,191,36,.08)';
+    btn.style.borderColor='rgba(251,191,36,.35)';
+    icon.textContent='🔖';
+    lbl.textContent='Mark for Review';
+  }
+}
+
+function renderFlaggedStrip(){
+  const flaggedIdxs = reviewFlags.map((f,i)=>f?i:-1).filter(i=>i>=0);
+  const strip = document.getElementById('flagged-strip');
+  const pills = document.getElementById('flagged-pills');
+  if(flaggedIdxs.length===0){ strip.style.display='none'; return; }
+  strip.style.display='block';
+  pills.innerHTML='';
+  flaggedIdxs.forEach(i=>{
+    const btn=document.createElement('button');
+    const answered=userAnswers[i]!==-1;
+    btn.style.cssText=`padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;font-family:'Space Grotesk',sans-serif;cursor:pointer;transition:all .18s;border:1.5px solid ${answered?'rgba(251,191,36,.5)':'rgba(251,191,36,.8)'};background:${answered?'rgba(251,191,36,.1)':'rgba(251,191,36,.2)'};color:var(--amber);`;
+    btn.innerHTML=`Q${i+1}${answered?' ✓':' ?'}`;
+    btn.onclick=()=>{cur=i;renderQ();};
+    pills.appendChild(btn);
+  });
+}
+
+function confirmSubmit(){
+  const total=quizQ.length;
+  const answered=userAnswers.filter(a=>a!==-1).length;
+  const skipped=total-answered;
+  const flaggedIdxs=reviewFlags.map((f,i)=>f?i:-1).filter(i=>i>=0);
+  const modal=document.getElementById('submit-modal');
+  const msg=document.getElementById('submit-modal-msg');
+  msg.innerHTML=`<strong style="color:var(--cyan)">${answered}</strong> of <strong>${total}</strong> answered · <strong style="color:${skipped>0?'var(--amber)':'var(--green)'}">${skipped}</strong> unanswered`;
+  const flagSection=document.getElementById('submit-modal-flagged');
+  const flagList=document.getElementById('submit-modal-flags');
+  if(flaggedIdxs.length>0){
+    flagSection.style.display='block';
+    flagList.textContent='Q'+flaggedIdxs.map(i=>i+1).join(', Q');
+  } else { flagSection.style.display='none'; }
+  modal.style.display='flex';
+}
+
+function closeSubmitModal(){
+  document.getElementById('submit-modal').style.display='none';
+}
+
 function renderQ(){
   if(advTimer){clearTimeout(advTimer);advTimer=null;}stopQT();recQT();
   const q=quizQ[cur],total=quizQ.length;
@@ -2227,6 +2521,9 @@ function renderQ(){
   qStart=Date.now();
   if(ua===-1)startQT();
   else if(timerOn){$('timer-wrap').style.display='flex';$('timer-bar-wrap').style.display='block';$('tbar-spacer').style.display='none';updTUI(0,timerSec);}
+  // Update flag button state
+  renderFlagBtn();
+  renderFlaggedStrip();
 }
 
 function answerQ(idx){
@@ -2245,6 +2542,7 @@ function navQ(dir){
 
 function endQuiz(){
   if(advTimer){clearTimeout(advTimer);advTimer=null;}
+  closeSubmitModal();
   stopQT();recQT();swElapsed=Date.now()-swStart;stopSW();
   showScreen('screen-results');buildResults();
 }
@@ -2317,42 +2615,216 @@ function goHome(){
 }
 
 // ════════════════════════════════════════════
-//  LOGIN
+//  FIREBASE AUTH — LOGIN SYSTEM
 // ════════════════════════════════════════════
-function onLoginInput(){
-  const val = document.getElementById('login-name-input').value.trim();
-  document.getElementById('login-submit-btn').disabled = val.length < 2;
-  document.getElementById('login-error-msg').style.display = 'none';
+
+let _authTab = 'signin'; // 'signin' | 'signup'
+
+function switchAuthTab(tab) {
+  _authTab = tab;
+  const isSignup = tab === 'signup';
+
+  // Tab button styles
+  const activeStyle = 'background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);font-weight:700;';
+  const inactiveStyle = 'background:transparent;color:var(--text3);font-weight:600;box-shadow:none;';
+  document.getElementById('tab-signin').style.cssText += isSignup ? inactiveStyle : activeStyle;
+  document.getElementById('tab-signup').style.cssText += isSignup ? activeStyle : inactiveStyle;
+
+  // Show/hide name field
+  document.getElementById('field-name').style.display = isSignup ? 'block' : 'none';
+  // Show/hide confirm password field
+  document.getElementById('field-confirm-pass').style.display = isSignup ? 'block' : 'none';
+  // Show/hide forgot password link
+  document.getElementById('field-forgot').style.display = isSignup ? 'none' : 'block';
+  // Clear confirm password when switching
+  const cp = document.getElementById('auth-confirm-pass-input');
+  if (cp) cp.value = '';
+
+  // Update titles and button text
+  document.getElementById('auth-title').textContent = isSignup ? 'Create Account' : 'Welcome Back';
+  document.getElementById('auth-sub').innerHTML = isSignup
+    ? 'Register below to start tracking your progress'
+    : 'Enter your email and password to continue';
+  document.getElementById('auth-btn-text').textContent = isSignup ? 'Create Account →' : 'Sign In →';
+
+  // Clear error
+  const err = document.getElementById('auth-error-msg');
+  err.style.display = 'none';
+  err.textContent = '';
 }
 
-function doLoginSubmit(){
-  const name = document.getElementById('login-name-input').value.trim();
-  if(name.length < 2){
-    document.getElementById('login-error-msg').style.display = 'block';
+function togglePassVis() {
+  const inp = document.getElementById('auth-pass-input');
+  const eye = document.getElementById('pass-eye');
+  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
+  else { inp.type = 'password'; eye.textContent = '👁'; }
+}
+
+function toggleConfirmPassVis() {
+  const inp = document.getElementById('auth-confirm-pass-input');
+  const eye = document.getElementById('confirm-pass-eye');
+  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
+  else { inp.type = 'password'; eye.textContent = '👁'; }
+}
+
+async function doForgotPassword() {
+  const email = document.getElementById('auth-email-input').value.trim();
+  if (!email) {
+    _showAuthError('Please enter your email address above, then click "Forgot password?".');
     return;
   }
-  // Send to Formspree
+  try {
+    await window._fbResetPassword(window._fbAuth, email);
+    _showAuthError('✅ Password reset email sent to ' + email + '. Check your inbox (and spam folder) for the reset link.');
+  } catch(e) {
+    _showAuthError(_fbErrMsg(e.code));
+  }
+}
+
+function _setAuthLoading(loading) {
+  document.getElementById('auth-submit-btn').disabled = loading;
+  document.getElementById('auth-btn-text').style.display = loading ? 'none' : 'inline';
+  document.getElementById('auth-btn-spinner').style.display = loading ? 'inline' : 'none';
+}
+
+function _showAuthError(msg) {
+  const el = document.getElementById('auth-error-msg');
+  el.textContent = msg;
+  el.style.display = 'block';
+  // Show success messages (starting with ✅) in green
+  el.style.color = msg.startsWith('✅') ? 'var(--green)' : 'var(--red)';
+  _setAuthLoading(false);
+}
+
+function _fbErrMsg(code) {
+  const map = {
+    'auth/invalid-email': 'Invalid email address.',
+    'auth/user-not-found': 'No account found with this email.',
+    'auth/wrong-password': 'Incorrect password.',
+    'auth/email-already-in-use': 'An account already exists with this email.',
+    'auth/weak-password': 'Password must be at least 6 characters.',
+    'auth/too-many-requests': 'Too many attempts. Try again later.',
+    'auth/network-request-failed': 'Network error. Check your connection.',
+    'auth/invalid-credential': 'Invalid email or password.',
+  };
+  return map[code] || 'Something went wrong. Try again.';
+}
+
+function _proceedAfterLogin(user) {
+  // Log visit to Formspree
   try {
     fetch('https://formspree.io/f/xqejwonq', {
       method: 'POST',
       headers: {'Accept':'application/json','Content-Type':'application/json'},
       body: JSON.stringify({
-        name: name,
+        name: user.displayName || user.email,
+        email: user.email,
+        uid: user.uid,
         time: new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}),
-        _subject: 'New Visitor: ' + name
+        _subject: 'Login: ' + (user.displayName || user.email)
       })
     }).catch(()=>{});
   } catch(e){}
-  // Animate out login screen then show Subject Selector
+
   const ls = document.getElementById('login-screen');
   ls.classList.add('hide');
-  setTimeout(()=>{
-    ls.style.display='none';
-    // Show global topbar
-    document.getElementById('global-topbar').style.display='flex';
-    // Show subject selector (no further login needed)
+  setTimeout(() => {
+    ls.style.display = 'none';
+    // Show topbar with user name
+    const tu = document.getElementById('topbar-user');
+    const tun = document.getElementById('topbar-username');
+    if(tu && tun){
+      tun.textContent = user.displayName || user.email;
+      tu.style.display = 'flex';
+    }
+    document.getElementById('global-topbar').style.display = 'flex';
+    // Show subject selector — keep body locked until subject is chosen
     document.getElementById('screen-subject').classList.remove('hidden');
+    document.body.classList.add('overlay-open');
   }, 520);
+}
+
+async function doAuthSubmit() {
+  const email = document.getElementById('auth-email-input').value.trim();
+  const pass  = document.getElementById('auth-pass-input').value;
+  const auth  = window._fbAuth;
+  if (!auth) { _showAuthError('Still loading, please wait a moment and try again.'); return; }
+
+  // Clear error
+  const errEl = document.getElementById('auth-error-msg');
+  errEl.style.display = 'none';
+
+  // Basic validation
+  if (!email) { _showAuthError('Please enter your email.'); return; }
+  if (!pass)  { _showAuthError('Please enter your password.'); return; }
+  if (pass.length < 6) { _showAuthError('Password must be at least 6 characters.'); return; }
+
+  _setAuthLoading(true);
+
+  if (_authTab === 'signup') {
+    const name = document.getElementById('auth-name-input').value.trim();
+    if (!name || name.length < 2) { _showAuthError('Please enter your name (at least 2 characters).'); return; }
+    const confirmPass = document.getElementById('auth-confirm-pass-input').value;
+    if (!confirmPass) { _showAuthError('Please confirm your password.'); return; }
+    if (pass !== confirmPass) { _showAuthError('Passwords do not match. Please try again.'); return; }
+    try {
+      const cred = await window._fbCreateUser(auth, email, pass);
+      await window._fbUpdateProfile(cred.user, { displayName: name });
+      await window._fbSendEmailVerification(cred.user);
+      await window._fbSignOut(auth);
+      _setAuthLoading(false);
+      _showAuthError('✅ Account created! A verification email has been sent to ' + email + '. Please open it and click the link to verify your account, then come back here to sign in. If you don\'t see the email, check your spam or junk folder.');
+    } catch(e) { _showAuthError(_fbErrMsg(e.code)); }
+  } else {
+    try {
+      const cred = await window._fbSignIn(auth, email, pass);
+      if (!cred.user.emailVerified) {
+        await window._fbSignOut(auth);
+        _showAuthError('⚠️ Email not verified. Check your inbox and click the verification link first.');
+        return;
+      }
+      window._fbCurrentUser = cred.user;
+      _proceedAfterLogin(cred.user);
+    } catch(e) { _showAuthError(_fbErrMsg(e.code)); }
+  }
+}
+
+async function doSignOut() {
+  if (window._fbAuth && window._fbSignOut) {
+    await window._fbSignOut(window._fbAuth).catch(()=>{});
+  }
+  window._fbCurrentUser = null;
+  document.getElementById('auth-signout-row').style.display = 'none';
+  document.getElementById('auth-email-input').value = '';
+  document.getElementById('auth-pass-input').value = '';
+  const cp = document.getElementById('auth-confirm-pass-input');
+  if (cp) cp.value = '';
+  document.getElementById('auth-error-msg').style.display = 'none';
+}
+
+// Topbar logout (used while in the quiz/home)
+async function doTopbarSignOut() {
+  if(!confirm('Sign out of your account?')) return;
+  if (window._fbAuth && window._fbSignOut) {
+    await window._fbSignOut(window._fbAuth).catch(()=>{});
+  }
+  window._fbCurrentUser = null;
+  // Hide topbar user area
+  const tu = document.getElementById('topbar-user');
+  if(tu) tu.style.display='none';
+  document.getElementById('global-topbar').style.display='none';
+  // Return to login screen
+  const ls = document.getElementById('login-screen');
+  ls.classList.remove('hide');
+  ls.style.display='flex';
+  ls.style.opacity='1';
+  ls.style.transform='none';
+  document.body.classList.add('overlay-open');
+  document.getElementById('auth-email-input').value='';
+  document.getElementById('auth-pass-input').value='';
+  document.getElementById('auth-error-msg').style.display='none';
+  document.getElementById('screen-subject').classList.add('hidden');
+  showScreen('screen-home');
 }
 
 // ======================== KEYBOARD ========================
@@ -2526,11 +2998,11 @@ function selectMainSubject(mainSubj) {
   const meta = mainSubjectMeta[mainSubj];
   const pill = document.getElementById('active-subject-pill');
   if (pill) pill.textContent = meta.emoji + ' ' + mainSubj;
-  // Hide subject selector, go straight to splash → home (login already done)
   document.getElementById('screen-subject').classList.add('hidden');
-  const splash = document.getElementById('splash');
-  splash.style.display = 'flex';
+  document.body.classList.remove('overlay-open');
   rebuildTopicsForSubject(null, mainSubj);
+  updateAllCount();
+  showScreen('screen-home');
 }
 
 function selectSubject(subjectName) {
@@ -2550,31 +3022,96 @@ function selectSubject(subjectName) {
     pill.textContent = pillMeta.emoji + ' ' + label;
   }
 
-  // Hide subject selector, go straight to splash → home (login already done)
+  // Hide subject selector and go straight to home
   document.getElementById('screen-subject').classList.add('hidden');
-  const splash = document.getElementById('splash');
-  splash.style.display = 'flex';
+  document.body.classList.remove('overlay-open');
 
   // Rebuild topics for selected subject
   rebuildTopicsForSubject(subjectName);
+  updateAllCount();
+  showScreen('screen-home');
 }
+
+function updateAllCount() {
+  let pool;
+  if (!activeSubjectFilter) pool = rawQ;
+  else if (activeSubjectFilter.startsWith('__MAIN__')) {
+    const ms = activeSubjectFilter.replace('__MAIN__', '');
+    pool = rawQ.filter(q => subjectGroup[q.s] === ms);
+  } else {
+    pool = rawQ.filter(q => q.s === activeSubjectFilter);
+  }
+  const n = pool.length;
+  // Update "All N" mode card labels
+  const s = document.getElementById('mode-all-count-seq');
+  const r = document.getElementById('mode-all-count-rand');
+  if (s) s.textContent = n;
+  if (r) r.textContent = n;
+  // Update hero question count
+  const hq = document.getElementById('home-q-count');
+  if (hq) hq.textContent = n + ' Questions';
+  // Update hero stat box numbers
+  const statNums = document.querySelectorAll('#screen-home .hero [style*="1.5rem"]');
+  if (statNums[0]) statNums[0].textContent = n;
+  // Update topics count
+  const topicSet = activeSubjectFilter
+    ? (activeSubjectFilter.startsWith('__MAIN__')
+        ? [...new Set(rawQ.filter(q => subjectGroup[q.s] === activeSubjectFilter.replace('__MAIN__','')).map(q=>q.s))]
+        : [...new Set(rawQ.filter(q=>q.s===activeSubjectFilter).map(q=>q.s))])
+    : [...new Set(rawQ.map(q=>q.s))];
+  const ht = document.getElementById('home-t-count');
+  if (ht) ht.textContent = topicSet.length;
+  if (statNums[1]) statNums[1].textContent = topicSet.length;
+}
+
+// ── MULTI-SELECT TOPIC CHIPS ────────────────────────────────
 
 function rebuildTopicsForSubject(subjectName, mainSubjName) {
   let filtered;
-  if (subjectName) filtered = rawQ.filter(q => q.s === subjectName);
-  else if (mainSubjName) filtered = rawQ.filter(q => subjectGroup[q.s] === mainSubjName);
-  else filtered = rawQ;
+  if (mainSubjName) {
+    // Explicitly given a main subject — show all its topics
+    filtered = rawQ.filter(q => subjectGroup[q.s] === mainSubjName);
+  } else if (subjectName) {
+    // A subtopic was selected — find its parent main subject and show all sibling topics
+    const parentMain = subjectGroup[subjectName];
+    if (parentMain) {
+      filtered = rawQ.filter(q => subjectGroup[q.s] === parentMain);
+    } else {
+      filtered = rawQ.filter(q => q.s === subjectName);
+    }
+  } else {
+    filtered = rawQ;
+  }
   const topicSet = [...new Set(filtered.map(q => q.s))];
   const c = document.getElementById('topic-buttons');
   if (!c) return;
   c.innerHTML = '';
+  selectedTopics.clear();
   topicSet.forEach(s => {
     const b = document.createElement('button');
     b.className = 'topic-chip';
     b.textContent = s;
-    b.onclick = () => selTopicFn(s, b);
+    b.onclick = () => toggleTopicChip(s, b);
     c.appendChild(b);
   });
+}
+
+function toggleTopicChip(name, btn) {
+  if (selectedTopics.has(name)) {
+    selectedTopics.delete(name);
+    btn.classList.remove('active');
+  } else {
+    selectedTopics.add(name);
+    btn.classList.add('active');
+  }
+  if (selectedTopics.size > 0) {
+    selMode = 'topic';
+    document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('selected'));
+  }
+}
+
+function selTopicFn(name, btn) {
+  toggleTopicChip(name, btn);
 }
 
 // startQuiz now handles subject filtering directly (see startQuiz function above)
@@ -2587,25 +3124,74 @@ function addChangeSubjectBtn() {
   btn.id = 'change-subj-btn';
   btn.className = 'btn-ghost';
   btn.style.cssText = 'margin-top:16px;font-size:13px;padding:8px 20px;';
-  btn.textContent = '← Change Subject';
+  btn.textContent = '← Back';
   btn.onclick = () => {
     buildSubjectSelector(); // reset to top-level subject view
     document.getElementById('screen-subject').classList.remove('hidden');
+    document.body.classList.add('overlay-open');
   };
   hero.appendChild(btn);
 }
 
+// ── THEME TOGGLE ────────────────────────────────────────────
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  const btn = document.getElementById('theme-toggle');
+  btn.textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+// ── RESTORE SAVED THEME ─────────────────────────────────────
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') {
+    document.body.classList.add('light-mode');
+    // btn text set after DOM ready below
+  }
+})();
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
+  // Restore theme toggle icon
+  const savedTheme = localStorage.getItem('theme');
+  const btn = document.getElementById('theme-toggle');
+  if (btn && savedTheme === 'light') btn.textContent = '☀️';
   buildSubjectSelector();
   addChangeSubjectBtn();
+  updateAllCount();
 
-  // NEW FLOW: Login first → Subject selector → Home
   // Subject selector hidden at start
   document.getElementById('screen-subject').classList.add('hidden');
   // Login screen visible at start
   const loginEl = document.getElementById('login-screen');
   if (loginEl) loginEl.style.display = 'flex';
+  document.body.classList.add('overlay-open');
+
+  // Firebase: check if already authenticated on load
+  // _fbOnAuthStateChanged is set by the module script
+  // We poll briefly since modules load async
+  let authCheckAttempts = 0;
+  const authCheckInterval = setInterval(() => {
+    authCheckAttempts++;
+    if (window._fbOnAuthStateChanged && window._fbAuth) {
+      clearInterval(authCheckInterval);
+      window._fbOnAuthStateChanged(window._fbAuth, (user) => {
+        if (user && user.emailVerified) {
+          window._fbCurrentUser = user;
+          // Show user info on login box with option to continue or sign out
+          const row = document.getElementById('auth-signout-row');
+          const lbl = document.getElementById('auth-user-label');
+          if (row && lbl) {
+            lbl.textContent = user.displayName || user.email;
+            row.style.display = 'block';
+          }
+          // Auto-proceed after short delay so user sees who they are
+          setTimeout(() => { _proceedAfterLogin(user); }, 800);
+        }
+      });
+    }
+    if (authCheckAttempts > 30) clearInterval(authCheckInterval); // give up after 3s
+  }, 100);
 });
 
 </script>
