@@ -3777,8 +3777,7 @@ async function doGoogleSignIn() {
   try {
     await window._fbSignInWithRedirect(window._fbAuth, window._fbGoogleProvider);
   } catch(err) {
-    let msg = 'Google sign-in failed. Please try again.';
-    if (err.code === 'auth/network-request-failed') msg = 'Network error. Check your connection.';
+    let msg = 'Google sign-in failed: ' + (err.code || err.message);
     errEl.textContent = msg;
     errEl.style.color = 'var(--red)';
     errEl.style.display = 'block';
