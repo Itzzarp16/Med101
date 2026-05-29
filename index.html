@@ -475,17 +475,11 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid rgba(38,53,80,.8);
   align-items:center;justify-content:space-between;
-  padding:6px 14px;
-  gap:8px;
-  flex-wrap:wrap;
+  padding:6px 14px;gap:8px;flex-wrap:wrap;
   display:none;
 }
-#global-topbar .wa-num{
-  display:none;
-}
-@media(min-width:480px){
-  #global-topbar .wa-num{ display:inline; }
-}
+#global-topbar .wa-num{ display:none; }
+@media(min-width:480px){ #global-topbar .wa-num{ display:inline; } }
 #global-topbar a.wa-link{
   display:flex;align-items:center;gap:7px;text-decoration:none;
 }
@@ -615,8 +609,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   background:var(--surface);border:1.5px solid var(--border2);
   border-radius:16px;padding:18px 18px;cursor:pointer;
   transition:all .22s;position:relative;overflow:visible;
-  display:flex;align-items:flex-start;gap:14px;
-  min-height:72px;
+  display:flex;align-items:flex-start;gap:14px;min-height:72px;
 }
 .subj-card::before{content:'';position:absolute;inset:0;
   background:linear-gradient(135deg,rgba(0,229,255,.07),transparent);opacity:0;transition:opacity .2s;}
@@ -678,7 +671,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
   const firebaseConfig = {
     apiKey: "AIzaSyAQAAQe6H0pIJvmPi7TTjw42-UcvFewFzU",
-    authDomain: "med101-95018.firebaseapp.com",
+    authDomain: "abhishekmed101.space",
     projectId: "med101-95018",
     storageBucket: "med101-95018.firebasestorage.app",
     messagingSenderId: "356519126985",
@@ -2833,7 +2826,8 @@ const rawQ = [
 {s:"Head, Neck & Systemic Anatomy",q:"497. In severe trauma during a major vessel rupture, the pattern of bleeding varies. Which vessels are the most dangerous to rupture and why?",o:["25-30 lobules.","4 -b lobules.","6 -8 slices.","15 to 20 lobes."],c:3},
 {s:"Head, Neck & Systemic Anatomy",q:"498. For a general blood test, the nurse takes the blood by puncturing the skin of the 4th finger. From which arterial capillary network is blood drawn?",o:["Arteries","Veins","venules","capillaries"],c:3},
 {s:"Head, Neck & Systemic Anatomy",q:"499. Arteries contain both arterial and venous blood. Name the arteries that contain venous blood.",o:["Right and left pulmonary arteries","Right and left pulmonary arteries veins","Pulmonary trunk","Aorta"],c:2},
-{s:"Head, Neck & Systemic Anatomy",q:"500. The patient has a damaged vessel, which is a continuation of the femoral artery. Identify this vessel.",o:["External iliac a.","Inferior gluteal a.","Deep femoral a.","Popliteal a."],c:3},
+{s:"Head, Neck & Systemic Anatomy",q:"500. The patient has a damaged vessel, which is a continuation of the femoral artery. Identify this vessel.",o:["External iliac a.","Inferior gluteal a.","Deep femoral a.","Popliteal a."],c:3}
+,
 
 // ── KYRGYZ LANGUAGE (401 Qs) ──
 {s:"Kyrgyz Language",q:"Сен келечекте ким болосуң?",o:["дарыгер болом","дарыгер болосуң","дарыгер болот","дарыгер болдум"],c:0},
