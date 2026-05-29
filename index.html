@@ -655,9 +655,6 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
   import {
-    getFirestore, doc, setDoc, getDoc, collection, addDoc, query, orderBy, limit, getDocs, updateDoc, serverTimestamp
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-  import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -665,7 +662,9 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     signOut,
     updateProfile,
     sendEmailVerification,
-    sendPasswordResetEmail
+    sendPasswordResetEmail,
+    GoogleAuthProvider,
+    signInWithPopup
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -691,25 +690,13 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   window._fbOnAuthStateChanged = onAuthStateChanged;
   window._fbSendEmailVerification = sendEmailVerification;
   window._fbResetPassword = sendPasswordResetEmail;
-
-  // Firestore
-  const db = getFirestore(app);
-  window._db = db;
-  window._fsDoc = doc;
-  window._fsSetDoc = setDoc;
-  window._fsGetDoc = getDoc;
-  window._fsCollection = collection;
-  window._fsAddDoc = addDoc;
-  window._fsQuery = query;
-  window._fsOrderBy = orderBy;
-  window._fsLimit = limit;
-  window._fsGetDocs = getDocs;
-  window._fsUpdateDoc = updateDoc;
-  window._fsServerTimestamp = serverTimestamp;
+  window._fbGoogleProvider = new GoogleAuthProvider();
+  window._fbSignInWithPopup = signInWithPopup;
 
   // Watch auth state — auto-proceed if already logged in
   onAuthStateChanged(auth, (user) => {
-    if (user && user.emailVerified) {
+    const isGoogle = user && user.providerData && user.providerData.some(p => p.providerId === 'google.com');
+    if (user && (user.emailVerified || isGoogle)) {
       window._fbCurrentUser = user;
       // If login screen is still showing, dismiss it
       const ls = document.getElementById('login-screen');
@@ -719,7 +706,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     } else {
       window._fbCurrentUser = null;
       // If user exists but unverified, sign them out silently
-      if (user && !user.emailVerified) {
+      if (user && !user.emailVerified && !isGoogle) {
         signOut(auth).catch(() => {});
       }
     }
@@ -737,13 +724,19 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
      GLOBAL TOP BAR
 ══════════════════════════════ -->
 <div id="global-topbar">
-  <a class="wa-link" href="https://wa.me/996554259092" target="_blank" rel="noopener">
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button onclick="goHome()" title="Home" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,229,255,.25);background:rgba(0,229,255,.08);cursor:pointer;transition:all .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(0,229,255,.2)';this.style.borderColor='rgba(0,229,255,.6)'" onmouseout="this.style.background='rgba(0,229,255,.08)';this.style.borderColor='rgba(0,229,255,.25)'">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(0,229,255,.9)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
+    </button>
+    <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;background:linear-gradient(90deg,#00e5ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.01em;">Med<span style="background:linear-gradient(90deg,#a78bfa,#ff4f6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">101</span></span>
+    <a class="wa-link" href="https://wa.me/996554259092" target="_blank" rel="noopener">
     <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="16" cy="16" r="16" fill="#25D366"/>
       <path d="M23.5 8.5A10.44 10.44 0 0 0 16 5.5C10.75 5.5 6.5 9.75 6.5 15a9.44 9.44 0 0 0 1.27 4.74L6.5 24.5l4.93-1.29A9.5 9.5 0 0 0 16 24.5c5.25 0 9.5-4.25 9.5-9.5a9.44 9.44 0 0 0-2-5.5zm-7.5 14.6a7.87 7.87 0 0 1-4.02-1.1l-.29-.17-2.93.77.78-2.86-.19-.3A7.88 7.88 0 0 1 8.13 15 7.87 7.87 0 0 1 16 7.13 7.87 7.87 0 0 1 23.87 15 7.87 7.87 0 0 1 16 22.87zm4.32-5.9c-.24-.12-1.4-.69-1.61-.77-.22-.08-.38-.12-.54.12s-.62.77-.76.93c-.14.16-.28.18-.52.06a6.53 6.53 0 0 1-1.92-1.18 7.2 7.2 0 0 1-1.33-1.65c-.14-.24-.01-.37.1-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.47-.4-.4-.54-.41h-.46c-.16 0-.42.06-.64.3s-.84.82-.84 2 .86 2.32.98 2.48c.12.16 1.69 2.58 4.1 3.62.57.25 1.02.4 1.37.51.58.18 1.1.16 1.51.1.46-.07 1.4-.57 1.6-1.12.2-.55.2-1.02.14-1.12-.06-.1-.22-.16-.46-.28z" fill="white"/>
     </svg>
     <span class="wa-num">+996 554 259 092</span>
-  </a>
+    </a>
+  </div>
   <div style="display:flex;align-items:center;gap:10px;">
     <div class="madeby">Made by <span>Abhishek Verma</span></div>
     <div id="topbar-user" style="display:none;align-items:center;gap:7px;">
@@ -834,6 +827,31 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
           <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
         </svg>
       </span>
+    </button>
+
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:12px;margin:16px 0;">
+      <div style="flex:1;height:1px;background:var(--border2);"></div>
+      <span style="font-size:12px;color:var(--text3);font-weight:600;white-space:nowrap;">OR</span>
+      <div style="flex:1;height:1px;background:var(--border2);"></div>
+    </div>
+
+    <!-- Google Sign-In -->
+    <button id="google-signin-btn" onclick="doGoogleSignIn()"
+      style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;
+             padding:13px;border-radius:12px;border:1.5px solid var(--border2);
+             background:var(--surface2);color:var(--text);cursor:pointer;
+             font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
+             transition:all .2s;"
+      onmouseover="this.style.borderColor='rgba(0,229,255,.5)';this.style.background='rgba(0,229,255,.06)'"
+      onmouseout="this.style.borderColor='var(--border2)';this.style.background='var(--surface2)'">
+      <svg width="18" height="18" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.1 0 5.6 1.1 7.6 2.9l5.6-5.6C33.5 3.5 29.1 1.5 24 1.5 14.8 1.5 7 7.4 3.9 15.6l6.6 5.1C12.1 14 17.6 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.4c-.5 2.8-2.1 5.1-4.5 6.7l7 5.4c4.1-3.8 6.5-9.4 6.5-16.1z"/>
+        <path fill="#FBBC05" d="M10.5 28.4A14.5 14.5 0 0 1 9.5 24c0-1.5.3-3 .8-4.4l-6.6-5.1A22.5 22.5 0 0 0 1.5 24c0 3.6.9 7 2.4 10l6.6-5.6z"/>
+        <path fill="#34A853" d="M24 46.5c5.1 0 9.4-1.7 12.5-4.6l-7-5.4c-1.7 1.1-3.9 1.8-6.5 1.8-6.4 0-11.9-4.5-13.5-10.5l-6.6 5.6C7 40.6 14.8 46.5 24 46.5z"/>
+      </svg>
+      Continue with Google
     </button>
 
     <!-- Already logged in: show user + sign out -->
@@ -1000,22 +1018,6 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       </div>
     </div>
 
-
-    <!-- ── RESUME BANNER (shown if interrupted session exists) ── -->
-    <div id="resume-banner" style="display:none;margin-bottom:16px;padding:16px 18px;background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(0,229,255,.06));border:1.5px solid rgba(251,191,36,.4);border-radius:14px;">
-      <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-        <div style="font-size:28px;">⏸️</div>
-        <div style="flex:1;">
-          <div style="font-weight:700;font-size:14px;color:var(--amber);margin-bottom:3px;">Resume Last Session</div>
-          <div id="resume-info" style="font-size:12px;color:var(--text2);"></div>
-        </div>
-        <div style="display:flex;gap:8px;">
-          <button onclick="resumeSession()" style="padding:8px 16px;border-radius:10px;border:none;background:linear-gradient(135deg,var(--amber),#f59e0b);color:#000;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:13px;cursor:pointer;">Resume →</button>
-          <button onclick="clearResume()" style="padding:8px 12px;border-radius:10px;border:1px solid var(--border2);background:transparent;color:var(--text3);font-family:'Space Grotesk',sans-serif;font-size:12px;cursor:pointer;">✕</button>
-        </div>
-      </div>
-    </div>
-
     <!-- Start button -->
     <button class="btn-glow" style="width:100%;font-size:16px;padding:16px;margin-bottom:28px;" onclick="startQuiz()">
       Start Quiz →
@@ -1029,14 +1031,6 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       Keyboard: <span class="kbd">A</span> <span class="kbd">B</span> <span class="kbd">C</span> <span class="kbd">D</span> to answer ·
       <span class="kbd">→</span> next · <span class="kbd">←</span> prev
     </p>
-
-    <!-- ── QUIZ HISTORY ── -->
-    <div id="history-section" style="margin-top:28px;display:none;">
-      <div class="section-label">📊 Your Quiz History</div>
-      <div id="history-list" style="display:flex;flex-direction:column;gap:10px;"></div>
-      <div id="history-empty" style="display:none;text-align:center;padding:20px;color:var(--text3);font-size:13px;">No quiz attempts yet. Start your first quiz!</div>
-    </div>
-
 
   </div>
 </div>
@@ -2569,7 +2563,6 @@ function renderQ(){
 }
 
 function answerQ(idx){
-  setTimeout(saveProgress, 500); // save after answering
   if(userAnswers[cur]!==-1)return;stopQT();userAnswers[cur]=idx;
   const q=quizQ[cur],btns=$('opts').querySelectorAll('.opt-btn');
   btns.forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add('correct');else if(i===idx)b.classList.add('wrong');});
@@ -2584,11 +2577,6 @@ function navQ(dir){
 }
 
 function endQuiz(){
-  // Save to history before showing results
-  const _total = quizQ ? quizQ.length : 0;
-  const _cor = quizQ ? userAnswers.filter((a,i)=>a>=0&&a===quizQ[i].c).length : 0;
-  const _pct = _total ? Math.round(_cor/_total*100) : 0;
-  saveQuizHistory(_cor, _total, _pct).catch(()=>{});
   if(advTimer){clearTimeout(advTimer);advTimer=null;}
   closeSubmitModal();
   stopQT();recQT();swElapsed=Date.now()-swStart;stopSW();
@@ -2659,7 +2647,30 @@ function restartSame(){
   showScreen('screen-quiz');startSW();renderQ();
 }
 function goHome(){
-  if(advTimer){clearTimeout(advTimer);advTimer=null;}stopQT();stopSW();showScreen('screen-home');
+  // Stop timers
+  if(advTimer){clearTimeout(advTimer);advTimer=null;}
+  if(typeof stopQT==='function') stopQT();
+  if(typeof stopSW==='function') stopSW();
+
+  // Hide all .screen elements (screen-subject is NOT a .screen so safe)
+  document.querySelectorAll('.screen').forEach(s=>{
+    s.classList.remove('active');
+  });
+
+  // Force show screen-subject
+  const ss=document.getElementById('screen-subject');
+  if(ss){
+    ss.classList.remove('hidden');
+    ss.style.display='flex';   // override any inline display:none
+    ss.style.zIndex='9999';    // ensure it's on top
+    ss.scrollTop=0;
+  }
+  document.body.classList.add('overlay-open');
+  document.body.classList.remove('overlay-open');
+  document.body.classList.add('overlay-open');
+
+  // Reset subject filter
+  if(typeof activeSubjectFilter!=='undefined') activeSubjectFilter=null;
 }
 
 // ════════════════════════════════════════════
@@ -2786,8 +2797,6 @@ function _proceedAfterLogin(user) {
       tu.style.display = 'flex';
     }
     document.getElementById('global-topbar').style.display = 'flex';
-    // Load Firestore history + resume
-    loadUserData().catch(()=>{});
     // Show subject selector — keep body locked until subject is chosen
     document.getElementById('screen-subject').classList.remove('hidden');
     document.body.classList.add('overlay-open');
@@ -2839,6 +2848,31 @@ async function doAuthSubmit() {
   }
 }
 
+async function doGoogleSignIn() {
+  const btn = document.getElementById('google-signin-btn');
+  const errEl = document.getElementById('auth-error-msg');
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.style.opacity = '.6';
+  btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;"><circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg> Signing in…`;
+  try {
+    const result = await window._fbSignInWithPopup(window._fbAuth, window._fbGoogleProvider);
+    window._fbCurrentUser = result.user;
+    _proceedAfterLogin(result.user);
+  } catch(err) {
+    let msg = 'Google sign-in failed. Please try again.';
+    if (err.code === 'auth/popup-closed-by-user' || err.code === 'auth/cancelled-popup-request') msg = 'Sign-in cancelled.';
+    else if (err.code === 'auth/popup-blocked') msg = 'Popup blocked. Please allow popups for this site and try again.';
+    else if (err.code === 'auth/network-request-failed') msg = 'Network error. Check your connection.';
+    errEl.textContent = msg;
+    errEl.style.color = 'var(--red)';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.1 0 5.6 1.1 7.6 2.9l5.6-5.6C33.5 3.5 29.1 1.5 24 1.5 14.8 1.5 7 7.4 3.9 15.6l6.6 5.1C12.1 14 17.6 9.5 24 9.5z"/><path fill="#4285F4" d="M46.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h12.4c-.5 2.8-2.1 5.1-4.5 6.7l7 5.4c4.1-3.8 6.5-9.4 6.5-16.1z"/><path fill="#FBBC05" d="M10.5 28.4A14.5 14.5 0 0 1 9.5 24c0-1.5.3-3 .8-4.4l-6.6-5.1A22.5 22.5 0 0 0 1.5 24c0 3.6.9 7 2.4 10l6.6-5.6z"/><path fill="#34A853" d="M24 46.5c5.1 0 9.4-1.7 12.5-4.6l-7-5.4c-1.7 1.1-3.9 1.8-6.5 1.8-6.4 0-11.9-4.5-13.5-10.5l-6.6 5.6C7 40.6 14.8 46.5 24 46.5z"/></svg> Continue with Google`;
+  }
+}
+
 async function doSignOut() {
   if (window._fbAuth && window._fbSignOut) {
     await window._fbSignOut(window._fbAuth).catch(()=>{});
@@ -2876,159 +2910,6 @@ async function doTopbarSignOut() {
   document.getElementById('screen-subject').classList.add('hidden');
   showScreen('screen-home');
 }
-
-
-// ════════════════════════════════════════════
-//  FIRESTORE — HISTORY & RESUME
-// ════════════════════════════════════════════
-
-// Save progress mid-quiz (called on every answer + page unload)
-async function saveProgress() {
-  const user = window._fbCurrentUser;
-  if (!user || !quizQ || !quizQ.length) return;
-  try {
-    const db = window._db;
-    const ref = window._fsDoc(db, 'users', user.uid, 'session', 'current');
-    await window._fsSetDoc(ref, {
-      quizQ: quizQ.map(q => ({ q: q.q, o: q.o, c: q.c, s: q.s, correct: q.correct })),
-      userAnswers,
-      cur,
-      reviewFlags,
-      selMode,
-      elapsedSecs: elapsedSec,
-      subject: typeof activeSubjectFilter !== 'undefined' ? (activeSubjectFilter || 'All') : 'All',
-      savedAt: window._fsServerTimestamp()
-    });
-  } catch(e) { console.warn('saveProgress failed', e); }
-}
-
-// Save completed quiz to history
-async function saveQuizHistory(score, total, pct) {
-  const user = window._fbCurrentUser;
-  if (!user) return;
-  try {
-    const db = window._db;
-    const col = window._fsCollection(db, 'users', user.uid, 'history');
-    await window._fsAddDoc(col, {
-      score, total, pct,
-      mode: selMode || 'unknown',
-      subject: typeof activeSubjectFilter !== 'undefined' ? (activeSubjectFilter || 'All') : 'All',
-      date: window._fsServerTimestamp()
-    });
-    // Clear the resume session since quiz is done
-    const ref = window._fsDoc(db, 'users', user.uid, 'session', 'current');
-    await window._fsSetDoc(ref, { cleared: true, savedAt: window._fsServerTimestamp() });
-  } catch(e) { console.warn('saveQuizHistory failed', e); }
-}
-
-// Load history and resume from Firestore
-async function loadUserData() {
-  const user = window._fbCurrentUser;
-  if (!user) return;
-  const db = window._db;
-
-  // Load resume session
-  try {
-    const ref = window._fsDoc(db, 'users', user.uid, 'session', 'current');
-    const snap = await window._fsGetDoc(ref);
-    if (snap.exists()) {
-      const data = snap.data();
-      if (!data.cleared && data.quizQ && data.quizQ.length && data.userAnswers) {
-        window._savedSession = data;
-        const answered = data.userAnswers.filter(a => a !== -1).length;
-        const total = data.quizQ.length;
-        const subj = data.subject || 'All';
-        const mode = data.mode || data.selMode || '';
-        const banner = document.getElementById('resume-banner');
-        const info = document.getElementById('resume-info');
-        if (banner && info) {
-          info.textContent = `${subj} · Q${data.cur + 1}/${total} · ${answered} answered · ${formatTime(data.elapsedSecs || 0)} elapsed`;
-          banner.style.display = 'block';
-        }
-      }
-    }
-  } catch(e) { console.warn('loadResume failed', e); }
-
-  // Load history
-  try {
-    const col = window._fsCollection(db, 'users', user.uid, 'history');
-    const q = window._fsQuery(col, window._fsOrderBy('date', 'desc'), window._fsLimit(8));
-    const snaps = await window._fsGetDocs(q);
-    const histSection = document.getElementById('history-section');
-    const histList = document.getElementById('history-list');
-    const histEmpty = document.getElementById('history-empty');
-    if (!histSection) return;
-    histSection.style.display = 'block';
-    histList.innerHTML = '';
-    if (snaps.empty) {
-      histEmpty.style.display = 'block';
-      return;
-    }
-    histEmpty.style.display = 'none';
-    snaps.forEach(docSnap => {
-      const d = docSnap.data();
-      const pct = d.pct || 0;
-      const color = pct >= 80 ? 'var(--green)' : pct >= 60 ? 'var(--amber)' : 'var(--red)';
-      const grade = pct >= 90 ? 'A+' : pct >= 80 ? 'A' : pct >= 70 ? 'B' : pct >= 60 ? 'C' : pct >= 50 ? 'D' : 'F';
-      const dateStr = d.date?.toDate ? d.date.toDate().toLocaleString('en-GB', {day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '—';
-      const subj = d.subject || 'All';
-      const mode = {rand25:'Random 25',rand50:'Random 50','all-seq':'All Sequential','all-rand':'All Random',custom:'Custom',topic:'Topic',unknown:'Quiz'}[d.mode] || d.mode || 'Quiz';
-      const card = document.createElement('div');
-      card.style.cssText = 'display:flex;align-items:center;gap:14px;padding:12px 16px;background:var(--surface);border:1px solid var(--border2);border-radius:12px;border-left:3px solid ' + color + ';';
-      card.innerHTML = `
-        <div style="text-align:center;min-width:48px;">
-          <div style="font-size:1.3rem;font-weight:800;color:${color};">${grade}</div>
-          <div style="font-size:10px;color:var(--text3);">${pct}%</div>
-        </div>
-        <div style="flex:1;">
-          <div style="font-size:13px;font-weight:700;color:var(--text);">${subj} · ${mode}</div>
-          <div style="font-size:11px;color:var(--text3);margin-top:2px;">${d.score}/${d.total} correct · ${dateStr}</div>
-        </div>
-      `;
-      histList.appendChild(card);
-    });
-  } catch(e) { console.warn('loadHistory failed', e); }
-}
-
-function formatTime(secs) {
-  const m = Math.floor(secs / 60), s = secs % 60;
-  return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}
-
-// Resume a saved session
-function resumeSession() {
-  const data = window._savedSession;
-  if (!data) return;
-  quizQ = data.quizQ.map(q => ({...q, opts: q.o, userAns: null}));
-  userAnswers = data.userAnswers;
-  cur = data.cur || 0;
-  reviewFlags = data.reviewFlags || new Array(quizQ.length).fill(false);
-  elapsedSec = data.elapsedSecs || 0;
-  selMode = data.selMode || 'all-seq';
-  $('quiz-mode-label').textContent = 'Resumed';
-  document.getElementById('resume-banner').style.display = 'none';
-  showScreen('screen-quiz');
-  startSW();
-  renderQ();
-}
-
-// Clear resume session
-async function clearResume() {
-  window._savedSession = null;
-  document.getElementById('resume-banner').style.display = 'none';
-  const user = window._fbCurrentUser;
-  if (!user) return;
-  try {
-    const ref = window._fsDoc(window._db, 'users', user.uid, 'session', 'current');
-    await window._fsSetDoc(ref, { cleared: true, savedAt: window._fsServerTimestamp() });
-  } catch(e) {}
-}
-
-// Auto-save on page unload/hide
-document.addEventListener('visibilitychange', () => {
-  if (document.visibilityState === 'hidden') saveProgress();
-});
-window.addEventListener('beforeunload', () => { saveProgress(); });
 
 // ======================== KEYBOARD ========================
 document.addEventListener('keydown',e=>{
@@ -3141,10 +3022,10 @@ function buildSubjectSelector() {
     <div>
       <div class="subj-name" style="font-size:16px;">Kyrgyz Language</div>
       <div class="subj-count">401 questions · Exam prep</div>
-      <div class="subj-count" style="margin-top:2px;color:var(--text3);font-size:11px;">Opens on itzzarp16.github.io/Med102/ →</div>
+      <div class="subj-count" style="margin-top:2px;color:var(--text3);font-size:11px;">Tap to start →</div>
     </div>
     <div class="subj-arrow" style="color:#fbbf24;">›</div>`;
-  kyrgyzCard.onclick = () => window.open('https://itzzarp16.github.io/Med102', '_blank');
+  kyrgyzCard.onclick = () => window.location.href = 'https://Abhishekmed101.space/kyrgyz.html';
   kyrgyzCard.onmouseover = () => { kyrgyzCard.style.borderColor='rgba(255,195,0,.7)'; kyrgyzCard.style.boxShadow='0 6px 28px rgba(255,195,0,.15)'; kyrgyzCard.style.transform='translateY(-3px)'; };
   kyrgyzCard.onmouseout  = () => { kyrgyzCard.style.borderColor='rgba(255,195,0,.35)'; kyrgyzCard.style.boxShadow=''; kyrgyzCard.style.transform=''; };
   grid.appendChild(kyrgyzCard);
@@ -3379,7 +3260,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window._fbOnAuthStateChanged && window._fbAuth) {
       clearInterval(authCheckInterval);
       window._fbOnAuthStateChanged(window._fbAuth, (user) => {
-        if (user && user.emailVerified) {
+        const isGoogle = user && user.providerData && user.providerData.some(p => p.providerId === 'google.com');
+        if (user && (user.emailVerified || isGoogle)) {
           window._fbCurrentUser = user;
           // Show user info on login box with option to continue or sign out
           const row = document.getElementById('auth-signout-row');
