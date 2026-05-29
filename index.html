@@ -470,13 +470,21 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 ══════════════════════════════ */
 #global-topbar{
   position:fixed;top:0;left:0;right:0;z-index:9999;
-  height:38px;
-  background:rgba(8,12,20,.88);
+  min-height:44px;height:auto;
+  background:rgba(8,12,20,.92);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
   border-bottom:1px solid rgba(38,53,80,.8);
   align-items:center;justify-content:space-between;
-  padding:0 16px;
+  padding:6px 14px;
+  gap:8px;
+  flex-wrap:wrap;
   display:none;
+}
+#global-topbar .wa-num{
+  display:none;
+}
+@media(min-width:480px){
+  #global-topbar .wa-num{ display:inline; }
 }
 #global-topbar a.wa-link{
   display:flex;align-items:center;gap:7px;text-decoration:none;
@@ -605,9 +613,10 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 }
 .subj-card{
   background:var(--surface);border:1.5px solid var(--border2);
-  border-radius:16px;padding:20px 22px;cursor:pointer;
-  transition:all .22s;position:relative;overflow:hidden;
-  display:flex;align-items:center;gap:16px;
+  border-radius:16px;padding:18px 18px;cursor:pointer;
+  transition:all .22s;position:relative;overflow:visible;
+  display:flex;align-items:flex-start;gap:14px;
+  min-height:72px;
 }
 .subj-card::before{content:'';position:absolute;inset:0;
   background:linear-gradient(135deg,rgba(0,229,255,.07),transparent);opacity:0;transition:opacity .2s;}
@@ -619,10 +628,10 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(0,229,255,.04));
 }
 .subj-card.all-subjects:hover{border-color:var(--violet);box-shadow:0 6px 28px rgba(167,139,250,.18);}
-.subj-emoji{font-size:32px;flex-shrink:0;}
-.subj-name{font-weight:700;font-size:15px;color:var(--text);line-height:1.3;}
-.subj-count{font-size:12px;color:var(--text3);margin-top:3px;}
-.subj-arrow{margin-left:auto;color:var(--text3);font-size:18px;flex-shrink:0;transition:transform .2s color .2s;}
+.subj-name{font-weight:700;font-size:15px;color:var(--text);line-height:1.35;white-space:normal;word-break:break-word;}
+.subj-count{font-size:12px;color:var(--text3);margin-top:4px;white-space:normal;word-break:break-word;line-height:1.4;}
+.subj-emoji{font-size:30px;flex-shrink:0;margin-top:2px;}
+.subj-arrow{margin-left:auto;color:var(--text3);font-size:18px;flex-shrink:0;transition:transform .2s,color .2s;align-self:center;}
 .subj-card:hover .subj-arrow{color:var(--cyan);transform:translateX(4px);}
 .subj-card.all-subjects .subj-arrow{color:var(--violet);}
 .subj-card.all-subjects:hover .subj-arrow{color:var(--violet);}
@@ -737,11 +746,11 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     <span class="wa-num">+996 554 259 092</span>
     </a>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <div class="madeby">Made by <span>Abhishek Verma</span></div>
-    <div id="topbar-user" style="display:none;align-items:center;gap:7px;">
-      <span style="font-size:11px;color:var(--text2);font-family:'Space Grotesk',sans-serif;">👤 <span id="topbar-username" style="color:var(--cyan);font-weight:700;"></span></span>
-      <button onclick="doTopbarSignOut()" style="font-size:10px;font-weight:700;font-family:'Space Grotesk',sans-serif;padding:3px 9px;border-radius:20px;border:1px solid rgba(255,79,107,.4);background:rgba(255,79,107,.1);color:var(--red);cursor:pointer;transition:all .2s;letter-spacing:.02em;" onmouseover="this.style.background='rgba(255,79,107,.25)'" onmouseout="this.style.background='rgba(255,79,107,.1)'">Logout</button>
+  <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+    <div class="madeby" id="topbar-madeby">Made by <span>Abhishek Verma</span></div>
+    <div id="topbar-user" style="display:none;align-items:center;gap:6px;">
+      <span style="font-size:11px;color:var(--text2);font-family:'Space Grotesk',sans-serif;white-space:nowrap;">👤 <span id="topbar-username" style="color:var(--cyan);font-weight:700;"></span></span>
+      <button onclick="doTopbarSignOut()" style="font-size:10px;font-weight:700;font-family:'Space Grotesk',sans-serif;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,79,107,.4);background:rgba(255,79,107,.1);color:var(--red);cursor:pointer;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(255,79,107,.25)'" onmouseout="this.style.background='rgba(255,79,107,.1)'">Logout</button>
     </div>
   </div>
 </div>
@@ -3699,6 +3708,8 @@ function _proceedAfterLogin(user) {
     if(tu && tun){
       tun.textContent = user.displayName || user.email;
       tu.style.display = 'flex';
+      const mb = document.getElementById('topbar-madeby');
+      if(mb) mb.style.display = 'none';
     }
     document.getElementById('global-topbar').style.display = 'flex';
     // Show subject selector — keep body locked until subject is chosen
@@ -3782,6 +3793,8 @@ async function doSignOut() {
     await window._fbSignOut(window._fbAuth).catch(()=>{});
   }
   window._fbCurrentUser = null;
+  const mb = document.getElementById('topbar-madeby');
+  if(mb) mb.style.display = '';
   document.getElementById('auth-signout-row').style.display = 'none';
   document.getElementById('auth-email-input').value = '';
   document.getElementById('auth-pass-input').value = '';
