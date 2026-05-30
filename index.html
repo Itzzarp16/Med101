@@ -727,7 +727,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
   const firebaseConfig = {
     apiKey: "AIzaSyAQAAQe6H0pIJvmPi7TTjw42-UcvFewFzU",
-    authDomain: "abhishekmed101.space",
+    authDomain: "med101-95018.firebaseapp.com",
     projectId: "med101-95018",
     storageBucket: "med101-95018.firebasestorage.app",
     messagingSenderId: "356519126985",
@@ -752,21 +752,6 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   window._fbSignInWithPopup = signInWithPopup;
   window._fbSignInWithRedirect = signInWithRedirect;
   window._fbGetRedirectResult = getRedirectResult;
-
-  // Handle Google redirect result on page load
-  getRedirectResult(auth).then((result) => {
-    if (result && result.user) {
-      window._fbCurrentUser = result.user;
-      const ls = document.getElementById('login-screen');
-      if (ls && ls.style.display !== 'none') {
-        _proceedAfterLogin(result.user);
-      }
-    }
-  }).catch((e) => {
-    if (e.code !== 'auth/cancelled-popup-request') {
-      console.warn('Google redirect error:', e.message);
-    }
-  });
 
   // Watch auth state — auto-proceed if already logged in
   onAuthStateChanged(auth, (user) => {
@@ -3822,14 +3807,9 @@ async function doGoogleSignIn() {
     _proceedAfterLogin(cred.user);
   } catch(e) {
     if (btn) { btn.disabled = false; btn.innerHTML = _googleBtnHTML(); }
-    if (e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
-      // Popup was blocked — fall back to redirect silently
-      try {
-        await window._fbSignInWithRedirect(auth, provider);
-      } catch(re) {
-        _showAuthError('Could not open Google sign-in. Please try again.');
-      }
-    } else {
+    if (e.code === 'auth/popup-blocked') {
+      _showAuthError('⚠️ Popup was blocked. Please allow popups for this site in your browser settings, then try again.');
+    } else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
       _showAuthError('Google sign-in failed: ' + (e.message || e.code));
     }
   }
