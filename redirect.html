@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, getRedirectResult } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const app = initializeApp({
+      apiKey: "AIzaSyAQAAQe6H0pIJvmPi7TTjw42-UcvFewFzU",
+      authDomain: "med101-95018.firebaseapp.com",
+      projectId: "med101-95018",
+      storageBucket: "med101-95018.firebasestorage.app",
+      messagingSenderId: "356519126985",
+      appId: "1:356519126985:web:f4f1330f0957cd3d1daa18"
+    });
+
+    const auth = getAuth(app);
+    getRedirectResult(auth).then(() => {
+      window.location.replace('/');
+    }).catch(() => {
+      window.location.replace('/');
+    });
+  </script>
+</head>
+<body style="background:#080c14;color:#fff;font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;">
+  <div style="text-align:center;">
+    <div style="font-size:40px;margin-bottom:16px;">🔄</div>
+    <div>Signing you in...</div>
+  </div>
+</body>
+</html>
