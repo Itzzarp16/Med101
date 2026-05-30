@@ -84,7 +84,7 @@ body.light-mode #theme-toggle:hover{background:rgba(0,100,180,.22);}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{height:100%;overflow:hidden;}
 body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100%;height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-body.overlay-open{overflow:hidden!important;height:100vh!important;position:fixed!important;width:100%!important;}
+body.overlay-open{overflow:hidden!important;}
 h1,h2,.display{font-family:'Syne',sans-serif;}
 
 /* ── SCROLLBAR ── */
@@ -502,18 +502,18 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
 #login-screen{
   position:fixed;top:0;left:0;right:0;bottom:0;
-  width:100%;height:100%;min-height:100vh;
+  width:100vw;height:100vh;
   z-index:10000;
   display:flex;align-items:center;justify-content:center;
-  background:var(--bg);overflow-y:auto;overflow-x:hidden;
+  background:var(--bg);
+  overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  /* Fill overscroll bounce area on iOS/Android */
-  background-attachment:fixed;
 }
 /* Extra pseudo-element to fill any overscroll area above/below */
 #login-screen::before{
-  content:'';position:fixed;inset:-200px;z-index:-1;
+  content:'';position:fixed;inset:0;z-index:-1;
   background:var(--bg);pointer-events:none;
+  width:100vw;height:100vh;
 }
 #login-screen.hide{
   animation:loginHide .5s cubic-bezier(.7,0,.3,1) forwards;
@@ -873,7 +873,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     <div style="display:flex;gap:0;background:var(--bg2);border-radius:10px;padding:3px;margin-bottom:22px;border:1px solid var(--border2);">
       <button id="tab-signin" onclick="switchAuthTab('signin')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);">Sign In</button>
       <button id="tab-signup" onclick="switchAuthTab('signup')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);">Sign Up</button>
-      <button id="tab-phone" onclick="switchAuthTab('phone')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);">📱 Phone</button>
+
     </div>
 
     <div id="email-auth-section">
@@ -883,12 +883,12 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       <input class="login-input" id="auth-name-input" type="text" placeholder="Your name" autocomplete="name" onkeydown="if(event.key==='Enter')doAuthSubmit()">
     </div>
 
-    <!-- Email -->
-    <label class="login-label" for="auth-email-input">Email</label>
-    <input class="login-input" id="auth-email-input" type="email" placeholder="yourname@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')doAuthSubmit()">
+    <!-- Email or Phone -->
+    <label class="login-label" for="auth-email-input" id="email-field-label">Email or Phone Number</label>
+    <input class="login-input" id="auth-email-input" type="text" placeholder="yourname@email.com or +996700123456" autocomplete="email" onkeydown="if(event.key==='Enter')doAuthSubmit()" oninput="autoDetectInputMode(this.value)">
 
     <!-- Password -->
-    <label class="login-label" for="auth-pass-input" style="margin-top:4px;">Password</label>
+    <label class="login-label" id="pass-field-label" for="auth-pass-input" style="margin-top:4px;">Password</label>
     <div style="position:relative;margin-bottom:8px;">
       <input class="login-input" id="auth-pass-input" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuthSubmit()" style="margin-bottom:0;padding-right:44px;">
       <button onclick="togglePassVis()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:4px;" id="pass-eye">👁</button>
@@ -908,6 +908,37 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       <button onclick="doForgotPassword()" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-weight:600;padding:0;opacity:.8;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.8'">Forgot password?</button>
     </div>
 
+    <!-- Inline phone OTP panel (shown when phone number detected) -->
+    <div id="inline-phone-panel" style="display:none;">
+      <div id="inline-phone-step1">
+        <div id="recaptcha-container-inline" style="margin-bottom:12px;display:flex;justify-content:center;"></div>
+        <div class="login-error" id="inline-phone-error-msg" style="display:none;margin-bottom:8px;"></div>
+      </div>
+      <div id="inline-phone-step2" style="display:none;">
+        <div style="text-align:center;margin-bottom:10px;font-size:.85rem;color:var(--text2);">
+          OTP sent to <span id="inline-phone-display-num" style="color:var(--cyan);font-weight:700;"></span>
+        </div>
+        <label class="login-label">Enter 6-digit OTP</label>
+        <input class="login-input" id="inline-phone-otp-input" type="number" placeholder="123456"
+          style="text-align:center;letter-spacing:.3em;font-size:1.2rem;margin-bottom:8px;"
+          onkeydown="if(event.key==='Enter')doInlinePhoneVerifyOTP()">
+        <div class="login-error" id="inline-phone-otp-error" style="display:none;margin-bottom:8px;"></div>
+        <button class="login-btn" id="inline-phone-verify-btn" onclick="doInlinePhoneVerifyOTP()">
+          <span id="inline-verify-text">Verify & Continue →</span>
+          <span id="inline-verify-spinner" style="display:none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;">
+              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </button>
+        <button onclick="resetInlinePhoneToStep1()"
+          style="width:100%;margin-top:8px;background:none;border:none;color:var(--text3);font-size:.78rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;">
+          ← Change number
+        </button>
+      </div>
+    </div>
+
     <!-- Error message -->
     <div class="login-error" id="auth-error-msg" style="display:none;margin-bottom:10px;"></div>
 
@@ -922,71 +953,9 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       </span>
     </button>
 
-    <!-- Phone Login Panel -->
-    <div id="panel-phone" style="display:none;">
-      <!-- Step 1: Enter phone -->
-      <div id="phone-step1">
-        <label class="login-label">Phone Number</label>
-        <div style="display:flex;gap:8px;margin-bottom:8px;">
-          <input class="login-input" id="phone-country-code" type="text" placeholder="+996" value="+996"
-            style="width:80px;flex-shrink:0;padding:14px 10px;text-align:center;">
-          <input class="login-input" id="phone-number-input" type="tel" placeholder="700 123 456"
-            style="flex:1;margin-bottom:0;" onkeydown="if(event.key==='Enter')doPhoneSendOTP()">
-        </div>
-        <div class="login-error" id="phone-error-msg" style="display:none;margin-bottom:8px;"></div>
-        <div id="recaptcha-container" style="margin-bottom:12px;display:flex;justify-content:center;"></div>
-        <button class="login-btn" id="phone-send-btn" onclick="doPhoneSendOTP()">
-          <span id="phone-send-text">Send OTP →</span>
-          <span id="phone-send-spinner" style="display:none;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;">
-              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3"/>
-              <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-          </span>
-        </button>
-      </div>
-      <!-- Step 2: Enter OTP -->
-      <div id="phone-step2" style="display:none;">
-        <div style="text-align:center;margin-bottom:14px;font-size:.85rem;color:var(--text2);">
-          OTP sent to <span id="phone-display-num" style="color:var(--cyan);font-weight:700;"></span>
-        </div>
-        <label class="login-label">Enter 6-digit OTP</label>
-        <input class="login-input" id="phone-otp-input" type="number" placeholder="123456"
-          style="text-align:center;letter-spacing:.3em;font-size:1.2rem;margin-bottom:8px;"
-          onkeydown="if(event.key==='Enter')doPhoneVerifyOTP()">
-        <div class="login-error" id="phone-otp-error-msg" style="display:none;margin-bottom:8px;"></div>
-        <button class="login-btn" id="phone-verify-btn" onclick="doPhoneVerifyOTP()">
-          <span id="phone-verify-text">Verify & Sign In →</span>
-          <span id="phone-verify-spinner" style="display:none;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;">
-              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3"/>
-              <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-          </span>
-        </button>
-        <button onclick="document.getElementById('phone-step1').style.display='block';document.getElementById('phone-step2').style.display='none';"
-          style="width:100%;margin-top:8px;background:none;border:none;color:var(--text3);font-size:.78rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;">
-          ← Change number
-        </button>
-      </div>
-    </div>
 
-    </div>
 
-        <!-- OR divider -->
-    <div class="login-divider">OR</div>
 
-    <!-- Google Sign In -->
-    <button class="btn-google" id="btn-google" onclick="doGoogleSignIn()">
-      <svg width="18" height="18" viewBox="0 0 48 48">
-        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-        <path fill="none" d="M0 0h48v48H0z"/>
-      </svg>
-      Continue with Google
-    </button>
 
     <!-- Already logged in: show user + sign out -->
     <div id="auth-signout-row" style="display:none;text-align:center;margin-top:10px;">
@@ -1018,7 +987,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 <!-- ══════════════════════════════
      HOME SCREEN
 ══════════════════════════════ -->
-<div id="screen-home" class="screen active" style="position:relative;z-index:1;padding-top:38px;">
+<div id="screen-home" class="screen" style="position:relative;z-index:1;padding-top:38px;">
 
   <!-- Hero banner -->
   <div class="hero py-14 px-6" style="text-align:center;">
@@ -4028,11 +3997,178 @@ function goHome(){
 // ════════════════════════════════════════════
 
 let _authTab = 'signin'; // 'signin' | 'signup'
+let _inputMode = 'email'; // 'email' | 'phone'
+let _inlinePhoneConfirmationResult = null;
+
+// Detect if input looks like a phone number
+function _isPhoneInput(val) {
+  const stripped = val.replace(/[\s\-\(\)]/g, '');
+  return /^\+?[0-9]{7,15}$/.test(stripped);
+}
+
+function autoDetectInputMode(val) {
+  const isPhone = _isPhoneInput(val);
+  const passWrapper = document.getElementById('auth-pass-input').parentElement; // the relative div
+  const passLabel = document.getElementById('pass-field-label');
+  const confirmBlock = document.getElementById('field-confirm-pass');
+  const forgotBlock = document.getElementById('field-forgot');
+  const inlinePanel = document.getElementById('inline-phone-panel');
+  const step2 = document.getElementById('inline-phone-step2');
+
+  if (isPhone && _inputMode !== 'phone') {
+    _inputMode = 'phone';
+    // Hide password fields
+    passWrapper.style.display = 'none';
+    if (passLabel) passLabel.style.display = 'none';
+    if (confirmBlock) confirmBlock.style.display = 'none';
+    if (forgotBlock) forgotBlock.style.display = 'none';
+    // Show inline phone panel (step 1 only unless OTP already sent)
+    inlinePanel.style.display = 'block';
+    if (!step2 || step2.style.display === 'none') {
+      document.getElementById('inline-phone-step1').style.display = 'block';
+    }
+    // Change submit button to send OTP
+    document.getElementById('auth-btn-text').textContent = 'Send OTP →';
+    document.getElementById('email-field-label').textContent = 'Phone Number';
+    document.getElementById('auth-email-input').placeholder = '+996 700 123 456';
+  } else if (!isPhone && _inputMode !== 'email') {
+    _inputMode = 'email';
+    _resetInlinePhone();
+  }
+}
+
+function _resetInlinePhone() {
+  _inputMode = 'email';
+  _inlinePhoneConfirmationResult = null;
+  // Show password fields
+  const passParent = document.getElementById('auth-pass-input').parentElement;
+  passParent.style.display = 'block';
+  const passLabel = document.getElementById('pass-field-label');
+  if (passLabel) passLabel.style.display = 'block';
+  // Restore confirm + forgot based on tab
+  if (_authTab === 'signup') {
+    document.getElementById('field-confirm-pass').style.display = 'block';
+    document.getElementById('field-forgot').style.display = 'none';
+  } else {
+    document.getElementById('field-confirm-pass').style.display = 'none';
+    document.getElementById('field-forgot').style.display = 'block';
+  }
+  // Hide inline phone panel
+  document.getElementById('inline-phone-panel').style.display = 'none';
+  document.getElementById('inline-phone-step1').style.display = 'block';
+  document.getElementById('inline-phone-step2').style.display = 'none';
+  document.getElementById('inline-phone-error-msg').style.display = 'none';
+  document.getElementById('inline-phone-otp-error').style.display = 'none';
+  document.getElementById('inline-phone-otp-input').value = '';
+  // Reset submit button
+  document.getElementById('auth-btn-text').textContent = _authTab === 'signup' ? 'Create Account →' : 'Sign In →';
+  document.getElementById('auth-submit-btn').style.display = 'block';
+  document.getElementById('email-field-label').textContent = 'Email or Phone Number';
+  document.getElementById('auth-email-input').placeholder = 'yourname@email.com or +996700123456';
+  document.getElementById('auth-email-input').type = 'text';
+}
+
+function resetInlinePhoneToStep1() {
+  document.getElementById('inline-phone-step1').style.display = 'block';
+  document.getElementById('inline-phone-step2').style.display = 'none';
+  document.getElementById('inline-phone-otp-error').style.display = 'none';
+  document.getElementById('inline-phone-otp-input').value = '';
+  _inlinePhoneConfirmationResult = null;
+  document.getElementById('auth-btn-text').textContent = 'Send OTP →';
+  document.getElementById('auth-submit-btn').style.display = 'block';
+}
+
+async function doInlinePhoneSendOTP() {
+  const rawVal = document.getElementById('auth-email-input').value.trim().replace(/\s+/g,'');
+  const errEl = document.getElementById('inline-phone-error-msg');
+  errEl.style.display = 'none';
+
+  if (!window._fbAuth || !window._fbRecaptchaVerifier || !window._fbSignInWithPhoneNumber) {
+    errEl.textContent = 'Firebase not ready. Please refresh.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  // Ensure number has + prefix
+  const fullPhone = rawVal.startsWith('+') ? rawVal : '+' + rawVal;
+
+  _setAuthLoading(true);
+
+  // Setup invisible reCAPTCHA
+  if (!window._inlineAppVerifier) {
+    try {
+      window._inlineAppVerifier = new window._fbRecaptchaVerifier(window._fbAuth, 'recaptcha-container-inline', {
+        size: 'invisible',
+        callback: () => {}
+      });
+    } catch(e) {
+      errEl.textContent = 'reCAPTCHA error: ' + e.message;
+      errEl.style.display = 'block';
+      _setAuthLoading(false);
+      return;
+    }
+  }
+
+  try {
+    const confirmationResult = await window._fbSignInWithPhoneNumber(window._fbAuth, fullPhone, window._inlineAppVerifier);
+    _inlinePhoneConfirmationResult = confirmationResult;
+    document.getElementById('inline-phone-display-num').textContent = fullPhone;
+    document.getElementById('inline-phone-step1').style.display = 'none';
+    document.getElementById('inline-phone-step2').style.display = 'block';
+    // Hide main submit btn; OTP panel has its own button
+    document.getElementById('auth-submit-btn').style.display = 'none';
+    _setAuthLoading(false);
+  } catch(error) {
+    errEl.textContent = error.message || 'Failed to send OTP.';
+    errEl.style.display = 'block';
+    _setAuthLoading(false);
+    window._inlineAppVerifier = null;
+    document.getElementById('recaptcha-container-inline').innerHTML = '';
+  }
+}
+
+function doInlinePhoneVerifyOTP() {
+  const otp = document.getElementById('inline-phone-otp-input').value.trim();
+  const errEl = document.getElementById('inline-phone-otp-error');
+  const verifyBtn = document.getElementById('inline-phone-verify-btn');
+
+  if (!otp || otp.length < 6) {
+    errEl.textContent = 'Please enter the 6-digit OTP.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!_inlinePhoneConfirmationResult) {
+    errEl.textContent = 'Session expired. Please resend OTP.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  errEl.style.display = 'none';
+  document.getElementById('inline-verify-text').style.display = 'none';
+  document.getElementById('inline-verify-spinner').style.display = 'inline';
+  verifyBtn.disabled = true;
+
+  _inlinePhoneConfirmationResult.confirm(otp)
+    .then((result) => {
+      window._fbCurrentUser = result.user;
+      _proceedAfterLogin(result.user);
+    })
+    .catch((error) => {
+      errEl.textContent = error.code === 'auth/invalid-verification-code'
+        ? 'Invalid OTP. Please try again.'
+        : (error.message || 'Verification failed.');
+      errEl.style.display = 'block';
+      document.getElementById('inline-verify-text').style.display = 'inline';
+      document.getElementById('inline-verify-spinner').style.display = 'none';
+      verifyBtn.disabled = false;
+    });
+}
 
 function switchAuthTab(tab) {
   const isSignin = tab === 'signin';
   const isSignup = tab === 'signup';
   const isPhone  = tab === 'phone';
+  if (!isPhone) _authTab = tab;
 
   // Tab button styles
   const activeStyle = 'background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);';
@@ -4072,11 +4208,20 @@ function switchAuthTab(tab) {
   if (orDiv) orDiv.style.display = isPhone ? 'none' : 'flex';
   if (googleBtn) googleBtn.style.display = isPhone ? 'none' : 'flex';
 
+  // Reset phone input mode on tab switch
+  if (_inputMode === 'phone') _resetInlinePhone();
+
   // Update subtitle
   document.getElementById('auth-sub').textContent = isPhone
     ? 'Enter your phone number to receive an OTP'
     : isSignup ? 'Create your free account to get started'
     : 'Enter your email and password to continue';
+
+  // Update submit button text for email mode
+  if (!isPhone) {
+    document.getElementById('auth-btn-text').textContent = isSignup ? 'Create Account →' : 'Sign In →';
+    document.getElementById('auth-submit-btn').style.display = 'block';
+  }
 
   // Reset phone steps when switching away
   if (!isPhone) {
@@ -4164,6 +4309,8 @@ function _proceedAfterLogin(user) {
   ls.classList.add('hide');
   setTimeout(() => {
     ls.style.display = 'none';
+    // Activate home screen now that user is logged in
+    document.getElementById('screen-home').classList.add('active');
     // Show topbar with user name
     const tu = document.getElementById('topbar-user');
     const tun = document.getElementById('topbar-username');
@@ -4201,6 +4348,15 @@ function _googleBtnHTML() {
 }
 
 async function doAuthSubmit() {
+  // If phone mode and step1 still showing, send OTP instead
+  if (_inputMode === 'phone') {
+    const step2 = document.getElementById('inline-phone-step2');
+    if (!step2 || step2.style.display === 'none') {
+      doInlinePhoneSendOTP();
+    }
+    return;
+  }
+
   const email = document.getElementById('auth-email-input').value.trim();
   const pass  = document.getElementById('auth-pass-input').value;
   const auth  = window._fbAuth;
