@@ -628,6 +628,37 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 .subj-card:hover .subj-arrow{color:var(--cyan);transform:translateX(4px);}
 .subj-card.all-subjects .subj-arrow{color:var(--violet);}
 .subj-card.all-subjects:hover .subj-arrow{color:var(--violet);}
+/* ── IMPORTANT STAR BUTTON ── */
+#btn-star{
+  position:absolute;top:14px;right:14px;
+  width:36px;height:36px;border-radius:50%;
+  border:1.5px solid rgba(255,184,48,.35);
+  background:rgba(255,184,48,.07);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;font-size:18px;line-height:1;
+  color:rgba(255,184,48,.5);
+}
+#btn-star:hover{ background:rgba(255,184,48,.2); border-color:rgba(255,184,48,.7); }
+#btn-star.starred{ background:rgba(255,184,48,.22); border-color:var(--amber); color:var(--amber); filter:drop-shadow(0 0 6px rgba(255,184,48,.5)); }
+
+/* ── IMPORTANT Q CARD (home screen) ── */
+.imp-card{
+  background:linear-gradient(135deg,rgba(255,184,48,.1) 0%,rgba(167,139,250,.06) 100%);
+  border:1.5px solid rgba(255,184,48,.35);
+  border-radius:16px;padding:18px 18px;cursor:pointer;
+  transition:all .22s;position:relative;
+  display:flex;align-items:flex-start;gap:14px;min-height:72px;
+  margin-bottom:14px;
+}
+.imp-card:hover{ border-color:rgba(255,184,48,.7); transform:translateY(-2px); box-shadow:0 6px 24px rgba(255,184,48,.12); }
+.imp-subj-card{
+  background:var(--surface);border:1.5px solid var(--border2);
+  border-radius:14px;padding:14px 16px;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:12px;
+  margin-bottom:10px;
+}
+.imp-subj-card:hover{ border-color:rgba(255,184,48,.5); background:rgba(255,184,48,.06); }
+
 /* subject badge on quiz header */
 #active-subject-pill{
   display:inline-flex;align-items:center;gap:5px;
@@ -889,6 +920,22 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
   <div class="max-w-3xl mx-auto px-4 py-8">
 
+    <!-- Important Questions -->
+    <div id="imp-section" style="margin-bottom:24px;display:none;">
+      <div class="section-label">⭐ Important Questions</div>
+      <!-- All Important card -->
+      <div class="imp-card" onclick="startImportantQuiz(null)">
+        <div style="font-size:30px;flex-shrink:0;margin-top:2px;">⭐</div>
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:15px;color:var(--text);">All Important Questions</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px;" id="imp-total-count">0 questions starred</div>
+        </div>
+        <div style="color:var(--amber);font-size:18px;align-self:center;">›</div>
+      </div>
+      <!-- Subject-wise breakdown -->
+      <div id="imp-subj-list"></div>
+    </div>
+
     <!-- Quiz Mode -->
     <div class="section-label">Quiz Mode</div>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
@@ -1076,11 +1123,12 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     </div>
 
     <!-- Question card -->
-    <div class="q-card mb-5" id="q-card">
-      <div style="margin-bottom:14px;">
+    <div class="q-card mb-5" id="q-card" style="position:relative;">
+      <div style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
         <span class="badge badge-cyan" id="q-badge">Topic</span>
+        <button id="btn-star" onclick="toggleStar()" title="Mark as Important">☆</button>
       </div>
-      <p style="font-size:15.5px;font-weight:500;line-height:1.65;color:var(--text);" id="q-text"></p>
+      <p style="font-size:15.5px;font-weight:500;line-height:1.65;color:var(--text);padding-right:8px;" id="q-text"></p>
     </div>
 
     <!-- Options -->
@@ -3438,6 +3486,8 @@ function renderQ(){
   // Update flag button state
   renderFlagBtn();
   renderFlaggedStrip();
+  // Update star button state
+  renderStarBtn();
 }
 
 function answerQ(idx){
@@ -3770,6 +3820,91 @@ async function doTopbarSignOut() {
   showScreen('screen-home');
 }
 
+// ======================== IMPORTANT / STAR SYSTEM ========================
+
+// Load starred question keys from localStorage
+// Key format: "subject|||question_text" for uniqueness across sessions
+function _starKey(q){ return q.s + '|||' + q.q; }
+
+function loadStarred(){
+  try{ return new Set(JSON.parse(localStorage.getItem('medStarred')||'[]')); }
+  catch(e){ return new Set(); }
+}
+function saveStarred(set){
+  try{ localStorage.setItem('medStarred', JSON.stringify([...set])); }catch(e){}
+}
+
+let starredKeys = loadStarred();
+
+function toggleStar(){
+  if(!quizQ||!quizQ[cur]) return;
+  const key = _starKey(quizQ[cur]);
+  if(starredKeys.has(key)) starredKeys.delete(key);
+  else starredKeys.add(key);
+  saveStarred(starredKeys);
+  renderStarBtn();
+  renderHomeImportant();
+}
+
+function renderStarBtn(){
+  const btn = document.getElementById('btn-star');
+  if(!btn||!quizQ||!quizQ[cur]) return;
+  const starred = starredKeys.has(_starKey(quizQ[cur]));
+  btn.textContent = starred ? '★' : '☆';
+  if(starred) btn.classList.add('starred');
+  else btn.classList.remove('starred');
+}
+
+function renderHomeImportant(){
+  const sec = document.getElementById('imp-section');
+  if(!sec) return;
+  const allStarred = rawQ.filter(q => starredKeys.has(_starKey(q)));
+  if(allStarred.length === 0){ sec.style.display='none'; return; }
+  sec.style.display = 'block';
+  document.getElementById('imp-total-count').textContent = allStarred.length + ' question' + (allStarred.length===1?'':'s') + ' starred';
+
+  // Group by main subject
+  const groups = {};
+  allStarred.forEach(q => {
+    const main = subjectGroup[q.s] || q.s;
+    if(!groups[main]) groups[main]=[];
+    groups[main].push(q);
+  });
+
+  const list = document.getElementById('imp-subj-list');
+  list.innerHTML = '';
+  Object.entries(groups).forEach(([main, qs]) => {
+    const meta = mainSubjectMeta[main] || { emoji:'📖' };
+    const card = document.createElement('div');
+    card.className = 'imp-subj-card';
+    card.innerHTML = `<div style="font-size:24px;">${meta.emoji}</div>
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:14px;color:var(--text);">${main}</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:2px;">${qs.length} starred question${qs.length===1?'':'s'}</div>
+      </div>
+      <div style="color:var(--amber);font-size:16px;">›</div>`;
+    card.onclick = () => startImportantQuiz(main);
+    list.appendChild(card);
+  });
+}
+
+function startImportantQuiz(mainSubj){
+  let pool;
+  if(mainSubj){
+    pool = rawQ.filter(q => starredKeys.has(_starKey(q)) && (subjectGroup[q.s]||q.s) === mainSubj);
+  } else {
+    pool = rawQ.filter(q => starredKeys.has(_starKey(q)));
+  }
+  if(!pool.length){ alert('No starred questions found!'); return; }
+  quizQ = [...pool];
+  userAnswers = new Array(quizQ.length).fill(-1);
+  qTimes = new Array(quizQ.length).fill(0);
+  cur = 0;
+  reviewFlags = new Array(quizQ.length).fill(false);
+  $('quiz-mode-label').textContent = mainSubj ? '⭐ ' + mainSubj : '⭐ All Important';
+  showScreen('screen-quiz'); startSW(); renderQ();
+}
+
 // ======================== KEYBOARD ========================
 document.addEventListener('keydown',e=>{
   if(!$('screen-quiz').classList.contains('active'))return;
@@ -3942,6 +4077,7 @@ function selectMainSubject(mainSubj) {
   document.body.classList.remove('overlay-open');
   rebuildTopicsForSubject(null, mainSubj);
   updateAllCount();
+  renderHomeImportant();
   showScreen('screen-home');
 }
 
@@ -3969,6 +4105,7 @@ function selectSubject(subjectName) {
   // Rebuild topics for selected subject
   rebuildTopicsForSubject(subjectName);
   updateAllCount();
+  renderHomeImportant();
   showScreen('screen-home');
 }
 
@@ -4099,6 +4236,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildSubjectSelector();
   addChangeSubjectBtn();
   updateAllCount();
+  renderHomeImportant();
 
   // Subject selector hidden at start
   document.getElementById('screen-subject').classList.add('hidden');
