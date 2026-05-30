@@ -722,7 +722,9 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     GoogleAuthProvider,
     signInWithPopup,
     signInWithRedirect,
-    getRedirectResult
+    getRedirectResult,
+    RecaptchaVerifier,
+    signInWithPhoneNumber
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -752,6 +754,8 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   window._fbSignInWithPopup = signInWithPopup;
   window._fbSignInWithRedirect = signInWithRedirect;
   window._fbGetRedirectResult = getRedirectResult;
+  window._fbRecaptchaVerifier = RecaptchaVerifier;
+  window._fbSignInWithPhoneNumber = signInWithPhoneNumber;
 
   // Handle Google redirect result on page load
   getRedirectResult(auth).then((result) => {
@@ -766,7 +770,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
   // Watch auth state — auto-proceed if already logged in
   onAuthStateChanged(auth, (user) => {
-    if (user && (user.emailVerified || user.providerData.some(p => p.providerId === 'google.com'))) {
+    if (user && (user.emailVerified || user.providerData.some(p => p.providerId === 'google.com') || user.providerData.some(p => p.providerId === 'phone'))) {
       window._fbCurrentUser = user;
       // If login screen is still showing, dismiss it
       const ls = document.getElementById('login-screen');
@@ -867,10 +871,12 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
     <!-- Tab switcher -->
     <div style="display:flex;gap:0;background:var(--bg2);border-radius:10px;padding:3px;margin-bottom:22px;border:1px solid var(--border2);">
-      <button id="tab-signin" onclick="switchAuthTab('signin')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);">Sign In</button>
-      <button id="tab-signup" onclick="switchAuthTab('signup')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);">Sign Up</button>
+      <button id="tab-signin" onclick="switchAuthTab('signin')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);">Sign In</button>
+      <button id="tab-signup" onclick="switchAuthTab('signup')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);">Sign Up</button>
+      <button id="tab-phone" onclick="switchAuthTab('phone')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);">📱 Phone</button>
     </div>
 
+    <div id="email-auth-section">
     <!-- Name field (sign up only) -->
     <div id="field-name" style="display:none;">
       <label class="login-label" for="auth-name-input">Your Name</label>
@@ -916,7 +922,58 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       </span>
     </button>
 
-    <!-- OR divider -->
+    <!-- Phone Login Panel -->
+    <div id="panel-phone" style="display:none;">
+      <!-- Step 1: Enter phone -->
+      <div id="phone-step1">
+        <label class="login-label">Phone Number</label>
+        <div style="display:flex;gap:8px;margin-bottom:8px;">
+          <input class="login-input" id="phone-country-code" type="text" placeholder="+996" value="+996"
+            style="width:80px;flex-shrink:0;padding:14px 10px;text-align:center;">
+          <input class="login-input" id="phone-number-input" type="tel" placeholder="700 123 456"
+            style="flex:1;margin-bottom:0;" onkeydown="if(event.key==='Enter')doPhoneSendOTP()">
+        </div>
+        <div class="login-error" id="phone-error-msg" style="display:none;margin-bottom:8px;"></div>
+        <div id="recaptcha-container" style="margin-bottom:12px;display:flex;justify-content:center;"></div>
+        <button class="login-btn" id="phone-send-btn" onclick="doPhoneSendOTP()">
+          <span id="phone-send-text">Send OTP →</span>
+          <span id="phone-send-spinner" style="display:none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;">
+              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+      <!-- Step 2: Enter OTP -->
+      <div id="phone-step2" style="display:none;">
+        <div style="text-align:center;margin-bottom:14px;font-size:.85rem;color:var(--text2);">
+          OTP sent to <span id="phone-display-num" style="color:var(--cyan);font-weight:700;"></span>
+        </div>
+        <label class="login-label">Enter 6-digit OTP</label>
+        <input class="login-input" id="phone-otp-input" type="number" placeholder="123456"
+          style="text-align:center;letter-spacing:.3em;font-size:1.2rem;margin-bottom:8px;"
+          onkeydown="if(event.key==='Enter')doPhoneVerifyOTP()">
+        <div class="login-error" id="phone-otp-error-msg" style="display:none;margin-bottom:8px;"></div>
+        <button class="login-btn" id="phone-verify-btn" onclick="doPhoneVerifyOTP()">
+          <span id="phone-verify-text">Verify & Sign In →</span>
+          <span id="phone-verify-spinner" style="display:none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;">
+              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3"/>
+              <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </button>
+        <button onclick="document.getElementById('phone-step1').style.display='block';document.getElementById('phone-step2').style.display='none';"
+          style="width:100%;margin-top:8px;background:none;border:none;color:var(--text3);font-size:.78rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;">
+          ← Change number
+        </button>
+      </div>
+    </div>
+
+    </div>
+
+        <!-- OR divider -->
     <div class="login-divider">OR</div>
 
     <!-- Google Sign In -->
@@ -3973,36 +4030,61 @@ function goHome(){
 let _authTab = 'signin'; // 'signin' | 'signup'
 
 function switchAuthTab(tab) {
-  _authTab = tab;
+  const isSignin = tab === 'signin';
   const isSignup = tab === 'signup';
+  const isPhone  = tab === 'phone';
 
   // Tab button styles
-  const activeStyle = 'background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);font-weight:700;';
-  const inactiveStyle = 'background:transparent;color:var(--text3);font-weight:600;box-shadow:none;';
-  document.getElementById('tab-signin').style.cssText += isSignup ? inactiveStyle : activeStyle;
+  const activeStyle = 'background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);';
+  const inactiveStyle = 'background:transparent;color:var(--text3);box-shadow:none;';
+  document.getElementById('tab-signin').style.cssText += isSignin ? activeStyle : inactiveStyle;
   document.getElementById('tab-signup').style.cssText += isSignup ? activeStyle : inactiveStyle;
+  document.getElementById('tab-phone').style.cssText  += isPhone  ? activeStyle : inactiveStyle;
 
-  // Show/hide name field
+  // Show/hide panels
+  const emailFields = ['field-name','auth-email-input','auth-pass-input',
+    'field-confirm-pass','field-forgot','auth-submit-btn','auth-error-msg'];
+  // Show email fields for signin/signup, hide for phone
   document.getElementById('field-name').style.display = isSignup ? 'block' : 'none';
-  // Show/hide confirm password field
   document.getElementById('field-confirm-pass').style.display = isSignup ? 'block' : 'none';
-  // Show/hide forgot password link
-  document.getElementById('field-forgot').style.display = isSignup ? 'none' : 'block';
-  // Clear confirm password when switching
-  const cp = document.getElementById('auth-confirm-pass-input');
-  if (cp) cp.value = '';
+  document.getElementById('field-forgot').style.display = isSignin ? 'block' : 'none';
 
-  // Update titles and button text
-  document.getElementById('auth-title').textContent = isSignup ? 'Create Account' : 'Welcome Back';
-  document.getElementById('auth-sub').innerHTML = isSignup
-    ? 'Register below to start tracking your progress'
+  const emailBlock = document.getElementById('auth-email-input').parentElement ||
+                     document.getElementById('auth-email-input');
+
+  // Show/hide email+password section
+  ['auth-email-input','auth-pass-input','auth-submit-btn'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.closest('div,label,button') ? null : null; // handled below
+  });
+
+  // Toggle entire email section visibility via wrapper approach
+  const emailSection = document.getElementById('email-auth-section');
+  if (emailSection) emailSection.style.display = isPhone ? 'none' : 'block';
+
+  // Show/hide phone panel
+  const phonePanel = document.getElementById('panel-phone');
+  if (phonePanel) phonePanel.style.display = isPhone ? 'block' : 'none';
+
+  // Show/hide OR divider + Google button
+  const orDiv = document.querySelector('.login-divider');
+  const googleBtn = document.getElementById('btn-google');
+  if (orDiv) orDiv.style.display = isPhone ? 'none' : 'flex';
+  if (googleBtn) googleBtn.style.display = isPhone ? 'none' : 'flex';
+
+  // Update subtitle
+  document.getElementById('auth-sub').textContent = isPhone
+    ? 'Enter your phone number to receive an OTP'
+    : isSignup ? 'Create your free account to get started'
     : 'Enter your email and password to continue';
-  document.getElementById('auth-btn-text').textContent = isSignup ? 'Create Account →' : 'Sign In →';
 
-  // Clear error
-  const err = document.getElementById('auth-error-msg');
-  err.style.display = 'none';
-  err.textContent = '';
+  // Reset phone steps when switching away
+  if (!isPhone) {
+    document.getElementById('phone-step1').style.display = 'block';
+    document.getElementById('phone-step2').style.display = 'none';
+    document.getElementById('phone-error-msg').style.display = 'none';
+    document.getElementById('phone-otp-error-msg').style.display = 'none';
+  }
 }
 
 function togglePassVis() {
@@ -4369,15 +4451,15 @@ const subjectGroup = {
   "Hormones (Biochemistry)":"Biochemistry","Nucleic Acids Metabolism":"Biochemistry",
   "Replication, Transcription & Translation":"Biochemistry","Gene Expression & Mutation":"Biochemistry",
   "Nervous System Anatomy":"Anatomy","Cranial & Spinal Nerves":"Anatomy","Musculoskeletal Anatomy":"Anatomy","Visceral & Regional Anatomy":"Anatomy","Head, Neck & Systemic Anatomy":"Anatomy",
-  "Medical Physics: Diathermy & Basics":"Medical Physics",
-  "Medical Physics: Radiation & Electrophoresis":"Medical Physics",
-  "Medical Physics: Ultrasound Basics":"Medical Physics",
-  "Medical Physics: Ultrasound, MRI & CT":"Medical Physics",
-  "Medical Physics: X-ray, CT & Nuclear Medicine":"Medical Physics",
-  "Medical Physics: Dosimetry & Radiotherapy":"Medical Physics",
-  "Medical Physics: Advanced MRI & Imaging":"Medical Physics",
-  "Medical Physics: Technical Physics & EMG":"Medical Physics",
-  "Medical Physics: Action Potentials & EEG":"Medical Physics",
+  "Medical Physics: Diathermy & Basics":"Biophysics",
+  "Medical Physics: Radiation & Electrophoresis":"Biophysics",
+  "Medical Physics: Ultrasound Basics":"Biophysics",
+  "Medical Physics: Ultrasound, MRI & CT":"Biophysics",
+  "Medical Physics: X-ray, CT & Nuclear Medicine":"Biophysics",
+  "Medical Physics: Dosimetry & Radiotherapy":"Biophysics",
+  "Medical Physics: Advanced MRI & Imaging":"Biophysics",
+  "Medical Physics: Technical Physics & EMG":"Biophysics",
+  "Medical Physics: Action Potentials & EEG":"Biophysics",
     "Kyrgyz Language":"Kyrgyz Language",
   "MSCR: Research Methodology":"MSCR","MSCR: Statistics":"MSCR",
   "MSCR: Data & Software":"MSCR","MSCR: Advanced Topics":"MSCR",
@@ -4387,7 +4469,7 @@ const mainSubjectMeta = {
   "Biochemistry": { emoji:"🔬", desc:"Biochemistry – 12 topics, 399 questions",    accent:"#34d399" },
   "Anatomy":      { emoji:"🦴", desc:"Human Anatomy – 5 topics, 500 questions",       accent:"#f59e0b" },
   "Kyrgyz Language": { emoji:"🇰🇬", desc:"Kyrgyz Medical Language – 6 topics, 178 questions", accent:"#f59e0b" },
-  "BioPhysics": { emoji:"⚛️", desc:"Medical Physics & Biophysics – 9 topics, 292 questions", accent:"#38bdf8" },
+  "Biophysics": { emoji:"⚛️", desc:"Medical Physics & Biophysics – 9 topics, 292 questions", accent:"#38bdf8" },
     "MSCR":         { emoji:"📊", desc:"Medical Statistics & Research – 4 topics, 300 questions", accent:"#fb923c" },
 };
 
@@ -4618,6 +4700,115 @@ function addChangeSubjectBtn() {
     document.body.classList.add('overlay-open');
   };
   hero.appendChild(btn);
+}
+
+
+// ── PHONE AUTH ──────────────────────────────────────────────
+let _phoneConfirmationResult = null;
+let _recaptchaWidgetId = null;
+
+function doPhoneSendOTP() {
+  const cc = (document.getElementById('phone-country-code').value || '+996').trim();
+  const num = document.getElementById('phone-number-input').value.trim().replace(/\s+/g, '');
+  const errEl = document.getElementById('phone-error-msg');
+  const sendBtn = document.getElementById('phone-send-btn');
+  const sendText = document.getElementById('phone-send-text');
+  const sendSpinner = document.getElementById('phone-send-spinner');
+
+  if (!num || num.length < 7) {
+    errEl.textContent = 'Please enter a valid phone number.';
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  const fullPhone = cc + num;
+
+  if (!window._fbAuth || !window._fbRecaptchaVerifier || !window._fbSignInWithPhoneNumber) {
+    errEl.textContent = 'Firebase not ready. Please refresh.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  sendText.style.display = 'none';
+  sendSpinner.style.display = 'inline';
+  sendBtn.disabled = true;
+
+  // Setup invisible reCAPTCHA if not already done
+  if (!window._appVerifier) {
+    try {
+      window._appVerifier = new window._fbRecaptchaVerifier(window._fbAuth, 'recaptcha-container', {
+        size: 'invisible',
+        callback: () => {}
+      });
+    } catch(e) {
+      errEl.textContent = 'reCAPTCHA error: ' + e.message;
+      errEl.style.display = 'block';
+      sendText.style.display = 'inline';
+      sendSpinner.style.display = 'none';
+      sendBtn.disabled = false;
+      return;
+    }
+  }
+
+  window._fbSignInWithPhoneNumber(window._fbAuth, fullPhone, window._appVerifier)
+    .then((confirmationResult) => {
+      _phoneConfirmationResult = confirmationResult;
+      document.getElementById('phone-display-num').textContent = fullPhone;
+      document.getElementById('phone-step1').style.display = 'none';
+      document.getElementById('phone-step2').style.display = 'block';
+      sendText.style.display = 'inline';
+      sendSpinner.style.display = 'none';
+      sendBtn.disabled = false;
+    })
+    .catch((error) => {
+      errEl.textContent = error.message || 'Failed to send OTP.';
+      errEl.style.display = 'block';
+      sendText.style.display = 'inline';
+      sendSpinner.style.display = 'none';
+      sendBtn.disabled = false;
+      // Reset verifier on error so next attempt works
+      window._appVerifier = null;
+      document.getElementById('recaptcha-container').innerHTML = '';
+    });
+}
+
+function doPhoneVerifyOTP() {
+  const otp = document.getElementById('phone-otp-input').value.trim();
+  const errEl = document.getElementById('phone-otp-error-msg');
+  const verifyBtn = document.getElementById('phone-verify-btn');
+  const verifyText = document.getElementById('phone-verify-text');
+  const verifySpinner = document.getElementById('phone-verify-spinner');
+
+  if (!otp || otp.length < 6) {
+    errEl.textContent = 'Please enter the 6-digit OTP.';
+    errEl.style.display = 'block';
+    return;
+  }
+  if (!_phoneConfirmationResult) {
+    errEl.textContent = 'Session expired. Please resend OTP.';
+    errEl.style.display = 'block';
+    return;
+  }
+
+  errEl.style.display = 'none';
+  verifyText.style.display = 'none';
+  verifySpinner.style.display = 'inline';
+  verifyBtn.disabled = true;
+
+  _phoneConfirmationResult.confirm(otp)
+    .then((result) => {
+      window._fbCurrentUser = result.user;
+      _proceedAfterLogin(result.user);
+    })
+    .catch((error) => {
+      errEl.textContent = error.code === 'auth/invalid-verification-code'
+        ? 'Invalid OTP. Please try again.'
+        : (error.message || 'Verification failed.');
+      errEl.style.display = 'block';
+      verifyText.style.display = 'inline';
+      verifySpinner.style.display = 'none';
+      verifyBtn.disabled = false;
+    });
 }
 
 // ── THEME TOGGLE ────────────────────────────────────────────
