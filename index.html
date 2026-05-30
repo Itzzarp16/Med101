@@ -70,7 +70,7 @@ body.light-mode .subj-title{background:linear-gradient(135deg,#0d1a2e 0%,var(--c
 
 /* ── THEME TOGGLE BUTTON ── */
 #theme-toggle{
-  position:fixed;top:46px;right:16px;z-index:99999;
+  position:fixed;top:46px;right:16px;z-index:100000;
   width:30px;height:30px;border-radius:50%;
   background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.3);
   display:flex;align-items:center;justify-content:center;
@@ -471,7 +471,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
    GLOBAL TOP BAR
 ══════════════════════════════ */
 #global-topbar{
-  position:fixed;top:0;left:0;right:0;z-index:9999;
+  position:fixed;top:0;left:0;right:0;z-index:99999;
   min-height:44px;height:auto;
   background:rgba(8,12,20,.92);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
@@ -3593,7 +3593,6 @@ function goHome(){
   if(ss){
     ss.classList.remove('hidden');
     ss.style.display='flex';
-    ss.style.zIndex='9999';
     ss.scrollTop=0;
   }
   document.body.classList.add('overlay-open');
