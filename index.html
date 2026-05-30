@@ -720,7 +720,9 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     sendEmailVerification,
     sendPasswordResetEmail,
     GoogleAuthProvider,
-    signInWithPopup
+    signInWithPopup,
+    signInWithRedirect,
+    getRedirectResult
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
@@ -748,6 +750,23 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   window._fbResetPassword = sendPasswordResetEmail;
   window._fbGoogleProvider = new GoogleAuthProvider();
   window._fbSignInWithPopup = signInWithPopup;
+  window._fbSignInWithRedirect = signInWithRedirect;
+  window._fbGetRedirectResult = getRedirectResult;
+
+  // Handle Google redirect result on page load
+  getRedirectResult(auth).then((result) => {
+    if (result && result.user) {
+      window._fbCurrentUser = result.user;
+      const ls = document.getElementById('login-screen');
+      if (ls && ls.style.display !== 'none') {
+        _proceedAfterLogin(result.user);
+      }
+    }
+  }).catch((e) => {
+    if (e.code !== 'auth/cancelled-popup-request') {
+      console.warn('Google redirect error:', e.message);
+    }
+  });
 
   // Watch auth state — auto-proceed if already logged in
   onAuthStateChanged(auth, (user) => {
@@ -3793,21 +3812,36 @@ async function doGoogleSignIn() {
   const auth = window._fbAuth;
   const provider = window._fbGoogleProvider;
   if (!auth || !provider) { _showAuthError('Still loading, please try again.'); return; }
+
   const btn = document.getElementById('btn-google');
-  if (btn) { btn.disabled = true; btn.textContent = 'Signing in…'; }
-  try {
-    const cred = await window._fbSignInWithPopup(auth, provider);
-    window._fbCurrentUser = cred.user;
-    _proceedAfterLogin(cred.user);
-  } catch(e) {
-    if (btn) {
-      btn.disabled = false;
-      btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
+  if (btn) { btn.disabled = true; btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;"><circle cx="12" cy="12" r="10" stroke="rgba(0,0,0,.2)" stroke-width="3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="#4285F4" stroke-width="3" stroke-linecap="round"/></svg> Signing in…'; }
+
+  // Use redirect on mobile (more reliable), popup on desktop
+  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  if (isMobile) {
+    try {
+      await window._fbSignInWithRedirect(auth, provider);
+      // Page will redirect — no code runs after this
+    } catch(e) {
+      if (btn) { btn.disabled = false; btn.innerHTML = _googleBtnHTML(); }
+      _showAuthError('Google sign-in failed. Please try again.');
     }
-    if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-      _showAuthError('Google sign-in failed: ' + (e.message || e.code));
+  } else {
+    try {
+      const cred = await window._fbSignInWithPopup(auth, provider);
+      window._fbCurrentUser = cred.user;
+      _proceedAfterLogin(cred.user);
+    } catch(e) {
+      if (btn) { btn.disabled = false; btn.innerHTML = _googleBtnHTML(); }
+      if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
+        _showAuthError('Google sign-in failed: ' + (e.message || e.code));
+      }
     }
   }
+}
+
+function _googleBtnHTML() {
+  return `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
 }
 
 async function doAuthSubmit() {
