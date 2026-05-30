@@ -727,7 +727,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
   const firebaseConfig = {
     apiKey: "AIzaSyAQAAQe6H0pIJvmPi7TTjw42-UcvFewFzU",
-    authDomain: "med101-95018.firebaseapp.com",
+    authDomain: "abhishekmed101.space",
     projectId: "med101-95018",
     storageBucket: "med101-95018.firebasestorage.app",
     messagingSenderId: "356519126985",
@@ -3814,28 +3814,23 @@ async function doGoogleSignIn() {
   if (!auth || !provider) { _showAuthError('Still loading, please try again.'); return; }
 
   const btn = document.getElementById('btn-google');
-  if (btn) { btn.disabled = true; btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;"><circle cx="12" cy="12" r="10" stroke="rgba(0,0,0,.2)" stroke-width="3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="#4285F4" stroke-width="3" stroke-linecap="round"/></svg> Signing in…'; }
+  if (btn) { btn.disabled = true; btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;"><circle cx="12" cy="12" r="10" stroke="rgba(0,0,0,.2)" stroke-width="3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="#4285F4" stroke-width="3" stroke-linecap="round"/></svg> Opening Google…'; }
 
-  // Use redirect on mobile (more reliable), popup on desktop
-  const isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
-  if (isMobile) {
-    try {
-      await window._fbSignInWithRedirect(auth, provider);
-      // Page will redirect — no code runs after this
-    } catch(e) {
-      if (btn) { btn.disabled = false; btn.innerHTML = _googleBtnHTML(); }
-      _showAuthError('Google sign-in failed. Please try again.');
-    }
-  } else {
-    try {
-      const cred = await window._fbSignInWithPopup(auth, provider);
-      window._fbCurrentUser = cred.user;
-      _proceedAfterLogin(cred.user);
-    } catch(e) {
-      if (btn) { btn.disabled = false; btn.innerHTML = _googleBtnHTML(); }
-      if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') {
-        _showAuthError('Google sign-in failed: ' + (e.message || e.code));
+  try {
+    const cred = await window._fbSignInWithPopup(auth, provider);
+    window._fbCurrentUser = cred.user;
+    _proceedAfterLogin(cred.user);
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.innerHTML = _googleBtnHTML(); }
+    if (e.code === 'auth/popup-blocked' || e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
+      // Popup was blocked — fall back to redirect silently
+      try {
+        await window._fbSignInWithRedirect(auth, provider);
+      } catch(re) {
+        _showAuthError('Could not open Google sign-in. Please try again.');
       }
+    } else {
+      _showAuthError('Google sign-in failed: ' + (e.message || e.code));
     }
   }
 }
