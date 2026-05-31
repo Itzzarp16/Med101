@@ -9,12 +9,10 @@
 <!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail }
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+           signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  // ── YOUR FIREBASE CONFIG ─────────────────────────────────
-  // Replace with your actual Firebase project config from:
-  // Firebase Console → Project Settings → Your apps → Web app
   const firebaseConfig = {
     apiKey:            "AIzaSyC7KtDwkKLrLiw7w_5yvkRLGGYHqs-B5a8",
     authDomain:        "abhishekmed101-space.firebaseapp.com",
@@ -28,33 +26,22 @@
   const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
 
-  // Expose helpers to global scope for inline handlers
-  window._auth = auth;
-  window._fbSignIn = (email, pw) => signInWithEmailAndPassword(auth, email, pw);
-  window._fbSignUp = (email, pw) => createUserWithEmailAndPassword(auth, email, pw);
-  window._fbSignOut = () => signOut(auth);
-  window._fbReset  = (email) => sendPasswordResetEmail(auth, email);
-
+  // AUTH STATE
   onAuthStateChanged(auth, user => {
     if (user) {
-      // Logged in — hide auth screen, show app
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'none';
       document.body.classList.remove('auth-open');
-      // Show the subject screen (first app screen)
       const ss = document.getElementById('screen-subject');
       if (ss) { ss.classList.remove('hidden'); ss.style.display = 'flex'; }
-      // Update user display
       const ud = document.getElementById('auth-user-display');
-      if (ud) { ud.textContent = user.email; ud.style.display = 'block'; }
+      if (ud) { ud.textContent = user.displayName || user.email; ud.style.display = 'block'; }
       const so = document.getElementById('auth-signout-btn');
       if (so) so.style.display = 'inline-flex';
     } else {
-      // Not logged in — show auth screen
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'flex';
       document.body.classList.add('auth-open');
-      // Hide subject screen
       const ss = document.getElementById('screen-subject');
       if (ss) { ss.classList.add('hidden'); ss.style.display = 'none'; }
       const ud = document.getElementById('auth-user-display');
@@ -63,8 +50,104 @@
       if (so) so.style.display = 'none';
     }
   });
+
+  // ALL AUTH FUNCTIONS — defined in module, exposed on window
+  let _authMode = 'signin';
+
+  function authShowMsg(text, type) {
+    const el = document.getElementById('auth-msg');
+    el.textContent = text; el.className = 'auth-msg ' + type; el.style.display = 'block';
+  }
+  function authClearMsg() {
+    const el = document.getElementById('auth-msg');
+    if (el) { el.style.display = 'none'; el.textContent = ''; }
+  }
+
+  window.authSwitchTab = function(mode) {
+    _authMode = mode;
+    document.getElementById('tab-signin').classList.toggle('active', mode === 'signin');
+    document.getElementById('tab-signup').classList.toggle('active', mode === 'signup');
+    document.getElementById('auth-title').textContent = mode === 'signin' ? 'Welcome Back' : 'Create Account';
+    document.getElementById('auth-sub').textContent   = mode === 'signin'
+      ? 'Enter your email and password to continue'
+      : 'Sign up to start your medical MCQ journey';
+    document.getElementById('auth-name-wrap').style.display    = mode === 'signup' ? 'block' : 'none';
+    document.getElementById('auth-confirm-wrap').style.display = mode === 'signup' ? 'block' : 'none';
+    document.getElementById('auth-forgot-wrap').style.display  = mode === 'signin' ? 'block' : 'none';
+    document.getElementById('auth-submit-btn').textContent     = mode === 'signin' ? 'Sign In' : 'Create Account';
+    document.getElementById('auth-password-label').textContent = mode === 'signin' ? 'Password' : 'Create Password';
+    document.getElementById('auth-password').placeholder       = mode === 'signin' ? '........' : 'Create a strong password';
+    document.getElementById('auth-password').autocomplete      = mode === 'signin' ? 'current-password' : 'new-password';
+    authClearMsg();
+  };
+
+  window.authToggleEye = function() {
+    const inp = document.getElementById('auth-password');
+    const eye = document.getElementById('auth-eye-btn');
+    if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
+    else                         { inp.type = 'password'; eye.textContent = '👁'; }
+  };
+
+  window.authSubmit = async function() {
+    const email = document.getElementById('auth-email').value.trim();
+    const pw    = document.getElementById('auth-password').value;
+    const btn   = document.getElementById('auth-submit-btn');
+    authClearMsg();
+    if (!email || !pw) { authShowMsg('Please fill in all fields.', 'error'); return; }
+    if (_authMode === 'signup') {
+      const name    = document.getElementById('auth-name').value.trim();
+      const confirm = document.getElementById('auth-confirm').value;
+      if (!name)          { authShowMsg('Please enter your name.', 'error'); return; }
+      if (pw !== confirm) { authShowMsg('Passwords do not match.', 'error'); return; }
+      if (pw.length < 6)  { authShowMsg('Password must be at least 6 characters.', 'error'); return; }
+    }
+    btn.disabled = true;
+    btn.textContent = _authMode === 'signin' ? 'Signing in...' : 'Creating account...';
+    try {
+      if (_authMode === 'signin') {
+        await signInWithEmailAndPassword(auth, email, pw);
+      } else {
+        const name = document.getElementById('auth-name').value.trim();
+        const cred = await createUserWithEmailAndPassword(auth, email, pw);
+        if (cred && cred.user) await updateProfile(cred.user, { displayName: name });
+        authShowMsg('Account created! Welcome!', 'success');
+      }
+    } catch (err) {
+      const msgs = {
+        'auth/user-not-found':       'No account found with this email.',
+        'auth/wrong-password':       'Incorrect password. Please try again.',
+        'auth/email-already-in-use': 'An account with this email already exists.',
+        'auth/invalid-email':        'Please enter a valid email address.',
+        'auth/too-many-requests':    'Too many failed attempts. Please try again later.',
+        'auth/network-request-failed': 'Network error. Check your connection.',
+        'auth/invalid-credential':   'Invalid email or password.',
+      };
+      authShowMsg(msgs[err.code] || err.message, 'error');
+      btn.disabled = false;
+      btn.textContent = _authMode === 'signin' ? 'Sign In' : 'Create Account';
+    }
+  };
+
+  window.authForgotPassword = async function() {
+    const email = document.getElementById('auth-email').value.trim();
+    if (!email) { authShowMsg('Enter your email above first.', 'error'); return; }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      authShowMsg('Password reset email sent! Check your inbox.', 'success');
+    } catch (err) { authShowMsg(err.message, 'error'); }
+  };
+
+  window.authSignOut = async function() {
+    try { await signOut(auth); } catch(e) { console.error(e); }
+  };
+
+  document.addEventListener('keydown', e => {
+    const as = document.getElementById('auth-screen');
+    if (as && as.style.display !== 'none' && e.key === 'Enter') window.authSubmit();
+  });
 </script>
 <style>
+
 /* ═══════════════════════════════════════════
    DESIGN SYSTEM — Dark Neon Medical
    ═══════════════════════════════════════════ */
@@ -704,7 +787,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
   background:var(--bg);overflow-y:auto;overflow-x:hidden;
   -webkit-overflow-scrolling:touch;
-  padding:62px 16px 80px;
+  padding:62px 16px 120px;
 }
 #screen-subject::before{
   content:'';position:fixed;inset:-200px;z-index:-1;
@@ -724,7 +807,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 .subj-sub{color:var(--text2);font-size:.88rem;}
 .subj-grid{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:14px;width:100%;max-width:640px;position:relative;z-index:1;
+  gap:16px;width:100%;max-width:640px;position:relative;z-index:1;
 }
 .subj-card{
   background:var(--surface);border:1.5px solid var(--border2);
@@ -742,8 +825,8 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   background:linear-gradient(135deg,rgba(167,139,250,.08),rgba(0,229,255,.04));
 }
 .subj-card.all-subjects:hover{border-color:var(--violet);box-shadow:0 6px 28px rgba(167,139,250,.18);}
-.subj-name{font-weight:700;font-size:15px;color:var(--text);line-height:1.35;white-space:normal;word-break:break-word;}
-.subj-count{font-size:12px;color:var(--text3);margin-top:4px;white-space:normal;word-break:break-word;line-height:1.4;}
+.subj-name{font-weight:700;font-size:15.5px;color:var(--text);line-height:1.4;white-space:normal;word-break:break-word;}
+.subj-count{font-size:12.5px;color:var(--text3);margin-top:5px;white-space:normal;word-break:break-word;line-height:1.5;}
 .subj-emoji{font-size:30px;flex-shrink:0;margin-top:2px;}
 .subj-arrow{margin-left:auto;color:var(--text3);font-size:18px;flex-shrink:0;transition:transform .2s,color .2s;align-self:center;}
 .subj-card:hover .subj-arrow{color:var(--cyan);transform:translateX(4px);}
@@ -844,6 +927,12 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
       <button class="auth-tab" id="tab-signup" onclick="authSwitchTab('signup')">Sign Up</button>
     </div>
 
+    <!-- Name (sign-up only) -->
+    <div id="auth-name-wrap" style="margin-bottom:14px;display:none;">
+      <label class="auth-label">Your Name</label>
+      <input class="auth-input" id="auth-name" type="text" placeholder="Your name" autocomplete="name" />
+    </div>
+
     <!-- Email -->
     <div style="margin-bottom:14px;">
       <label class="auth-label">Email</label>
@@ -852,7 +941,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
     <!-- Password -->
     <div>
-      <label class="auth-label">Password</label>
+      <label class="auth-label" id="auth-password-label">Password</label>
       <div class="auth-input-wrap">
         <input class="auth-input" id="auth-password" type="password" placeholder="••••••••" autocomplete="current-password" style="padding-right:44px;" />
         <button class="auth-eye" onclick="authToggleEye()" id="auth-eye-btn" title="Show/hide password">👁</button>
@@ -4414,108 +4503,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // It will be revealed once the user is confirmed signed in.
 });
 
-// ── AUTH HELPERS ────────────────────────────────────────────
-let _authMode = 'signin'; // 'signin' | 'signup'
-
-function authSwitchTab(mode) {
-  _authMode = mode;
-  document.getElementById('tab-signin').classList.toggle('active', mode === 'signin');
-  document.getElementById('tab-signup').classList.toggle('active', mode === 'signup');
-  document.getElementById('auth-title').textContent = mode === 'signin' ? 'Welcome Back' : 'Create Account';
-  document.getElementById('auth-sub').textContent   = mode === 'signin'
-    ? 'Enter your email and password to continue'
-    : 'Sign up to start your medical MCQ journey';
-  document.getElementById('auth-confirm-wrap').style.display = mode === 'signup' ? 'block' : 'none';
-  document.getElementById('auth-forgot-wrap').style.display  = mode === 'signin' ? 'block' : 'none';
-  document.getElementById('auth-submit-btn').textContent     = mode === 'signin' ? 'Sign In →' : 'Create Account →';
-  authClearMsg();
-}
-
-function authToggleEye() {
-  const inp = document.getElementById('auth-password');
-  const eye = document.getElementById('auth-eye-btn');
-  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
-  else                         { inp.type = 'password'; eye.textContent = '👁'; }
-}
-
-function authShowMsg(text, type) {
-  const el = document.getElementById('auth-msg');
-  el.textContent = text;
-  el.className = 'auth-msg ' + type;
-  el.style.display = 'block';
-}
-function authClearMsg() {
-  const el = document.getElementById('auth-msg');
-  el.style.display = 'none';
-  el.textContent = '';
-}
-
-async function authSubmit() {
-  const email = document.getElementById('auth-email').value.trim();
-  const pw    = document.getElementById('auth-password').value;
-  const btn   = document.getElementById('auth-submit-btn');
-
-  authClearMsg();
-  if (!email || !pw) { authShowMsg('Please fill in all fields.', 'error'); return; }
-
-  if (_authMode === 'signup') {
-    const confirm = document.getElementById('auth-confirm').value;
-    if (pw !== confirm) { authShowMsg('Passwords do not match.', 'error'); return; }
-    if (pw.length < 6)  { authShowMsg('Password must be at least 6 characters.', 'error'); return; }
-  }
-
-  btn.disabled = true;
-  btn.textContent = _authMode === 'signin' ? 'Signing in…' : 'Creating account…';
-
-  try {
-    if (_authMode === 'signin') {
-      await window._fbSignIn(email, pw);
-    } else {
-      await window._fbSignUp(email, pw);
-      authShowMsg('Account created! Welcome 🎉', 'success');
-    }
-    // onAuthStateChanged handles showing the app
-  } catch (err) {
-    const msgs = {
-      'auth/user-not-found':    'No account found with this email.',
-      'auth/wrong-password':    'Incorrect password. Please try again.',
-      'auth/email-already-in-use': 'An account with this email already exists.',
-      'auth/invalid-email':     'Please enter a valid email address.',
-      'auth/too-many-requests': 'Too many failed attempts. Please try again later.',
-      'auth/network-request-failed': 'Network error. Check your connection.',
-      'auth/invalid-credential': 'Invalid email or password.',
-    };
-    authShowMsg(msgs[err.code] || err.message, 'error');
-    btn.disabled = false;
-    btn.textContent = _authMode === 'signin' ? 'Sign In →' : 'Create Account →';
-  }
-}
-
-async function authForgotPassword() {
-  const email = document.getElementById('auth-email').value.trim();
-  if (!email) { authShowMsg('Enter your email above first.', 'error'); return; }
-  try {
-    await window._fbReset(email);
-    authShowMsg('Password reset email sent! Check your inbox.', 'success');
-  } catch (err) {
-    authShowMsg(err.message, 'error');
-  }
-}
-
-async function authSignOut() {
-  try {
-    await window._fbSignOut();
-    // onAuthStateChanged re-shows auth screen
-  } catch(e) { console.error(e); }
-}
-
-// Allow Enter key to submit
-document.addEventListener('keydown', e => {
-  const as = document.getElementById('auth-screen');
-  if (as && as.style.display !== 'none' && e.key === 'Enter') {
-    authSubmit();
-  }
-});
+// Auth handled in Firebase module above
 </script>
 </body>
 </html>
