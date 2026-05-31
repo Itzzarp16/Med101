@@ -476,7 +476,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   border-bottom:1px solid rgba(38,53,80,.8);
   align-items:center;justify-content:space-between;
   padding:6px 14px;gap:8px;flex-wrap:wrap;
-  display:none;
+  display:flex;
 }
 #global-topbar .wa-num{ display:none; }
 @media(min-width:480px){ #global-topbar .wa-num{ display:inline; } }
@@ -499,7 +499,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
 
 #screen-subject{
-  position:fixed;top:0;left:0;right:0;bottom:0;
+  position:fixed;top:44px;left:0;right:0;bottom:0;
   width:100%;height:100%;min-height:100vh;
   z-index:9000;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
@@ -712,7 +712,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 <!-- ══════════════════════════════
      HOME SCREEN
 ══════════════════════════════ -->
-<div id="screen-home" class="screen active" style="position:relative;z-index:1;padding-top:38px;">
+<div id="screen-home" class="screen" style="position:relative;z-index:1;padding-top:56px;">
 
   <!-- Hero banner -->
   <div class="hero py-14 px-6" style="text-align:center;">
@@ -866,7 +866,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 <!-- ══════════════════════════════
      QUIZ SCREEN
 ══════════════════════════════ -->
-<div id="screen-quiz" class="screen" style="position:relative;z-index:1;padding-top:38px;">
+<div id="screen-quiz" class="screen" style="position:relative;z-index:1;padding-top:56px;">
 
   <!-- Top bar -->
   <div class="hero" style="padding:14px 16px;">
@@ -3694,22 +3694,6 @@ function goHome(){
     ss.style.display='flex';
     ss.scrollTop=0;
   }
-  document.body.classList.add('overlay-open');
-  document.body.classList.remove('overlay-open');
-  document.body.classList.add('overlay-open');
-
-  // Re-show topbar if user is logged in
-  if(window._fbCurrentUser){
-    const tb = document.getElementById('global-topbar');
-    if(tb) tb.style.display='flex';
-    const tu = document.getElementById('topbar-user');
-    const tun = document.getElementById('topbar-username');
-    if(tu && tun){
-      tun.textContent = window._fbCurrentUser.displayName || window._fbCurrentUser.email;
-      tu.style.display='flex';
-    }
-  }
-
   // Reset subject filter
   if(typeof activeSubjectFilter!=='undefined') activeSubjectFilter=null;
 
@@ -3999,7 +3983,9 @@ function selectMainSubject(mainSubj) {
   const meta = mainSubjectMeta[mainSubj];
   const pill = document.getElementById('active-subject-pill');
   if (pill) pill.textContent = meta.emoji + ' ' + mainSubj;
-  // login removed — subject screen stays visible
+  // Hide subject selector screen
+  const ss = document.getElementById('screen-subject');
+  if (ss) { ss.classList.add('hidden'); ss.style.display = 'none'; }
   document.body.classList.remove('overlay-open');
   rebuildTopicsForSubject(null, mainSubj);
   updateAllCount();
@@ -4025,7 +4011,8 @@ function selectSubject(subjectName) {
   }
 
   // Hide subject selector and go straight to home
-  // login removed — subject screen stays visible
+  const ss2 = document.getElementById('screen-subject');
+  if (ss2) { ss2.classList.add('hidden'); ss2.style.display = 'none'; }
   document.body.classList.remove('overlay-open');
 
   // Rebuild topics for selected subject
@@ -4130,8 +4117,8 @@ function addChangeSubjectBtn() {
   btn.textContent = '← Back';
   btn.onclick = () => {
     buildSubjectSelector(); // reset to top-level subject view
-    document.getElementById('screen-subject').classList.remove('hidden');
-    document.body.classList.add('overlay-open');
+    const ss = document.getElementById('screen-subject');
+    if (ss) { ss.classList.remove('hidden'); ss.style.display = 'flex'; }
   };
   hero.appendChild(btn);
 }
