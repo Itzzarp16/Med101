@@ -6,6 +6,64 @@
 <title>Medical MCQ Quiz – Physiology · Biochemistry · Anatomy · Kyrgyz · MSCR</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+  // ── YOUR FIREBASE CONFIG ─────────────────────────────────
+  // Replace with your actual Firebase project config from:
+  // Firebase Console → Project Settings → Your apps → Web app
+  const firebaseConfig = {
+    apiKey:            "AIzaSyC7KtDwkKLrLiw7w_5yvkRLGGYHqs-B5a8",
+    authDomain:        "abhishekmed101-space.firebaseapp.com",
+    projectId:         "abhishekmed101-space",
+    storageBucket:     "abhishekmed101-space.firebasestorage.app",
+    messagingSenderId: "845817735012",
+    appId:             "1:845817735012:web:33c4362c9863fc417e7c71",
+    measurementId:     "G-EBZQDH7RQJ"
+  };
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // Expose helpers to global scope for inline handlers
+  window._auth = auth;
+  window._fbSignIn = (email, pw) => signInWithEmailAndPassword(auth, email, pw);
+  window._fbSignUp = (email, pw) => createUserWithEmailAndPassword(auth, email, pw);
+  window._fbSignOut = () => signOut(auth);
+  window._fbReset  = (email) => sendPasswordResetEmail(auth, email);
+
+  onAuthStateChanged(auth, user => {
+    if (user) {
+      // Logged in — hide auth screen, show app
+      const authScreen = document.getElementById('auth-screen');
+      if (authScreen) authScreen.style.display = 'none';
+      document.body.classList.remove('auth-open');
+      // Show the subject screen (first app screen)
+      const ss = document.getElementById('screen-subject');
+      if (ss) { ss.classList.remove('hidden'); ss.style.display = 'flex'; }
+      // Update user display
+      const ud = document.getElementById('auth-user-display');
+      if (ud) { ud.textContent = user.email; ud.style.display = 'block'; }
+      const so = document.getElementById('auth-signout-btn');
+      if (so) so.style.display = 'inline-flex';
+    } else {
+      // Not logged in — show auth screen
+      const authScreen = document.getElementById('auth-screen');
+      if (authScreen) authScreen.style.display = 'flex';
+      document.body.classList.add('auth-open');
+      // Hide subject screen
+      const ss = document.getElementById('screen-subject');
+      if (ss) { ss.classList.add('hidden'); ss.style.display = 'none'; }
+      const ud = document.getElementById('auth-user-display');
+      if (ud) ud.style.display = 'none';
+      const so = document.getElementById('auth-signout-btn');
+      if (so) so.style.display = 'none';
+    }
+  });
+</script>
 <style>
 /* ═══════════════════════════════════════════
    DESIGN SYSTEM — Dark Neon Medical
@@ -65,6 +123,147 @@ body.light-mode .review-item{background:var(--surface2);}
 body.light-mode ::-webkit-scrollbar-track{background:var(--bg2);}
 body.light-mode ::-webkit-scrollbar-thumb{background:var(--border2);}
 body.light-mode .subj-title{background:linear-gradient(135deg,#0d1a2e 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* ══════════════════════════════
+   AUTH SCREEN
+══════════════════════════════ */
+#auth-screen{
+  position:fixed;inset:0;z-index:99999;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--bg);overflow-y:auto;padding:20px 16px;
+}
+#auth-screen::before{
+  content:'';position:fixed;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 50% -10%, rgba(0,229,255,.10) 0%, transparent 65%),
+             radial-gradient(ellipse 50% 50% at 80% 80%, rgba(167,139,250,.07) 0%, transparent 60%);
+}
+body.auth-open{overflow:hidden!important;}
+
+.auth-card{
+  width:100%;max-width:420px;
+  background:var(--surface);
+  border:1px solid var(--border2);
+  border-radius:24px;
+  padding:36px 32px 32px;
+  box-shadow:0 8px 60px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);
+  position:relative;z-index:1;
+  animation:authCardIn .55s cubic-bezier(.34,1.4,.64,1) both;
+}
+@keyframes authCardIn{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:none}}
+
+.auth-icon{
+  font-size:64px;text-align:center;margin-bottom:12px;
+  filter:drop-shadow(0 0 24px rgba(0,229,255,.5));
+  animation:iconIn .8s cubic-bezier(.34,1.56,.64,1) .15s both;
+}
+.auth-title{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;
+  text-align:center;line-height:1.15;
+  background:linear-gradient(135deg,var(--cyan) 0%,var(--violet) 60%,var(--pink) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-bottom:6px;
+}
+body.light-mode .auth-title{
+  background:linear-gradient(135deg,#0077aa 0%,#6d44d4 60%,#b0306e 100%);
+  -webkit-background-clip:text;background-clip:text;
+}
+.auth-sub{text-align:center;color:var(--text2);font-size:.88rem;margin-bottom:24px;}
+
+/* Tab toggle */
+.auth-tabs{
+  display:grid;grid-template-columns:1fr 1fr;
+  background:var(--surface2);border-radius:12px;padding:4px;
+  margin-bottom:24px;gap:0;
+}
+.auth-tab{
+  padding:10px;border-radius:9px;font-weight:700;font-size:14px;
+  cursor:pointer;transition:all .2s;color:var(--text2);border:none;background:transparent;
+  font-family:'Space Grotesk',sans-serif;
+}
+.auth-tab.active{
+  background:linear-gradient(135deg,var(--cyan2),var(--violet));
+  color:#fff;box-shadow:0 2px 12px rgba(0,229,255,.25);
+}
+
+/* Input fields */
+.auth-label{
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--text2);margin-bottom:6px;display:block;
+}
+.auth-input{
+  width:100%;padding:12px 16px;
+  background:var(--surface2);border:1.5px solid var(--border2);
+  border-radius:12px;color:var(--text);
+  font-family:'Space Grotesk',sans-serif;font-size:14.5px;
+  transition:border-color .2s,box-shadow .2s;outline:none;
+}
+.auth-input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,229,255,.12);}
+.auth-input::placeholder{color:var(--text3);}
+
+.auth-input-wrap{position:relative;}
+.auth-eye{
+  position:absolute;right:14px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;color:var(--text2);font-size:17px;
+  padding:2px;transition:color .2s;
+}
+.auth-eye:hover{color:var(--cyan);}
+
+.auth-forgot{
+  text-align:right;margin-top:6px;margin-bottom:0;
+  font-size:12.5px;color:var(--cyan);cursor:pointer;
+  background:none;border:none;font-family:'Space Grotesk',sans-serif;
+  padding:0;transition:opacity .2s;
+}
+.auth-forgot:hover{opacity:.75;}
+
+/* Submit button */
+.auth-btn{
+  width:100%;margin-top:20px;
+  background:linear-gradient(135deg,var(--cyan2) 0%,var(--violet) 100%);
+  color:#fff;border:none;border-radius:14px;
+  padding:15px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;
+  cursor:pointer;transition:all .22s;position:relative;overflow:hidden;
+  box-shadow:0 0 20px rgba(0,229,255,.28),0 4px 16px rgba(0,0,0,.4);
+  letter-spacing:.02em;
+}
+.auth-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:opacity .2s;}
+.auth-btn:hover::before{opacity:1;}
+.auth-btn:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(0,229,255,.4),0 8px 24px rgba(0,0,0,.5);}
+.auth-btn:active{transform:translateY(0);}
+.auth-btn:disabled{opacity:.55;cursor:not-allowed;transform:none;}
+
+/* Error / success toast */
+.auth-msg{
+  margin-top:14px;padding:10px 14px;border-radius:10px;
+  font-size:13px;font-weight:600;text-align:center;display:none;
+}
+.auth-msg.error{background:rgba(255,79,107,.13);color:var(--red);border:1px solid rgba(255,79,107,.3);}
+.auth-msg.success{background:rgba(0,230,118,.12);color:var(--green);border:1px solid rgba(0,230,118,.3);}
+
+/* Powered by badge */
+.auth-powered{
+  text-align:center;margin-top:20px;
+  font-size:11.5px;color:var(--text3);
+  display:flex;align-items:center;justify-content:center;gap:5px;
+}
+.auth-powered span{color:var(--text2);}
+
+/* Topbar user info */
+#auth-user-display{
+  font-size:11px;color:var(--text2);
+  background:var(--surface2);border:1px solid var(--border2);
+  border-radius:8px;padding:4px 10px;max-width:130px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  display:none;
+}
+#auth-signout-btn{
+  background:rgba(255,79,107,.12);border:1px solid rgba(255,79,107,.3);
+  color:var(--red);border-radius:8px;padding:4px 10px;
+  font-size:11px;font-weight:700;cursor:pointer;
+  font-family:'Space Grotesk',sans-serif;
+  transition:all .2s;display:none;align-items:center;gap:4px;
+}
+#auth-signout-btn:hover{background:rgba(255,79,107,.22);}
 
 /* ── THEME TOGGLE BUTTON ── */
 #theme-toggle{
@@ -631,6 +830,64 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 <body>
 
 <!-- ══════════════════════════════
+     AUTH SCREEN (Firebase)
+══════════════════════════════ -->
+<div id="auth-screen" style="display:flex;">
+  <div class="auth-card">
+    <div class="auth-icon">👨‍⚕️</div>
+    <div class="auth-title" id="auth-title">Welcome Back</div>
+    <div class="auth-sub" id="auth-sub">Enter your email and password to continue</div>
+
+    <!-- Sign In / Sign Up tabs -->
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-signin" onclick="authSwitchTab('signin')">Sign In</button>
+      <button class="auth-tab" id="tab-signup" onclick="authSwitchTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Email -->
+    <div style="margin-bottom:14px;">
+      <label class="auth-label">Email</label>
+      <input class="auth-input" id="auth-email" type="email" placeholder="yourname@email.com" autocomplete="email" />
+    </div>
+
+    <!-- Password -->
+    <div>
+      <label class="auth-label">Password</label>
+      <div class="auth-input-wrap">
+        <input class="auth-input" id="auth-password" type="password" placeholder="••••••••" autocomplete="current-password" style="padding-right:44px;" />
+        <button class="auth-eye" onclick="authToggleEye()" id="auth-eye-btn" title="Show/hide password">👁</button>
+      </div>
+    </div>
+
+    <!-- Confirm Password (sign-up only) -->
+    <div id="auth-confirm-wrap" style="margin-top:14px;display:none;">
+      <label class="auth-label">Confirm Password</label>
+      <div class="auth-input-wrap">
+        <input class="auth-input" id="auth-confirm" type="password" placeholder="••••••••" autocomplete="new-password" style="padding-right:44px;" />
+      </div>
+    </div>
+
+    <!-- Forgot password (sign-in only) -->
+    <div id="auth-forgot-wrap" style="margin-top:6px;text-align:right;">
+      <button class="auth-forgot" onclick="authForgotPassword()">Forgot password?</button>
+    </div>
+
+    <!-- Submit -->
+    <button class="auth-btn" id="auth-submit-btn" onclick="authSubmit()">
+      Sign In →
+    </button>
+
+    <!-- Message -->
+    <div class="auth-msg" id="auth-msg"></div>
+
+    <!-- Powered by -->
+    <div class="auth-powered">
+      🔥 <span>Secured by Firebase Authentication</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
      THEME TOGGLE
 ══════════════════════════════ -->
 <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
@@ -654,6 +911,8 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   </div>
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
     <div class="madeby" id="topbar-madeby">Made by <span>Abhishek Verma</span></div>
+    <div id="auth-user-display" title="Logged in as"></div>
+    <button id="auth-signout-btn" onclick="authSignOut()" title="Sign out">⏏ Sign Out</button>
   </div>
 </div>
 
@@ -4151,9 +4410,111 @@ document.addEventListener('DOMContentLoaded', () => {
   updateAllCount();
   renderHomeImportant();
 
-  // No login required — show subject screen directly
-  document.getElementById('screen-subject').classList.remove('hidden');
+  // Auth state managed by Firebase onAuthStateChanged — do NOT show screen-subject here
+  // It will be revealed once the user is confirmed signed in.
+});
 
+// ── AUTH HELPERS ────────────────────────────────────────────
+let _authMode = 'signin'; // 'signin' | 'signup'
+
+function authSwitchTab(mode) {
+  _authMode = mode;
+  document.getElementById('tab-signin').classList.toggle('active', mode === 'signin');
+  document.getElementById('tab-signup').classList.toggle('active', mode === 'signup');
+  document.getElementById('auth-title').textContent = mode === 'signin' ? 'Welcome Back' : 'Create Account';
+  document.getElementById('auth-sub').textContent   = mode === 'signin'
+    ? 'Enter your email and password to continue'
+    : 'Sign up to start your medical MCQ journey';
+  document.getElementById('auth-confirm-wrap').style.display = mode === 'signup' ? 'block' : 'none';
+  document.getElementById('auth-forgot-wrap').style.display  = mode === 'signin' ? 'block' : 'none';
+  document.getElementById('auth-submit-btn').textContent     = mode === 'signin' ? 'Sign In →' : 'Create Account →';
+  authClearMsg();
+}
+
+function authToggleEye() {
+  const inp = document.getElementById('auth-password');
+  const eye = document.getElementById('auth-eye-btn');
+  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
+  else                         { inp.type = 'password'; eye.textContent = '👁'; }
+}
+
+function authShowMsg(text, type) {
+  const el = document.getElementById('auth-msg');
+  el.textContent = text;
+  el.className = 'auth-msg ' + type;
+  el.style.display = 'block';
+}
+function authClearMsg() {
+  const el = document.getElementById('auth-msg');
+  el.style.display = 'none';
+  el.textContent = '';
+}
+
+async function authSubmit() {
+  const email = document.getElementById('auth-email').value.trim();
+  const pw    = document.getElementById('auth-password').value;
+  const btn   = document.getElementById('auth-submit-btn');
+
+  authClearMsg();
+  if (!email || !pw) { authShowMsg('Please fill in all fields.', 'error'); return; }
+
+  if (_authMode === 'signup') {
+    const confirm = document.getElementById('auth-confirm').value;
+    if (pw !== confirm) { authShowMsg('Passwords do not match.', 'error'); return; }
+    if (pw.length < 6)  { authShowMsg('Password must be at least 6 characters.', 'error'); return; }
+  }
+
+  btn.disabled = true;
+  btn.textContent = _authMode === 'signin' ? 'Signing in…' : 'Creating account…';
+
+  try {
+    if (_authMode === 'signin') {
+      await window._fbSignIn(email, pw);
+    } else {
+      await window._fbSignUp(email, pw);
+      authShowMsg('Account created! Welcome 🎉', 'success');
+    }
+    // onAuthStateChanged handles showing the app
+  } catch (err) {
+    const msgs = {
+      'auth/user-not-found':    'No account found with this email.',
+      'auth/wrong-password':    'Incorrect password. Please try again.',
+      'auth/email-already-in-use': 'An account with this email already exists.',
+      'auth/invalid-email':     'Please enter a valid email address.',
+      'auth/too-many-requests': 'Too many failed attempts. Please try again later.',
+      'auth/network-request-failed': 'Network error. Check your connection.',
+      'auth/invalid-credential': 'Invalid email or password.',
+    };
+    authShowMsg(msgs[err.code] || err.message, 'error');
+    btn.disabled = false;
+    btn.textContent = _authMode === 'signin' ? 'Sign In →' : 'Create Account →';
+  }
+}
+
+async function authForgotPassword() {
+  const email = document.getElementById('auth-email').value.trim();
+  if (!email) { authShowMsg('Enter your email above first.', 'error'); return; }
+  try {
+    await window._fbReset(email);
+    authShowMsg('Password reset email sent! Check your inbox.', 'success');
+  } catch (err) {
+    authShowMsg(err.message, 'error');
+  }
+}
+
+async function authSignOut() {
+  try {
+    await window._fbSignOut();
+    // onAuthStateChanged re-shows auth screen
+  } catch(e) { console.error(e); }
+}
+
+// Allow Enter key to submit
+document.addEventListener('keydown', e => {
+  const as = document.getElementById('auth-screen');
+  if (as && as.style.display !== 'none' && e.key === 'Enter') {
+    authSubmit();
+  }
 });
 </script>
 </body>
