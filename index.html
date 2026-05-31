@@ -724,12 +724,13 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     signInWithRedirect,
     getRedirectResult,
     RecaptchaVerifier,
-    signInWithPhoneNumber
+    signInWithPhoneNumber,
+    applyActionCode
   } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAQAAQe6H0pIJvmPi7TTjw42-UcvFewFzU",
-    authDomain: "med101-95018.firebaseapp.com",
+    authDomain: "abhishekmed101.space",
     projectId: "med101-95018",
     storageBucket: "med101-95018.firebasestorage.app",
     messagingSenderId: "356519126985",
@@ -756,6 +757,55 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   window._fbGetRedirectResult = getRedirectResult;
   window._fbRecaptchaVerifier = RecaptchaVerifier;
   window._fbSignInWithPhoneNumber = signInWithPhoneNumber;
+  window._fbApplyActionCode = applyActionCode;
+
+  // ── Handle Firebase email action links (verifyEmail, resetPassword) ──
+  // This runs when user clicks the verification link in their email
+  // and lands on abhishekmed101.space with ?mode=verifyEmail&oobCode=...
+  (function handleEmailActions() {
+    const params = new URLSearchParams(window.location.search);
+    const mode = params.get('mode');
+    const oobCode = params.get('oobCode');
+    if (!mode || !oobCode) return;
+
+    if (mode === 'verifyEmail') {
+      // Show a full-screen message while we verify
+      const overlay = document.createElement('div');
+      overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Space Grotesk,sans-serif;color:#fff;';
+      overlay.innerHTML = `
+        <div style="font-size:2.5rem;margin-bottom:16px;">✉️</div>
+        <div style="font-size:1.3rem;font-weight:700;color:#00e5ff;margin-bottom:8px;">Verifying your email…</div>
+        <div style="font-size:.9rem;color:#aaa;">Please wait a moment</div>`;
+      document.body.appendChild(overlay);
+
+      applyActionCode(auth, oobCode)
+        .then(() => {
+          overlay.innerHTML = `
+            <div style="font-size:2.5rem;margin-bottom:16px;">✅</div>
+            <div style="font-size:1.3rem;font-weight:700;color:#00e5ff;margin-bottom:8px;">Email Verified!</div>
+            <div style="font-size:.9rem;color:#aaa;margin-bottom:24px;">You can now sign in to your account.</div>
+            <button onclick="window.location.href=window.location.origin+window.location.pathname"
+              style="padding:12px 32px;border-radius:12px;border:none;background:linear-gradient(135deg,#00e5ff,#7c3aed);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:Space Grotesk,sans-serif;">
+              Go to Sign In →
+            </button>`;
+        })
+        .catch((err) => {
+          overlay.innerHTML = `
+            <div style="font-size:2.5rem;margin-bottom:16px;">❌</div>
+            <div style="font-size:1.3rem;font-weight:700;color:#ff4d4d;margin-bottom:8px;">Verification Failed</div>
+            <div style="font-size:.9rem;color:#aaa;margin-bottom:4px;">${err.code === 'auth/invalid-action-code' ? 'This link has expired or already been used.' : err.message}</div>
+            <div style="font-size:.85rem;color:#aaa;margin-bottom:24px;">Please sign in and request a new verification email.</div>
+            <button onclick="window.location.href=window.location.origin+window.location.pathname"
+              style="padding:12px 32px;border-radius:12px;border:none;background:linear-gradient(135deg,#00e5ff,#7c3aed);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:Space Grotesk,sans-serif;">
+              Go to Sign In →
+            </button>`;
+        });
+
+    } else if (mode === 'resetPassword') {
+      // For password reset, just clean the URL and let the normal reset flow handle it
+      window._pendingResetCode = oobCode;
+    }
+  })();
 
   // Handle Google redirect result on page load
   getRedirectResult(auth).then((result) => {
