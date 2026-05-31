@@ -884,8 +884,8 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     </div>
 
     <!-- Email or Phone -->
-    <label class="login-label" for="auth-email-input" id="email-field-label">Email or Phone Number</label>
-    <input class="login-input" id="auth-email-input" type="text" placeholder="yourname@email.com or +996700123456" autocomplete="email" onkeydown="if(event.key==='Enter')doAuthSubmit()" oninput="autoDetectInputMode(this.value)">
+    <label class="login-label" for="auth-email-input" id="email-field-label">Email</label>
+    <input class="login-input" id="auth-email-input" type="email" placeholder="yourname@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')doAuthSubmit()">
 
     <!-- Password -->
     <label class="login-label" id="pass-field-label" for="auth-pass-input" style="margin-top:4px;">Password</label>
@@ -906,37 +906,6 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     <!-- Forgot password link (sign in only) -->
     <div id="field-forgot" style="text-align:right;margin-bottom:6px;margin-top:-2px;">
       <button onclick="doForgotPassword()" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-weight:600;padding:0;opacity:.8;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.8'">Forgot password?</button>
-    </div>
-
-    <!-- Inline phone OTP panel (shown when phone number detected) -->
-    <div id="inline-phone-panel" style="display:none;">
-      <div id="inline-phone-step1">
-        <div id="recaptcha-container-inline" style="margin-bottom:12px;display:flex;justify-content:center;"></div>
-        <div class="login-error" id="inline-phone-error-msg" style="display:none;margin-bottom:8px;"></div>
-      </div>
-      <div id="inline-phone-step2" style="display:none;">
-        <div style="text-align:center;margin-bottom:10px;font-size:.85rem;color:var(--text2);">
-          OTP sent to <span id="inline-phone-display-num" style="color:var(--cyan);font-weight:700;"></span>
-        </div>
-        <label class="login-label">Enter 6-digit OTP</label>
-        <input class="login-input" id="inline-phone-otp-input" type="number" placeholder="123456"
-          style="text-align:center;letter-spacing:.3em;font-size:1.2rem;margin-bottom:8px;"
-          onkeydown="if(event.key==='Enter')doInlinePhoneVerifyOTP()">
-        <div class="login-error" id="inline-phone-otp-error" style="display:none;margin-bottom:8px;"></div>
-        <button class="login-btn" id="inline-phone-verify-btn" onclick="doInlinePhoneVerifyOTP()">
-          <span id="inline-verify-text">Verify & Continue →</span>
-          <span id="inline-verify-spinner" style="display:none;">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;">
-              <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3"/>
-              <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-          </span>
-        </button>
-        <button onclick="resetInlinePhoneToStep1()"
-          style="width:100%;margin-top:8px;background:none;border:none;color:var(--text3);font-size:.78rem;cursor:pointer;font-family:'Space Grotesk',sans-serif;">
-          ← Change number
-        </button>
-      </div>
     </div>
 
     <!-- Error message -->
@@ -3997,239 +3966,35 @@ function goHome(){
 // ════════════════════════════════════════════
 
 let _authTab = 'signin'; // 'signin' | 'signup'
-let _inputMode = 'email'; // 'email' | 'phone'
-let _inlinePhoneConfirmationResult = null;
-
-// Detect if input looks like a phone number
-function _isPhoneInput(val) {
-  const stripped = val.replace(/[\s\-\(\)]/g, '');
-  return /^\+?[0-9]{7,15}$/.test(stripped);
-}
-
-function autoDetectInputMode(val) {
-  const isPhone = _isPhoneInput(val);
-  const passWrapper = document.getElementById('auth-pass-input').parentElement; // the relative div
-  const passLabel = document.getElementById('pass-field-label');
-  const confirmBlock = document.getElementById('field-confirm-pass');
-  const forgotBlock = document.getElementById('field-forgot');
-  const inlinePanel = document.getElementById('inline-phone-panel');
-  const step2 = document.getElementById('inline-phone-step2');
-
-  if (isPhone && _inputMode !== 'phone') {
-    _inputMode = 'phone';
-    // Hide password fields
-    passWrapper.style.display = 'none';
-    if (passLabel) passLabel.style.display = 'none';
-    if (confirmBlock) confirmBlock.style.display = 'none';
-    if (forgotBlock) forgotBlock.style.display = 'none';
-    // Show inline phone panel (step 1 only unless OTP already sent)
-    inlinePanel.style.display = 'block';
-    if (!step2 || step2.style.display === 'none') {
-      document.getElementById('inline-phone-step1').style.display = 'block';
-    }
-    // Change submit button to send OTP
-    document.getElementById('auth-btn-text').textContent = 'Send OTP →';
-    document.getElementById('email-field-label').textContent = 'Phone Number';
-    document.getElementById('auth-email-input').placeholder = '+996 700 123 456';
-  } else if (!isPhone && _inputMode !== 'email') {
-    _inputMode = 'email';
-    _resetInlinePhone();
-  }
-}
-
-function _resetInlinePhone() {
-  _inputMode = 'email';
-  _inlinePhoneConfirmationResult = null;
-  // Show password fields
-  const passParent = document.getElementById('auth-pass-input').parentElement;
-  passParent.style.display = 'block';
-  const passLabel = document.getElementById('pass-field-label');
-  if (passLabel) passLabel.style.display = 'block';
-  // Restore confirm + forgot based on tab
-  if (_authTab === 'signup') {
-    document.getElementById('field-confirm-pass').style.display = 'block';
-    document.getElementById('field-forgot').style.display = 'none';
-  } else {
-    document.getElementById('field-confirm-pass').style.display = 'none';
-    document.getElementById('field-forgot').style.display = 'block';
-  }
-  // Hide inline phone panel
-  document.getElementById('inline-phone-panel').style.display = 'none';
-  document.getElementById('inline-phone-step1').style.display = 'block';
-  document.getElementById('inline-phone-step2').style.display = 'none';
-  document.getElementById('inline-phone-error-msg').style.display = 'none';
-  document.getElementById('inline-phone-otp-error').style.display = 'none';
-  document.getElementById('inline-phone-otp-input').value = '';
-  // Reset submit button
-  document.getElementById('auth-btn-text').textContent = _authTab === 'signup' ? 'Create Account →' : 'Sign In →';
-  document.getElementById('auth-submit-btn').style.display = 'block';
-  document.getElementById('email-field-label').textContent = 'Email or Phone Number';
-  document.getElementById('auth-email-input').placeholder = 'yourname@email.com or +996700123456';
-  document.getElementById('auth-email-input').type = 'text';
-}
-
-function resetInlinePhoneToStep1() {
-  document.getElementById('inline-phone-step1').style.display = 'block';
-  document.getElementById('inline-phone-step2').style.display = 'none';
-  document.getElementById('inline-phone-otp-error').style.display = 'none';
-  document.getElementById('inline-phone-otp-input').value = '';
-  _inlinePhoneConfirmationResult = null;
-  document.getElementById('auth-btn-text').textContent = 'Send OTP →';
-  document.getElementById('auth-submit-btn').style.display = 'block';
-}
-
-async function doInlinePhoneSendOTP() {
-  const rawVal = document.getElementById('auth-email-input').value.trim().replace(/\s+/g,'');
-  const errEl = document.getElementById('inline-phone-error-msg');
-  errEl.style.display = 'none';
-
-  if (!window._fbAuth || !window._fbRecaptchaVerifier || !window._fbSignInWithPhoneNumber) {
-    errEl.textContent = 'Firebase not ready. Please refresh.';
-    errEl.style.display = 'block';
-    return;
-  }
-
-  // Ensure number has + prefix
-  const fullPhone = rawVal.startsWith('+') ? rawVal : '+' + rawVal;
-
-  _setAuthLoading(true);
-
-  // Setup invisible reCAPTCHA
-  if (!window._inlineAppVerifier) {
-    try {
-      window._inlineAppVerifier = new window._fbRecaptchaVerifier(window._fbAuth, 'recaptcha-container-inline', {
-        size: 'invisible',
-        callback: () => {}
-      });
-    } catch(e) {
-      errEl.textContent = 'reCAPTCHA error: ' + e.message;
-      errEl.style.display = 'block';
-      _setAuthLoading(false);
-      return;
-    }
-  }
-
-  try {
-    const confirmationResult = await window._fbSignInWithPhoneNumber(window._fbAuth, fullPhone, window._inlineAppVerifier);
-    _inlinePhoneConfirmationResult = confirmationResult;
-    document.getElementById('inline-phone-display-num').textContent = fullPhone;
-    document.getElementById('inline-phone-step1').style.display = 'none';
-    document.getElementById('inline-phone-step2').style.display = 'block';
-    // Hide main submit btn; OTP panel has its own button
-    document.getElementById('auth-submit-btn').style.display = 'none';
-    _setAuthLoading(false);
-  } catch(error) {
-    errEl.textContent = error.message || 'Failed to send OTP.';
-    errEl.style.display = 'block';
-    _setAuthLoading(false);
-    window._inlineAppVerifier = null;
-    document.getElementById('recaptcha-container-inline').innerHTML = '';
-  }
-}
-
-function doInlinePhoneVerifyOTP() {
-  const otp = document.getElementById('inline-phone-otp-input').value.trim();
-  const errEl = document.getElementById('inline-phone-otp-error');
-  const verifyBtn = document.getElementById('inline-phone-verify-btn');
-
-  if (!otp || otp.length < 6) {
-    errEl.textContent = 'Please enter the 6-digit OTP.';
-    errEl.style.display = 'block';
-    return;
-  }
-  if (!_inlinePhoneConfirmationResult) {
-    errEl.textContent = 'Session expired. Please resend OTP.';
-    errEl.style.display = 'block';
-    return;
-  }
-
-  errEl.style.display = 'none';
-  document.getElementById('inline-verify-text').style.display = 'none';
-  document.getElementById('inline-verify-spinner').style.display = 'inline';
-  verifyBtn.disabled = true;
-
-  _inlinePhoneConfirmationResult.confirm(otp)
-    .then((result) => {
-      window._fbCurrentUser = result.user;
-      _proceedAfterLogin(result.user);
-    })
-    .catch((error) => {
-      errEl.textContent = error.code === 'auth/invalid-verification-code'
-        ? 'Invalid OTP. Please try again.'
-        : (error.message || 'Verification failed.');
-      errEl.style.display = 'block';
-      document.getElementById('inline-verify-text').style.display = 'inline';
-      document.getElementById('inline-verify-spinner').style.display = 'none';
-      verifyBtn.disabled = false;
-    });
-}
 
 function switchAuthTab(tab) {
   const isSignin = tab === 'signin';
   const isSignup = tab === 'signup';
-  const isPhone  = tab === 'phone';
-  if (!isPhone) _authTab = tab;
+  _authTab = tab;
 
   // Tab button styles
-  const activeStyle = 'background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);';
-  const inactiveStyle = 'background:transparent;color:var(--text3);box-shadow:none;';
+  const activeStyle = 'background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);font-weight:700;';
+  const inactiveStyle = 'background:transparent;color:var(--text3);box-shadow:none;font-weight:600;';
   document.getElementById('tab-signin').style.cssText += isSignin ? activeStyle : inactiveStyle;
   document.getElementById('tab-signup').style.cssText += isSignup ? activeStyle : inactiveStyle;
-  document.getElementById('tab-phone').style.cssText  += isPhone  ? activeStyle : inactiveStyle;
 
-  // Show/hide panels
-  const emailFields = ['field-name','auth-email-input','auth-pass-input',
-    'field-confirm-pass','field-forgot','auth-submit-btn','auth-error-msg'];
-  // Show email fields for signin/signup, hide for phone
-  document.getElementById('field-name').style.display = isSignup ? 'block' : 'none';
+  // Show/hide fields based on tab
+  document.getElementById('field-name').style.display         = isSignup ? 'block' : 'none';
   document.getElementById('field-confirm-pass').style.display = isSignup ? 'block' : 'none';
-  document.getElementById('field-forgot').style.display = isSignin ? 'block' : 'none';
-
-  const emailBlock = document.getElementById('auth-email-input').parentElement ||
-                     document.getElementById('auth-email-input');
-
-  // Show/hide email+password section
-  ['auth-email-input','auth-pass-input','auth-submit-btn'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.closest('div,label,button') ? null : null; // handled below
-  });
-
-  // Toggle entire email section visibility via wrapper approach
-  const emailSection = document.getElementById('email-auth-section');
-  if (emailSection) emailSection.style.display = isPhone ? 'none' : 'block';
-
-  // Show/hide phone panel
-  const phonePanel = document.getElementById('panel-phone');
-  if (phonePanel) phonePanel.style.display = isPhone ? 'block' : 'none';
-
-  // Show/hide OR divider + Google button
-  const orDiv = document.querySelector('.login-divider');
-  const googleBtn = document.getElementById('btn-google');
-  if (orDiv) orDiv.style.display = isPhone ? 'none' : 'flex';
-  if (googleBtn) googleBtn.style.display = isPhone ? 'none' : 'flex';
-
-  // Reset phone input mode on tab switch
-  if (_inputMode === 'phone') _resetInlinePhone();
+  document.getElementById('field-forgot').style.display       = isSignin ? 'block' : 'none';
 
   // Update subtitle
-  document.getElementById('auth-sub').textContent = isPhone
-    ? 'Enter your phone number to receive an OTP'
-    : isSignup ? 'Create your free account to get started'
+  document.getElementById('auth-sub').textContent = isSignup
+    ? 'Create your free account to get started'
     : 'Enter your email and password to continue';
 
-  // Update submit button text for email mode
-  if (!isPhone) {
-    document.getElementById('auth-btn-text').textContent = isSignup ? 'Create Account →' : 'Sign In →';
-    document.getElementById('auth-submit-btn').style.display = 'block';
-  }
+  // Update submit button text
+  document.getElementById('auth-btn-text').textContent = isSignup ? 'Create Account →' : 'Sign In →';
+  document.getElementById('auth-submit-btn').style.display = 'block';
 
-  // Reset phone steps when switching away
-  if (!isPhone) {
-    document.getElementById('phone-step1').style.display = 'block';
-    document.getElementById('phone-step2').style.display = 'none';
-    document.getElementById('phone-error-msg').style.display = 'none';
-    document.getElementById('phone-otp-error-msg').style.display = 'none';
-  }
+  // Clear any previous errors
+  const errEl = document.getElementById('auth-error-msg');
+  if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
 }
 
 function togglePassVis() {
@@ -4348,15 +4113,6 @@ function _googleBtnHTML() {
 }
 
 async function doAuthSubmit() {
-  // If phone mode and step1 still showing, send OTP instead
-  if (_inputMode === 'phone') {
-    const step2 = document.getElementById('inline-phone-step2');
-    if (!step2 || step2.style.display === 'none') {
-      doInlinePhoneSendOTP();
-    }
-    return;
-  }
-
   const email = document.getElementById('auth-email-input').value.trim();
   const pass  = document.getElementById('auth-pass-input').value;
   const auth  = window._fbAuth;
@@ -4859,113 +4615,7 @@ function addChangeSubjectBtn() {
 }
 
 
-// ── PHONE AUTH ──────────────────────────────────────────────
-let _phoneConfirmationResult = null;
-let _recaptchaWidgetId = null;
 
-function doPhoneSendOTP() {
-  const cc = (document.getElementById('phone-country-code').value || '+996').trim();
-  const num = document.getElementById('phone-number-input').value.trim().replace(/\s+/g, '');
-  const errEl = document.getElementById('phone-error-msg');
-  const sendBtn = document.getElementById('phone-send-btn');
-  const sendText = document.getElementById('phone-send-text');
-  const sendSpinner = document.getElementById('phone-send-spinner');
-
-  if (!num || num.length < 7) {
-    errEl.textContent = 'Please enter a valid phone number.';
-    errEl.style.display = 'block';
-    return;
-  }
-  errEl.style.display = 'none';
-  const fullPhone = cc + num;
-
-  if (!window._fbAuth || !window._fbRecaptchaVerifier || !window._fbSignInWithPhoneNumber) {
-    errEl.textContent = 'Firebase not ready. Please refresh.';
-    errEl.style.display = 'block';
-    return;
-  }
-
-  sendText.style.display = 'none';
-  sendSpinner.style.display = 'inline';
-  sendBtn.disabled = true;
-
-  // Setup invisible reCAPTCHA if not already done
-  if (!window._appVerifier) {
-    try {
-      window._appVerifier = new window._fbRecaptchaVerifier(window._fbAuth, 'recaptcha-container', {
-        size: 'invisible',
-        callback: () => {}
-      });
-    } catch(e) {
-      errEl.textContent = 'reCAPTCHA error: ' + e.message;
-      errEl.style.display = 'block';
-      sendText.style.display = 'inline';
-      sendSpinner.style.display = 'none';
-      sendBtn.disabled = false;
-      return;
-    }
-  }
-
-  window._fbSignInWithPhoneNumber(window._fbAuth, fullPhone, window._appVerifier)
-    .then((confirmationResult) => {
-      _phoneConfirmationResult = confirmationResult;
-      document.getElementById('phone-display-num').textContent = fullPhone;
-      document.getElementById('phone-step1').style.display = 'none';
-      document.getElementById('phone-step2').style.display = 'block';
-      sendText.style.display = 'inline';
-      sendSpinner.style.display = 'none';
-      sendBtn.disabled = false;
-    })
-    .catch((error) => {
-      errEl.textContent = error.message || 'Failed to send OTP.';
-      errEl.style.display = 'block';
-      sendText.style.display = 'inline';
-      sendSpinner.style.display = 'none';
-      sendBtn.disabled = false;
-      // Reset verifier on error so next attempt works
-      window._appVerifier = null;
-      document.getElementById('recaptcha-container').innerHTML = '';
-    });
-}
-
-function doPhoneVerifyOTP() {
-  const otp = document.getElementById('phone-otp-input').value.trim();
-  const errEl = document.getElementById('phone-otp-error-msg');
-  const verifyBtn = document.getElementById('phone-verify-btn');
-  const verifyText = document.getElementById('phone-verify-text');
-  const verifySpinner = document.getElementById('phone-verify-spinner');
-
-  if (!otp || otp.length < 6) {
-    errEl.textContent = 'Please enter the 6-digit OTP.';
-    errEl.style.display = 'block';
-    return;
-  }
-  if (!_phoneConfirmationResult) {
-    errEl.textContent = 'Session expired. Please resend OTP.';
-    errEl.style.display = 'block';
-    return;
-  }
-
-  errEl.style.display = 'none';
-  verifyText.style.display = 'none';
-  verifySpinner.style.display = 'inline';
-  verifyBtn.disabled = true;
-
-  _phoneConfirmationResult.confirm(otp)
-    .then((result) => {
-      window._fbCurrentUser = result.user;
-      _proceedAfterLogin(result.user);
-    })
-    .catch((error) => {
-      errEl.textContent = error.code === 'auth/invalid-verification-code'
-        ? 'Invalid OTP. Please try again.'
-        : (error.message || 'Verification failed.');
-      errEl.style.display = 'block';
-      verifyText.style.display = 'inline';
-      verifySpinner.style.display = 'none';
-      verifyBtn.disabled = false;
-    });
-}
 
 // ── THEME TOGGLE ────────────────────────────────────────────
 function toggleTheme() {
