@@ -58,11 +58,11 @@ body.light-mode .q-card{box-shadow:0 8px 40px rgba(0,0,0,.08);}
 body.light-mode .glass{box-shadow:0 4px 20px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.8);}
 body.light-mode .glass-hi{box-shadow:0 8px 32px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.9);}
 body.light-mode .score-ring-inner{background:var(--bg2);}
-body.light-mode #login-screen,body.light-mode #screen-subject,body.light-mode #splash{background:var(--bg);}
+body.light-mode #screen-subject,body.light-mode #splash{background:var(--bg);}
 body.light-mode #global-topbar{background:rgba(240,244,255,.92);border-bottom-color:var(--border2);}
 body.light-mode .splash-title{background:linear-gradient(135deg,#0077aa 0%,#6d44d4 60%,#b0306e 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 body.light-mode h1{background:linear-gradient(135deg,#0d1a2e 0%,var(--cyan) 60%,var(--violet) 100%)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;background-clip:text!important;}
-body.light-mode .login-title{background:linear-gradient(135deg,#0d1a2e 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+body.light-mode 
 body.light-mode .review-item{background:var(--surface2);}
 body.light-mode ::-webkit-scrollbar-track{background:var(--bg2);}
 body.light-mode ::-webkit-scrollbar-thumb{background:var(--border2);}
@@ -84,7 +84,7 @@ body.light-mode #theme-toggle:hover{background:rgba(0,100,180,.22);}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{height:100%;overflow:hidden;}
 body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);min-height:100%;height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;}
-body.overlay-open{overflow:hidden!important;}
+
 h1,h2,.display{font-family:'Syne',sans-serif;}
 
 /* ── SCROLLBAR ── */
@@ -500,80 +500,29 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 }
 
 
-#login-screen{
-  position:fixed;top:0;left:0;right:0;bottom:0;
-  width:100vw;height:100vh;
-  z-index:10000;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--bg);
-  overflow-y:auto;overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-}
-/* Extra pseudo-element to fill any overscroll area above/below */
-#login-screen::before{
-  content:'';position:fixed;inset:0;z-index:-1;
-  background:var(--bg);pointer-events:none;
-  width:100vw;height:100vh;
-}
-#login-screen.hide{
-  animation:loginHide .5s cubic-bezier(.7,0,.3,1) forwards;
-  pointer-events:none;
-}
-@keyframes loginHide{to{opacity:0;transform:scale(1.04);}}
 
-.login-rings div{
-  position:absolute;border-radius:50%;border:1px solid;
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  animation:ringPulse ease infinite;
+/* Extra pseudo-element to fill any overscroll area above/below */
+
+
 }
-.login-box{
-  width:100%;max-width:420px;
-  background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);
-  border:1px solid var(--border2);border-radius:20px;
-  padding:44px 36px;
-  box-shadow:0 8px 48px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.05);
-  position:relative;z-index:1;
-  animation:fadeUp .6s cubic-bezier(.34,1.2,.64,1) .2s both;
-  margin:16px;
-}
-.login-box::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));
-  border-radius:20px 20px 0 0;
-}
-.login-icon{font-size:52px;text-align:center;margin-bottom:16px;filter:drop-shadow(0 0 20px rgba(0,229,255,.5));}
-.login-title{
-  font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;
-  text-align:center;line-height:1.1;margin-bottom:6px;
-  background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--violet) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.login-sub{font-size:.82rem;color:var(--text3);text-align:center;margin-bottom:32px;line-height:1.6;}
-.login-label{font-size:.68rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text3);margin-bottom:8px;display:block;}
-.login-input{
-  width:100%;padding:14px 18px;
-  background:var(--bg2);border:1.5px solid var(--border2);
-  border-radius:12px;color:var(--text);
-  font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:500;
-  outline:none;transition:all .2s;margin-bottom:8px;
-}
-.login-input::placeholder{color:var(--text3);}
-.login-input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,229,255,.1);}
-.login-error{font-size:.75rem;color:var(--red);margin-bottom:14px;display:none;min-height:18px;}
-.login-btn{
-  width:100%;padding:15px;margin-top:6px;
-  background:linear-gradient(135deg,var(--cyan2),var(--violet));
-  color:#fff;border:none;border-radius:12px;
-  font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;
-  cursor:pointer;transition:all .2s;letter-spacing:.02em;
-  box-shadow:0 0 20px rgba(0,229,255,.25),0 4px 16px rgba(0,0,0,.4);
-  position:relative;overflow:hidden;
-}
-.login-btn::before{content:'';position:absolute;inset:0;background:rgba(255,255,255,.12);opacity:0;transition:opacity .2s;}
-.login-btn:hover::before{opacity:1;}
-.login-btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,229,255,.4),0 8px 24px rgba(0,0,0,.5);}
-.login-btn:disabled{opacity:.4;cursor:default;transform:none;box-shadow:none;}
-.login-consent{font-size:.68rem;color:var(--text3);text-align:center;margin-top:14px;line-height:1.5;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* ══════════════════════════════
    SUBJECT SELECTOR SCREEN
@@ -672,25 +621,12 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 }
 
 /* ── GOOGLE SIGN IN BUTTON ── */
-.btn-google{
-  width:100%;padding:13px;margin-top:10px;
-  background:#fff;color:#3c4043;
-  border:1.5px solid #dadce0;border-radius:12px;
-  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:600;
-  cursor:pointer;transition:all .2s;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  box-shadow:0 2px 8px rgba(0,0,0,.15);
-}
-.btn-google:hover{ background:#f8f9fa; box-shadow:0 4px 16px rgba(0,0,0,.2); transform:translateY(-1px); }
+
+
 .btn-google:active{ transform:translateY(0); }
 .btn-google:disabled{ opacity:.5; cursor:default; transform:none; }
-.login-divider{
-  display:flex;align-items:center;gap:10px;
-  margin:16px 0;color:var(--text3);font-size:12px;font-weight:600;letter-spacing:.06em;
-}
-.login-divider::before,.login-divider::after{
-  content:'';flex:1;height:1px;background:var(--border2);
-}
+
+
 
 </style>
 <!-- Yandex.Metrika counter -->
@@ -706,136 +642,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 <noscript><div><img src="https://mc.yandex.ru/watch/109460260" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    onAuthStateChanged,
-    signOut,
-    updateProfile,
-    sendEmailVerification,
-    sendPasswordResetEmail,
-    GoogleAuthProvider,
-    signInWithPopup,
-    signInWithRedirect,
-    getRedirectResult,
-    RecaptchaVerifier,
-    signInWithPhoneNumber,
-    applyActionCode
-  } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyAQAAQe6H0pIJvmPi7TTjw42-UcvFewFzU",
-    authDomain: "abhishekmed101.space",
-    projectId: "med101-95018",
-    storageBucket: "med101-95018.firebasestorage.app",
-    messagingSenderId: "356519126985",
-    appId: "1:356519126985:web:f4f1330f0957cd3d1daa18",
-    measurementId: "G-PYH76SPJPY"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-  const auth = getAuth(app);
-
-  // Expose auth functions to global scope for inline handlers
-  window._fbAuth = auth;
-  window._fbCreateUser = createUserWithEmailAndPassword;
-  window._fbSignIn = signInWithEmailAndPassword;
-  window._fbSignOut = signOut;
-  window._fbUpdateProfile = updateProfile;
-  window._fbOnAuthStateChanged = onAuthStateChanged;
-  window._fbSendEmailVerification = sendEmailVerification;
-  window._fbResetPassword = sendPasswordResetEmail;
-  window._fbGoogleProvider = new GoogleAuthProvider();
-  window._fbSignInWithPopup = signInWithPopup;
-  window._fbSignInWithRedirect = signInWithRedirect;
-  window._fbGetRedirectResult = getRedirectResult;
-  window._fbRecaptchaVerifier = RecaptchaVerifier;
-  window._fbSignInWithPhoneNumber = signInWithPhoneNumber;
-  window._fbApplyActionCode = applyActionCode;
-
-  // ── Handle Firebase email action links (verifyEmail, resetPassword) ──
-  // This runs when user clicks the verification link in their email
-  // and lands on abhishekmed101.space with ?mode=verifyEmail&oobCode=...
-  (function handleEmailActions() {
-    const params = new URLSearchParams(window.location.search);
-    const mode = params.get('mode');
-    const oobCode = params.get('oobCode');
-    if (!mode || !oobCode) return;
-
-    if (mode === 'verifyEmail') {
-      // Show a full-screen message while we verify
-      const overlay = document.createElement('div');
-      overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Space Grotesk,sans-serif;color:#fff;';
-      overlay.innerHTML = `
-        <div style="font-size:2.5rem;margin-bottom:16px;">✉️</div>
-        <div style="font-size:1.3rem;font-weight:700;color:#00e5ff;margin-bottom:8px;">Verifying your email…</div>
-        <div style="font-size:.9rem;color:#aaa;">Please wait a moment</div>`;
-      document.body.appendChild(overlay);
-
-      applyActionCode(auth, oobCode)
-        .then(() => {
-          overlay.innerHTML = `
-            <div style="font-size:2.5rem;margin-bottom:16px;">✅</div>
-            <div style="font-size:1.3rem;font-weight:700;color:#00e5ff;margin-bottom:8px;">Email Verified!</div>
-            <div style="font-size:.9rem;color:#aaa;margin-bottom:24px;">You can now sign in to your account.</div>
-            <button onclick="window.location.href=window.location.origin+window.location.pathname"
-              style="padding:12px 32px;border-radius:12px;border:none;background:linear-gradient(135deg,#00e5ff,#7c3aed);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:Space Grotesk,sans-serif;">
-              Go to Sign In →
-            </button>`;
-        })
-        .catch((err) => {
-          overlay.innerHTML = `
-            <div style="font-size:2.5rem;margin-bottom:16px;">❌</div>
-            <div style="font-size:1.3rem;font-weight:700;color:#ff4d4d;margin-bottom:8px;">Verification Failed</div>
-            <div style="font-size:.9rem;color:#aaa;margin-bottom:4px;">${err.code === 'auth/invalid-action-code' ? 'This link has expired or already been used.' : err.message}</div>
-            <div style="font-size:.85rem;color:#aaa;margin-bottom:24px;">Please sign in and request a new verification email.</div>
-            <button onclick="window.location.href=window.location.origin+window.location.pathname"
-              style="padding:12px 32px;border-radius:12px;border:none;background:linear-gradient(135deg,#00e5ff,#7c3aed);color:#fff;font-size:1rem;font-weight:700;cursor:pointer;font-family:Space Grotesk,sans-serif;">
-              Go to Sign In →
-            </button>`;
-        });
-
-    } else if (mode === 'resetPassword') {
-      // For password reset, just clean the URL and let the normal reset flow handle it
-      window._pendingResetCode = oobCode;
-    }
-  })();
-
-  // Handle Google redirect result on page load
-  getRedirectResult(auth).then((result) => {
-    if (result && result.user) {
-      window._fbCurrentUser = result.user;
-      const ls = document.getElementById('login-screen');
-      if (ls && ls.style.display !== 'none') {
-        _proceedAfterLogin(result.user);
-      }
-    }
-  }).catch((e) => { console.warn('Redirect result:', e.code); });
-
-  // Watch auth state — auto-proceed if already logged in
-  onAuthStateChanged(auth, (user) => {
-    if (user && (user.emailVerified || user.providerData.some(p => p.providerId === 'google.com') || user.providerData.some(p => p.providerId === 'phone'))) {
-      window._fbCurrentUser = user;
-      // If login screen is still showing, dismiss it
-      const ls = document.getElementById('login-screen');
-      if (ls && ls.style.display !== 'none') {
-        _proceedAfterLogin(user);
-      }
-    } else {
-      window._fbCurrentUser = null;
-      // If user exists but unverified, sign them out silently
-      if (user && !user.emailVerified) {
-        signOut(auth).catch(() => {});
-      }
-    }
-  });
-</script>
 </head>
 <body>
 
@@ -863,13 +670,8 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   </div>
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
     <div class="madeby" id="topbar-madeby">Made by <span>Abhishek Verma</span></div>
-    <div id="topbar-user" style="display:none;align-items:center;gap:6px;">
-      <span style="font-size:11px;color:var(--text2);font-family:'Space Grotesk',sans-serif;white-space:nowrap;">👤 <span id="topbar-username" style="color:var(--cyan);font-weight:700;"></span></span>
-      <button onclick="doTopbarSignOut()" style="font-size:10px;font-weight:700;font-family:'Space Grotesk',sans-serif;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,79,107,.4);background:rgba(255,79,107,.1);color:var(--red);cursor:pointer;transition:all .2s;white-space:nowrap;" onmouseover="this.style.background='rgba(255,79,107,.25)'" onmouseout="this.style.background='rgba(255,79,107,.1)'">Logout</button>
     </div>
-  </div>
 </div>
-
 <!-- ══════════════════════════════
      SUBJECT SELECTOR SCREEN
 ══════════════════════════════ -->
@@ -905,87 +707,10 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 </div>
 
 
-<!-- ══════════════════════════════
-     LOGIN SCREEN  (Firebase Auth)
-══════════════════════════════ -->
-<div id="login-screen">
-  <div class="login-rings">
-    <div style="width:600px;height:600px;border-color:rgba(0,229,255,.06);animation-duration:4s;"></div>
     <div style="width:420px;height:420px;border-color:rgba(167,139,250,.09);animation-duration:3.5s;animation-delay:.4s;"></div>
     <div style="width:260px;height:260px;border-color:rgba(0,229,255,.13);animation-duration:3s;animation-delay:.8s;"></div>
   </div>
-  <div class="login-box">
-    <div class="login-icon">👨‍⚕️</div>
-    <div class="login-title" id="auth-title">Welcome Back</div>
-    <div class="login-sub" id="auth-sub">Enter your email and password to continue</div>
-
-    <!-- Tab switcher -->
-    <div style="display:flex;gap:0;background:var(--bg2);border-radius:10px;padding:3px;margin-bottom:22px;border:1px solid var(--border2);">
-      <button id="tab-signin" onclick="switchAuthTab('signin')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:700;cursor:pointer;transition:all .2s;background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);">Sign In</button>
-      <button id="tab-signup" onclick="switchAuthTab('signup')" style="flex:1;padding:8px;border-radius:8px;border:none;font-family:'Space Grotesk',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--text3);">Sign Up</button>
-
-    </div>
-
-    <div id="email-auth-section">
-    <!-- Name field (sign up only) -->
-    <div id="field-name" style="display:none;">
-      <label class="login-label" for="auth-name-input">Your Name</label>
-      <input class="login-input" id="auth-name-input" type="text" placeholder="Your name" autocomplete="name" onkeydown="if(event.key==='Enter')doAuthSubmit()">
-    </div>
-
-    <!-- Email or Phone -->
-    <label class="login-label" for="auth-email-input" id="email-field-label">Email</label>
-    <input class="login-input" id="auth-email-input" type="email" placeholder="yourname@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')doAuthSubmit()">
-
-    <!-- Password -->
-    <label class="login-label" id="pass-field-label" for="auth-pass-input" style="margin-top:4px;">Password</label>
-    <div style="position:relative;margin-bottom:8px;">
-      <input class="login-input" id="auth-pass-input" type="password" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doAuthSubmit()" style="margin-bottom:0;padding-right:44px;">
-      <button onclick="togglePassVis()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:4px;" id="pass-eye">👁</button>
-    </div>
-
-    <!-- Confirm Password field (sign up only) -->
-    <div id="field-confirm-pass" style="display:none;">
-      <label class="login-label" for="auth-confirm-pass-input" style="margin-top:4px;">Confirm Password</label>
-      <div style="position:relative;margin-bottom:8px;">
-        <input class="login-input" id="auth-confirm-pass-input" type="password" placeholder="Re-enter your password" autocomplete="new-password" onkeydown="if(event.key==='Enter')doAuthSubmit()" style="margin-bottom:0;padding-right:44px;">
-        <button onclick="toggleConfirmPassVis()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;color:var(--text3);padding:4px;" id="confirm-pass-eye">👁</button>
-      </div>
-    </div>
-
-    <!-- Forgot password link (sign in only) -->
-    <div id="field-forgot" style="text-align:right;margin-bottom:6px;margin-top:-2px;">
-      <button onclick="doForgotPassword()" style="background:none;border:none;cursor:pointer;font-size:.75rem;color:var(--cyan);font-family:'Space Grotesk',sans-serif;font-weight:600;padding:0;opacity:.8;transition:opacity .2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='.8'">Forgot password?</button>
-    </div>
-
-    <!-- Error message -->
-    <div class="login-error" id="auth-error-msg" style="display:none;margin-bottom:10px;"></div>
-
-    <!-- Submit button -->
-    <button class="login-btn" id="auth-submit-btn" onclick="doAuthSubmit()">
-      <span id="auth-btn-text">Sign In →</span>
-      <span id="auth-btn-spinner" style="display:none;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;">
-          <circle cx="12" cy="12" r="10" stroke="rgba(255,255,255,.3)" stroke-width="3"/>
-          <path d="M12 2a10 10 0 0 1 10 10" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-      </span>
-    </button>
-
-
-
-
-
-    <!-- Already logged in: show user + sign out -->
-    <div id="auth-signout-row" style="display:none;text-align:center;margin-top:10px;">
-      <span style="font-size:.75rem;color:var(--text3);">Logged in as <strong id="auth-user-label" style="color:var(--cyan);"></strong></span>
-      <button onclick="doSignOut()" style="font-size:.75rem;color:var(--red);background:none;border:none;cursor:pointer;font-weight:600;margin-left:8px;">Sign out</button>
-    </div>
-
-    <div class="login-consent"></div>
-  </div>
-</div>
-
+  
 <!-- ══════════════════════════════
      SPLASH
 ══════════════════════════════ -->
@@ -1006,7 +731,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 <!-- ══════════════════════════════
      HOME SCREEN
 ══════════════════════════════ -->
-<div id="screen-home" class="screen" style="position:relative;z-index:1;padding-top:38px;">
+<div id="screen-home" class="screen active" style="position:relative;z-index:1;padding-top:38px;">
 
   <!-- Hero banner -->
   <div class="hero py-14 px-6" style="text-align:center;">
@@ -3988,21 +3713,7 @@ function goHome(){
     ss.style.display='flex';
     ss.scrollTop=0;
   }
-  document.body.classList.add('overlay-open');
   document.body.classList.remove('overlay-open');
-  document.body.classList.add('overlay-open');
-
-  // Re-show topbar if user is logged in
-  if(window._fbCurrentUser){
-    const tb = document.getElementById('global-topbar');
-    if(tb) tb.style.display='flex';
-    const tu = document.getElementById('topbar-user');
-    const tun = document.getElementById('topbar-username');
-    if(tu && tun){
-      tun.textContent = window._fbCurrentUser.displayName || window._fbCurrentUser.email;
-      tu.style.display='flex';
-    }
-  }
 
   // Reset subject filter
   if(typeof activeSubjectFilter!=='undefined') activeSubjectFilter=null;
@@ -4012,242 +3723,8 @@ function goHome(){
 }
 
 // ════════════════════════════════════════════
-//  FIREBASE AUTH — LOGIN SYSTEM
+
 // ════════════════════════════════════════════
-
-let _authTab = 'signin'; // 'signin' | 'signup'
-
-function switchAuthTab(tab) {
-  const isSignin = tab === 'signin';
-  const isSignup = tab === 'signup';
-  _authTab = tab;
-
-  // Tab button styles
-  const activeStyle = 'background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;box-shadow:0 2px 8px rgba(0,229,255,.2);font-weight:700;';
-  const inactiveStyle = 'background:transparent;color:var(--text3);box-shadow:none;font-weight:600;';
-  document.getElementById('tab-signin').style.cssText += isSignin ? activeStyle : inactiveStyle;
-  document.getElementById('tab-signup').style.cssText += isSignup ? activeStyle : inactiveStyle;
-
-  // Show/hide fields based on tab
-  document.getElementById('field-name').style.display         = isSignup ? 'block' : 'none';
-  document.getElementById('field-confirm-pass').style.display = isSignup ? 'block' : 'none';
-  document.getElementById('field-forgot').style.display       = isSignin ? 'block' : 'none';
-
-  // Update subtitle
-  document.getElementById('auth-sub').textContent = isSignup
-    ? 'Create your free account to get started'
-    : 'Enter your email and password to continue';
-
-  // Update submit button text
-  document.getElementById('auth-btn-text').textContent = isSignup ? 'Create Account →' : 'Sign In →';
-  document.getElementById('auth-submit-btn').style.display = 'block';
-
-  // Clear any previous errors
-  const errEl = document.getElementById('auth-error-msg');
-  if (errEl) { errEl.style.display = 'none'; errEl.textContent = ''; }
-}
-
-function togglePassVis() {
-  const inp = document.getElementById('auth-pass-input');
-  const eye = document.getElementById('pass-eye');
-  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
-  else { inp.type = 'password'; eye.textContent = '👁'; }
-}
-
-function toggleConfirmPassVis() {
-  const inp = document.getElementById('auth-confirm-pass-input');
-  const eye = document.getElementById('confirm-pass-eye');
-  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
-  else { inp.type = 'password'; eye.textContent = '👁'; }
-}
-
-async function doForgotPassword() {
-  const email = document.getElementById('auth-email-input').value.trim();
-  if (!email) {
-    _showAuthError('Please enter your email address above, then click "Forgot password?".');
-    return;
-  }
-  try {
-    await window._fbResetPassword(window._fbAuth, email);
-    _showAuthError('✅ Password reset email sent to ' + email + '. Check your inbox (and spam folder) for the reset link.');
-  } catch(e) {
-    _showAuthError(_fbErrMsg(e.code));
-  }
-}
-
-function _setAuthLoading(loading) {
-  document.getElementById('auth-submit-btn').disabled = loading;
-  document.getElementById('auth-btn-text').style.display = loading ? 'none' : 'inline';
-  document.getElementById('auth-btn-spinner').style.display = loading ? 'inline' : 'none';
-}
-
-function _showAuthError(msg) {
-  const el = document.getElementById('auth-error-msg');
-  el.textContent = msg;
-  el.style.display = 'block';
-  // Show success messages (starting with ✅) in green
-  el.style.color = msg.startsWith('✅') ? 'var(--green)' : 'var(--red)';
-  _setAuthLoading(false);
-}
-
-function _fbErrMsg(code) {
-  const map = {
-    'auth/invalid-email': 'Invalid email address.',
-    'auth/user-not-found': 'No account found with this email.',
-    'auth/wrong-password': 'Incorrect password.',
-    'auth/email-already-in-use': 'An account already exists with this email.',
-    'auth/weak-password': 'Password must be at least 6 characters.',
-    'auth/too-many-requests': 'Too many attempts. Try again later.',
-    'auth/network-request-failed': 'Network error. Check your connection.',
-    'auth/invalid-credential': 'Invalid email or password.',
-  };
-  return map[code] || 'Something went wrong. Try again.';
-}
-
-function _proceedAfterLogin(user) {
-  // Log visit to Formspree
-  try {
-    fetch('https://formspree.io/f/xqejwonq', {
-      method: 'POST',
-      headers: {'Accept':'application/json','Content-Type':'application/json'},
-      body: JSON.stringify({
-        name: user.displayName || user.email,
-        email: user.email,
-        uid: user.uid,
-        time: new Date().toLocaleString('en-IN',{dateStyle:'medium',timeStyle:'short'}),
-        _subject: 'Login: ' + (user.displayName || user.email)
-      })
-    }).catch(()=>{});
-  } catch(e){}
-
-  const ls = document.getElementById('login-screen');
-  ls.classList.add('hide');
-  setTimeout(() => {
-    ls.style.display = 'none';
-    // Activate home screen now that user is logged in
-    document.getElementById('screen-home').classList.add('active');
-    // Show topbar with user name
-    const tu = document.getElementById('topbar-user');
-    const tun = document.getElementById('topbar-username');
-    if(tu && tun){
-      tun.textContent = user.displayName || user.email;
-      tu.style.display = 'flex';
-      const mb = document.getElementById('topbar-madeby');
-      if(mb) mb.style.display = 'none';
-    }
-    document.getElementById('global-topbar').style.display = 'flex';
-    // Show subject selector — keep body locked until subject is chosen
-    document.getElementById('screen-subject').classList.remove('hidden');
-    document.body.classList.add('overlay-open');
-  }, 520);
-}
-
-async function doGoogleSignIn() {
-  const auth = window._fbAuth;
-  const provider = window._fbGoogleProvider;
-  if (!auth || !provider) { _showAuthError('Still loading, please try again.'); return; }
-
-  const btn = document.getElementById('btn-google');
-  if (btn) { btn.disabled = true; btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;animation:spin .7s linear infinite;"><circle cx="12" cy="12" r="10" stroke="rgba(0,0,0,.2)" stroke-width="3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="#4285F4" stroke-width="3" stroke-linecap="round"/></svg> Opening Google…'; }
-
-  try {
-    await window._fbSignInWithRedirect(auth, provider);
-  } catch(e) {
-    if (btn) { btn.disabled = false; btn.innerHTML = _googleBtnHTML(); }
-    _showAuthError('Could not open Google sign-in. Please try again.');
-  }
-}
-
-function _googleBtnHTML() {
-  return `<svg width="18" height="18" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`;
-}
-
-async function doAuthSubmit() {
-  const email = document.getElementById('auth-email-input').value.trim();
-  const pass  = document.getElementById('auth-pass-input').value;
-  const auth  = window._fbAuth;
-  if (!auth) { _showAuthError('Still loading, please wait a moment and try again.'); return; }
-
-  // Clear error
-  const errEl = document.getElementById('auth-error-msg');
-  errEl.style.display = 'none';
-
-  // Basic validation
-  if (!email) { _showAuthError('Please enter your email.'); return; }
-  if (!pass)  { _showAuthError('Please enter your password.'); return; }
-  if (pass.length < 6) { _showAuthError('Password must be at least 6 characters.'); return; }
-
-  _setAuthLoading(true);
-
-  if (_authTab === 'signup') {
-    const name = document.getElementById('auth-name-input').value.trim();
-    if (!name || name.length < 2) { _showAuthError('Please enter your name (at least 2 characters).'); return; }
-    const confirmPass = document.getElementById('auth-confirm-pass-input').value;
-    if (!confirmPass) { _showAuthError('Please confirm your password.'); return; }
-    if (pass !== confirmPass) { _showAuthError('Passwords do not match. Please try again.'); return; }
-    try {
-      const cred = await window._fbCreateUser(auth, email, pass);
-      await window._fbUpdateProfile(cred.user, { displayName: name });
-      await window._fbSendEmailVerification(cred.user);
-      await window._fbSignOut(auth);
-      _setAuthLoading(false);
-      _showAuthError('✅ Account created! A verification email has been sent to ' + email + '. Please open it and click the link to verify your account, then come back here to sign in. If you don\'t see the email, check your spam or junk folder.');
-    } catch(e) { _showAuthError(_fbErrMsg(e.code)); }
-  } else {
-    try {
-      const cred = await window._fbSignIn(auth, email, pass);
-      if (!cred.user.emailVerified) {
-        await window._fbSignOut(auth);
-        _showAuthError('⚠️ Email not verified. Check your inbox and click the verification link first.');
-        return;
-      }
-      window._fbCurrentUser = cred.user;
-      _proceedAfterLogin(cred.user);
-    } catch(e) { _showAuthError(_fbErrMsg(e.code)); }
-  }
-}
-
-
-
-async function doSignOut() {
-  if (window._fbAuth && window._fbSignOut) {
-    await window._fbSignOut(window._fbAuth).catch(()=>{});
-  }
-  window._fbCurrentUser = null;
-  const mb = document.getElementById('topbar-madeby');
-  if(mb) mb.style.display = '';
-  document.getElementById('auth-signout-row').style.display = 'none';
-  document.getElementById('auth-email-input').value = '';
-  document.getElementById('auth-pass-input').value = '';
-  const cp = document.getElementById('auth-confirm-pass-input');
-  if (cp) cp.value = '';
-  document.getElementById('auth-error-msg').style.display = 'none';
-}
-
-// Topbar logout (used while in the quiz/home)
-async function doTopbarSignOut() {
-  if(!confirm('Sign out of your account?')) return;
-  if (window._fbAuth && window._fbSignOut) {
-    await window._fbSignOut(window._fbAuth).catch(()=>{});
-  }
-  window._fbCurrentUser = null;
-  // Hide topbar user area
-  const tu = document.getElementById('topbar-user');
-  if(tu) tu.style.display='none';
-  document.getElementById('global-topbar').style.display='none';
-  // Return to login screen
-  const ls = document.getElementById('login-screen');
-  ls.classList.remove('hide');
-  ls.style.display='flex';
-  ls.style.opacity='1';
-  ls.style.transform='none';
-  document.body.classList.add('overlay-open');
-  document.getElementById('auth-email-input').value='';
-  document.getElementById('auth-pass-input').value='';
-  document.getElementById('auth-error-msg').style.display='none';
-  document.getElementById('screen-subject').classList.add('hidden');
-  showScreen('screen-home');
-}
 
 // ======================== IMPORTANT / STAR SYSTEM ========================
 
@@ -4694,39 +4171,6 @@ document.addEventListener('DOMContentLoaded', () => {
   addChangeSubjectBtn();
   updateAllCount();
   renderHomeImportant();
-
-  // Subject selector hidden at start
-  document.getElementById('screen-subject').classList.add('hidden');
-  // Login screen visible at start
-  const loginEl = document.getElementById('login-screen');
-  if (loginEl) loginEl.style.display = 'flex';
-  document.body.classList.add('overlay-open');
-
-  // Firebase: check if already authenticated on load
-  // _fbOnAuthStateChanged is set by the module script
-  // We poll briefly since modules load async
-  let authCheckAttempts = 0;
-  const authCheckInterval = setInterval(() => {
-    authCheckAttempts++;
-    if (window._fbOnAuthStateChanged && window._fbAuth) {
-      clearInterval(authCheckInterval);
-      window._fbOnAuthStateChanged(window._fbAuth, (user) => {
-        if (user && user.emailVerified) {
-          window._fbCurrentUser = user;
-          // Show user info on login box with option to continue or sign out
-          const row = document.getElementById('auth-signout-row');
-          const lbl = document.getElementById('auth-user-label');
-          if (row && lbl) {
-            lbl.textContent = user.displayName || user.email;
-            row.style.display = 'block';
-          }
-          // Auto-proceed after short delay so user sees who they are
-          setTimeout(() => { _proceedAfterLogin(user); }, 800);
-        }
-      });
-    }
-    if (authCheckAttempts > 30) clearInterval(authCheckInterval); // give up after 3s
-  }, 100);
 });
 
 </script>
