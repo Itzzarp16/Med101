@@ -907,6 +907,8 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 </script>
 <noscript><div><img src="https://mc.yandex.ru/watch/109460260" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+
+
 </head>
 <body>
 
@@ -4940,7 +4942,58 @@ function selTopicFn(name, btn) {
   toggleTopicChip(name, btn);
 }
 
-// startQuiz now handles subject filtering directly (see startQuiz function above)-e 
+// startQuiz now handles subject filtering directly (see startQuiz function above)
+
+// Add "Change Subject" button to home hero
+function addChangeSubjectBtn() {
+  const hero = document.querySelector('.hero .max-w-2xl');
+  if (!hero || document.getElementById('change-subj-btn')) return;
+  const btn = document.createElement('button');
+  btn.id = 'change-subj-btn';
+  btn.className = 'btn-ghost';
+  btn.style.cssText = 'margin-top:16px;font-size:13px;padding:8px 20px;';
+  btn.textContent = '← Back';
+  btn.onclick = () => {
+    buildSubjectSelector(); // reset to top-level subject view
+    const ss = document.getElementById('screen-subject');
+    if (ss) { ss.classList.remove('hidden'); ss.style.display = 'flex'; }
+  };
+  hero.appendChild(btn);
+}
+
+// ── THEME TOGGLE ────────────────────────────────────────────
+function toggleTheme() {
+  const isLight = document.body.classList.toggle('light-mode');
+  const btn = document.getElementById('theme-toggle');
+  btn.textContent = isLight ? '☀️' : '🌙';
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+}
+
+// ── RESTORE SAVED THEME ─────────────────────────────────────
+(function() {
+  const saved = localStorage.getItem('theme');
+  if (saved === 'light') {
+    document.body.classList.add('light-mode');
+    // btn text set after DOM ready below
+  }
+})();
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', () => {
+  // Restore theme toggle icon
+  const savedTheme = localStorage.getItem('theme');
+  const btn = document.getElementById('theme-toggle');
+  if (btn && savedTheme === 'light') btn.textContent = '☀️';
+  buildSubjectSelector();
+  addChangeSubjectBtn();
+  updateAllCount();
+  renderHomeImportant();
+
+  // Auth state managed by Firebase onAuthStateChanged — do NOT show screen-subject here
+  // It will be revealed once the user is confirmed signed in.
+});
+
+// Auth handled in Firebase module above
 </script>
 </body>
 </html>
