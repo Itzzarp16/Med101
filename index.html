@@ -4981,31 +4981,56 @@ function selTopicFn(name, btn) {
 // ── ONESIGNAL NOTIFICATION PERMISSION ──────────────────────
 async function requestNotifPermission() {
   const btn = document.getElementById('notif-btn');
+  btn.textContent = "⏳ Loading...";
+  btn.disabled = true;
   try {
-    // Simple browser Notification API first
-    if (!("Notification" in window)) {
-      alert("This browser does not support notifications.");
-      return;
+    // Wait for OneSignal to be ready then use it properly
+    if (typeof OneSignalDeferred === "undefined") {
+      throw new Error("OneSignal not loaded yet. Please wait and try again.");
     }
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      btn.textContent = "🔔 Subscribed!";
-      btn.style.background = "rgba(0,200,100,.15)";
-      btn.style.borderColor = "rgba(0,200,100,.4)";
-      btn.style.color = "#00c864";
-      btn.onclick = null;
-      // Also push to OneSignal if available
-      if (window.OneSignal && OneSignal.Notifications) {
-        try { await OneSignal.Notifications.requestPermission(); } catch(e) {}
-      }
-    } else if (permission === "denied") {
-      alert("Notifications blocked. Please enable them in your browser settings (click the lock icon in address bar).");
-    }
+    await new Promise((resolve, reject) => {
+      OneSignalDeferred.push(async function(OneSignal) {
+        try {
+          // Opt in properly through OneSignal so it registers on their servers
+          await OneSignal.Notifications.requestPermission();
+          const isSubscribed = OneSignal.Notifications.permission;
+          if (isSubscribed) {
+            btn.textContent = "🔔 Subscribed!";
+            btn.style.background = "rgba(0,200,100,.15)";
+            btn.style.borderColor = "rgba(0,200,100,.4)";
+            btn.style.color = "#00c864";
+            btn.disabled = true;
+            btn.onclick = null;
+          } else {
+            btn.textContent = "🔔 Notify";
+            btn.disabled = false;
+          }
+          resolve();
+        } catch(e) { reject(e); }
+      });
+    });
   } catch(e) {
     console.error("Notification error:", e);
-    alert("Error: " + e.message);
+    alert("Could not enable notifications: " + e.message);
+    btn.textContent = "🔔 Notify";
+    btn.disabled = false;
   }
 }
+
+// On page load, check if already subscribed and hide button
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal) {
+  const btn = document.getElementById('notif-btn');
+  if (!btn) return;
+  if (OneSignal.Notifications.permission) {
+    btn.textContent = "🔔 Subscribed!";
+    btn.style.background = "rgba(0,200,100,.15)";
+    btn.style.borderColor = "rgba(0,200,100,.4)";
+    btn.style.color = "#00c864";
+    btn.disabled = true;
+    btn.onclick = null;
+  }
+});
 
 
 // Add "Change Subject" button to home hero
