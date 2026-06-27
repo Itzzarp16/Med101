@@ -1035,6 +1035,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
     <div class="madeby" id="topbar-madeby">Made by <span>Abhishek Verma</span></div>
     <div id="auth-user-display" title="Logged in as"></div>
+    <button id="notif-btn" onclick="requestNotifPermission()" title="Enable Notifications" style="display:none;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);color:var(--cyan);border-radius:8px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;">🔔 Notify</button>
     <button id="auth-signout-btn" onclick="authSignOut()" title="Sign out">⏏ Sign Out</button>
   </div>
 </div>
@@ -4977,6 +4978,41 @@ function selTopicFn(name, btn) {
 }
 
 // startQuiz now handles subject filtering directly (see startQuiz function above)
+// ── ONESIGNAL NOTIFICATION PERMISSION ──────────────────────
+async function requestNotifPermission() {
+  try {
+    await OneSignal.Notifications.requestPermission();
+    const btn = document.getElementById('notif-btn');
+    if (OneSignal.Notifications.permission) {
+      btn.textContent = '🔔 Subscribed!';
+      btn.style.background = 'rgba(0,200,100,.15)';
+      btn.style.borderColor = 'rgba(0,200,100,.4)';
+      btn.style.color = '#00c864';
+      btn.onclick = null;
+      setTimeout(() => { btn.style.display = 'none'; }, 3000);
+    }
+  } catch(e) {
+    console.error('Notification error:', e);
+    alert('Could not enable notifications. Please check your browser settings.');
+  }
+}
+
+// Show/hide notify button based on current permission state
+window.OneSignalDeferred = window.OneSignalDeferred || [];
+OneSignalDeferred.push(async function(OneSignal) {
+  const btn = document.getElementById('notif-btn');
+  if (!btn) return;
+  const perm = OneSignal.Notifications.permission;
+  if (!perm) {
+    btn.style.display = 'inline-block';
+  } else {
+    btn.style.display = 'none';
+  }
+  OneSignal.Notifications.addEventListener('permissionChange', (granted) => {
+    btn.style.display = granted ? 'none' : 'inline-block';
+  });
+});
+
 
 // Add "Change Subject" button to home hero
 function addChangeSubjectBtn() {
