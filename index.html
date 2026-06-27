@@ -1144,7 +1144,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
 
     <!-- Custom range -->
     <div id="custom-range" class="glass p-4 mb-5 hidden">
-      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px;">
         <div>
           <label style="font-size:12px;color:var(--text2);font-weight:600;display:block;margin-bottom:6px;">From Q#</label>
           <input type="number" id="range-start" min="1" max="400" value="1">
@@ -1154,6 +1154,13 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
           <input type="number" id="range-end" min="1" max="400" value="50">
         </div>
         <div style="font-size:12px;color:var(--text3);margin-top:18px;">(1 – 400)</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border2);">
+        <div>
+          <div style="font-weight:600;font-size:14px;color:var(--text);">&#x1F500; Shuffle Questions</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:2px;">Randomise order within the range</div>
+        </div>
+        <div class="toggle-track" id="tog-custom-shuffle" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div>
       </div>
     </div>
 
@@ -4297,12 +4304,12 @@ function startQuiz(){
   else if(selMode==='rand50') quizQ=shuffle([...allQ]).slice(0,Math.min(50,allQ.length));
   else if(selMode==='all-seq') quizQ=[...allQ];
   else if(selMode==='all-rand') quizQ=shuffle([...allQ]);
-  else if(selMode==='custom'){let s=Math.max(1,parseInt($('range-start').value)||1),e=Math.min(pool.length,parseInt($('range-end').value)||50);quizQ=allQ.slice(s-1,e);}
+  else if(selMode==='custom'){let s=Math.max(1,parseInt($('range-start').value)||1),e=Math.min(pool.length,parseInt($('range-end').value)||50);let sliced=allQ.slice(s-1,e);const doShuffle=$('tog-custom-shuffle').classList.contains('on');quizQ=doShuffle?shuffle([...sliced]):sliced;}
   else quizQ=shuffle([...allQ]);
   if(!quizQ.length){alert('No questions found!');return;}
   userAnswers=new Array(quizQ.length).fill(-1);qTimes=new Array(quizQ.length).fill(0);cur=0;
   reviewFlags=new Array(quizQ.length).fill(false);
-  $('quiz-mode-label').textContent=selMode==='topic'?[...selectedTopics].join(', '):{rand25:'Random 25',rand50:'Random 50','all-seq':'All Sequential','all-rand':'All Random',custom:'Custom Range'}[selMode]||'All Questions';
+  const customLabel=selMode==='custom'?($('tog-custom-shuffle').classList.contains('on')?'Custom Range (Shuffled)':'Custom Range'):'';  $('quiz-mode-label').textContent=selMode==='topic'?[...selectedTopics].join(', '):(customLabel||{rand25:'Random 25',rand50:'Random 50','all-seq':'All Sequential','all-rand':'All Random'}[selMode]||'All Questions');
   showScreen('screen-quiz');startSW();renderQ();
 }
 
