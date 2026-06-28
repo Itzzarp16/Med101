@@ -1391,9 +1391,12 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     </div>
 
     <!-- Buttons -->
-    <div style="display:flex;gap:12px;margin-bottom:28px;">
+    <div style="display:flex;gap:12px;margin-bottom:12px;">
       <button class="btn-glow flex-1" onclick="restartSame()">↺ Restart Same</button>
       <button class="btn-ghost flex-1" onclick="goHome()">← New Quiz</button>
+    </div>
+    <div style="margin-bottom:28px;">
+      <button id="btn-retry-wrong" class="btn-ghost flex-1" onclick="retryWrong()" style="width:100%;border-color:var(--red);color:var(--red);display:none;">❌ Retry Wrong Questions</button>
     </div>
 
     <!-- Per-Q bars -->
@@ -4874,6 +4877,14 @@ function buildResults(){
     }else $('res-perq-section').style.display='none';
   }else{['res-avg','res-fast','res-slow'].forEach(id=>$(id).textContent='—');$('res-pace').textContent='';$('res-perq-section').style.display='none';}
 
+  // Show/hide Retry Wrong button
+  const wrongCount=quizQ.filter((q,i)=>userAnswers[i]>=0&&userAnswers[i]!==q.c).length;
+  const btnRetry=$('btn-retry-wrong');
+  if(btnRetry){
+    if(wrongCount>0){btnRetry.style.display='block';btnRetry.textContent=`❌ Retry Wrong Questions (${wrongCount})`;}
+    else{btnRetry.style.display='none';}
+  }
+
   const rl=$('review-list');rl.innerHTML='';const labs=['A','B','C','D'];
   quizQ.forEach((q,i)=>{
     const ua=userAnswers[i],ok=ua>=0&&ua===q.c,to=ua===-2,t=qTimes[i]||0;
@@ -4904,6 +4915,17 @@ function restartSame(){
   userAnswers=new Array(quizQ.length).fill(-1);qTimes=new Array(quizQ.length).fill(0);cur=0;
   showScreen('screen-quiz');startSW();renderQ();
 }
+function retryWrong(){
+  // Collect questions the user got wrong (answered but incorrect, not skipped/timed out)
+  const wrongQs=quizQ.filter((q,i)=>userAnswers[i]>=0&&userAnswers[i]!==q.c);
+  if(!wrongQs.length)return;
+  stopQT();stopSW();
+  // Shuffle options for each wrong question fresh
+  quizQ=wrongQs.map(q=>{const orig=rawQ.find(r=>r.q===q.q);return orig?shuffleQ(orig):q;});
+  userAnswers=new Array(quizQ.length).fill(-1);qTimes=new Array(quizQ.length).fill(0);cur=0;
+  showScreen('screen-quiz');startSW();renderQ();
+}
+
 function goHome(){
   // Stop timers
   if(advTimer){clearTimeout(advTimer);advTimer=null;}
