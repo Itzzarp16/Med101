@@ -9,8 +9,9 @@
 <!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, setDoc, getDoc, deleteDoc }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+           signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey:            "AIzaSyC7KtDwkKLrLiw7w_5yvkRLGGYHqs-B5a8",
@@ -24,36 +25,9 @@
 
   const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
-  const db   = getFirestore(app);
 
-  // ── CLOUD AUTOSAVE (Firestore) ──────────────────────────
-  window._cloudSave = async function(payload) {
-    const user = auth.currentUser;
-    if (!user) return;
-    try {
-      await setDoc(doc(db, 'autosave', user.uid), payload);
-    } catch(e) { console.warn('Cloud save failed:', e); }
-  };
-
-  window._cloudLoad = async function() {
-    const user = auth.currentUser;
-    if (!user) return null;
-    try {
-      const snap = await getDoc(doc(db, 'autosave', user.uid));
-      return snap.exists() ? snap.data() : null;
-    } catch(e) { console.warn('Cloud load failed:', e); return null; }
-  };
-
-  window._cloudClear = async function() {
-    const user = auth.currentUser;
-    if (!user) return;
-    try {
-      await deleteDoc(doc(db, 'autosave', user.uid));
-    } catch(e) { console.warn('Cloud clear failed:', e); }
-  };
-
-  // Load saved quiz when user signs in
-  onAuthStateChanged(auth, async user => {
+  // AUTH STATE
+  onAuthStateChanged(auth, user => {
     if (user) {
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'none';
@@ -64,8 +38,6 @@
       if (ud) { ud.textContent = user.displayName || user.email; ud.style.display = 'block'; }
       const so = document.getElementById('auth-signout-btn');
       if (so) so.style.display = 'inline-flex';
-      // Check for cloud-saved quiz
-      setTimeout(() => { if(typeof checkResumeBanner==='function') checkResumeBanner(); }, 500);
     } else {
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'flex';
@@ -4651,66 +4623,59 @@ const sections=[...new Set(rawQ.map(q=>q.s))];
 let allQ=[],quizQ=[],cur=0,userAnswers=[],autoAdv=true,selMode='rand25',selTopic=null,advTimer=null;
 let prevSession=null;
 
-// ======================== AUTOSAVE (Cloud + Local fallback) ========================
+// ======================== AUTOSAVE ========================
 const AUTOSAVE_KEY="med101_autosave";
 
 function autoSave(){
   if(!quizQ.length) return;
-  const payload={quizQ,userAnswers,cur,qTimes,swElapsed:Date.now()-swStart,savedAt:Date.now(),subject:$("quiz-mode-label")?$("quiz-mode-label").textContent:""};
-  // Cloud save (Firestore) if signed in, else localStorage fallback
-  if(typeof window._cloudSave==='function') window._cloudSave(payload);
-  try{ localStorage.setItem(AUTOSAVE_KEY,JSON.stringify(payload)); }catch(e){}
+  try{
+    const payload={quizQ,userAnswers,cur,qTimes,swElapsed:Date.now()-swStart,savedAt:Date.now(),subject:$("quiz-mode-label")?$("quiz-mode-label").textContent:""};
+    localStorage.setItem(AUTOSAVE_KEY,JSON.stringify(payload));
+  }catch(e){}
 }
 
 function clearAutoSave(showConfirm){
   if(showConfirm&&!confirm("Discard saved quiz?")) return;
-  if(typeof window._cloudClear==='function') window._cloudClear();
-  try{ localStorage.removeItem(AUTOSAVE_KEY); }catch(e){}
+  localStorage.removeItem(AUTOSAVE_KEY);
   checkResumeBanner();
 }
 
-async function checkResumeBanner(){
+function checkResumeBanner(){
   const banner=document.getElementById("resume-banner");
   if(!banner) return;
-  let d=null;
-  // Try cloud first, then localStorage
-  if(typeof window._cloudLoad==='function'){
-    try{ d=await window._cloudLoad(); }catch(e){}
-  }
-  if(!d){
-    try{ const raw=localStorage.getItem(AUTOSAVE_KEY); if(raw) d=JSON.parse(raw); }catch(e){}
-  }
-  if(!d||!d.quizQ||!d.quizQ.length){banner.style.display="none";return;}
-  const answered=(d.userAnswers||[]).filter(a=>a!==-1).length;
-  const total=(d.quizQ||[]).length;
-  const mins=Math.round((Date.now()-d.savedAt)/60000);
-  const timeAgo=mins<1?"just now":mins<60?mins+"m ago":Math.round(mins/60)+"h ago";
-  document.getElementById("resume-banner-sub").textContent=(d.subject||"Quiz")+" · "+answered+"/"+total+" answered · saved "+timeAgo;
-  banner.style.display="block";
+  try{
+    const raw=localStorage.getItem(AUTOSAVE_KEY);
+    if(!raw){banner.style.display="none";return;}
+    const d=JSON.parse(raw);
+    const answered=(d.userAnswers||[]).filter(a=>a!==-1).length;
+    const total=(d.quizQ||[]).length;
+    const mins=Math.round((Date.now()-d.savedAt)/60000);
+    const timeAgo=mins<1?"just now":mins<60?mins+"m ago":Math.round(mins/60)+"h ago";
+    document.getElementById("resume-banner-sub").textContent=(d.subject||"Quiz")+" · "+answered+"/"+total+" answered · saved "+timeAgo;
+    banner.style.display="block";
+  }catch(e){banner.style.display="none";}
 }
 
-async function resumeQuiz(){
-  let d=null;
-  if(typeof window._cloudLoad==='function'){
-    try{ d=await window._cloudLoad(); }catch(e){}
-  }
-  if(!d){
-    try{ const raw=localStorage.getItem(AUTOSAVE_KEY); if(raw) d=JSON.parse(raw); }catch(e){}
-  }
-  if(!d||!d.quizQ||!d.quizQ.length){ alert("No saved quiz found."); return; }
-  prevSession=null;
-  quizQ=d.quizQ;
-  userAnswers=d.userAnswers||new Array(quizQ.length).fill(-1);
-  cur=Math.min(d.cur||0,quizQ.length-1);
-  if(userAnswers[cur]!==-1){const f=userAnswers.findIndex(a=>a===-1);if(f!==-1)cur=f;}
-  qTimes=d.qTimes||new Array(quizQ.length).fill(0);
-  reviewFlags=new Array(quizQ.length).fill(false);
-  if($("quiz-mode-label"))$("quiz-mode-label").textContent=d.subject||"Resumed";
-  autoAdv=document.getElementById("tog-auto").classList.contains("on");
-  timerOn=false;
-  showScreen("screen-quiz");
-  startSW();
-  renderQ();
+function resumeQuiz(){
+  try{
+    const raw=localStorage.getItem(AUTOSAVE_KEY);
+    if(!raw) return;
+    const d=JSON.parse(raw);
+    if(!d.quizQ||!d.quizQ.length) return;
+    prevSession=null;
+    quizQ=d.quizQ;
+    userAnswers=d.userAnswers||new Array(quizQ.length).fill(-1);
+    cur=Math.min(d.cur||0,quizQ.length-1);
+    if(userAnswers[cur]!==-1){const f=userAnswers.findIndex(a=>a===-1);if(f!==-1)cur=f;}
+    qTimes=d.qTimes||new Array(quizQ.length).fill(0);
+    reviewFlags=new Array(quizQ.length).fill(false);
+    if($("quiz-mode-label"))$("quiz-mode-label").textContent=d.subject||"Resumed";
+    autoAdv=document.getElementById("tog-auto").classList.contains("on");
+    timerOn=false;
+    showScreen("screen-quiz");
+    startSW();
+    renderQ();
+  }catch(e){alert("Could not resume saved quiz.");}
 }
 let selectedTopics = new Set();
 let timerOn=false,timerSec=20,timerRem=0,timerIv=null;
