@@ -1052,7 +1052,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
   <div id="sp-particles"></div>
   <!-- Content -->
   <div class="splash-icon">🧬</div>
-  <div class="splash-title" style="margin-top:16px;">Human Physiology 1</div>
+  <div class="splash-title" style="margin-top:16px;">Med101</div>
   <div class="splash-sub">Semester 2 �· 2025–2026 �· MCQ Practice</div>
   <div class="splash-bar"><div class="splash-bar-fill"></div></div>
 </div>
@@ -1067,7 +1067,7 @@ input[type=number]:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 
     <div class="hero-glow"></div>
     <div class="max-w-2xl mx-auto" style="position:relative;z-index:1;">
       <div style="font-size:60px;margin-bottom:16px;filter:drop-shadow(0 0 24px rgba(0,229,255,.5));">🧬</div>
-      <h1 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;">Human Physiology 1</h1>
+      <h1 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;">All Subjects</h1>
       <div id="active-subject-pill" style="margin-bottom:10px;">📚 All Subjects</div>
       <p style="color:var(--text2);font-size:.95rem;margin-bottom:6px;">MCQ Quiz �· <span id="home-q-count" style="color:var(--cyan);font-weight:700;">795 Questions</span> �· <span id="home-t-count">7</span> Topics</p>
       <!-- Stats row -->
@@ -5747,6 +5747,9 @@ function selectMainSubject(mainSubj) {
   const meta = mainSubjectMeta[mainSubj];
   const pill = document.getElementById('active-subject-pill');
   if (pill) pill.textContent = meta.emoji + ' ' + mainSubj;
+  // Update hero h1 title
+  const heroTitle = document.querySelector('#screen-home h1');
+  if (heroTitle) heroTitle.textContent = mainSubj;
   // Hide subject selector screen
   const ss = document.getElementById('screen-subject');
   if (ss) { ss.classList.add('hidden'); ss.style.display = 'none'; }
@@ -5763,9 +5766,10 @@ function selectSubject(subjectName) {
   // Update splash and home screen titles
   const label = subjectName || 'All Subjects';
 
-  // Update home hero
+  // Determine the display title for h1: use parent main subject if available
+  const parentMain = subjectName ? (subjectGroup[subjectName] || subjectName) : 'All Subjects';
   const heroTitle = document.querySelector('#screen-home h1');
-  if (heroTitle) heroTitle.textContent = label;
+  if (heroTitle) heroTitle.textContent = parentMain;
 
   // Update subject pill if present
   const pill = document.getElementById('active-subject-pill');
