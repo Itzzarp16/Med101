@@ -5040,9 +5040,12 @@ function toggleTimerUI(){
 }
 // ======================== RUNTIME SHUFFLE ========================
 function shuffleQ(q){
-  const idx=[0,1,2,3];
-  for(let i=3;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
-  return{s:q.s,q:q.q,o:idx.map(i=>q.o[i]),c:idx.indexOf(q.c)};
+  const n=q.o.length;
+  const idx=Array.from({length:n},(_,i)=>i);
+  for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
+  const entry={s:q.s,q:q.q,o:idx.map(i=>q.o[i]),c:idx.indexOf(q.c)};
+  if(q.n!==undefined)entry.n=q.n;
+  return entry;
 }
 const sections=[...new Set(rawQ.map(q=>q.s))];
 
@@ -5386,7 +5389,7 @@ function buildResults(){
     else{btnRetry.style.display='none';}
   }
 
-  const rl=$('review-list');rl.innerHTML='';const labs=['A','B','C','D'];
+  const rl=$('review-list');rl.innerHTML='';const labs=['A','B','C','D','E'];
 
   function renderReviewItems(questions, answers, container, offset=0){
     questions.forEach((q,i)=>{
