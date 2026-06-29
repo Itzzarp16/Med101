@@ -1168,8 +1168,8 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   </div>
   <div class="subj-header">
     <div class="subj-icon">🩺</div>
-    <div class="subj-title">Choose a Subject</div>
-    <div class="subj-sub">Choose your subject to begin</div>
+    <div class="subj-title" id="subj-screen-title">Choose a Subject</div>
+    <div class="subj-sub" id="subj-screen-sub">Choose your subject to begin</div>
   </div>
   <div class="subj-grid" id="subj-cards"></div>
 
@@ -5851,19 +5851,11 @@ function buildSubjectSelector() {
   const grid = document.getElementById('subj-cards');
   grid.innerHTML = '';
 
-  // ── "All Subjects" card ──────────────────────────────
-  const allQ_count = rawQ.length;
-  const allCard = document.createElement('div');
-  allCard.className = 'subj-card all-subjects';
-  allCard.innerHTML = `
-    <div class="subj-emoji">📚</div>
-    <div>
-      <div class="subj-name">All Subjects</div>
-      <div class="subj-count">${allQ_count} questions combined</div>
-    </div>
-    <div class="subj-arrow">›</div>`;
-  allCard.onclick = () => selectSubject(null);
-  grid.appendChild(allCard);
+  // Reset title to top-level
+  const titleEl = document.getElementById('subj-screen-title');
+  const subEl   = document.getElementById('subj-screen-sub');
+  if (titleEl) titleEl.textContent = 'Choose a Subject';
+  if (subEl)   subEl.textContent   = 'Choose your subject to begin';
 
   // ── Main subject group cards (Physiology / Biochemistry) ──
   Object.entries(mainSubjectMeta).forEach(([mainSubj, meta]) => {
@@ -5891,6 +5883,12 @@ function buildSubjectSelector() {
 function showTopicsFor(mainSubj) {
   const grid = document.getElementById('subj-cards');
   grid.innerHTML = '';
+
+  // Update title to "Choose a Subtopic" when inside a subject
+  const titleEl = document.getElementById('subj-screen-title');
+  const subEl   = document.getElementById('subj-screen-sub');
+  if (titleEl) titleEl.textContent = 'Choose a Subtopic';
+  if (subEl)   subEl.textContent   = 'Select a topic within ' + mainSubj;
 
   // ── Back button ──────────────────────────────────────
   const backBtn = document.createElement('div');
