@@ -161,82 +161,88 @@
 <style>
 
 /* ═══════════════════════════════════════════
-   DESIGN SYSTEM — Liquid Glass · iPhone-style
+   DESIGN SYSTEM — True Liquid Glass · iOS 26
    ═══════════════════════════════════════════ */
 :root{
-  --bg:#04060d;
-  --bg2:#080c18;
-  --surface:#0c1220;
-  --surface2:#111928;
-  --border:#1e2d45;
-  --border2:#263550;
+  /* Rich deep background — not flat black */
+  --bg:#060818;
+  --bg2:#0a0f22;
+  --surface:#0e1530;
+  --surface2:#131c38;
+  --border:#1f2f50;
+  --border2:#263860;
 
-  /* Liquid glass surfaces */
-  --g1:rgba(255,255,255,.04);
-  --g2:rgba(255,255,255,.07);
-  --g3:rgba(255,255,255,.11);
-  --g-border:rgba(255,255,255,.10);
-  --g-border-hi:rgba(255,255,255,.20);
+  /* True liquid glass — much more visible */
+  --g1:rgba(255,255,255,.10);
+  --g2:rgba(255,255,255,.15);
+  --g3:rgba(255,255,255,.22);
+  --g-border:rgba(255,255,255,.22);
+  --g-border-hi:rgba(255,255,255,.38);
 
-  --cyan:#00e5ff;
-  --cyan2:#00b3cc;
-  --violet:#a78bfa;
-  --green:#00e676;
-  --red:#ff4f6b;
-  --amber:#fbbf24;
-  --pink:#f472b6;
+  /* Vivid saturated accents — iOS-level vibrancy */
+  --cyan:#18e8ff;
+  --cyan2:#00ccee;
+  --violet:#b48eff;
+  --green:#30f28a;
+  --red:#ff3a5c;
+  --amber:#ffcc2a;
+  --pink:#ff6eb4;
 
-  --text:#f0f4ff;
-  --text2:#8ea8cc;
-  --text3:#3d5577;
+  --text:#eef4ff;
+  --text2:#c0d4f0;
+  --text3:#8aaed0;
+
+  /* Glass specular layers */
+  --spec-top:rgba(255,255,255,.28);
+  --spec-side:rgba(255,255,255,.10);
 }
 
 /* ── LIGHT MODE OVERRIDES ── */
 body.light-mode{
-  --bg:#f0f4ff;
-  --bg2:#e6ecf8;
+  --bg:#e8eeff;
+  --bg2:#dde6ff;
   --surface:#ffffff;
-  --surface2:#eef2fb;
-  --border:#c8d4e8;
-  --border2:#b8c8e0;
-  --cyan:#0077aa;
-  --cyan2:#005f8a;
-  --violet:#6d44d4;
-  --green:#1a8a4a;
-  --red:#cc2244;
-  --amber:#b07000;
-  --pink:#b0306e;
-  --text:#0d1a2e;
-  --text2:#3a5070;
-  --text3:#7090b0;
+  --surface2:#f0f4ff;
+  --border:#c0d0ee;
+  --border2:#aabade;
+  --cyan:#0090c8;
+  --cyan2:#007aaa;
+  --violet:#6633cc;
+  --green:#118855;
+  --red:#cc1133;
+  --amber:#aa7700;
+  --pink:#aa2266;
+  --text:#081428;
+  --text2:#1e3a5c;
+  --text3:#3d6080;
+  --spec-top:rgba(255,255,255,.60);
+  --spec-side:rgba(255,255,255,.30);
 }
-body.light-mode .hero{background:linear-gradient(180deg,#dde6f8 0%,#f0f4ff 100%);}
-body.light-mode .hero::before{background:radial-gradient(ellipse 80% 120% at 50% -20%,rgba(0,100,180,.1) 0%,transparent 70%);}
-body.light-mode .results-hero{background:linear-gradient(180deg,#dde6f8 0%,#f0f4ff 100%);}
-body.light-mode .time-card{background:linear-gradient(135deg,#e8f0fc,#dce8f8);border-color:rgba(0,100,180,.25);}
-body.light-mode .q-card{box-shadow:0 8px 40px rgba(0,0,0,.08);}
-body.light-mode .glass{box-shadow:0 4px 20px rgba(0,0,0,.06),inset 0 1px 0 rgba(255,255,255,.8);}
-body.light-mode .glass-hi{box-shadow:0 8px 32px rgba(0,0,0,.08),inset 0 1px 0 rgba(255,255,255,.9);}
-body.light-mode .glass{background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.70);box-shadow:0 4px 20px rgba(0,0,0,.06),inset 0 1.5px 0 rgba(255,255,255,.9);}
-body.light-mode .glass-hi{background:rgba(255,255,255,.70);border-color:rgba(255,255,255,.80);box-shadow:0 8px 32px rgba(0,0,0,.08),inset 0 2px 0 rgba(255,255,255,.95);}
-body.light-mode .q-card{background:rgba(255,255,255,.60);border-color:rgba(255,255,255,.75);box-shadow:0 8px 40px rgba(0,0,0,.08);}
+body.light-mode .hero{background:linear-gradient(180deg,#c8d8f8 0%,#e8eeff 100%);}
+body.light-mode .hero::before{background:radial-gradient(ellipse 80% 120% at 50% -20%,rgba(0,120,200,.15) 0%,transparent 70%);}
+body.light-mode .results-hero{background:linear-gradient(180deg,#c8d8f8 0%,#e8eeff 100%);}
+body.light-mode .time-card{background:linear-gradient(135deg,rgba(0,130,200,.12),rgba(100,60,220,.08));border-color:rgba(0,120,200,.30);}
+body.light-mode .q-card{box-shadow:0 8px 48px rgba(0,0,0,.12),inset 0 2px 0 rgba(255,255,255,.90);}
+body.light-mode .glass{background:rgba(255,255,255,.55);border-color:rgba(255,255,255,.75);box-shadow:0 4px 28px rgba(0,0,0,.10),inset 0 2px 0 rgba(255,255,255,.95);}
+body.light-mode .glass-hi{background:rgba(255,255,255,.70);border-color:rgba(255,255,255,.88);box-shadow:0 8px 40px rgba(0,0,0,.12),inset 0 2.5px 0 rgba(255,255,255,.98);}
+body.light-mode .q-card{background:rgba(255,255,255,.60);border-color:rgba(255,255,255,.80);box-shadow:0 8px 48px rgba(0,0,0,.10),inset 0 2px 0 rgba(255,255,255,.92);}
 body.light-mode .score-ring-inner{background:var(--bg2);}
 body.light-mode #screen-subject,body.light-mode #splash{background:var(--bg);}
-body.light-mode #global-topbar{background:rgba(240,244,255,.80);border-bottom-color:rgba(0,0,0,.08);backdrop-filter:blur(28px);}
-body.light-mode .splash-title{background:linear-gradient(135deg,#0077aa 0%,#6d44d4 60%,#b0306e 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-body.light-mode h1{background:linear-gradient(135deg,#0d1a2e 0%,var(--cyan) 60%,var(--violet) 100%)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;background-clip:text!important;}
+body.light-mode #global-topbar{background:rgba(232,238,255,.82);border-bottom-color:rgba(0,0,0,.10);backdrop-filter:blur(32px);}
+body.light-mode .splash-title{background:linear-gradient(135deg,#0090c8 0%,#6633cc 60%,#aa2266 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+body.light-mode h1{background:linear-gradient(135deg,#081428 0%,var(--cyan) 60%,var(--violet) 100%)!important;-webkit-background-clip:text!important;-webkit-text-fill-color:transparent!important;background-clip:text!important;}
 body.light-mode .review-item{background:rgba(255,255,255,.55);}
 body.light-mode ::-webkit-scrollbar-track{background:var(--bg2);}
 body.light-mode ::-webkit-scrollbar-thumb{background:var(--border2);}
-body.light-mode .subj-title{background:linear-gradient(135deg,#0d1a2e 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+body.light-mode .subj-title{background:linear-gradient(135deg,#081428 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
 body.light-mode .subj-card{background:rgba(255,255,255,.55);border-color:rgba(0,0,0,.10);}
 body.light-mode .mode-card{background:rgba(255,255,255,.50);border-color:rgba(0,0,0,.08);}
 body.light-mode .opt-btn{background:rgba(255,255,255,.55);border-color:rgba(0,0,0,.10);}
-body.light-mode .auth-card{background:rgba(255,255,255,.65);border-color:rgba(255,255,255,.80);}
-body.light-mode .auth-tabs{background:rgba(0,0,0,.06);border-color:rgba(0,0,0,.08);}
-body.light-mode .auth-input{background:rgba(255,255,255,.60);border-color:rgba(0,0,0,.12);}
-body.light-mode .time-card{background:linear-gradient(135deg,rgba(0,150,200,.07),rgba(100,80,200,.04));border-color:rgba(0,100,180,.20);}
-body.light-mode .imp-card{background:linear-gradient(135deg,rgba(200,140,0,.10),rgba(120,80,200,.06));}
+body.light-mode .auth-card{background:rgba(255,255,255,.65);border-color:rgba(255,255,255,.85);}
+body.light-mode .auth-tabs{background:rgba(0,0,0,.07);border-color:rgba(0,0,0,.08);}
+body.light-mode .auth-input{background:rgba(255,255,255,.65);border-color:rgba(0,0,0,.12);}
+body.light-mode .time-card{background:linear-gradient(135deg,rgba(0,150,210,.10),rgba(100,60,210,.06));border-color:rgba(0,120,200,.22);}
+body.light-mode .imp-card{background:linear-gradient(135deg,rgba(200,140,0,.12),rgba(100,60,200,.08));}
 
 /* ══════════════════════════════
    AUTH SCREEN
@@ -249,20 +255,27 @@ body.light-mode .imp-card{background:linear-gradient(135deg,rgba(200,140,0,.10),
 #auth-screen::before{
   content:'';position:fixed;inset:0;pointer-events:none;
   background:
-    radial-gradient(ellipse 100% 55% at 50% -5%, rgba(0,229,255,.13) 0%, transparent 60%),
-    radial-gradient(ellipse 55% 40% at 85% 90%, rgba(167,139,250,.10) 0%, transparent 55%);
+    radial-gradient(ellipse 100% 55% at 50% -5%, rgba(24,232,255,.28) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 45% at 85% 90%, rgba(180,142,255,.22) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 10% 70%, rgba(255,110,180,.14) 0%, transparent 55%);
 }
 body.auth-open{overflow:hidden!important;}
 
 .auth-card{
   width:100%;max-width:420px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.14);
-  border-radius:28px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:32px;
   padding:36px 32px 32px;
-  backdrop-filter:blur(48px);
-  -webkit-backdrop-filter:blur(48px);
-  box-shadow:0 2px 0 rgba(255,255,255,.07) inset, 0 36px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(0,229,255,.06);
+  backdrop-filter:blur(64px) saturate(200%);
+  -webkit-backdrop-filter:blur(64px) saturate(200%);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.35),
+    inset 0 -1px 0 rgba(0,0,0,.25),
+    inset 1px 0 0 rgba(255,255,255,.12),
+    0 40px 100px rgba(0,0,0,.60),
+    0 0 0 1px rgba(24,232,255,.10),
+    0 0 80px rgba(24,232,255,.08);
   position:relative;z-index:1;
   animation:authCardIn .55s cubic-bezier(.34,1.4,.64,1) both;
 }
@@ -289,20 +302,20 @@ body.light-mode .auth-title{
 /* Tab toggle */
 .auth-tabs{
   display:grid;grid-template-columns:1fr 1fr;
-  background:rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:4px;
+  background:rgba(0,0,0,.28);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:4px;
   margin-bottom:24px;gap:0;
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(16px);
 }
 .auth-tab{
-  padding:10px;border-radius:10px;font-weight:700;font-size:14px;
-  cursor:pointer;transition:all .2s;color:var(--text2);border:none;background:transparent;
+  padding:10px;border-radius:12px;font-weight:700;font-size:14px;
+  cursor:pointer;transition:all .22s;color:var(--text2);border:none;background:transparent;
   font-family:'Space Grotesk',sans-serif;
 }
 .auth-tab.active{
-  background:linear-gradient(135deg,rgba(0,229,255,.22),rgba(167,139,250,.18));
+  background:rgba(255,255,255,.18);
   color:var(--text);
-  border:1px solid rgba(0,229,255,.30);
-  box-shadow:0 2px 16px rgba(0,229,255,.12), inset 0 1px 0 rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.30);
+  box-shadow:0 2px 20px rgba(24,232,255,.15), inset 0 1.5px 0 rgba(255,255,255,.25);
 }
 
 /* Input fields */
@@ -311,14 +324,19 @@ body.light-mode .auth-title{
   color:var(--text2);margin-bottom:6px;display:block;
 }
 .auth-input{
-  width:100%;padding:12px 16px;
-  background:rgba(0,0,0,.30);border:1px solid rgba(255,255,255,.10);
+  width:100%;padding:13px 16px;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);
   border-radius:14px;color:var(--text);
   font-family:'Space Grotesk',sans-serif;font-size:14.5px;
-  transition:border-color .2s,box-shadow .2s;outline:none;
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:border-color .2s,box-shadow .2s,background .2s;outline:none;
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.18), inset 0 -1px 0 rgba(0,0,0,.15);
 }
-.auth-input:focus{border-color:rgba(0,229,255,.5);box-shadow:0 0 0 3px rgba(0,229,255,.10),0 0 18px rgba(0,229,255,.06);}
+.auth-input:focus{
+  border-color:rgba(24,232,255,.60);
+  background:rgba(255,255,255,.15);
+  box-shadow:0 0 0 3px rgba(24,232,255,.14),0 0 24px rgba(24,232,255,.08),inset 0 1.5px 0 rgba(255,255,255,.25);
+}
 .auth-input::placeholder{color:var(--text3);}
 
 .auth-input-wrap{position:relative;}
@@ -341,15 +359,15 @@ body.light-mode .auth-title{
 .auth-btn{
   width:100%;margin-top:20px;
   background:linear-gradient(135deg,var(--cyan2) 0%,var(--violet) 100%);
-  color:#fff;border:none;border-radius:14px;
+  color:#fff;border:none;border-radius:16px;
   padding:15px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;
-  cursor:pointer;transition:all .22s;position:relative;overflow:hidden;
-  box-shadow:0 0 20px rgba(0,229,255,.28),0 4px 16px rgba(0,0,0,.4);
+  cursor:pointer;transition:all .22s cubic-bezier(.34,1.2,.64,1);position:relative;overflow:hidden;
+  box-shadow:0 0 28px rgba(24,232,255,.35),0 6px 20px rgba(0,0,0,.45),inset 0 1.5px 0 rgba(255,255,255,.28);
   letter-spacing:.02em;
 }
-.auth-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:opacity .2s;}
+.auth-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.25),transparent);opacity:0;transition:opacity .2s;}
 .auth-btn:hover::before{opacity:1;}
-.auth-btn:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(0,229,255,.4),0 8px 24px rgba(0,0,0,.5);}
+.auth-btn:hover{transform:translateY(-3px);box-shadow:0 0 45px rgba(24,232,255,.50),0 12px 32px rgba(0,0,0,.55);}
 .auth-btn:active{transform:translateY(0);}
 .auth-btn:disabled{opacity:.55;cursor:not-allowed;transform:none;}
 
@@ -474,29 +492,30 @@ body::before{
    AMBIENT GLASS ORBS (iPhone-style)
 ══════════════════════════════ */
 .bg-orbs{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
-.orb{position:absolute;border-radius:50%;filter:blur(90px);opacity:.16;}
-.orb-1{width:520px;height:520px;background:var(--cyan);top:-200px;left:-130px;}
-.orb-2{width:420px;height:420px;background:var(--violet);bottom:-120px;right:-110px;opacity:.13;}
-.orb-3{width:280px;height:280px;background:var(--amber);top:40%;left:50%;transform:translate(-50%,-50%);opacity:.07;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,rgba(24,232,255,.55) 0%,rgba(24,232,255,.0) 70%);top:-220px;left:-160px;opacity:1;}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(180,142,255,.50) 0%,rgba(180,142,255,.0) 70%);bottom:-140px;right:-130px;opacity:1;}
+.orb-3{width:380px;height:380px;background:radial-gradient(circle,rgba(255,110,180,.32) 0%,rgba(255,110,180,.0) 70%);top:40%;left:50%;transform:translate(-50%,-50%);opacity:1;}
+.orb-4{width:300px;height:300px;background:radial-gradient(circle,rgba(48,242,138,.25) 0%,rgba(48,242,138,.0) 70%);bottom:20%;left:5%;opacity:1;}
 
 /* ══════════════════════════════
    HERO / HEADER BAND
 ══════════════════════════════ */
 .hero{
   background:
-    radial-gradient(ellipse 100% 60% at 50% 0%, rgba(0,229,255,.10) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(167,139,250,.08) 0%, transparent 55%),
+    radial-gradient(ellipse 100% 65% at 50% 0%, rgba(24,232,255,.18) 0%, transparent 65%),
+    radial-gradient(ellipse 65% 55% at 80% 80%, rgba(180,142,255,.16) 0%, transparent 55%),
     var(--bg2);
-  border-bottom:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(255,255,255,.12);
   position:relative;overflow:hidden;
 }
 .hero::before{
   content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 120% at 50% -20%,rgba(0,229,255,.08) 0%,transparent 70%);
+  background:radial-gradient(ellipse 80% 120% at 50% -20%,rgba(24,232,255,.14) 0%,transparent 70%);
 }
 .hero-glow{
   position:absolute;width:500px;height:500px;border-radius:50%;
-  background:radial-gradient(circle,rgba(167,139,250,.07) 0%,transparent 70%);
+  background:radial-gradient(circle,rgba(180,142,255,.12) 0%,transparent 70%);
   top:-200px;right:-100px;pointer-events:none;
 }
 
@@ -507,23 +526,31 @@ body::before{
 .screen.active{display:block;}
 
 /* ══════════════════════════════
-   LIQUID GLASS CARD (iPhone-style)
+   LIQUID GLASS CARD (iOS 26-style)
 ══════════════════════════════ */
 .glass{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);
-  border-radius:18px;
-  backdrop-filter:blur(28px);
-  -webkit-backdrop-filter:blur(28px);
-  box-shadow:0 8px 32px rgba(0,0,0,.35), inset 0 1.5px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.15);
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:20px;
+  backdrop-filter:blur(40px) saturate(180%);
+  -webkit-backdrop-filter:blur(40px) saturate(180%);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.30),
+    inset 0 -1px 0 rgba(0,0,0,.20),
+    0 12px 40px rgba(0,0,0,.40),
+    0 2px 8px rgba(0,0,0,.25);
 }
 .glass-hi{
-  background:rgba(255,255,255,.09);
-  border:1px solid rgba(255,255,255,.18);
-  border-radius:18px;
-  backdrop-filter:blur(40px);
-  -webkit-backdrop-filter:blur(40px);
-  box-shadow:0 12px 48px rgba(0,0,0,.45), inset 0 2px 0 rgba(255,255,255,.14), inset 0 -1px 0 rgba(0,0,0,.20);
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.36);
+  border-radius:20px;
+  backdrop-filter:blur(60px) saturate(200%);
+  -webkit-backdrop-filter:blur(60px) saturate(200%);
+  box-shadow:
+    inset 0 2.5px 0 rgba(255,255,255,.40),
+    inset 0 -1.5px 0 rgba(0,0,0,.25),
+    0 16px 56px rgba(0,0,0,.50),
+    0 2px 12px rgba(0,0,0,.30);
 }
 
 /* ══════════════════════════════
@@ -531,14 +558,14 @@ body::before{
 ══════════════════════════════ */
 .btn-glow{
   background:linear-gradient(135deg,var(--cyan2) 0%,var(--violet) 100%);
-  color:#fff;border:none;border-radius:12px;
+  color:#fff;border:none;border-radius:14px;
   padding:14px 32px;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:15px;
-  cursor:pointer;transition:all .2s;position:relative;overflow:hidden;
-  box-shadow:0 0 20px rgba(0,229,255,.25),0 4px 16px rgba(0,0,0,.4);
+  cursor:pointer;transition:all .22s cubic-bezier(.34,1.2,.64,1);position:relative;overflow:hidden;
+  box-shadow:0 0 28px rgba(24,232,255,.35),0 6px 20px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.25);
 }
-.btn-glow::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.15),transparent);opacity:0;transition:opacity .2s;}
+.btn-glow::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.22),transparent);opacity:0;transition:opacity .2s;}
 .btn-glow:hover::before{opacity:1;}
-.btn-glow:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,229,255,.4),0 8px 24px rgba(0,0,0,.5);}
+.btn-glow:hover{transform:translateY(-3px);box-shadow:0 0 40px rgba(24,232,255,.50),0 12px 32px rgba(0,0,0,.55);}
 .btn-glow:active{transform:translateY(0);}
 
 .btn-ghost{
@@ -555,32 +582,45 @@ body::before{
    MODE CARDS — Liquid Glass
 ══════════════════════════════ */
 .mode-card{
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
-  border-radius:18px;padding:16px 18px;cursor:pointer;
-  transition:all .22s;position:relative;overflow:hidden;
-  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
-  box-shadow:0 4px 20px rgba(0,0,0,.25), inset 0 1.5px 0 rgba(255,255,255,.08), inset 0 -1px 0 rgba(0,0,0,.12);
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.25);
+  border-radius:20px;padding:16px 18px;cursor:pointer;
+  transition:all .22s cubic-bezier(.34,1.2,.64,1);position:relative;overflow:hidden;
+  backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.28),
+    inset 0 -1px 0 rgba(0,0,0,.18),
+    0 6px 28px rgba(0,0,0,.30);
 }
 .mode-card::before{
   content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(135deg,rgba(0,229,255,.08),transparent);
+  background:linear-gradient(135deg,rgba(24,232,255,.12),transparent 60%);
   opacity:0;transition:opacity .22s;
 }
 .mode-card:hover::before{opacity:1;}
-.mode-card:hover{border-color:rgba(0,229,255,.35);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,229,255,.10), inset 0 1.5px 0 rgba(255,255,255,.12);}
+.mode-card:hover{
+  border-color:rgba(255,255,255,.40);
+  background:rgba(255,255,255,.16);
+  transform:translateY(-3px) scale(1.01);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.38),0 16px 48px rgba(24,232,255,.14),0 8px 32px rgba(0,0,0,.35);
+}
 .mode-card.selected{
-  background:linear-gradient(135deg,rgba(0,229,255,.12),rgba(167,139,250,.08));
-  border-color:rgba(0,229,255,.40);
-  box-shadow:0 0 0 1px rgba(0,229,255,.18), 0 8px 28px rgba(0,229,255,.10), inset 0 1.5px 0 rgba(0,229,255,.12);
+  background:rgba(255,255,255,.18);
+  border-color:rgba(24,232,255,.55);
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.40),
+    0 0 0 1px rgba(24,232,255,.28),
+    0 12px 40px rgba(24,232,255,.18),
+    0 4px 20px rgba(0,0,0,.30);
 }
 .mode-card.selected::after{
   content:'';position:absolute;top:0;left:0;right:0;height:2px;
   background:linear-gradient(90deg,var(--cyan),var(--violet));
+  opacity:.9;
 }
 /* animated glow ring on selected */
 .mode-card.selected::before{
-  content:'';position:absolute;inset:-1px;border-radius:19px;
-  background:conic-gradient(rgba(0,229,255,.4),rgba(167,139,250,.3),rgba(0,229,255,.0),rgba(0,229,255,.4));
+  content:'';position:absolute;inset:-1px;border-radius:21px;
+  background:conic-gradient(rgba(24,232,255,.5),rgba(180,142,255,.4),rgba(24,232,255,.0),rgba(24,232,255,.5));
   z-index:-1;animation:rotateGlow 3s linear infinite;opacity:1;
 }
 @keyframes rotateGlow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
@@ -589,39 +629,41 @@ body::before{
    TOPIC CHIPS — Liquid Glass
 ══════════════════════════════ */
 .topic-chip{
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
-  border-radius:100px;padding:6px 14px;
-  font-size:12px;font-weight:600;cursor:pointer;transition:all .16s;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);
+  border-radius:100px;padding:7px 16px;
+  font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;
   color:var(--text2);white-space:nowrap;
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.22), 0 2px 8px rgba(0,0,0,.20);
 }
-.topic-chip:hover{border-color:rgba(0,229,255,.35);color:var(--cyan);background:rgba(0,229,255,.08);}
-.topic-chip.active{border-color:rgba(0,229,255,.4);color:var(--cyan);background:rgba(0,229,255,.12);box-shadow:0 0 12px rgba(0,229,255,.10);}
+.topic-chip:hover{border-color:rgba(24,232,255,.50);color:var(--cyan);background:rgba(24,232,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 4px 16px rgba(24,232,255,.12);}
+.topic-chip.active{border-color:rgba(24,232,255,.60);color:var(--cyan);background:rgba(24,232,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.30),0 0 16px rgba(24,232,255,.15);}
 
 /* ══════════════════════════════
    OPTIONS — Liquid Glass
 ══════════════════════════════ */
 .opt-btn{
-  width:100%;text-align:left;padding:14px 18px;
-  border:1px solid rgba(255,255,255,.10);border-radius:16px;
-  background:rgba(255,255,255,.05);color:var(--text);
+  width:100%;text-align:left;padding:15px 18px;
+  border:1px solid rgba(255,255,255,.24);border-radius:18px;
+  background:rgba(255,255,255,.10);color:var(--text);
   font-family:'Space Grotesk',sans-serif;font-size:14.5px;
-  cursor:pointer;transition:all .18s;
+  cursor:pointer;transition:all .18s cubic-bezier(.34,1.2,.64,1);
   display:flex;align-items:flex-start;gap:14px;line-height:1.55;
   position:relative;overflow:hidden;
-  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
-  box-shadow:0 2px 10px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter:blur(32px) saturate(160%);-webkit-backdrop-filter:blur(32px) saturate(160%);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.25), inset 0 -1px 0 rgba(0,0,0,.14), 0 3px 12px rgba(0,0,0,.22);
 }
-.opt-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,229,255,.06),transparent);opacity:0;transition:opacity .18s;}
+.opt-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(24,232,255,.09),transparent 60%);opacity:0;transition:opacity .18s;}
 .opt-btn:hover:not(:disabled)::before{opacity:1;}
 .opt-btn:hover:not(:disabled){
-  border-color:rgba(0,229,255,.35);
-  box-shadow:0 4px 20px rgba(0,229,255,.10), inset 0 1px 0 rgba(0,229,255,.08);
-  transform:translateY(-1px);
+  border-color:rgba(255,255,255,.40);
+  background:rgba(255,255,255,.16);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.35),0 8px 28px rgba(24,232,255,.12),0 4px 20px rgba(0,0,0,.28);
+  transform:translateY(-2px);
 }
-.opt-btn.correct{border-color:rgba(0,230,118,.35)!important;background:rgba(0,230,118,.08)!important;color:var(--green);box-shadow:0 4px 18px rgba(0,230,118,.08),inset 0 1px 0 rgba(0,230,118,.10);}
+.opt-btn.correct{border-color:rgba(48,242,138,.50)!important;background:rgba(48,242,138,.14)!important;color:var(--green);box-shadow:inset 0 1.5px 0 rgba(48,242,138,.30),0 6px 24px rgba(48,242,138,.14)!important;}
 .opt-btn.correct::before{display:none;}
-.opt-btn.wrong{border-color:rgba(255,79,107,.30)!important;background:rgba(255,79,107,.07)!important;color:var(--red);box-shadow:0 4px 18px rgba(255,79,107,.06);}
+.opt-btn.wrong{border-color:rgba(255,58,92,.45)!important;background:rgba(255,58,92,.12)!important;color:var(--red);box-shadow:inset 0 1.5px 0 rgba(255,58,92,.20),0 4px 18px rgba(255,58,92,.10)!important;}
 .opt-btn.wrong::before{display:none;}
 .opt-btn:disabled{cursor:default;}
 
@@ -647,13 +689,13 @@ body::before{
    STAT BOXES — Liquid Glass
 ══════════════════════════════ */
 .stat-card{
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
-  border-radius:14px;padding:12px 16px;text-align:center;
+  background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.26);
+  border-radius:16px;padding:12px 16px;text-align:center;
   position:relative;overflow:hidden;
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.28), inset 0 -1px 0 rgba(0,0,0,.15), 0 4px 16px rgba(0,0,0,.25);
 }
-.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--cyan));opacity:.55;}
+.stat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent,var(--cyan));opacity:.75;}
 
 /* ══════════════════════════════
    BADGE
@@ -669,22 +711,26 @@ body::before{
    QUESTION CARD — Premium Liquid Glass
 ══════════════════════════════ */
 .q-card{
-  background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.13);border-radius:22px;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.30);border-radius:24px;
   padding:24px;position:relative;overflow:hidden;
-  backdrop-filter:blur(36px);-webkit-backdrop-filter:blur(36px);
-  box-shadow:0 10px 48px rgba(0,0,0,.38), inset 0 2px 0 rgba(255,255,255,.10), inset 0 -1px 0 rgba(0,0,0,.18);
+  backdrop-filter:blur(60px) saturate(200%);-webkit-backdrop-filter:blur(60px) saturate(200%);
+  box-shadow:
+    inset 0 2.5px 0 rgba(255,255,255,.38),
+    inset 0 -1.5px 0 rgba(0,0,0,.22),
+    0 16px 60px rgba(0,0,0,.45),
+    0 4px 20px rgba(0,0,0,.30);
 }
 /* Top stripe glow */
 .q-card::before{
   content:'';position:absolute;top:0;left:20px;right:20px;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(0,229,255,.45),transparent);
+  background:linear-gradient(90deg,transparent,rgba(24,232,255,.60),rgba(180,142,255,.40),transparent);
 }
 /* Ambient corner glow */
 .q-card::after{
-  content:'';position:absolute;top:-60px;right:-60px;
-  width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(circle,rgba(167,139,250,.10),transparent 70%);
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:240px;height:240px;border-radius:50%;
+  background:radial-gradient(circle,rgba(180,142,255,.18),transparent 70%);
   pointer-events:none;
 }
 
@@ -776,17 +822,19 @@ body::before{
 ══════════════════════════════ */
 .toggle-track{
   width:44px;height:24px;border-radius:100px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,255,255,.10);position:relative;cursor:pointer;
-  transition:all .2s;flex-shrink:0;
-  backdrop-filter:blur(8px);
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);position:relative;cursor:pointer;
+  transition:all .22s;flex-shrink:0;
+  backdrop-filter:blur(16px);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.20), inset 0 -1px 0 rgba(0,0,0,.15);
 }
-.toggle-track.on{background:rgba(0,229,255,.22);border-color:rgba(0,229,255,.45);}
+.toggle-track.on{background:rgba(24,232,255,.30);border-color:rgba(24,232,255,.60);box-shadow:inset 0 1.5px 0 rgba(255,255,255,.25),0 0 16px rgba(24,232,255,.25);}
 .toggle-thumb{
-  width:18px;height:18px;border-radius:50%;background:var(--text3);
+  width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.80);
   position:absolute;top:2px;left:2px;transition:all .22s;
+  box-shadow:0 1px 4px rgba(0,0,0,.30);
 }
-.toggle-track.on .toggle-thumb{left:22px;background:var(--cyan);box-shadow:0 0 10px rgba(0,229,255,.55);}
+.toggle-track.on .toggle-thumb{left:22px;background:var(--cyan);box-shadow:0 0 12px rgba(24,232,255,.60),0 1px 4px rgba(0,0,0,.20);}
 
 /* ══════════════════════════════
    TIMER PRESET BUTTONS
@@ -828,13 +876,13 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 /* ══════════════════════════════
    DIVIDERS
 ══════════════════════════════ */
-.divider{height:1px;background:linear-gradient(90deg,transparent,var(--border2),transparent);margin:20px 0;}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.20),transparent);margin:20px 0;}
 
 /* section label in home */
-.section-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent);}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.section-label::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.20),transparent);}
 .section-label.amber{color:var(--amber);}
-.section-label.amber::after{background:linear-gradient(90deg,rgba(255,184,48,.3),transparent);}
+.section-label.amber::after{background:linear-gradient(90deg,rgba(255,184,48,.45),transparent);}
 
 /* ══════════════════════════════
    GLOBAL TOP BAR
@@ -842,13 +890,13 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 #global-topbar{
   position:fixed;top:0;left:0;right:0;z-index:99999;
   min-height:44px;height:auto;
-  background:rgba(4,6,13,.75);
-  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
-  border-bottom:1px solid rgba(255,255,255,.09);
+  background:rgba(10,15,34,.72);
+  backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);
+  border-bottom:1px solid rgba(255,255,255,.15);
   align-items:center;justify-content:space-between;
   padding:6px 14px;gap:8px;flex-wrap:wrap;
   display:flex;
-  box-shadow:0 1px 0 rgba(255,255,255,.05), 0 4px 20px rgba(0,0,0,.3);
+  box-shadow:0 1px 0 rgba(255,255,255,.10), 0 4px 28px rgba(0,0,0,.40), inset 0 1px 0 rgba(255,255,255,.12);
 }
 #global-topbar .wa-num{ display:none; }
 @media(min-width:480px){ #global-topbar .wa-num{ display:inline; } }
@@ -887,7 +935,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 .subject-rings{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
 .subject-ring{position:absolute;border-radius:50%;border:1px solid;animation:ringPulse ease infinite;}
 .subj-header{text-align:center;margin-bottom:36px;position:relative;z-index:1;}
-.subj-icon{font-size:60px;filter:drop-shadow(0 0 24px rgba(0,229,255,.5));margin-bottom:14px;}
+.subj-icon{font-size:60px;filter:drop-shadow(0 0 28px rgba(24,232,255,.60));margin-bottom:14px;}
 .subj-title{
   font-family:'Syne',sans-serif;font-size:clamp(1.8rem,5vw,2.8rem);font-weight:800;
   background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--violet) 100%);
@@ -900,27 +948,27 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   gap:16px;width:100%;max-width:640px;position:relative;z-index:1;
 }
 .subj-card{
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
-  border-radius:18px;padding:18px 18px;cursor:pointer;
-  transition:all .22s;position:relative;overflow:hidden;
+  background:rgba(255,255,255,.11);border:1px solid rgba(255,255,255,.25);
+  border-radius:20px;padding:18px 18px;cursor:pointer;
+  transition:all .22s cubic-bezier(.34,1.2,.64,1);position:relative;overflow:hidden;
   display:flex;align-items:flex-start;gap:14px;min-height:72px;
-  backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);
-  box-shadow:0 4px 20px rgba(0,0,0,.22), inset 0 1.5px 0 rgba(255,255,255,.07);
+  backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.28),inset 0 -1px 0 rgba(0,0,0,.16),0 6px 28px rgba(0,0,0,.30);
 }
 .subj-card::before{content:'';position:absolute;inset:0;border-radius:inherit;
-  background:linear-gradient(135deg,rgba(0,229,255,.07),transparent);opacity:0;transition:opacity .2s;}
+  background:linear-gradient(135deg,rgba(24,232,255,.10),transparent 60%);opacity:0;transition:opacity .2s;}
 .subj-card:hover::before{opacity:1;}
-.subj-card:hover{border-color:rgba(0,229,255,.35);transform:translateY(-3px);
-  box-shadow:0 8px 32px rgba(0,229,255,.10), inset 0 1.5px 0 rgba(255,255,255,.10);}
+.subj-card:hover{border-color:rgba(255,255,255,.40);transform:translateY(-4px) scale(1.01);background:rgba(255,255,255,.17);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.38),0 16px 48px rgba(24,232,255,.15),0 8px 32px rgba(0,0,0,.35);}
 .subj-card.all-subjects{
-  border-color:rgba(167,139,250,.30);
-  background:linear-gradient(135deg,rgba(167,139,250,.09),rgba(0,229,255,.05));
+  border-color:rgba(180,142,255,.40);
+  background:rgba(255,255,255,.13);
 }
-.subj-card.all-subjects:hover{border-color:rgba(167,139,250,.55);box-shadow:0 8px 32px rgba(167,139,250,.14);}
+.subj-card.all-subjects:hover{border-color:rgba(180,142,255,.60);box-shadow:inset 0 2px 0 rgba(255,255,255,.35),0 16px 48px rgba(180,142,255,.18);}
 .subj-name{font-weight:700;font-size:15.5px;color:var(--text);line-height:1.4;white-space:normal;word-break:break-word;}
-.subj-count{font-size:12.5px;color:var(--text3);margin-top:5px;white-space:normal;word-break:break-word;line-height:1.5;}
+.subj-count{font-size:12.5px;color:var(--text2);margin-top:5px;white-space:normal;word-break:break-word;line-height:1.5;}
 .subj-emoji{font-size:30px;flex-shrink:0;margin-top:2px;}
-.subj-arrow{margin-left:auto;color:var(--text3);font-size:18px;flex-shrink:0;transition:transform .2s,color .2s;align-self:center;}
+.subj-arrow{margin-left:auto;color:var(--text2);font-size:18px;flex-shrink:0;transition:transform .2s,color .2s;align-self:center;}
 .subj-card:hover .subj-arrow{color:var(--cyan);transform:translateX(4px);}
 .subj-card.all-subjects .subj-arrow{color:var(--violet);}
 .subj-card.all-subjects:hover .subj-arrow{color:var(--violet);}
@@ -939,23 +987,25 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 
 /* ── IMPORTANT Q CARD (home screen) ── */
 .imp-card{
-  background:linear-gradient(135deg,rgba(251,191,36,.10) 0%,rgba(167,139,250,.06) 100%);
-  border:1px solid rgba(251,191,36,.28);
-  border-radius:18px;padding:18px 18px;cursor:pointer;
-  transition:all .22s;position:relative;
+  background:rgba(255,255,255,.11);
+  border:1px solid rgba(251,191,36,.40);
+  border-radius:20px;padding:18px 18px;cursor:pointer;
+  transition:all .22s cubic-bezier(.34,1.2,.64,1);position:relative;
   display:flex;align-items:flex-start;gap:14px;min-height:72px;
   margin-bottom:14px;
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-  box-shadow:0 4px 20px rgba(0,0,0,.20), inset 0 1px 0 rgba(251,191,36,.08);
+  backdrop-filter:blur(32px) saturate(180%);-webkit-backdrop-filter:blur(32px) saturate(180%);
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.28), 0 4px 24px rgba(0,0,0,.28), 0 0 0 1px rgba(251,191,36,.10);
 }
-.imp-card:hover{ border-color:rgba(251,191,36,.55); transform:translateY(-2px); box-shadow:0 8px 28px rgba(251,191,36,.12); }
+.imp-card:hover{ border-color:rgba(251,191,36,.70); transform:translateY(-3px) scale(1.01); box-shadow:inset 0 2px 0 rgba(255,255,255,.32),0 12px 40px rgba(251,191,36,.18); }
 .imp-subj-card{
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);
-  border-radius:14px;padding:14px 16px;cursor:pointer;
+  background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.24);
+  border-radius:16px;padding:14px 16px;cursor:pointer;
   transition:all .2s;display:flex;align-items:center;gap:12px;
-  margin-bottom:10px;backdrop-filter:blur(16px);
+  margin-bottom:10px;
+  backdrop-filter:blur(28px) saturate(160%);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.22), 0 3px 12px rgba(0,0,0,.20);
 }
-.imp-subj-card:hover{ border-color:rgba(251,191,36,.40); background:rgba(251,191,36,.07); }
+.imp-subj-card:hover{ border-color:rgba(251,191,36,.55); background:rgba(255,255,255,.16); box-shadow:inset 0 2px 0 rgba(255,255,255,.30),0 8px 28px rgba(251,191,36,.14); }
 
 /* subject badge on quiz header */
 #active-subject-pill{
@@ -1011,6 +1061,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   <div class="orb orb-1"></div>
   <div class="orb orb-2"></div>
   <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
 </div>
 
 <!-- ══════════════════════════════
@@ -1130,7 +1181,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
       <div style="font-size:30px;flex-shrink:0;margin-top:2px;">⭐</div>
       <div style="flex:1;">
         <div style="font-weight:700;font-size:15px;color:var(--text);">All Important Questions</div>
-        <div style="font-size:12px;color:var(--text3);margin-top:4px;" id="imp-total-count">0 questions starred</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px;" id="imp-total-count">0 questions starred</div>
       </div>
       <div style="color:var(--amber);font-size:18px;align-self:center;">›</div>
     </div>
@@ -1175,17 +1226,17 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
       <div style="display:flex;justify-content:center;gap:24px;margin-top:24px;flex-wrap:wrap;">
         <div style="text-align:center;">
           <div style="font-size:1.5rem;font-weight:800;color:var(--cyan);">795</div>
-          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Questions</div>
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;">Questions</div>
         </div>
         <div style="width:1px;background:var(--border2);"></div>
         <div style="text-align:center;">
           <div style="font-size:1.5rem;font-weight:800;color:var(--violet);">7</div>
-          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Topics</div>
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;">Topics</div>
         </div>
         <div style="width:1px;background:var(--border2);"></div>
         <div style="text-align:center;">
           <div style="font-size:1.5rem;font-weight:800;color:var(--pink);">2025</div>
-          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Edition</div>
+          <div style="font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;">Edition</div>
         </div>
       </div>
     </div>
@@ -1201,7 +1252,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
           <div style="font-size:26px;">🎲</div>
           <div>
             <div style="font-weight:700;color:var(--text);">Random 25</div>
-            <div style="font-size:12px;color:var(--text3);margin-top:2px;">Quick 5-min practice</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:2px;">Quick 5-min practice</div>
           </div>
         </div>
       </div>
@@ -1210,7 +1261,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
           <div style="font-size:26px;">⚡</div>
           <div>
             <div style="font-weight:700;color:var(--text);">Random 50</div>
-            <div style="font-size:12px;color:var(--text3);margin-top:2px;">Medium 10-min session</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:2px;">Medium 10-min session</div>
           </div>
         </div>
       </div>
@@ -1219,7 +1270,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
           <div style="font-size:26px;">📚</div>
           <div>
             <div style="font-weight:700;color:var(--text);">All <span id="mode-all-count-seq">?</span> — Sequential</div>
-            <div style="font-size:12px;color:var(--text3);margin-top:2px;">Questions in order</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:2px;">Questions in order</div>
           </div>
         </div>
       </div>
@@ -1228,7 +1279,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
           <div style="font-size:26px;">🔀</div>
           <div>
             <div style="font-weight:700;color:var(--text);">All <span id="mode-all-count-rand">?</span> — Random</div>
-            <div style="font-size:12px;color:var(--text3);margin-top:2px;">Fully shuffled</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:2px;">Fully shuffled</div>
           </div>
         </div>
       </div>
@@ -1237,7 +1288,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
           <div style="font-size:26px;">✂️</div>
           <div>
             <div style="font-weight:700;color:var(--text);">Custom Range</div>
-            <div style="font-size:12px;color:var(--text3);margin-top:2px;">Pick your start & end question numbers</div>
+            <div style="font-size:12px;color:var(--text2);margin-top:2px;">Pick your start & end question numbers</div>
           </div>
         </div>
       </div>
@@ -1259,7 +1310,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
       <div style="display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--border2);">
         <div>
           <div style="font-weight:600;font-size:14px;color:var(--text);">&#x1F500; Shuffle Questions</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px;">Randomise order within the range</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px;">Randomise order within the range</div>
         </div>
         <div class="toggle-track" id="tog-custom-shuffle" onclick="this.classList.toggle('on')"><div class="toggle-thumb"></div></div>
       </div>
@@ -1271,7 +1322,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
       <div style="display:flex;align-items:center;justify-content:space-between;">
         <div>
           <div style="font-weight:600;font-size:14px;color:var(--text);">Auto-advance</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px;">Move to next question after answering</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px;">Move to next question after answering</div>
         </div>
         <div class="toggle-track on" id="tog-auto" onclick="toggleAuto()"><div class="toggle-thumb"></div></div>
       </div>
@@ -1281,7 +1332,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
         <div>
           <div style="font-weight:600;font-size:14px;color:var(--text);">⏱ Question Timer</div>
-          <div style="font-size:12px;color:var(--text3);margin-top:2px;">Auto-submit when time runs out</div>
+          <div style="font-size:12px;color:var(--text2);margin-top:2px;">Auto-submit when time runs out</div>
         </div>
         <div class="toggle-track" id="tog-timer" onclick="toggleTimerUI()"><div class="toggle-thumb"></div></div>
       </div>
@@ -1293,9 +1344,9 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
           <button class="tpreset" data-sec="45" onclick="setTP(this)">45s</button>
           <button class="tpreset" data-sec="60" onclick="setTP(this)">60s</button>
           <div style="display:flex;align-items:center;gap:6px;">
-            <span style="font-size:12px;color:var(--text3);">Custom:</span>
+            <span style="font-size:12px;color:var(--text2);">Custom:</span>
             <input type="number" id="timer-custom" min="5" max="300" value="20" style="width:68px;" oninput="setCT(this)">
-            <span style="font-size:12px;color:var(--text3);">sec</span>
+            <span style="font-size:12px;color:var(--text2);">sec</span>
           </div>
         </div>
         <p style="font-size:11px;color:var(--text3);margin-top:8px;">⚠️ Unanswered questions when timer expires count as wrong.</p>
@@ -1307,7 +1358,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
       <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
         <div>
           <div style="font-size:13px;font-weight:700;color:var(--cyan);margin-bottom:3px;">⚡ Resume Saved Quiz</div>
-          <div id="resume-banner-sub" style="font-size:12px;color:var(--text3);"></div>
+          <div id="resume-banner-sub" style="font-size:12px;color:var(--text2);"></div>
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <button onclick="event.stopPropagation();resumeQuiz();" style="padding:7px 14px;border-radius:8px;border:none;background:linear-gradient(135deg,var(--cyan2),var(--violet));color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:12px;cursor:pointer;">Resume →</button>
@@ -1351,7 +1402,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
       </div>
       <!-- Center: mode label -->
       <div style="text-align:center;flex:1;">
-        <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;" id="quiz-topic-label">Quiz</div>
+        <div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;" id="quiz-topic-label">Quiz</div>
         <div style="font-weight:700;font-size:13px;color:var(--text);" id="quiz-mode-label"></div>
       </div>
       <!-- Right: timer ring + score -->
@@ -1364,7 +1415,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
           <div class="timer-num" id="timer-num">—</div>
         </div>
         <div style="text-align:right;">
-          <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">Score</div>
+          <div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;">Score</div>
           <div style="font-weight:700;font-size:16px;color:var(--text);" id="hdr-score">0/0</div>
         </div>
       </div>
@@ -1375,7 +1426,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 
     <!-- Progress -->
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-      <div style="font-size:12px;font-weight:600;color:var(--text3);" id="q-counter">1/25</div>
+      <div style="font-size:12px;font-weight:600;color:var(--text2);" id="q-counter">1/25</div>
       <div class="prog-track" style="flex:1;"><div class="prog-fill" id="progress-fill" style="width:0%;"></div></div>
       <div style="font-size:12px;font-weight:700;color:var(--cyan);" id="q-pct">0%</div>
     </div>
@@ -1468,7 +1519,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
         <div class="score-ring" id="score-ring-el">
           <div class="score-ring-inner">
             <div style="font-size:1.6rem;font-weight:800;color:var(--cyan);" id="res-pct">—</div>
-            <div style="font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;">accuracy</div>
+            <div style="font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;">accuracy</div>
           </div>
         </div>
       </div>
@@ -1493,15 +1544,15 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px;">
       <div class="glass-hi p-5 text-center" style="border-top:2px solid var(--cyan);">
         <div style="font-size:1.8rem;font-weight:800;color:var(--cyan);" id="res-score">—</div>
-        <div style="font-size:12px;color:var(--text3);margin-top:4px;">Score</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px;">Score</div>
       </div>
       <div class="glass-hi p-5 text-center" style="border-top:2px solid var(--green);">
         <div style="font-size:1.8rem;font-weight:800;color:var(--green);" id="res-pct2">—</div>
-        <div style="font-size:12px;color:var(--text3);margin-top:4px;">Accuracy</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px;">Accuracy</div>
       </div>
       <div class="glass-hi p-5 text-center" style="border-top:2px solid var(--amber);">
         <div style="font-size:1.8rem;font-weight:800;color:var(--amber);" id="res-grade">—</div>
-        <div style="font-size:12px;color:var(--text3);margin-top:4px;">Grade</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:4px;">Grade</div>
       </div>
     </div>
 
@@ -5512,7 +5563,7 @@ function buildResults(){
     const sep=document.createElement('div');
     sep.style.cssText='margin:28px 0 16px;display:flex;align-items:center;gap:10px;';
     sep.innerHTML=`<div style="flex:1;height:1px;background:var(--surface2);"></div>
-      <span style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;">📋 Original Quiz — All Questions</span>
+      <span style="font-size:11px;font-weight:700;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap;">📋 Original Quiz — All Questions</span>
       <div style="flex:1;height:1px;background:var(--surface2);"></div>`;
     rl.appendChild(sep);
     renderReviewItems(prevSession.quizQ, prevSession.userAnswers, rl);
@@ -5628,7 +5679,7 @@ function renderHomeImportant(){
     card.innerHTML = `<div style="font-size:24px;">${meta.emoji}</div>
       <div style="flex:1;">
         <div style="font-weight:700;font-size:14px;color:var(--text);">${main}</div>
-        <div style="font-size:12px;color:var(--text3);margin-top:2px;">${qs.length} starred question${qs.length===1?'':'s'}</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px;">${qs.length} starred question${qs.length===1?'':'s'}</div>
       </div>
       <div style="color:var(--amber);font-size:16px;">›</div>`;
     card.onclick = () => startImportantQuiz(main);
