@@ -194,10 +194,18 @@ input:focus{border-color:var(--cyan);}
       const historyQ = query(collectionGroup(db, 'quizHistory'), orderBy('ts', 'desc'));
       const sessionsQ = query(collectionGroup(db, 'sessions'), orderBy('startTs', 'desc'));
 
+      const queryErrors = [];
       const [historySnap, sessionsSnap] = await Promise.all([
-        getDocs(historyQ).catch(e=>{ console.error('quizHistory query failed (check Firestore index):', e); return null; }),
-        getDocs(sessionsQ).catch(e=>{ console.error('sessions query failed (check Firestore index):', e); return null; })
+        getDocs(historyQ).catch(e=>{ console.error('quizHistory query failed (check Firestore index):', e); queryErrors.push('quizHistory: ' + (e.code||'') + ' ' + (e.message||e)); return null; }),
+        getDocs(sessionsQ).catch(e=>{ console.error('sessions query failed (check Firestore index):', e); queryErrors.push('sessions: ' + (e.code||'') + ' ' + (e.message||e)); return null; })
       ]);
+
+      if(queryErrors.length){
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('loading').style.color = '#ff6b6b';
+        document.getElementById('loading').textContent = 'Query error(s): ' + queryErrors.join(' | ');
+        return;
+      }
 
       if(historySnap){
         historySnap.forEach(d=>{
