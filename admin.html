@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Med101 — Admin Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#060818; --bg2:#0a0f22; --surface:#0e1530; --surface2:#131c38;
+  --border:#1f2f50; --border2:#263860;
+  --g1:rgba(255,255,255,.10); --g-border:rgba(255,255,255,.22);
+  --cyan:#18e8ff; --cyan2:#00ccee; --violet:#b48eff; --green:#30f28a;
+  --red:#ff3a5c; --amber:#ffcc2a;
+  --text:#eef4ff; --text2:#c0d4f0; --text3:#8aaed0;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; min-height:100vh; background:var(--bg); color:var(--text);
+  font-family:'Space Grotesk',sans-serif;
+  background-image:
+    radial-gradient(ellipse 90% 50% at 20% -5%, rgba(24,232,255,.16) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 90% 10%, rgba(180,142,255,.12) 0%, transparent 55%);
+}
+.glass{
+  background:rgba(255,255,255,.08); border:1px solid var(--g-border);
+  border-radius:18px; backdrop-filter:blur(30px) saturate(160%);
+  -webkit-backdrop-filter:blur(30px) saturate(160%);
+  box-shadow:inset 0 1.5px 0 rgba(255,255,255,.20), 0 8px 28px rgba(0,0,0,.30);
+}
+h1,h2{font-family:'Syne',sans-serif;font-weight:800;margin:0;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{text-align:left;padding:10px 12px;color:var(--text3);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2);}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.06);color:var(--text2);}
+tr:hover td{background:rgba(255,255,255,.03);}
+.btn{
+  background:linear-gradient(135deg,var(--cyan2),var(--violet)); color:#fff; border:none;
+  border-radius:12px; padding:11px 24px; font-family:'Space Grotesk',sans-serif;
+  font-weight:700; font-size:14px; cursor:pointer; transition:all .2s;
+}
+.btn:hover{transform:translateY(-2px); box-shadow:0 8px 24px rgba(24,232,255,.30);}
+.btn-ghost{background:rgba(255,255,255,.08);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:8px 16px;font-size:13px;cursor:pointer;font-family:'Space Grotesk',sans-serif;}
+input{
+  width:100%; padding:12px 16px; background:rgba(255,255,255,.08); border:1px solid var(--border2);
+  border-radius:12px; color:var(--text); font-family:'Space Grotesk',sans-serif; font-size:14px; outline:none;
+}
+input:focus{border-color:var(--cyan);}
+.stat-card{padding:18px 20px;text-align:center;}
+.stat-val{font-size:26px;font-weight:800;font-family:'Syne',sans-serif;}
+.stat-label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:4px;}
+::-webkit-scrollbar{width:8px;height:8px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px;}
+</style>
+</head>
+<body>
+
+<!-- ═══════ LOGIN GATE ═══════ -->
+<div id="gate" style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;">
+  <div class="glass" style="width:100%;max-width:380px;padding:36px 32px;text-align:center;">
+    <div style="font-size:38px;margin-bottom:10px;">🔐</div>
+    <h1 style="font-size:1.4rem;margin-bottom:6px;">Admin Access</h1>
+    <p style="font-size:13px;color:var(--text3);margin:0 0 22px;">Sign in with your admin account</p>
+    <input type="email" id="admin-email" placeholder="Email" style="margin-bottom:10px;">
+    <input type="password" id="admin-pass" placeholder="Password" style="margin-bottom:16px;">
+    <button class="btn" style="width:100%;" onclick="adminSignIn()">Sign In</button>
+    <p id="gate-msg" style="font-size:12.5px;color:var(--red);margin-top:14px;display:none;"></p>
+  </div>
+</div>
+
+<!-- ═══════ DASHBOARD ═══════ -->
+<div id="dash" style="display:none;max-width:1280px;margin:0 auto;padding:24px 20px 60px;">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;flex-wrap:wrap;gap:12px;">
+    <div>
+      <h1 style="font-size:1.7rem;background:linear-gradient(135deg,#fff,var(--cyan) 60%,var(--violet));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">📊 Med101 Admin Dashboard</h1>
+      <p style="font-size:12.5px;color:var(--text3);margin:4px 0 0;">Aggregate usage across all users</p>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn-ghost" onclick="loadAllData()">↻ Refresh</button>
+      <button class="btn-ghost" onclick="adminSignOut()">⏏ Sign Out</button>
+    </div>
+  </div>
+
+  <div id="loading" style="text-align:center;padding:60px;color:var(--text3);">Loading data…</div>
+
+  <div id="dash-content" style="display:none;">
+    <!-- Aggregate stat cards -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:24px;">
+      <div class="glass stat-card"><div class="stat-val" style="color:var(--cyan);" id="stat-users">0</div><div class="stat-label">Active Users</div></div>
+      <div class="glass stat-card"><div class="stat-val" style="color:var(--violet);" id="stat-attempts">0</div><div class="stat-label">Total Attempts</div></div>
+      <div class="glass stat-card"><div class="stat-val" style="color:var(--green);" id="stat-avgscore">0%</div><div class="stat-label">Avg Score</div></div>
+      <div class="glass stat-card"><div class="stat-val" style="color:var(--amber);" id="stat-totaltime">0h</div><div class="stat-label">Total Time on Site</div></div>
+      <div class="glass stat-card"><div class="stat-val" style="color:var(--cyan);" id="stat-topsubject" style2="font-size:16px;">—</div><div class="stat-label">Top Subject</div></div>
+    </div>
+
+    <!-- Subject breakdown -->
+    <div class="glass" style="padding:20px 22px;margin-bottom:24px;">
+      <h2 style="font-size:15px;margin-bottom:14px;">📚 Performance by Subject</h2>
+      <div id="subject-breakdown" style="display:flex;flex-direction:column;gap:8px;"></div>
+    </div>
+
+    <!-- Per-user table -->
+    <div class="glass" style="padding:0;overflow:hidden;">
+      <div style="padding:18px 22px 12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+        <h2 style="font-size:15px;">👥 Per-User Activity</h2>
+        <input id="user-search" placeholder="Search by name or email…" style="max-width:260px;padding:8px 14px;font-size:13px;" oninput="renderUserTable()">
+      </div>
+      <div style="overflow-x:auto;max-height:560px;overflow-y:auto;">
+        <table>
+          <thead><tr>
+            <th>User</th><th>Attempts</th><th>Questions</th><th>Avg Score</th>
+            <th>Time on Site</th><th>Subjects</th><th>Last Active</th>
+          </tr></thead>
+          <tbody id="user-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collectionGroup, collection, getDocs, query, orderBy }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  // ── Same Firebase project as the main app ──
+  const firebaseConfig = {
+    apiKey:            "AIzaSyC7KtDwkKLrLiw7w_5yvkRLGGYHqs-B5a8",
+    authDomain:        "abhishekmed101-space.firebaseapp.com",
+    projectId:         "abhishekmed101-space",
+    storageBucket:     "abhishekmed101-space.firebasestorage.app",
+    messagingSenderId: "845817735012",
+    appId:             "1:845817735012:web:33c4362c9863fc417e7c71",
+    measurementId:     "G-EBZQDH7RQJ"
+  };
+
+  // ════════════════════════════════════════════════════════
+  //  SET YOUR ADMIN EMAIL HERE — only this account can access
+  // ════════════════════════════════════════════════════════
+  const ADMIN_EMAIL = "PUT_YOUR_ADMIN_EMAIL_HERE@example.com";
+
+  const app  = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  let userMap = {}; // uid -> { email, name, attempts:[], sessions:[] }
+
+  window.adminSignIn = async function(){
+    const email = document.getElementById('admin-email').value.trim();
+    const pass  = document.getElementById('admin-pass').value;
+    const msg   = document.getElementById('gate-msg');
+    msg.style.display = 'none';
+    if(!email || !pass){ msg.textContent = 'Enter email and password.'; msg.style.display='block'; return; }
+    try{
+      await signInWithEmailAndPassword(auth, email, pass);
+      // onAuthStateChanged handles the rest (including the admin-email check)
+    }catch(err){
+      msg.textContent = 'Sign-in failed: ' + (err.message || err.code);
+      msg.style.display = 'block';
+    }
+  };
+
+  window.adminSignOut = function(){ signOut(auth); };
+
+  onAuthStateChanged(auth, async user => {
+    const gate = document.getElementById('gate');
+    const dash = document.getElementById('dash');
+    if(user && user.email && user.email.toLowerCase() === ADMIN_EMAIL.toLowerCase()){
+      gate.style.display = 'none';
+      dash.style.display = 'block';
+      await loadAllData();
+    }else if(user){
+      // Signed in but NOT the admin account — reject and sign out
+      const msg = document.getElementById('gate-msg');
+      msg.textContent = 'This account does not have admin access.';
+      msg.style.display = 'block';
+      await signOut(auth);
+      gate.style.display = 'flex';
+      dash.style.display = 'none';
+    }else{
+      gate.style.display = 'flex';
+      dash.style.display = 'none';
+    }
+  });
+
+  window.loadAllData = async function(){
+    document.getElementById('dash-content').style.display = 'none';
+    document.getElementById('loading').style.display = 'block';
+    userMap = {};
+
+    try{
+      // ── Collection-group queries: read the named subcollection across ALL users ──
+      const historyQ = query(collectionGroup(db, 'quizHistory'), orderBy('ts', 'desc'));
+      const sessionsQ = query(collectionGroup(db, 'sessions'), orderBy('startTs', 'desc'));
+
+      const [historySnap, sessionsSnap] = await Promise.all([
+        getDocs(historyQ).catch(e=>{ console.error('quizHistory query failed (check Firestore index):', e); return null; }),
+        getDocs(sessionsQ).catch(e=>{ console.error('sessions query failed (check Firestore index):', e); return null; })
+      ]);
+
+      if(historySnap){
+        historySnap.forEach(d=>{
+          const data = d.data();
+          // Parent path: users/{uid}/quizHistory/{doc}
+          const uid = d.ref.parent.parent ? d.ref.parent.parent.id : 'unknown';
+          if(!userMap[uid]) userMap[uid] = { uid, attempts:[], sessions:[], email:null, name:null };
+          userMap[uid].attempts.push(data);
+        });
+      }
+      if(sessionsSnap){
+        sessionsSnap.forEach(d=>{
+          const data = d.data();
+          const uid = d.ref.parent.parent ? d.ref.parent.parent.id : 'unknown';
+          if(!userMap[uid]) userMap[uid] = { uid, attempts:[], sessions:[], email:null, name:null };
+          userMap[uid].sessions.push(data);
+          // sessions carry userEmail/userName at write-time — use as fallback identity
+          if(!userMap[uid].email && data.userEmail) userMap[uid].email = data.userEmail;
+          if(!userMap[uid].name && data.userName) userMap[uid].name = data.userName;
+        });
+      }
+
+      renderDashboard();
+    }catch(e){
+      console.error('loadAllData failed:', e);
+      document.getElementById('loading').textContent = 'Failed to load data: ' + (e.message||e);
+      return;
+    }
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('dash-content').style.display = 'block';
+  };
+
+  function sessionDurationMs(s){
+    const end = s.endTs || s.lastHeartbeat || s.startTs;
+    return Math.max(0, (end||0) - (s.startTs||0));
+  }
+
+  function renderDashboard(){
+    const users = Object.values(userMap);
+    const allAttempts = users.flatMap(u=>u.attempts);
+    const totalAttempts = allAttempts.length;
+    const totalAnswered = allAttempts.reduce((s,a)=>s+(a.answered||0),0);
+    const totalCorrect = allAttempts.reduce((s,a)=>s+(a.correct||0),0);
+    const avgScore = totalAnswered ? Math.round((totalCorrect/totalAnswered)*100) : 0;
+    const totalTimeMs = users.reduce((s,u)=>s+u.sessions.reduce((s2,sess)=>s2+sessionDurationMs(sess),0),0);
+    const totalHours = (totalTimeMs/3600000).toFixed(1);
+
+    document.getElementById('stat-users').textContent = users.length;
+    document.getElementById('stat-attempts').textContent = totalAttempts;
+    document.getElementById('stat-avgscore').textContent = avgScore+'%';
+    document.getElementById('stat-totaltime').textContent = totalHours+'h';
+
+    // Subject aggregation
+    const bySubject = {};
+    allAttempts.forEach(a=>{
+      const subj = a.subject || 'Unknown';
+      if(!bySubject[subj]) bySubject[subj] = { attempts:0, answered:0, correct:0 };
+      bySubject[subj].attempts++;
+      bySubject[subj].answered += (a.answered||0);
+      bySubject[subj].correct  += (a.correct||0);
+    });
+    const subjEntries = Object.entries(bySubject).sort((a,b)=>b[1].attempts-a[1].attempts);
+    document.getElementById('stat-topsubject').textContent = subjEntries.length ? subjEntries[0][0] : '—';
+
+    const subjEl = document.getElementById('subject-breakdown');
+    if(subjEntries.length===0){
+      subjEl.innerHTML = '<div style="color:var(--text3);font-size:13px;">No quiz attempts yet.</div>';
+    }else{
+      const maxAttempts = Math.max(...subjEntries.map(e=>e[1].attempts));
+      subjEl.innerHTML = subjEntries.map(([subj, d])=>{
+        const pct = d.answered ? Math.round((d.correct/d.answered)*100) : 0;
+        const barPct = (d.attempts/maxAttempts)*100;
+        const color = pct>=80?'var(--green)':pct>=50?'var(--amber)':'var(--red)';
+        return `<div>
+          <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:4px;">
+            <span style="color:var(--text);font-weight:600;">${subj}</span>
+            <span style="color:var(--text3);">${d.attempts} attempts · <span style="color:${color};font-weight:700;">${pct}%</span> avg</span>
+          </div>
+          <div style="height:7px;background:rgba(255,255,255,.06);border-radius:4px;overflow:hidden;">
+            <div style="height:100%;width:${barPct}%;background:linear-gradient(90deg,var(--cyan),var(--violet));border-radius:4px;"></div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    renderUserTable();
+  }
+
+  window.renderUserTable = function(){
+    const search = (document.getElementById('user-search').value || '').toLowerCase();
+    const users = Object.values(userMap).map(u=>{
+      const attempts = u.attempts;
+      const answered = attempts.reduce((s,a)=>s+(a.answered||0),0);
+      const correct = attempts.reduce((s,a)=>s+(a.correct||0),0);
+      const avgScore = answered ? Math.round((correct/answered)*100) : 0;
+      const timeMs = u.sessions.reduce((s,sess)=>s+sessionDurationMs(sess),0);
+      const subjects = [...new Set(attempts.map(a=>a.subject).filter(Boolean))];
+      const lastTs = Math.max(0, ...attempts.map(a=>a.ts||0), ...u.sessions.map(s=>s.lastHeartbeat||s.startTs||0));
+      return { ...u, answered, correct, avgScore, timeMs, subjects, lastTs };
+    }).sort((a,b)=>b.lastTs-a.lastTs);
+
+    const filtered = search
+      ? users.filter(u => (u.email||'').toLowerCase().includes(search) || (u.name||'').toLowerCase().includes(search) || u.uid.toLowerCase().includes(search))
+      : users;
+
+    const tbody = document.getElementById('user-table-body');
+    if(filtered.length===0){
+      tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text3);padding:30px;">No users found.</td></tr>';
+      return;
+    }
+
+    tbody.innerHTML = filtered.map(u=>{
+      const hrs = (u.timeMs/3600000);
+      const timeLabel = hrs >= 1 ? hrs.toFixed(1)+'h' : Math.round(u.timeMs/60000)+'m';
+      const lastActive = u.lastTs ? timeAgo(u.lastTs) : '—';
+      const scoreColor = u.avgScore>=80?'var(--green)':u.avgScore>=50?'var(--amber)':'var(--red)';
+      const identity = u.name || u.email || u.uid.slice(0,10)+'…';
+      return `<tr>
+        <td>
+          <div style="font-weight:600;color:var(--text);">${escapeHtml(identity)}</div>
+          ${u.email ? `<div style="font-size:11px;color:var(--text3);">${escapeHtml(u.email)}</div>` : ''}
+        </td>
+        <td>${u.attempts.length}</td>
+        <td>${u.answered}</td>
+        <td style="color:${scoreColor};font-weight:700;">${u.avgScore}%</td>
+        <td>${timeLabel}</td>
+        <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" title="${escapeHtml(u.subjects.join(', '))}">${u.subjects.length ? u.subjects.join(', ') : '—'}</td>
+        <td>${lastActive}</td>
+      </tr>`;
+    }).join('');
+  };
+
+  function timeAgo(ts){
+    const diff = Date.now() - ts;
+    const mins = Math.floor(diff/60000);
+    if(mins < 1) return 'just now';
+    if(mins < 60) return mins+'m ago';
+    const hrs = Math.floor(mins/60);
+    if(hrs < 24) return hrs+'h ago';
+    const days = Math.floor(hrs/24);
+    return days+'d ago';
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+</script>
+</body>
+</html>

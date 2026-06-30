@@ -12,6 +12,9 @@
   import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
            signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs,
+           deleteDoc, doc, writeBatch, enableIndexedDbPersistence, serverTimestamp, updateDoc }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey:            "AIzaSyC7KtDwkKLrLiw7w_5yvkRLGGYHqs-B5a8",
@@ -25,9 +28,126 @@
 
   const app  = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  const db   = getFirestore(app);
+
+  // Enable offline cache + sync-on-reconnect (built into Firestore SDK)
+  enableIndexedDbPersistence(db).catch(err => {
+    console.warn('Firestore offline persistence not enabled:', err.code);
+  });
+
+  let currentUser = null;
+
+  // ── Cloud quiz-history helpers, exposed for the main app script ──
+  window.__cloudHistory = {
+    async add(entry){
+      if(!currentUser) return false;
+      try{
+        const col = collection(db, 'users', currentUser.uid, 'quizHistory');
+        await addDoc(col, { ...entry, createdAt: serverTimestamp() });
+        return true;
+      }catch(e){ console.error('Cloud history add failed:', e); return false; }
+    },
+    async list(max){
+      if(!currentUser) return [];
+      try{
+        const col = collection(db, 'users', currentUser.uid, 'quizHistory');
+        const q = query(col, orderBy('ts', 'desc'), limit(max || 200));
+        const snap = await getDocs(q);
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      }catch(e){ console.error('Cloud history list failed:', e); return null; } // null = fetch failed, fall back to local
+    },
+    async clear(){
+      if(!currentUser) return false;
+      try{
+        const col = collection(db, 'users', currentUser.uid, 'quizHistory');
+        const snap = await getDocs(col);
+        const batch = writeBatch(db);
+        snap.docs.forEach(d => batch.delete(d.ref));
+        await batch.commit();
+        return true;
+      }catch(e){ console.error('Cloud history clear failed:', e); return false; }
+    },
+    isSignedIn(){ return !!currentUser; }
+  };
+
+  // ── SESSION TRACKING (for admin "time spent on site" stats) ──
+  // Heartbeat-based: tracks active (visible, focused) time only.
+  // Resilient to abrupt tab closes — abandoned sessions are auto-closed
+  // on the next sign-in using their last known heartbeat as the end time.
+  let sessionDocRef = null;
+  let sessionStartTs = 0;
+  let sessionLastBeat = 0;
+  let heartbeatIv = null;
+  const HEARTBEAT_MS = 20000; // 20s
+
+  async function closeAbandonedSessions(uid){
+    try{
+      const col = collection(db, 'users', uid, 'sessions');
+      const q = query(col, orderBy('startTs', 'desc'), limit(5));
+      const snap = await getDocs(q);
+      const batch = writeBatch(db);
+      let any = false;
+      snap.docs.forEach(d=>{
+        const data = d.data();
+        if(!data.endTs){ // session never cleanly closed
+          batch.update(d.ref, { endTs: data.lastHeartbeat || data.startTs, abandoned: true });
+          any = true;
+        }
+      });
+      if(any) await batch.commit();
+    }catch(e){ console.warn('closeAbandonedSessions failed:', e); }
+  }
+
+  async function startSession(uid){
+    try{
+      await closeAbandonedSessions(uid);
+      const col = collection(db, 'users', uid, 'sessions');
+      sessionStartTs = Date.now();
+      sessionLastBeat = sessionStartTs;
+      const docRef = await addDoc(col, {
+        startTs: sessionStartTs,
+        lastHeartbeat: sessionStartTs,
+        endTs: null,
+        userEmail: currentUser ? currentUser.email : null,
+        userName: currentUser ? (currentUser.displayName || '') : ''
+      });
+      sessionDocRef = docRef;
+
+      if(heartbeatIv) clearInterval(heartbeatIv);
+      heartbeatIv = setInterval(()=>{
+        if(document.visibilityState === 'visible' && sessionDocRef){
+          sessionLastBeat = Date.now();
+          updateDoc(sessionDocRef, { lastHeartbeat: sessionLastBeat }).catch(()=>{});
+        }
+      }, HEARTBEAT_MS);
+    }catch(e){ console.warn('startSession failed:', e); }
+  }
+
+  async function endSession(){
+    if(!sessionDocRef) return;
+    try{
+      await updateDoc(sessionDocRef, { endTs: Date.now(), lastHeartbeat: Date.now() });
+    }catch(e){ /* best effort */ }
+    if(heartbeatIv){ clearInterval(heartbeatIv); heartbeatIv = null; }
+    sessionDocRef = null;
+  }
+
+  // Pause heartbeats while tab hidden (don't count idle/backgrounded time)
+  document.addEventListener('visibilitychange', ()=>{
+    if(document.visibilityState === 'visible' && sessionDocRef){
+      sessionLastBeat = Date.now();
+      updateDoc(sessionDocRef, { lastHeartbeat: sessionLastBeat }).catch(()=>{});
+    }
+  });
+
+  // Best-effort close on tab close (not guaranteed on mobile, hence the
+  // abandoned-session cleanup above as the real safety net)
+  window.addEventListener('pagehide', ()=>{ endSession(); });
+  window.addEventListener('beforeunload', ()=>{ endSession(); });
 
   // AUTH STATE
   onAuthStateChanged(auth, user => {
+    currentUser = user || null;
     if (user) {
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'none';
@@ -38,7 +158,11 @@
       if (ud) { ud.textContent = user.displayName || user.email; ud.style.display = 'block'; }
       const so = document.getElementById('auth-signout-btn');
       if (so) so.style.display = 'inline-flex';
+      // If the user lands signed-in and history screen logic is loaded, refresh it
+      if (typeof window.renderHistoryScreen === 'function') window.renderHistoryScreen();
+      startSession(user.uid);
     } else {
+      endSession();
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'flex';
       document.body.classList.add('auth-open');
@@ -50,6 +174,7 @@
       if (so) so.style.display = 'none';
     }
   });
+
 
   // ALL AUTH FUNCTIONS — defined in module, exposed on window
   let _authMode = 'signin';
@@ -1174,6 +1299,9 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
     <button onclick="goHome()" title="Home" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid rgba(0,229,255,.25);background:rgba(0,229,255,.08);cursor:pointer;transition:all .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(0,229,255,.2)';this.style.borderColor='rgba(0,229,255,.6)'" onmouseout="this.style.background='rgba(0,229,255,.08)';this.style.borderColor='rgba(0,229,255,.25)'">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(0,229,255,.9)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg>
     </button>
+    <button onclick="openHistory()" title="Quiz History" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid rgba(180,142,255,.30);background:rgba(180,142,255,.08);cursor:pointer;transition:all .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(180,142,255,.2)';this.style.borderColor='rgba(180,142,255,.6)'" onmouseout="this.style.background='rgba(180,142,255,.08)';this.style.borderColor='rgba(180,142,255,.30)'">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(180,142,255,.95)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+    </button>
     <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;background:linear-gradient(90deg,#00e5ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.01em;">Med<span style="background:linear-gradient(90deg,#a78bfa,#ff4f6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">101</span></span>
     <a class="wa-link" href="https://wa.me/996554259092" target="_blank" rel="noopener">
     <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1223,6 +1351,55 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   </div>
 
 </div>
+</div>
+
+<!-- ══════════════════════════════
+     QUIZ HISTORY SCREEN
+══════════════════════════════ -->
+<div id="screen-history" class="screen" style="position:relative;z-index:1;padding-top:38px;">
+  <div style="max-width:640px;margin:0 auto;width:100%;padding:0 16px 40px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div>
+        <h1 style="font-size:clamp(1.6rem,4.5vw,2.2rem);font-weight:800;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">📜 Quiz History</h1>
+        <div style="font-size:13px;color:var(--text2);margin-top:4px;">Your past quiz attempts</div>
+      </div>
+      <button onclick="goHome()" class="btn-ghost" style="padding:9px 16px;font-size:13px;flex-shrink:0;">← Home</button>
+    </div>
+
+    <!-- Aggregate stats -->
+    <div id="history-summary" class="stats-row" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:24px;">
+      <div class="stat-card">
+        <div style="font-size:19px;font-weight:800;color:var(--cyan);" id="hist-stat-attempts">0</div>
+        <div style="font-size:10.5px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Attempts</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:19px;font-weight:800;color:var(--violet);" id="hist-stat-questions">0</div>
+        <div style="font-size:10.5px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Questions</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:19px;font-weight:800;color:var(--green);" id="hist-stat-correct">0</div>
+        <div style="font-size:10.5px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Correct</div>
+      </div>
+      <div class="stat-card">
+        <div style="font-size:19px;font-weight:800;color:var(--amber);" id="hist-stat-avg">0%</div>
+        <div style="font-size:10.5px;color:var(--text2);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;">Avg Score</div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div id="history-empty" style="display:none;text-align:center;padding:60px 20px;">
+      <div style="font-size:48px;margin-bottom:14px;opacity:.6;">📭</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">No quiz attempts yet</div>
+      <div style="font-size:13px;color:var(--text2);">Complete a quiz to see your history here.</div>
+    </div>
+
+    <!-- List of attempts -->
+    <div id="history-list"></div>
+
+    <div style="display:flex;justify-content:center;margin-top:20px;">
+      <button onclick="clearQuizHistory()" style="font-size:12px;color:var(--text2);background:none;border:none;cursor:pointer;transition:color .2s;" onmouseover="this.style.color='var(--red)'" onmouseout="this.style.color='var(--text2)'">🗑 Clear History</button>
+    </div>
+  </div>
 </div>
 
 <!-- ══════════════════════════════
@@ -5621,8 +5798,148 @@ function endQuiz(){
   closeSubmitModal();
   stopQT();recQT();swElapsed=Date.now()-swStart;stopSW();
   clearAutoSave(false);
+  logQuizAttempt();
   showScreen('screen-results');buildResults();
 }
+
+// ======================== ATTEMPT HISTORY ========================
+const HISTORY_KEY = 'medQuizHistory';
+const HISTORY_MAX = 200; // keep last 200 attempts to avoid unbounded growth
+
+function getQuizLabel(){
+  // Best-effort readable label for what was attempted
+  if(typeof activeSubjectFilter==='undefined' || !activeSubjectFilter) return 'All Subjects';
+  if(activeSubjectFilter.startsWith('__MAIN__')) return activeSubjectFilter.replace('__MAIN__','');
+  return activeSubjectFilter;
+}
+
+function logQuizAttempt(){
+  try{
+    const total = quizQ.length;
+    const answered = userAnswers.filter(a=>a!==-1).length;
+    const correct = userAnswers.filter((a,i)=>a>=0 && a===quizQ[i].c).length;
+    const wrong = answered - correct;
+    const pct = answered ? Math.round((correct/answered)*100) : 0;
+
+    const entry = {
+      ts: Date.now(),
+      subject: getQuizLabel(),
+      mode: typeof selMode!=='undefined' ? selMode : '',
+      total, answered, correct, wrong,
+      pct,
+      timeMs: swElapsed||0
+    };
+
+    // Always write to local cache immediately (instant, works offline)
+    let hist = [];
+    try{ hist = JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }catch(e){ hist = []; }
+    hist.unshift(entry);
+    if(hist.length > HISTORY_MAX) hist = hist.slice(0, HISTORY_MAX);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
+
+    // Also push to Firestore if signed in — Firestore SDK queues this
+    // automatically and syncs once back online (offline persistence enabled).
+    if(window.__cloudHistory && window.__cloudHistory.isSignedIn()){
+      window.__cloudHistory.add(entry).catch(()=>{});
+    }
+  }catch(e){ console.error('Failed to log quiz attempt:', e); }
+}
+
+function getLocalHistory(){
+  try{ return JSON.parse(localStorage.getItem(HISTORY_KEY)) || []; }
+  catch(e){ return []; }
+}
+
+// Async — tries cloud first (if signed in), falls back to local cache
+async function getQuizHistory(){
+  if(window.__cloudHistory && window.__cloudHistory.isSignedIn()){
+    const cloud = await window.__cloudHistory.list(HISTORY_MAX);
+    if(cloud !== null) return cloud; // null means fetch failed -> fall through to local
+  }
+  return getLocalHistory();
+}
+
+async function clearQuizHistory(){
+  if(!confirm('Clear all quiz history? This cannot be undone.')) return;
+  localStorage.removeItem(HISTORY_KEY);
+  if(window.__cloudHistory && window.__cloudHistory.isSignedIn()){
+    await window.__cloudHistory.clear().catch(()=>{});
+  }
+  renderHistoryScreen();
+}
+
+function fmtHistDate(ts){
+  const d = new Date(ts);
+  const now = new Date();
+  const sameDay = d.toDateString()===now.toDateString();
+  const y = new Date(now); y.setDate(now.getDate()-1);
+  const yesterday = d.toDateString()===y.toDateString();
+  const time = d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  if(sameDay) return 'Today, '+time;
+  if(yesterday) return 'Yesterday, '+time;
+  return d.toLocaleDateString([], {day:'2-digit',month:'short',year:'numeric'})+', '+time;
+}
+
+function openHistory(){
+  showScreen('screen-history');
+  renderHistoryScreen();
+}
+
+async function renderHistoryScreen(){
+  const listEl = $('history-list');
+  const emptyEl = $('history-empty');
+  const summaryEl = $('history-summary');
+  if(!listEl) return;
+
+  // Show a lightweight loading state while we check the cloud
+  listEl.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text2);font-size:13px;">Loading history…</div>';
+  if(emptyEl) emptyEl.style.display='none';
+  if(summaryEl) summaryEl.style.display='none';
+
+  const hist = await getQuizHistory();
+
+  if(!hist || hist.length===0){
+    listEl.innerHTML='';
+    if(emptyEl) emptyEl.style.display='block';
+    if(summaryEl) summaryEl.style.display='none';
+    return;
+  }
+  if(emptyEl) emptyEl.style.display='none';
+  if(summaryEl) summaryEl.style.display='grid';
+
+  // Aggregate stats
+  const totalAttempts = hist.length;
+  const totalQ = hist.reduce((s,h)=>s+(h.answered||0),0);
+  const totalCorrect = hist.reduce((s,h)=>s+(h.correct||0),0);
+  const avgPct = totalQ ? Math.round((totalCorrect/totalQ)*100) : 0;
+
+  if($('hist-stat-attempts')) $('hist-stat-attempts').textContent = totalAttempts;
+  if($('hist-stat-questions')) $('hist-stat-questions').textContent = totalQ;
+  if($('hist-stat-correct')) $('hist-stat-correct').textContent = totalCorrect;
+  if($('hist-stat-avg')) $('hist-stat-avg').textContent = avgPct+'%';
+
+  const syncBadge = (window.__cloudHistory && window.__cloudHistory.isSignedIn())
+    ? '<div style="display:flex;align-items:center;gap:5px;justify-content:center;font-size:11px;color:var(--cyan);margin-bottom:14px;">☁️ Synced to your account</div>'
+    : '<div style="display:flex;align-items:center;gap:5px;justify-content:center;font-size:11px;color:var(--text2);margin-bottom:14px;">📱 Saved on this device only — sign in to sync</div>';
+
+  listEl.innerHTML = syncBadge + hist.map(h=>{
+    const color = h.pct>=80?'var(--green)':h.pct>=50?'var(--amber)':'var(--red)';
+    return `<div class="glass" style="padding:14px 16px;border-radius:16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;">
+      <div style="width:48px;height:48px;border-radius:14px;background:${color};opacity:.18;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;">
+        <span style="position:absolute;font-size:13px;font-weight:800;color:${color};opacity:1;">${h.pct}%</span>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:700;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h.subject||'Quiz'}</div>
+        <div style="font-size:12px;color:var(--text2);margin-top:2px;">${fmtHistDate(h.ts)} · ${h.answered}/${h.total} answered</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0;">
+        <div style="font-size:13px;font-weight:700;color:var(--green);">${h.correct}✓</div>
+        <div style="font-size:11px;color:var(--text2);">${h.wrong}✗</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+window.renderHistoryScreen = renderHistoryScreen;
 
 // ======================== RESULTS ========================
 function buildResults(){
