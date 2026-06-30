@@ -190,6 +190,9 @@ input:focus{border-color:var(--cyan);}
     userMap = {};
 
     try{
+      // ── DEBUG: show exactly what the security rules see ──
+      const tokenResult = await auth.currentUser.getIdTokenResult(true);
+      window.__debugTokenEmail = tokenResult.claims.email;
       // ── Collection-group queries: read the named subcollection across ALL users ──
       const historyQ = query(collectionGroup(db, 'quizHistory'), orderBy('ts', 'desc'));
       const sessionsQ = query(collectionGroup(db, 'sessions'), orderBy('startTs', 'desc'));
@@ -203,7 +206,7 @@ input:focus{border-color:var(--cyan);}
       if(queryErrors.length){
         document.getElementById('loading').style.display = 'block';
         document.getElementById('loading').style.color = '#ff6b6b';
-        document.getElementById('loading').textContent = 'Query error(s): ' + queryErrors.join(' | ');
+        document.getElementById('loading').textContent = 'Token email seen by rules: "' + window.__debugTokenEmail + '" | Query error(s): ' + queryErrors.join(' | ');
         return;
       }
 
