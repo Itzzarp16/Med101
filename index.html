@@ -158,6 +158,39 @@
     if (forgotBtn) forgotBtn.addEventListener('click', () => window.authForgotPassword());
   });
 </script>
+<!-- Firebase AI Logic (Gemini) — separate module, needs a current SDK version -->
+<script type="module">
+  import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { getAI, getGenerativeModel, GoogleAIBackend }
+    from "https://www.gstatic.com/firebasejs/12.15.0/firebase-ai.js";
+
+  const firebaseConfig = {
+    apiKey:            "AIzaSyC7KtDwkKLrLiw7w_5yvkRLGGYHqs-B5a8",
+    authDomain:        "abhishekmed101-space.firebaseapp.com",
+    projectId:         "abhishekmed101-space",
+    storageBucket:     "abhishekmed101-space.firebasestorage.app",
+    messagingSenderId: "845817735012",
+    appId:             "1:845817735012:web:33c4362c9863fc417e7c71",
+    measurementId:     "G-EBZQDH7RQJ"
+  };
+
+  // This module loads a second copy of the Firebase App SDK (different version,
+  // separate module graph) purely to host AI Logic — initializeApp is safe to
+  // call again here since it's an independent SDK instance namespace.
+  const aiApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
+  const ai = getAI(aiApp, { backend: new GoogleAIBackend() });
+  const explainModel = getGenerativeModel(ai, {
+    model: "gemini-3.1-flash-lite",
+    generationConfig: { maxOutputTokens: 90, temperature: 0.4 }
+  });
+
+  window.__getAIExplanation = async function(prompt){
+    const result = await explainModel.generateContent(prompt);
+    return result.response.text();
+  };
+
+  console.log('[Med101] Gemini AI Logic ready');
+</script>
 <style>
 
 /* ═══════════════════════════════════════════
@@ -1462,6 +1495,17 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 
     <!-- Options -->
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px;" id="opts"></div>
+
+    <!-- AI Explanation -->
+    <div id="explain-wrap" style="margin-bottom:20px;">
+      <button id="btn-explain" onclick="requestExplanation()" style="display:none;width:100%;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:14px;border:1px solid rgba(180,142,255,.40);background:rgba(180,142,255,.10);color:var(--violet);font-family:'Space Grotesk',sans-serif;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;backdrop-filter:blur(20px);">
+        ✨ Explain this answer
+      </button>
+      <div id="explain-panel" class="glass" style="display:none;margin-top:10px;padding:16px 18px;border-radius:16px;border-color:rgba(180,142,255,.30);">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--violet);margin-bottom:8px;display:flex;align-items:center;gap:6px;">✨ AI Explanation</div>
+        <div id="explain-body" style="font-size:13.5px;line-height:1.7;color:var(--text2);white-space:pre-wrap;"></div>
+      </div>
+    </div>
 
     <!-- Flag for review + Nav -->
     <div style="display:flex;justify-content:center;margin-bottom:12px;">
@@ -5462,6 +5506,97 @@ function renderQ(){
   renderFlaggedStrip();
   // Update star button state
   renderStarBtn();
+  // Reset / show AI explain button based on answered state
+  resetExplainUI();
+}
+
+// ======================== AI EXPLANATION (Gemini via Firebase AI Logic) ========================
+function explainCacheKey(q){
+  // Stable key from subject + question text (truncated) so re-fetch is avoided
+  return 'explain:' + (q.s||'') + ':' + (q.q||'').slice(0,120);
+}
+
+function resetExplainUI(){
+  const btn = $('btn-explain'), panel = $('explain-panel'), body = $('explain-body');
+  if(!btn) return;
+  const q = quizQ[cur], ua = userAnswers[cur];
+  panel.style.display = 'none';
+  body.textContent = '';
+  if(ua === -1 || ua === undefined){
+    // Not answered yet — hide explain button entirely
+    btn.style.display = 'none';
+    return;
+  }
+  btn.style.display = 'flex';
+  btn.disabled = false;
+  btn.innerHTML = '✨ Explain this answer';
+  // If cached, show immediately
+  try{
+    const cached = localStorage.getItem(explainCacheKey(q));
+    if(cached){
+      body.textContent = cached;
+      panel.style.display = 'block';
+      btn.innerHTML = '✨ Explanation shown below';
+    }
+  }catch(e){}
+}
+
+async function requestExplanation(){
+  const btn = $('btn-explain'), panel = $('explain-panel'), body = $('explain-body');
+  const q = quizQ[cur], ua = userAnswers[cur];
+  if(ua === -1 || ua === undefined) return;
+  const labs = ['A','B','C','D','E'];
+
+  // Already cached — just reveal
+  const key = explainCacheKey(q);
+  try{
+    const cached = localStorage.getItem(key);
+    if(cached){
+      body.textContent = cached;
+      panel.style.display = 'block';
+      return;
+    }
+  }catch(e){}
+
+  if(typeof window.__getAIExplanation !== 'function'){
+    body.textContent = 'AI explanations are unavailable right now. Please refresh the page and try again.';
+    panel.style.display = 'block';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.innerHTML = '⏳ Generating explanation…';
+  panel.style.display = 'block';
+  body.textContent = 'Thinking…';
+
+  const userChose = ua >= 0 ? `${labs[ua]}) ${q.o[ua]}` : 'No answer (skipped)';
+  const correctAns = `${labs[q.c]}) ${q.o[q.c]}`;
+  const optionsList = q.o.map((opt,i)=>`${labs[i]}) ${opt}`).join('\n');
+
+  const prompt = `You are a concise medical education tutor helping a medical student understand a multiple-choice question.
+
+Subject: ${q.s}
+Question: ${q.q}
+Options:
+${optionsList}
+
+Correct answer: ${correctAns}
+Student's answer: ${userChose}
+
+Explain in EXACTLY 1-2 short sentences (maximum 35 words total): state why the correct answer is right, and only if the student answered incorrectly, briefly note why their choice was wrong. Be direct and exam-focused — no preamble, no filler, no markdown, no bullet points. Just the core fact.`;
+
+  try{
+    const text = await window.__getAIExplanation(prompt);
+    body.textContent = text.trim();
+    btn.innerHTML = '✨ Explanation shown below';
+    try{ localStorage.setItem(key, text.trim()); }catch(e){}
+  }catch(err){
+    console.error('Gemini explanation error:', err);
+    const msg = (err && err.message) ? err.message : String(err);
+    body.textContent = 'Could not generate an explanation: ' + msg;
+    btn.disabled = false;
+    btn.innerHTML = '✨ Explain this answer';
+  }
 }
 
 function answerQ(idx){
@@ -5470,6 +5605,7 @@ function answerQ(idx){
   btns.forEach((b,i)=>{b.disabled=true;if(i===q.c)b.classList.add('correct');else if(i===idx)b.classList.add('wrong');});
   updScore();
   autoSave();
+  resetExplainUI();
   if(autoAdv){advTimer=setTimeout(()=>{cur<quizQ.length-1?navQ(1):endQuiz();},1200);}
 }
 
