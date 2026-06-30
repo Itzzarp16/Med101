@@ -9,6 +9,8 @@
 <!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { initializeAppCheck, ReCaptchaV3Provider }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app-check.js";
   import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
            signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
@@ -27,6 +29,16 @@
   };
 
   const app  = initializeApp(firebaseConfig);
+
+  // App Check — protects your Firestore/Auth APIs from abuse using reCAPTCHA v3
+  // Set self.FIREBASE_APPCHECK_DEBUG_TOKEN = true in the browser console during
+  // local development (localhost) if requests get blocked before you've added
+  // localhost to your reCAPTCHA key's allowed domains.
+  const appCheck = initializeAppCheck(app, {
+    provider: new ReCaptchaV3Provider("6LfY3z0tAAAAAN7Yh4xokL2amIEn6_-JCO4kDUVU"),
+    isTokenAutoRefreshEnabled: true
+  });
+
   const auth = getAuth(app);
   const db   = getFirestore(app);
 
@@ -286,6 +298,8 @@
 <!-- Firebase AI Logic (Gemini) — separate module, needs a current SDK version -->
 <script type="module">
   import { initializeApp, getApps, getApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+  import { initializeAppCheck, ReCaptchaV3Provider }
+    from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app-check.js";
   import { getAI, getGenerativeModel, GoogleAIBackend }
     from "https://www.gstatic.com/firebasejs/12.15.0/firebase-ai.js";
 
@@ -303,6 +317,14 @@
   // separate module graph) purely to host AI Logic — initializeApp is safe to
   // call again here since it's an independent SDK instance namespace.
   const aiApp = getApps().length ? getApp() : initializeApp(firebaseConfig);
+
+  // App Check for this separate SDK instance — needed so Gemini calls via
+  // AI Logic are also covered (App Check is per SDK instance, not global).
+  initializeAppCheck(aiApp, {
+    provider: new ReCaptchaV3Provider("6LfY3z0tAAAAAN7Yh4xokL2amIEn6_-JCO4kDUVU"),
+    isTokenAutoRefreshEnabled: true
+  });
+
   const ai = getAI(aiApp, { backend: new GoogleAIBackend() });
   const explainModel = getGenerativeModel(ai, {
     model: "gemini-3.1-flash-lite",
