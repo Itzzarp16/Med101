@@ -15,7 +15,8 @@
            signOut, onAuthStateChanged, sendPasswordResetEmail, updateProfile }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs,
-           deleteDoc, doc, writeBatch, enableIndexedDbPersistence, serverTimestamp, updateDoc }
+           deleteDoc, doc, writeBatch, enableIndexedDbPersistence, serverTimestamp, updateDoc,
+           getDoc, setDoc }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -48,6 +49,26 @@
   });
 
   let currentUser = null;
+
+  // ── REMOTE HOME NOTICE — editable from inside the app itself,
+  //    no HTML re-upload needed. Stored at config/homeNotice.
+  window.__cloudNotice = {
+    async get(){
+      try{
+        const snap = await getDoc(doc(db, 'config', 'homeNotice'));
+        if(!snap.exists()) return null;
+        return snap.data(); // { text, enabled }
+      }catch(e){ console.warn('Notice fetch failed:', e); return null; }
+    },
+    async set(text, enabled){
+      try{
+        await setDoc(doc(db, 'config', 'homeNotice'), {
+          text, enabled: enabled !== false, updatedAt: serverTimestamp()
+        });
+        return true;
+      }catch(e){ console.error('Notice save failed:', e); return false; }
+    }
+  };
 
   // ── Cloud quiz-history helpers, exposed for the main app script ──
   window.__cloudHistory = {
@@ -1423,10 +1444,10 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   </div>
 
   <!-- Scrolling notice — home (top-level) screen only -->
-  <div id="home-notice" class="home-notice" onclick="openNoticeModal()">
+  <div id="home-notice" class="home-notice" onclick="handleNoticeClick()" title="Tap for full notice · long-press to edit">
     <div class="home-notice-track">
-      <span class="home-notice-text">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key. Thank You ~Abhishek Verma</span>
-      <span class="home-notice-text" aria-hidden="true">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key. Thank You ~Abhishek Verma</span>
+      <span class="home-notice-text" id="home-notice-text-1">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key. Thank You ~Abhishek Verma</span>
+      <span class="home-notice-text" id="home-notice-text-2" aria-hidden="true">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key. Thank You ~Abhishek Verma</span>
     </div>
   </div>
 
@@ -1510,7 +1531,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   <div class="home-notice-modal-card" onclick="event.stopPropagation()">
     <button class="home-notice-close" onclick="closeNoticeModal()" aria-label="Close notice">✕</button>
     <div class="home-notice-modal-title">📢 Notice</div>
-    <div class="home-notice-modal-body">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key.
+    <div class="home-notice-modal-body" id="home-notice-modal-body">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key.
 
 Thank You
 ~Abhishek Verma</div>
@@ -6743,7 +6764,41 @@ function toggleTheme() {
   }
 })();
 
-// ── HOME NOTICE (marquee) ────────────────────────────────────
+// ── HOME NOTICE (marquee, remotely editable) ─────────────────
+const NOTICE_DEFAULT_TEXT = "For Histology & AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key. Thank You ~Abhishek Verma";
+const NOTICE_CACHE_KEY = 'med101_home_notice_cache';
+const NOTICE_EDIT_PASSCODE = 'med101admin'; // change this string, then use it once, to rotate the edit passcode
+
+let noticeLongPressTimer = null;
+let noticeLongPressFired = false;
+
+function applyNoticeText(text) {
+  const t1 = document.getElementById('home-notice-text-1');
+  const t2 = document.getElementById('home-notice-text-2');
+  const modalBody = document.getElementById('home-notice-modal-body');
+  if (t1) t1.textContent = text;
+  if (t2) t2.textContent = text;
+  if (modalBody) modalBody.textContent = text;
+}
+
+async function loadHomeNotice() {
+  // Show cached/default text immediately so there's no blank flash,
+  // then swap in the live version once Firestore responds.
+  try {
+    const cached = localStorage.getItem(NOTICE_CACHE_KEY);
+    applyNoticeText(cached || NOTICE_DEFAULT_TEXT);
+  } catch (e) { applyNoticeText(NOTICE_DEFAULT_TEXT); }
+
+  if (!window.__cloudNotice) return;
+  const data = await window.__cloudNotice.get();
+  if (!data) return;
+  if (data.enabled === false) { setHomeNoticeVisible(false); return; }
+  if (data.text) {
+    applyNoticeText(data.text);
+    try { localStorage.setItem(NOTICE_CACHE_KEY, data.text); } catch (e) {}
+  }
+}
+
 function openNoticeModal() {
   const m = document.getElementById('home-notice-modal');
   if (m) m.style.display = 'flex';
@@ -6756,6 +6811,50 @@ function closeNoticeModal(e) {
 function setHomeNoticeVisible(visible) {
   const n = document.getElementById('home-notice');
   if (n) n.style.display = visible ? 'block' : 'none';
+}
+
+function handleNoticeClick() {
+  // A long-press already handled itself — don't also open the read-only modal.
+  if (noticeLongPressFired) { noticeLongPressFired = false; return; }
+  openNoticeModal();
+}
+
+async function editHomeNotice() {
+  const pass = prompt('Enter passcode to edit the notice:');
+  if (pass === null) return;
+  if (pass !== NOTICE_EDIT_PASSCODE) { alert('Wrong passcode.'); return; }
+
+  const current = document.getElementById('home-notice-text-1').textContent;
+  const next = prompt('Edit the notice text (shown to everyone on the home screen):', current);
+  if (next === null || !next.trim()) return;
+
+  const keepShowing = confirm('Click OK to show this notice to everyone.\nClick Cancel to save it but keep it HIDDEN for now.');
+  applyNoticeText(next.trim());
+  setHomeNoticeVisible(true);
+  try { localStorage.setItem(NOTICE_CACHE_KEY, next.trim()); } catch (e) {}
+
+  const ok = window.__cloudNotice && await window.__cloudNotice.set(next.trim(), keepShowing);
+  if (!keepShowing) setHomeNoticeVisible(false);
+  alert(ok ? 'Notice updated for everyone ✅' : 'Could not save to the cloud — check your connection and try again.');
+}
+
+function initNoticeLongPress() {
+  const el = document.getElementById('home-notice');
+  if (!el) return;
+  const start = () => {
+    noticeLongPressFired = false;
+    noticeLongPressTimer = setTimeout(() => {
+      noticeLongPressFired = true;
+      editHomeNotice();
+    }, 700);
+  };
+  const cancel = () => { if (noticeLongPressTimer) clearTimeout(noticeLongPressTimer); };
+  el.addEventListener('touchstart', start, { passive: true });
+  el.addEventListener('touchend', cancel);
+  el.addEventListener('touchmove', cancel);
+  el.addEventListener('mousedown', start);
+  el.addEventListener('mouseup', cancel);
+  el.addEventListener('mouseleave', cancel);
 }
 
 // ── DYNAMIC TOPBAR HEIGHT SYNC ───────────────────────────────
@@ -6786,6 +6885,8 @@ document.addEventListener('DOMContentLoaded', () => {
   checkResumeBanner();
   syncTopbarHeight();
   setTimeout(syncTopbarHeight, 300); // catch late webfont/layout shifts
+  loadHomeNotice();
+  initNoticeLongPress();
 
   // Auth state managed by Firebase onAuthStateChanged — do NOT show screen-subject here
   // It will be revealed once the user is confirmed signed in.
