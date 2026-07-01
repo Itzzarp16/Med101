@@ -1425,6 +1425,22 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 </div>
 
 <!-- ══════════════════════════════
+     HISTORY DETAIL (review one past attempt)
+══════════════════════════════ -->
+<div id="screen-history-detail" class="screen" style="position:relative;z-index:1;padding-top:38px;">
+  <div style="max-width:640px;margin:0 auto;width:100%;padding:0 16px 40px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div>
+        <h1 id="hd-title" style="font-size:clamp(1.4rem,4vw,1.9rem);font-weight:800;line-height:1.1;background:linear-gradient(135deg,#fff 0%,var(--cyan) 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Quiz</h1>
+        <div id="hd-sub" style="font-size:13px;color:var(--text2);margin-top:4px;"></div>
+      </div>
+      <button onclick="openHistory()" class="btn-ghost" style="padding:9px 16px;font-size:13px;flex-shrink:0;">← History</button>
+    </div>
+    <div id="hd-list"></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
      SPLASH
 ══════════════════════════════ -->
 <div id="splash" style="display:none;">
@@ -5509,7 +5525,13 @@ let swStart=0,swElapsed=0,swIv=null,qStart=0,qTimes=[];
 
 // ======================== UTILS ========================
 const $=id=>document.getElementById(id);
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));$(id).classList.add('active');
+  // #screen-subject is not a .screen element (it uses its own .hidden toggle),
+  // so any navigation away from it must explicitly hide it or it stays on
+  // top (z-index 9000) and visually blocks whatever screen we just switched to.
+  const ss=document.getElementById('screen-subject');
+  if(ss){ ss.classList.add('hidden'); ss.style.display='none'; }
+}
 function fmtMs(ms){if(ms<0)ms=0;const s=Math.floor(ms/1000),m=Math.floor(s/60),h=Math.floor(m/60);
   if(h>0)return`${h}:${String(m%60).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
   return`${String(m).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;}
@@ -5842,13 +5864,18 @@ function logQuizAttempt(){
     const wrong = answered - correct;
     const pct = answered ? Math.round((correct/answered)*100) : 0;
 
+    // Minimal per-question detail so a past attempt can be reviewed later:
+    // subject, question text, options, correct index, and what the user chose.
+    const details = quizQ.map((q,i)=>({s:q.s,q:q.q,o:q.o,c:q.c,ua:userAnswers[i]}));
+
     const entry = {
       ts: Date.now(),
       subject: getQuizLabel(),
       mode: typeof selMode!=='undefined' ? selMode : '',
       total, answered, correct, wrong,
       pct,
-      timeMs: swElapsed||0
+      timeMs: swElapsed||0,
+      details
     };
 
     // Always write to local cache immediately (instant, works offline)
@@ -5943,9 +5970,13 @@ async function renderHistoryScreen(){
     ? '<div style="display:flex;align-items:center;gap:5px;justify-content:center;font-size:11px;color:var(--cyan);margin-bottom:14px;">☁️ Synced to your account</div>'
     : '<div style="display:flex;align-items:center;gap:5px;justify-content:center;font-size:11px;color:var(--text2);margin-bottom:14px;">📱 Saved on this device only — sign in to sync</div>';
 
-  listEl.innerHTML = syncBadge + hist.map(h=>{
+  // Cache the fetched list so tapping a card can look up its full details
+  // (including per-question answers) without re-fetching.
+  window.__historyCache = hist;
+
+  listEl.innerHTML = syncBadge + hist.map((h,i)=>{
     const color = h.pct>=80?'var(--green)':h.pct>=50?'var(--amber)':'var(--red)';
-    return `<div class="glass" style="padding:14px 16px;border-radius:16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;">
+    return `<div class="glass" onclick="openHistoryDetail(${i})" style="padding:14px 16px;border-radius:16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;cursor:pointer;">
       <div style="width:48px;height:48px;border-radius:14px;background:${color};opacity:.18;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;">
         <span style="position:absolute;font-size:13px;font-weight:800;color:${color};opacity:1;">${h.pct}%</span>
       </div>
@@ -5957,10 +5988,54 @@ async function renderHistoryScreen(){
         <div style="font-size:13px;font-weight:700;color:var(--green);">${h.correct}✓</div>
         <div style="font-size:11px;color:var(--text2);">${h.wrong}✗</div>
       </div>
+      <span style="font-size:16px;color:var(--text3);flex-shrink:0;">›</span>
     </div>`;
   }).join('');
 }
 window.renderHistoryScreen = renderHistoryScreen;
+
+// Show a single past attempt: which questions were right/wrong, with the
+// correct answer and what the user picked, reusing the review-item style
+// from the results screen.
+function openHistoryDetail(i){
+  const h = (window.__historyCache||[])[i];
+  if(!h) return;
+  showScreen('screen-history-detail');
+
+  const titleEl = $('hd-title'), subEl = $('hd-sub'), listEl = $('hd-list');
+  if(titleEl) titleEl.textContent = h.subject || 'Quiz';
+  if(subEl) subEl.textContent = `${fmtHistDate(h.ts)} · ${h.correct}✓ / ${h.wrong}✗ · ${h.pct}% score`;
+  if(!listEl) return;
+
+  const details = h.details;
+  if(!details || !details.length){
+    listEl.innerHTML = `<div style="text-align:center;padding:40px 20px;color:var(--text2);font-size:13px;">
+      No per-question detail was saved for this attempt (it was taken before this feature was added).
+    </div>`;
+    return;
+  }
+
+  const labs=['A','B','C','D','E'];
+  listEl.innerHTML = details.map((q,idx)=>{
+    const ua=q.ua, ok=ua>=0&&ua===q.c, skipped=ua===-1, timedOut=ua===-2;
+    return `<div class="review-item ${skipped?'':'r-'+(ok?'correct':'wrong')}">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:8px;">
+        <span style="font-size:11px;font-weight:700;color:var(--cyan)">${idx+1}. ${q.s||''}</span>
+        <span style="font-size:16px">${skipped?'⏭️':timedOut?'⏰':ok?'✅':'❌'}</span>
+      </div>
+      <p style="font-size:14px;font-weight:500;margin-bottom:8px;line-height:1.5;color:var(--text);">${q.q}</p>
+      <div style="font-size:12px;">
+        ${(q.o||[]).map((opt,oi)=>`<div style="display:flex;gap:6px;padding:2px 0;${oi===q.c?'font-weight:700;color:var(--green)':'opacity:0.6'}">
+          <span>${labs[oi]}.</span><span>${opt}</span>
+          ${oi===q.c?'<span>✓</span>':''}
+          ${!ok&&!timedOut&&oi===ua?'<span style="color:var(--red)">← Your answer</span>':''}
+          ${timedOut&&oi===q.c?'<span style="color:#f59e0b">⏰ Expired</span>':''}
+        </div>`).join('')}
+      </div>
+    </div>`;
+  }).join('');
+}
+window.openHistoryDetail = openHistoryDetail;
 
 // ======================== RESULTS ========================
 function buildResults(){
