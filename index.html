@@ -19,6 +19,9 @@
            getDoc, setDoc }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
+  // Must exactly match the email used in the isAdmin() Firestore security rule.
+  const ADMIN_EMAIL = "abhishekpatel9324@gmail.com";
+
   const firebaseConfig = {
     apiKey:            "AIzaSyC7KtDwkKLrLiw7w_5yvkRLGGYHqs-B5a8",
     authDomain:        "abhishekmed101-space.firebaseapp.com",
@@ -100,7 +103,8 @@
         return true;
       }catch(e){ console.error('Cloud history clear failed:', e); return false; }
     },
-    isSignedIn(){ return !!currentUser; }
+    isSignedIn(){ return !!currentUser; },
+    isAdmin(){ return !!currentUser && currentUser.email === ADMIN_EMAIL; }
   };
 
   // ── SESSION TRACKING (for admin "time spent on site" stats) ──
@@ -1163,22 +1167,25 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 .home-notice{
   width:100%;max-width:640px;position:relative;z-index:1;
   margin:0 0 24px;cursor:pointer;
-  background:linear-gradient(90deg,rgba(24,232,255,.14),rgba(180,142,255,.14));
-  border:1px solid rgba(24,232,255,.35);border-radius:14px;
-  padding:10px 0;overflow:hidden;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 20px rgba(0,0,0,.25);
-  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  height:44px;display:flex;align-items:center;
+  background:rgba(15,22,50,.96);
+  border:1px solid rgba(24,232,255,.5);border-radius:14px;
+  overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 20px rgba(0,0,0,.35);
 }
 .home-notice-track{
-  display:flex;width:max-content;white-space:nowrap;
+  display:flex;align-items:center;height:100%;
+  width:max-content;white-space:nowrap;
   animation:homeNoticeScroll 16s linear infinite;
 }
 .home-notice:hover .home-notice-track{animation-play-state:paused;}
 .home-notice-text{
-  font-size:12.5px;font-weight:600;color:var(--text);
+  display:inline-flex;align-items:center;
+  font-size:13px;line-height:1;font-weight:700;color:#ffffff;
   padding:0 32px;flex-shrink:0;
+  text-shadow:0 1px 2px rgba(0,0,0,.5);
 }
-.home-notice-text::before{content:'📢';margin-right:6px;}
+.home-notice-text::before{content:'📢';margin-right:7px;flex-shrink:0;}
 @keyframes homeNoticeScroll{
   from{transform:translateX(0);}
   to{transform:translateX(-50%);}
@@ -6767,7 +6774,6 @@ function toggleTheme() {
 // ── HOME NOTICE (marquee, remotely editable) ─────────────────
 const NOTICE_DEFAULT_TEXT = "For Histology & AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key. Thank You ~Abhishek Verma";
 const NOTICE_CACHE_KEY = 'med101_home_notice_cache';
-const NOTICE_EDIT_PASSCODE = 'med101admin'; // change this string, then use it once, to rotate the edit passcode
 
 let noticeLongPressTimer = null;
 let noticeLongPressFired = false;
@@ -6820,9 +6826,10 @@ function handleNoticeClick() {
 }
 
 async function editHomeNotice() {
-  const pass = prompt('Enter passcode to edit the notice:');
-  if (pass === null) return;
-  if (pass !== NOTICE_EDIT_PASSCODE) { alert('Wrong passcode.'); return; }
+  if (!window.__cloudHistory || !window.__cloudHistory.isAdmin()) {
+    alert('Only the admin account can edit this notice.');
+    return;
+  }
 
   const current = document.getElementById('home-notice-text-1').textContent;
   const next = prompt('Edit the notice text (shown to everyone on the home screen):', current);
