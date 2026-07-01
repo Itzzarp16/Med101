@@ -6905,6 +6905,54 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Auth handled in Firebase module above
+
+/* ── AUTO-UPDATE CHECKER ──────────────────────────────────────────
+   GitHub Pages doesn't let us set custom cache headers, so instead
+   we poll the GitHub API for the latest commit on main. If it
+   changes while the user has the tab open (or when they come back
+   to it), we reload automatically — no hard refresh needed. */
+(function () {
+  const REPO = 'Itzzarp16/Med101';
+  const BRANCH = 'main';
+  const STORAGE_KEY = 'med101_build_sha';
+  const CHECK_INTERVAL_MS = 2 * 60 * 1000; // every 2 minutes
+
+  async function getLatestSha() {
+    try {
+      const res = await fetch(
+        `https://api.github.com/repos/${REPO}/commits/${BRANCH}`,
+        { cache: 'no-store' }
+      );
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data.sha || null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function checkForUpdate() {
+    const latest = await getLatestSha();
+    if (!latest) return;
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored && stored !== latest) {
+      // A new version has been deployed — refresh to get it.
+      localStorage.setItem(STORAGE_KEY, latest);
+      location.reload();
+    } else if (!stored) {
+      localStorage.setItem(STORAGE_KEY, latest);
+    }
+  }
+
+  // Check on load, then periodically, then whenever the tab regains focus
+  // (covers the common case of switching back to an already-open tab).
+  checkForUpdate();
+  setInterval(checkForUpdate, CHECK_INTERVAL_MS);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') checkForUpdate();
+  });
+})();
+
 </script>
 </body>
 </html>
