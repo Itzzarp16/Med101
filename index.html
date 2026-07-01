@@ -375,6 +375,10 @@
   /* Glass specular layers */
   --spec-top:rgba(255,255,255,.28);
   --spec-side:rgba(255,255,255,.10);
+
+  /* Dynamically synced to the real rendered height of #global-topbar via JS.
+     The fallback (56px) is only used for the very first paint before JS runs. */
+  --topbar-h:56px;
 }
 
 /* ── LIGHT MODE OVERRIDES ── */
@@ -571,8 +575,10 @@ body.light-mode .auth-title{
 #auth-user-display{
   font-size:11px;color:var(--text2);
   background:var(--surface2);border:1px solid var(--border2);
-  border-radius:8px;padding:4px 10px;max-width:130px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  border-radius:8px;padding:4px 10px;
+  /* No max-width/ellipsis truncation — the topbar itself is a swipeable strip
+     now, so the full email is reachable by swiping instead of being cut off. */
+  white-space:nowrap;flex-shrink:0;
   display:none;
 }
 #auth-signout-btn{
@@ -586,7 +592,7 @@ body.light-mode .auth-title{
 
 /* ── THEME TOGGLE BUTTON ── */
 #theme-toggle{
-  position:fixed;top:46px;right:16px;z-index:100000;
+  position:fixed;top:calc(var(--topbar-h) + 8px);right:16px;z-index:100000;
   width:30px;height:30px;border-radius:50%;
   background:rgba(0,229,255,.12);border:1px solid rgba(0,229,255,.3);
   display:flex;align-items:center;justify-content:center;
@@ -1069,15 +1075,23 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 ══════════════════════════════ */
 #global-topbar{
   position:fixed;top:0;left:0;right:0;z-index:99999;
-  min-height:44px;height:auto;
+  height:52px;
   background:rgba(10,15,34,.72);
   backdrop-filter:blur(40px) saturate(200%);-webkit-backdrop-filter:blur(40px) saturate(200%);
   border-bottom:1px solid rgba(255,255,255,.15);
-  align-items:center;justify-content:space-between;
-  padding:6px 14px;gap:8px;flex-wrap:wrap;
+  align-items:center;justify-content:flex-start;
+  padding:6px 14px;gap:8px;flex-wrap:nowrap;
   display:flex;
+  overflow-x:auto;overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;scroll-behavior:smooth;
+  scrollbar-width:none;
   box-shadow:0 1px 0 rgba(255,255,255,.10), 0 4px 28px rgba(0,0,0,.40), inset 0 1px 0 rgba(255,255,255,.12);
 }
+/* Never let the bar wrap to a 2nd line — instead it becomes a single-row
+   swipeable strip so its height stays constant and nothing gets clipped. */
+#global-topbar::-webkit-scrollbar{display:none;}
+#global-topbar > div{flex-shrink:0;white-space:nowrap;}
+#global-topbar > div:last-child{margin-left:auto;}
 #global-topbar .wa-num{ display:none; }
 @media(min-width:480px){ #global-topbar .wa-num{ display:inline; } }
 #global-topbar a.wa-link{
@@ -1099,7 +1113,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 
 
 #screen-subject{
-  position:fixed;top:44px;left:0;right:0;bottom:0;
+  position:fixed;top:var(--topbar-h);left:0;right:0;bottom:0;
   width:100%;height:100%;min-height:100vh;
   z-index:9000;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
@@ -1123,6 +1137,59 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   line-height:1.1;margin-bottom:8px;
 }
 .subj-sub{color:var(--text2);font-size:.88rem;}
+
+/* ── HOME NOTICE (marquee) ───────────────────────────────── */
+.home-notice{
+  width:100%;max-width:640px;position:relative;z-index:1;
+  margin:0 0 24px;cursor:pointer;
+  background:linear-gradient(90deg,rgba(24,232,255,.14),rgba(180,142,255,.14));
+  border:1px solid rgba(24,232,255,.35);border-radius:14px;
+  padding:10px 0;overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 4px 20px rgba(0,0,0,.25);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+}
+.home-notice-track{
+  display:flex;width:max-content;white-space:nowrap;
+  animation:homeNoticeScroll 16s linear infinite;
+}
+.home-notice:hover .home-notice-track{animation-play-state:paused;}
+.home-notice-text{
+  font-size:12.5px;font-weight:600;color:var(--text);
+  padding:0 32px;flex-shrink:0;
+}
+.home-notice-text::before{content:'📢';margin-right:6px;}
+@keyframes homeNoticeScroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+
+.home-notice-modal{
+  position:fixed;inset:0;z-index:200000;
+  background:rgba(4,6,16,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;padding:24px;
+}
+.home-notice-modal-card{
+  position:relative;max-width:420px;width:100%;
+  background:rgba(14,21,48,.96);border:1px solid rgba(24,232,255,.35);
+  border-radius:18px;padding:28px 22px 24px;
+  box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.15);
+}
+.home-notice-close{
+  position:absolute;top:12px;right:12px;width:30px;height:30px;
+  border-radius:50%;border:1px solid rgba(255,79,107,.35);
+  background:rgba(255,79,107,.14);color:var(--red);
+  font-size:14px;font-weight:700;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.home-notice-close:hover{background:rgba(255,79,107,.28);}
+.home-notice-modal-title{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:16px;
+  color:var(--cyan);margin-bottom:12px;
+}
+.home-notice-modal-body{
+  font-size:13.5px;line-height:1.6;color:var(--text2);white-space:pre-line;
+}
 .subj-grid{
   display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:16px;width:100%;max-width:640px;position:relative;z-index:1;
@@ -1354,6 +1421,15 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
     <div class="subj-title" id="subj-screen-title">Choose a Subject</div>
     <div class="subj-sub" id="subj-screen-sub">Choose your subject to begin</div>
   </div>
+
+  <!-- Scrolling notice — home (top-level) screen only -->
+  <div id="home-notice" class="home-notice" onclick="openNoticeModal()">
+    <div class="home-notice-track">
+      <span class="home-notice-text">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key. Thank You ~Abhishek Verma</span>
+      <span class="home-notice-text" aria-hidden="true">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key. Thank You ~Abhishek Verma</span>
+    </div>
+  </div>
+
   <div class="subj-grid" id="subj-cards"></div>
 
   <!-- Important Questions panel (shown only when stars exist) -->
@@ -1378,7 +1454,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 <!-- ══════════════════════════════
      QUIZ HISTORY SCREEN
 ══════════════════════════════ -->
-<div id="screen-history" class="screen" style="position:relative;z-index:1;padding-top:38px;">
+<div id="screen-history" class="screen" style="position:relative;z-index:1;padding-top:calc(var(--topbar-h) + 14px);">
   <div style="max-width:640px;margin:0 auto;width:100%;padding:0 16px 40px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div>
@@ -1427,7 +1503,21 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 <!-- ══════════════════════════════
      HISTORY DETAIL (review one past attempt)
 ══════════════════════════════ -->
-<div id="screen-history-detail" class="screen" style="position:relative;z-index:1;padding-top:38px;">
+<!-- ══════════════════════════════
+     HOME NOTICE — FULL DETAIL MODAL
+══════════════════════════════ -->
+<div id="home-notice-modal" class="home-notice-modal" style="display:none;" onclick="closeNoticeModal(event)">
+  <div class="home-notice-modal-card" onclick="event.stopPropagation()">
+    <button class="home-notice-close" onclick="closeNoticeModal()" aria-label="Close notice">✕</button>
+    <div class="home-notice-modal-title">📢 Notice</div>
+    <div class="home-notice-modal-body">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key.
+
+Thank You
+~Abhishek Verma</div>
+  </div>
+</div>
+
+<div id="screen-history-detail" class="screen" style="position:relative;z-index:1;padding-top:calc(var(--topbar-h) + 14px);">
   <div style="max-width:640px;margin:0 auto;width:100%;padding:0 16px 40px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
       <div>
@@ -1460,7 +1550,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 <!-- ══════════════════════════════
      HOME SCREEN
 ══════════════════════════════ -->
-<div id="screen-home" class="screen" style="position:relative;z-index:1;padding-top:56px;">
+<div id="screen-home" class="screen" style="position:relative;z-index:1;padding-top:calc(var(--topbar-h) + 14px);">
 
   <!-- Hero banner -->
   <div class="hero py-14 px-6" style="text-align:center;">
@@ -1635,7 +1725,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 <!-- ══════════════════════════════
      QUIZ SCREEN
 ══════════════════════════════ -->
-<div id="screen-quiz" class="screen" style="position:relative;z-index:1;padding-top:56px;">
+<div id="screen-quiz" class="screen" style="position:relative;z-index:1;padding-top:calc(var(--topbar-h) + 14px);">
 
   <!-- Top bar -->
   <div class="hero" style="padding:14px 16px;">
@@ -1765,7 +1855,7 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 <!-- ══════════════════════════════
      RESULTS SCREEN
 ══════════════════════════════ -->
-<div id="screen-results" class="screen" style="position:relative;z-index:1;padding-top:38px;">
+<div id="screen-results" class="screen" style="position:relative;z-index:1;padding-top:calc(var(--topbar-h) + 14px);">
 
   <div class="results-hero">
     <div style="position:relative;z-index:1;">
@@ -6399,6 +6489,7 @@ const mainSubjectMeta = {
 function buildSubjectSelector() {
   const grid = document.getElementById('subj-cards');
   grid.innerHTML = '';
+  setHomeNoticeVisible(true);
 
   // Reset title to top-level
   const titleEl = document.getElementById('subj-screen-title');
@@ -6432,6 +6523,7 @@ function buildSubjectSelector() {
 function showTopicsFor(mainSubj) {
   const grid = document.getElementById('subj-cards');
   grid.innerHTML = '';
+  setHomeNoticeVisible(false);
 
   // Update title to "Choose a Subtopic" when inside a subject
   const titleEl = document.getElementById('subj-screen-title');
@@ -6594,12 +6686,16 @@ function rebuildTopicsForSubject(subjectName, mainSubjName) {
 }
 
 function toggleTopicChip(name, btn) {
-  if (selectedTopics.has(name)) {
-    selectedTopics.delete(name);
+  // Use the chip's own visible 'active' class as the single source of truth
+  // (rather than trusting selectedTopics, which could otherwise drift out of
+  // sync with what's on screen) so a tap always reliably flips what you see.
+  const isActive = btn.classList.contains('active');
+  if (isActive) {
     btn.classList.remove('active');
+    selectedTopics.delete(name);
   } else {
-    selectedTopics.add(name);
     btn.classList.add('active');
+    selectedTopics.add(name);
   }
   if (selectedTopics.size > 0) {
     selMode = 'topic';
@@ -6647,6 +6743,36 @@ function toggleTheme() {
   }
 })();
 
+// ── HOME NOTICE (marquee) ────────────────────────────────────
+function openNoticeModal() {
+  const m = document.getElementById('home-notice-modal');
+  if (m) m.style.display = 'flex';
+}
+function closeNoticeModal(e) {
+  if (e) e.stopPropagation();
+  const m = document.getElementById('home-notice-modal');
+  if (m) m.style.display = 'none';
+}
+function setHomeNoticeVisible(visible) {
+  const n = document.getElementById('home-notice');
+  if (n) n.style.display = visible ? 'block' : 'none';
+}
+
+// ── DYNAMIC TOPBAR HEIGHT SYNC ───────────────────────────────
+// Keeps --topbar-h equal to the real rendered height of #global-topbar so
+// screen content is never clipped or overlapped by it, on any device.
+function syncTopbarHeight() {
+  const bar = document.getElementById('global-topbar');
+  if (!bar) return;
+  const h = bar.offsetHeight;
+  if (h > 0) document.documentElement.style.setProperty('--topbar-h', h + 'px');
+}
+window.addEventListener('resize', syncTopbarHeight);
+window.addEventListener('orientationchange', () => setTimeout(syncTopbarHeight, 150));
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(syncTopbarHeight).catch(() => {});
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
   // Restore theme toggle icon
@@ -6658,6 +6784,8 @@ document.addEventListener('DOMContentLoaded', () => {
   updateAllCount();
   renderHomeImportant();
   checkResumeBanner();
+  syncTopbarHeight();
+  setTimeout(syncTopbarHeight, 300); // catch late webfont/layout shifts
 
   // Auth state managed by Firebase onAuthStateChanged — do NOT show screen-subject here
   // It will be revealed once the user is confirmed signed in.
