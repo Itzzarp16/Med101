@@ -1168,11 +1168,11 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   width:100%!important;max-width:640px!important;position:relative;z-index:1;
   margin:0 0 26px!important;cursor:pointer;
   height:64px!important;min-height:64px!important;display:flex!important;align-items:center;
-  background:linear-gradient(90deg,#0aa8c2,#7c5ce0)!important;
-  border:3px solid #18e8ff!important;border-radius:16px!important;
+  background:linear-gradient(135deg,rgba(24,232,255,.10),rgba(180,142,255,.08))!important;
+  border:1.5px solid rgba(24,232,255,.35)!important;border-radius:16px!important;
   overflow:hidden;
-  box-shadow:0 0 0 4px rgba(24,232,255,.18),0 6px 30px rgba(24,232,255,.55),0 0 0 1px rgba(0,0,0,.2) inset!important;
-  animation:homeNoticePulse 2.2s ease-in-out infinite;
+  box-shadow:0 4px 18px rgba(24,232,255,.14),0 0 0 1px rgba(0,0,0,.15) inset!important;
+  animation:homeNoticePulse 2.6s ease-in-out infinite;
 }
 .home-notice-track{
   display:flex;align-items:center;height:100%;
@@ -1182,9 +1182,9 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
 .home-notice:hover .home-notice-track{animation-play-state:paused;}
 .home-notice-text{
   display:inline-flex;align-items:center;
-  font-size:16px!important;line-height:1.2;font-weight:800;color:#ffffff;
+  font-size:16px!important;line-height:1.2;font-weight:800;color:var(--text);
   padding:0 36px;flex-shrink:0;
-  text-shadow:0 1px 3px rgba(0,0,0,.7);
+  text-shadow:0 1px 3px rgba(0,0,0,.4);
 }
 .home-notice-text::before{content:'📢';margin-right:8px;flex-shrink:0;font-size:19px;}
 @keyframes homeNoticeScroll{
@@ -1192,8 +1192,8 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   to{transform:translateX(-50%);}
 }
 @keyframes homeNoticePulse{
-  0%,100%{box-shadow:0 0 0 4px rgba(24,232,255,.18),0 6px 30px rgba(24,232,255,.55),0 0 0 1px rgba(0,0,0,.2) inset;}
-  50%{box-shadow:0 0 0 8px rgba(24,232,255,.32),0 6px 40px rgba(24,232,255,.85),0 0 0 1px rgba(0,0,0,.2) inset;}
+  0%,100%{border-color:rgba(24,232,255,.35);box-shadow:0 4px 18px rgba(24,232,255,.14),0 0 0 1px rgba(0,0,0,.15) inset;}
+  50%{border-color:rgba(24,232,255,.6);box-shadow:0 4px 22px rgba(24,232,255,.24),0 0 0 1px rgba(0,0,0,.15) inset;}
 }
 
 .home-notice-modal{
