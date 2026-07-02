@@ -7113,6 +7113,21 @@ function showTopicsFor(mainSubj) {
     card.onclick = () => selectSubject(subj);
     grid.appendChild(card);
   });
+
+  // ── Extra resource card: Histology Answer Key PDF ─────
+  if (mainSubj === 'Histology') {
+    const pdfCard = document.createElement('div');
+    pdfCard.className = 'subj-card';
+    pdfCard.innerHTML = `
+      <div class="subj-emoji">📄</div>
+      <div>
+        <div class="subj-name">Histology Answer Key (PDF)</div>
+        <div class="subj-count">Opens in a new tab</div>
+      </div>
+      <div class="subj-arrow" style="color:#a78bfa">›</div>`;
+    pdfCard.onclick = () => window.open('histology-answer-key.pdf', '_blank');
+    grid.appendChild(pdfCard);
+  }
 }
 
 function selectMainSubject(mainSubj) {
