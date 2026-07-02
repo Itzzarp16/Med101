@@ -6155,7 +6155,7 @@ buildTopics();
 function selectMode(el){
   document.querySelectorAll('.mode-card').forEach(c=>c.classList.remove('selected'));
   el.classList.add('selected');selMode=el.dataset.mode;
-  $('custom-range').classList.toggle('hidden',selMode!=='custom');
+  $('custom-range').classList.toggle('hidden',!(selMode==='custom'||selMode==='flashcards'));
   selectedTopics.clear();
   document.querySelectorAll('.topic-chip').forEach(b=>b.classList.remove('active'));
   const startBtn=document.getElementById('start-quiz-btn');
@@ -6190,7 +6190,7 @@ function startQuiz(){
   else if(selMode==='rand50') quizQ=shuffle([...allQ]).slice(0,Math.min(50,allQ.length));
   else if(selMode==='all-seq') quizQ=[...allQ];
   else if(selMode==='all-rand') quizQ=shuffle([...allQ]);
-  else if(selMode==='flashcards') quizQ=[...allQ];
+  else if(selMode==='flashcards'){let s=Math.max(1,parseInt($('range-start').value)||1),e=Math.min(pool.length,parseInt($('range-end').value)||pool.length);quizQ=allQ.slice(s-1,e);}
   else if(selMode==='custom'){let s=Math.max(1,parseInt($('range-start').value)||1),e=Math.min(pool.length,parseInt($('range-end').value)||50);let sliced=allQ.slice(s-1,e);const doShuffle=$('tog-custom-shuffle').classList.contains('on');quizQ=doShuffle?shuffle([...sliced]):sliced;}
   else quizQ=shuffle([...allQ]);
   if(!quizQ.length){alert('No questions found!');return;}
@@ -6207,7 +6207,8 @@ function startQuiz(){
 let fcQ=[],fcIdx=0,fcFlipped=false;
 
 function startFlashcards(){
-  fcQ=shuffle([...quizQ]);
+  const doShuffle=$('tog-custom-shuffle')?$('tog-custom-shuffle').classList.contains('on'):true;
+  fcQ=doShuffle?shuffle([...quizQ]):[...quizQ];
   fcIdx=0;fcFlipped=false;
   showScreen('screen-flashcards');
   renderFlashcard();
@@ -7080,6 +7081,21 @@ function showTopicsFor(mainSubj) {
   backBtn.onclick = buildSubjectSelector;
   grid.appendChild(backBtn);
 
+  // ── Extra resource card: Histology Answer Key PDF (top) ─
+  if (mainSubj === 'Histology') {
+    const pdfCardTop = document.createElement('div');
+    pdfCardTop.className = 'subj-card';
+    pdfCardTop.innerHTML = `
+      <div class="subj-emoji">📄</div>
+      <div>
+        <div class="subj-name">Histology Answer Key (PDF)</div>
+        <div class="subj-count">Opens in a new tab</div>
+      </div>
+      <div class="subj-arrow" style="color:#a78bfa">›</div>`;
+    pdfCardTop.onclick = () => window.open('histology-answer-key.pdf', '_blank');
+    grid.appendChild(pdfCardTop);
+  }
+
   // ── "All [MainSubj]" card ────────────────────────────
   const filteredQ = rawQ.filter(q => subjectGroup[q.s] === mainSubj);
   const allMainCard = document.createElement('div');
@@ -7114,20 +7130,6 @@ function showTopicsFor(mainSubj) {
     grid.appendChild(card);
   });
 
-  // ── Extra resource card: Histology Answer Key PDF ─────
-  if (mainSubj === 'Histology') {
-    const pdfCard = document.createElement('div');
-    pdfCard.className = 'subj-card';
-    pdfCard.innerHTML = `
-      <div class="subj-emoji">📄</div>
-      <div>
-        <div class="subj-name">Histology Answer Key (PDF)</div>
-        <div class="subj-count">Opens in a new tab</div>
-      </div>
-      <div class="subj-arrow" style="color:#a78bfa">›</div>`;
-    pdfCard.onclick = () => window.open('histology-answer-key.pdf', '_blank');
-    grid.appendChild(pdfCard);
-  }
 }
 
 function selectMainSubject(mainSubj) {
