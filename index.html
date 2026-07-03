@@ -7402,6 +7402,21 @@ function showTopicsFor(mainSubj) {
   allMainCard.onclick = () => selectMainSubject(mainSubj);
   grid.appendChild(allMainCard);
 
+  // ── Extra resource card: Biophysics Answer Key PDF (after "All") ─
+  if (mainSubj === 'Biophysics') {
+    const pdfCardBio = document.createElement('div');
+    pdfCardBio.className = 'subj-card';
+    pdfCardBio.innerHTML = `
+      <div class="subj-emoji">📄</div>
+      <div>
+        <div class="subj-name">Biophysics Answer Key (PDF)</div>
+        <div class="subj-count">Opens in a new tab</div>
+      </div>
+      <div class="subj-arrow" style="color:#38bdf8">›</div>`;
+    pdfCardBio.onclick = () => window.open('biophysics-answer-key.pdf', '_blank');
+    grid.appendChild(pdfCardBio);
+  }
+
   // ── Per-topic cards ──────────────────────────────────
   const topics = [...new Set(filteredQ.map(q => q.s))];
   topics.forEach(subj => {
