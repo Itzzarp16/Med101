@@ -108,12 +108,14 @@
   };
 
   // ── Leaderboard helpers — one doc per user at leaderboard/{uid}.
-  //    Tracks both an all-time "total correct" counter and a "best score %"
-  //    high-water-mark, globally and broken down per main subject.
+  //    Tracks an all-time "total correct" counter, a "best score %"
+  //    high-water-mark, and total time spent (ms) — globally and broken
+  //    down per main subject. Wrong-count and avg-time/question are
+  //    derived from these rather than stored separately.
   window.__leaderboard = {
     isSignedIn(){ return !!currentUser; },
-    // subjTotals: { [mainSubjectKey]: {correct, answered, pct} } for THIS quiz only
-    async submit(subjTotals, overallCorrect, overallAnswered, overallPct){
+    // subjTotals: { [mainSubjectKey]: {correct, answered, pct, timeMs} } for THIS quiz only
+    async submit(subjTotals, overallCorrect, overallAnswered, overallPct, overallTimeMs){
       if(!currentUser) return false;
       try{
         const ref = doc(db, 'leaderboard', currentUser.uid);
@@ -121,11 +123,12 @@
         const data = snap.exists() ? snap.data() : {};
         const subjects = data.subjects || {};
         for(const [subj, t] of Object.entries(subjTotals)){
-          const prev = subjects[subj] || { totalCorrect:0, totalAnswered:0, bestPct:0 };
+          const prev = subjects[subj] || { totalCorrect:0, totalAnswered:0, bestPct:0, timeMs:0 };
           subjects[subj] = {
             totalCorrect:  prev.totalCorrect  + (t.correct  || 0),
             totalAnswered: prev.totalAnswered + (t.answered || 0),
-            bestPct: Math.max(prev.bestPct || 0, t.pct || 0)
+            bestPct: Math.max(prev.bestPct || 0, t.pct || 0),
+            timeMs: (prev.timeMs || 0) + (t.timeMs || 0)
           };
         }
         const payload = {
@@ -133,6 +136,7 @@
           totalCorrect:  (data.totalCorrect  || 0) + (overallCorrect  || 0),
           totalAnswered: (data.totalAnswered || 0) + (overallAnswered || 0),
           bestPct: Math.max(data.bestPct || 0, overallPct || 0),
+          timeMs: (data.timeMs || 0) + (overallTimeMs || 0),
           subjects,
           updatedAt: serverTimestamp()
         };
@@ -141,6 +145,7 @@
       }catch(e){ console.error('Leaderboard update failed:', e); return false; }
     },
     // subjectKey: '' / null for global. metric: 'bestPct' | 'totalCorrect'.
+    // Returns rows with the sort metric plus derived correct/incorrect/avgTimeSec.
     async top(subjectKey, metric, max){
       try{
         const field = subjectKey ? `subjects.${subjectKey}.${metric}` : metric;
@@ -149,10 +154,18 @@
         const snap = await getDocs(q);
         return snap.docs.map(d => {
           const data = d.data();
-          const val = subjectKey
-            ? (data.subjects && data.subjects[subjectKey] ? data.subjects[subjectKey][metric] : 0)
-            : data[metric];
-          return { uid: d.id, displayName: data.displayName || 'Anonymous', value: val || 0 };
+          const s = (subjectKey ? (data.subjects && data.subjects[subjectKey]) : data) || {};
+          const correct  = s.totalCorrect  || 0;
+          const answered = s.totalAnswered || 0;
+          const timeMs   = s.timeMs || 0;
+          return {
+            uid: d.id,
+            displayName: data.displayName || 'Anonymous',
+            value: s[metric] || 0,
+            correct,
+            incorrect: Math.max(0, answered - correct),
+            avgTimeSec: answered ? (timeMs / answered / 1000) : null
+          };
         });
       }catch(e){ console.error('Leaderboard fetch failed:', e); return null; }
     },
@@ -6899,7 +6912,9 @@ function logQuizAttempt(){
 
     // ── Leaderboard update: bucket this attempt's questions by main
     //    subject (via subjectGroup) so a mixed "All Subjects" quiz still
-    //    contributes correctly to each subject's leaderboard. ──
+    //    contributes correctly to each subject's leaderboard. Time spent
+    //    is apportioned across subjects by their share of this quiz's
+    //    questions (we only track one stopwatch for the whole attempt). ──
     if(window.__leaderboard && window.__leaderboard.isSignedIn()){
       const subjTotals = {};
       quizQ.forEach((q,i)=>{
@@ -6912,8 +6927,13 @@ function logQuizAttempt(){
           if(userAnswers[i] === q.c) t.correct++;
         }
       });
-      Object.values(subjTotals).forEach(t=>{ t.pct = t.answered ? Math.round((t.correct/t.answered)*100) : 0; });
-      window.__leaderboard.submit(subjTotals, correct, answered, pct).catch(()=>{});
+      const quizTimeMs = swElapsed || 0;
+      const totalQCount = quizQ.length || 1;
+      Object.values(subjTotals).forEach(t=>{
+        t.pct = t.answered ? Math.round((t.correct/t.answered)*100) : 0;
+        t.timeMs = Math.round(quizTimeMs * (t.total / totalQCount));
+      });
+      window.__leaderboard.submit(subjTotals, correct, answered, pct, quizTimeMs).catch(()=>{});
     }
   }catch(e){ console.error('Failed to log quiz attempt:', e); }
 }
@@ -7143,10 +7163,12 @@ async function renderLeaderboard(){
   listEl.innerHTML = rows.map((r, i) => {
     const isMe = r.uid === myUid;
     const rankDisplay = medals[i] || `#${i+1}`;
+    const timeStr = r.avgTimeSec != null ? `⏱ ${r.avgTimeSec.toFixed(1)}s/question` : '⏱ —';
     return `<div class="glass" style="padding:12px 16px;border-radius:16px;display:flex;align-items:center;gap:14px;margin-bottom:8px;${isMe ? 'border:1px solid rgba(250,204,21,.6);background:rgba(250,204,21,.08);' : ''}">
       <div style="font-size:16px;font-weight:800;width:34px;text-align:center;flex-shrink:0;">${rankDisplay}</div>
       <div style="flex:1;min-width:0;">
         <div style="font-size:14px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.displayName}${isMe ? ' (You)' : ''}</div>
+        <div style="font-size:11px;color:var(--text2);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">✅ ${r.correct} · ❌ ${r.incorrect} · ${timeStr}</div>
       </div>
       <div style="font-size:15px;font-weight:800;color:#facc15;flex-shrink:0;">${r.value}${unit}</div>
     </div>`;
