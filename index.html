@@ -16,7 +16,7 @@
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs,
            deleteDoc, doc, writeBatch, enableIndexedDbPersistence, serverTimestamp, updateDoc,
-           getDoc, setDoc }
+           getDoc, setDoc, where, getCountFromServer }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
   // Must exactly match the email used in the isAdmin() Firestore security rule.
@@ -169,7 +169,26 @@
         });
       }catch(e){ console.error('Leaderboard fetch failed:', e); return null; }
     },
-    myUid(){ return currentUser ? currentUser.uid : null; }
+    myUid(){ return currentUser ? currentUser.uid : null; },
+    // Returns { rank, total, value } for the current user in this scope/metric,
+    // or null if they have no leaderboard entry yet. Uses count aggregation
+    // queries so it doesn't need to download the whole leaderboard.
+    async myRank(subjectKey, metric){
+      if(!currentUser) return null;
+      try{
+        const mySnap = await getDoc(doc(db, 'leaderboard', currentUser.uid));
+        if(!mySnap.exists()) return null;
+        const data = mySnap.data();
+        const s = (subjectKey ? (data.subjects && data.subjects[subjectKey]) : data) || null;
+        if(!s || s[metric] === undefined) return null;
+        const myValue = s[metric] || 0;
+        const field = subjectKey ? `subjects.${subjectKey}.${metric}` : metric;
+        const col = collection(db, 'leaderboard');
+        const aheadSnap = await getCountFromServer(query(col, where(field, '>', myValue)));
+        const totalSnap = await getCountFromServer(query(col, where(field, '>=', 0)));
+        return { rank: aheadSnap.data().count + 1, total: totalSnap.data().count, value: myValue };
+      }catch(e){ console.error('Leaderboard rank lookup failed:', e); return null; }
+    }
   };
 
   // ── SESSION TRACKING (for admin "time spent on site" stats) ──
@@ -1672,13 +1691,19 @@ Thank You
 
     <!-- Scope: Global vs per-subject -->
     <select id="lb-scope-select" onchange="onLbScopeChange()" style="width:100%;padding:11px 14px;border-radius:12px;background:var(--glass-bg,rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.15);color:var(--text);font-size:14px;font-weight:600;margin-bottom:10px;">
-      <option value="">🌐 (all subjects)</option>
+      <option value="">🌐 Global (all subjects)</option>
     </select>
 
     <!-- Metric toggle -->
-    <div style="display:flex;gap:8px;margin-bottom:20px;">
+    <div style="display:flex;gap:8px;margin-bottom:14px;">
       <button id="lb-metric-pct" onclick="setLbMetric('bestPct')" class="btn-ghost" style="flex:1;padding:10px;font-size:13px;font-weight:700;">🎯 Best Score %</button>
       <button id="lb-metric-total" onclick="setLbMetric('totalCorrect')" class="btn-ghost" style="flex:1;padding:10px;font-size:13px;font-weight:700;">✅ Total Correct</button>
+    </div>
+
+    <!-- Your rank — always visible, works even if you're outside the Top 40 -->
+    <div id="lb-my-rank" style="display:none;padding:12px 16px;border-radius:16px;margin-bottom:20px;border:1px solid rgba(56,189,248,.4);background:rgba(56,189,248,.08);align-items:center;justify-content:space-between;gap:12px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text);">📍 Your Rank</div>
+      <div id="lb-my-rank-value" style="font-size:14px;font-weight:800;color:#38bdf8;"></div>
     </div>
 
     <!-- Loading / empty states -->
@@ -7134,12 +7159,14 @@ function updateLbMetricButtons(){
 
 async function renderLeaderboard(){
   const loadingEl = $('lb-loading'), emptyEl = $('lb-empty'),
-        signinEl  = $('lb-signin-needed'), listEl = $('lb-list');
+        signinEl  = $('lb-signin-needed'), listEl = $('lb-list'),
+        myRankEl  = $('lb-my-rank');
   if(!listEl) return;
 
   listEl.innerHTML = '';
   emptyEl.style.display = 'none';
   signinEl.style.display = 'none';
+  myRankEl.style.display = 'none';
 
   if(!window.__leaderboard || !window.__leaderboard.isSignedIn()){
     loadingEl.style.display = 'none';
@@ -7148,8 +7175,20 @@ async function renderLeaderboard(){
   }
 
   loadingEl.style.display = 'block';
-  const rows = await window.__leaderboard.top(lbScope || null, lbMetric, 50);
+  const [rows, myRank] = await Promise.all([
+    window.__leaderboard.top(lbScope || null, lbMetric, 40),
+    window.__leaderboard.myRank(lbScope || null, lbMetric)
+  ]);
   loadingEl.style.display = 'none';
+
+  const unit = lbMetric === 'bestPct' ? '%' : ' correct';
+
+  // "Your Rank" card — shown whenever the user has an entry, even if
+  // they're outside the visible Top 40 list below.
+  if(myRank){
+    myRankEl.style.display = 'flex';
+    $('lb-my-rank-value').textContent = `#${myRank.rank} of ${myRank.total} · ${myRank.value}${unit}`;
+  }
 
   if(!rows || !rows.length){
     emptyEl.style.display = 'block';
@@ -7158,7 +7197,6 @@ async function renderLeaderboard(){
 
   const myUid = window.__leaderboard.myUid();
   const medals = ['🥇','🥈','🥉'];
-  const unit = lbMetric === 'bestPct' ? '%' : ' correct';
 
   listEl.innerHTML = rows.map((r, i) => {
     const isMe = r.uid === myUid;
