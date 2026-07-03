@@ -7402,19 +7402,27 @@ function showTopicsFor(mainSubj) {
   allMainCard.onclick = () => selectMainSubject(mainSubj);
   grid.appendChild(allMainCard);
 
-  // ── Extra resource card: Biophysics Answer Key PDF (after "All") ─
-  if (mainSubj === 'Biophysics') {
-    const pdfCardBio = document.createElement('div');
-    pdfCardBio.className = 'subj-card';
-    pdfCardBio.innerHTML = `
+  // ── Extra resource card: Answer Key PDF (after "All") ─
+  const answerKeyMap = {
+    'Biophysics':             { file: 'biophysics-answer-key.pdf',              color: '#38bdf8' },
+    'MSCR':                   { file: 'mscr-answer-key.pdf',                    color: '#fb923c' },
+    'History of Kyrgyzstan':  { file: 'history-of-kyrgyzstan-answer-key.pdf',   color: '#facc15' },
+    'IT & MATHS':             { file: 'it-maths-answer-key.pdf',                color: '#22d3ee' },
+    'Anatomy':                { file: 'anatomy-answer-key.pdf',                 color: '#f59e0b' },
+  };
+  if (answerKeyMap[mainSubj]) {
+    const ak = answerKeyMap[mainSubj];
+    const pdfCard = document.createElement('div');
+    pdfCard.className = 'subj-card';
+    pdfCard.innerHTML = `
       <div class="subj-emoji">📄</div>
       <div>
-        <div class="subj-name">Biophysics Answer Key (PDF)</div>
+        <div class="subj-name">${mainSubj} Answer Key (PDF)</div>
         <div class="subj-count">Opens in a new tab</div>
       </div>
-      <div class="subj-arrow" style="color:#38bdf8">›</div>`;
-    pdfCardBio.onclick = () => window.open('biophysics-answer-key.pdf', '_blank');
-    grid.appendChild(pdfCardBio);
+      <div class="subj-arrow" style="color:${ak.color}">›</div>`;
+    pdfCard.onclick = () => window.open(ak.file, '_blank');
+    grid.appendChild(pdfCard);
   }
 
   // ── Per-topic cards ──────────────────────────────────
