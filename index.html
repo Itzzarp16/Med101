@@ -107,6 +107,58 @@
     isAdmin(){ return !!currentUser && currentUser.email === ADMIN_EMAIL; }
   };
 
+  // ── Leaderboard helpers — one doc per user at leaderboard/{uid}.
+  //    Tracks both an all-time "total correct" counter and a "best score %"
+  //    high-water-mark, globally and broken down per main subject.
+  window.__leaderboard = {
+    isSignedIn(){ return !!currentUser; },
+    // subjTotals: { [mainSubjectKey]: {correct, answered, pct} } for THIS quiz only
+    async submit(subjTotals, overallCorrect, overallAnswered, overallPct){
+      if(!currentUser) return false;
+      try{
+        const ref = doc(db, 'leaderboard', currentUser.uid);
+        const snap = await getDoc(ref);
+        const data = snap.exists() ? snap.data() : {};
+        const subjects = data.subjects || {};
+        for(const [subj, t] of Object.entries(subjTotals)){
+          const prev = subjects[subj] || { totalCorrect:0, totalAnswered:0, bestPct:0 };
+          subjects[subj] = {
+            totalCorrect:  prev.totalCorrect  + (t.correct  || 0),
+            totalAnswered: prev.totalAnswered + (t.answered || 0),
+            bestPct: Math.max(prev.bestPct || 0, t.pct || 0)
+          };
+        }
+        const payload = {
+          displayName: currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'Anonymous'),
+          totalCorrect:  (data.totalCorrect  || 0) + (overallCorrect  || 0),
+          totalAnswered: (data.totalAnswered || 0) + (overallAnswered || 0),
+          bestPct: Math.max(data.bestPct || 0, overallPct || 0),
+          subjects,
+          updatedAt: serverTimestamp()
+        };
+        await setDoc(ref, payload, { merge:true });
+        return true;
+      }catch(e){ console.error('Leaderboard update failed:', e); return false; }
+    },
+    // subjectKey: '' / null for global. metric: 'bestPct' | 'totalCorrect'.
+    async top(subjectKey, metric, max){
+      try{
+        const field = subjectKey ? `subjects.${subjectKey}.${metric}` : metric;
+        const col = collection(db, 'leaderboard');
+        const q = query(col, orderBy(field, 'desc'), limit(max || 20));
+        const snap = await getDocs(q);
+        return snap.docs.map(d => {
+          const data = d.data();
+          const val = subjectKey
+            ? (data.subjects && data.subjects[subjectKey] ? data.subjects[subjectKey][metric] : 0)
+            : data[metric];
+          return { uid: d.id, displayName: data.displayName || 'Anonymous', value: val || 0 };
+        });
+      }catch(e){ console.error('Leaderboard fetch failed:', e); return null; }
+    },
+    myUid(){ return currentUser ? currentUser.uid : null; }
+  };
+
   // ── SESSION TRACKING (for admin "time spent on site" stats) ──
   // Heartbeat-based: tracks active (visible, focused) time only.
   // Resilient to abrupt tab closes — abandoned sessions are auto-closed
@@ -1450,6 +1502,9 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
     <button onclick="openHistory()" title="Quiz History" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid rgba(180,142,255,.30);background:rgba(180,142,255,.08);cursor:pointer;transition:all .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(180,142,255,.2)';this.style.borderColor='rgba(180,142,255,.6)'" onmouseout="this.style.background='rgba(180,142,255,.08)';this.style.borderColor='rgba(180,142,255,.30)'">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(180,142,255,.95)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
     </button>
+    <button onclick="openLeaderboard()" title="Leaderboard" style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;border:1px solid rgba(250,204,21,.30);background:rgba(250,204,21,.08);cursor:pointer;transition:all .2s;flex-shrink:0;" onmouseover="this.style.background='rgba(250,204,21,.2)';this.style.borderColor='rgba(250,204,21,.6)'" onmouseout="this.style.background='rgba(250,204,21,.08)';this.style.borderColor='rgba(250,204,21,.30)'">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="rgba(250,204,21,.95)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v4a5 5 0 0 1-10 0V4z"/><path d="M7 5H4a1 1 0 0 0-1 1v1a4 4 0 0 0 4 4M17 5h3a1 1 0 0 1 1 1v1a4 4 0 0 1-4 4"/></svg>
+    </button>
     <span style="font-family:'Syne',sans-serif;font-size:15px;font-weight:800;background:linear-gradient(90deg,#00e5ff,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.01em;">Med<span style="background:linear-gradient(90deg,#a78bfa,#ff4f6b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">101</span></span>
     <a class="wa-link" href="https://wa.me/996554259092" target="_blank" rel="noopener">
     <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -1588,6 +1643,50 @@ Thank You
     <div id="hd-list"></div>
   </div>
 </div>
+
+<!-- ══════════════════════════════
+     LEADERBOARD SCREEN
+══════════════════════════════ -->
+<div id="screen-leaderboard" class="screen" style="position:relative;z-index:1;padding-top:calc(var(--topbar-h) + 14px);">
+  <div style="max-width:640px;margin:0 auto;width:100%;padding:0 16px 40px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div>
+        <h1 style="font-size:clamp(1.6rem,4.5vw,2.2rem);font-weight:800;line-height:1.1;background:linear-gradient(135deg,#fff 0%,#facc15 60%,var(--violet) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">🏆 Leaderboard</h1>
+        <div style="font-size:13px;color:var(--text2);margin-top:4px;">See how you stack up</div>
+      </div>
+      <button onclick="goHome()" class="btn-ghost" style="padding:9px 16px;font-size:13px;flex-shrink:0;">← Home</button>
+    </div>
+
+    <!-- Scope: Global vs per-subject -->
+    <select id="lb-scope-select" onchange="onLbScopeChange()" style="width:100%;padding:11px 14px;border-radius:12px;background:var(--glass-bg,rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.15);color:var(--text);font-size:14px;font-weight:600;margin-bottom:10px;">
+      <option value="">🌐 Global (all subjects)</option>
+    </select>
+
+    <!-- Metric toggle -->
+    <div style="display:flex;gap:8px;margin-bottom:20px;">
+      <button id="lb-metric-pct" onclick="setLbMetric('bestPct')" class="btn-ghost" style="flex:1;padding:10px;font-size:13px;font-weight:700;">🎯 Best Score %</button>
+      <button id="lb-metric-total" onclick="setLbMetric('totalCorrect')" class="btn-ghost" style="flex:1;padding:10px;font-size:13px;font-weight:700;">✅ Total Correct</button>
+    </div>
+
+    <!-- Loading / empty states -->
+    <div id="lb-loading" style="text-align:center;padding:40px 20px;color:var(--text2);font-size:13px;">Loading leaderboard…</div>
+    <div id="lb-empty" style="display:none;text-align:center;padding:60px 20px;">
+      <div style="font-size:48px;margin-bottom:14px;opacity:.6;">🏳️</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">No scores yet</div>
+      <div style="font-size:13px;color:var(--text2);">Be the first to complete a quiz here!</div>
+    </div>
+    <div id="lb-signin-needed" style="display:none;text-align:center;padding:60px 20px;">
+      <div style="font-size:48px;margin-bottom:14px;opacity:.6;">🔒</div>
+      <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">Sign in to see the leaderboard</div>
+      <div style="font-size:13px;color:var(--text2);">Your scores sync once you're signed in.</div>
+    </div>
+
+    <!-- List of ranked users -->
+    <div id="lb-list"></div>
+  </div>
+</div>
+
+
 
 <!-- ══════════════════════════════
      SPLASH
@@ -6797,6 +6896,25 @@ function logQuizAttempt(){
     if(window.__cloudHistory && window.__cloudHistory.isSignedIn()){
       window.__cloudHistory.add(entry).catch(()=>{});
     }
+
+    // ── Leaderboard update: bucket this attempt's questions by main
+    //    subject (via subjectGroup) so a mixed "All Subjects" quiz still
+    //    contributes correctly to each subject's leaderboard. ──
+    if(window.__leaderboard && window.__leaderboard.isSignedIn()){
+      const subjTotals = {};
+      quizQ.forEach((q,i)=>{
+        const main = (typeof subjectGroup!=='undefined' && subjectGroup[q.s]) || q.s;
+        if(!subjTotals[main]) subjTotals[main] = { correct:0, answered:0, total:0 };
+        const t = subjTotals[main];
+        t.total++;
+        if(userAnswers[i] !== -1){
+          t.answered++;
+          if(userAnswers[i] === q.c) t.correct++;
+        }
+      });
+      Object.values(subjTotals).forEach(t=>{ t.pct = t.answered ? Math.round((t.correct/t.answered)*100) : 0; });
+      window.__leaderboard.submit(subjTotals, correct, answered, pct).catch(()=>{});
+    }
   }catch(e){ console.error('Failed to log quiz attempt:', e); }
 }
 
@@ -6943,6 +7061,98 @@ function openHistoryDetail(i){
   }).join('');
 }
 window.openHistoryDetail = openHistoryDetail;
+
+// ======================== LEADERBOARD ========================
+let lbScope  = '';          // '' = global, else a mainSubjectMeta key
+let lbMetric = 'bestPct';   // 'bestPct' | 'totalCorrect'
+let lbPopulated = false;
+
+function populateLbScopeSelect(){
+  if(lbPopulated) return;
+  const sel = $('lb-scope-select');
+  if(!sel || typeof mainSubjectMeta === 'undefined') return;
+  Object.entries(mainSubjectMeta).forEach(([key, meta])=>{
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = `${meta.emoji} ${key.replace(' (purple)','')}`;
+    sel.appendChild(opt);
+  });
+  lbPopulated = true;
+}
+
+function openLeaderboard(){
+  populateLbScopeSelect();
+  showScreen('screen-leaderboard');
+  const sel = $('lb-scope-select');
+  if(sel) sel.value = lbScope;
+  updateLbMetricButtons();
+  renderLeaderboard();
+}
+window.openLeaderboard = openLeaderboard;
+
+function onLbScopeChange(){
+  const sel = $('lb-scope-select');
+  lbScope = sel ? sel.value : '';
+  renderLeaderboard();
+}
+
+function setLbMetric(metric){
+  lbMetric = metric;
+  updateLbMetricButtons();
+  renderLeaderboard();
+}
+
+function updateLbMetricButtons(){
+  const pctBtn = $('lb-metric-pct'), totBtn = $('lb-metric-total');
+  if(!pctBtn || !totBtn) return;
+  const activeStyle = 'background:rgba(250,204,21,.18);border-color:rgba(250,204,21,.6);color:var(--text);';
+  pctBtn.style.cssText  = pctBtn.style.cssText.replace(activeStyle,'');
+  totBtn.style.cssText  = totBtn.style.cssText.replace(activeStyle,'');
+  if(lbMetric === 'bestPct') pctBtn.style.cssText += activeStyle;
+  else totBtn.style.cssText += activeStyle;
+}
+
+async function renderLeaderboard(){
+  const loadingEl = $('lb-loading'), emptyEl = $('lb-empty'),
+        signinEl  = $('lb-signin-needed'), listEl = $('lb-list');
+  if(!listEl) return;
+
+  listEl.innerHTML = '';
+  emptyEl.style.display = 'none';
+  signinEl.style.display = 'none';
+
+  if(!window.__leaderboard || !window.__leaderboard.isSignedIn()){
+    loadingEl.style.display = 'none';
+    signinEl.style.display = 'block';
+    return;
+  }
+
+  loadingEl.style.display = 'block';
+  const rows = await window.__leaderboard.top(lbScope || null, lbMetric, 50);
+  loadingEl.style.display = 'none';
+
+  if(!rows || !rows.length){
+    emptyEl.style.display = 'block';
+    return;
+  }
+
+  const myUid = window.__leaderboard.myUid();
+  const medals = ['🥇','🥈','🥉'];
+  const unit = lbMetric === 'bestPct' ? '%' : ' correct';
+
+  listEl.innerHTML = rows.map((r, i) => {
+    const isMe = r.uid === myUid;
+    const rankDisplay = medals[i] || `#${i+1}`;
+    return `<div class="glass" style="padding:12px 16px;border-radius:16px;display:flex;align-items:center;gap:14px;margin-bottom:8px;${isMe ? 'border:1px solid rgba(250,204,21,.6);background:rgba(250,204,21,.08);' : ''}">
+      <div style="font-size:16px;font-weight:800;width:34px;text-align:center;flex-shrink:0;">${rankDisplay}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:14px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${r.displayName}${isMe ? ' (You)' : ''}</div>
+      </div>
+      <div style="font-size:15px;font-weight:800;color:#facc15;flex-shrink:0;">${r.value}${unit}</div>
+    </div>`;
+  }).join('');
+}
+window.renderLeaderboard = renderLeaderboard;
 
 // ======================== RESULTS ========================
 function buildResults(){
