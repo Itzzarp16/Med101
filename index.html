@@ -18,6 +18,8 @@
            deleteDoc, doc, writeBatch, enableIndexedDbPersistence, serverTimestamp, updateDoc,
            getDoc, setDoc, where, getCountFromServer }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getStorage, ref, uploadBytes, getDownloadURL }
+    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
   // Must exactly match the email used in the isAdmin() Firestore security rule.
   const ADMIN_EMAIL = "abhishekpatel9324@gmail.com";
@@ -45,6 +47,7 @@
 
   const auth = getAuth(app);
   const db   = getFirestore(app);
+  const storage = getStorage(app);
 
   // Enable offline cache + sync-on-reconnect (built into Firestore SDK)
   enableIndexedDbPersistence(db).catch(err => {
@@ -60,16 +63,30 @@
       try{
         const snap = await getDoc(doc(db, 'config', 'homeNotice'));
         if(!snap.exists()) return null;
-        return snap.data(); // { text, enabled }
+        return snap.data(); // { text, enabled, imageUrl, imageVersion }
       }catch(e){ console.warn('Notice fetch failed:', e); return null; }
     },
-    async set(text, enabled){
+    async set(text, enabled, imageUrl){
       try{
         await setDoc(doc(db, 'config', 'homeNotice'), {
-          text, enabled: enabled !== false, updatedAt: serverTimestamp()
-        });
+          text, enabled: enabled !== false, imageUrl: imageUrl || null,
+          imageVersion: Date.now(), updatedAt: serverTimestamp()
+        }, { merge: true });
         return true;
       }catch(e){ console.error('Notice save failed:', e); return false; }
+    }
+  };
+
+  // ── Notice image upload — stores at a fixed path so re-uploads simply
+  //    overwrite the previous image (keeps Storage usage minimal).
+  window.__noticeImage = {
+    async upload(file){
+      if(!currentUser) throw new Error('Not signed in');
+      if(!file.type || !file.type.startsWith('image/')) throw new Error('Please choose an image file');
+      if(file.size > 5 * 1024 * 1024) throw new Error('Image must be under 5MB');
+      const storageRef = ref(storage, 'notices/homeNotice');
+      await uploadBytes(storageRef, file, { contentType: file.type });
+      return await getDownloadURL(storageRef);
     }
   };
 
@@ -1656,10 +1673,41 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   <div class="home-notice-modal-card" onclick="event.stopPropagation()">
     <button class="home-notice-close" onclick="closeNoticeModal()" aria-label="Close notice">✕</button>
     <div class="home-notice-modal-title">📢 Notice</div>
+    <img id="home-notice-modal-image" style="display:none;width:100%;max-height:220px;object-fit:cover;border-radius:14px;margin:12px 0;">
     <div class="home-notice-modal-body" id="home-notice-modal-body">For Histology &amp; AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key.
 
 Thank You
 ~Abhishek Verma</div>
+  </div>
+</div>
+
+<!-- Admin-only notice editor: text + direct image upload (no URLs needed) -->
+<div id="notice-edit-modal" class="home-notice-modal" style="display:none;" onclick="closeNoticeEditModal(event)">
+  <div class="home-notice-modal-card" onclick="event.stopPropagation()" style="max-width:440px;">
+    <button class="home-notice-close" onclick="closeNoticeEditModal()" aria-label="Close editor">✕</button>
+    <div class="home-notice-modal-title">✏️ Edit Notice</div>
+
+    <textarea id="notice-edit-textarea" rows="4" placeholder="Notice text shown to everyone on the home screen…" style="width:100%;margin-top:14px;padding:11px 13px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:var(--text);font-size:14px;font-family:inherit;resize:vertical;box-sizing:border-box;"></textarea>
+
+    <div style="margin-top:14px;">
+      <div id="notice-edit-image-preview-wrap" style="display:none;margin-bottom:10px;position:relative;">
+        <img id="notice-edit-image-preview" style="width:100%;max-height:170px;object-fit:cover;border-radius:12px;display:block;">
+        <button onclick="removeNoticeImage()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.65);color:#fff;border:none;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:600;cursor:pointer;">Remove</button>
+      </div>
+      <input type="file" id="notice-image-file-input" accept="image/*" style="display:none;" onchange="onNoticeImageSelected(this)">
+      <button class="btn-ghost" onclick="document.getElementById('notice-image-file-input').click()" style="width:100%;padding:11px;font-size:13px;font-weight:700;">🖼️ Choose Image (optional)</button>
+    </div>
+
+    <label style="display:flex;align-items:center;gap:9px;margin-top:16px;font-size:13px;color:var(--text2);cursor:pointer;">
+      <input type="checkbox" id="notice-edit-visible" checked style="width:16px;height:16px;flex-shrink:0;">
+      Show to everyone now
+    </label>
+
+    <div style="display:flex;gap:10px;margin-top:18px;">
+      <button class="btn-ghost" onclick="closeNoticeEditModal()" style="flex:1;padding:11px;font-size:13px;font-weight:700;">Cancel</button>
+      <button id="notice-edit-save-btn" onclick="saveNoticeEdit()" style="flex:1;padding:11px;font-size:13px;font-weight:700;border-radius:12px;border:none;background:linear-gradient(135deg,var(--cyan),var(--violet));color:#fff;cursor:pointer;">Save</button>
+    </div>
+    <div id="notice-edit-status" style="margin-top:10px;font-size:12px;color:var(--text2);text-align:center;min-height:16px;"></div>
   </div>
 </div>
 
@@ -6891,7 +6939,9 @@ function endQuiz(){
 
 // ======================== ATTEMPT HISTORY ========================
 const HISTORY_KEY = 'medQuizHistory';
-const HISTORY_MAX = 200; // keep last 200 attempts to avoid unbounded growth
+const HISTORY_MAX = 200; // local cap only — keeps localStorage from growing unbounded (free, no Firestore cost)
+const HISTORY_FETCH_LIMIT = 50; // Firestore READ cost scales with this — keep modest; most people never scroll past recent attempts
+const HISTORY_CACHE_TTL_MS = 60000; // reuse a fetched list for 60s instead of re-querying Firestore on every screen open
 
 function getQuizLabel(){
   // Best-effort readable label for what was attempted
@@ -6929,6 +6979,10 @@ function logQuizAttempt(){
     if(hist.length > HISTORY_MAX) hist = hist.slice(0, HISTORY_MAX);
     localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
 
+    // Keep the in-memory history cache in sync so History shows this attempt
+    // immediately without forcing an extra Firestore read.
+    if(__historyFetchCache) __historyFetchCache.unshift(entry);
+
     // Also push to Firestore if signed in — Firestore SDK queues this
     // automatically and syncs once back online (offline persistence enabled).
     if(window.__cloudHistory && window.__cloudHistory.isSignedIn()){
@@ -6958,7 +7012,9 @@ function logQuizAttempt(){
         t.pct = t.answered ? Math.round((t.correct/t.answered)*100) : 0;
         t.timeMs = Math.round(quizTimeMs * (t.total / totalQCount));
       });
-      window.__leaderboard.submit(subjTotals, correct, answered, pct, quizTimeMs).catch(()=>{});
+      window.__leaderboard.submit(subjTotals, correct, answered, pct, quizTimeMs)
+        .then(ok => { if(ok && typeof lbCache !== 'undefined') for(const k in lbCache) delete lbCache[k]; })
+        .catch(()=>{});
     }
   }catch(e){ console.error('Failed to log quiz attempt:', e); }
 }
@@ -6968,11 +7024,23 @@ function getLocalHistory(){
   catch(e){ return []; }
 }
 
-// Async — tries cloud first (if signed in), falls back to local cache
-async function getQuizHistory(){
+let __historyFetchCache = null;      // fetched cloud list — cleared on new attempt / manual clear
+let __historyFetchCacheTs = 0;
+
+// Async — tries cloud first (if signed in), falls back to local cache.
+// Reuses a recent fetch within HISTORY_CACHE_TTL_MS instead of re-querying
+// Firestore every time the History screen is opened.
+async function getQuizHistory(forceRefresh){
+  if(!forceRefresh && __historyFetchCache && (Date.now() - __historyFetchCacheTs) < HISTORY_CACHE_TTL_MS){
+    return __historyFetchCache;
+  }
   if(window.__cloudHistory && window.__cloudHistory.isSignedIn()){
-    const cloud = await window.__cloudHistory.list(HISTORY_MAX);
-    if(cloud !== null) return cloud; // null means fetch failed -> fall through to local
+    const cloud = await window.__cloudHistory.list(HISTORY_FETCH_LIMIT);
+    if(cloud !== null){
+      __historyFetchCache = cloud;
+      __historyFetchCacheTs = Date.now();
+      return cloud; // null means fetch failed -> fall through to local
+    }
   }
   return getLocalHistory();
 }
@@ -6980,6 +7048,7 @@ async function getQuizHistory(){
 async function clearQuizHistory(){
   if(!confirm('Clear all quiz history? This cannot be undone.')) return;
   localStorage.removeItem(HISTORY_KEY);
+  __historyFetchCache = null;
   if(window.__cloudHistory && window.__cloudHistory.isSignedIn()){
     await window.__cloudHistory.clear().catch(()=>{});
   }
@@ -7111,6 +7180,8 @@ window.openHistoryDetail = openHistoryDetail;
 let lbScope  = '';          // '' = global, else a mainSubjectMeta key
 let lbMetric = 'bestPct';   // 'bestPct' | 'totalCorrect'
 let lbPopulated = false;
+const lbCache = {};              // key -> { rows, myRank, ts }
+const LB_CACHE_TTL_MS = 45000;   // reuse a fetched leaderboard view for 45s
 
 function populateLbScopeSelect(){
   if(lbPopulated) return;
@@ -7157,7 +7228,7 @@ function updateLbMetricButtons(){
   else totBtn.style.cssText += activeStyle;
 }
 
-async function renderLeaderboard(){
+async function renderLeaderboard(forceRefresh){
   const loadingEl = $('lb-loading'), emptyEl = $('lb-empty'),
         signinEl  = $('lb-signin-needed'), listEl = $('lb-list'),
         myRankEl  = $('lb-my-rank');
@@ -7174,12 +7245,21 @@ async function renderLeaderboard(){
     return;
   }
 
-  loadingEl.style.display = 'block';
-  const [rows, myRank] = await Promise.all([
-    window.__leaderboard.top(lbScope || null, lbMetric, 40),
-    window.__leaderboard.myRank(lbScope || null, lbMetric)
-  ]);
-  loadingEl.style.display = 'none';
+  const cacheKey = `${lbScope}|${lbMetric}`;
+  const cached = lbCache[cacheKey];
+  let rows, myRank;
+
+  if(!forceRefresh && cached && (Date.now() - cached.ts) < LB_CACHE_TTL_MS){
+    rows = cached.rows; myRank = cached.myRank;
+  }else{
+    loadingEl.style.display = 'block';
+    [rows, myRank] = await Promise.all([
+      window.__leaderboard.top(lbScope || null, lbMetric, 40),
+      window.__leaderboard.myRank(lbScope || null, lbMetric)
+    ]);
+    loadingEl.style.display = 'none';
+    lbCache[cacheKey] = { rows, myRank, ts: Date.now() };
+  }
 
   const unit = lbMetric === 'bestPct' ? '%' : ' correct';
 
@@ -7899,37 +7979,63 @@ function setVolumeToggleVisible(visible) {
   }
 })();
 
-// ── HOME NOTICE (marquee, remotely editable) ─────────────────
+// ── HOME NOTICE (marquee, remotely editable, supports an optional image) ──
 const NOTICE_DEFAULT_TEXT = "For Histology & AVN, I have updated the quiz based on the answer key received in Patok group. It is completely based on that. I'm also waiting for the official answer key. Thank You ~Abhishek Verma";
 const NOTICE_CACHE_KEY = 'med101_home_notice_cache';
+const NOTICE_IMAGE_CACHE_KEY = 'med101_home_notice_image_cache';
 
 let noticeLongPressTimer = null;
 let noticeLongPressFired = false;
 
-function applyNoticeText(text) {
+// Tracks the currently-saved state (used to prefill the edit modal / diff against on Save)
+let noticeCurrentText = NOTICE_DEFAULT_TEXT;
+let noticeCurrentImageUrl = null;
+let noticeCurrentEnabled = true;
+
+// Pending changes made in the edit modal, not yet saved
+let noticePendingImageFile = null;
+let noticePendingImageRemoved = false;
+
+function applyNotice(text, imageUrl) {
   const t1 = document.getElementById('home-notice-text-1');
   const t2 = document.getElementById('home-notice-text-2');
   const modalBody = document.getElementById('home-notice-modal-body');
+  const modalImg  = document.getElementById('home-notice-modal-image');
   if (t1) t1.textContent = text;
   if (t2) t2.textContent = text;
   if (modalBody) modalBody.textContent = text;
+  if (modalImg){
+    if (imageUrl) { modalImg.src = imageUrl; modalImg.style.display = 'block'; }
+    else { modalImg.style.display = 'none'; modalImg.removeAttribute('src'); }
+  }
+  noticeCurrentText = text;
+  noticeCurrentImageUrl = imageUrl || null;
 }
 
 async function loadHomeNotice() {
-  // Show cached/default text immediately so there's no blank flash,
+  // Show cached/default text+image immediately so there's no blank flash,
   // then swap in the live version once Firestore responds.
   try {
-    const cached = localStorage.getItem(NOTICE_CACHE_KEY);
-    applyNoticeText(cached || NOTICE_DEFAULT_TEXT);
-  } catch (e) { applyNoticeText(NOTICE_DEFAULT_TEXT); }
+    const cachedText = localStorage.getItem(NOTICE_CACHE_KEY);
+    const cachedImg  = localStorage.getItem(NOTICE_IMAGE_CACHE_KEY);
+    applyNotice(cachedText || NOTICE_DEFAULT_TEXT, cachedImg || null);
+  } catch (e) { applyNotice(NOTICE_DEFAULT_TEXT, null); }
 
   if (!window.__cloudNotice) return;
   const data = await window.__cloudNotice.get();
   if (!data) return;
+  noticeCurrentEnabled = data.enabled !== false;
   if (data.enabled === false) { setHomeNoticeVisible(false); return; }
   if (data.text) {
-    applyNoticeText(data.text);
-    try { localStorage.setItem(NOTICE_CACHE_KEY, data.text); } catch (e) {}
+    const imgUrl = data.imageUrl
+      ? data.imageUrl + (data.imageUrl.includes('?') ? '&' : '?') + 'v=' + (data.imageVersion || 0)
+      : null;
+    applyNotice(data.text, imgUrl);
+    try {
+      localStorage.setItem(NOTICE_CACHE_KEY, data.text);
+      if (imgUrl) localStorage.setItem(NOTICE_IMAGE_CACHE_KEY, imgUrl);
+      else localStorage.removeItem(NOTICE_IMAGE_CACHE_KEY);
+    } catch (e) {}
   }
 }
 
@@ -7953,25 +8059,110 @@ function handleNoticeClick() {
   openNoticeModal();
 }
 
-async function editHomeNotice() {
+// ── Admin edit modal ──────────────────────────────────────────
+function openNoticeEditModal() {
   if (!window.__cloudHistory || !window.__cloudHistory.isAdmin()) {
     alert('Only the admin account can edit this notice.');
     return;
   }
+  noticePendingImageFile = null;
+  noticePendingImageRemoved = false;
 
-  const current = document.getElementById('home-notice-text-1').textContent;
-  const next = prompt('Edit the notice text (shown to everyone on the home screen):', current);
-  if (next === null || !next.trim()) return;
+  $('notice-edit-textarea').value = noticeCurrentText || '';
+  $('notice-edit-visible').checked = noticeCurrentEnabled;
+  $('notice-edit-status').textContent = '';
 
-  const keepShowing = confirm('Click OK to show this notice to everyone.\nClick Cancel to save it but keep it HIDDEN for now.');
-  applyNoticeText(next.trim());
-  setHomeNoticeVisible(true);
-  try { localStorage.setItem(NOTICE_CACHE_KEY, next.trim()); } catch (e) {}
+  const previewWrap = $('notice-edit-image-preview-wrap');
+  const previewImg  = $('notice-edit-image-preview');
+  if (noticeCurrentImageUrl) {
+    previewImg.src = noticeCurrentImageUrl;
+    previewWrap.style.display = 'block';
+  } else {
+    previewWrap.style.display = 'none';
+  }
 
-  const ok = window.__cloudNotice && await window.__cloudNotice.set(next.trim(), keepShowing);
-  if (!keepShowing) setHomeNoticeVisible(false);
-  alert(ok ? 'Notice updated for everyone ✅' : 'Could not save to the cloud — check your connection and try again.');
+  $('notice-edit-modal').style.display = 'flex';
 }
+window.openNoticeEditModal = openNoticeEditModal;
+
+function closeNoticeEditModal(e) {
+  if (e) e.stopPropagation();
+  $('notice-edit-modal').style.display = 'none';
+}
+window.closeNoticeEditModal = closeNoticeEditModal;
+
+function onNoticeImageSelected(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { alert('Please choose an image file.'); input.value = ''; return; }
+  if (file.size > 5 * 1024 * 1024) { alert('Image must be under 5MB.'); input.value = ''; return; }
+
+  noticePendingImageFile = file;
+  noticePendingImageRemoved = false;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    $('notice-edit-image-preview').src = e.target.result;
+    $('notice-edit-image-preview-wrap').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+window.onNoticeImageSelected = onNoticeImageSelected;
+
+function removeNoticeImage() {
+  noticePendingImageFile = null;
+  noticePendingImageRemoved = true;
+  $('notice-edit-image-preview-wrap').style.display = 'none';
+  $('notice-image-file-input').value = '';
+}
+window.removeNoticeImage = removeNoticeImage;
+
+async function saveNoticeEdit() {
+  const text = $('notice-edit-textarea').value.trim();
+  if (!text) { alert('Notice text can\'t be empty.'); return; }
+  const enabled = $('notice-edit-visible').checked;
+
+  const saveBtn = $('notice-edit-save-btn');
+  const statusEl = $('notice-edit-status');
+  saveBtn.disabled = true;
+  saveBtn.style.opacity = '.6';
+
+  try {
+    let imageUrl = noticeCurrentImageUrl; // unchanged by default
+
+    if (noticePendingImageFile) {
+      statusEl.textContent = 'Uploading image…';
+      imageUrl = await window.__noticeImage.upload(noticePendingImageFile);
+    } else if (noticePendingImageRemoved) {
+      imageUrl = null;
+    }
+
+    statusEl.textContent = 'Saving…';
+    const ok = window.__cloudNotice && await window.__cloudNotice.set(text, enabled, imageUrl);
+
+    if (ok) {
+      applyNotice(text, imageUrl);
+      setHomeNoticeVisible(enabled);
+      noticeCurrentEnabled = enabled;
+      try {
+        localStorage.setItem(NOTICE_CACHE_KEY, text);
+        if (imageUrl) localStorage.setItem(NOTICE_IMAGE_CACHE_KEY, imageUrl);
+        else localStorage.removeItem(NOTICE_IMAGE_CACHE_KEY);
+      } catch (e) {}
+      closeNoticeEditModal();
+      alert('Notice updated for everyone ✅');
+    } else {
+      statusEl.textContent = 'Could not save — check your connection and try again.';
+    }
+  } catch (e) {
+    console.error('Notice save failed:', e);
+    statusEl.textContent = e.message || 'Something went wrong.';
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.style.opacity = '1';
+  }
+}
+window.saveNoticeEdit = saveNoticeEdit;
 
 function initNoticeLongPress() {
   const el = document.getElementById('home-notice');
@@ -7980,7 +8171,7 @@ function initNoticeLongPress() {
     noticeLongPressFired = false;
     noticeLongPressTimer = setTimeout(() => {
       noticeLongPressFired = true;
-      editHomeNotice();
+      openNoticeEditModal();
     }, 700);
   };
   const cancel = () => { if (noticeLongPressTimer) clearTimeout(noticeLongPressTimer); };
