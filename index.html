@@ -183,6 +183,10 @@
   //    high-water-mark, and total time spent (ms) — globally and broken
   //    down per main subject. Wrong-count and avg-time/question are
   //    derived from these rather than stored separately.
+  // Accuracy % only counts once someone has actually answered enough
+  // questions in that scope — otherwise 1 lucky question = "100%" at the top.
+  const MIN_ANSWERED_FOR_ACCURACY = 100;
+
   window.__leaderboard = {
     isSignedIn(){ return !!currentUser; },
     // subjTotals: { [mainSubjectKey]: {correct, answered, pct, timeMs} } for THIS quiz only
@@ -197,26 +201,34 @@
           const prev = subjects[subj] || { totalCorrect:0, totalAnswered:0, timeMs:0 };
           const newCorrect  = prev.totalCorrect  + (t.correct  || 0);
           const newAnswered = prev.totalAnswered + (t.answered || 0);
-          subjects[subj] = {
+          const acc = newAnswered ? Math.round((newCorrect / newAnswered) * 100) : 0;
+          const subjEntry = {
             totalCorrect:  newCorrect,
             totalAnswered: newAnswered,
             // Cumulative accuracy across EVERY attempt in this subject — not
             // a single lucky quiz's score. Recomputed fresh each submit.
-            accuracyPct: newAnswered ? Math.round((newCorrect / newAnswered) * 100) : 0,
+            accuracyPct: acc,
             timeMs: (prev.timeMs || 0) + (t.timeMs || 0)
           };
+          // Only becomes rankable once the 100-question floor is crossed —
+          // this field is intentionally left UNSET below that, so Firestore's
+          // orderBy() naturally excludes unqualified users with zero extra reads.
+          if(newAnswered >= MIN_ANSWERED_FOR_ACCURACY) subjEntry.qualifiedAccuracyPct = acc;
+          subjects[subj] = subjEntry;
         }
         const newGlobalCorrect  = (data.totalCorrect  || 0) + (overallCorrect  || 0);
         const newGlobalAnswered = (data.totalAnswered || 0) + (overallAnswered || 0);
+        const globalAcc = newGlobalAnswered ? Math.round((newGlobalCorrect / newGlobalAnswered) * 100) : 0;
         const payload = {
           displayName: currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'Anonymous'),
           totalCorrect:  newGlobalCorrect,
           totalAnswered: newGlobalAnswered,
-          accuracyPct: newGlobalAnswered ? Math.round((newGlobalCorrect / newGlobalAnswered) * 100) : 0,
+          accuracyPct: globalAcc,
           timeMs: (data.timeMs || 0) + (overallTimeMs || 0),
           subjects,
           updatedAt: serverTimestamp()
         };
+        if(newGlobalAnswered >= MIN_ANSWERED_FOR_ACCURACY) payload.qualifiedAccuracyPct = globalAcc;
         await setDoc(ref, payload, { merge:true });
         return true;
       }catch(e){ console.error('Leaderboard update failed:', e); return false; }
@@ -225,7 +237,10 @@
     // Returns rows with the sort metric plus derived correct/incorrect/avgTimeSec.
     async top(subjectKey, metric, max){
       try{
-        const field = subjectKey ? `subjects.${subjectKey}.${metric}` : metric;
+        // Accuracy ranks off the gated "qualifiedAccuracyPct" field so anyone
+        // under the answered-question floor is automatically excluded.
+        const queryFieldName = metric === 'accuracyPct' ? 'qualifiedAccuracyPct' : metric;
+        const field = subjectKey ? `subjects.${subjectKey}.${queryFieldName}` : queryFieldName;
         const col = collection(db, 'leaderboard');
         const q = query(col, orderBy(field, 'desc'), limit(max || 20));
         const snap = await getDocs(q);
@@ -248,8 +263,9 @@
     },
     myUid(){ return currentUser ? currentUser.uid : null; },
     // Returns { rank, total, value } for the current user in this scope/metric,
-    // or null if they have no leaderboard entry yet. Uses count aggregation
-    // queries so it doesn't need to download the whole leaderboard.
+    // or null if they have no leaderboard entry yet (or haven't crossed the
+    // answered-question floor required for the accuracy metric). Uses count
+    // aggregation queries so it doesn't need to download the whole leaderboard.
     async myRank(subjectKey, metric){
       if(!currentUser) return null;
       try{
@@ -257,11 +273,12 @@
         if(!mySnap.exists()) return null;
         const data = mySnap.data();
         const s = (subjectKey ? (data.subjects && data.subjects[subjectKey]) : data) || null;
-        if(!s || s[metric] === undefined) return null;
+        const queryFieldName = metric === 'accuracyPct' ? 'qualifiedAccuracyPct' : metric;
+        if(!s || s[queryFieldName] === undefined) return null;
         const myValue = s[metric] || 0;
-        const field = subjectKey ? `subjects.${subjectKey}.${metric}` : metric;
+        const field = subjectKey ? `subjects.${subjectKey}.${queryFieldName}` : queryFieldName;
         const col = collection(db, 'leaderboard');
-        const aheadSnap = await getCountFromServer(query(col, where(field, '>', myValue)));
+        const aheadSnap = await getCountFromServer(query(col, where(field, '>', s[queryFieldName])));
         const totalSnap = await getCountFromServer(query(col, where(field, '>=', 0)));
         return { rank: aheadSnap.data().count + 1, total: totalSnap.data().count, value: myValue };
       }catch(e){ console.error('Leaderboard rank lookup failed:', e); return null; }
@@ -1812,10 +1829,11 @@ Thank You
     <button id="lb-set-default-btn" onclick="setLbScopeAsDefault()" style="display:none;width:100%;padding:9px;margin-bottom:14px;border-radius:12px;border:1px dashed rgba(250,204,21,.5);background:rgba(250,204,21,.08);color:#facc15;font-size:12px;font-weight:700;cursor:pointer;">📌 Set as default for everyone</button>
 
     <!-- Metric toggle -->
-    <div style="display:flex;gap:8px;margin-bottom:14px;">
+    <div style="display:flex;gap:8px;margin-bottom:6px;">
       <button id="lb-metric-pct" onclick="setLbMetric('accuracyPct')" class="btn-ghost" style="flex:1;padding:10px;font-size:13px;font-weight:700;">🎯 Accuracy %</button>
       <button id="lb-metric-total" onclick="setLbMetric('totalCorrect')" class="btn-ghost" style="flex:1;padding:10px;font-size:13px;font-weight:700;">✅ Total Correct</button>
     </div>
+    <div id="lb-accuracy-note" style="display:none;font-size:11px;color:var(--text2);text-align:center;margin-bottom:14px;">Requires 100+ questions answered in this scope</div>
 
     <!-- Your rank — always visible, works even if you're outside the Top 40 -->
     <div id="lb-my-rank" style="display:none;padding:12px 16px;border-radius:16px;margin-bottom:20px;border:1px solid rgba(56,189,248,.4);background:rgba(56,189,248,.08);align-items:center;justify-content:space-between;gap:12px;">
@@ -1827,8 +1845,8 @@ Thank You
     <div id="lb-loading" style="text-align:center;padding:40px 20px;color:var(--text2);font-size:13px;">Loading leaderboard…</div>
     <div id="lb-empty" style="display:none;text-align:center;padding:60px 20px;">
       <div style="font-size:48px;margin-bottom:14px;opacity:.6;">🏳️</div>
-      <div style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">No scores yet</div>
-      <div style="font-size:13px;color:var(--text2);">Be the first to complete a quiz here!</div>
+      <div id="lb-empty-title" style="font-size:15px;font-weight:600;color:var(--text);margin-bottom:6px;">No scores yet</div>
+      <div id="lb-empty-sub" style="font-size:13px;color:var(--text2);">Be the first to complete a quiz here!</div>
     </div>
     <div id="lb-signin-needed" style="display:none;text-align:center;padding:60px 20px;">
       <div style="font-size:48px;margin-bottom:14px;opacity:.6;">🔒</div>
@@ -7425,6 +7443,8 @@ function updateLbMetricButtons(){
   totBtn.style.cssText  = totBtn.style.cssText.replace(activeStyle,'');
   if(lbMetric === 'accuracyPct') pctBtn.style.cssText += activeStyle;
   else totBtn.style.cssText += activeStyle;
+  const note = $('lb-accuracy-note');
+  if(note) note.style.display = (lbMetric === 'accuracyPct') ? 'block' : 'none';
 }
 
 async function renderLeaderboard(forceRefresh){
@@ -7471,6 +7491,13 @@ async function renderLeaderboard(forceRefresh){
 
   if(!rows || !rows.length){
     emptyEl.style.display = 'block';
+    if(lbMetric === 'accuracyPct'){
+      $('lb-empty-title').textContent = 'No one qualifies yet';
+      $('lb-empty-sub').textContent = 'Nobody has answered 100+ questions here yet — keep practicing!';
+    }else{
+      $('lb-empty-title').textContent = 'No scores yet';
+      $('lb-empty-sub').textContent = 'Be the first to complete a quiz here!';
+    }
     return;
   }
 
