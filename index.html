@@ -194,19 +194,25 @@
         const data = snap.exists() ? snap.data() : {};
         const subjects = data.subjects || {};
         for(const [subj, t] of Object.entries(subjTotals)){
-          const prev = subjects[subj] || { totalCorrect:0, totalAnswered:0, bestPct:0, timeMs:0 };
+          const prev = subjects[subj] || { totalCorrect:0, totalAnswered:0, timeMs:0 };
+          const newCorrect  = prev.totalCorrect  + (t.correct  || 0);
+          const newAnswered = prev.totalAnswered + (t.answered || 0);
           subjects[subj] = {
-            totalCorrect:  prev.totalCorrect  + (t.correct  || 0),
-            totalAnswered: prev.totalAnswered + (t.answered || 0),
-            bestPct: Math.max(prev.bestPct || 0, t.pct || 0),
+            totalCorrect:  newCorrect,
+            totalAnswered: newAnswered,
+            // Cumulative accuracy across EVERY attempt in this subject — not
+            // a single lucky quiz's score. Recomputed fresh each submit.
+            accuracyPct: newAnswered ? Math.round((newCorrect / newAnswered) * 100) : 0,
             timeMs: (prev.timeMs || 0) + (t.timeMs || 0)
           };
         }
+        const newGlobalCorrect  = (data.totalCorrect  || 0) + (overallCorrect  || 0);
+        const newGlobalAnswered = (data.totalAnswered || 0) + (overallAnswered || 0);
         const payload = {
           displayName: currentUser.displayName || (currentUser.email ? currentUser.email.split('@')[0] : 'Anonymous'),
-          totalCorrect:  (data.totalCorrect  || 0) + (overallCorrect  || 0),
-          totalAnswered: (data.totalAnswered || 0) + (overallAnswered || 0),
-          bestPct: Math.max(data.bestPct || 0, overallPct || 0),
+          totalCorrect:  newGlobalCorrect,
+          totalAnswered: newGlobalAnswered,
+          accuracyPct: newGlobalAnswered ? Math.round((newGlobalCorrect / newGlobalAnswered) * 100) : 0,
           timeMs: (data.timeMs || 0) + (overallTimeMs || 0),
           subjects,
           updatedAt: serverTimestamp()
@@ -215,7 +221,7 @@
         return true;
       }catch(e){ console.error('Leaderboard update failed:', e); return false; }
     },
-    // subjectKey: '' / null for global. metric: 'bestPct' | 'totalCorrect'.
+    // subjectKey: '' / null for global. metric: 'accuracyPct' | 'totalCorrect'.
     // Returns rows with the sort metric plus derived correct/incorrect/avgTimeSec.
     async top(subjectKey, metric, max){
       try{
@@ -1774,6 +1780,7 @@ Thank You
       </div>
       <button onclick="openHistory()" class="btn-ghost" style="padding:9px 16px;font-size:13px;flex-shrink:0;">← History</button>
     </div>
+    <button id="hd-retry-btn" onclick="retryCurrentHistoryDetail()" style="display:none;width:100%;padding:12px;margin-bottom:16px;border-radius:14px;border:1px solid rgba(56,189,248,.4);background:rgba(56,189,248,.1);color:#38bdf8;font-size:14px;font-weight:700;cursor:pointer;">🔁 Retry This Quiz</button>
     <div id="hd-list"></div>
   </div>
 </div>
@@ -1801,7 +1808,7 @@ Thank You
 
     <!-- Metric toggle -->
     <div style="display:flex;gap:8px;margin-bottom:14px;">
-      <button id="lb-metric-pct" onclick="setLbMetric('bestPct')" class="btn-ghost" style="flex:1;padding:10px;font-size:13px;font-weight:700;">🎯 Best Score %</button>
+      <button id="lb-metric-pct" onclick="setLbMetric('accuracyPct')" class="btn-ghost" style="flex:1;padding:10px;font-size:13px;font-weight:700;">🎯 Accuracy %</button>
       <button id="lb-metric-total" onclick="setLbMetric('totalCorrect')" class="btn-ghost" style="flex:1;padding:10px;font-size:13px;font-weight:700;">✅ Total Correct</button>
     </div>
 
@@ -7129,6 +7136,41 @@ function openHistory(){
   renderHistoryScreen();
 }
 
+// Replays the exact question set from a past attempt (same questions, same
+// order, same correct answers) — history already stores full per-question
+// detail, so this is a fresh attempt rather than a true "resume."
+function reattemptFromHistory(i){
+  const h = (window.__historyCache||[])[i];
+  if(!h){ alert('Could not find that attempt.'); return; }
+  if(!h.details || !h.details.length){
+    alert('This attempt has no saved questions to retry — it may be from before this feature was added.');
+    return;
+  }
+  if(!confirm(`Retry this ${h.details.length}-question quiz${h.subject ? ' ('+h.subject+')' : ''}?`)) return;
+
+  prevSession = null;
+  quizQ = h.details.map(d => ({ s: d.s, q: d.q, o: d.o, c: d.c }));
+  userAnswers = new Array(quizQ.length).fill(-1);
+  qTimes = new Array(quizQ.length).fill(0);
+  reviewFlags = new Array(quizQ.length).fill(false);
+  cur = 0;
+
+  // Respect whatever auto-advance/timer toggles are currently set on the
+  // subject screen, same as a normal quiz start.
+  const autoEl = document.getElementById('tog-auto');
+  const timerEl = document.getElementById('tog-timer');
+  autoAdv = autoEl ? autoEl.classList.contains('on') : true;
+  timerOn = timerEl ? timerEl.classList.contains('on') : false;
+  timerSec = parseInt(($('timer-custom')||{}).value) || 20;
+
+  if($('quiz-mode-label')) $('quiz-mode-label').textContent = '🔁 Retry: ' + (h.subject || 'Quiz');
+
+  showScreen('screen-quiz');
+  startSW();
+  renderQ();
+}
+window.reattemptFromHistory = reattemptFromHistory;
+
 async function renderHistoryScreen(){
   const listEl = $('history-list');
   const emptyEl = $('history-empty');
@@ -7172,6 +7214,7 @@ async function renderHistoryScreen(){
 
   listEl.innerHTML = syncBadge + hist.map((h,i)=>{
     const color = h.pct>=80?'var(--green)':h.pct>=50?'var(--amber)':'var(--red)';
+    const canRetry = h.details && h.details.length;
     return `<div class="glass" onclick="openHistoryDetail(${i})" style="padding:14px 16px;border-radius:16px;display:flex;align-items:center;gap:14px;margin-bottom:10px;cursor:pointer;">
       <div style="width:48px;height:48px;border-radius:14px;background:${color};opacity:.18;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative;">
         <span style="position:absolute;font-size:13px;font-weight:800;color:${color};opacity:1;">${h.pct}%</span>
@@ -7184,6 +7227,7 @@ async function renderHistoryScreen(){
         <div style="font-size:13px;font-weight:700;color:var(--green);">${h.correct}✓</div>
         <div style="font-size:11px;color:var(--text2);">${h.wrong}✗</div>
       </div>
+      ${canRetry ? `<button onclick="event.stopPropagation();reattemptFromHistory(${i})" title="Retry this quiz" style="flex-shrink:0;width:34px;height:34px;border-radius:10px;border:1px solid rgba(56,189,248,.4);background:rgba(56,189,248,.1);color:#38bdf8;font-size:15px;cursor:pointer;">🔁</button>` : ''}
       <span style="font-size:16px;color:var(--text3);flex-shrink:0;">›</span>
     </div>`;
   }).join('');
@@ -7193,14 +7237,18 @@ window.renderHistoryScreen = renderHistoryScreen;
 // Show a single past attempt: which questions were right/wrong, with the
 // correct answer and what the user picked, reusing the review-item style
 // from the results screen.
+let currentHistoryDetailIndex = null;
+
 function openHistoryDetail(i){
   const h = (window.__historyCache||[])[i];
   if(!h) return;
+  currentHistoryDetailIndex = i;
   showScreen('screen-history-detail');
 
-  const titleEl = $('hd-title'), subEl = $('hd-sub'), listEl = $('hd-list');
+  const titleEl = $('hd-title'), subEl = $('hd-sub'), listEl = $('hd-list'), retryBtn = $('hd-retry-btn');
   if(titleEl) titleEl.textContent = h.subject || 'Quiz';
   if(subEl) subEl.textContent = `${fmtHistDate(h.ts)} · ${h.correct}✓ / ${h.wrong}✗ · ${h.pct}% score`;
+  if(retryBtn) retryBtn.style.display = (h.details && h.details.length) ? 'block' : 'none';
   if(!listEl) return;
 
   const details = h.details;
@@ -7233,9 +7281,15 @@ function openHistoryDetail(i){
 }
 window.openHistoryDetail = openHistoryDetail;
 
+function retryCurrentHistoryDetail(){
+  if(currentHistoryDetailIndex === null){ alert('No attempt selected.'); return; }
+  reattemptFromHistory(currentHistoryDetailIndex);
+}
+window.retryCurrentHistoryDetail = retryCurrentHistoryDetail;
+
 // ======================== LEADERBOARD ========================
 let lbScope  = '';          // '' = global, else a mainSubjectMeta key
-let lbMetric = 'bestPct';   // 'bestPct' | 'totalCorrect'
+let lbMetric = 'accuracyPct';   // 'accuracyPct' | 'totalCorrect'
 let lbPopulated = false;
 let lbDefaultApplied = false;   // only pull the shared admin default once per session
 const lbCache = {};              // key -> { rows, myRank, ts }
@@ -7313,7 +7367,7 @@ function updateLbMetricButtons(){
   const activeStyle = 'background:rgba(250,204,21,.18);border-color:rgba(250,204,21,.6);color:var(--text);';
   pctBtn.style.cssText  = pctBtn.style.cssText.replace(activeStyle,'');
   totBtn.style.cssText  = totBtn.style.cssText.replace(activeStyle,'');
-  if(lbMetric === 'bestPct') pctBtn.style.cssText += activeStyle;
+  if(lbMetric === 'accuracyPct') pctBtn.style.cssText += activeStyle;
   else totBtn.style.cssText += activeStyle;
 }
 
@@ -7350,7 +7404,7 @@ async function renderLeaderboard(forceRefresh){
     lbCache[cacheKey] = { rows, myRank, ts: Date.now() };
   }
 
-  const unit = lbMetric === 'bestPct' ? '%' : ' correct';
+  const unit = lbMetric === 'accuracyPct' ? '%' : ' correct';
 
   // "Your Rank" card — shown whenever the user has an entry, even if
   // they're outside the visible Top 40 list below.
