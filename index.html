@@ -1780,7 +1780,10 @@ Thank You
       </div>
       <button onclick="openHistory()" class="btn-ghost" style="padding:9px 16px;font-size:13px;flex-shrink:0;">← History</button>
     </div>
-    <button id="hd-retry-btn" onclick="retryCurrentHistoryDetail()" style="display:none;width:100%;padding:12px;margin-bottom:16px;border-radius:14px;border:1px solid rgba(56,189,248,.4);background:rgba(56,189,248,.1);color:#38bdf8;font-size:14px;font-weight:700;cursor:pointer;">🔁 Retry This Quiz</button>
+    <div style="display:flex;gap:10px;margin-bottom:16px;">
+      <button id="hd-retry-btn" onclick="retryCurrentHistoryDetail()" style="display:none;flex:1;padding:12px;border-radius:14px;border:1px solid rgba(56,189,248,.4);background:rgba(56,189,248,.1);color:#38bdf8;font-size:13px;font-weight:700;cursor:pointer;">🔁 Retry All</button>
+      <button id="hd-retry-wrong-btn" onclick="retryWrongCurrentHistoryDetail()" style="display:none;flex:1;padding:12px;border-radius:14px;border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:#f87171;font-size:13px;font-weight:700;cursor:pointer;">🔁❌ Retry Wrong Only</button>
+    </div>
     <div id="hd-list"></div>
   </div>
 </div>
@@ -7136,6 +7139,48 @@ function openHistory(){
   renderHistoryScreen();
 }
 
+// Replays only the questions answered WRONG in a past attempt (matches the
+// same "wrong" definition as the in-quiz retryWrong(): answered but
+// incorrect — skipped/timed-out questions aren't included, same as elsewhere
+// in the app). Re-shuffles option order fresh, same as a normal retry.
+function reattemptWrongFromHistory(i){
+  const h = (window.__historyCache||[])[i];
+  if(!h){ alert('Could not find that attempt.'); return; }
+  if(!h.details || !h.details.length){
+    alert('This attempt has no saved questions to retry — it may be from before this feature was added.');
+    return;
+  }
+  const wrongDetails = h.details.filter(d => d.ua >= 0 && d.ua !== d.c);
+  if(!wrongDetails.length){
+    alert('No wrong answers in this attempt — nothing to retry! 🎉');
+    return;
+  }
+  if(!confirm(`Retry the ${wrongDetails.length} question${wrongDetails.length===1?'':'s'} you got wrong${h.subject ? ' in '+h.subject : ''}?`)) return;
+
+  prevSession = null;
+  quizQ = wrongDetails.map(d => {
+    const orig = rawQ.find(r => r.q === d.q);
+    return orig ? shuffleQ(orig) : { s: d.s, q: d.q, o: d.o, c: d.c };
+  });
+  userAnswers = new Array(quizQ.length).fill(-1);
+  qTimes = new Array(quizQ.length).fill(0);
+  reviewFlags = new Array(quizQ.length).fill(false);
+  cur = 0;
+
+  const autoEl = document.getElementById('tog-auto');
+  const timerEl = document.getElementById('tog-timer');
+  autoAdv = autoEl ? autoEl.classList.contains('on') : true;
+  timerOn = timerEl ? timerEl.classList.contains('on') : false;
+  timerSec = parseInt(($('timer-custom')||{}).value) || 20;
+
+  if($('quiz-mode-label')) $('quiz-mode-label').textContent = '🔁❌ Wrong Only: ' + (h.subject || 'Quiz');
+
+  showScreen('screen-quiz');
+  startSW();
+  renderQ();
+}
+window.reattemptWrongFromHistory = reattemptWrongFromHistory;
+
 // Replays the exact question set from a past attempt (same questions, same
 // order, same correct answers) — history already stores full per-question
 // detail, so this is a fresh attempt rather than a true "resume."
@@ -7228,6 +7273,7 @@ async function renderHistoryScreen(){
         <div style="font-size:11px;color:var(--text2);">${h.wrong}✗</div>
       </div>
       ${canRetry ? `<button onclick="event.stopPropagation();reattemptFromHistory(${i})" title="Retry this quiz" style="flex-shrink:0;width:34px;height:34px;border-radius:10px;border:1px solid rgba(56,189,248,.4);background:rgba(56,189,248,.1);color:#38bdf8;font-size:15px;cursor:pointer;">🔁</button>` : ''}
+      ${(canRetry && h.wrong>0) ? `<button onclick="event.stopPropagation();reattemptWrongFromHistory(${i})" title="Retry only wrong answers" style="flex-shrink:0;width:34px;height:34px;border-radius:10px;border:1px solid rgba(248,113,113,.4);background:rgba(248,113,113,.1);color:#f87171;font-size:15px;cursor:pointer;">🔁❌</button>` : ''}
       <span style="font-size:16px;color:var(--text3);flex-shrink:0;">›</span>
     </div>`;
   }).join('');
@@ -7245,10 +7291,12 @@ function openHistoryDetail(i){
   currentHistoryDetailIndex = i;
   showScreen('screen-history-detail');
 
-  const titleEl = $('hd-title'), subEl = $('hd-sub'), listEl = $('hd-list'), retryBtn = $('hd-retry-btn');
+  const titleEl = $('hd-title'), subEl = $('hd-sub'), listEl = $('hd-list'), retryBtn = $('hd-retry-btn'), retryWrongBtn = $('hd-retry-wrong-btn');
   if(titleEl) titleEl.textContent = h.subject || 'Quiz';
   if(subEl) subEl.textContent = `${fmtHistDate(h.ts)} · ${h.correct}✓ / ${h.wrong}✗ · ${h.pct}% score`;
-  if(retryBtn) retryBtn.style.display = (h.details && h.details.length) ? 'block' : 'none';
+  const hasDetails = h.details && h.details.length;
+  if(retryBtn) retryBtn.style.display = hasDetails ? 'block' : 'none';
+  if(retryWrongBtn) retryWrongBtn.style.display = (hasDetails && h.wrong>0) ? 'block' : 'none';
   if(!listEl) return;
 
   const details = h.details;
@@ -7286,6 +7334,12 @@ function retryCurrentHistoryDetail(){
   reattemptFromHistory(currentHistoryDetailIndex);
 }
 window.retryCurrentHistoryDetail = retryCurrentHistoryDetail;
+
+function retryWrongCurrentHistoryDetail(){
+  if(currentHistoryDetailIndex === null){ alert('No attempt selected.'); return; }
+  reattemptWrongFromHistory(currentHistoryDetailIndex);
+}
+window.retryWrongCurrentHistoryDetail = retryWrongCurrentHistoryDetail;
 
 // ======================== LEADERBOARD ========================
 let lbScope  = '';          // '' = global, else a mainSubjectMeta key
