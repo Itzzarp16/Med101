@@ -282,6 +282,48 @@
         const totalSnap = await getCountFromServer(query(col, where(field, '>=', 0)));
         return { rank: aheadSnap.data().count + 1, total: totalSnap.data().count, value: myValue };
       }catch(e){ console.error('Leaderboard rank lookup failed:', e); return null; }
+    },
+    // ── One-time admin backfill: existing users who already crossed the
+    //    100-answered floor before this feature existed won't have
+    //    qualifiedAccuracyPct set yet (it only gets written on new
+    //    submissions). This scans every leaderboard doc once and patches
+    //    in the missing field wherever the threshold's already been met,
+    //    both globally and per-subject — no need to wait for people to
+    //    take another quiz.
+    async migrateAccuracyQualification(){
+      if(!currentUser) return { error: 'Not signed in' };
+      try{
+        const col = collection(db, 'leaderboard');
+        const snap = await getDocs(col);
+        let updated = 0;
+        for(const d of snap.docs){
+          const data = d.data();
+          const patch = {};
+          let needsUpdate = false;
+
+          if((data.totalAnswered || 0) >= MIN_ANSWERED_FOR_ACCURACY && data.qualifiedAccuracyPct === undefined){
+            patch.qualifiedAccuracyPct = data.accuracyPct || 0;
+            needsUpdate = true;
+          }
+
+          const subjects = data.subjects || {};
+          let subjectsChanged = false;
+          const newSubjects = { ...subjects };
+          for(const [subj, s] of Object.entries(subjects)){
+            if((s.totalAnswered || 0) >= MIN_ANSWERED_FOR_ACCURACY && s.qualifiedAccuracyPct === undefined){
+              newSubjects[subj] = { ...s, qualifiedAccuracyPct: s.accuracyPct || 0 };
+              subjectsChanged = true;
+            }
+          }
+          if(subjectsChanged){ patch.subjects = newSubjects; needsUpdate = true; }
+
+          if(needsUpdate){
+            await setDoc(doc(db, 'leaderboard', d.id), patch, { merge:true });
+            updated++;
+          }
+        }
+        return { updated, total: snap.size };
+      }catch(e){ console.error('Accuracy backfill failed:', e); return { error: e.message }; }
     }
   };
 
@@ -1827,6 +1869,7 @@ Thank You
 
     <!-- Admin-only: broadcast the currently selected scope as everyone's default -->
     <button id="lb-set-default-btn" onclick="setLbScopeAsDefault()" style="display:none;width:100%;padding:9px;margin-bottom:14px;border-radius:12px;border:1px dashed rgba(250,204,21,.5);background:rgba(250,204,21,.08);color:#facc15;font-size:12px;font-weight:700;cursor:pointer;">📌 Set as default for everyone</button>
+    <button id="lb-backfill-btn" onclick="runAccuracyBackfill()" style="display:none;width:100%;padding:9px;margin-bottom:14px;border-radius:12px;border:1px dashed rgba(56,189,248,.5);background:rgba(56,189,248,.08);color:#38bdf8;font-size:12px;font-weight:700;cursor:pointer;">🔧 Backfill Accuracy Qualification (one-time)</button>
 
     <!-- Metric toggle -->
     <div style="display:flex;gap:8px;margin-bottom:6px;">
@@ -7415,9 +7458,10 @@ function onLbScopeChange(){
 // default EVERYONE'S Leaderboard opens to (e.g. ahead of an exam).
 function updateLbAdminControls(){
   const btn = $('lb-set-default-btn');
-  if(!btn) return;
+  const backfillBtn = $('lb-backfill-btn');
   const isAdmin = window.__cloudHistory && window.__cloudHistory.isAdmin();
-  btn.style.display = isAdmin ? 'block' : 'none';
+  if(btn) btn.style.display = isAdmin ? 'block' : 'none';
+  if(backfillBtn) backfillBtn.style.display = isAdmin ? 'block' : 'none';
 }
 
 async function setLbScopeAsDefault(){
@@ -7428,6 +7472,24 @@ async function setLbScopeAsDefault(){
   alert(ok ? `Done — everyone's Leaderboard will now default to "${label}" ✅` : 'Could not save — check your connection and try again.');
 }
 window.setLbScopeAsDefault = setLbScopeAsDefault;
+
+async function runAccuracyBackfill(){
+  if(!window.__leaderboard || !window.__leaderboard.migrateAccuracyQualification) return;
+  if(!confirm('Scan every leaderboard entry and qualify anyone who already has 100+ answered questions for the Accuracy % ranking?\n\nThis is safe to run more than once.')) return;
+  const btn = $('lb-backfill-btn');
+  if(btn){ btn.disabled = true; btn.textContent = '⏳ Scanning leaderboard…'; }
+  const result = await window.__leaderboard.migrateAccuracyQualification();
+  if(btn){ btn.disabled = false; btn.textContent = '🔧 Backfill Accuracy Qualification (one-time)'; }
+  if(result.error){
+    alert('Backfill failed: ' + result.error);
+  }else{
+    alert(`Done ✅ Scanned ${result.total} user(s), qualified ${result.updated} newly for Accuracy %.`);
+    // Clear cached leaderboard data and refresh so newly-qualified users show up immediately.
+    for(const k in lbCache) delete lbCache[k];
+    renderLeaderboard(true);
+  }
+}
+window.runAccuracyBackfill = runAccuracyBackfill;
 
 function setLbMetric(metric){
   lbMetric = metric;
@@ -7468,12 +7530,17 @@ async function renderLeaderboard(forceRefresh){
   const cached = lbCache[cacheKey];
   let rows, myRank;
 
+  // Regular users see the Top 40 as before. Admin sees everyone — useful for
+  // spotting the full spread of activity, not just the leaderboard's head.
+  const isAdminUser = window.__cloudHistory && window.__cloudHistory.isAdmin();
+  const fetchLimit = isAdminUser ? 100000 : 40;
+
   if(!forceRefresh && cached && (Date.now() - cached.ts) < LB_CACHE_TTL_MS){
     rows = cached.rows; myRank = cached.myRank;
   }else{
     loadingEl.style.display = 'block';
     [rows, myRank] = await Promise.all([
-      window.__leaderboard.top(lbScope || null, lbMetric, 40),
+      window.__leaderboard.top(lbScope || null, lbMetric, fetchLimit),
       window.__leaderboard.myRank(lbScope || null, lbMetric)
     ]);
     loadingEl.style.display = 'none';
