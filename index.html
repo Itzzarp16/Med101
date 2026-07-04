@@ -511,7 +511,9 @@
     isTokenAutoRefreshEnabled: true
   });
 
-  const ai = getAI(aiApp, { backend: new VertexAIBackend() });
+  // "global" location is required for preview-tier models like gemini-3.1-flash-lite —
+  // regional endpoints (e.g. us-central1) only serve GA/stable models.
+  const ai = getAI(aiApp, { backend: new VertexAIBackend('global') });
   const explainModel = getGenerativeModel(ai, {
     model: "gemini-3.1-flash-lite",
     generationConfig: { maxOutputTokens: 90, temperature: 0.4 }
