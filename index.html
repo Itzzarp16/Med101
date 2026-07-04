@@ -77,6 +77,27 @@
     }
   };
 
+  // ── SHARED LEADERBOARD DEFAULT — admin sets which subject scope the
+  //    Leaderboard opens to for EVERYONE (e.g. the subject with an
+  //    upcoming exam). Stored at config/leaderboardConfig.
+  window.__leaderboardConfig = {
+    async get(){
+      try{
+        const snap = await getDoc(doc(db, 'config', 'leaderboardConfig'));
+        if(!snap.exists()) return null;
+        return snap.data(); // { defaultScope, updatedAt }
+      }catch(e){ console.warn('Leaderboard config fetch failed:', e); return null; }
+    },
+    async set(defaultScope){
+      try{
+        await setDoc(doc(db, 'config', 'leaderboardConfig'), {
+          defaultScope: defaultScope || '', updatedAt: serverTimestamp()
+        }, { merge: true });
+        return true;
+      }catch(e){ console.error('Leaderboard config save failed:', e); return false; }
+    }
+  };
+
   // ── Notice image upload — stores at a fixed path so re-uploads simply
   //    overwrite the previous image (keeps Storage usage minimal).
   //    Uses a resumable upload so we get real progress feedback and can
@@ -1774,6 +1795,9 @@ Thank You
     <select id="lb-scope-select" onchange="onLbScopeChange()" style="width:100%;padding:11px 14px;border-radius:12px;background:var(--glass-bg,rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.15);color:var(--text);font-size:14px;font-weight:600;margin-bottom:10px;">
       <option value="">🌐 Global (all subjects)</option>
     </select>
+
+    <!-- Admin-only: broadcast the currently selected scope as everyone's default -->
+    <button id="lb-set-default-btn" onclick="setLbScopeAsDefault()" style="display:none;width:100%;padding:9px;margin-bottom:14px;border-radius:12px;border:1px dashed rgba(250,204,21,.5);background:rgba(250,204,21,.08);color:#facc15;font-size:12px;font-weight:700;cursor:pointer;">📌 Set as default for everyone</button>
 
     <!-- Metric toggle -->
     <div style="display:flex;gap:8px;margin-bottom:14px;">
@@ -7213,6 +7237,7 @@ window.openHistoryDetail = openHistoryDetail;
 let lbScope  = '';          // '' = global, else a mainSubjectMeta key
 let lbMetric = 'bestPct';   // 'bestPct' | 'totalCorrect'
 let lbPopulated = false;
+let lbDefaultApplied = false;   // only pull the shared admin default once per session
 const lbCache = {};              // key -> { rows, myRank, ts }
 const LB_CACHE_TTL_MS = 45000;   // reuse a fetched leaderboard view for 45s
 
@@ -7229,12 +7254,25 @@ function populateLbScopeSelect(){
   lbPopulated = true;
 }
 
-function openLeaderboard(){
+async function openLeaderboard(){
   populateLbScopeSelect();
   showScreen('screen-leaderboard');
+
+  // Pull the admin-set shared default once per session, so everyone lands
+  // on the same subject (e.g. whatever's got an exam coming up) unless
+  // they've already picked something else during this visit.
+  if(!lbDefaultApplied){
+    lbDefaultApplied = true;
+    if(window.__leaderboardConfig){
+      const cfg = await window.__leaderboardConfig.get();
+      if(cfg && cfg.defaultScope) lbScope = cfg.defaultScope;
+    }
+  }
+
   const sel = $('lb-scope-select');
   if(sel) sel.value = lbScope;
   updateLbMetricButtons();
+  updateLbAdminControls();
   renderLeaderboard();
 }
 window.openLeaderboard = openLeaderboard;
@@ -7244,6 +7282,24 @@ function onLbScopeChange(){
   lbScope = sel ? sel.value : '';
   renderLeaderboard();
 }
+
+// Admin-only: broadcasts whatever subject is currently selected as the
+// default EVERYONE'S Leaderboard opens to (e.g. ahead of an exam).
+function updateLbAdminControls(){
+  const btn = $('lb-set-default-btn');
+  if(!btn) return;
+  const isAdmin = window.__cloudHistory && window.__cloudHistory.isAdmin();
+  btn.style.display = isAdmin ? 'block' : 'none';
+}
+
+async function setLbScopeAsDefault(){
+  if(!window.__leaderboardConfig) return;
+  const label = lbScope ? lbScope.replace(' (purple)','') : 'Global (all subjects)';
+  if(!confirm(`Make "${label}" the default Leaderboard view for everyone?`)) return;
+  const ok = await window.__leaderboardConfig.set(lbScope);
+  alert(ok ? `Done — everyone's Leaderboard will now default to "${label}" ✅` : 'Could not save — check your connection and try again.');
+}
+window.setLbScopeAsDefault = setLbScopeAsDefault;
 
 function setLbMetric(metric){
   lbMetric = metric;
