@@ -1571,6 +1571,53 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   content:'';flex:1;height:1px;background:var(--border2);
 }
 
+/* ══════════════════════════════════════════════════════════════════
+   DESKTOP / LARGE-SCREEN LAYOUT — additive only.
+   Everything above this point is the original mobile-first CSS and is
+   completely untouched. Phones and portrait tablets render exactly as
+   before. Each rule uses !important only where needed to win over an
+   existing *inline* style — never to override another stylesheet rule.
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Tablets held sideways (landscape) — a middle-ground width bump, gated
+   to landscape specifically so a phone turned sideways doesn't also
+   trigger this (most phones in landscape are still under 700px tall-edge
+   width, and this range is capped below the 1024px desktop tier so the
+   two never overlap/conflict). */
+@media (min-width: 700px) and (max-width: 1023px) and (orientation: landscape){
+  [style*="max-width:640px"]{ max-width:820px !important; }
+  [style*="max-width:700px"]{ max-width:860px !important; }
+  [style*="max-width:560px"]{ max-width:760px !important; }
+  .subj-grid{ max-width:900px !important; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)) !important; }
+  #global-topbar{ padding-left:24px !important; padding-right:24px !important; }
+}
+
+@media (min-width: 1024px){
+  /* Widen the shared narrow content containers used across most screens
+     (home, history, leaderboard, quiz, etc.) so they use the extra room
+     instead of sitting in a slim centered column with empty space either side. */
+  [style*="max-width:640px"]{ max-width:900px !important; }
+  [style*="max-width:700px"]{ max-width:960px !important; }
+
+  /* Subject grid already uses CSS Grid auto-fit — simply widening its cap
+     lets it naturally flow into more columns with zero other changes. */
+  .subj-grid{ max-width:1000px !important; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)) !important; }
+
+  /* Give the top bar a little more breathing room on wide screens. */
+  #global-topbar{ padding-left:32px !important; padding-right:32px !important; }
+
+  /* Flashcards screen's main container */
+  [style*="max-width:560px"]{ max-width:820px !important; }
+}
+
+@media (min-width: 1440px){
+  /* Extra-wide monitors: cap growth a bit further than 1024px tier so
+     text/line-length stays comfortable rather than stretching edge-to-edge. */
+  [style*="max-width:640px"]{ max-width:1000px !important; }
+  [style*="max-width:700px"]{ max-width:1080px !important; }
+  .subj-grid{ max-width:1180px !important; }
+}
+
 </style>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
