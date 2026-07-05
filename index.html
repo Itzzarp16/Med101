@@ -234,7 +234,11 @@
       }catch(e){ console.error('Leaderboard update failed:', e); return false; }
     },
     // subjectKey: '' / null for global. metric: 'accuracyPct' | 'totalCorrect'.
-    // Returns rows with the sort metric plus derived correct/incorrect/avgTimeSec.
+    // max: pass 0/null/undefined for NO limit (used for admin's full view).
+    // Returns rows with the sort metric plus derived correct/incorrect/avgTimeSec,
+    // OR { error: '...' } if the query itself failed — surfaced so it's
+    // visible on-screen instead of only in devtools (which isn't practical
+    // to check from a tablet).
     async top(subjectKey, metric, max){
       try{
         // Accuracy ranks off the gated "qualifiedAccuracyPct" field so anyone
@@ -242,7 +246,9 @@
         const queryFieldName = metric === 'accuracyPct' ? 'qualifiedAccuracyPct' : metric;
         const field = subjectKey ? `subjects.${subjectKey}.${queryFieldName}` : queryFieldName;
         const col = collection(db, 'leaderboard');
-        const q = query(col, orderBy(field, 'desc'), limit(max || 20));
+        const constraints = [orderBy(field, 'desc')];
+        if(max) constraints.push(limit(max));  // omit entirely when max is falsy = no cap
+        const q = query(col, ...constraints);
         const snap = await getDocs(q);
         return snap.docs.map(d => {
           const data = d.data();
@@ -259,7 +265,7 @@
             avgTimeSec: answered ? (timeMs / answered / 1000) : null
           };
         });
-      }catch(e){ console.error('Leaderboard fetch failed:', e); return null; }
+      }catch(e){ console.error('Leaderboard fetch failed:', e); return { error: e.message || String(e) }; }
     },
     myUid(){ return currentUser ? currentUser.uid : null; },
     // Returns { rank, total, value } for the current user in this scope/metric,
@@ -7533,7 +7539,7 @@ async function renderLeaderboard(forceRefresh){
   // Regular users see the Top 40 as before. Admin sees everyone — useful for
   // spotting the full spread of activity, not just the leaderboard's head.
   const isAdminUser = window.__cloudHistory && window.__cloudHistory.isAdmin();
-  const fetchLimit = isAdminUser ? 100000 : 40;
+  const fetchLimit = isAdminUser ? null : 40;  // null = no limit() clause at all
 
   if(!forceRefresh && cached && (Date.now() - cached.ts) < LB_CACHE_TTL_MS){
     rows = cached.rows; myRank = cached.myRank;
@@ -7554,6 +7560,15 @@ async function renderLeaderboard(forceRefresh){
   if(myRank){
     myRankEl.style.display = 'flex';
     $('lb-my-rank-value').textContent = `#${myRank.rank} of ${myRank.total} · ${myRank.value}${unit}`;
+  }
+
+  // If the query itself failed (e.g. Firestore needs an index), show the
+  // real error on-screen rather than a misleading "no scores yet."
+  if(rows && rows.error){
+    emptyEl.style.display = 'block';
+    $('lb-empty-title').textContent = 'Something went wrong loading this list';
+    $('lb-empty-sub').textContent = rows.error;
+    return;
   }
 
   if(!rows || !rows.length){
