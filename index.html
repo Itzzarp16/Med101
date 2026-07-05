@@ -330,6 +330,29 @@
         }
         return { updated, total: snap.size };
       }catch(e){ console.error('Accuracy backfill failed:', e); return { error: e.message }; }
+    },
+    // Admin-only: fetch every leaderboard entry's uid + current display name,
+    // for the rename-user admin tool. Not gated server-side beyond normal
+    // read rules (any signed-in user could technically call this), but the
+    // UI that calls it is only shown to admin.
+    async listAllUsers(){
+      try{
+        const col = collection(db, 'leaderboard');
+        const snap = await getDocs(col);
+        return snap.docs.map(d => ({ uid: d.id, displayName: d.data().displayName || 'Anonymous' }))
+          .sort((a,b) => a.displayName.localeCompare(b.displayName));
+      }catch(e){ console.error('Listing users failed:', e); return null; }
+    },
+    // Admin-only (enforced by Firestore rules: only owner or isAdmin() can
+    // write to a leaderboard doc). Renames how a user's name shows up on
+    // the Leaderboard for everyone — does NOT change their actual sign-in
+    // name/email, just this display label.
+    async renameUser(uid, newName){
+      if(!currentUser) return false;
+      try{
+        await setDoc(doc(db, 'leaderboard', uid), { displayName: newName }, { merge:true });
+        return true;
+      }catch(e){ console.error('Rename failed:', e); return false; }
     }
   };
 
@@ -1885,6 +1908,21 @@ Thank You
   </div>
 </div>
 
+<!-- Admin-only: rename any user's Leaderboard display name -->
+<div id="admin-rename-modal" class="home-notice-modal" style="display:none;" onclick="closeAdminRenameModal(event)">
+  <div class="home-notice-modal-card" onclick="event.stopPropagation()" style="max-width:460px;max-height:80vh;display:flex;flex-direction:column;">
+    <button class="home-notice-close" onclick="closeAdminRenameModal()" aria-label="Close">✕</button>
+    <div class="home-notice-modal-title">✏️ Edit User Names</div>
+    <div style="font-size:12px;color:var(--text2);margin-top:4px;margin-bottom:12px;">Changes how a name shows on the Leaderboard for everyone — doesn't affect their sign-in.</div>
+
+    <input id="admin-rename-search" type="text" placeholder="Search by name…" oninput="renderAdminRenameList()" style="width:100%;padding:10px 13px;border-radius:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.15);color:var(--text);font-size:14px;box-sizing:border-box;margin-bottom:12px;flex-shrink:0;">
+
+    <div id="admin-rename-list" style="overflow-y:auto;flex:1;min-height:100px;">
+      <div style="text-align:center;color:var(--text2);font-size:13px;padding:20px;">Loading users…</div>
+    </div>
+  </div>
+</div>
+
 <div id="screen-history-detail" class="screen" style="position:relative;z-index:1;padding-top:calc(var(--topbar-h) + 14px);">
   <div style="max-width:640px;margin:0 auto;width:100%;padding:0 16px 40px;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
@@ -1923,6 +1961,7 @@ Thank You
     <!-- Admin-only: broadcast the currently selected scope as everyone's default -->
     <button id="lb-set-default-btn" onclick="setLbScopeAsDefault()" style="display:none;width:100%;padding:9px;margin-bottom:14px;border-radius:12px;border:1px dashed rgba(250,204,21,.5);background:rgba(250,204,21,.08);color:#facc15;font-size:12px;font-weight:700;cursor:pointer;">📌 Set as default for everyone</button>
     <button id="lb-backfill-btn" onclick="runAccuracyBackfill()" style="display:none;width:100%;padding:9px;margin-bottom:14px;border-radius:12px;border:1px dashed rgba(56,189,248,.5);background:rgba(56,189,248,.08);color:#38bdf8;font-size:12px;font-weight:700;cursor:pointer;">🔧 Backfill Accuracy Qualification (one-time)</button>
+    <button id="lb-rename-btn" onclick="openAdminRenameModal()" style="display:none;width:100%;padding:9px;margin-bottom:14px;border-radius:12px;border:1px dashed rgba(168,142,255,.5);background:rgba(168,142,255,.08);color:#a88eff;font-size:12px;font-weight:700;cursor:pointer;">✏️ Edit User Names</button>
 
     <!-- Metric toggle -->
     <div style="display:flex;gap:8px;margin-bottom:6px;">
@@ -7512,10 +7551,94 @@ function onLbScopeChange(){
 function updateLbAdminControls(){
   const btn = $('lb-set-default-btn');
   const backfillBtn = $('lb-backfill-btn');
+  const renameBtn = $('lb-rename-btn');
   const isAdmin = window.__cloudHistory && window.__cloudHistory.isAdmin();
   if(btn) btn.style.display = isAdmin ? 'block' : 'none';
   if(backfillBtn) backfillBtn.style.display = isAdmin ? 'block' : 'none';
+  if(renameBtn) renameBtn.style.display = isAdmin ? 'block' : 'none';
 }
+
+// ── Admin: rename any user's Leaderboard display name ────────
+let adminRenameUsers = null; // cached list for this modal session
+
+async function openAdminRenameModal(){
+  if(!window.__cloudHistory || !window.__cloudHistory.isAdmin()){
+    alert('Admin only.');
+    return;
+  }
+  $('admin-rename-modal').style.display = 'flex';
+  $('admin-rename-search').value = '';
+  $('admin-rename-list').innerHTML = '<div style="text-align:center;color:var(--text2);font-size:13px;padding:20px;">Loading users…</div>';
+  adminRenameUsers = await window.__leaderboard.listAllUsers();
+  renderAdminRenameList();
+}
+window.openAdminRenameModal = openAdminRenameModal;
+
+function closeAdminRenameModal(e){
+  if(e) e.stopPropagation();
+  $('admin-rename-modal').style.display = 'none';
+}
+window.closeAdminRenameModal = closeAdminRenameModal;
+
+function renderAdminRenameList(){
+  const listEl = $('admin-rename-list');
+  if(!listEl) return;
+  if(!adminRenameUsers){
+    listEl.innerHTML = '<div style="text-align:center;color:var(--text2);font-size:13px;padding:20px;">Could not load users — check your connection.</div>';
+    return;
+  }
+  const filter = ($('admin-rename-search').value || '').trim().toLowerCase();
+  const filtered = filter
+    ? adminRenameUsers.filter(u => u.displayName.toLowerCase().includes(filter))
+    : adminRenameUsers;
+
+  if(!filtered.length){
+    listEl.innerHTML = '<div style="text-align:center;color:var(--text2);font-size:13px;padding:20px;">No matching users.</div>';
+    return;
+  }
+
+  // Kept as a temp reference so the buttons below can look users up by
+  // index rather than embedding raw (possibly quote-containing) names
+  // directly inside onclick="" attributes.
+  window.__adminRenameFiltered = filtered;
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  listEl.innerHTML = filtered.map((u, i) => `
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 4px;border-bottom:1px solid rgba(255,255,255,.08);">
+      <div style="font-size:14px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1;">${esc(u.displayName)}</div>
+      <button onclick="promptRenameUserByIndex(${i})" style="flex-shrink:0;padding:6px 12px;border-radius:8px;border:1px solid rgba(168,142,255,.4);background:rgba(168,142,255,.1);color:#a88eff;font-size:12px;font-weight:600;cursor:pointer;">Rename</button>
+    </div>
+  `).join('');
+}
+window.renderAdminRenameList = renderAdminRenameList;
+
+async function promptRenameUserByIndex(i){
+  const u = window.__adminRenameFiltered && window.__adminRenameFiltered[i];
+  if(!u) return;
+  await promptRenameUser(u.uid, u.displayName);
+}
+window.promptRenameUserByIndex = promptRenameUserByIndex;
+
+async function promptRenameUser(uid, currentName){
+  const next = prompt(`New display name for "${currentName}":`, currentName);
+  if(next === null) return; // cancelled
+  const trimmed = next.trim();
+  if(!trimmed){ alert('Name can\'t be empty.'); return; }
+
+  const ok = await window.__leaderboard.renameUser(uid, trimmed);
+  if(ok){
+    // Update local cache so the list reflects it immediately without refetching
+    const entry = adminRenameUsers && adminRenameUsers.find(u => u.uid === uid);
+    if(entry) entry.displayName = trimmed;
+    renderAdminRenameList();
+    // Clear leaderboard render cache so the change shows up next time it's viewed
+    for(const k in lbCache) delete lbCache[k];
+  }else{
+    alert('Could not save — check your connection and try again.');
+  }
+}
+window.promptRenameUser = promptRenameUser;
 
 async function setLbScopeAsDefault(){
   if(!window.__leaderboardConfig) return;
