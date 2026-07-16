@@ -16,13 +16,22 @@
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
   import { getFirestore, collection, addDoc, query, orderBy, limit, getDocs,
            deleteDoc, doc, writeBatch, enableIndexedDbPersistence, serverTimestamp, updateDoc,
-           getDoc, setDoc, where, getCountFromServer }
+           getDoc, setDoc, where, getCountFromServer, onSnapshot }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytesResumable, getDownloadURL }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
   // Must exactly match the email used in the isAdmin() Firestore security rule.
   const ADMIN_EMAIL = "abhishekpatel9324@gmail.com";
+
+  // Single-device session lock (search "SINGLE-DEVICE SESSION LOCK" below)
+  // needs this rule in Firestore → Rules so users can read/write their own
+  // users/{uid} doc:
+  //   match /users/{uid} {
+  //     allow read, write: if request.auth != null && request.auth.uid == uid;
+  //   }
+  // Without it, claimDevice()/verifyDevice() fail silently and the lock
+  // does nothing (fails open by design — see verifyDevice's comment).
 
   const firebaseConfig = {
     apiKey:            "AIzaSyC7KtDwkKLrLiw7w_5yvkRLGGYHqs-B5a8",
@@ -190,7 +199,8 @@
   window.__leaderboard = {
     isSignedIn(){ return !!currentUser; },
     // subjTotals: { [mainSubjectKey]: {correct, answered, pct, timeMs} } for THIS quiz only
-    async submit(subjTotals, overallCorrect, overallAnswered, overallPct, overallTimeMs){
+    // semTotals:  { [semesterId]:   {correct, answered, pct, timeMs} } for THIS quiz only
+    async submit(subjTotals, semTotals, overallCorrect, overallAnswered, overallPct, overallTimeMs){
       if(!currentUser) return false;
       try{
         const ref = doc(db, 'leaderboard', currentUser.uid);
@@ -216,6 +226,25 @@
           if(newAnswered >= MIN_ANSWERED_FOR_ACCURACY) subjEntry.qualifiedAccuracyPct = acc;
           subjects[subj] = subjEntry;
         }
+        // Same rollup, one level up: per-semester totals so the leaderboard
+        // can be filtered by "Year X · Semester Y" as a whole, not just by
+        // individual subject.
+        const semesters = data.semesters || {};
+        for(const [semId, t] of Object.entries(semTotals || {})){
+          if(!semId || semId === 'null') continue; // question had no resolvable semester
+          const prev = semesters[semId] || { totalCorrect:0, totalAnswered:0, timeMs:0 };
+          const newCorrect  = prev.totalCorrect  + (t.correct  || 0);
+          const newAnswered = prev.totalAnswered + (t.answered || 0);
+          const acc = newAnswered ? Math.round((newCorrect / newAnswered) * 100) : 0;
+          const semEntry = {
+            totalCorrect:  newCorrect,
+            totalAnswered: newAnswered,
+            accuracyPct: acc,
+            timeMs: (prev.timeMs || 0) + (t.timeMs || 0)
+          };
+          if(newAnswered >= MIN_ANSWERED_FOR_ACCURACY) semEntry.qualifiedAccuracyPct = acc;
+          semesters[semId] = semEntry;
+        }
         const newGlobalCorrect  = (data.totalCorrect  || 0) + (overallCorrect  || 0);
         const newGlobalAnswered = (data.totalAnswered || 0) + (overallAnswered || 0);
         const globalAcc = newGlobalAnswered ? Math.round((newGlobalCorrect / newGlobalAnswered) * 100) : 0;
@@ -226,12 +255,24 @@
           accuracyPct: globalAcc,
           timeMs: (data.timeMs || 0) + (overallTimeMs || 0),
           subjects,
+          semesters,
           updatedAt: serverTimestamp()
         };
         if(newGlobalAnswered >= MIN_ANSWERED_FOR_ACCURACY) payload.qualifiedAccuracyPct = globalAcc;
         await setDoc(ref, payload, { merge:true });
         return true;
       }catch(e){ console.error('Leaderboard update failed:', e); return false; }
+    },
+    // Resolves a scope key (''=global, 'sem:<id>'=semester, else a subject
+    // name) into { bucketField, bucketKey } describing where in the
+    // Firestore doc that scope's stats live. Shared by top() and myRank()
+    // so both stay in sync.
+    _resolveScope(scopeKey){
+      if(!scopeKey) return { bucketField: null, bucketKey: null };
+      if(typeof scopeKey === 'string' && scopeKey.startsWith('sem:')){
+        return { bucketField: 'semesters', bucketKey: scopeKey.slice(4) };
+      }
+      return { bucketField: 'subjects', bucketKey: scopeKey };
     },
     // subjectKey: '' / null for global. metric: 'accuracyPct' | 'totalCorrect'.
     // max: pass 0/null/undefined for NO limit (used for admin's full view).
@@ -244,7 +285,8 @@
         // Accuracy ranks off the gated "qualifiedAccuracyPct" field so anyone
         // under the answered-question floor is automatically excluded.
         const queryFieldName = metric === 'accuracyPct' ? 'qualifiedAccuracyPct' : metric;
-        const field = subjectKey ? `subjects.${subjectKey}.${queryFieldName}` : queryFieldName;
+        const { bucketField, bucketKey } = this._resolveScope(subjectKey);
+        const field = bucketField ? `${bucketField}.${bucketKey}.${queryFieldName}` : queryFieldName;
         const col = collection(db, 'leaderboard');
         const constraints = [orderBy(field, 'desc')];
         if(max) constraints.push(limit(max));  // omit entirely when max is falsy = no cap
@@ -252,7 +294,7 @@
         const snap = await getDocs(q);
         return snap.docs.map(d => {
           const data = d.data();
-          const s = (subjectKey ? (data.subjects && data.subjects[subjectKey]) : data) || {};
+          const s = (bucketField ? (data[bucketField] && data[bucketField][bucketKey]) : data) || {};
           const correct  = s.totalCorrect  || 0;
           const answered = s.totalAnswered || 0;
           const timeMs   = s.timeMs || 0;
@@ -278,11 +320,12 @@
         const mySnap = await getDoc(doc(db, 'leaderboard', currentUser.uid));
         if(!mySnap.exists()) return null;
         const data = mySnap.data();
-        const s = (subjectKey ? (data.subjects && data.subjects[subjectKey]) : data) || null;
+        const { bucketField, bucketKey } = this._resolveScope(subjectKey);
+        const s = (bucketField ? (data[bucketField] && data[bucketField][bucketKey]) : data) || null;
         const queryFieldName = metric === 'accuracyPct' ? 'qualifiedAccuracyPct' : metric;
         if(!s || s[queryFieldName] === undefined) return null;
         const myValue = s[metric] || 0;
-        const field = subjectKey ? `subjects.${subjectKey}.${queryFieldName}` : queryFieldName;
+        const field = bucketField ? `${bucketField}.${bucketKey}.${queryFieldName}` : queryFieldName;
         const col = collection(db, 'leaderboard');
         const aheadSnap = await getCountFromServer(query(col, where(field, '>', s[queryFieldName])));
         const totalSnap = await getCountFromServer(query(col, where(field, '>=', 0)));
@@ -431,10 +474,89 @@
   window.addEventListener('pagehide', ()=>{ endSession(); });
   window.addEventListener('beforeunload', ()=>{ endSession(); });
 
+  // ── SINGLE-DEVICE SESSION LOCK ──────────────────────────────────────
+  //  Students were sharing one login across several phones/laptops at
+  //  once. This makes a fresh sign-in on any device kick every other
+  //  device using the same account — instantly if that device is online,
+  //  or the next time it opens the app if it isn't.
+  //
+  //  Each browser keeps a random ID in localStorage (getDeviceId). An
+  //  explicit sign-in/sign-up unconditionally writes that ID to
+  //  users/{uid}.activeDeviceId. Every signed-in device listens
+  //  (onSnapshot) for that field changing away from its own ID and signs
+  //  itself out the moment it does. The admin account is exempt, so
+  //  managing the app from more than one browser still works as before.
+  //
+  //  Needs a Firestore rule letting a user read/write their own
+  //  users/{uid} document — see the note near the top of this file.
+  let deviceUnsub = null;         // active onSnapshot unsubscribe fn, or null
+  let deviceClaimPending = null;  // uid just claimed via explicit login — skips the read-check below
+
+  function getDeviceId(){
+    let id = localStorage.getItem('medDeviceId');
+    if(!id){
+      id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID()
+           : ('dev-' + Date.now() + '-' + Math.random().toString(36).slice(2,10));
+      localStorage.setItem('medDeviceId', id);
+    }
+    return id;
+  }
+
+  async function claimDevice(uid){
+    try{
+      await setDoc(doc(db, 'users', uid),
+        { activeDeviceId: getDeviceId(), activeDeviceAt: serverTimestamp() },
+        { merge: true });
+    }catch(e){ console.warn('claimDevice failed (check Firestore rules):', e); }
+  }
+
+  // Runs for a resumed/persisted sign-in (e.g. reopening the app) — never
+  // for a fresh login, which claims the device unconditionally instead.
+  // Fails OPEN on read errors (offline, etc.) so a network hiccup never
+  // locks a legitimate student out of studying.
+  async function verifyDevice(uid){
+    try{
+      const snap = await getDoc(doc(db, 'users', uid));
+      const active = snap.exists() ? snap.data().activeDeviceId : null;
+      if(!active){ await claimDevice(uid); return true; }   // pre-feature account — adopt it, don't kick
+      if(active === getDeviceId()) return true;              // still the active device
+      await forceKickThisDevice();
+      return false;
+    }catch(e){ console.warn('verifyDevice failed, allowing access:', e); return true; }
+  }
+
+  function attachDeviceListener(uid){
+    if(deviceUnsub) deviceUnsub();
+    deviceUnsub = onSnapshot(doc(db, 'users', uid), snap => {
+      const active = snap.exists() ? snap.data().activeDeviceId : null;
+      if(active && active !== getDeviceId()) forceKickThisDevice();
+    }, err => console.warn('device listener error:', err));
+  }
+
+  function detachDeviceListener(){
+    if(deviceUnsub){ deviceUnsub(); deviceUnsub = null; }
+  }
+
+  async function forceKickThisDevice(){
+    detachDeviceListener();
+    try{ await signOut(auth); }catch(e){}
+    authShowMsg("You've been signed out because this account was signed in on another device.", 'warn');
+  }
+
   // AUTH STATE
-  onAuthStateChanged(auth, user => {
+  onAuthStateChanged(auth, async user => {
     currentUser = user || null;
     if (user) {
+      if (user.email !== ADMIN_EMAIL) {
+        if (deviceClaimPending === user.uid) {
+          deviceClaimPending = null;
+          attachDeviceListener(user.uid);
+        } else {
+          const ok = await verifyDevice(user.uid);
+          if (!ok) return; // kicked — the onAuthStateChanged call this triggers (user=null) handles the UI
+          attachDeviceListener(user.uid);
+        }
+      }
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'none';
       document.body.classList.remove('auth-open');
@@ -448,6 +570,8 @@
       if (typeof window.renderHistoryScreen === 'function') window.renderHistoryScreen();
       startSession(user.uid);
     } else {
+      detachDeviceListener();
+      deviceClaimPending = null;
       endSession();
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'flex';
@@ -516,11 +640,19 @@
     btn.textContent = _authMode === 'signin' ? 'Signing in...' : 'Creating account...';
     try {
       if (_authMode === 'signin') {
-        await signInWithEmailAndPassword(auth, email, pw);
+        const cred = await signInWithEmailAndPassword(auth, email, pw);
+        if (cred.user.email !== ADMIN_EMAIL) {
+          deviceClaimPending = cred.user.uid;
+          await claimDevice(cred.user.uid);
+        }
       } else {
         const name = document.getElementById('auth-name').value.trim();
         const cred = await createUserWithEmailAndPassword(auth, email, pw);
         if (cred && cred.user) await updateProfile(cred.user, { displayName: name });
+        if (cred.user.email !== ADMIN_EMAIL) {
+          deviceClaimPending = cred.user.uid;
+          await claimDevice(cred.user.uid);
+        }
         authShowMsg('Account created! Welcome!', 'success');
       }
     } catch (err) {
@@ -3026,7 +3158,24 @@ function logQuizAttempt(){
         t.pct = t.answered ? Math.round((t.correct/t.answered)*100) : 0;
         t.timeMs = Math.round(quizTimeMs * (t.total / totalQCount));
       });
-      window.__leaderboard.submit(subjTotals, correct, answered, pct, quizTimeMs)
+      // Roll the same per-subject totals up one level into per-semester
+      // totals, so the Leaderboard can also be viewed "Year 1 · Semester 2"
+      // wide instead of only per-subject or fully global.
+      const semTotals = {};
+      Object.entries(subjTotals).forEach(([main, t])=>{
+        const semId = (typeof mainSubjectToSemester==='function') ? mainSubjectToSemester(main) : null;
+        if(!semId) return;
+        if(!semTotals[semId]) semTotals[semId] = { correct:0, answered:0, total:0, timeMs:0 };
+        const st = semTotals[semId];
+        st.correct  += t.correct;
+        st.answered += t.answered;
+        st.total    += t.total;
+        st.timeMs   += t.timeMs;
+      });
+      Object.values(semTotals).forEach(t=>{
+        t.pct = t.answered ? Math.round((t.correct/t.answered)*100) : 0;
+      });
+      window.__leaderboard.submit(subjTotals, semTotals, correct, answered, pct, quizTimeMs)
         .then(ok => { if(ok && typeof lbCache !== 'undefined') for(const k in lbCache) delete lbCache[k]; })
         .catch(()=>{});
     }
@@ -3289,23 +3438,53 @@ function retryWrongCurrentHistoryDetail(){
 window.retryWrongCurrentHistoryDetail = retryWrongCurrentHistoryDetail;
 
 // ======================== LEADERBOARD ========================
-let lbScope  = '';          // '' = global, else a mainSubjectMeta key
+let lbScope  = '';          // '' = global, 'sem:<id>' = semester-wide, else a mainSubjectMeta key
 let lbMetric = 'accuracyPct';   // 'accuracyPct' | 'totalCorrect'
 let lbPopulated = false;
 let lbDefaultApplied = false;   // only pull the shared admin default once per session
 const lbCache = {};              // key -> { rows, myRank, ts }
 const LB_CACHE_TTL_MS = 45000;   // reuse a fetched leaderboard view for 45s
 
+// Human-readable label for whatever scope is currently selected — handles
+// global, semester-wide ("sem:xxx"), and per-subject scopes.
+function lbScopeLabel(scope){
+  if(!scope) return 'Global (all subjects)';
+  if(scope.startsWith('sem:')){
+    const sem = (semesters || []).find(s => s.id === scope.slice(4));
+    return sem ? sem.label : scope;
+  }
+  return scope.replace(' (purple)','');
+}
+
 function populateLbScopeSelect(){
   if(lbPopulated) return;
   const sel = $('lb-scope-select');
   if(!sel || typeof mainSubjectMeta === 'undefined') return;
+
+  // Semester-wide options — shown even with a single semester, same as the
+  // quiz-side "Choose a Semester" screen, so the UI is ready for more without
+  // needing another pass later.
+  if(Array.isArray(semesters) && semesters.length > 0){
+    const semGroup = document.createElement('optgroup');
+    semGroup.label = 'By Semester';
+    semesters.forEach(sem=>{
+      const opt = document.createElement('option');
+      opt.value = `sem:${sem.id}`;
+      opt.textContent = `${sem.emoji} ${sem.label}`;
+      semGroup.appendChild(opt);
+    });
+    sel.appendChild(semGroup);
+  }
+
+  const subjGroup = document.createElement('optgroup');
+  subjGroup.label = 'By Subject';
   Object.entries(mainSubjectMeta).forEach(([key, meta])=>{
     const opt = document.createElement('option');
     opt.value = key;
     opt.textContent = `${meta.emoji} ${key.replace(' (purple)','')}`;
-    sel.appendChild(opt);
+    subjGroup.appendChild(opt);
   });
+  sel.appendChild(subjGroup);
   lbPopulated = true;
 }
 
@@ -3434,7 +3613,7 @@ window.promptRenameUser = promptRenameUser;
 
 async function setLbScopeAsDefault(){
   if(!window.__leaderboardConfig) return;
-  const label = lbScope ? lbScope.replace(' (purple)','') : 'Global (all subjects)';
+  const label = lbScopeLabel(lbScope);
   if(!confirm(`Make "${label}" the default Leaderboard view for everyone?`)) return;
   const ok = await window.__leaderboardConfig.set(lbScope);
   alert(ok ? `Done — everyone's Leaderboard will now default to "${label}" ✅` : 'Could not save — check your connection and try again.');
@@ -3833,6 +4012,15 @@ const semesterManifest = [
 let semesters = [];
 let semesterMainSubjects = {};
 let activeSemester = null;
+
+// Reverse lookup: which semester does a given main subject belong to?
+// Used for the semester-wide Leaderboard rollup.
+function mainSubjectToSemester(mainSubj){
+  for(const semId in semesterMainSubjects){
+    if((semesterMainSubjects[semId] || []).includes(mainSubj)) return semId;
+  }
+  return null;
+}
 let dataLoaded = false;
 
 async function loadSemesterData() {
