@@ -6,7 +6,6 @@
 <title>Medical MCQ Quiz – Physiology �· Biochemistry �· Anatomy �· Kyrgyz �· MSCR</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <!-- Firebase SDK -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -21,8 +20,6 @@
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
   import { getStorage, ref, uploadBytesResumable, getDownloadURL }
     from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
-  import { getFunctions, httpsCallable }
-    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-functions.js";
 
   // Must exactly match the email used in the isAdmin() Firestore security rule.
   const ADMIN_EMAIL = "abhishekpatel9324@gmail.com";
@@ -60,7 +57,6 @@
   const auth = getAuth(app);
   const db   = getFirestore(app);
   const storage = getStorage(app);
-  const fns  = getFunctions(app);
 
   // Enable offline cache + sync-on-reconnect (built into Firestore SDK)
   enableIndexedDbPersistence(db).catch(err => {
@@ -532,13 +528,8 @@
   function attachDeviceListener(uid){
     if(deviceUnsub) deviceUnsub();
     deviceUnsub = onSnapshot(doc(db, 'users', uid), snap => {
-      const data = snap.exists() ? snap.data() : {};
-      const active = data.activeDeviceId || null;
-      if(active && active !== getDeviceId()){ forceKickThisDevice(); return; }
-      // Same doc, same listener — also keep subscription status live so a
-      // renewal/cancellation/halt takes effect immediately without a reload.
-      subscriptionState = data.subscription || null;
-      applySubscriptionGate();
+      const active = snap.exists() ? snap.data().activeDeviceId : null;
+      if(active && active !== getDeviceId()) forceKickThisDevice();
     }, err => console.warn('device listener error:', err));
   }
 
@@ -552,42 +543,6 @@
     authShowMsg("You've been signed out because this account was signed in on another device.", 'warn');
   }
 
-  // ── SUBSCRIPTION GATE ────────────────────────────────────────────────
-  //  Non-admin users need subscription.status === 'active' in their
-  //  users/{uid} doc to use the app. That field is written ONLY by the
-  //  razorpayWebhook Cloud Function (see functions/index.js) after
-  //  Razorpay confirms a real payment — never trust a client-side
-  //  "payment succeeded" callback for this. Kept live via the same
-  //  onSnapshot listener used for the single-device lock, so a lapsed
-  //  subscription locks the app immediately even mid-session.
-  let subscriptionState = null; // null = none/unknown, else {status, currentPeriodEnd, ...}
-
-  function isSubscriptionActive(){
-    if(!subscriptionState || subscriptionState.status !== 'active') return false;
-    const end = subscriptionState.currentPeriodEnd;
-    // currentPeriodEnd is a Firestore Timestamp (from the webhook) —
-    // if it's already passed and no new "charged" event has arrived yet,
-    // treat it as lapsed rather than trusting a stale "active" status.
-    if(end && typeof end.toMillis === 'function' && end.toMillis() < Date.now()) return false;
-    return true;
-  }
-
-  function applySubscriptionGate(){
-    if(!currentUser) return;
-    const isAdminUser = currentUser.email === ADMIN_EMAIL;
-    const unlocked = isAdminUser || isSubscriptionActive();
-    const subScreen = document.getElementById('screen-subscribe');
-    if(!subScreen) return;
-    if(unlocked){
-      subScreen.classList.add('hidden'); subScreen.style.display = 'none';
-    } else {
-      subScreen.classList.remove('hidden'); subScreen.style.display = 'flex';
-      if(typeof window.renderSubscribeStatus === 'function') window.renderSubscribeStatus(subscriptionState);
-    }
-  }
-  window.applySubscriptionGate = applySubscriptionGate;
-  window.isSubscriptionActive = isSubscriptionActive;
-
   // AUTH STATE
   onAuthStateChanged(auth, async user => {
     currentUser = user || null;
@@ -595,24 +550,18 @@
       if (user.email !== ADMIN_EMAIL) {
         if (deviceClaimPending === user.uid) {
           deviceClaimPending = null;
+          attachDeviceListener(user.uid);
         } else {
           const ok = await verifyDevice(user.uid);
           if (!ok) return; // kicked — the onAuthStateChanged call this triggers (user=null) handles the UI
+          attachDeviceListener(user.uid);
         }
-        // Seed subscription state once, before revealing any screen, so a
-        // never-subscribed or lapsed user never sees a flash of unlocked
-        // content while the live listener below is still connecting.
-        try{
-          const snap = await getDoc(doc(db, 'users', user.uid));
-          subscriptionState = (snap.exists() && snap.data().subscription) || null;
-        }catch(e){ console.warn('Initial subscription check failed:', e); subscriptionState = null; }
-        attachDeviceListener(user.uid); // also keeps subscriptionState live from here on
-      } else {
-        subscriptionState = null; // irrelevant for admin — always exempt
       }
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'none';
       document.body.classList.remove('auth-open');
+      const ss = document.getElementById('screen-subject');
+      if (ss) { ss.classList.remove('hidden'); ss.style.display = 'flex'; }
       const ud = document.getElementById('auth-user-display');
       if (ud) { ud.textContent = user.displayName || user.email; ud.style.display = 'block'; }
       const so = document.getElementById('auth-signout-btn');
@@ -620,21 +569,13 @@
       // If the user lands signed-in and history screen logic is loaded, refresh it
       if (typeof window.renderHistoryScreen === 'function') window.renderHistoryScreen();
       startSession(user.uid);
-      applySubscriptionGate(); // decides: reveal screen-subject, or show the paywall instead
-      if(isSubscriptionActive() || user.email === ADMIN_EMAIL){
-        const ss = document.getElementById('screen-subject');
-        if (ss) { ss.classList.remove('hidden'); ss.style.display = 'flex'; }
-      }
     } else {
       detachDeviceListener();
       deviceClaimPending = null;
-      subscriptionState = null;
       endSession();
       const authScreen = document.getElementById('auth-screen');
       if (authScreen) authScreen.style.display = 'flex';
       document.body.classList.add('auth-open');
-      const subScreen = document.getElementById('screen-subscribe');
-      if (subScreen) { subScreen.classList.add('hidden'); subScreen.style.display = 'none'; }
       const ss = document.getElementById('screen-subject');
       if (ss) { ss.classList.add('hidden'); ss.style.display = 'none'; }
       const ud = document.getElementById('auth-user-display');
@@ -741,86 +682,6 @@
 
   window.authSignOut = async function() {
     try { await signOut(auth); } catch(e) { console.error(e); }
-  };
-
-  // ── Subscribe button handler ─────────────────────────────────────────
-  // Calls the createSubscription Cloud Function to get a Razorpay
-  // subscription ID, then opens Razorpay's hosted Checkout with it.
-  // IMPORTANT: nothing here unlocks the app. The Checkout's own
-  // "payment successful" callback below is purely cosmetic (shows a
-  // "confirming…" message) — actual unlocking only ever happens when
-  // the razorpayWebhook Cloud Function confirms the charge with Razorpay
-  // server-to-server and flips subscription.status to 'active' in
-  // Firestore, which the live listener above then picks up automatically.
-  window.startSubscription = async function() {
-    if (!currentUser) { authShowMsg('Please sign in first.', 'error'); return; }
-    const btn = document.getElementById('sub-subscribe-btn');
-    const msgEl = document.getElementById('sub-msg');
-    msgEl.style.display = 'none';
-    btn.disabled = true;
-    btn.textContent = 'Starting checkout...';
-    try {
-      const createSubscription = httpsCallable(fns, 'createSubscription');
-      const { data } = await createSubscription();
-      const rzp = new window.Razorpay({
-        key: data.keyId,
-        subscription_id: data.subscriptionId,
-        name: 'Med101',
-        description: 'Monthly subscription',
-        theme: { color: '#00e5ff' },
-        prefill: { email: currentUser.email || '' },
-        handler: function () {
-          // Payment popup succeeded — actual access unlocks a few seconds
-          // later once the webhook lands. Reflect that honestly instead
-          // of implying instant access.
-          msgEl.textContent = 'Payment received! Activating your subscription — this usually takes a few seconds…';
-          msgEl.className = 'auth-msg success';
-          msgEl.style.display = 'block';
-        },
-        modal: {
-          ondismiss: function () {
-            btn.disabled = false;
-            btn.textContent = 'Subscribe with Razorpay →';
-          }
-        }
-      });
-      rzp.on('payment.failed', function (resp) {
-        msgEl.textContent = 'Payment failed: ' + (resp.error && resp.error.description ? resp.error.description : 'please try again.');
-        msgEl.className = 'auth-msg error';
-        msgEl.style.display = 'block';
-        btn.disabled = false;
-        btn.textContent = 'Subscribe with Razorpay →';
-      });
-      rzp.open();
-      btn.textContent = 'Subscribe with Razorpay →';
-      btn.disabled = false;
-    } catch (e) {
-      console.error('startSubscription failed:', e);
-      msgEl.textContent = (e && e.message) ? e.message : 'Could not start checkout. Please try again.';
-      msgEl.className = 'auth-msg error';
-      msgEl.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = 'Subscribe with Razorpay →';
-    }
-  };
-
-  // Small status line under the button reflecting the last known
-  // subscription state — purely informational, gating itself lives in
-  // applySubscriptionGate()/isSubscriptionActive() above.
-  window.renderSubscribeStatus = function(state) {
-    const note = document.getElementById('sub-status-note');
-    if (!note) return;
-    if (!state) { note.textContent = ''; return; }
-    if (state.status === 'halted') {
-      note.textContent = "Your last payment attempt failed. Please subscribe again to restore access.";
-    } else if (state.status === 'cancelled') {
-      note.textContent = 'Your subscription was cancelled. Subscribe again anytime to regain access.';
-    } else if (state.status === 'active' && state.currentPeriodEnd && typeof state.currentPeriodEnd.toDate === 'function') {
-      const endStr = state.currentPeriodEnd.toDate().toLocaleDateString();
-      note.textContent = 'Access valid until ' + endStr + '. Renewing soon? No action needed.';
-    } else {
-      note.textContent = '';
-    }
   };
 
   document.addEventListener('keydown', e => {
@@ -991,40 +852,6 @@ body.light-mode .imp-card{background:linear-gradient(135deg,rgba(200,140,0,.12),
     radial-gradient(ellipse 50% 35% at 10% 70%, rgba(255,110,180,.14) 0%, transparent 55%);
 }
 body.auth-open{overflow:hidden!important;}
-
-/* ── SUBSCRIBE / PAYWALL SCREEN ──────────────────────────────────────
-   Sits above screen-subject (9000) but below auth-screen (99999) since
-   the two are never shown at the same time — you must already be
-   signed in to see this one. Same glass-card aesthetic as auth-screen. */
-#screen-subscribe{
-  position:fixed;inset:0;z-index:9500;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--bg);overflow-y:auto;padding:20px 16px;
-}
-#screen-subscribe::before{
-  content:'';position:fixed;inset:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 100% 55% at 50% -5%, rgba(24,232,255,.28) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 45% at 85% 90%, rgba(180,142,255,.22) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 35% at 10% 70%, rgba(255,110,180,.14) 0%, transparent 55%);
-}
-.sub-price-row{
-  display:flex;align-items:baseline;justify-content:center;gap:6px;margin:18px 0 22px;
-}
-.sub-price-amount{
-  font-family:'Syne',sans-serif;font-weight:800;font-size:2.6rem;
-  background:linear-gradient(135deg,var(--cyan) 0%,var(--violet) 60%,var(--pink) 100%);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-}
-.sub-price-period{color:var(--text2);font-size:.95rem;}
-.sub-feature-list{margin:0 0 26px;padding:0;list-style:none;}
-.sub-feature-list li{
-  display:flex;align-items:center;gap:10px;padding:8px 0;font-size:.92rem;color:var(--text);
-}
-.sub-feature-list li::before{content:'✓';color:var(--green,#22c55e);font-weight:800;}
-.sub-status-note{
-  text-align:center;font-size:.82rem;color:var(--text2);margin-top:16px;line-height:1.5;
-}
 
 .auth-card{
   width:100%;max-width:420px;
@@ -2048,48 +1875,6 @@ input[type=number]:focus{outline:none;border-color:rgba(0,229,255,.5);box-shadow
   </div>
 </div>
 
-<!-- ══════════════════════════════
-     SUBSCRIBE / PAYWALL SCREEN
-     Shown to any signed-in non-admin user without an active
-     subscription. Never trust anything here for actually granting
-     access — applySubscriptionGate() only unlocks the app once
-     Firestore (updated solely by the razorpayWebhook Cloud Function)
-     confirms subscription.status === 'active'.
-══════════════════════════════ -->
-<div id="screen-subscribe" class="hidden" style="display:none;">
-  <div class="auth-card">
-    <div class="auth-icon">🔓</div>
-    <div class="auth-title">Unlock Med101</div>
-    <div class="auth-sub">Subscribe to access every subject, quiz mode, and feature</div>
-
-    <div class="sub-price-row">
-      <span class="sub-price-amount" id="sub-price-amount">₹29</span>
-      <span class="sub-price-period">/ month</span>
-    </div>
-
-    <ul class="sub-feature-list">
-      <li>All subjects &amp; question banks</li>
-      <li>Flashcards, quiz history &amp; leaderboard</li>
-      <li>New questions added regularly</li>
-      <li>Cancel anytime from your Razorpay dashboard</li>
-    </ul>
-
-    <button class="auth-btn" id="sub-subscribe-btn" onclick="window.startSubscription()">
-      Subscribe with Razorpay →
-    </button>
-
-    <div class="auth-msg" id="sub-msg"></div>
-
-    <div class="sub-status-note" id="sub-status-note"></div>
-
-    <!-- Powered by -->
-    <div class="auth-powered">
-      🔥 <span>Payments secured by Razorpay</span>
-    </div>
-
-    <button class="btn-ghost" style="width:100%;margin-top:14px;padding:9px;font-size:12px;" onclick="window.authSignOut()">Sign out</button>
-  </div>
-</div>
 <button id="theme-toggle" onclick="toggleTheme()" title="Toggle dark/light mode">🌙</button>
 <button id="volume-toggle" onclick="toggleVolume()" title="Toggle sound">🔊</button>
 
@@ -2990,13 +2775,11 @@ function handleAppBackPress(){
 }
 
 window.addEventListener('popstate', () => {
-  // Signed out, or looking at the paywall — nothing "inside the app" to
-  // navigate away from yet, so let back behave like a normal page.
+  // Signed out — nothing "inside the app" to navigate away from yet, so
+  // let back behave like a normal page.
   const authScreen = document.getElementById('auth-screen');
   const authVisible = authScreen && authScreen.style.display !== 'none';
-  const subScreen = document.getElementById('screen-subscribe');
-  const subVisible = subScreen && !subScreen.classList.contains('hidden') && subScreen.style.display !== 'none';
-  if (authVisible || subVisible) return;
+  if (authVisible) return;
   handleAppBackPress();
 });
 
