@@ -788,7 +788,14 @@
     btn.textContent = 'Starting checkout...';
     try {
       const createSubscription = httpsCallable(fns, 'createSubscription');
-      const { data } = await createSubscription();
+      // A hung request (network issue, cold-start delay, misconfigured
+      // region, etc.) would otherwise leave the button stuck on "Starting
+      // checkout..." forever with no feedback. This forces a visible
+      // error after 20s instead of silence.
+      const timeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Request timed out after 20s. Check your connection and try again — if this keeps happening, the backend may need attention.')), 20000)
+      );
+      const { data } = await Promise.race([createSubscription(), timeout]);
       const rzp = new window.Razorpay({
         key: data.keyId,
         subscription_id: data.subscriptionId,
@@ -820,7 +827,12 @@
       btn.disabled = false;
     } catch (e) {
       console.error('startSubscription failed:', e);
-      msgEl.textContent = (e && e.message) ? e.message : 'Could not start checkout. Please try again.';
+      // Firebase callable errors carry a .code (e.g. "functions/internal",
+      // "functions/unauthenticated") alongside .message — showing both
+      // on-screen since this person is debugging from a phone with no
+      // easy access to the browser console.
+      const codePart = (e && e.code) ? `[${e.code}] ` : '';
+      msgEl.textContent = codePart + ((e && e.message) ? e.message : 'Could not start checkout. Please try again.');
       msgEl.className = 'auth-msg error';
       msgEl.style.display = 'block';
       btn.disabled = false;
