@@ -3,18 +3,17 @@ import Dashboard from './components/Dashboard';
 import TopicPicker from './components/TopicPicker';
 import QuizScreen from './components/QuizScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
+import AdminCalendarScreen from './components/AdminCalendarScreen';
 import AuthScreen from './components/AuthScreen';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
 import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 
-// Simple in-app navigation: 'dashboard' -> 'topics' -> 'quiz', plus a
-// standalone 'leaderboard' screen reachable from the topbar.
-// No router yet — this is enough for a single linear flow, and keeps
-// state (selected subject/topic) colocated instead of threading it
-// through URL params for now.
+// Simple in-app navigation: 'dashboard' -> 'topics' -> 'quiz', plus
+// standalone 'leaderboard' and 'admin-calendar' screens reachable from
+// the topbar. No router yet — this is enough for a single linear flow.
 export default function App() {
-  const { user, profile, loading, kickedMessage, setKickedMessage, logOut } = useAuth();
+  const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, logOut } = useAuth();
   const semesterData = useSemesterData();
   const [screen, setScreen] = useState('dashboard');
   const [selectedSubject, setSelectedSubject] = useState(null);
@@ -61,6 +60,21 @@ export default function App() {
     );
   }
 
+  // Admin's calendar screen is reachable regardless of semester-data
+  // state — it shouldn't ever be blocked by the "content coming soon"
+  // gate below (that gate is exactly what this screen exists to fix).
+  if (screen === 'admin-calendar' && isAdmin) {
+    return (
+      <div>
+        <div className="topbar">
+          <span>{user.displayName || user.email}</span>
+          <button onClick={logOut} className="signout-btn">Sign out</button>
+        </div>
+        <AdminCalendarScreen onBack={() => setScreen('dashboard')} />
+      </div>
+    );
+  }
+
   if (semesterData.loading || calendarLoading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
@@ -80,7 +94,12 @@ export default function App() {
       <div>
         <div className="topbar">
           <span>{user.displayName || user.email}</span>
-          <button onClick={logOut} className="signout-btn">Sign out</button>
+          <div className="topbar-actions">
+            {isAdmin && (
+              <button onClick={() => setScreen('admin-calendar')} className="admin-nav-btn">⚙️ Calendar</button>
+            )}
+            <button onClick={logOut} className="signout-btn">Sign out</button>
+          </div>
         </div>
         <div className="coming-soon">
           <div className="coming-soon-emoji">📚</div>
@@ -111,6 +130,9 @@ export default function App() {
         <div className="topbar-actions">
           {screen !== 'leaderboard' && (
             <button onClick={() => setScreen('leaderboard')} className="lb-nav-btn">🏆 Leaderboard</button>
+          )}
+          {isAdmin && (
+            <button onClick={() => setScreen('admin-calendar')} className="admin-nav-btn">⚙️ Calendar</button>
           )}
           <button onClick={logOut} className="signout-btn">Sign out</button>
         </div>

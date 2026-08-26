@@ -1,4 +1,4 @@
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 
 // The order semesters progress in. A student never sees anything before
@@ -56,4 +56,19 @@ export function resolveCurrentSemester(enrolledYearSemester, calendar, now = new
     }
   }
   return current;
+}
+
+// Admin-only write — enforced by Firestore rules (config/{doc} write
+// requires isAdmin()), this is just the client-side helper. dates is a
+// partial or full { y1s1, y1s2, y2s1, y2s2 } object of 'YYYY-MM-DD'
+// strings. Clears the in-memory cache so the change is picked up on
+// next read instead of waiting out the 5-minute cache window.
+export async function saveAcademicCalendar(dates) {
+  await setDoc(
+    doc(db, 'config', 'academicCalendar'),
+    { ...dates, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
+  cachedCalendar = null;
+  cachedAt = 0;
 }

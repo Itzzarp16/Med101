@@ -134,6 +134,17 @@ h1, h2, .display {
   cursor: pointer;
 }
 
+.admin-nav-btn {
+  background: rgba(255, 204, 42, 0.12);
+  border: 1px solid rgba(255, 204, 42, 0.35);
+  border-radius: 8px;
+  color: var(--amber);
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
 .signout-btn {
   background: none;
   border: 1px solid var(--border);
