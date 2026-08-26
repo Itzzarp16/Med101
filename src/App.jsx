@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Dashboard from './components/Dashboard';
 import TopicPicker from './components/TopicPicker';
 import QuizScreen from './components/QuizScreen';
@@ -6,20 +6,39 @@ import LeaderboardScreen from './components/LeaderboardScreen';
 import AuthScreen from './components/AuthScreen';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
+import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 
 // Simple in-app navigation: 'dashboard' -> 'topics' -> 'quiz', plus a
 // standalone 'leaderboard' screen reachable from the topbar.
 // No router yet — this is enough for a single linear flow, and keeps
 // state (selected subject/topic) colocated instead of threading it
 // through URL params for now.
-const ACTIVE_SEMESTER_ID = 'y1s2'; // TODO: derive from active semester once multiple semester files exist
-
 export default function App() {
-  const { user, loading, kickedMessage, setKickedMessage, logOut } = useAuth();
+  const { user, profile, loading, kickedMessage, setKickedMessage, logOut } = useAuth();
   const semesterData = useSemesterData();
   const [screen, setScreen] = useState('dashboard');
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null); // null = "All Topics" within subject
+  const [activeSemesterId, setActiveSemesterId] = useState(null);
+  const [calendarLoading, setCalendarLoading] = useState(true);
+
+  // Resolve which semester this student should actually see, the moment
+  // their profile (which holds enrolledYearSemester) is available.
+  useEffect(() => {
+    let cancelled = false;
+    if (!profile) return;
+
+    async function resolve() {
+      const calendar = await fetchAcademicCalendar();
+      if (cancelled) return;
+      const semId = resolveCurrentSemester(profile.enrolledYearSemester || 'y1s1', calendar);
+      setActiveSemesterId(semId);
+      setCalendarLoading(false);
+    }
+
+    resolve();
+    return () => { cancelled = true; };
+  }, [profile]);
 
   if (loading) {
     return (
@@ -42,7 +61,7 @@ export default function App() {
     );
   }
 
-  if (semesterData.loading) {
+  if (semesterData.loading || calendarLoading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
         Loading questions…
@@ -50,10 +69,36 @@ export default function App() {
     );
   }
 
-  const { mainSubjectMeta, subjectMeta, subjectGroup, questions } = semesterData;
+  const { mainSubjectMeta, subjectMeta, subjectGroup, semesterMainSubjects, questions } = semesterData;
+
+  // No data file exists yet for this student's resolved semester (e.g.
+  // they've progressed to Y2S1 but only Y1S2 content has been added so
+  // far). Show a friendly placeholder instead of an empty dashboard.
+  const semesterSubjectNames = semesterMainSubjects[activeSemesterId];
+  if (!semesterSubjectNames) {
+    return (
+      <div>
+        <div className="topbar">
+          <span>{user.displayName || user.email}</span>
+          <button onClick={logOut} className="signout-btn">Sign out</button>
+        </div>
+        <div className="coming-soon">
+          <div className="coming-soon-emoji">📚</div>
+          <h1>Content coming soon</h1>
+          <p>Questions for your current semester aren't uploaded yet — check back soon.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Scope everything down to only this student's active semester.
+  const scopedMainSubjectMeta = Object.fromEntries(
+    Object.entries(mainSubjectMeta).filter(([name]) => semesterSubjectNames.includes(name))
+  );
+  const scopedQuestions = questions.filter((q) => q.term === activeSemesterId);
 
   // Questions scoped to whatever the quiz screen should show right now
-  const quizQuestions = questions.filter((q) => {
+  const quizQuestions = scopedQuestions.filter((q) => {
     if (subjectGroup[q.s] !== selectedSubject) return false;
     if (selectedTopic && q.s !== selectedTopic) return false;
     return true;
@@ -73,9 +118,9 @@ export default function App() {
 
       {screen === 'dashboard' && (
         <Dashboard
-          mainSubjectMeta={mainSubjectMeta}
+          mainSubjectMeta={scopedMainSubjectMeta}
           subjectGroup={subjectGroup}
-          questions={questions}
+          questions={scopedQuestions}
           onSelectSubject={(name) => {
             setSelectedSubject(name);
             setScreen('topics');
@@ -88,7 +133,7 @@ export default function App() {
           mainSubject={selectedSubject}
           subjectMeta={subjectMeta}
           subjectGroup={subjectGroup}
-          questions={questions}
+          questions={scopedQuestions}
           onSelectTopic={(topicName) => {
             setSelectedTopic(topicName);
             setScreen('quiz');
@@ -101,7 +146,7 @@ export default function App() {
         <QuizScreen
           mainSubject={selectedSubject}
           topic={selectedTopic}
-          semesterId={ACTIVE_SEMESTER_ID}
+          semesterId={activeSemesterId}
           questions={quizQuestions}
           onExit={() => setScreen('topics')}
         />
@@ -109,7 +154,7 @@ export default function App() {
 
       {screen === 'leaderboard' && (
         <LeaderboardScreen
-          semesterId={ACTIVE_SEMESTER_ID}
+          semesterId={activeSemesterId}
           onBack={() => setScreen('dashboard')}
         />
       )}

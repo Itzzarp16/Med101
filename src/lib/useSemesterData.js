@@ -2,8 +2,10 @@ import { useEffect, useState } from 'react';
 
 // Mirrors the old site's loadSemesterData(): fetches semester JSON files,
 // merges their subject metadata, and exposes everything the dashboard
-// and quiz screens need. Starts with just y1s2 — add more entries here
-// when a new semester file exists (same shape as data/y1s2.json).
+// and quiz screens need. Add an entry here once a new semester's data
+// file exists (same shape as data/y1s2.json). A student whose calendar-
+// resolved semester isn't in this list yet just sees a "coming soon"
+// screen — see App.jsx.
 const SEMESTER_MANIFEST = [
   { id: 'y1s2', file: '/data/y1s2.json' },
 ];
