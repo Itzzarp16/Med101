@@ -2,14 +2,18 @@ import { useState } from 'react';
 import Dashboard from './components/Dashboard';
 import TopicPicker from './components/TopicPicker';
 import QuizScreen from './components/QuizScreen';
+import LeaderboardScreen from './components/LeaderboardScreen';
 import AuthScreen from './components/AuthScreen';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
 
-// Simple in-app navigation: 'dashboard' -> 'topics' -> 'quiz'.
+// Simple in-app navigation: 'dashboard' -> 'topics' -> 'quiz', plus a
+// standalone 'leaderboard' screen reachable from the topbar.
 // No router yet — this is enough for a single linear flow, and keeps
 // state (selected subject/topic) colocated instead of threading it
 // through URL params for now.
+const ACTIVE_SEMESTER_ID = 'y1s2'; // TODO: derive from active semester once multiple semester files exist
+
 export default function App() {
   const { user, loading, kickedMessage, setKickedMessage, logOut } = useAuth();
   const semesterData = useSemesterData();
@@ -59,7 +63,12 @@ export default function App() {
     <div>
       <div className="topbar">
         <span>{user.displayName || user.email}</span>
-        <button onClick={logOut} className="signout-btn">Sign out</button>
+        <div className="topbar-actions">
+          {screen !== 'leaderboard' && (
+            <button onClick={() => setScreen('leaderboard')} className="lb-nav-btn">🏆 Leaderboard</button>
+          )}
+          <button onClick={logOut} className="signout-btn">Sign out</button>
+        </div>
       </div>
 
       {screen === 'dashboard' && (
@@ -92,9 +101,16 @@ export default function App() {
         <QuizScreen
           mainSubject={selectedSubject}
           topic={selectedTopic}
-          semesterId="y1s2" // TODO: derive from active semester once multiple semester files exist
+          semesterId={ACTIVE_SEMESTER_ID}
           questions={quizQuestions}
           onExit={() => setScreen('topics')}
+        />
+      )}
+
+      {screen === 'leaderboard' && (
+        <LeaderboardScreen
+          semesterId={ACTIVE_SEMESTER_ID}
+          onBack={() => setScreen('dashboard')}
         />
       )}
     </div>

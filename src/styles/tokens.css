@@ -117,6 +117,23 @@ h1, h2, .display {
   color: var(--text2);
 }
 
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.lb-nav-btn {
+  background: var(--g1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text2);
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
 .signout-btn {
   background: none;
   border: 1px solid var(--border);
