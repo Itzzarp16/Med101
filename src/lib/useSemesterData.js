@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { fetchFirestoreQuestions, fetchMigratedSubjects } from './questionsService';
 
 // Mirrors the old site's loadSemesterData(): fetches semester JSON files,
 // merges their subject metadata, and exposes everything the dashboard
@@ -52,6 +53,32 @@ export function useSemesterData() {
             emoji: data.emoji,
             accent: data.accent,
           });
+
+          // For any subject that's been migrated to Firestore, that
+          // becomes the source of truth — replace the JSON questions
+          // for that subject with the live Firestore ones, so admin
+          // edits/adds/deletes show up without a redeploy.
+          try {
+            const candidates = Object.keys(data.mainSubjectMeta || {});
+            const migrated = await fetchMigratedSubjects(data.id, candidates);
+            for (const subj of migrated) {
+              const liveQuestions = await fetchFirestoreQuestions(data.id, subj);
+              questions = questions.filter(
+                (q) => !(q.term === data.id && subjectGroup[q.s] === subj)
+              );
+              const asQuizShape = liveQuestions.map((doc) => ({
+                s: doc.subtopic,
+                q: doc.q,
+                o: doc.o,
+                c: doc.c,
+                term: data.id,
+                firestoreId: doc.id,
+              }));
+              questions = questions.concat(asQuizShape);
+            }
+          } catch (err) {
+            console.warn('Could not check/merge migrated subjects for', data.id, err);
+          }
         } catch (err) {
           console.error('Failed to load semester data file:', entry.file, err);
         }

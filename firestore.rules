@@ -37,6 +37,14 @@ service cloud.firestore {
       allow write: if request.auth != null && request.auth.uid == uid;
     }
 
+    // ── questions/{docId} ───────────────────────────────────────
+    // Migrated question bank — any signed-in student can read (they
+    // need this to take quizzes), only admin can write/edit/delete.
+    match /questions/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
     // ── config/{docId} ──────────────────────────────────────────
     // Home notice, leaderboard default scope, academic calendar,
     // etc. Everyone signed in can read (the app needs these to

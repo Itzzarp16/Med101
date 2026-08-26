@@ -5,6 +5,7 @@ import QuizScreen from './components/QuizScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import AdminCalendarScreen from './components/AdminCalendarScreen';
 import AdminNoticeScreen from './components/AdminNoticeScreen';
+import AdminQuestionsScreen from './components/AdminQuestionsScreen';
 import HomeNoticeBanner from './components/HomeNoticeBanner';
 import AuthScreen from './components/AuthScreen';
 import { useAuth } from './lib/AuthContext';
@@ -65,6 +66,7 @@ export default function App() {
 
   const adminNavButtons = isAdmin && (
     <>
+      <button onClick={() => setScreen('admin-questions')} className="admin-nav-btn">📝 Questions</button>
       <button onClick={() => setScreen('admin-notice')} className="admin-nav-btn">📢 Notice</button>
       <button onClick={() => setScreen('admin-calendar')} className="admin-nav-btn">⚙️ Calendar</button>
     </>
@@ -158,6 +160,16 @@ export default function App() {
       </div>
 
       {screen === 'dashboard' && <HomeNoticeBanner />}
+
+      {screen === 'admin-questions' && isAdmin && (
+        <AdminQuestionsScreen
+          semesterId={activeSemesterId}
+          mainSubjectMeta={scopedMainSubjectMeta}
+          subjectGroup={subjectGroup}
+          jsonQuestions={scopedQuestions}
+          onBack={() => setScreen('dashboard')}
+        />
+      )}
 
       {screen === 'dashboard' && (
         <Dashboard
