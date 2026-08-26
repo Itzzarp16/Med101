@@ -1,0 +1,147 @@
+.auth-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(24, 232, 255, 0.10), transparent 60%),
+    var(--bg);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 28px 24px;
+}
+
+.auth-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  background: var(--g1);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.auth-tab {
+  flex: 1;
+  padding: 9px 0;
+  background: none;
+  border: none;
+  border-radius: 9px;
+  color: var(--text3);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.auth-tab.active {
+  background: var(--g2);
+  color: var(--text);
+}
+
+.auth-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  margin: 0 0 4px;
+}
+
+.auth-sub {
+  color: var(--text3);
+  font-size: 13.5px;
+  margin: 0 0 20px;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.auth-field label {
+  font-size: 12.5px;
+  color: var(--text2);
+  font-weight: 600;
+}
+
+.auth-field input,
+.auth-field select {
+  background: var(--g1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 11px 12px;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  outline: none;
+}
+
+.auth-field input:focus,
+.auth-field select:focus {
+  border-color: var(--cyan);
+}
+
+.auth-pw-row {
+  display: flex;
+  gap: 8px;
+}
+
+.auth-pw-row input {
+  flex: 1;
+}
+
+.auth-eye-btn {
+  background: var(--g1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  width: 42px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.auth-msg {
+  font-size: 13px;
+  padding: 9px 12px;
+  border-radius: 10px;
+}
+
+.auth-msg-error {
+  background: rgba(255, 58, 92, 0.12);
+  color: var(--red);
+  border: 1px solid rgba(255, 58, 92, 0.3);
+}
+
+.auth-msg-success {
+  background: rgba(48, 242, 138, 0.12);
+  color: var(--green);
+  border: 1px solid rgba(48, 242, 138, 0.3);
+}
+
+.auth-submit-btn {
+  margin-top: 4px;
+  padding: 13px;
+  background: var(--cyan);
+  color: #04222b;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14.5px;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.auth-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}

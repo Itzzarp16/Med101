@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── users/{uid} ─────────────────────────────────────────────
+    // A student can only read/write their OWN profile doc. This is
+    // what the single-device lock and the year/semester field rely
+    // on — without this rule, claimDevice()/verifyDevice() silently
+    // fail (fails open) and the lock does nothing.
+    //
+    // The admin account gets broader read access so an admin panel
+    // can look up/manage other students later.
+    function isAdmin() {
+      return request.auth != null &&
+             request.auth.token.email == 'abhishekpatel9324@gmail.com';
+    }
+
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read: if isAdmin();
+    }
+
+    // ── users/{uid}/quizHistory/{entryId} ──────────────────────
+    // A student's own quiz history — only they (or admin) can read
+    // or write it.
+    match /users/{uid}/quizHistory/{entryId} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read: if isAdmin();
+    }
+
+    // ── leaderboard/{uid} ───────────────────────────────────────
+    // Anyone signed in can READ the leaderboard (it's meant to be
+    // seen by everyone), but a student can only write their OWN
+    // entry — never someone else's score.
+    match /leaderboard/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // ── config/{docId} ──────────────────────────────────────────
+    // Home notice, leaderboard default scope, academic calendar,
+    // etc. Everyone signed in can read (the app needs these to
+    // render), only admin can write.
+    match /config/{docId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin();
+    }
+
+    // Default deny for anything not explicitly matched above.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,139 @@
+/* ═══════════════════════════════════════════
+   MED101 DESIGN TOKENS
+   Carried forward from the existing "Liquid Glass" system
+   (index.html) — same palette/blur language, now as
+   reusable tokens for React components instead of inline CSS.
+   ═══════════════════════════════════════════ */
+:root {
+  /* Background */
+  --bg: #060818;
+  --bg2: #0a0f22;
+  --surface: #0e1530;
+  --surface2: #131c38;
+  --border: #1f2f50;
+  --border2: #263860;
+
+  /* Glass layers */
+  --g1: rgba(255, 255, 255, 0.10);
+  --g2: rgba(255, 255, 255, 0.15);
+  --g3: rgba(255, 255, 255, 0.22);
+  --g-border: rgba(255, 255, 255, 0.22);
+  --g-border-hi: rgba(255, 255, 255, 0.38);
+
+  /* Accents */
+  --cyan: #18e8ff;      /* progress / correct / primary actions */
+  --cyan2: #00ccee;
+  --violet: #b48eff;    /* premium / subscription only */
+  --green: #30f28a;     /* success states */
+  --red: #ff3a5c;       /* wrong answers, muted-coral feel via alpha */
+  --amber: #ffcc2a;     /* admin-only context */
+  --pink: #ff6eb4;
+
+  /* Text */
+  --text: #eef4ff;
+  --text2: #c0d4f0;
+  --text3: #8aaed0;
+
+  /* Specular */
+  --spec-top: rgba(255, 255, 255, 0.28);
+  --spec-side: rgba(255, 255, 255, 0.10);
+
+  /* Type */
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-heading: 'Syne', sans-serif;
+  --font-body: 'Inter', 'Space Grotesk', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  --topbar-h: 56px;
+}
+
+body.light-mode {
+  --bg: #e8eeff;
+  --bg2: #dde6ff;
+  --surface: #ffffff;
+  --surface2: #f0f4ff;
+  --border: #c0d0ee;
+  --border2: #aabade;
+  --cyan: #0090c8;
+  --cyan2: #007aaa;
+  --violet: #6633cc;
+  --green: #118855;
+  --red: #cc1133;
+  --amber: #aa7700;
+  --pink: #aa2266;
+  --text: #081428;
+  --text2: #1e3a5c;
+  --text3: #3d6080;
+  --spec-top: rgba(255, 255, 255, 0.60);
+  --spec-side: rgba(255, 255, 255, 0.30);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+h1, h2, .display {
+  font-family: var(--font-heading);
+}
+
+/* Reusable glass panel — the one signature surface every card/panel uses */
+.glass {
+  background: var(--g1);
+  border: 1px solid var(--g-border);
+  border-radius: 20px;
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+}
+
+.glass-hi {
+  background: var(--g2);
+  border: 1px solid var(--g-border-hi);
+  border-radius: 20px;
+  backdrop-filter: blur(48px) saturate(200%);
+  -webkit-backdrop-filter: blur(48px) saturate(200%);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--g1);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  font-size: 13.5px;
+  color: var(--text2);
+}
+
+.signout-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text2);
+  padding: 6px 12px;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.kicked-banner {
+  background: rgba(255, 58, 92, 0.16);
+  color: var(--red);
+  border-bottom: 1px solid rgba(255, 58, 92, 0.35);
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 13.5px;
+  cursor: pointer;
+}
