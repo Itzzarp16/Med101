@@ -4,14 +4,17 @@ import TopicPicker from './components/TopicPicker';
 import QuizScreen from './components/QuizScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import AdminCalendarScreen from './components/AdminCalendarScreen';
+import AdminNoticeScreen from './components/AdminNoticeScreen';
+import HomeNoticeBanner from './components/HomeNoticeBanner';
 import AuthScreen from './components/AuthScreen';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
 import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 
 // Simple in-app navigation: 'dashboard' -> 'topics' -> 'quiz', plus
-// standalone 'leaderboard' and 'admin-calendar' screens reachable from
-// the topbar. No router yet — this is enough for a single linear flow.
+// standalone 'leaderboard', 'admin-calendar', and 'admin-notice' screens
+// reachable from the topbar. No router yet — this is enough for a
+// single linear flow.
 export default function App() {
   const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, logOut } = useAuth();
   const semesterData = useSemesterData();
@@ -60,9 +63,16 @@ export default function App() {
     );
   }
 
-  // Admin's calendar screen is reachable regardless of semester-data
-  // state — it shouldn't ever be blocked by the "content coming soon"
-  // gate below (that gate is exactly what this screen exists to fix).
+  const adminNavButtons = isAdmin && (
+    <>
+      <button onClick={() => setScreen('admin-notice')} className="admin-nav-btn">📢 Notice</button>
+      <button onClick={() => setScreen('admin-calendar')} className="admin-nav-btn">⚙️ Calendar</button>
+    </>
+  );
+
+  // Admin's calendar/notice screens are reachable regardless of
+  // semester-data state — they shouldn't ever be blocked by the
+  // "content coming soon" gate below.
   if (screen === 'admin-calendar' && isAdmin) {
     return (
       <div>
@@ -71,6 +81,18 @@ export default function App() {
           <button onClick={logOut} className="signout-btn">Sign out</button>
         </div>
         <AdminCalendarScreen onBack={() => setScreen('dashboard')} />
+      </div>
+    );
+  }
+
+  if (screen === 'admin-notice' && isAdmin) {
+    return (
+      <div>
+        <div className="topbar">
+          <span>{user.displayName || user.email}</span>
+          <button onClick={logOut} className="signout-btn">Sign out</button>
+        </div>
+        <AdminNoticeScreen onBack={() => setScreen('dashboard')} />
       </div>
     );
   }
@@ -95,12 +117,11 @@ export default function App() {
         <div className="topbar">
           <span>{user.displayName || user.email}</span>
           <div className="topbar-actions">
-            {isAdmin && (
-              <button onClick={() => setScreen('admin-calendar')} className="admin-nav-btn">⚙️ Calendar</button>
-            )}
+            {adminNavButtons}
             <button onClick={logOut} className="signout-btn">Sign out</button>
           </div>
         </div>
+        <HomeNoticeBanner />
         <div className="coming-soon">
           <div className="coming-soon-emoji">📚</div>
           <h1>Content coming soon</h1>
@@ -131,12 +152,12 @@ export default function App() {
           {screen !== 'leaderboard' && (
             <button onClick={() => setScreen('leaderboard')} className="lb-nav-btn">🏆 Leaderboard</button>
           )}
-          {isAdmin && (
-            <button onClick={() => setScreen('admin-calendar')} className="admin-nav-btn">⚙️ Calendar</button>
-          )}
+          {adminNavButtons}
           <button onClick={logOut} className="signout-btn">Sign out</button>
         </div>
       </div>
+
+      {screen === 'dashboard' && <HomeNoticeBanner />}
 
       {screen === 'dashboard' && (
         <Dashboard
