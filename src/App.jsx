@@ -6,6 +6,7 @@ import LeaderboardScreen from './components/LeaderboardScreen';
 import AdminCalendarScreen from './components/AdminCalendarScreen';
 import AdminNoticeScreen from './components/AdminNoticeScreen';
 import AdminQuestionsScreen from './components/AdminQuestionsScreen';
+import SettingsScreen from './components/SettingsScreen';
 import HomeNoticeBanner from './components/HomeNoticeBanner';
 import AuthScreen from './components/AuthScreen';
 import { useAuth } from './lib/AuthContext';
@@ -13,9 +14,8 @@ import { useSemesterData } from './lib/useSemesterData';
 import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 
 // Simple in-app navigation: 'dashboard' -> 'topics' -> 'quiz', plus
-// standalone 'leaderboard', 'admin-calendar', and 'admin-notice' screens
-// reachable from the topbar. No router yet — this is enough for a
-// single linear flow.
+// standalone 'leaderboard', 'settings', and admin-only screens reachable
+// from the topbar. No router yet — this is enough for a single linear flow.
 export default function App() {
   const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, logOut } = useAuth();
   const semesterData = useSemesterData();
@@ -26,7 +26,9 @@ export default function App() {
   const [calendarLoading, setCalendarLoading] = useState(true);
 
   // Resolve which semester this student should actually see, the moment
-  // their profile (which holds enrolledYearSemester) is available.
+  // their profile (which holds enrolledYearSemester) is available. Also
+  // re-runs automatically whenever the student changes it themselves in
+  // Settings, since `profile` updates live via the AuthContext listener.
   useEffect(() => {
     let cancelled = false;
     if (!profile) return;
@@ -72,9 +74,25 @@ export default function App() {
     </>
   );
 
-  // Admin's calendar/notice screens are reachable regardless of
-  // semester-data state — they shouldn't ever be blocked by the
-  // "content coming soon" gate below.
+  const settingsNavButton = (
+    <button onClick={() => setScreen('settings')} className="lb-nav-btn">⚙️ Settings</button>
+  );
+
+  // Settings and admin calendar/notice screens are reachable regardless
+  // of semester-data state — a student stuck on "content coming soon"
+  // still needs to be able to change their semester back, for instance.
+  if (screen === 'settings') {
+    return (
+      <div>
+        <div className="topbar">
+          <span>{user.displayName || user.email}</span>
+          <button onClick={logOut} className="signout-btn">Sign out</button>
+        </div>
+        <SettingsScreen onBack={() => setScreen('dashboard')} />
+      </div>
+    );
+  }
+
   if (screen === 'admin-calendar' && isAdmin) {
     return (
       <div>
@@ -119,6 +137,7 @@ export default function App() {
         <div className="topbar">
           <span>{user.displayName || user.email}</span>
           <div className="topbar-actions">
+            {settingsNavButton}
             {adminNavButtons}
             <button onClick={logOut} className="signout-btn">Sign out</button>
           </div>
@@ -127,7 +146,7 @@ export default function App() {
         <div className="coming-soon">
           <div className="coming-soon-emoji">📚</div>
           <h1>Content coming soon</h1>
-          <p>Questions for your current semester aren't uploaded yet — check back soon.</p>
+          <p>Questions for your current semester aren't uploaded yet — check back soon, or update your semester in Settings if you picked the wrong one.</p>
         </div>
       </div>
     );
@@ -154,6 +173,7 @@ export default function App() {
           {screen !== 'leaderboard' && (
             <button onClick={() => setScreen('leaderboard')} className="lb-nav-btn">🏆 Leaderboard</button>
           )}
+          {settingsNavButton}
           {adminNavButtons}
           <button onClick={logOut} className="signout-btn">Sign out</button>
         </div>
