@@ -1,11 +1,12 @@
 import { useMemo } from 'react';
 import SubjectCard from './SubjectCard';
+import HomeNoticeBanner from './HomeNoticeBanner';
+import WeakTopicsCard from './WeakTopicsCard';
 import './Dashboard.css';
 
-// Now receives semester data as props (lifted to App level) instead of
-// fetching its own copy — TopicPicker/QuizScreen need the same data.
-export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject }) {
-  // topic + question counts per main subject, derived from the real data
+// Matches the old site's #screen-subject layout: centered icon+title+sub
+// header, then the scrolling notice, then a centered max-width subj-grid.
+export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject, onPracticeTopic }) {
   const subjectStats = useMemo(() => {
     const topicsBySubject = {};
     const countsBySubject = {};
@@ -27,20 +28,23 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
   }, [questions, subjectGroup, mainSubjectMeta]);
 
   return (
-    <div className="dashboard">
-      <div className="dashboard-header">
-        <h1 className="dashboard-title">Year 1 · Semester 2</h1>
-        <p className="dashboard-sub">Pick a subject to start practicing</p>
+    <div className="screen-subject">
+      <div className="subj-header">
+        <div className="subj-icon">🩺</div>
+        <div className="subj-title">Choose a Subject</div>
+        <div className="subj-sub">Choose your subject to begin</div>
       </div>
 
-      <div className="dashboard-grid">
+      <HomeNoticeBanner />
+      <WeakTopicsCard onPracticeTopic={onPracticeTopic} />
+
+      <div className="subj-grid">
         {Object.entries(mainSubjectMeta).map(([name, meta]) => (
           <SubjectCard
             key={name}
             emoji={meta.emoji}
             name={name}
             desc={meta.desc}
-            accent={meta.accent}
             questionCount={subjectStats[name]?.questionCount}
             topicCount={subjectStats[name]?.topicCount}
             onClick={() => onSelectSubject?.(name)}

@@ -102,58 +102,150 @@ h1, h2, .display {
 }
 
 .topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 20px;
-  background: var(--g1);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
   position: sticky;
   top: 0;
   z-index: 10;
-  font-size: 13.5px;
-  color: var(--text2);
+  height: 52px;
+  background: rgba(10, 15, 34, 0.72);
+  backdrop-filter: blur(40px) saturate(200%);
+  -webkit-backdrop-filter: blur(40px) saturate(200%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 14px;
+  gap: 8px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.10), 0 4px 28px rgba(0, 0, 0, 0.40), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
 }
 
-.topbar-actions {
+.topbar-left {
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 
-.lb-nav-btn {
-  background: var(--g1);
-  border: 1px solid var(--border);
+.topbar-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
   border-radius: 8px;
-  color: var(--text2);
-  padding: 6px 12px;
-  font-family: var(--font-body);
-  font-size: 12.5px;
   cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  font-size: 15px;
+  background: none;
 }
 
-.admin-nav-btn {
-  background: rgba(255, 204, 42, 0.12);
-  border: 1px solid rgba(255, 204, 42, 0.35);
-  border-radius: 8px;
+.topbar-icon-btn.home {
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  background: rgba(0, 229, 255, 0.08);
+  color: #00e5ff;
+}
+.topbar-icon-btn.home:hover {
+  background: rgba(0, 229, 255, 0.2);
+  border-color: rgba(0, 229, 255, 0.6);
+}
+
+.topbar-icon-btn.leaderboard {
+  border: 1px solid rgba(250, 204, 21, 0.30);
+  background: rgba(250, 204, 21, 0.08);
+  color: #facc15;
+}
+.topbar-icon-btn.leaderboard:hover {
+  background: rgba(250, 204, 21, 0.2);
+  border-color: rgba(250, 204, 21, 0.6);
+}
+
+.topbar-icon-btn.settings {
+  border: 1px solid rgba(180, 142, 255, 0.30);
+  background: rgba(180, 142, 255, 0.08);
+  color: var(--violet);
+}
+.topbar-icon-btn.settings:hover {
+  background: rgba(180, 142, 255, 0.2);
+  border-color: rgba(180, 142, 255, 0.6);
+}
+
+.topbar-icon-btn.admin {
+  border: 1px solid rgba(255, 204, 42, 0.30);
+  background: rgba(255, 204, 42, 0.08);
   color: var(--amber);
-  padding: 6px 12px;
-  font-family: var(--font-body);
+}
+.topbar-icon-btn.admin:hover {
+  background: rgba(255, 204, 42, 0.2);
+  border-color: rgba(255, 204, 42, 0.6);
+}
+
+.topbar-logo-stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.topbar-logo {
+  font-family: 'Syne', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #00e5ff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.01em;
+}
+
+.topbar-logo-2 {
+  background: linear-gradient(90deg, #a78bfa, #ff4f6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.topbar-signature {
+  font-family: 'Caveat', cursive;
+  font-size: 13px;
+  font-weight: 700;
+  color: #f5f7fa;
+  letter-spacing: 0.02em;
+  transform: rotate(-3deg);
+  display: inline-block;
+  margin-top: -3px;
+  margin-left: 1px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.topbar-user {
   font-size: 12.5px;
-  cursor: pointer;
+  color: var(--text2);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .signout-btn {
   background: none;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 58, 92, 0.3);
   border-radius: 8px;
-  color: var(--text2);
+  color: var(--red);
   padding: 6px 12px;
   font-family: var(--font-body);
-  font-size: 12.5px;
+  font-size: 12px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .kicked-banner {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
 import TopicPicker from './components/TopicPicker';
 import QuizModeScreen from './components/QuizModeScreen';
@@ -8,8 +9,6 @@ import AdminCalendarScreen from './components/AdminCalendarScreen';
 import AdminNoticeScreen from './components/AdminNoticeScreen';
 import AdminQuestionsScreen from './components/AdminQuestionsScreen';
 import SettingsScreen from './components/SettingsScreen';
-import WeakTopicsCard from './components/WeakTopicsCard';
-import HomeNoticeBanner from './components/HomeNoticeBanner';
 import AuthScreen from './components/AuthScreen';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
@@ -17,10 +16,10 @@ import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCal
 
 // Simple in-app navigation: 'dashboard' -> 'topics' -> 'mode' -> 'quiz',
 // plus standalone 'leaderboard', 'settings', and admin-only screens
-// reachable from the topbar. No router yet — this is enough for a
-// single linear flow.
+// reachable from the shared TopBar. No router yet — this is enough for
+// a single linear flow.
 export default function App() {
-  const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, logOut } = useAuth();
+  const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage } = useAuth();
   const semesterData = useSemesterData();
   const [screen, setScreen] = useState('dashboard');
   const [selectedSubject, setSelectedSubject] = useState(null);
@@ -49,6 +48,10 @@ export default function App() {
     return () => { cancelled = true; };
   }, [profile]);
 
+  function goHome() {
+    setScreen('dashboard');
+  }
+
   if (loading) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
@@ -70,29 +73,21 @@ export default function App() {
     );
   }
 
-  const adminNavButtons = isAdmin && (
-    <>
-      <button onClick={() => setScreen('admin-questions')} className="admin-nav-btn">📝 Questions</button>
-      <button onClick={() => setScreen('admin-notice')} className="admin-nav-btn">📢 Notice</button>
-      <button onClick={() => setScreen('admin-calendar')} className="admin-nav-btn">⚙️ Calendar</button>
-    </>
-  );
-
-  const settingsNavButton = (
-    <button onClick={() => setScreen('settings')} className="lb-nav-btn">⚙️ Settings</button>
-  );
-
   // Settings and admin calendar/notice screens are reachable regardless
   // of semester-data state — a student stuck on "content coming soon"
   // still needs to be able to change their semester back, for instance.
   if (screen === 'settings') {
     return (
       <div>
-        <div className="topbar">
-          <span>{user.displayName || user.email}</span>
-          <button onClick={logOut} className="signout-btn">Sign out</button>
-        </div>
-        <SettingsScreen onBack={() => setScreen('dashboard')} />
+        <TopBar
+          onHome={goHome}
+          onLeaderboard={() => setScreen('leaderboard')}
+          onSettings={() => setScreen('settings')}
+          onAdminQuestions={() => setScreen('admin-questions')}
+          onAdminNotice={() => setScreen('admin-notice')}
+          onAdminCalendar={() => setScreen('admin-calendar')}
+        />
+        <SettingsScreen onBack={goHome} />
       </div>
     );
   }
@@ -100,11 +95,15 @@ export default function App() {
   if (screen === 'admin-calendar' && isAdmin) {
     return (
       <div>
-        <div className="topbar">
-          <span>{user.displayName || user.email}</span>
-          <button onClick={logOut} className="signout-btn">Sign out</button>
-        </div>
-        <AdminCalendarScreen onBack={() => setScreen('dashboard')} />
+        <TopBar
+          onHome={goHome}
+          onLeaderboard={() => setScreen('leaderboard')}
+          onSettings={() => setScreen('settings')}
+          onAdminQuestions={() => setScreen('admin-questions')}
+          onAdminNotice={() => setScreen('admin-notice')}
+          onAdminCalendar={() => setScreen('admin-calendar')}
+        />
+        <AdminCalendarScreen onBack={goHome} />
       </div>
     );
   }
@@ -112,11 +111,15 @@ export default function App() {
   if (screen === 'admin-notice' && isAdmin) {
     return (
       <div>
-        <div className="topbar">
-          <span>{user.displayName || user.email}</span>
-          <button onClick={logOut} className="signout-btn">Sign out</button>
-        </div>
-        <AdminNoticeScreen onBack={() => setScreen('dashboard')} />
+        <TopBar
+          onHome={goHome}
+          onLeaderboard={() => setScreen('leaderboard')}
+          onSettings={() => setScreen('settings')}
+          onAdminQuestions={() => setScreen('admin-questions')}
+          onAdminNotice={() => setScreen('admin-notice')}
+          onAdminCalendar={() => setScreen('admin-calendar')}
+        />
+        <AdminNoticeScreen onBack={goHome} />
       </div>
     );
   }
@@ -138,15 +141,14 @@ export default function App() {
   if (!semesterSubjectNames) {
     return (
       <div>
-        <div className="topbar">
-          <span>{user.displayName || user.email}</span>
-          <div className="topbar-actions">
-            {settingsNavButton}
-            {adminNavButtons}
-            <button onClick={logOut} className="signout-btn">Sign out</button>
-          </div>
-        </div>
-        <HomeNoticeBanner />
+        <TopBar
+          onHome={goHome}
+          onLeaderboard={() => setScreen('leaderboard')}
+          onSettings={() => setScreen('settings')}
+          onAdminQuestions={() => setScreen('admin-questions')}
+          onAdminNotice={() => setScreen('admin-notice')}
+          onAdminCalendar={() => setScreen('admin-calendar')}
+        />
         <div className="coming-soon">
           <div className="coming-soon-emoji">📚</div>
           <h1>Content coming soon</h1>
@@ -172,34 +174,14 @@ export default function App() {
 
   return (
     <div>
-      <div className="topbar">
-        <span>{user.displayName || user.email}</span>
-        <div className="topbar-actions">
-          {screen !== 'leaderboard' && (
-            <button onClick={() => setScreen('leaderboard')} className="lb-nav-btn">🏆 Leaderboard</button>
-          )}
-          {settingsNavButton}
-          {adminNavButtons}
-          <button onClick={logOut} className="signout-btn">Sign out</button>
-        </div>
-      </div>
-
-      {screen === 'dashboard' && <HomeNoticeBanner />}
-
-      {screen === 'dashboard' && (
-        <WeakTopicsCard
-          onPracticeTopic={(subject, subtopic) => {
-            // Quick-practice shortcut skips mode selection: jumps
-            // straight into a Random 25 of that specific weak topic.
-            setSelectedSubject(subject);
-            setSelectedTopic(subtopic);
-            const pool = scopedQuestions.filter((q) => q.s === subtopic);
-            const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
-            setFinalQuiz({ questions: shuffled, autoAdvance: true, timerSeconds: null });
-            setScreen('quiz');
-          }}
+      <TopBar
+          onHome={goHome}
+          onLeaderboard={() => setScreen('leaderboard')}
+          onSettings={() => setScreen('settings')}
+          onAdminQuestions={() => setScreen('admin-questions')}
+          onAdminNotice={() => setScreen('admin-notice')}
+          onAdminCalendar={() => setScreen('admin-calendar')}
         />
-      )}
 
       {screen === 'admin-questions' && isAdmin && (
         <AdminQuestionsScreen
@@ -207,7 +189,7 @@ export default function App() {
           mainSubjectMeta={scopedMainSubjectMeta}
           subjectGroup={subjectGroup}
           jsonQuestions={scopedQuestions}
-          onBack={() => setScreen('dashboard')}
+          onBack={goHome}
         />
       )}
 
@@ -219,6 +201,16 @@ export default function App() {
           onSelectSubject={(name) => {
             setSelectedSubject(name);
             setScreen('topics');
+          }}
+          onPracticeTopic={(subject, subtopic) => {
+            // Quick-practice shortcut skips mode selection: jumps
+            // straight into a Random 25 of that specific weak topic.
+            setSelectedSubject(subject);
+            setSelectedTopic(subtopic);
+            const pool = scopedQuestions.filter((q) => q.s === subtopic);
+            const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
+            setFinalQuiz({ questions: shuffledPool, autoAdvance: true, timerSeconds: null });
+            setScreen('quiz');
           }}
         />
       )}
@@ -233,7 +225,7 @@ export default function App() {
             setSelectedTopic(topicName);
             setScreen('mode');
           }}
-          onBack={() => setScreen('dashboard')}
+          onBack={goHome}
         />
       )}
 
@@ -264,7 +256,7 @@ export default function App() {
       {screen === 'leaderboard' && (
         <LeaderboardScreen
           semesterId={activeSemesterId}
-          onBack={() => setScreen('dashboard')}
+          onBack={goHome}
         />
       )}
     </div>

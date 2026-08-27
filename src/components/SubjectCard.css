@@ -1,138 +1,88 @@
-.subject-card {
-  --card-accent: var(--cyan);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+/* Ported 1:1 from the old site's .subj-card / .subj-name / .subj-count /
+   .subj-emoji / .subj-arrow rules. */
+.subj-card {
+  background: rgba(255, 255, 255, 0.11);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
   padding: 18px;
-  text-align: left;
   cursor: pointer;
-  color: var(--text);
-  font-family: var(--font-body);
-  transition: transform 0.15s ease, border-color 0.15s ease;
+  transition: all 0.22s cubic-bezier(.34, 1.2, .64, 1);
   position: relative;
   overflow: hidden;
-}
-
-.subject-card:hover,
-.subject-card:focus-visible {
-  transform: translateY(-2px);
-  border-color: var(--card-accent);
-  outline: none;
-}
-
-.subject-card:focus-visible {
-  box-shadow: 0 0 0 2px var(--card-accent);
-}
-
-.subject-card-top {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.subject-card-emoji {
-  font-size: 28px;
-  line-height: 1;
-}
-
-.subject-card-body {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.subject-card-name {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 16px;
-  color: var(--text);
-}
-
-.subject-card-desc {
-  font-size: 13px;
-  color: var(--text3);
-}
-
-/* ── Vitals trace: an idle ECG-style line, drawn once then looped ── */
-.subject-card-trace {
-  height: 30px;
+  align-items: flex-start;
+  gap: 14px;
+  min-height: 72px;
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.28), inset 0 -1px 0 rgba(0, 0, 0, 0.16), 0 6px 28px rgba(0, 0, 0, 0.30);
   width: 100%;
-  opacity: 0.7;
+  text-align: left;
+  font-family: var(--font-body);
 }
 
-.subject-card-trace svg {
-  width: 100%;
-  height: 100%;
-}
-
-.trace-line {
-  fill: none;
-  stroke: var(--card-accent);
-  stroke-width: 1.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 260;
-  stroke-dashoffset: 260;
-  animation: trace-draw 2.6s ease-in-out infinite;
-}
-
-@keyframes trace-draw {
-  0% { stroke-dashoffset: 260; opacity: 0.2; }
-  45% { stroke-dashoffset: 0; opacity: 1; }
-  55% { stroke-dashoffset: 0; opacity: 1; }
-  100% { stroke-dashoffset: -260; opacity: 0.2; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .trace-line {
-    animation: none;
-    stroke-dashoffset: 0;
-    opacity: 0.6;
-  }
-}
-
-.subject-card-meta {
-  display: flex;
-  gap: 12px;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text3);
-}
-
-/* ── Mastery ring ── */
-.mastery-ring {
-  position: relative;
-  width: 40px;
-  height: 40px;
-}
-
-.mastery-ring svg {
-  width: 100%;
-  height: 100%;
-  transform: rotate(-90deg);
-}
-
-.mastery-ring-bg {
-  fill: none;
-  stroke: var(--g1);
-  stroke-width: 3;
-}
-
-.mastery-ring-fg {
-  fill: none;
-  stroke: var(--card-accent);
-  stroke-width: 3;
-  stroke-linecap: round;
-  transition: stroke-dasharray 0.4s ease;
-}
-
-.mastery-ring-label {
+.subj-card::before {
+  content: '';
   position: absolute;
   inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(24, 232, 255, 0.10), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.subj-card:hover::before {
+  opacity: 1;
+}
+
+.subj-card:hover {
+  border-color: rgba(255, 255, 255, 0.40);
+  transform: translateY(-4px) scale(1.01);
+  background: rgba(255, 255, 255, 0.17);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.38), 0 16px 48px rgba(24, 232, 255, 0.15), 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.subj-card-text {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 10px;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.subj-name {
+  font-weight: 700;
+  font-size: 15.5px;
+  color: var(--text);
+  line-height: 1.4;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.subj-count {
+  font-size: 12.5px;
   color: var(--text2);
+  margin-top: 5px;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.subj-emoji {
+  font-size: 30px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.subj-arrow {
+  margin-left: auto;
+  color: var(--text2);
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: transform 0.2s, color 0.2s;
+  align-self: center;
+}
+
+.subj-card:hover .subj-arrow {
+  color: var(--cyan);
+  transform: translateX(4px);
 }
