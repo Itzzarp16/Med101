@@ -1,0 +1,262 @@
+.qmode-screen {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 16px 16px 60px;
+}
+
+.qmode-back {
+  background: none;
+  border: none;
+  color: var(--text3);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  cursor: pointer;
+  padding: 8px 0;
+  margin-bottom: 8px;
+}
+
+.qmode-header {
+  margin-bottom: 20px;
+}
+
+.qmode-title {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+}
+
+.qmode-sub {
+  color: var(--text3);
+  font-size: 13.5px;
+  margin: 0;
+}
+
+.qmode-section-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 20px 0 10px;
+}
+
+.qmode-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.qmode-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  background: var(--g1);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease;
+}
+
+.qmode-card.wide {
+  grid-column: 1 / -1;
+}
+
+.qmode-card.selected {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 1px var(--cyan);
+}
+
+.qmode-card-emoji {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.qmode-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.qmode-card-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.qmode-card-desc {
+  font-size: 11.5px;
+  color: var(--text3);
+}
+
+.qmode-custom {
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.qmode-custom-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.qmode-field label {
+  display: block;
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.qmode-field input {
+  background: var(--g1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  width: 80px;
+}
+
+.qmode-range-hint {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.qmode-settings-card {
+  padding: 16px;
+  margin-top: 12px;
+}
+
+.qmode-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.qmode-toggle-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text);
+}
+
+.qmode-toggle-desc {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.qmode-toggle {
+  width: 44px;
+  height: 26px;
+  border-radius: 20px;
+  background: var(--g1);
+  border: 1px solid var(--border);
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.qmode-toggle.on {
+  background: rgba(24, 232, 255, 0.3);
+  border-color: var(--cyan);
+}
+
+.qmode-toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--text3);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.qmode-toggle.on .qmode-toggle-thumb {
+  transform: translateX(18px);
+  background: var(--cyan);
+}
+
+.qmode-timer-presets {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.qmode-timer-label {
+  font-size: 12px;
+  color: var(--text2);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.qmode-timer-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.qmode-tpreset {
+  background: var(--g1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 12px;
+  color: var(--text2);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.qmode-tpreset.sel {
+  background: rgba(24, 232, 255, 0.15);
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.qmode-timer-custom {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.qmode-timer-custom input {
+  width: 60px;
+  background: var(--g1);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 8px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.qmode-timer-warning {
+  font-size: 11px;
+  color: var(--text3);
+  margin: 8px 0 0;
+}
+
+.qmode-start-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  background: var(--cyan);
+  color: #04222b;
+  border: none;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+}

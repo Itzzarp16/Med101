@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Dashboard from './components/Dashboard';
 import TopicPicker from './components/TopicPicker';
+import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import AdminCalendarScreen from './components/AdminCalendarScreen';
@@ -14,15 +15,17 @@ import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
 import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 
-// Simple in-app navigation: 'dashboard' -> 'topics' -> 'quiz', plus
-// standalone 'leaderboard', 'settings', and admin-only screens reachable
-// from the topbar. No router yet — this is enough for a single linear flow.
+// Simple in-app navigation: 'dashboard' -> 'topics' -> 'mode' -> 'quiz',
+// plus standalone 'leaderboard', 'settings', and admin-only screens
+// reachable from the topbar. No router yet — this is enough for a
+// single linear flow.
 export default function App() {
   const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, logOut } = useAuth();
   const semesterData = useSemesterData();
   const [screen, setScreen] = useState('dashboard');
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null); // null = "All Topics" within subject
+  const [finalQuiz, setFinalQuiz] = useState(null); // { questions, autoAdvance, timerSeconds } once mode is chosen
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
 
@@ -159,8 +162,9 @@ export default function App() {
   );
   const scopedQuestions = questions.filter((q) => q.term === activeSemesterId);
 
-  // Questions scoped to whatever the quiz screen should show right now
-  const quizQuestions = scopedQuestions.filter((q) => {
+  // The pool for whatever subject/topic was picked in TopicPicker — this
+  // feeds QuizModeScreen, which decides exact quantity/order from it.
+  const modePool = scopedQuestions.filter((q) => {
     if (subjectGroup[q.s] !== selectedSubject) return false;
     if (selectedTopic && q.s !== selectedTopic) return false;
     return true;
@@ -185,8 +189,13 @@ export default function App() {
       {screen === 'dashboard' && (
         <WeakTopicsCard
           onPracticeTopic={(subject, subtopic) => {
+            // Quick-practice shortcut skips mode selection: jumps
+            // straight into a Random 25 of that specific weak topic.
             setSelectedSubject(subject);
             setSelectedTopic(subtopic);
+            const pool = scopedQuestions.filter((q) => q.s === subtopic);
+            const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
+            setFinalQuiz({ questions: shuffled, autoAdvance: true, timerSeconds: null });
             setScreen('quiz');
           }}
         />
@@ -222,18 +231,32 @@ export default function App() {
           questions={scopedQuestions}
           onSelectTopic={(topicName) => {
             setSelectedTopic(topicName);
-            setScreen('quiz');
+            setScreen('mode');
           }}
           onBack={() => setScreen('dashboard')}
         />
       )}
 
-      {screen === 'quiz' && (
+      {screen === 'mode' && (
+        <QuizModeScreen
+          pool={modePool}
+          label={selectedTopic || selectedSubject}
+          onStart={(quizQuestions, settings) => {
+            setFinalQuiz({ questions: quizQuestions, ...settings });
+            setScreen('quiz');
+          }}
+          onBack={() => setScreen('topics')}
+        />
+      )}
+
+      {screen === 'quiz' && finalQuiz && (
         <QuizScreen
           mainSubject={selectedSubject}
           topic={selectedTopic}
           semesterId={activeSemesterId}
-          questions={quizQuestions}
+          questions={finalQuiz.questions}
+          autoAdvance={finalQuiz.autoAdvance}
+          timerSeconds={finalQuiz.timerSeconds}
           onExit={() => setScreen('topics')}
         />
       )}

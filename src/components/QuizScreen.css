@@ -67,6 +67,23 @@
   padding: 4px 10px;
 }
 
+.quiz-timer {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--cyan);
+  background: rgba(24, 232, 255, 0.1);
+  border: 1px solid rgba(24, 232, 255, 0.3);
+  border-radius: 20px;
+  padding: 4px 10px;
+}
+
+.quiz-timer-low {
+  color: var(--red);
+  background: rgba(255, 58, 92, 0.12);
+  border-color: rgba(255, 58, 92, 0.4);
+}
+
 .quiz-card {
   padding: 20px 18px;
   margin-bottom: 16px;
