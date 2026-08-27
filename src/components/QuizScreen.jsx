@@ -7,6 +7,13 @@ import './QuizScreen.css';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
 
+function formatElapsed(ms) {
+  const totalSec = Math.floor(ms / 1000);
+  const m = String(Math.floor(totalSec / 60)).padStart(2, '0');
+  const s = String(totalSec % 60).padStart(2, '0');
+  return `${m}:${s}`;
+}
+
 // questions arrives already in the exact order/subset QuizModeScreen
 // decided (Random 25, All Sequential, Custom Range, etc.) — this
 // component just renders that sequence, it doesn't reorder anything.
@@ -18,6 +25,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [answers, setAnswers] = useState(() => new Array(quizQuestions.length).fill(-1));
   const [finished, setFinished] = useState(false);
   const [timeLeft, setTimeLeft] = useState(timerSeconds || null);
+  const [elapsedMs, setElapsedMs] = useState(0);
   const startedAtRef = useRef(Date.now());
   const savedRef = useRef(false); // guards against double-save (StrictMode / re-renders)
   const advanceTimeoutRef = useRef(null);
@@ -27,6 +35,13 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const answeredCount = answers.filter((a) => a !== -1).length;
   const correctCount = answers.filter((a, i) => a >= 0 && a === quizQuestions[i].c).length;
   const pct = answeredCount ? Math.round((correctCount / answeredCount) * 100) : 0;
+
+  // Elapsed stopwatch, ticking every second while the quiz is in progress.
+  useEffect(() => {
+    if (finished) return;
+    const t = setInterval(() => setElapsedMs(Date.now() - startedAtRef.current), 1000);
+    return () => clearInterval(t);
+  }, [finished]);
 
   function nav(dir) {
     playTapSound();
@@ -123,7 +138,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     return (
       <div className="quiz-empty">
         <p>No questions found for this topic.</p>
-        <button className="quiz-back-btn" onClick={onExit}>Go back</button>
+        <button className="btn-ghost" onClick={onExit}>Go back</button>
       </div>
     );
   }
@@ -136,7 +151,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           <div className="quiz-results-sub">
             {correctCount} correct out of {answeredCount} answered ({total} total questions)
           </div>
-          <button className="quiz-primary-btn" onClick={onExit}>Back to Topics</button>
+          <button className="btn-glow" onClick={onExit}>Back to Topics</button>
         </div>
       </div>
     );
@@ -146,27 +161,67 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const answered = ua !== -1;
 
   return (
-    <div className="quiz-screen">
-      <div className="quiz-topbar">
-        <button className="quiz-exit-btn" onClick={() => { playTapSound(); onExit(); }}>✕</button>
-        <div className="quiz-progress-wrap">
-          <div className="quiz-progress-fill" style={{ width: `${((cur + 1) / total) * 100}%` }} />
+    <div className="screen-quiz">
+      {/* Hero header — back, elapsed stopwatch, mode label, score */}
+      <div className="hero quiz-hero">
+        <div className="quiz-hero-inner">
+          <div className="quiz-hero-left">
+            <button className="btn-ghost quiz-back-btn" onClick={() => { playTapSound(); onExit(); }}>← Back</button>
+            <div className="quiz-stopwatch">
+              <div className="sw-dig">{formatElapsed(elapsedMs)}</div>
+              <div className="sw-lbl">elapsed</div>
+            </div>
+          </div>
+          <div className="quiz-hero-center">
+            <div className="quiz-hero-label">{mainSubject}</div>
+            <div className="quiz-hero-mode">{topic || 'All Topics'}</div>
+          </div>
+          <div className="quiz-hero-right">
+            <div className="quiz-hero-score-label">Score</div>
+            <div className="quiz-hero-score">{correctCount}/{answeredCount}</div>
+          </div>
         </div>
-        <div className="quiz-score">{correctCount}/{answeredCount}</div>
       </div>
 
-      <div className="quiz-meta-row">
-        <span className="quiz-counter">{cur + 1}/{total}</span>
-        {timerSeconds ? (
-          <span className={timeLeft <= 5 ? 'quiz-timer quiz-timer-low' : 'quiz-timer'}>⏱ {timeLeft}s</span>
-        ) : (
-          <span className="quiz-badge">{q.s}</span>
+      <div className="quiz-body">
+        {/* Progress */}
+        <div className="quiz-progress-row">
+          <div className="quiz-counter">{cur + 1}/{total}</div>
+          <div className="prog-track"><div className="prog-fill" style={{ width: `${((cur + 1) / total) * 100}%` }} /></div>
+          <div className="quiz-pct">{pct}%</div>
+        </div>
+
+        {timerSeconds != null && (
+          <div className="tbar">
+            <div className="tbar-fill" style={{ width: `${(timeLeft / timerSeconds) * 100}%`, background: timeLeft <= 5 ? 'var(--red)' : 'var(--cyan)' }} />
+          </div>
         )}
-      </div>
 
-      <div className="quiz-card glass">
-        <p className="quiz-question">{q.q}</p>
+        {/* Stats */}
+        <div className="quiz-stats-grid">
+          <div className="stat-card" style={{ '--accent': 'var(--cyan)' }}>
+            <div className="stat-label">Question</div>
+            <div className="stat-value">{cur + 1}</div>
+          </div>
+          <div className="stat-card" style={{ '--accent': 'var(--green)' }}>
+            <div className="stat-label">Correct</div>
+            <div className="stat-value" style={{ color: 'var(--green)' }}>{correctCount}</div>
+          </div>
+          <div className="stat-card" style={{ '--accent': 'var(--violet)' }}>
+            <div className="stat-label">Accuracy</div>
+            <div className="stat-value" style={{ color: 'var(--violet)' }}>{answeredCount ? `${pct}%` : '—'}</div>
+          </div>
+        </div>
 
+        {/* Question card */}
+        <div className="q-card">
+          <div className="q-card-top">
+            <span className="badge badge-cyan">{q.s}</span>
+          </div>
+          <p className="q-text">{q.q}</p>
+        </div>
+
+        {/* Options */}
         <div className="quiz-options">
           {q.o.map((opt, i) => {
             let cls = 'opt-btn';
@@ -187,15 +242,16 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             );
           })}
         </div>
-      </div>
 
-      <div className="quiz-nav">
-        <button className="quiz-nav-btn" disabled={cur === 0} onClick={() => nav(-1)}>
-          ← Prev
-        </button>
-        <button className="quiz-nav-btn quiz-nav-primary" onClick={() => nav(1)}>
-          {cur === total - 1 ? 'Finish' : 'Next →'}
-        </button>
+        {/* Nav */}
+        <div className="quiz-nav">
+          <button className="btn-ghost flex-1" disabled={cur === 0} onClick={() => nav(-1)}>
+            ← Prev
+          </button>
+          <button className="btn-glow flex-1" onClick={() => nav(1)}>
+            {cur === total - 1 ? 'Finish' : 'Next →'}
+          </button>
+        </div>
       </div>
     </div>
   );
