@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { playCorrectSound, playWrongSound, playTapSound } from '../lib/sounds';
 import { useAuth } from '../lib/AuthContext';
-import { addQuizHistoryEntry } from '../lib/quizHistory';
+import { addQuizHistoryEntry, updateTopicStats } from '../lib/quizHistory';
 import { submitLeaderboardResult } from '../lib/leaderboard';
 import './QuizScreen.css';
 
@@ -84,6 +84,19 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       answered: answeredCount,
       timeMs,
     });
+
+    // Per-subtopic breakdown for weak-topic detection — grouped by each
+    // question's own subtopic (q.s), so it works whether the student
+    // quizzed one topic or "All Topics" at once.
+    const breakdown = {};
+    quizQuestions.forEach((question, i) => {
+      if (answers[i] === -1) return;
+      const entry = breakdown[question.s] || { correct: 0, answered: 0 };
+      entry.answered += 1;
+      if (answers[i] === question.c) entry.correct += 1;
+      breakdown[question.s] = entry;
+    });
+    updateTopicStats(user.uid, mainSubject, breakdown);
   }, [finished, user, mainSubject, topic, semesterId, total, answeredCount, correctCount, pct]);
 
   if (total === 0) {

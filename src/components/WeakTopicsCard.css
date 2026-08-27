@@ -1,0 +1,63 @@
+.weak-topics-card {
+  max-width: 960px;
+  margin: 16px auto 0;
+  padding: 16px;
+}
+
+.weak-topics-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 12px;
+}
+
+.weak-topics-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14.5px;
+  color: var(--text);
+}
+
+.weak-topics-sub {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+.weak-topics-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.weak-topic-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  background: rgba(255, 58, 92, 0.06);
+  border: 1px solid rgba(255, 58, 92, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease;
+}
+
+.weak-topic-row:hover {
+  border-color: rgba(255, 58, 92, 0.4);
+}
+
+.weak-topic-name {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text2);
+}
+
+.weak-topic-pct {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--red);
+  flex-shrink: 0;
+  margin-left: 12px;
+}

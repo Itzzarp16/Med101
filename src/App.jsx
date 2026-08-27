@@ -7,6 +7,7 @@ import AdminCalendarScreen from './components/AdminCalendarScreen';
 import AdminNoticeScreen from './components/AdminNoticeScreen';
 import AdminQuestionsScreen from './components/AdminQuestionsScreen';
 import SettingsScreen from './components/SettingsScreen';
+import WeakTopicsCard from './components/WeakTopicsCard';
 import HomeNoticeBanner from './components/HomeNoticeBanner';
 import AuthScreen from './components/AuthScreen';
 import { useAuth } from './lib/AuthContext';
@@ -180,6 +181,16 @@ export default function App() {
       </div>
 
       {screen === 'dashboard' && <HomeNoticeBanner />}
+
+      {screen === 'dashboard' && (
+        <WeakTopicsCard
+          onPracticeTopic={(subject, subtopic) => {
+            setSelectedSubject(subject);
+            setSelectedTopic(subtopic);
+            setScreen('quiz');
+          }}
+        />
+      )}
 
       {screen === 'admin-questions' && isAdmin && (
         <AdminQuestionsScreen
