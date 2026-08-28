@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SEMESTER_ORDER, fetchAcademicCalendar, saveAcademicCalendar } from '../lib/academicCalendar';
-import './AdminCalendarScreen.css';
+import { playTapSound } from '../lib/sounds';
 
 const LABELS = {
   y1s1: 'Year 1 · Semester 1',
@@ -13,6 +13,7 @@ const LABELS = {
 // an earlier semester automatically roll forward once today's date
 // passes the next one's start date. No official term calendar exists
 // yet, so this is meant to be edited by hand as real dates get decided.
+// Styled with the shared std-screen/glass/auth-input classes.
 export default function AdminCalendarScreen({ onBack }) {
   const [dates, setDates] = useState({});
   const [loading, setLoading] = useState(true);
@@ -31,6 +32,7 @@ export default function AdminCalendarScreen({ onBack }) {
   }, []);
 
   async function handleSave() {
+    playTapSound();
     setSaving(true);
     setSaved(false);
     try {
@@ -44,25 +46,26 @@ export default function AdminCalendarScreen({ onBack }) {
   }
 
   return (
-    <div className="admin-cal-screen">
-      <button className="admin-cal-back" onClick={onBack}>← Back</button>
+    <div className="std-screen">
+      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
 
-      <div className="admin-cal-header">
-        <h1 className="admin-cal-title">Academic Calendar</h1>
-        <p className="admin-cal-sub">
+      <div className="std-header">
+        <h1 className="std-title">⚙️ Academic Calendar</h1>
+        <p className="std-sub">
           Set when each semester starts. Students automatically move to the next
           semester once its start date passes — no need to touch individual accounts.
         </p>
       </div>
 
       {loading ? (
-        <div className="admin-cal-loading">Loading…</div>
+        <div className="std-loading">Loading…</div>
       ) : (
-        <div className="admin-cal-form glass">
+        <div className="glass std-card">
           {SEMESTER_ORDER.map((semId) => (
-            <div key={semId} className="admin-cal-field">
-              <label>{LABELS[semId] || semId}</label>
+            <div key={semId}>
+              <label className="auth-label">{LABELS[semId] || semId}</label>
               <input
+                className="auth-input"
                 type="date"
                 value={dates[semId] || ''}
                 onChange={(e) => setDates((d) => ({ ...d, [semId]: e.target.value }))}
@@ -70,11 +73,11 @@ export default function AdminCalendarScreen({ onBack }) {
             </div>
           ))}
 
-          <button className="admin-cal-save-btn" onClick={handleSave} disabled={saving}>
+          <button className="btn-glow std-save-btn" onClick={handleSave} disabled={saving}>
             {saving ? 'Saving…' : 'Save Calendar'}
           </button>
 
-          {saved && <div className="admin-cal-saved">Saved — students will pick this up within a few minutes.</div>}
+          {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved — students will pick this up within a few minutes.</div>}
         </div>
       )}
     </div>

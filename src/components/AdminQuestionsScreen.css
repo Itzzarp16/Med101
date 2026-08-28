@@ -6,13 +6,21 @@
 
 .admin-q-back {
   background: none;
-  border: none;
-  color: var(--text3);
-  font-family: var(--font-body);
-  font-size: 13.5px;
+  border: 1.5px solid rgba(0, 229, 255, 0.35);
+  color: var(--cyan);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 13px;
   cursor: pointer;
-  padding: 8px 0;
-  margin-bottom: 8px;
+  padding: 9px 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  transition: all 0.2s;
+}
+
+.admin-q-back:hover {
+  background: rgba(0, 229, 255, 0.08);
+  border-color: var(--cyan);
 }
 
 .admin-q-header {
@@ -20,14 +28,18 @@
 }
 
 .admin-q-title {
-  font-family: var(--font-heading);
+  font-family: 'Syne', sans-serif;
   font-weight: 800;
   font-size: 1.5rem;
-  margin: 0 0 4px;
+  background: linear-gradient(135deg, #fff 0%, var(--amber) 60%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 6px;
 }
 
 .admin-q-sub {
-  color: var(--text3);
+  color: var(--text2);
   font-size: 13px;
   margin: 0;
 }

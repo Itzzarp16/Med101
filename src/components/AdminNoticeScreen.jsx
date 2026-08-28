@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { fetchHomeNotice, saveHomeNotice } from '../lib/homeNotice';
-import './AdminNoticeScreen.css';
+import { playTapSound } from '../lib/sounds';
 
+// Styled with the shared std-screen/glass/auth-input classes.
 export default function AdminNoticeScreen({ onBack }) {
   const [text, setText] = useState('');
   const [enabled, setEnabled] = useState(true);
@@ -23,6 +24,7 @@ export default function AdminNoticeScreen({ onBack }) {
   }, []);
 
   async function handleSave() {
+    playTapSound();
     setSaving(true);
     setSaved(false);
     try {
@@ -36,45 +38,46 @@ export default function AdminNoticeScreen({ onBack }) {
   }
 
   return (
-    <div className="admin-notice-screen">
-      <button className="admin-notice-back" onClick={onBack}>← Back</button>
+    <div className="std-screen">
+      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
 
-      <div className="admin-notice-header">
-        <h1 className="admin-notice-title">Home Notice</h1>
-        <p className="admin-notice-sub">
+      <div className="std-header">
+        <h1 className="std-title">📢 Home Notice</h1>
+        <p className="std-sub">
           Shown as a scrolling banner on every student's dashboard. Good for
           exam updates, answer-key corrections, or anything time-sensitive.
         </p>
       </div>
 
       {loading ? (
-        <div className="admin-notice-loading">Loading…</div>
+        <div className="std-loading">Loading…</div>
       ) : (
-        <div className="admin-notice-form glass">
-          <div className="admin-notice-field">
-            <label>Notice Text</label>
-            <textarea
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder="e.g. For Histology, I've updated the quiz based on the new answer key..."
-              rows={5}
-            />
-          </div>
+        <div className="glass std-card">
+          <label className="auth-label">Notice Text</label>
+          <textarea
+            className="auth-input"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="e.g. For Histology, I've updated the quiz based on the new answer key..."
+            rows={5}
+            style={{ resize: 'vertical', fontFamily: 'inherit' }}
+          />
 
-          <label className="admin-notice-toggle">
-            <input
-              type="checkbox"
-              checked={enabled}
-              onChange={(e) => setEnabled(e.target.checked)}
-            />
-            <span>Show this notice to students</span>
+          <label className="qmode-toggle-row" style={{ cursor: 'pointer' }}>
+            <div>
+              <div className="qmode-toggle-title">Show this notice</div>
+              <div className="qmode-toggle-desc">Visible to every signed-in student</div>
+            </div>
+            <div className={enabled ? 'toggle-track on' : 'toggle-track'} onClick={() => setEnabled((v) => !v)}>
+              <div className="toggle-thumb" />
+            </div>
           </label>
 
-          <button className="admin-notice-save-btn" onClick={handleSave} disabled={saving}>
+          <button className="btn-glow std-save-btn" onClick={handleSave} disabled={saving}>
             {saving ? 'Saving…' : 'Save Notice'}
           </button>
 
-          {saved && <div className="admin-notice-saved">Saved — live on the dashboard now.</div>}
+          {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved — live on the dashboard now.</div>}
         </div>
       )}
     </div>
