@@ -14,10 +14,12 @@ import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
 import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 
-// Simple in-app navigation: 'dashboard' -> 'topics' -> 'mode' -> 'quiz',
-// plus standalone 'leaderboard', 'settings', and admin-only screens
-// reachable from the shared TopBar. No router yet — this is enough for
-// a single linear flow.
+// Navigation is backed by real browser history (pushState/popstate) so
+// the phone's back gesture moves one screen back instead of closing the
+// whole site — every forward navigation goes through goTo(), every
+// "back" action goes through goBack() (== history.back()), and a
+// popstate listener keeps `screen` in sync with whichever entry the
+// user lands on.
 export default function App() {
   const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage } = useAuth();
   const semesterData = useSemesterData();
@@ -27,6 +29,41 @@ export default function App() {
   const [finalQuiz, setFinalQuiz] = useState(null); // { questions, autoAdvance, timerSeconds } once mode is chosen
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
+
+  // Seed a base history entry on mount, then listen for the back/forward
+  // gesture and sync our screen state to whatever entry it lands on.
+  useEffect(() => {
+    window.history.replaceState({ screen: 'dashboard', selectedSubject: null, selectedTopic: null }, '');
+    function onPopState(e) {
+      const state = e.state || { screen: 'dashboard' };
+      setScreen(state.screen);
+      setSelectedSubject(state.selectedSubject ?? null);
+      setSelectedTopic(state.selectedTopic ?? null);
+    }
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
+
+  // Forward navigation: pushes a new history entry so the back gesture
+  // can return to wherever the student was.
+  function goTo(screenName, extra = {}) {
+    const nextSubject = 'selectedSubject' in extra ? extra.selectedSubject : selectedSubject;
+    const nextTopic = 'selectedTopic' in extra ? extra.selectedTopic : selectedTopic;
+    window.history.pushState({ screen: screenName, selectedSubject: nextSubject, selectedTopic: nextTopic }, '');
+    if ('selectedSubject' in extra) setSelectedSubject(extra.selectedSubject);
+    if ('selectedTopic' in extra) setSelectedTopic(extra.selectedTopic);
+    setScreen(screenName);
+  }
+
+  // Back navigation: goes through the browser's own history stack so it
+  // stays perfectly in sync with the device back gesture.
+  function goBack() {
+    window.history.back();
+  }
+
+  function goHome() {
+    goTo('dashboard');
+  }
 
   // Resolve which semester this student should actually see, the moment
   // their profile (which holds enrolledYearSemester) is available. Also
@@ -47,10 +84,6 @@ export default function App() {
     resolve();
     return () => { cancelled = true; };
   }, [profile]);
-
-  function goHome() {
-    setScreen('dashboard');
-  }
 
   if (loading) {
     return (
@@ -73,21 +106,23 @@ export default function App() {
     );
   }
 
+  const topBarProps = {
+    onHome: goHome,
+    onLeaderboard: () => goTo('leaderboard'),
+    onSettings: () => goTo('settings'),
+    onAdminQuestions: () => goTo('admin-questions'),
+    onAdminNotice: () => goTo('admin-notice'),
+    onAdminCalendar: () => goTo('admin-calendar'),
+  };
+
   // Settings and admin calendar/notice screens are reachable regardless
   // of semester-data state — a student stuck on "content coming soon"
   // still needs to be able to change their semester back, for instance.
   if (screen === 'settings') {
     return (
       <div>
-        <TopBar
-          onHome={goHome}
-          onLeaderboard={() => setScreen('leaderboard')}
-          onSettings={() => setScreen('settings')}
-          onAdminQuestions={() => setScreen('admin-questions')}
-          onAdminNotice={() => setScreen('admin-notice')}
-          onAdminCalendar={() => setScreen('admin-calendar')}
-        />
-        <SettingsScreen onBack={goHome} />
+        <TopBar {...topBarProps} />
+        <SettingsScreen onBack={goBack} />
       </div>
     );
   }
@@ -95,15 +130,8 @@ export default function App() {
   if (screen === 'admin-calendar' && isAdmin) {
     return (
       <div>
-        <TopBar
-          onHome={goHome}
-          onLeaderboard={() => setScreen('leaderboard')}
-          onSettings={() => setScreen('settings')}
-          onAdminQuestions={() => setScreen('admin-questions')}
-          onAdminNotice={() => setScreen('admin-notice')}
-          onAdminCalendar={() => setScreen('admin-calendar')}
-        />
-        <AdminCalendarScreen onBack={goHome} />
+        <TopBar {...topBarProps} />
+        <AdminCalendarScreen onBack={goBack} />
       </div>
     );
   }
@@ -111,15 +139,8 @@ export default function App() {
   if (screen === 'admin-notice' && isAdmin) {
     return (
       <div>
-        <TopBar
-          onHome={goHome}
-          onLeaderboard={() => setScreen('leaderboard')}
-          onSettings={() => setScreen('settings')}
-          onAdminQuestions={() => setScreen('admin-questions')}
-          onAdminNotice={() => setScreen('admin-notice')}
-          onAdminCalendar={() => setScreen('admin-calendar')}
-        />
-        <AdminNoticeScreen onBack={goHome} />
+        <TopBar {...topBarProps} />
+        <AdminNoticeScreen onBack={goBack} />
       </div>
     );
   }
@@ -141,14 +162,7 @@ export default function App() {
   if (!semesterSubjectNames) {
     return (
       <div>
-        <TopBar
-          onHome={goHome}
-          onLeaderboard={() => setScreen('leaderboard')}
-          onSettings={() => setScreen('settings')}
-          onAdminQuestions={() => setScreen('admin-questions')}
-          onAdminNotice={() => setScreen('admin-notice')}
-          onAdminCalendar={() => setScreen('admin-calendar')}
-        />
+        <TopBar {...topBarProps} />
         <div className="coming-soon">
           <div className="coming-soon-emoji">📚</div>
           <h1>Content coming soon</h1>
@@ -174,14 +188,7 @@ export default function App() {
 
   return (
     <div>
-      <TopBar
-          onHome={goHome}
-          onLeaderboard={() => setScreen('leaderboard')}
-          onSettings={() => setScreen('settings')}
-          onAdminQuestions={() => setScreen('admin-questions')}
-          onAdminNotice={() => setScreen('admin-notice')}
-          onAdminCalendar={() => setScreen('admin-calendar')}
-        />
+      <TopBar {...topBarProps} />
 
       {screen === 'admin-questions' && isAdmin && (
         <AdminQuestionsScreen
@@ -189,7 +196,7 @@ export default function App() {
           mainSubjectMeta={scopedMainSubjectMeta}
           subjectGroup={subjectGroup}
           jsonQuestions={scopedQuestions}
-          onBack={goHome}
+          onBack={goBack}
         />
       )}
 
@@ -198,19 +205,14 @@ export default function App() {
           mainSubjectMeta={scopedMainSubjectMeta}
           subjectGroup={subjectGroup}
           questions={scopedQuestions}
-          onSelectSubject={(name) => {
-            setSelectedSubject(name);
-            setScreen('topics');
-          }}
+          onSelectSubject={(name) => goTo('topics', { selectedSubject: name, selectedTopic: null })}
           onPracticeTopic={(subject, subtopic) => {
             // Quick-practice shortcut skips mode selection: jumps
             // straight into a Random 25 of that specific weak topic.
-            setSelectedSubject(subject);
-            setSelectedTopic(subtopic);
             const pool = scopedQuestions.filter((q) => q.s === subtopic);
             const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
             setFinalQuiz({ questions: shuffledPool, autoAdvance: true, timerSeconds: null });
-            setScreen('quiz');
+            goTo('quiz', { selectedSubject: subject, selectedTopic: subtopic });
           }}
         />
       )}
@@ -221,11 +223,8 @@ export default function App() {
           subjectMeta={subjectMeta}
           subjectGroup={subjectGroup}
           questions={scopedQuestions}
-          onSelectTopic={(topicName) => {
-            setSelectedTopic(topicName);
-            setScreen('mode');
-          }}
-          onBack={goHome}
+          onSelectTopic={(topicName) => goTo('mode', { selectedTopic: topicName })}
+          onBack={goBack}
         />
       )}
 
@@ -235,9 +234,9 @@ export default function App() {
           label={selectedTopic || selectedSubject}
           onStart={(quizQuestions, settings) => {
             setFinalQuiz({ questions: quizQuestions, ...settings });
-            setScreen('quiz');
+            goTo('quiz');
           }}
-          onBack={() => setScreen('topics')}
+          onBack={goBack}
         />
       )}
 
@@ -249,14 +248,14 @@ export default function App() {
           questions={finalQuiz.questions}
           autoAdvance={finalQuiz.autoAdvance}
           timerSeconds={finalQuiz.timerSeconds}
-          onExit={() => setScreen('topics')}
+          onExit={goBack}
         />
       )}
 
       {screen === 'leaderboard' && (
         <LeaderboardScreen
           semesterId={activeSemesterId}
-          onBack={goHome}
+          onBack={goBack}
         />
       )}
     </div>
