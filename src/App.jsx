@@ -255,6 +255,7 @@ export default function App() {
       {screen === 'leaderboard' && (
         <LeaderboardScreen
           semesterId={activeSemesterId}
+          mainSubjectMeta={scopedMainSubjectMeta}
           onBack={goBack}
         />
       )}
