@@ -1,9 +1,14 @@
 import { useState } from 'react';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import './AuthScreen.css';
 
-// Matches the semesterManifest pattern — extend this list as new
-// year/semester data files get added.
+// Matches the old site's #auth-screen exactly (same order): icon,
+// gradient title, tabs, name (signup only), year/semester (signup
+// only — new addition, styled to match), email, password with eye
+// toggle, confirm password (signup only), forgot password (signin
+// only), submit, message, powered-by badge.
 const YEAR_SEMESTER_OPTIONS = [
   { value: 'y1s1', label: 'Year 1 · Semester 1' },
   { value: 'y1s2', label: 'Year 1 · Semester 2' },
@@ -71,56 +76,60 @@ export default function AuthScreen() {
     }
   }
 
+  async function handleForgotPassword() {
+    setMsg(null);
+    if (!email.trim()) {
+      setMsg({ text: 'Enter your email above first, then tap "Forgot password?".', type: 'error' });
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email.trim());
+      setMsg({ text: 'Password reset email sent — check your inbox.', type: 'success' });
+    } catch (err) {
+      setMsg({ text: ERROR_MESSAGES[err.code] || err.message, type: 'error' });
+    }
+  }
+
   return (
-    <div className="auth-screen">
-      <div className="auth-card glass-hi">
+    <div id="auth-screen">
+      <div className="auth-card">
+        <div className="auth-icon">👨‍⚕️</div>
+        <div className="auth-title">{mode === 'signin' ? 'Welcome Back' : 'Create Account'}</div>
+        <div className="auth-sub">
+          {mode === 'signin'
+            ? 'Enter your email and password to continue'
+            : 'Sign up to start your medical MCQ journey'}
+        </div>
+
         <div className="auth-tabs">
           <button
+            type="button"
             className={mode === 'signin' ? 'auth-tab active' : 'auth-tab'}
             onClick={() => { setMode('signin'); setMsg(null); }}
-            type="button"
           >
             Sign In
           </button>
           <button
+            type="button"
             className={mode === 'signup' ? 'auth-tab active' : 'auth-tab'}
             onClick={() => { setMode('signup'); setMsg(null); }}
-            type="button"
           >
             Sign Up
           </button>
         </div>
 
-        <h1 className="auth-title">{mode === 'signin' ? 'Welcome Back' : 'Create Account'}</h1>
-        <p className="auth-sub">
-          {mode === 'signin'
-            ? 'Enter your email and password to continue'
-            : 'Sign up to start your medical MCQ journey'}
-        </p>
-
-        <form onSubmit={handleSubmit} className="auth-form">
+        <form onSubmit={handleSubmit}>
           {mode === 'signup' && (
-            <div className="auth-field">
-              <label>Name</label>
-              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your full name" />
+            <div style={{ marginBottom: 14 }}>
+              <label className="auth-label">Your Name</label>
+              <input className="auth-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" autoComplete="name" />
             </div>
           )}
 
-          <div className="auth-field">
-            <label>Email</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              autoComplete="email"
-            />
-          </div>
-
           {mode === 'signup' && (
-            <div className="auth-field">
-              <label>Year &amp; Semester</label>
-              <select value={yearSemester} onChange={(e) => setYearSemester(e.target.value)}>
+            <div style={{ marginBottom: 14 }}>
+              <label className="auth-label">Year &amp; Semester</label>
+              <select className="auth-input" value={yearSemester} onChange={(e) => setYearSemester(e.target.value)}>
                 {YEAR_SEMESTER_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
                 ))}
@@ -128,42 +137,70 @@ export default function AuthScreen() {
             </div>
           )}
 
-          <div className="auth-field">
-            <label>{mode === 'signin' ? 'Password' : 'Create Password'}</label>
-            <div className="auth-pw-row">
+          <div style={{ marginBottom: 14 }}>
+            <label className="auth-label">Email</label>
+            <input
+              className="auth-input"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="yourname@email.com"
+              autoComplete="email"
+            />
+          </div>
+
+          <div>
+            <label className="auth-label">{mode === 'signin' ? 'Password' : 'Create Password'}</label>
+            <div className="auth-input-wrap">
               <input
+                className="auth-input"
                 type={showPw ? 'text' : 'password'}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder={mode === 'signin' ? '········' : 'Create a strong password'}
+                placeholder="••••••••"
+                style={{ paddingRight: 44 }}
                 autoComplete={mode === 'signin' ? 'current-password' : 'new-password'}
               />
-              <button type="button" className="auth-eye-btn" onClick={() => setShowPw((s) => !s)}>
+              <button type="button" className="auth-eye" onClick={() => setShowPw((s) => !s)} title="Show/hide password">
                 {showPw ? '🙈' : '👁'}
               </button>
             </div>
           </div>
 
           {mode === 'signup' && (
-            <div className="auth-field">
-              <label>Confirm Password</label>
-              <input
-                type={showPw ? 'text' : 'password'}
-                value={confirm}
-                onChange={(e) => setConfirm(e.target.value)}
-                placeholder="Re-enter your password"
-              />
+            <div style={{ marginTop: 14 }}>
+              <label className="auth-label">Confirm Password</label>
+              <div className="auth-input-wrap">
+                <input
+                  className="auth-input"
+                  type={showPw ? 'text' : 'password'}
+                  value={confirm}
+                  onChange={(e) => setConfirm(e.target.value)}
+                  placeholder="••••••••"
+                  style={{ paddingRight: 44 }}
+                />
+              </div>
             </div>
           )}
 
-          {msg && <div className={`auth-msg auth-msg-${msg.type}`}>{msg.text}</div>}
+          {mode === 'signin' && (
+            <div style={{ marginTop: 6, textAlign: 'right' }}>
+              <button type="button" className="auth-forgot" onClick={handleForgotPassword}>Forgot password?</button>
+            </div>
+          )}
 
-          <button type="submit" className="auth-submit-btn" disabled={busy}>
+          <button type="submit" className="auth-btn" disabled={busy}>
             {busy
               ? (mode === 'signin' ? 'Signing in…' : 'Creating account…')
-              : (mode === 'signin' ? 'Sign In' : 'Create Account')}
+              : (mode === 'signin' ? 'Sign In →' : 'Create Account →')}
           </button>
+
+          {msg && <div className={`auth-msg ${msg.type}`} style={{ display: 'block' }}>{msg.text}</div>}
         </form>
+
+        <div className="auth-powered">
+          Made by <span>Abhishek Verma</span>
+        </div>
       </div>
     </div>
   );
