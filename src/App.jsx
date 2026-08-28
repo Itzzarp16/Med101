@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
-import TopicPicker from './components/TopicPicker';
 import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
@@ -180,11 +179,7 @@ export default function App() {
 
   // The pool for whatever subject/topic was picked in TopicPicker — this
   // feeds QuizModeScreen, which decides exact quantity/order from it.
-  const modePool = scopedQuestions.filter((q) => {
-    if (subjectGroup[q.s] !== selectedSubject) return false;
-    if (selectedTopic && q.s !== selectedTopic) return false;
-    return true;
-  });
+  const modePool = scopedQuestions.filter((q) => subjectGroup[q.s] === selectedSubject);
 
   return (
     <div>
@@ -205,7 +200,7 @@ export default function App() {
           mainSubjectMeta={scopedMainSubjectMeta}
           subjectGroup={subjectGroup}
           questions={scopedQuestions}
-          onSelectSubject={(name) => goTo('topics', { selectedSubject: name, selectedTopic: null })}
+          onSelectSubject={(name) => goTo('mode', { selectedSubject: name, selectedTopic: null })}
           onPracticeTopic={(subject, subtopic) => {
             // Quick-practice shortcut skips mode selection: jumps
             // straight into a Random 25 of that specific weak topic.
@@ -217,21 +212,12 @@ export default function App() {
         />
       )}
 
-      {screen === 'topics' && (
-        <TopicPicker
-          mainSubject={selectedSubject}
-          subjectMeta={subjectMeta}
-          subjectGroup={subjectGroup}
-          questions={scopedQuestions}
-          onSelectTopic={(topicName) => goTo('mode', { selectedTopic: topicName })}
-          onBack={goBack}
-        />
-      )}
-
       {screen === 'mode' && (
         <QuizModeScreen
           pool={modePool}
-          label={selectedTopic || selectedSubject}
+          subjectMeta={subjectMeta}
+          subjectName={selectedSubject}
+          emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
           onStart={(quizQuestions, settings) => {
             setFinalQuiz({ questions: quizQuestions, ...settings });
             goTo('quiz');
