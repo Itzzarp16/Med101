@@ -2,11 +2,12 @@ import { useMemo } from 'react';
 import SubjectCard from './SubjectCard';
 import HomeNoticeBanner from './HomeNoticeBanner';
 import WeakTopicsCard from './WeakTopicsCard';
+import PendingInvites from './PendingInvites';
 import './Dashboard.css';
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
 // header, then the scrolling notice, then a centered max-width subj-grid.
-export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject, onPracticeTopic }) {
+export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject, onPracticeTopic, onAcceptInvite }) {
   const subjectStats = useMemo(() => {
     const topicsBySubject = {};
     const countsBySubject = {};
@@ -36,6 +37,7 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
       </div>
 
       <HomeNoticeBanner />
+      <PendingInvites onAccept={onAcceptInvite} />
       <WeakTopicsCard onPracticeTopic={onPracticeTopic} />
 
       <div className="subj-grid">

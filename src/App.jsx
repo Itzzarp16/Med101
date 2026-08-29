@@ -13,6 +13,7 @@ import AdminQuestionsScreen from './components/AdminQuestionsScreen';
 import SettingsScreen from './components/SettingsScreen';
 import ProfileScreen from './components/ProfileScreen';
 import AuthScreen from './components/AuthScreen';
+import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
 import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
@@ -225,6 +226,12 @@ export default function App() {
             const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
             setFinalQuiz({ questions: shuffledPool, autoAdvance: true, timerSeconds: null });
             goTo('quiz', { selectedSubject: subject, selectedTopic: subtopic });
+          }}
+          onAcceptInvite={async (roomCode) => {
+            await joinRoom(roomCode, user.uid, user.displayName || user.email);
+            setActiveRoomCode(roomCode);
+            setActiveRoomIsHost(false);
+            goTo('room-lobby');
           }}
         />
       )}

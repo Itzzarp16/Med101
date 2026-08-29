@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { fetchRoom, subscribeToParticipants } from '../lib/rooms';
+import { lookupUsername, sendInvite } from '../lib/invites';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 
@@ -8,6 +9,9 @@ export default function RoomLobbyScreen({ code, isHost, onStart, onViewResults, 
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
   const [copied, setCopied] = useState(false);
+  const [inviteUsername, setInviteUsername] = useState('');
+  const [inviteBusy, setInviteBusy] = useState(false);
+  const [inviteMsg, setInviteMsg] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -25,6 +29,33 @@ export default function RoomLobbyScreen({ code, isHost, onStart, onViewResults, 
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
     });
+  }
+
+  async function handleInvite() {
+    playTapSound();
+    setInviteMsg(null);
+    if (!inviteUsername.trim()) return;
+    setInviteBusy(true);
+    try {
+      const target = await lookupUsername(inviteUsername);
+      if (!target) {
+        setInviteMsg({ type: 'error', text: "No one has that username." });
+        return;
+      }
+      await sendInvite({
+        fromUid: user.uid,
+        fromName: user.displayName || user.email,
+        toUid: target.uid,
+        roomCode: code,
+        mainSubject: room?.mainSubject,
+      });
+      setInviteMsg({ type: 'success', text: `Invite sent to @${target.username}!` });
+      setInviteUsername('');
+    } catch (e) {
+      setInviteMsg({ type: 'error', text: e.message || String(e) });
+    } finally {
+      setInviteBusy(false);
+    }
   }
 
   return (
@@ -47,6 +78,23 @@ export default function RoomLobbyScreen({ code, isHost, onStart, onViewResults, 
           {code}
         </div>
         <div style={{ fontSize: 12, color: 'var(--text3)' }}>{copied ? 'Copied!' : 'Tap to copy · share this with friends'}</div>
+      </div>
+
+      <div className="glass std-card" style={{ marginTop: 14 }}>
+        <label className="auth-label">Or Invite by Username</label>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input
+            className="auth-input"
+            value={inviteUsername}
+            onChange={(e) => setInviteUsername(e.target.value)}
+            placeholder="e.g. priya_2027"
+            style={{ fontFamily: 'var(--font-mono)' }}
+          />
+          <button className="tpreset sel" style={{ flexShrink: 0, padding: '0 16px' }} onClick={handleInvite} disabled={inviteBusy}>
+            {inviteBusy ? '…' : 'Invite'}
+          </button>
+        </div>
+        {inviteMsg && <div className={`auth-msg ${inviteMsg.type}`} style={{ display: 'block' }}>{inviteMsg.text}</div>}
       </div>
 
       <div className="std-header" style={{ marginTop: 20 }}>

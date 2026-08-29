@@ -28,6 +28,18 @@ service cloud.firestore {
       allow read: if isAdmin();
     }
 
+    // ── users/{uid}/invites/{inviteId} ──────────────────────────
+    // A student's incoming Challenge invites — like a mailbox. The
+    // owner (recipient) can read/delete their own invites. Anyone
+    // signed in can CREATE an invite into someone else's mailbox
+    // (that's how sending an invite works), but only if the fromUid
+    // field matches their own uid — so an invite can never be spoofed
+    // as coming from someone else.
+    match /users/{uid}/invites/{inviteId} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.resource.data.fromUid == request.auth.uid;
+    }
+
     // ── leaderboard/{uid} ───────────────────────────────────────
     // Anyone signed in can READ the leaderboard (it's meant to be
     // seen by everyone), but a student can only write their OWN
