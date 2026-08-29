@@ -260,7 +260,7 @@ export default function App() {
           timerSeconds={finalQuiz.timerSeconds}
           roomCode={finalQuiz.roomCode}
           totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
-          onExit={finalQuiz.roomCode ? () => goTo('room-lobby') : goBack}
+          onExit={goBack}
           onViewRoomResults={() => goTo('room-results')}
         />
       )}
@@ -300,7 +300,7 @@ export default function App() {
       )}
 
       {screen === 'room-results' && activeRoomCode && (
-        <RoomResultsScreen code={activeRoomCode} onBack={() => goTo('room-lobby')} />
+        <RoomResultsScreen code={activeRoomCode} onBack={goBack} />
       )}
 
       {screen === 'leaderboard' && (
