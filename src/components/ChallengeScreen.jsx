@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
-import { createRoom, joinRoom } from '../lib/rooms';
+import { createRoom, joinRoom, fetchMyRooms } from '../lib/rooms';
 import { playTapSound } from '../lib/sounds';
 
 const TIME_PRESETS = [5, 10, 15, 20, 30];
@@ -30,6 +30,19 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
   const [joinCode, setJoinCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+  const [myRooms, setMyRooms] = useState([]);
+  const [myRoomsLoading, setMyRoomsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetchMyRooms(user.uid).then((rooms) => {
+      if (!cancelled) {
+        setMyRooms(rooms);
+        setMyRoomsLoading(false);
+      }
+    });
+    return () => { cancelled = true; };
+  }, [user.uid]);
 
   async function handleCreate() {
     setError(null);
@@ -81,6 +94,11 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
     }
   }
 
+  async function handleRejoin(room) {
+    playTapSound();
+    onEnterRoom(room.roomCode, room.role === 'host');
+  }
+
   return (
     <div className="std-screen">
       <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
@@ -93,9 +111,10 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
       <div className="auth-tabs" style={{ marginBottom: 16 }}>
         <button type="button" className={tab === 'create' ? 'auth-tab active' : 'auth-tab'} onClick={() => { setTab('create'); setError(null); }}>Create Room</button>
         <button type="button" className={tab === 'join' ? 'auth-tab active' : 'auth-tab'} onClick={() => { setTab('join'); setError(null); }}>Join Room</button>
+        <button type="button" className={tab === 'history' ? 'auth-tab active' : 'auth-tab'} onClick={() => { setTab('history'); setError(null); }}>My Rooms</button>
       </div>
 
-      {tab === 'create' ? (
+      {tab === 'create' && (
         <div className="glass std-card">
           <label className="auth-label">Subject</label>
           <select className="auth-input" value={subject} onChange={(e) => setSubject(e.target.value)}>
@@ -139,7 +158,9 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
             {busy ? 'Creating…' : 'Create Room →'}
           </button>
         </div>
-      ) : (
+      )}
+
+      {tab === 'join' && (
         <div className="glass std-card">
           <label className="auth-label">8-Digit Room Code</label>
           <input
@@ -157,6 +178,30 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
             {busy ? 'Joining…' : 'Join Room →'}
           </button>
         </div>
+      )}
+
+      {tab === 'history' && (
+        myRoomsLoading ? (
+          <div className="std-loading">Loading…</div>
+        ) : myRooms.length === 0 ? (
+          <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>
+            No rooms yet — create or join one to see it here.
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {myRooms.map((room) => (
+              <div key={room.roomCode} className="glass" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+                <div>
+                  <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)' }}>
+                    {room.mainSubject} {room.role === 'host' && <span style={{ color: 'var(--amber)' }}>👑</span>}
+                  </div>
+                  <div style={{ fontSize: 11, color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>{room.roomCode}</div>
+                </div>
+                <button className="tpreset sel" onClick={() => handleRejoin(room)}>Rejoin →</button>
+              </div>
+            ))}
+          </div>
+        )
       )}
     </div>
   );

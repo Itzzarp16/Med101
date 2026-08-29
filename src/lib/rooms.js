@@ -1,5 +1,5 @@
 import {
-  collection, doc, getDoc, onSnapshot, query, serverTimestamp, setDoc,
+  collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, setDoc,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -7,6 +7,18 @@ function randomCode() {
   // 8-digit numeric code, e.g. "40928371" — kept as a string so a
   // leading zero doesn't get silently dropped.
   return String(Math.floor(10000000 + Math.random() * 90000000));
+}
+
+// Records a room under the student's own personal history
+// (users/{uid}/myRooms/{code}) so it can be found again later even if
+// they exit before finishing — this is what powers "My Rooms" in the
+// Challenge screen.
+async function recordMyRoom(uid, { roomCode, mainSubject, role }) {
+  await setDoc(
+    doc(db, 'users', uid, 'myRooms', roomCode),
+    { roomCode, mainSubject, role, updatedAt: serverTimestamp() },
+    { merge: true }
+  );
 }
 
 // Freezes the exact question set at creation time so editing/migrating
@@ -26,6 +38,7 @@ export async function createRoom({ hostUid, hostName, mainSubject, questions, ti
       timeLimitMinutes,
       createdAt: serverTimestamp(),
     });
+    await recordMyRoom(hostUid, { roomCode: code, mainSubject, role: 'host' });
     return code;
   }
   throw new Error('Could not generate a unique room code — please try again.');
@@ -36,16 +49,25 @@ export async function fetchRoom(code) {
   return snap.exists() ? { code, ...snap.data() } : null;
 }
 
-// Joining just means having a participant doc — the room itself is
-// never modified by joiners, so there's nothing else to "claim".
+// Joining (and re-joining) just means having a participant doc — the
+// room itself is never modified by joiners. Re-joining after already
+// finishing must NOT reset their result, so this only sets the initial
+// "finished: false" default the first time a participant doc is
+// created — a second join (e.g. from "My Rooms" history) just refreshes
+// their display name without touching an existing score.
 export async function joinRoom(code, uid, displayName) {
   const room = await fetchRoom(code);
   if (!room) return null;
-  await setDoc(
-    doc(db, 'rooms', code, 'participants', uid),
-    { displayName, joinedAt: serverTimestamp(), finished: false },
-    { merge: true }
-  );
+
+  const participantRef = doc(db, 'rooms', code, 'participants', uid);
+  const existing = await getDoc(participantRef);
+  if (existing.exists()) {
+    await setDoc(participantRef, { displayName }, { merge: true });
+  } else {
+    await setDoc(participantRef, { displayName, joinedAt: serverTimestamp(), finished: false });
+  }
+
+  await recordMyRoom(uid, { roomCode: code, mainSubject: room.mainSubject, role: 'participant' });
   return room;
 }
 
@@ -66,4 +88,13 @@ export async function submitRoomResult(code, uid, { correct, answered, total, pc
     { finished: true, correct, answered, total, pct, timeMs, finishedAt: serverTimestamp() },
     { merge: true }
   );
+}
+
+// A student's own room history, most recent first — powers the "My
+// Rooms" list in the Challenge screen so an accidentally-exited room
+// is never actually lost.
+export async function fetchMyRooms(uid) {
+  const q = query(collection(db, 'users', uid, 'myRooms'), orderBy('updatedAt', 'desc'));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => d.data());
 }
