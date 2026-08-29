@@ -18,12 +18,7 @@ export default function SubjectCard({ emoji, name, desc, questionCount, topicCou
       <span className="subj-emoji">{emoji}</span>
       <span className="subj-card-text">
         <span className="subj-name">{name}</span>
-        <span className="subj-count">
-          {desc}
-          {(topicCount != null || questionCount != null) && (
-            <> — {topicCount != null && `${topicCount} topics`}{topicCount != null && questionCount != null && ', '}{questionCount != null && `${questionCount} questions`}</>
-          )}
-        </span>
+        <span className="subj-count">{desc}</span>
 
         <span className="subj-trace" aria-hidden="true" style={{ '--trace-color': accent }}>
           <svg viewBox="0 0 200 30" preserveAspectRatio="none">
