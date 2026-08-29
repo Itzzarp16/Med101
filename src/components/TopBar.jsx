@@ -8,7 +8,7 @@ import { playTapSound } from '../lib/sounds';
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
-export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onAdminQuestions, onAdminNotice, onAdminCalendar }) {
+export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onAdminQuestions, onAdminNotice, onAdminCalendar }) {
   const { user, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -51,6 +51,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
 
             <button className="menu-item" onClick={() => go(onHome)}>🏠 Home</button>
             <button className="menu-item" onClick={() => go(onLeaderboard)}>🏆 Leaderboard</button>
+            <button className="menu-item" onClick={() => go(onProfile)}>🙍 Your Profile</button>
             <button className="menu-item" onClick={() => go(onSettings)}>🎓 Change Year &amp; Semester</button>
             <button className="menu-item" onClick={() => go(onChallenge)}>👥 Challenge a Friend</button>
 

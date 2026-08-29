@@ -11,6 +11,7 @@ import AdminCalendarScreen from './components/AdminCalendarScreen';
 import AdminNoticeScreen from './components/AdminNoticeScreen';
 import AdminQuestionsScreen from './components/AdminQuestionsScreen';
 import SettingsScreen from './components/SettingsScreen';
+import ProfileScreen from './components/ProfileScreen';
 import AuthScreen from './components/AuthScreen';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
@@ -115,6 +116,7 @@ export default function App() {
     onLeaderboard: () => goTo('leaderboard'),
     onChallenge: () => goTo('challenge'),
     onSettings: () => goTo('settings'),
+    onProfile: () => goTo('profile'),
     onAdminQuestions: () => goTo('admin-questions'),
     onAdminNotice: () => goTo('admin-notice'),
     onAdminCalendar: () => goTo('admin-calendar'),
@@ -128,6 +130,15 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <SettingsScreen onBack={goBack} />
+      </div>
+    );
+  }
+
+  if (screen === 'profile') {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <ProfileScreen onBack={goBack} />
       </div>
     );
   }

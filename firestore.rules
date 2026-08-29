@@ -66,6 +66,21 @@ service cloud.firestore {
       allow write: if request.auth != null && request.auth.uid == uid;
     }
 
+    // ── usernames/{normalizedName} ───────────────────────────────
+    // Backs unique username claims — the normalized name IS the doc
+    // ID, so Firestore itself guarantees no two students can claim
+    // the same one. Anyone signed in can read (to check availability
+    // before claiming), but a doc can only be created/updated/deleted
+    // by the uid it already belongs to (or, for a brand-new claim, by
+    // whoever is creating it — enforced by requiring the new doc's own
+    // uid field to match the writer).
+    match /usernames/{name} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
+      allow update: if request.auth != null && request.resource.data.uid == request.auth.uid && resource.data.uid == request.auth.uid;
+      allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+    }
+
     // ── config/{docId} ──────────────────────────────────────────
     // Home notice, leaderboard default scope, academic calendar,
     // etc. Everyone signed in can read (the app needs these to
