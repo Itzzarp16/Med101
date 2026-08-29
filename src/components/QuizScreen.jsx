@@ -3,6 +3,7 @@ import { playCorrectSound, playWrongSound, playTapSound } from '../lib/sounds';
 import { useAuth } from '../lib/AuthContext';
 import { addQuizHistoryEntry, updateTopicStats } from '../lib/quizHistory';
 import { submitLeaderboardResult } from '../lib/leaderboard';
+import { submitRoomResult } from '../lib/rooms';
 import './QuizScreen.css';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
@@ -18,7 +19,10 @@ function formatElapsed(ms) {
 // decided (Random 25, All Sequential, Custom Range, etc.) — this
 // component just renders that sequence, it doesn't reorder anything.
 // autoAdvance/timerSeconds are settings chosen on that same screen.
-export default function QuizScreen({ mainSubject, topic, semesterId, questions, autoAdvance, timerSeconds, onExit }) {
+// roomCode/totalTimeLimitMs are set only for Challenge Room quizzes —
+// a whole-quiz countdown (not per-question) that auto-finishes when it
+// hits zero, and reports the result to the room's shared leaderboard.
+export default function QuizScreen({ mainSubject, topic, semesterId, questions, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults }) {
   const { user } = useAuth();
   const quizQuestions = questions;
   const [cur, setCur] = useState(0);
@@ -26,6 +30,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [finished, setFinished] = useState(false);
   const [timeLeft, setTimeLeft] = useState(timerSeconds || null);
   const [elapsedMs, setElapsedMs] = useState(0);
+  const [totalTimeLeftMs, setTotalTimeLeftMs] = useState(totalTimeLimitMs || null);
   const startedAtRef = useRef(Date.now());
   const savedRef = useRef(false); // guards against double-save (StrictMode / re-renders)
   const advanceTimeoutRef = useRef(null);
@@ -42,6 +47,23 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     const t = setInterval(() => setElapsedMs(Date.now() - startedAtRef.current), 1000);
     return () => clearInterval(t);
   }, [finished]);
+
+  // Whole-quiz countdown for Challenge Rooms — auto-finishes (keeping
+  // whatever was answered so far) the moment it hits zero.
+  useEffect(() => {
+    if (!totalTimeLimitMs || finished) return;
+    const t = setInterval(() => {
+      setTotalTimeLeftMs((ms) => {
+        const next = ms - 1000;
+        if (next <= 0) {
+          setFinished(true);
+          return 0;
+        }
+        return next;
+      });
+    }, 1000);
+    return () => clearInterval(t);
+  }, [totalTimeLimitMs, finished]);
 
   function nav(dir) {
     playTapSound();
@@ -120,6 +142,10 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       timeMs,
     });
 
+    if (roomCode) {
+      submitRoomResult(roomCode, user.uid, { correct: correctCount, answered: answeredCount, total, pct, timeMs });
+    }
+
     // Per-subtopic breakdown for weak-topic detection — grouped by each
     // question's own subtopic (q.s), so it works whether the student
     // quizzed one topic or "All Topics" at once.
@@ -132,7 +158,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       breakdown[question.s] = entry;
     });
     updateTopicStats(user.uid, mainSubject, breakdown);
-  }, [finished, user, mainSubject, topic, semesterId, total, answeredCount, correctCount, pct]);
+  }, [finished, user, mainSubject, topic, semesterId, total, answeredCount, correctCount, pct, roomCode]);
 
   if (total === 0) {
     return (
@@ -151,7 +177,11 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           <div className="quiz-results-sub">
             {correctCount} correct out of {answeredCount} answered ({total} total questions)
           </div>
-          <button className="btn-glow" onClick={onExit}>Back to Topics</button>
+          {roomCode ? (
+            <button className="btn-glow" onClick={onViewRoomResults}>View Room Results →</button>
+          ) : (
+            <button className="btn-glow" onClick={onExit}>Back to Topics</button>
+          )}
         </div>
       </div>
     );
@@ -162,19 +192,21 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   return (
     <div className="screen-quiz">
-      {/* Hero header — back, elapsed stopwatch, mode label, score */}
+      {/* Hero header — back, elapsed stopwatch (or room countdown), mode label, score */}
       <div className="hero quiz-hero">
         <div className="quiz-hero-inner">
           <div className="quiz-hero-left">
             <button className="btn-ghost quiz-back-btn" onClick={() => { playTapSound(); onExit(); }}>← Back</button>
             <div className="quiz-stopwatch">
-              <div className="sw-dig">{formatElapsed(elapsedMs)}</div>
-              <div className="sw-lbl">elapsed</div>
+              <div className="sw-dig" style={totalTimeLimitMs && totalTimeLeftMs <= 30000 ? { color: 'var(--red)' } : undefined}>
+                {totalTimeLimitMs != null ? formatElapsed(totalTimeLeftMs) : formatElapsed(elapsedMs)}
+              </div>
+              <div className="sw-lbl">{totalTimeLimitMs != null ? 'time left' : 'elapsed'}</div>
             </div>
           </div>
           <div className="quiz-hero-center">
             <div className="quiz-hero-label">{mainSubject}</div>
-            <div className="quiz-hero-mode">{topic || 'All Topics'}</div>
+            <div className="quiz-hero-mode">{roomCode ? `👥 Room ${roomCode}` : (topic || 'All Topics')}</div>
           </div>
           <div className="quiz-hero-right">
             <div className="quiz-hero-score-label">Score</div>
@@ -194,6 +226,12 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         {timerSeconds != null && (
           <div className="tbar">
             <div className="tbar-fill" style={{ width: `${(timeLeft / timerSeconds) * 100}%`, background: timeLeft <= 5 ? 'var(--red)' : 'var(--cyan)' }} />
+          </div>
+        )}
+
+        {totalTimeLimitMs != null && (
+          <div className="tbar">
+            <div className="tbar-fill" style={{ width: `${(totalTimeLeftMs / totalTimeLimitMs) * 100}%`, background: totalTimeLeftMs <= 30000 ? 'var(--red)' : 'var(--cyan)' }} />
           </div>
         )}
 

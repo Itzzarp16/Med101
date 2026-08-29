@@ -45,6 +45,27 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // ── rooms/{code} ────────────────────────────────────────────
+    // Challenge Rooms: any signed-in student can create a room (the
+    // host's uid must match their own auth uid), and any signed-in
+    // student can read a room to join it via its 8-digit code. The
+    // room itself is immutable after creation — no update/delete —
+    // so a shared question set can never be tampered with mid-challenge.
+    match /rooms/{code} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.hostUid == request.auth.uid;
+      allow update, delete: if false;
+    }
+
+    // ── rooms/{code}/participants/{uid} ─────────────────────────
+    // Anyone signed in can read the participant list (that's the
+    // shared results leaderboard), but each participant can only
+    // write their OWN doc — never someone else's score.
+    match /rooms/{code}/participants/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
     // ── config/{docId} ──────────────────────────────────────────
     // Home notice, leaderboard default scope, academic calendar,
     // etc. Everyone signed in can read (the app needs these to

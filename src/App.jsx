@@ -4,6 +4,9 @@ import Dashboard from './components/Dashboard';
 import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
+import ChallengeScreen from './components/ChallengeScreen';
+import RoomLobbyScreen from './components/RoomLobbyScreen';
+import RoomResultsScreen from './components/RoomResultsScreen';
 import AdminCalendarScreen from './components/AdminCalendarScreen';
 import AdminNoticeScreen from './components/AdminNoticeScreen';
 import AdminQuestionsScreen from './components/AdminQuestionsScreen';
@@ -28,6 +31,8 @@ export default function App() {
   const [finalQuiz, setFinalQuiz] = useState(null); // { questions, autoAdvance, timerSeconds } once mode is chosen
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
+  const [activeRoomCode, setActiveRoomCode] = useState(null);
+  const [activeRoomIsHost, setActiveRoomIsHost] = useState(false);
 
   // Seed a base history entry on mount, then listen for the back/forward
   // gesture and sync our screen state to whatever entry it lands on.
@@ -108,6 +113,7 @@ export default function App() {
   const topBarProps = {
     onHome: goHome,
     onLeaderboard: () => goTo('leaderboard'),
+    onChallenge: () => goTo('challenge'),
     onSettings: () => goTo('settings'),
     onAdminQuestions: () => goTo('admin-questions'),
     onAdminNotice: () => goTo('admin-notice'),
@@ -228,14 +234,55 @@ export default function App() {
 
       {screen === 'quiz' && finalQuiz && (
         <QuizScreen
-          mainSubject={selectedSubject}
+          mainSubject={finalQuiz.roomCode ? finalQuiz.roomMainSubject : selectedSubject}
           topic={selectedTopic}
           semesterId={activeSemesterId}
           questions={finalQuiz.questions}
           autoAdvance={finalQuiz.autoAdvance}
           timerSeconds={finalQuiz.timerSeconds}
-          onExit={goBack}
+          roomCode={finalQuiz.roomCode}
+          totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
+          onExit={finalQuiz.roomCode ? () => goTo('room-lobby') : goBack}
+          onViewRoomResults={() => goTo('room-results')}
         />
+      )}
+
+      {screen === 'challenge' && (
+        <ChallengeScreen
+          mainSubjectMeta={scopedMainSubjectMeta}
+          scopedQuestions={scopedQuestions}
+          subjectGroup={subjectGroup}
+          onEnterRoom={(code, isHost) => {
+            setActiveRoomCode(code);
+            setActiveRoomIsHost(isHost);
+            goTo('room-lobby');
+          }}
+          onBack={goBack}
+        />
+      )}
+
+      {screen === 'room-lobby' && activeRoomCode && (
+        <RoomLobbyScreen
+          code={activeRoomCode}
+          isHost={activeRoomIsHost}
+          onStart={(room) => {
+            setFinalQuiz({
+              questions: room.questions,
+              autoAdvance: true,
+              timerSeconds: null,
+              roomCode: activeRoomCode,
+              roomMainSubject: room.mainSubject,
+              totalTimeLimitMs: room.timeLimitMinutes * 60000,
+            });
+            goTo('quiz');
+          }}
+          onViewResults={() => goTo('room-results')}
+          onBack={goBack}
+        />
+      )}
+
+      {screen === 'room-results' && activeRoomCode && (
+        <RoomResultsScreen code={activeRoomCode} onBack={() => goTo('room-lobby')} />
       )}
 
       {screen === 'leaderboard' && (
