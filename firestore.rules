@@ -28,6 +28,16 @@ service cloud.firestore {
       allow read: if isAdmin();
     }
 
+    // ── users/{uid}/wrongQuestions/{key} and .../flaggedQuestions/{key} ──
+    // A student's own review queues — purely personal, only the owner
+    // can read or write them.
+    match /users/{uid}/wrongQuestions/{key} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+    match /users/{uid}/flaggedQuestions/{key} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
     // ── users/{uid}/myRooms/{code} ───────────────────────────────
     // A student's own Challenge Room history — purely personal, so
     // only the owner can read or write it.

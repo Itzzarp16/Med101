@@ -4,6 +4,7 @@ import { useAuth } from '../lib/AuthContext';
 import { addQuizHistoryEntry, updateTopicStats } from '../lib/quizHistory';
 import { submitLeaderboardResult } from '../lib/leaderboard';
 import { submitRoomResult } from '../lib/rooms';
+import { recordWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
 import './QuizScreen.css';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
@@ -31,6 +32,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [timeLeft, setTimeLeft] = useState(timerSeconds || null);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [totalTimeLeftMs, setTotalTimeLeftMs] = useState(totalTimeLimitMs || null);
+  const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
   const startedAtRef = useRef(Date.now());
   const savedRef = useRef(false); // guards against double-save (StrictMode / re-renders)
   const advanceTimeoutRef = useRef(null);
@@ -81,12 +83,30 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     const next = [...answers];
     next[cur] = idx;
     setAnswers(next);
-    if (idx === q.c) playCorrectSound();
-    else playWrongSound();
+    if (idx === q.c) {
+      playCorrectSound();
+    } else {
+      playWrongSound();
+      if (user) recordWrongQuestion(user.uid, mainSubject, q);
+    }
 
     if (autoAdvance) {
       advanceTimeoutRef.current = setTimeout(() => nav(1), 550);
     }
+  }
+
+  function toggleFlag() {
+    if (!user) return;
+    playTapSound();
+    const key = `${cur}`;
+    const isFlagged = flaggedKeys.has(key);
+    toggleFlaggedQuestion(user.uid, mainSubject, q, isFlagged);
+    setFlaggedKeys((prev) => {
+      const next = new Set(prev);
+      if (isFlagged) next.delete(key);
+      else next.add(key);
+      return next;
+    });
   }
 
   // Reset the per-question timer whenever a new question is shown.
@@ -103,6 +123,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       next[cur] = -2; // -2 = "timed out", distinct from -1 (unanswered) and any real option index
       setAnswers(next);
       playWrongSound();
+      if (user) recordWrongQuestion(user.uid, mainSubject, q);
       if (autoAdvance) advanceTimeoutRef.current = setTimeout(() => nav(1), 550);
       return;
     }
@@ -255,6 +276,13 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         <div className="q-card">
           <div className="q-card-top">
             <span className="badge badge-cyan">{q.s}</span>
+            <button
+              onClick={toggleFlag}
+              title="Flag for review"
+              style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: flaggedKeys.has(`${cur}`) ? 'var(--amber)' : 'var(--text3)' }}
+            >
+              {flaggedKeys.has(`${cur}`) ? '⭐' : '☆'}
+            </button>
           </div>
           <p className="q-text">{q.q}</p>
         </div>

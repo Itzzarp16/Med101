@@ -12,6 +12,9 @@ import AdminNoticeScreen from './components/AdminNoticeScreen';
 import AdminQuestionsScreen from './components/AdminQuestionsScreen';
 import SettingsScreen from './components/SettingsScreen';
 import ProfileScreen from './components/ProfileScreen';
+import WeakTopicsScreen from './components/WeakTopicsScreen';
+import WrongFlaggedScreen from './components/WrongFlaggedScreen';
+import AdminUserDetailScreen from './components/AdminUserDetailScreen';
 import AuthScreen from './components/AuthScreen';
 import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
@@ -118,6 +121,9 @@ export default function App() {
     onChallenge: () => goTo('challenge'),
     onSettings: () => goTo('settings'),
     onProfile: () => goTo('profile'),
+    onWeakTopics: () => goTo('weak-topics'),
+    onWrongFlagged: () => goTo('wrong-flagged'),
+    onAdminUserDetail: () => goTo('admin-user-detail'),
     onAdminQuestions: () => goTo('admin-questions'),
     onAdminNotice: () => goTo('admin-notice'),
     onAdminCalendar: () => goTo('admin-calendar'),
@@ -158,6 +164,15 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <AdminNoticeScreen onBack={goBack} />
+      </div>
+    );
+  }
+
+  if (screen === 'admin-user-detail' && isAdmin) {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <AdminUserDetailScreen onBack={goBack} />
       </div>
     );
   }
@@ -209,6 +224,31 @@ export default function App() {
           mainSubjectMeta={scopedMainSubjectMeta}
           subjectGroup={subjectGroup}
           jsonQuestions={scopedQuestions}
+          onBack={goBack}
+        />
+      )}
+
+      {screen === 'weak-topics' && (
+        <WeakTopicsScreen
+          onPracticeTopic={(subject, subtopic) => {
+            const pool = scopedQuestions.filter((q) => q.s === subtopic);
+            const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
+            setFinalQuiz({ questions: shuffledPool, autoAdvance: true, timerSeconds: null });
+            goTo('quiz', { selectedSubject: subject, selectedTopic: subtopic });
+          }}
+          onBack={goBack}
+        />
+      )}
+
+      {screen === 'wrong-flagged' && (
+        <WrongFlaggedScreen
+          onPracticeSet={(items) => {
+            const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
+            setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
+            setSelectedSubject(items[0]?.mainSubject || null);
+            setSelectedTopic(null);
+            goTo('quiz');
+          }}
           onBack={goBack}
         />
       )}

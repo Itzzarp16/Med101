@@ -8,7 +8,7 @@ import { playTapSound } from '../lib/sounds';
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
-export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onAdminQuestions, onAdminNotice, onAdminCalendar }) {
+export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onWeakTopics, onWrongFlagged, onAdminQuestions, onAdminNotice, onAdminCalendar, onAdminUserDetail }) {
   const { user, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -54,6 +54,8 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
             <button className="menu-item" onClick={() => go(onProfile)}>🙍 Your Profile</button>
             <button className="menu-item" onClick={() => go(onSettings)}>🎓 Change Year &amp; Semester</button>
             <button className="menu-item" onClick={() => go(onChallenge)}>👥 Challenge a Friend</button>
+            <button className="menu-item" onClick={() => go(onWeakTopics)}>🎯 Your Weak Topics</button>
+            <button className="menu-item" onClick={() => go(onWrongFlagged)}>📌 Wrong &amp; Flagged Questions</button>
 
             {isAdmin && (
               <>
@@ -61,6 +63,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
                 <button className="menu-item admin" onClick={() => go(onAdminQuestions)}>📝 Manage Questions</button>
                 <button className="menu-item admin" onClick={() => go(onAdminNotice)}>📢 Home Notice</button>
                 <button className="menu-item admin" onClick={() => go(onAdminCalendar)}>⚙️ Academic Calendar</button>
+                <button className="menu-item admin" onClick={() => go(onAdminUserDetail)}>🔍 View User Detail</button>
               </>
             )}
 
