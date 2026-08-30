@@ -13,7 +13,7 @@ function StatBox({ label, value, accent }) {
   return (
     <div className="stat-card" style={{ '--accent': accent || 'var(--cyan)' }}>
       <div className="stat-label">{label}</div>
-      <div className="stat-value" style={{ color: accent }}>{value}</div>
+      <div className="stat-value" style={{ color: accent }}>{value ?? '—'}</div>
     </div>
   );
 }
@@ -21,16 +21,16 @@ function StatBox({ label, value, accent }) {
 export default function AdminAnalyticsScreen({ onBack }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [fatalError, setFatalError] = useState(null);
 
   async function load() {
     setLoading(true);
-    setError(null);
+    setFatalError(null);
     try {
       const result = await fetchUsageAnalytics();
       setData(result);
     } catch (e) {
-      setError(e.message || String(e));
+      setFatalError(e.message || String(e));
     } finally {
       setLoading(false);
     }
@@ -48,13 +48,19 @@ export default function AdminAnalyticsScreen({ onBack }) {
       </div>
 
       {loading && <div className="std-loading">Loading…</div>}
-      {error && <div className="auth-msg error" style={{ display: 'block' }}>{error}</div>}
+      {fatalError && <div className="auth-msg error" style={{ display: 'block' }}>{fatalError}</div>}
 
       {data && (
         <>
+          {data.errors.length > 0 && (
+            <div className="auth-msg error" style={{ display: 'block', marginBottom: 14 }}>
+              Couldn't load: {data.errors.join(', ')}. Everything else below is still accurate.
+            </div>
+          )}
+
           <div className="quiz-stats-grid" style={{ marginBottom: 16 }}>
             <StatBox label="Students" value={data.totalStudents} accent="var(--cyan)" />
-            <StatBox label="Quizzes Taken" value={data.totalQuizzesTaken} accent="var(--green)" />
+            <StatBox label="Active Students" value={data.activeLeaderboardStudents} accent="var(--green)" />
             <StatBox label="Rooms Created" value={data.totalRoomsCreated} accent="var(--violet)" />
           </div>
 
@@ -63,7 +69,6 @@ export default function AdminAnalyticsScreen({ onBack }) {
             <div style={{ fontSize: 28, fontWeight: 800, color: 'var(--cyan)' }}>{data.overallAccuracyPct}%</div>
             <div style={{ fontSize: 12, color: 'var(--text3)' }}>
               {data.totalCorrect.toLocaleString()} correct out of {data.totalAnswered.toLocaleString()} questions answered
-              (across {data.activeLeaderboardStudents} active students)
             </div>
           </div>
 
@@ -72,7 +77,7 @@ export default function AdminAnalyticsScreen({ onBack }) {
             {Object.entries(data.semesterCounts).map(([semId, count]) => (
               <div key={semId} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, padding: '4px 0' }}>
                 <span style={{ color: 'var(--text2)' }}>{SEMESTER_LABELS[semId] || semId}</span>
-                <span style={{ color: 'var(--text)', fontWeight: 700 }}>{count}</span>
+                <span style={{ color: 'var(--text)', fontWeight: 700 }}>{count ?? '—'}</span>
               </div>
             ))}
           </div>
