@@ -9,7 +9,7 @@ import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence'
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
-export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onWeakTopics, onWrongFlagged, onAdminQuestions, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics, onViewUser }) {
+export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onWeakTopics, onWrongFlagged, onHistory, onAdminQuestions, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics, onViewUser }) {
   const { user, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [onlineCount, setOnlineCount] = useState(null);
@@ -117,6 +117,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
             <button className="menu-item" onClick={() => go(onChallenge)}>👥 Challenge a Friend</button>
             <button className="menu-item" onClick={() => go(onWeakTopics)}>🎯 Your Weak Topics</button>
             <button className="menu-item" onClick={() => go(onWrongFlagged)}>📌 Wrong &amp; Flagged Questions</button>
+            <button className="menu-item" onClick={() => go(onHistory)}>🕘 History</button>
 
             {isAdmin && (
               <>

@@ -1,9 +1,16 @@
-import { addDoc, collection, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 // Ported from the old site's window.__cloudHistory.add(). One doc per
 // finished quiz attempt at users/{uid}/quizHistory/{autoId} — matches
 // the collection path the Firestore rules already allow for.
+//
+// `entry.questions` (the exact set attempted, in order) and
+// `entry.answers` (parallel array: option index picked, -1 = skipped,
+// -2 = timed out) are stored alongside the aggregate stats so the
+// History screen can rebuild "Retry All / Wrong / Skipped" sets later
+// without needing to re-run any matching logic against the live
+// question bank (which may have since changed).
 export async function addQuizHistoryEntry(uid, entry) {
   if (!uid) return false;
   try {
@@ -12,6 +19,32 @@ export async function addQuizHistoryEntry(uid, entry) {
     return true;
   } catch (e) {
     console.error('Cloud history add failed:', e);
+    return false;
+  }
+}
+
+// Most recent attempts first, for the History screen. Capped at 50 so
+// a long-time user's list stays fast to load and render.
+export async function fetchQuizHistory(uid) {
+  if (!uid) return [];
+  try {
+    const col = collection(db, 'users', uid, 'quizHistory');
+    const q = query(col, orderBy('ts', 'desc'), limit(50));
+    const snap = await getDocs(q);
+    return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  } catch (e) {
+    console.error('Cloud history fetch failed:', e);
+    return [];
+  }
+}
+
+export async function deleteQuizHistoryEntry(uid, entryId) {
+  if (!uid || !entryId) return false;
+  try {
+    await deleteDoc(doc(db, 'users', uid, 'quizHistory', entryId));
+    return true;
+  } catch (e) {
+    console.error('Cloud history delete failed:', e);
     return false;
   }
 }

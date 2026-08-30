@@ -14,6 +14,7 @@ import SettingsScreen from './components/SettingsScreen';
 import ProfileScreen from './components/ProfileScreen';
 import WeakTopicsScreen from './components/WeakTopicsScreen';
 import WrongFlaggedScreen from './components/WrongFlaggedScreen';
+import HistoryScreen from './components/HistoryScreen';
 import AdminUserDetailScreen from './components/AdminUserDetailScreen';
 import AdminAnalyticsScreen from './components/AdminAnalyticsScreen';
 import AuthScreen from './components/AuthScreen';
@@ -133,6 +134,7 @@ export default function App() {
     onProfile: () => goTo('profile'),
     onWeakTopics: () => goTo('weak-topics'),
     onWrongFlagged: () => goTo('wrong-flagged'),
+    onHistory: () => goTo('history'),
     onAdminUserDetail: () => { setViewUserUid(null); goTo('admin-user-detail'); },
     onViewUser: (uid) => { setViewUserUid(uid); goTo('admin-user-detail'); },
     onAdminAnalytics: () => goTo('admin-analytics'),
@@ -268,6 +270,18 @@ export default function App() {
             setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
             setSelectedSubject(items[0]?.mainSubject || null);
             setSelectedTopic(null);
+            goTo('quiz');
+          }}
+          onBack={goBack}
+        />
+      )}
+
+      {screen === 'history' && (
+        <HistoryScreen
+          onRetry={(quizQuestions, mainSubject, topic) => {
+            setFinalQuiz({ questions: quizQuestions, autoAdvance: true, timerSeconds: null });
+            setSelectedSubject(mainSubject || null);
+            setSelectedTopic(topic || null);
             goTo('quiz');
           }}
           onBack={goBack}

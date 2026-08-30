@@ -149,6 +149,11 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       pct,
       timeMs,
       ts: Date.now(),
+      // Full set + per-question answers, so History can rebuild
+      // "Retry All / Wrong / Skipped" later without depending on the
+      // live question bank still matching this exact attempt.
+      questions: quizQuestions.map((qq) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c })),
+      answers,
     });
 
     const subjTotals = mainSubject
