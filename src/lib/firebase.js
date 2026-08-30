@@ -22,11 +22,7 @@ const firebaseConfig = {
   messagingSenderId: '667349814997',
   appId: '1:667349814997:web:e26623e947854bf4dfdc5c',
   measurementId: 'G-FLR7J9DB61',
-  // TODO: paste the Realtime Database URL here once created in the
-  // Firebase console (Build → Realtime Database → Data tab, shown at
-  // the top). Something like:
-  // databaseURL: 'https://med101-1-default-rtdb.firebaseio.com',
-  databaseURL: 'PASTE_REALTIME_DATABASE_URL_HERE',
+  databaseURL: 'https://med101-1-default-rtdb.asia-southeast1.firebasedatabase.app',
 };
 
 export const app = initializeApp(firebaseConfig);
