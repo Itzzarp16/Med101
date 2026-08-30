@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
+import { countOnlineUsers, HEARTBEAT_MS } from '../lib/presence';
 
 // Everything except the Med101 logo/signature and the user's own name
 // now lives behind a hamburger menu — matches the drawer content the
@@ -11,6 +12,17 @@ import { playTapSound } from '../lib/sounds';
 export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onWeakTopics, onWrongFlagged, onAdminQuestions, onAdminNotice, onAdminCalendar, onAdminUserDetail }) {
   const { user, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [onlineCount, setOnlineCount] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    function poll() {
+      countOnlineUsers().then((n) => { if (!cancelled) setOnlineCount(n); });
+    }
+    poll();
+    const interval = setInterval(poll, HEARTBEAT_MS);
+    return () => { cancelled = true; clearInterval(interval); };
+  }, []);
 
   function go(fn) {
     playTapSound();
@@ -36,6 +48,11 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
       </div>
 
       <div className="topbar-right">
+        {onlineCount != null && (
+          <span className="topbar-online" title="Students active in the last 90 seconds">
+            <span className="topbar-online-dot" /> {onlineCount} online
+          </span>
+        )}
         <span className="topbar-user">{user?.displayName || user?.email}</span>
       </div>
 

@@ -20,6 +20,7 @@ import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
 import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
+import { startPresenceHeartbeat } from './lib/presence';
 
 // Navigation is backed by real browser history (pushState/popstate) so
 // the phone's back gesture moves one screen back instead of closing the
@@ -93,6 +94,13 @@ export default function App() {
     resolve();
     return () => { cancelled = true; };
   }, [profile]);
+
+  // Presence heartbeat — pings this session as "online" every 30s so
+  // the topbar can show a live headcount of currently active students.
+  useEffect(() => {
+    if (!user) return;
+    return startPresenceHeartbeat(user.uid);
+  }, [user]);
 
   if (loading) {
     return (
