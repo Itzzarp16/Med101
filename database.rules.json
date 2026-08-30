@@ -1,6 +1,12 @@
 {
   "rules": {
     "presence": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "presenceNames": {
       ".read": "auth != null && auth.token.email === 'abhishekpatel9324@gmail.com'",
       "$uid": {
         ".write": "auth != null && auth.uid === $uid"

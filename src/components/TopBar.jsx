@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
-import { subscribeToOnlineCount } from '../lib/presence';
+import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence';
 
 // Everything except the Med101 logo/signature and the user's own name
 // now lives behind a hamburger menu — matches the drawer content the
@@ -13,10 +13,20 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
   const { user, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [onlineCount, setOnlineCount] = useState(null);
+  const [onlineNames, setOnlineNames] = useState(null);
+  const [showOnlineList, setShowOnlineList] = useState(false);
 
+  // Everyone signed in gets the count.
+  useEffect(() => {
+    const unsub = subscribeToOnlineCount(setOnlineCount);
+    return unsub;
+  }, []);
+
+  // Only admin subscribes to the actual names — regular students would
+  // just get a permission error from the database rules if this ran.
   useEffect(() => {
     if (!isAdmin) return;
-    const unsub = subscribeToOnlineCount(setOnlineCount);
+    const unsub = subscribeToOnlineNames(setOnlineNames);
     return unsub;
   }, [isAdmin]);
 
@@ -45,12 +55,42 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
 
       <div className="topbar-right">
         {onlineCount != null && (
-          <span className="topbar-online" title="Students currently connected right now">
-            <span className="topbar-online-dot" /> {onlineCount} online
-          </span>
+          isAdmin ? (
+            <button
+              className="topbar-online topbar-online-btn"
+              title="Tap to see who's online"
+              onClick={() => { playTapSound(); setShowOnlineList((v) => !v); }}
+            >
+              <span className="topbar-online-dot" /> {onlineCount} online
+            </button>
+          ) : (
+            <span className="topbar-online" title="Students currently connected right now">
+              <span className="topbar-online-dot" /> {onlineCount} online
+            </span>
+          )
         )}
         <span className="topbar-user">{user?.displayName || user?.email}</span>
       </div>
+
+      {showOnlineList && isAdmin && (
+        <div className="menu-overlay" onClick={() => setShowOnlineList(false)}>
+          <div className="online-list-popover" onClick={(e) => e.stopPropagation()}>
+            <div className="online-list-header">
+              <span>🟢 Online Now ({onlineNames?.length ?? 0})</span>
+              <button className="menu-close" onClick={() => setShowOnlineList(false)}>✕</button>
+            </div>
+            {(onlineNames || []).length === 0 ? (
+              <div className="online-list-empty">No one online right now.</div>
+            ) : (
+              <div className="online-list-items">
+                {(onlineNames || []).map((p) => (
+                  <div key={p.uid} className="online-list-item">{p.name}</div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {menuOpen && (
         <div className="menu-overlay" onClick={() => setMenuOpen(false)}>

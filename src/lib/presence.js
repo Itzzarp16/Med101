@@ -6,38 +6,54 @@ import { rtdb } from './firebase';
 // socket drop itself (tab closed, phone died, network cut) and removes
 // the presence entry server-side, with no heartbeat/timeout guessing.
 //
-// The '.info/connected' special path is the standard Firebase pattern:
-// every time this client's actual connection to RTDB toggles (initial
-// connect, or a reconnect after a network blip), we re-register both
-// "mark me online now" and "the server should mark me offline the
-// moment this connection drops" — onDisconnect() only applies to the
-// CURRENT connection, so it must be re-armed on every reconnect.
-export function startPresenceHeartbeat(uid) {
-  const myStatusRef = ref(rtdb, `presence/${uid}`);
+// Split into two separate top-level nodes because RTDB security rules
+// can't hide a single field within an otherwise-readable node — once a
+// parent path grants read access, that access applies to the whole
+// subtree. So:
+//   presence/{uid}      -> just a marker (no name), readable by EVERYONE
+//                          signed in — this is what powers the public count.
+//   presenceNames/{uid} -> the display name, readable by ADMIN ONLY —
+//                          this is what powers "who's online".
+// Both are written together and removed together on disconnect, so
+// presenceNames' keys are always exactly the currently-online set.
+export function startPresenceHeartbeat(uid, displayName) {
+  const presenceRef = ref(rtdb, `presence/${uid}`);
+  const nameRef = ref(rtdb, `presenceNames/${uid}`);
   const connectedRef = ref(rtdb, '.info/connected');
 
   const unsub = onValue(connectedRef, (snap) => {
     if (snap.val() === false) return;
 
-    onDisconnect(myStatusRef)
-      .remove()
-      .then(() => {
-        set(myStatusRef, { online: true, lastSeen: rtdbServerTimestamp() });
-      });
+    Promise.all([
+      onDisconnect(presenceRef).remove(),
+      onDisconnect(nameRef).remove(),
+    ]).then(() => {
+      set(presenceRef, true);
+      set(nameRef, displayName);
+    });
   });
 
   return () => {
     unsub();
-    set(myStatusRef, null); // leave immediately on a clean sign-out too
+    set(presenceRef, null); // leave immediately on a clean sign-out too
+    set(nameRef, null);
   };
 }
 
-// Live subscription to the online headcount — updates instantly as
-// people connect or disconnect, no polling needed.
+// Public — anyone signed in can see the headcount.
 export function subscribeToOnlineCount(callback) {
-  const presenceRef = ref(rtdb, 'presence');
-  return onValue(presenceRef, (snap) => {
+  return onValue(ref(rtdb, 'presence'), (snap) => {
     const val = snap.val() || {};
     callback(Object.keys(val).length);
+  });
+}
+
+// Admin-only — the actual list of who's online right now. Will fail
+// with a permission error for non-admin callers, so only invoke this
+// when isAdmin is true.
+export function subscribeToOnlineNames(callback) {
+  return onValue(ref(rtdb, 'presenceNames'), (snap) => {
+    const val = snap.val() || {};
+    callback(Object.entries(val).map(([uid, name]) => ({ uid, name })));
   });
 }

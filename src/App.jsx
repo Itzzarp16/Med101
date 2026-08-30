@@ -99,7 +99,7 @@ export default function App() {
   // the topbar can show a live headcount of currently active students.
   useEffect(() => {
     if (!user) return;
-    return startPresenceHeartbeat(user.uid);
+    return startPresenceHeartbeat(user.uid, user.displayName || user.email);
   }, [user]);
 
   if (loading) {
