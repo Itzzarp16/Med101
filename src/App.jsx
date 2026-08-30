@@ -15,6 +15,7 @@ import ProfileScreen from './components/ProfileScreen';
 import WeakTopicsScreen from './components/WeakTopicsScreen';
 import WrongFlaggedScreen from './components/WrongFlaggedScreen';
 import AdminUserDetailScreen from './components/AdminUserDetailScreen';
+import AdminAnalyticsScreen from './components/AdminAnalyticsScreen';
 import AuthScreen from './components/AuthScreen';
 import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
@@ -132,6 +133,7 @@ export default function App() {
     onWeakTopics: () => goTo('weak-topics'),
     onWrongFlagged: () => goTo('wrong-flagged'),
     onAdminUserDetail: () => goTo('admin-user-detail'),
+    onAdminAnalytics: () => goTo('admin-analytics'),
     onAdminQuestions: () => goTo('admin-questions'),
     onAdminNotice: () => goTo('admin-notice'),
     onAdminCalendar: () => goTo('admin-calendar'),
@@ -181,6 +183,15 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <AdminUserDetailScreen onBack={goBack} />
+      </div>
+    );
+  }
+
+  if (screen === 'admin-analytics' && isAdmin) {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <AdminAnalyticsScreen onBack={goBack} />
       </div>
     );
   }
