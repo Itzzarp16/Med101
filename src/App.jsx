@@ -40,6 +40,7 @@ export default function App() {
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [activeRoomCode, setActiveRoomCode] = useState(null);
   const [activeRoomIsHost, setActiveRoomIsHost] = useState(false);
+  const [viewUserUid, setViewUserUid] = useState(null);
 
   // Seed a base history entry on mount, then listen for the back/forward
   // gesture and sync our screen state to whatever entry it lands on.
@@ -132,7 +133,8 @@ export default function App() {
     onProfile: () => goTo('profile'),
     onWeakTopics: () => goTo('weak-topics'),
     onWrongFlagged: () => goTo('wrong-flagged'),
-    onAdminUserDetail: () => goTo('admin-user-detail'),
+    onAdminUserDetail: () => { setViewUserUid(null); goTo('admin-user-detail'); },
+    onViewUser: (uid) => { setViewUserUid(uid); goTo('admin-user-detail'); },
     onAdminAnalytics: () => goTo('admin-analytics'),
     onAdminQuestions: () => goTo('admin-questions'),
     onAdminNotice: () => goTo('admin-notice'),
@@ -182,7 +184,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <AdminUserDetailScreen onBack={goBack} />
+        <AdminUserDetailScreen onBack={goBack} initialUid={viewUserUid} />
       </div>
     );
   }

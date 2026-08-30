@@ -441,6 +441,16 @@ h1, h2, .display {
   border-radius: 8px;
 }
 
+.online-list-item-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
 .online-list-item:hover {
   background: rgba(255, 255, 255, 0.06);
 }

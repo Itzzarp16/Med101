@@ -9,7 +9,7 @@ import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence'
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
-export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onWeakTopics, onWrongFlagged, onAdminQuestions, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics }) {
+export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onWeakTopics, onWrongFlagged, onAdminQuestions, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics, onViewUser }) {
   const { user, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [onlineCount, setOnlineCount] = useState(null);
@@ -86,7 +86,13 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
             ) : (
               <div className="online-list-items">
                 {(onlineNames || []).map((p) => (
-                  <div key={p.uid} className="online-list-item">{p.name}</div>
+                  <button
+                    key={p.uid}
+                    className="online-list-item online-list-item-btn"
+                    onClick={() => { playTapSound(); setShowOnlineList(false); onViewUser?.(p.uid); }}
+                  >
+                    {p.name}{p.uid === user?.uid ? ' (You)' : ''}
+                  </button>
                 ))}
               </div>
             )}
