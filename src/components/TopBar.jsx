@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
-import { countOnlineUsers, HEARTBEAT_MS } from '../lib/presence';
+import { subscribeToOnlineCount } from '../lib/presence';
 
 // Everything except the Med101 logo/signature and the user's own name
 // now lives behind a hamburger menu — matches the drawer content the
@@ -15,13 +15,8 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
   const [onlineCount, setOnlineCount] = useState(null);
 
   useEffect(() => {
-    let cancelled = false;
-    function poll() {
-      countOnlineUsers().then((n) => { if (!cancelled) setOnlineCount(n); });
-    }
-    poll();
-    const interval = setInterval(poll, HEARTBEAT_MS);
-    return () => { cancelled = true; clearInterval(interval); };
+    const unsub = subscribeToOnlineCount(setOnlineCount);
+    return unsub;
   }, []);
 
   function go(fn) {
@@ -49,7 +44,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
 
       <div className="topbar-right">
         {onlineCount != null && (
-          <span className="topbar-online" title="Students active in the last 90 seconds">
+          <span className="topbar-online" title="Students currently connected right now">
             <span className="topbar-online-dot" /> {onlineCount} online
           </span>
         )}
