@@ -15,9 +15,10 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
   const [onlineCount, setOnlineCount] = useState(null);
 
   useEffect(() => {
+    if (!isAdmin) return;
     const unsub = subscribeToOnlineCount(setOnlineCount);
     return unsub;
-  }, []);
+  }, [isAdmin]);
 
   function go(fn) {
     playTapSound();
