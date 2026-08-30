@@ -98,8 +98,10 @@ export function AuthProvider({ children }) {
             }
           });
         } else {
-          const snap = await getDoc(doc(db, 'users', u.uid));
-          setProfile(snap.exists() ? snap.data() : null);
+          if (deviceUnsubRef.current) deviceUnsubRef.current();
+          deviceUnsubRef.current = onSnapshot(doc(db, 'users', u.uid), (snap) => {
+            setProfile(snap.exists() ? snap.data() : null);
+          });
         }
         setUser(u);
       } else {
