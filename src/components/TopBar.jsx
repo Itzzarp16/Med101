@@ -69,7 +69,9 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
             </span>
           )
         )}
-        <span className="topbar-user">{user?.displayName || user?.email}</span>
+        <button className="topbar-user" title="View your profile" onClick={() => { playTapSound(); onProfile?.(); }}>
+          {user?.displayName || user?.email}
+        </button>
       </div>
 
       {showOnlineList && isAdmin && (
