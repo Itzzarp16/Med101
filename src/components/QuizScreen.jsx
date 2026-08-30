@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { playCorrectSound, playWrongSound, playTapSound } from '../lib/sounds';
+import { playCorrectSound, playWrongSound, playTapSound, playAppreciationSound } from '../lib/sounds';
 import { useAuth } from '../lib/AuthContext';
 import { addQuizHistoryEntry, updateTopicStats } from '../lib/quizHistory';
 import { submitLeaderboardResult } from '../lib/leaderboard';
@@ -35,6 +35,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
   const startedAtRef = useRef(Date.now());
   const savedRef = useRef(false); // guards against double-save (StrictMode / re-renders)
+  const appreciationPlayedRef = useRef(false); // guards against double-play (StrictMode / re-renders)
   const advanceTimeoutRef = useRef(null);
 
   const q = quizQuestions[cur];
@@ -133,6 +134,15 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   }, [timeLeft, timerSeconds, cur, finished]);
 
   useEffect(() => () => clearTimeout(advanceTimeoutRef.current), []);
+
+  // Appreciation sound — plays once, right when the results screen
+  // appears, independent of the history/leaderboard save effect below
+  // (which requires a signed-in user; this shouldn't).
+  useEffect(() => {
+    if (!finished || appreciationPlayedRef.current) return;
+    appreciationPlayedRef.current = true;
+    playAppreciationSound(pct);
+  }, [finished, pct]);
 
   // Save history + leaderboard once, the moment the results screen appears.
   useEffect(() => {

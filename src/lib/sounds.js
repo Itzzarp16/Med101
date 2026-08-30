@@ -77,3 +77,30 @@ export function playWrongSound() {
   osc.start(now);
   osc.stop(now + 0.26);
 }
+
+// Appreciation sound — plays once on the quiz results screen, picked by
+// final score %. Real audio clips live in /public/sounds/ (drop a file
+// in with the matching name and it just works, no code changes needed).
+// Falls back silently (no sound) if a clip for a tier hasn't been
+// uploaded yet, so this is safe to ship ahead of having all 4 files.
+const APPRECIATION_CLIPS = [
+  { min: 90, file: 'waah-clap.mp3' },   // >90%  — "Waah" + clap
+  { min: 70, file: 'clap.mp3' },        // 70–90% — clap only
+  { min: 50, file: 'do-better.mp3' },   // 50–70% — "Do better"
+  { min: 0, file: 'faah.mp3' },         // <=50% — "Faah"
+];
+
+function clipForPct(pct) {
+  return APPRECIATION_CLIPS.find((tier) => pct >= tier.min) || APPRECIATION_CLIPS[APPRECIATION_CLIPS.length - 1];
+}
+
+export function playAppreciationSound(pct) {
+  if (isMuted()) return;
+  const tier = clipForPct(pct);
+  const audio = new Audio(`/sounds/${tier.file}`);
+  audio.volume = 0.85;
+  // If the clip for this tier hasn't been uploaded yet, fail quietly
+  // instead of throwing a console error the student would never see
+  // the point of.
+  audio.play().catch(() => {});
+}
