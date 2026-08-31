@@ -23,6 +23,7 @@ import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
 import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 import { startPresenceHeartbeat } from './lib/presence';
+import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence';
 
 // Navigation is backed by real browser history (pushState/popstate) so
 // the phone's back gesture moves one screen back instead of closing the
@@ -33,20 +34,33 @@ import { startPresenceHeartbeat } from './lib/presence';
 export default function App() {
   const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage } = useAuth();
   const semesterData = useSemesterData();
-  const [screen, setScreen] = useState('dashboard');
-  const [selectedSubject, setSelectedSubject] = useState(null);
-  const [selectedTopic, setSelectedTopic] = useState(null); // null = "All Topics" within subject
-  const [finalQuiz, setFinalQuiz] = useState(null); // { questions, autoAdvance, timerSeconds } once mode is chosen
+
+  // A hard page refresh loses all in-memory React state, but the
+  // student should land back on whatever screen they were on (e.g. a
+  // quiz in progress) rather than being dumped to the dashboard. This
+  // restores the last-saved navigation snapshot once on mount — the
+  // saving side is the useEffect further down.
+  const savedNavRef = useState(() => loadNavState())[0];
+
+  const [screen, setScreen] = useState(savedNavRef?.screen || 'dashboard');
+  const [selectedSubject, setSelectedSubject] = useState(savedNavRef?.selectedSubject ?? null);
+  const [selectedTopic, setSelectedTopic] = useState(savedNavRef?.selectedTopic ?? null); // null = "All Topics" within subject
+  const [finalQuiz, setFinalQuiz] = useState(savedNavRef?.finalQuiz ?? null); // { questions, autoAdvance, timerSeconds } once mode is chosen
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
-  const [activeRoomCode, setActiveRoomCode] = useState(null);
-  const [activeRoomIsHost, setActiveRoomIsHost] = useState(false);
-  const [viewUserUid, setViewUserUid] = useState(null);
+  const [activeRoomCode, setActiveRoomCode] = useState(savedNavRef?.activeRoomCode ?? null);
+  const [activeRoomIsHost, setActiveRoomIsHost] = useState(savedNavRef?.activeRoomIsHost ?? false);
+  const [viewUserUid, setViewUserUid] = useState(savedNavRef?.viewUserUid ?? null);
 
-  // Seed a base history entry on mount, then listen for the back/forward
-  // gesture and sync our screen state to whatever entry it lands on.
+  // Seed a base history entry on mount (matching whatever screen was
+  // restored above, so the back gesture stays consistent), then listen
+  // for the back/forward gesture and sync our screen state to whatever
+  // entry it lands on.
   useEffect(() => {
-    window.history.replaceState({ screen: 'dashboard', selectedSubject: null, selectedTopic: null }, '');
+    window.history.replaceState(
+      { screen: savedNavRef?.screen || 'dashboard', selectedSubject: savedNavRef?.selectedSubject ?? null, selectedTopic: savedNavRef?.selectedTopic ?? null },
+      ''
+    );
     function onPopState(e) {
       const state = e.state || { screen: 'dashboard' };
       setScreen(state.screen);
@@ -55,7 +69,19 @@ export default function App() {
     }
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Persist a restore-on-refresh snapshot every time navigation-relevant
+  // state changes. Cleared entirely on sign-out so a different account
+  // signing in later never inherits a stale in-progress quiz.
+  useEffect(() => {
+    if (!user) {
+      clearNavState();
+      return;
+    }
+    saveNavState({ screen, selectedSubject, selectedTopic, finalQuiz, activeRoomCode, activeRoomIsHost, viewUserUid });
+  }, [user, screen, selectedSubject, selectedTopic, finalQuiz, activeRoomCode, activeRoomIsHost, viewUserUid]);
 
   // Forward navigation: pushes a new history entry so the back gesture
   // can return to wherever the student was.
