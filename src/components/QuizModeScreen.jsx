@@ -1,4 +1,6 @@
 import { useMemo, useState } from 'react';
+import { useAuth } from '../lib/AuthContext';
+import { filterUnseen } from '../lib/seenQuestions';
 import { playTapSound } from '../lib/sounds';
 import './QuizModeScreen.css';
 
@@ -21,6 +23,7 @@ const TIMER_PRESETS = [20, 30, 45, 60];
 // (picking any chip switches mode to "topic" and filters the pool to
 // just those topics), then Auto-advance/Timer settings.
 export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, onStart, onBack }) {
+  const { profile } = useAuth();
   const [mode, setMode] = useState('rand25');
   const [selectedTopics, setSelectedTopics] = useState(() => new Set());
   const [rangeStart, setRangeStart] = useState(1);
@@ -29,6 +32,11 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
   const [autoAdvance, setAutoAdvance] = useState(true);
   const [timerOn, setTimerOn] = useState(false);
   const [timerSeconds, setTimerSeconds] = useState(20);
+
+  const unseenPool = useMemo(
+    () => filterUnseen(pool, subjectName, profile?.seenQuestions),
+    [pool, subjectName, profile]
+  );
 
   const topics = useMemo(() => {
     const set = new Set();
@@ -55,7 +63,9 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
   function handleStart() {
     playTapSound();
     let quizQ;
-    if (mode === 'topic' && selectedTopics.size > 0) {
+    if (mode === 'unseen') {
+      quizQ = shuffled(unseenPool);
+    } else if (mode === 'topic' && selectedTopics.size > 0) {
       quizQ = shuffled(pool.filter((q) => selectedTopics.has(q.s)));
     } else if (mode === 'rand25') {
       quizQ = shuffled(pool).slice(0, Math.min(25, pool.length));
@@ -118,6 +128,15 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           <ModeCard emoji="📚" title={`All ${pool.length} — Sequential`} desc="Questions in order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
           <ModeCard emoji="🔀" title={`All ${pool.length} — Random`} desc="Fully shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
           <ModeCard emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
+          <ModeCard
+            emoji="🆕"
+            title="Unseen Only"
+            desc={`${unseenPool.length} questions you haven't tried yet`}
+            selected={mode === 'unseen'}
+            onClick={() => unseenPool.length > 0 && selectMode('unseen')}
+            wide
+            disabled={unseenPool.length === 0}
+          />
         </div>
 
         {mode === 'custom' && (
@@ -183,9 +202,14 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
   );
 }
 
-function ModeCard({ emoji, title, desc, selected, onClick, wide }) {
+function ModeCard({ emoji, title, desc, selected, onClick, wide, disabled }) {
   return (
-    <button className={`mode-card${selected ? ' selected' : ''}${wide ? ' wide' : ''}`} onClick={onClick}>
+    <button
+      className={`mode-card${selected ? ' selected' : ''}${wide ? ' wide' : ''}`}
+      onClick={onClick}
+      disabled={disabled}
+      style={disabled ? { opacity: 0.4, cursor: 'not-allowed' } : undefined}
+    >
       <span className="mode-card-emoji">{emoji}</span>
       <span className="mode-card-body">
         <span className="mode-card-title">{title}</span>

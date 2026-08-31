@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { playCorrectSound, playWrongSound, playTapSound, playAppreciationSound } from '../lib/sounds';
 import { useAuth } from '../lib/AuthContext';
 import { addQuizHistoryEntry, updateTopicStats } from '../lib/quizHistory';
+import { updateStreakOnActivity } from '../lib/streak';
+import { markQuestionsSeen } from '../lib/seenQuestions';
 import { submitLeaderboardResult } from '../lib/leaderboard';
 import { submitRoomResult } from '../lib/rooms';
 import { recordWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
@@ -194,6 +196,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       breakdown[question.s] = entry;
     });
     updateTopicStats(user.uid, mainSubject, breakdown);
+    updateStreakOnActivity(user.uid);
+    markQuestionsSeen(user.uid, mainSubject, quizQuestions);
   }, [finished, user, mainSubject, topic, semesterId, total, answeredCount, correctCount, pct, roomCode]);
 
   if (total === 0) {

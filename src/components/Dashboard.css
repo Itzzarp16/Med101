@@ -38,6 +38,21 @@
   font-size: 0.88rem;
 }
 
+.streak-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  padding: 5px 14px;
+  border-radius: 100px;
+  background: rgba(255, 138, 0, 0.14);
+  border: 1px solid rgba(255, 138, 0, 0.35);
+  color: #ffb84d;
+  font-size: 12.5px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+}
+
 .subj-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
