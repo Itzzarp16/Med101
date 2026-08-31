@@ -209,7 +209,7 @@ export default function App() {
     );
   }
 
-  const { mainSubjectMeta, subjectMeta, subjectGroup, semesterMainSubjects, questions } = semesterData;
+  const { mainSubjectMeta, subjectMeta, subjectGroup, semesterMainSubjects, questions, usingCachedData } = semesterData;
 
   // No data file exists yet for this student's resolved semester (e.g.
   // they've progressed to Y2S1 but only Y1S2 content has been added so
@@ -241,6 +241,10 @@ export default function App() {
   return (
     <div>
       <TopBar {...topBarProps} />
+
+      {usingCachedData && (
+        <div className="offline-banner">📴 Offline — showing your last saved question set</div>
+      )}
 
       {screen === 'admin-questions' && isAdmin && (
         <AdminQuestionsScreen
