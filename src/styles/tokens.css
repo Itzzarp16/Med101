@@ -310,6 +310,31 @@ h1, h2, .display {
   border-color: rgba(255, 204, 42, 0.6);
 }
 
+.topbar-icon-btn.theme {
+  border: 1px solid rgba(255, 204, 42, 0.30);
+  background: rgba(255, 204, 42, 0.08);
+  color: var(--amber);
+}
+.topbar-icon-btn.theme:hover {
+  background: rgba(255, 204, 42, 0.2);
+  border-color: rgba(255, 204, 42, 0.6);
+}
+
+.topbar-icon-btn.sound {
+  border: 1px solid rgba(48, 242, 138, 0.30);
+  background: rgba(48, 242, 138, 0.08);
+  color: var(--green);
+}
+.topbar-icon-btn.sound:hover {
+  background: rgba(48, 242, 138, 0.2);
+  border-color: rgba(48, 242, 138, 0.6);
+}
+.topbar-icon-btn.sound.muted {
+  border: 1px solid rgba(138, 174, 208, 0.25);
+  background: rgba(138, 174, 208, 0.06);
+  color: var(--text3);
+}
+
 .topbar-logo-stack {
   display: flex;
   flex-direction: column;

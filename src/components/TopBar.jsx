@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
-import { playTapSound } from '../lib/sounds';
+import { playTapSound, isMuted, setMuted } from '../lib/sounds';
+import { isLightMode, setTheme } from '../lib/theme';
 import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence';
 
 // Everything except the Med101 logo/signature and the user's own name
@@ -15,6 +16,22 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
   const [onlineCount, setOnlineCount] = useState(null);
   const [onlineNames, setOnlineNames] = useState(null);
   const [showOnlineList, setShowOnlineList] = useState(false);
+  const [lightMode, setLightMode] = useState(isLightMode());
+  const [soundMuted, setSoundMuted] = useState(isMuted());
+
+  function toggleLightMode() {
+    const next = !lightMode;
+    playTapSound();
+    setLightMode(next);
+    setTheme(next ? 'light' : 'dark');
+  }
+
+  function toggleSound() {
+    const next = !soundMuted;
+    setMuted(next);
+    setSoundMuted(next);
+    if (!next) playTapSound(); // only chime when turning sound back ON
+  }
 
   // Everyone signed in gets the count.
   useEffect(() => {
@@ -54,6 +71,20 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
       </div>
 
       <div className="topbar-right">
+        <button
+          className="topbar-icon-btn theme"
+          title={lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+          onClick={toggleLightMode}
+        >
+          {lightMode ? '☀️' : '🌙'}
+        </button>
+        <button
+          className={soundMuted ? 'topbar-icon-btn sound muted' : 'topbar-icon-btn sound'}
+          title={soundMuted ? 'Unmute sound' : 'Mute sound'}
+          onClick={toggleSound}
+        >
+          {soundMuted ? '🔇' : '🔊'}
+        </button>
         {onlineCount != null && (
           isAdmin ? (
             <button
