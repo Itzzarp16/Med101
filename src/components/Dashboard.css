@@ -69,3 +69,12 @@
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   }
 }
+
+/* Wide laptop/desktop — let the grid breathe further instead of
+   staying capped at tablet width once there's clearly room for a
+   4th (or 5th) column. */
+@media (min-width: 1280px) {
+  .subj-grid {
+    max-width: 1180px;
+  }
+}

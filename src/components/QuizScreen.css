@@ -624,3 +624,46 @@
   color: var(--amber);
   margin-top: 2px;
 }
+
+/* ── Responsive: very narrow phones (iPhone SE / small Android,
+   <360px) — the 3-column grids (quiz stats, results time breakdown,
+   Score/Accuracy/Grade) get tight at this width, so shrink padding
+   and numbers slightly rather than letting columns collide. ── */
+@media (max-width: 359px) {
+  .quiz-results-card {
+    padding: 22px 14px;
+  }
+  .results-time-subgrid,
+  .results-summary-grid {
+    gap: 6px;
+  }
+  .results-time-sub-val {
+    font-size: 0.92rem;
+  }
+  .results-summary-val {
+    font-size: 1.15rem;
+  }
+  .results-time-big {
+    font-size: 1.7rem;
+  }
+  .results-ring-wrap {
+    width: 140px;
+    height: 140px;
+  }
+  .results-pie {
+    width: 76px;
+    height: 76px;
+  }
+}
+
+/* ── Responsive: tablet/laptop — the quiz question/results column is
+   intentionally kept narrow for readability (matches QuizModeScreen's
+   640px hero), just centered with a touch more breathing room. ── */
+@media (min-width: 700px) {
+  .quiz-hero-inner,
+  .quiz-body,
+  .quiz-results {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
