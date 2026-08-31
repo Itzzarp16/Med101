@@ -66,9 +66,13 @@
 
 .home-notice-modal-card {
   position: relative;
-  max-width: 400px;
+  max-width: min(400px, 92vw);
   width: 100%;
+  max-height: min(78vh, 640px);
   padding: 28px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .home-notice-close {
@@ -90,6 +94,7 @@
   font-weight: 800;
   font-size: 1.1rem;
   margin-bottom: 12px;
+  flex-shrink: 0;
 }
 
 .home-notice-modal-body {
@@ -98,4 +103,8 @@
   line-height: 1.6;
   color: var(--text2);
   white-space: pre-wrap;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  overflow-y: auto;
+  padding-right: 4px; /* room for scrollbar so text doesn't touch it */
 }
