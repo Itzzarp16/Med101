@@ -154,6 +154,29 @@
   color: var(--text3);
 }
 
+.admin-q-error {
+  background: rgba(255, 90, 122, 0.08);
+  border: 1px solid rgba(255, 90, 122, 0.3);
+  border-radius: 14px;
+  padding: 18px 16px;
+  color: var(--text2);
+}
+.admin-q-error p {
+  margin: 0 0 8px;
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+.admin-q-error-detail {
+  color: var(--red);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  word-break: break-word;
+}
+.admin-q-error-hint {
+  color: var(--text3);
+  font-size: 12.5px;
+}
+
 .admin-q-list {
   display: flex;
   flex-direction: column;

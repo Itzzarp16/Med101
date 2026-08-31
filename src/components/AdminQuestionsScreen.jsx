@@ -73,6 +73,7 @@ export default function AdminQuestionsScreen({ semesterId, mainSubjectMeta, subj
 function SubjectEditor({ semesterId, mainSubject, isMigrated, jsonQuestions, onMigrated, onBack }) {
   const [questions, setQuestions] = useState([]);
   const [loading, setLoading] = useState(isMigrated);
+  const [loadError, setLoadError] = useState(null);
   const [migrating, setMigrating] = useState(false);
   const [editingId, setEditingId] = useState(null); // 'new' or a doc id
   const [form, setForm] = useState(EMPTY_FORM);
@@ -80,12 +81,28 @@ function SubjectEditor({ semesterId, mainSubject, isMigrated, jsonQuestions, onM
   useEffect(() => {
     if (!isMigrated) return;
     let cancelled = false;
-    fetchFirestoreQuestions(semesterId, mainSubject).then((qs) => {
-      if (!cancelled) {
-        setQuestions(qs);
-        setLoading(false);
-      }
-    });
+    setLoading(true);
+    setLoadError(null);
+    fetchFirestoreQuestions(semesterId, mainSubject)
+      .then((qs) => {
+        if (!cancelled) {
+          setQuestions(qs);
+          setLoading(false);
+        }
+      })
+      .catch((e) => {
+        // Most likely cause: this query (two equality filters + an
+        // orderBy on a third field) needs a Firestore composite index
+        // that hasn't been created yet. Firestore's own error message
+        // for that case includes a direct "create it here" link — we
+        // surface the raw message so that link is visible, instead of
+        // silently hanging on "Loading..." forever like before.
+        if (!cancelled) {
+          console.error('Failed to load questions:', e);
+          setLoadError(e?.message || String(e));
+          setLoading(false);
+        }
+      });
     return () => { cancelled = true; };
   }, [isMigrated, semesterId, mainSubject]);
 
@@ -201,6 +218,25 @@ function SubjectEditor({ semesterId, mainSubject, isMigrated, jsonQuestions, onM
 
       {loading ? (
         <div className="admin-q-loading">Loading…</div>
+      ) : loadError ? (
+        <div className="admin-q-error">
+          <p><strong>Couldn't load questions.</strong></p>
+          <p className="admin-q-error-detail">{loadError}</p>
+          {loadError.includes('index') && (
+            <p className="admin-q-error-hint">
+              This usually means Firestore needs a composite index for this query. Check the browser console (F12 → Console) for a direct "create index" link from Firebase, click it, and it'll build automatically in a minute or two.
+            </p>
+          )}
+          <button className="btn-ghost" onClick={() => {
+            setLoading(true);
+            setLoadError(null);
+            fetchFirestoreQuestions(semesterId, mainSubject)
+              .then((qs) => { setQuestions(qs); setLoading(false); })
+              .catch((e) => { setLoadError(e?.message || String(e)); setLoading(false); });
+          }}>
+            Retry
+          </button>
+        </div>
       ) : (
         <div className="admin-q-list">
           {questions.map((question, i) => (
