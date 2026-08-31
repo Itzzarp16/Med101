@@ -7,6 +7,7 @@ let audioCtx = null;
 function isMuted() {
   return localStorage.getItem('med101_soundMuted') === '1';
 }
+export { isMuted };
 
 export function setMuted(muted) {
   localStorage.setItem('med101_soundMuted', muted ? '1' : '0');

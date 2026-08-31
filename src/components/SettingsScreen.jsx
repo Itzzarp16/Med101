@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
-import { playTapSound } from '../lib/sounds';
+import { playTapSound, isMuted, setMuted } from '../lib/sounds';
+import { isLightMode, setTheme } from '../lib/theme';
 
 // Same options as the signup dropdown — kept in sync there manually
 // since there are only a handful of semesters right now.
@@ -21,6 +22,22 @@ export default function SettingsScreen({ onBack }) {
   const [yearSemester, setYearSemester] = useState(profile?.enrolledYearSemester || 'y1s1');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [lightMode, setLightMode] = useState(isLightMode());
+  const [soundMuted, setSoundMuted] = useState(isMuted());
+
+  function toggleLightMode() {
+    const next = !lightMode;
+    playTapSound(); // fires before the state flips, so a mute-toggle-off still gets an audible confirmation
+    setLightMode(next);
+    setTheme(next ? 'light' : 'dark');
+  }
+
+  function toggleSound() {
+    const next = !soundMuted;
+    setMuted(next);
+    setSoundMuted(next);
+    if (!next) playTapSound(); // only chime when turning sound back ON
+  }
 
   async function handleSave() {
     playTapSound();
@@ -42,6 +59,40 @@ export default function SettingsScreen({ onBack }) {
 
       <div className="std-header">
         <h1 className="std-title">⚙️ Settings</h1>
+      </div>
+
+      <div className="glass std-card" style={{ marginBottom: 14 }}>
+        <div className="toggle-row">
+          <div>
+            <div className="toggle-row-label">🌗 Dark / Light Mode</div>
+            <div className="toggle-row-sub">{lightMode ? 'Light mode is on' : 'Dark mode is on'}</div>
+          </div>
+          <button
+            type="button"
+            className={lightMode ? 'toggle-switch on' : 'toggle-switch'}
+            role="switch"
+            aria-checked={lightMode}
+            onClick={toggleLightMode}
+          >
+            <span className="toggle-knob" />
+          </button>
+        </div>
+
+        <div className="toggle-row">
+          <div>
+            <div className="toggle-row-label">🔊 Sound</div>
+            <div className="toggle-row-sub">{soundMuted ? 'Sound effects are off' : 'Sound effects are on'}</div>
+          </div>
+          <button
+            type="button"
+            className={!soundMuted ? 'toggle-switch on' : 'toggle-switch'}
+            role="switch"
+            aria-checked={!soundMuted}
+            onClick={toggleSound}
+          >
+            <span className="toggle-knob" />
+          </button>
+        </div>
       </div>
 
       <div className="glass std-card">
