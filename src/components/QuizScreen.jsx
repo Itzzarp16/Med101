@@ -282,7 +282,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
     return (
       <div className="quiz-results">
-        <div className="quiz-results-card glass-hi">
+        <div className="quiz-results-card">
           <div className="results-hero-emoji">{pct > 70 ? '💪' : pct >= 40 ? '📚' : '🔁'}</div>
           <h2 className="results-hero-title">Quiz Complete!</h2>
           <div className="results-hero-sub">{answeredCount} of {total} answered</div>
@@ -369,7 +369,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
               const timeS = questionTimesMs[i] === -1 ? null : (questionTimesMs[i] / 1000).toFixed(1);
               const borderColor = isSkipped ? 'var(--pink)' : isCorrect ? 'var(--green)' : 'var(--red)';
               return (
-                <div key={i} className="results-review-card glass" style={{ borderLeftColor: borderColor }}>
+                <div key={i} className="results-review-card" style={{ borderLeftColor: borderColor }}>
                   <div className="results-review-card-head">
                     <span className="results-review-qnum">
                       {i + 1}. {qq.s}{timeS != null && <span className="results-review-time"> · ⏱ {timeS}s</span>}

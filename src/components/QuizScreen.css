@@ -280,6 +280,10 @@
   padding: 30px 24px;
   max-width: 440px;
   width: 100%;
+  background: linear-gradient(160deg, var(--surface) 0%, var(--bg2) 100%);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 .results-hero-emoji {
@@ -356,12 +360,13 @@
 
 /* Total time card */
 .results-time-card {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
+  background: linear-gradient(160deg, rgba(24, 232, 255, 0.07) 0%, var(--surface) 100%);
+  border: 1px solid rgba(24, 232, 255, 0.30);
   border-radius: 16px;
   padding: 18px 16px;
   margin-bottom: 16px;
   text-align: left;
+  box-shadow: 0 0 24px rgba(24, 232, 255, 0.08);
 }
 
 .results-time-label {
@@ -388,7 +393,8 @@
 }
 
 .results-time-sub {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
   border-radius: 10px;
   padding: 10px 6px;
   text-align: center;
@@ -420,7 +426,7 @@
 }
 
 .results-summary-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--surface);
   border: 1px solid;
   border-radius: 14px;
   padding: 14px 6px;
@@ -498,6 +504,8 @@
 
 .results-review-card {
   padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
   border-left: 3px solid;
   border-radius: 14px;
 }
