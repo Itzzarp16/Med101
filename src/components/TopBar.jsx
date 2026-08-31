@@ -10,7 +10,7 @@ import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence'
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
-export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onWeakTopics, onWrongFlagged, onHistory, onAdminQuestions, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics, onViewUser }) {
+export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onProfile, onWeakTopics, onWrongFlagged, onHistory, onAdminQuestions, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics, onViewUser, screen }) {
   const { user, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [onlineCount, setOnlineCount] = useState(null);
@@ -65,10 +65,14 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
           </svg>
         </button>
 
-        <div className="topbar-logo-stack">
+        <button
+          className="topbar-logo-stack topbar-logo-stack-btn"
+          title="Go to Home"
+          onClick={() => { playTapSound(); onHome?.(); }}
+        >
           <span className="topbar-logo">Med<span className="topbar-logo-2">101</span></span>
           <div className="topbar-signature">by Abhishek Verma</div>
-        </div>
+        </button>
       </div>
 
       <div className="topbar-right">
@@ -154,22 +158,24 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
       )}
     </div>
 
-    <div className="topbar-subrow">
-      <button
-        className="topbar-icon-btn theme"
-        title={lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-        onClick={toggleLightMode}
-      >
-        {lightMode ? '☀️' : '🌙'}
-      </button>
-      <button
-        className={soundMuted ? 'topbar-icon-btn sound muted' : 'topbar-icon-btn sound'}
-        title={soundMuted ? 'Unmute sound' : 'Mute sound'}
-        onClick={toggleSound}
-      >
-        {soundMuted ? '🔇' : '🔊'}
-      </button>
-    </div>
+    {screen === 'dashboard' && (
+      <div className="topbar-subrow">
+        <button
+          className="topbar-icon-btn theme"
+          title={lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+          onClick={toggleLightMode}
+        >
+          {lightMode ? '☀️' : '🌙'}
+        </button>
+        <button
+          className={soundMuted ? 'topbar-icon-btn sound muted' : 'topbar-icon-btn sound'}
+          title={soundMuted ? 'Unmute sound' : 'Mute sound'}
+          onClick={toggleSound}
+        >
+          {soundMuted ? '🔇' : '🔊'}
+        </button>
+      </div>
+    )}
     </>
   );
 }

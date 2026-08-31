@@ -350,6 +350,14 @@ h1, h2, .display {
   flex-shrink: 0;
 }
 
+.topbar-logo-stack-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
 .topbar-logo {
   font-family: 'Syne', sans-serif;
   font-size: 19px;

@@ -141,6 +141,7 @@ export default function App() {
     onAdminQuestions: () => goTo('admin-questions'),
     onAdminNotice: () => goTo('admin-notice'),
     onAdminCalendar: () => goTo('admin-calendar'),
+    screen,
   };
 
   // Settings and admin calendar/notice screens are reachable regardless
