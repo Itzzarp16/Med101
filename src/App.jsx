@@ -37,6 +37,7 @@ export default function App() {
   const [selectedSubject, setSelectedSubject] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null); // null = "All Topics" within subject
   const [finalQuiz, setFinalQuiz] = useState(null); // { questions, autoAdvance, timerSeconds } once mode is chosen
+  const [quizKey, setQuizKey] = useState(0); // bumped to force QuizScreen to remount fresh on Restart Same / Retry Wrong
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [activeRoomCode, setActiveRoomCode] = useState(null);
@@ -328,6 +329,7 @@ export default function App() {
 
       {screen === 'quiz' && finalQuiz && (
         <QuizScreen
+          key={quizKey}
           mainSubject={finalQuiz.roomCode ? finalQuiz.roomMainSubject : selectedSubject}
           topic={selectedTopic}
           semesterId={activeSemesterId}
@@ -338,6 +340,11 @@ export default function App() {
           totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
           onExit={goBack}
           onViewRoomResults={() => goTo('room-results')}
+          onRestartSame={() => setQuizKey((k) => k + 1)}
+          onRetryWrong={(wrongQuestions) => {
+            setFinalQuiz((prev) => ({ ...prev, questions: wrongQuestions }));
+            setQuizKey((k) => k + 1);
+          }}
         />
       )}
 

@@ -269,94 +269,303 @@
 .quiz-results {
   min-height: 60vh;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
   padding: 20px;
   text-align: center;
+  gap: 16px;
 }
 
 .quiz-results-card {
-  padding: 32px 28px;
-  max-width: 400px;
+  padding: 30px 24px;
+  max-width: 440px;
+  width: 100%;
 }
 
-.quiz-results-pct {
+.results-hero-emoji {
+  font-size: 44px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.results-hero-title {
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 3rem;
-  color: var(--cyan);
+  font-size: 1.7rem;
+  margin: 0;
 }
 
-.quiz-results-sub {
+.results-hero-sub {
   color: var(--text3);
-  font-size: 13.5px;
-  margin: 8px 0 24px;
+  font-size: 13px;
+  margin: 6px 0 20px;
 }
 
-.results-pie-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  margin-bottom: 22px;
+/* Circular accuracy ring */
+.results-ring-wrap {
+  position: relative;
+  width: 168px;
+  height: 168px;
+  margin: 0 auto 22px;
 }
 
-.results-pie {
-  width: 108px;
-  height: 108px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.35), 0 4px 18px rgba(0, 0, 0, 0.30);
+.results-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
 }
 
-.results-legend {
+.results-ring-track {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 10;
+}
+
+.results-ring-progress {
+  fill: none;
+  stroke: var(--cyan);
+  stroke-width: 10;
+  stroke-linecap: round;
+  filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.55));
+  transition: stroke-dashoffset 0.6s ease;
+}
+
+.results-ring-center {
+  position: absolute;
+  inset: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.results-ring-pct {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 2.1rem;
+  color: var(--cyan);
+  line-height: 1;
+}
+
+.results-ring-label {
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  margin-top: 4px;
+}
+
+/* Total time card */
+.results-time-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 16px;
+  margin-bottom: 16px;
   text-align: left;
 }
 
-.results-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  color: var(--text2);
+.results-time-label {
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  margin-bottom: 4px;
 }
 
-.results-legend-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  flex-shrink: 0;
+.results-time-big {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 2.1rem;
+  color: var(--cyan);
+  line-height: 1.1;
+  margin-bottom: 14px;
 }
 
-.results-stats-grid {
+.results-time-subgrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.results-time-sub {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 10px 6px;
+  text-align: center;
+}
+
+.results-time-sub-val {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.results-time-sub-label {
+  font-size: 10.5px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+.results-pace {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* Score / Accuracy / Grade summary */
+.results-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
   margin-bottom: 18px;
 }
 
-.results-analysis {
+.results-summary-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid;
+  border-radius: 14px;
+  padding: 14px 6px;
+  text-align: center;
+}
+
+.results-summary-val {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.4rem;
+}
+
+.results-summary-label {
+  font-size: 10.5px;
+  color: var(--text3);
+  margin-top: 4px;
+}
+
+/* Action buttons */
+.results-action-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.results-action-row .btn-glow,
+.results-action-row .results-newquiz-btn {
+  flex: 1;
+}
+
+.results-retry-wrong-btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 90, 122, 0.45);
+  background: rgba(255, 90, 122, 0.08);
+  color: var(--red);
+  font-weight: 700;
+  font-size: 13.5px;
+  cursor: pointer;
+  margin-bottom: 6px;
+}
+.results-retry-wrong-btn:hover {
+  background: rgba(255, 90, 122, 0.16);
+}
+
+.results-review-toggle {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: none;
+  border: none;
+  color: var(--cyan);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Detailed review list */
+.results-review-list {
+  width: 100%;
+  max-width: 440px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 14px 16px;
-  margin-bottom: 22px;
+  gap: 12px;
+  text-align: left;
 }
 
-.results-analysis-row {
+.results-review-heading {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text3);
+  margin: 6px 2px;
+}
+
+.results-review-card {
+  padding: 16px;
+  border-left: 3px solid;
+  border-radius: 14px;
+}
+
+.results-review-card-head {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  color: var(--text2);
+  align-items: center;
+  margin-bottom: 8px;
 }
 
-.results-analysis-row span:last-child {
+.results-review-qnum {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+.results-review-time {
+  color: var(--text3);
+  font-weight: 400;
+}
+
+.results-review-status {
+  font-size: 14px;
+}
+
+.results-review-question {
+  font-size: 14px;
   color: var(--text);
-  font-weight: 600;
+  margin: 0 0 12px;
+  line-height: 1.45;
+}
+
+.results-review-options {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.results-review-opt {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.4;
+}
+
+.results-review-opt-label {
+  font-weight: 700;
+  margin-right: 2px;
+}
+
+.results-review-opt.correct {
+  color: var(--green);
+  font-weight: 700;
+}
+
+.results-review-opt.wrong {
+  color: var(--red);
+}
+
+.results-review-opt-tag {
+  font-size: 11.5px;
+  font-weight: 700;
+}
+.correct-tag { color: var(--green); }
+.wrong-tag { color: var(--red); }
+
+.results-review-timeout {
+  font-size: 12px;
+  color: var(--amber);
+  margin-top: 2px;
 }

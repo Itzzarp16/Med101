@@ -18,6 +18,14 @@ function formatElapsed(ms) {
   return `${m}:${s}`;
 }
 
+function gradeFor(pct) {
+  if (pct >= 90) return { letter: 'A', color: 'var(--green)' };
+  if (pct >= 80) return { letter: 'B', color: 'var(--cyan)' };
+  if (pct >= 70) return { letter: 'C', color: 'var(--amber)' };
+  if (pct >= 60) return { letter: 'D', color: 'var(--amber)' };
+  return { letter: 'F', color: 'var(--red)' };
+}
+
 // questions arrives already in the exact order/subset QuizModeScreen
 // decided (Random 25, All Sequential, Custom Range, etc.) — this
 // component just renders that sequence, it doesn't reorder anything.
@@ -25,7 +33,7 @@ function formatElapsed(ms) {
 // roomCode/totalTimeLimitMs are set only for Challenge Room quizzes —
 // a whole-quiz countdown (not per-question) that auto-finishes when it
 // hits zero, and reports the result to the room's shared leaderboard.
-export default function QuizScreen({ mainSubject, topic, semesterId, questions, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults }) {
+export default function QuizScreen({ mainSubject, topic, semesterId, questions, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
   const { user } = useAuth();
   const quizQuestions = questions;
   const [cur, setCur] = useState(0);
@@ -35,6 +43,12 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [elapsedMs, setElapsedMs] = useState(0);
   const [totalTimeLeftMs, setTotalTimeLeftMs] = useState(totalTimeLimitMs || null);
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
+  const [showReview, setShowReview] = useState(false);
+  // Per-question time, ms — -1 means "never visited" (quiz ended early).
+  // Recorded the moment a question is answered/times-out/skipped-past,
+  // so it reflects actual time-on-question, not just a global average.
+  const [questionTimesMs, setQuestionTimesMs] = useState(() => new Array(quizQuestions.length).fill(-1));
+  const questionShownAtRef = useRef(Date.now());
   const startedAtRef = useRef(Date.now());
   const savedRef = useRef(false); // guards against double-save (StrictMode / re-renders)
   const appreciationPlayedRef = useRef(false); // guards against double-play (StrictMode / re-renders)
@@ -72,6 +86,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   function nav(dir) {
     playTapSound();
+    if (answers[cur] === -1) recordQuestionTime(cur); // leaving unanswered — count time-on-question up to this point
     const nx = cur + dir;
     if (nx >= total) {
       setFinished(true);
@@ -83,6 +98,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   function answerQ(idx) {
     if (answers[cur] !== -1) return; // already answered — locked
+    recordQuestionTime(cur);
     const next = [...answers];
     next[cur] = idx;
     setAnswers(next);
@@ -118,10 +134,27 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     setTimeLeft(timerSeconds);
   }, [cur, timerSeconds]);
 
+  // Track wall-clock time spent per question — reset the moment the
+  // student actually lands on a new question.
+  useEffect(() => {
+    questionShownAtRef.current = Date.now();
+  }, [cur]);
+
+  function recordQuestionTime(index) {
+    const elapsed = Date.now() - questionShownAtRef.current;
+    setQuestionTimesMs((prev) => {
+      if (prev[index] !== -1) return prev; // already recorded — don't overwrite
+      const next = [...prev];
+      next[index] = elapsed;
+      return next;
+    });
+  }
+
   // Countdown + auto-submit-as-wrong when it hits zero.
   useEffect(() => {
     if (!timerSeconds || finished || answers[cur] !== -1) return;
     if (timeLeft <= 0) {
+      recordQuestionTime(cur);
       const next = [...answers];
       next[cur] = -2; // -2 = "timed out", distinct from -1 (unanswered) and any real option index
       setAnswers(next);
@@ -217,66 +250,161 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     // frozen at "total time taken" already — no extra state needed.
     const timeTakenMs = elapsedMs;
     const avgMsPerQ = total ? timeTakenMs / total : 0;
+    const visitedTimes = questionTimesMs.filter((t) => t !== -1);
+    const fastestMs = visitedTimes.length ? Math.min(...visitedTimes) : 0;
+    const slowestMs = visitedTimes.length ? Math.max(...visitedTimes) : 0;
+    const paceQPerMin = timeTakenMs > 0 ? (total / (timeTakenMs / 60000)) : 0;
+    const grade = gradeFor(pct);
 
-    const correctDeg = total ? (correctCount / total) * 360 : 0;
-    const incorrectDeg = total ? (incorrectCount / total) * 360 : 0;
-    const pieBackground = total
-      ? `conic-gradient(var(--green) 0deg ${correctDeg}deg, var(--red) ${correctDeg}deg ${correctDeg + incorrectDeg}deg, var(--pink) ${correctDeg + incorrectDeg}deg 360deg)`
-      : 'var(--surface2)';
+    const wrongQuestions = quizQuestions
+      .map((qq, i) => ({ qq, i }))
+      .filter(({ i }) => answers[i] !== -1 && answers[i] !== quizQuestions[i].c)
+      .map(({ qq }) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c }));
+
+    // Circular accuracy ring — SVG stroke-dashoffset trick, matches the
+    // thin rounded-cap ring look rather than a filled pie.
+    const ringR = 54;
+    const ringC = 2 * Math.PI * ringR;
+    const ringOffset = ringC - (pct / 100) * ringC;
+
+    function handleRestartSame() {
+      playTapSound();
+      onRestartSame?.();
+    }
+    function handleNewQuiz() {
+      playTapSound();
+      onExit();
+    }
+    function handleRetryWrong() {
+      playTapSound();
+      onRetryWrong?.(wrongQuestions);
+    }
 
     return (
       <div className="quiz-results">
         <div className="quiz-results-card glass-hi">
-          <div className="quiz-results-pct">{pct}%</div>
-          <div className="quiz-results-sub">
-            {correctCount} correct out of {answeredCount} answered ({total} total questions)
-          </div>
+          <div className="results-hero-emoji">{pct > 70 ? '💪' : pct >= 40 ? '📚' : '🔁'}</div>
+          <h2 className="results-hero-title">Quiz Complete!</h2>
+          <div className="results-hero-sub">{answeredCount} of {total} answered</div>
 
-          <div className="results-pie-row">
-            <div className="results-pie" style={{ background: pieBackground }} />
-            <div className="results-legend">
-              <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--green)' }} />Correct — {correctCount}</div>
-              <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--red)' }} />Incorrect — {incorrectCount}</div>
-              <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--pink)' }} />Skipped — {skippedCount}</div>
-            </div>
-          </div>
-
-          <div className="results-stats-grid">
-            <div className="stat-card" style={{ '--accent': 'var(--green)' }}>
-              <div className="stat-label">Correct</div>
-              <div className="stat-value" style={{ color: 'var(--green)' }}>{correctCount}</div>
-            </div>
-            <div className="stat-card" style={{ '--accent': 'var(--red)' }}>
-              <div className="stat-label">Incorrect</div>
-              <div className="stat-value" style={{ color: 'var(--red)' }}>{incorrectCount}</div>
-            </div>
-            <div className="stat-card" style={{ '--accent': 'var(--pink)' }}>
-              <div className="stat-label">Skipped</div>
-              <div className="stat-value" style={{ color: 'var(--pink)' }}>{skippedCount}</div>
-            </div>
-            <div className="stat-card" style={{ '--accent': 'var(--cyan)' }}>
-              <div className="stat-label">Total Attempted</div>
-              <div className="stat-value" style={{ color: 'var(--cyan)' }}>{answeredCount}/{total}</div>
+          <div className="results-ring-wrap">
+            <svg viewBox="0 0 120 120" className="results-ring-svg">
+              <circle cx="60" cy="60" r={ringR} className="results-ring-track" />
+              <circle
+                cx="60" cy="60" r={ringR}
+                className="results-ring-progress"
+                strokeDasharray={ringC}
+                strokeDashoffset={ringOffset}
+              />
+            </svg>
+            <div className="results-ring-center">
+              <div className="results-ring-pct">{pct}%</div>
+              <div className="results-ring-label">ACCURACY</div>
             </div>
           </div>
 
-          <div className="results-analysis">
-            <div className="results-analysis-row">
-              <span>⏱ Total Time Taken</span>
-              <span>{formatElapsed(timeTakenMs)}</span>
+          <div className="results-time-card">
+            <div className="results-time-label">⏱ TOTAL TIME</div>
+            <div className="results-time-big">{formatElapsed(timeTakenMs)}</div>
+            <div className="results-time-subgrid">
+              <div className="results-time-sub">
+                <div className="results-time-sub-val" style={{ color: 'var(--cyan)' }}>{(avgMsPerQ / 1000).toFixed(1)}s</div>
+                <div className="results-time-sub-label">Avg / Question</div>
+              </div>
+              <div className="results-time-sub">
+                <div className="results-time-sub-val" style={{ color: 'var(--green)' }}>{(fastestMs / 1000).toFixed(1)}s</div>
+                <div className="results-time-sub-label">Fastest</div>
+              </div>
+              <div className="results-time-sub">
+                <div className="results-time-sub-val" style={{ color: 'var(--red)' }}>{(slowestMs / 1000).toFixed(1)}s</div>
+                <div className="results-time-sub-label">Slowest</div>
+              </div>
             </div>
-            <div className="results-analysis-row">
-              <span>⏳ Time / Question</span>
-              <span>{(avgMsPerQ / 1000).toFixed(1)}s</span>
+            <div className="results-pace">📊 Pace: ~{paceQPerMin.toFixed(1)} questions per minute</div>
+          </div>
+
+          <div className="results-summary-grid">
+            <div className="results-summary-card" style={{ borderColor: 'rgba(0,229,255,0.35)' }}>
+              <div className="results-summary-val" style={{ color: 'var(--cyan)' }}>{correctCount}/{total}</div>
+              <div className="results-summary-label">Score</div>
+            </div>
+            <div className="results-summary-card" style={{ borderColor: 'rgba(48,242,138,0.35)' }}>
+              <div className="results-summary-val" style={{ color: 'var(--green)' }}>{pct}%</div>
+              <div className="results-summary-label">Accuracy</div>
+            </div>
+            <div className="results-summary-card" style={{ borderColor: 'rgba(255,204,42,0.35)' }}>
+              <div className="results-summary-val" style={{ color: grade.color }}>{grade.letter}</div>
+              <div className="results-summary-label">Grade</div>
             </div>
           </div>
 
           {roomCode ? (
             <button className="btn-glow" onClick={onViewRoomResults}>View Room Results →</button>
           ) : (
-            <button className="btn-glow" onClick={onExit}>Back to Topics</button>
+            <>
+              <div className="results-action-row">
+                <button className="btn-glow" onClick={handleRestartSame}>↺ Restart Same</button>
+                <button className="btn-ghost results-newquiz-btn" onClick={handleNewQuiz}>← New Quiz</button>
+              </div>
+              {wrongQuestions.length > 0 && (
+                <button className="results-retry-wrong-btn" onClick={handleRetryWrong}>
+                  ✕ Retry Wrong Questions ({wrongQuestions.length})
+                </button>
+              )}
+            </>
           )}
+
+          <button className="results-review-toggle" onClick={() => { playTapSound(); setShowReview((v) => !v); }}>
+            {showReview ? 'Hide Detailed Review ▲' : 'Show Detailed Review ▼'}
+          </button>
         </div>
+
+        {showReview && (
+          <div className="results-review-list">
+            <div className="results-review-heading">DETAILED REVIEW</div>
+            {quizQuestions.map((qq, i) => {
+              const ua = answers[i];
+              const isSkipped = ua === -1;
+              const isCorrect = ua === qq.c;
+              const timeS = questionTimesMs[i] === -1 ? null : (questionTimesMs[i] / 1000).toFixed(1);
+              const borderColor = isSkipped ? 'var(--pink)' : isCorrect ? 'var(--green)' : 'var(--red)';
+              return (
+                <div key={i} className="results-review-card glass" style={{ borderLeftColor: borderColor }}>
+                  <div className="results-review-card-head">
+                    <span className="results-review-qnum">
+                      {i + 1}. {qq.s}{timeS != null && <span className="results-review-time"> · ⏱ {timeS}s</span>}
+                    </span>
+                    <span className="results-review-status">
+                      {isSkipped ? '⏭️' : isCorrect ? '✅' : '❌'}
+                    </span>
+                  </div>
+                  <p className="results-review-question">{qq.q}</p>
+                  <div className="results-review-options">
+                    {qq.o.map((opt, oi) => {
+                      const isCorrectOpt = oi === qq.c;
+                      const isUserPick = oi === ua;
+                      return (
+                        <div
+                          key={oi}
+                          className={
+                            isCorrectOpt ? 'results-review-opt correct' :
+                            (isUserPick && !isCorrectOpt) ? 'results-review-opt wrong' :
+                            'results-review-opt'
+                          }
+                        >
+                          <span className="results-review-opt-label">{LABELS[oi]}.</span> {opt}
+                          {isCorrectOpt && <span className="results-review-opt-tag correct-tag"> ✓</span>}
+                          {isUserPick && !isCorrectOpt && <span className="results-review-opt-tag wrong-tag"> ← Your answer</span>}
+                        </div>
+                      );
+                    })}
+                    {ua === -2 && <div className="results-review-timeout">⏰ Timed out — no answer selected</div>}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     );
   }
