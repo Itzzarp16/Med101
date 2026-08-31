@@ -7,6 +7,7 @@ import { markQuestionsSeen } from '../lib/seenQuestions';
 import { submitLeaderboardResult } from '../lib/leaderboard';
 import { submitRoomResult } from '../lib/rooms';
 import { recordWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
+import { saveQuizProgress, loadQuizProgress, clearQuizProgress } from '../lib/quizProgress';
 import './QuizScreen.css';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
@@ -36,20 +37,36 @@ function gradeFor(pct) {
 export default function QuizScreen({ mainSubject, topic, semesterId, questions, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
   const { user } = useAuth();
   const quizQuestions = questions;
-  const [cur, setCur] = useState(0);
-  const [answers, setAnswers] = useState(() => new Array(quizQuestions.length).fill(-1));
+
+  // Restore in-progress position/answers from a prior page load if it
+  // looks like the same attempt (same question count) — this is what
+  // lets a refresh resume on question 12 instead of restarting at 1.
+  const restoredRef = useState(() => {
+    const saved = loadQuizProgress();
+    return saved && saved.answers?.length === quizQuestions.length ? saved : null;
+  })[0];
+
+  const [cur, setCur] = useState(restoredRef?.cur ?? 0);
+  const [answers, setAnswers] = useState(() => restoredRef?.answers ?? new Array(quizQuestions.length).fill(-1));
   const [finished, setFinished] = useState(false);
   const [timeLeft, setTimeLeft] = useState(timerSeconds || null);
   const [elapsedMs, setElapsedMs] = useState(0);
-  const [totalTimeLeftMs, setTotalTimeLeftMs] = useState(totalTimeLimitMs || null);
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
   const [showReview, setShowReview] = useState(false);
   // Per-question time, ms — -1 means "never visited" (quiz ended early).
   // Recorded the moment a question is answered/times-out/skipped-past,
   // so it reflects actual time-on-question, not just a global average.
-  const [questionTimesMs, setQuestionTimesMs] = useState(() => new Array(quizQuestions.length).fill(-1));
+  const [questionTimesMs, setQuestionTimesMs] = useState(() => restoredRef?.questionTimesMs ?? new Array(quizQuestions.length).fill(-1));
   const questionShownAtRef = useRef(Date.now());
-  const startedAtRef = useRef(Date.now());
+  const startedAtRef = useRef(restoredRef?.startedAt ?? Date.now());
+  // Absolute deadline (not a decrementing counter) so the countdown
+  // reflects real wall-clock time even after a refresh gap.
+  const totalDeadlineRef = useRef(
+    totalTimeLimitMs ? (restoredRef?.totalDeadline ?? Date.now() + totalTimeLimitMs) : null
+  );
+  const [totalTimeLeftMs, setTotalTimeLeftMs] = useState(
+    totalDeadlineRef.current ? Math.max(0, totalDeadlineRef.current - Date.now()) : null
+  );
   const savedRef = useRef(false); // guards against double-save (StrictMode / re-renders)
   const appreciationPlayedRef = useRef(false); // guards against double-play (StrictMode / re-renders)
   const advanceTimeoutRef = useRef(null);
@@ -60,6 +77,15 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const correctCount = answers.filter((a, i) => a >= 0 && a === quizQuestions[i].c).length;
   const pct = answeredCount ? Math.round((correctCount / answeredCount) * 100) : 0;
 
+  // Persist position/answers on every change, and clean up entirely
+  // once this attempt is over (finished, or the student navigates away).
+  useEffect(() => {
+    if (finished) return;
+    saveQuizProgress({ cur, answers, questionTimesMs, startedAt: startedAtRef.current, totalDeadline: totalDeadlineRef.current });
+  }, [cur, answers, questionTimesMs, finished]);
+
+  useEffect(() => () => clearQuizProgress(), []);
+
   // Elapsed stopwatch, ticking every second while the quiz is in progress.
   useEffect(() => {
     if (finished) return;
@@ -67,22 +93,19 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     return () => clearInterval(t);
   }, [finished]);
 
-  // Whole-quiz countdown for Challenge Rooms — auto-finishes (keeping
-  // whatever was answered so far) the moment it hits zero.
+  // Whole-quiz countdown for Challenge Rooms — recomputed from the
+  // absolute deadline each tick (not a naive ms-1000 decrement), so it
+  // stays accurate even if the page was closed/reloaded partway through.
+  // Auto-finishes (keeping whatever was answered so far) at zero.
   useEffect(() => {
-    if (!totalTimeLimitMs || finished) return;
+    if (!totalDeadlineRef.current || finished) return;
     const t = setInterval(() => {
-      setTotalTimeLeftMs((ms) => {
-        const next = ms - 1000;
-        if (next <= 0) {
-          setFinished(true);
-          return 0;
-        }
-        return next;
-      });
+      const remaining = Math.max(0, totalDeadlineRef.current - Date.now());
+      setTotalTimeLeftMs(remaining);
+      if (remaining <= 0) setFinished(true);
     }, 1000);
     return () => clearInterval(t);
-  }, [totalTimeLimitMs, finished]);
+  }, [finished]);
 
   function nav(dir) {
     playTapSound();
@@ -231,6 +254,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     updateTopicStats(user.uid, mainSubject, breakdown);
     updateStreakOnActivity(user.uid);
     markQuestionsSeen(user.uid, mainSubject, quizQuestions);
+    clearQuizProgress();
   }, [finished, user, mainSubject, topic, semesterId, total, answeredCount, correctCount, pct, roomCode]);
 
   if (total === 0) {
