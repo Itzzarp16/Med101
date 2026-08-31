@@ -4,7 +4,7 @@ import { changePassword, claimUsername, fetchMyUsername, updateDisplayName } fro
 import { playTapSound } from '../lib/sounds';
 
 export default function ProfileScreen({ onBack }) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
 
   const [name, setName] = useState(user?.displayName || '');
   const [nameSaving, setNameSaving] = useState(false);
@@ -100,6 +100,17 @@ export default function ProfileScreen({ onBack }) {
       <div className="std-header">
         <h1 className="std-title">🙍 Your Profile</h1>
         <p className="std-sub">{user.email}</p>
+      </div>
+
+      <div className="quiz-stats-grid" style={{ marginBottom: 14 }}>
+        <div className="stat-card" style={{ '--accent': '#ffb84d' }}>
+          <div className="stat-label">🔥 Current Streak</div>
+          <div className="stat-value" style={{ color: '#ffb84d' }}>{profile?.streakCount || 0}</div>
+        </div>
+        <div className="stat-card" style={{ '--accent': 'var(--violet)' }}>
+          <div className="stat-label">Longest Streak</div>
+          <div className="stat-value" style={{ color: 'var(--violet)' }}>{profile?.longestStreak || 0}</div>
+        </div>
       </div>
 
       {/* Display name */}
