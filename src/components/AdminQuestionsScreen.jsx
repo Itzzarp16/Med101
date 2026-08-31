@@ -221,7 +221,20 @@ function SubjectEditor({ semesterId, mainSubject, isMigrated, jsonQuestions, onM
       ) : loadError ? (
         <div className="admin-q-error">
           <p><strong>Couldn't load questions.</strong></p>
-          <p className="admin-q-error-detail">{loadError}</p>
+          <p className="admin-q-error-detail">
+            {(() => {
+              const urlMatch = loadError.match(/https?:\/\/\S+/);
+              if (!urlMatch) return loadError;
+              const url = urlMatch[0];
+              const before = loadError.slice(0, urlMatch.index);
+              return (
+                <>
+                  {before}
+                  <a href={url} target="_blank" rel="noopener noreferrer" className="admin-q-error-link">{url}</a>
+                </>
+              );
+            })()}
+          </p>
           {loadError.includes('index') && (
             <p className="admin-q-error-hint">
               This usually means Firestore needs a composite index for this query. Check the browser console (F12 → Console) for a direct "create index" link from Firebase, click it, and it'll build automatically in a minute or two.

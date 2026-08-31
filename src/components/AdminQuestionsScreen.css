@@ -172,6 +172,10 @@
   font-size: 12px;
   word-break: break-word;
 }
+.admin-q-error-link {
+  color: var(--cyan);
+  text-decoration: underline;
+}
 .admin-q-error-hint {
   color: var(--text3);
   font-size: 12.5px;
