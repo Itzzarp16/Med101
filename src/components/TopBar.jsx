@@ -54,6 +54,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
   }
 
   return (
+    <>
     <div className="topbar">
       <div className="topbar-left">
         <button className="topbar-icon-btn home" title="Menu" onClick={() => { playTapSound(); setMenuOpen(true); }}>
@@ -71,20 +72,6 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
       </div>
 
       <div className="topbar-right">
-        <button
-          className="topbar-icon-btn theme"
-          title={lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-          onClick={toggleLightMode}
-        >
-          {lightMode ? '☀️' : '🌙'}
-        </button>
-        <button
-          className={soundMuted ? 'topbar-icon-btn sound muted' : 'topbar-icon-btn sound'}
-          title={soundMuted ? 'Unmute sound' : 'Mute sound'}
-          onClick={toggleSound}
-        >
-          {soundMuted ? '🔇' : '🔊'}
-        </button>
         {onlineCount != null && (
           isAdmin ? (
             <button
@@ -166,5 +153,23 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
         </div>
       )}
     </div>
+
+    <div className="topbar-subrow">
+      <button
+        className="topbar-icon-btn theme"
+        title={lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+        onClick={toggleLightMode}
+      >
+        {lightMode ? '☀️' : '🌙'}
+      </button>
+      <button
+        className={soundMuted ? 'topbar-icon-btn sound muted' : 'topbar-icon-btn sound'}
+        title={soundMuted ? 'Unmute sound' : 'Mute sound'}
+        onClick={toggleSound}
+      >
+        {soundMuted ? '🔇' : '🔊'}
+      </button>
+    </div>
+    </>
   );
 }
