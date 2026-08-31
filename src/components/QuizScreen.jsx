@@ -323,6 +323,25 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             <div className="results-pace">📊 Pace: ~{paceQPerMin.toFixed(1)} questions per minute</div>
           </div>
 
+          <div className="results-breakdown-card">
+            <div className="results-time-label">🥧 BREAKDOWN</div>
+            <div className="results-pie-row">
+              <div
+                className="results-pie"
+                style={{
+                  background: total
+                    ? `conic-gradient(var(--green) 0deg ${(correctCount / total) * 360}deg, var(--red) ${(correctCount / total) * 360}deg ${((correctCount + incorrectCount) / total) * 360}deg, var(--pink) ${((correctCount + incorrectCount) / total) * 360}deg 360deg)`
+                    : 'var(--surface2)',
+                }}
+              />
+              <div className="results-legend">
+                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--green)' }} />Correct — {correctCount}</div>
+                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--red)' }} />Incorrect — {incorrectCount}</div>
+                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--pink)' }} />Skipped — {skippedCount}</div>
+              </div>
+            </div>
+          </div>
+
           <div className="results-summary-grid">
             <div className="results-summary-card" style={{ borderColor: 'rgba(0,229,255,0.35)' }}>
               <div className="results-summary-val" style={{ color: 'var(--cyan)' }}>{correctCount}/{total}</div>
