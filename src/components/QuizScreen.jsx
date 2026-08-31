@@ -210,6 +210,20 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   }
 
   if (finished) {
+    const incorrectCount = answeredCount - correctCount;
+    const skippedCount = total - answeredCount;
+    // elapsedMs stops updating the moment finished flips true (its
+    // ticking interval is gated on !finished), so this is effectively
+    // frozen at "total time taken" already — no extra state needed.
+    const timeTakenMs = elapsedMs;
+    const avgMsPerQ = total ? timeTakenMs / total : 0;
+
+    const correctDeg = total ? (correctCount / total) * 360 : 0;
+    const incorrectDeg = total ? (incorrectCount / total) * 360 : 0;
+    const pieBackground = total
+      ? `conic-gradient(var(--green) 0deg ${correctDeg}deg, var(--red) ${correctDeg}deg ${correctDeg + incorrectDeg}deg, var(--pink) ${correctDeg + incorrectDeg}deg 360deg)`
+      : 'var(--surface2)';
+
     return (
       <div className="quiz-results">
         <div className="quiz-results-card glass-hi">
@@ -217,6 +231,46 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           <div className="quiz-results-sub">
             {correctCount} correct out of {answeredCount} answered ({total} total questions)
           </div>
+
+          <div className="results-pie-row">
+            <div className="results-pie" style={{ background: pieBackground }} />
+            <div className="results-legend">
+              <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--green)' }} />Correct — {correctCount}</div>
+              <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--red)' }} />Incorrect — {incorrectCount}</div>
+              <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--pink)' }} />Skipped — {skippedCount}</div>
+            </div>
+          </div>
+
+          <div className="results-stats-grid">
+            <div className="stat-card" style={{ '--accent': 'var(--green)' }}>
+              <div className="stat-label">Correct</div>
+              <div className="stat-value" style={{ color: 'var(--green)' }}>{correctCount}</div>
+            </div>
+            <div className="stat-card" style={{ '--accent': 'var(--red)' }}>
+              <div className="stat-label">Incorrect</div>
+              <div className="stat-value" style={{ color: 'var(--red)' }}>{incorrectCount}</div>
+            </div>
+            <div className="stat-card" style={{ '--accent': 'var(--pink)' }}>
+              <div className="stat-label">Skipped</div>
+              <div className="stat-value" style={{ color: 'var(--pink)' }}>{skippedCount}</div>
+            </div>
+            <div className="stat-card" style={{ '--accent': 'var(--cyan)' }}>
+              <div className="stat-label">Total Attempted</div>
+              <div className="stat-value" style={{ color: 'var(--cyan)' }}>{answeredCount}/{total}</div>
+            </div>
+          </div>
+
+          <div className="results-analysis">
+            <div className="results-analysis-row">
+              <span>⏱ Total Time Taken</span>
+              <span>{formatElapsed(timeTakenMs)}</span>
+            </div>
+            <div className="results-analysis-row">
+              <span>⏳ Time / Question</span>
+              <span>{(avgMsPerQ / 1000).toFixed(1)}s</span>
+            </div>
+          </div>
+
           {roomCode ? (
             <button className="btn-glow" onClick={onViewRoomResults}>View Room Results →</button>
           ) : (
