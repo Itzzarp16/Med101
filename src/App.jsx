@@ -166,8 +166,17 @@ export default function App() {
 
   if (loading) {
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
-        Loading…
+      <div className="app-loading-screen">
+        <div className="app-loading-logo">
+          Med<span className="app-loading-logo-accent">101</span>
+        </div>
+        <div className="app-loading-bar-row">
+          <span className="app-loading-play">▶</span>
+          <div className="app-loading-track">
+            <div className="app-loading-fill app-loading-fill-indeterminate" />
+          </div>
+        </div>
+        <div className="app-loading-label">Signing you in...</div>
       </div>
     );
   }
