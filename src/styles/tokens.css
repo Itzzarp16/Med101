@@ -863,7 +863,32 @@ h1, h2, .display {
   height: 100%;
   border-radius: 999px;
   background: linear-gradient(90deg, #00e5ff, #a78bfa);
-  transition: width 0.5s ease;
+  transition: width 0.35s ease;
+}
+
+/* Indeterminate sweep, since we can't know real progress up front and
+   a fixed-width bar tied to just 2 coarse steps (semester data +
+   calendar) used to visibly freeze at 50% for however long the
+   slower step took. A continuously moving highlight never looks
+   stuck, no matter how long the actual wait ends up being. */
+.app-loading-fill-indeterminate {
+  position: relative;
+  width: 40%;
+  animation: app-loading-sweep 1.3s ease-in-out infinite;
+}
+
+@keyframes app-loading-sweep {
+  0% {
+    margin-left: -40%;
+    width: 40%;
+  }
+  50% {
+    width: 60%;
+  }
+  100% {
+    margin-left: 100%;
+    width: 40%;
+  }
 }
 
 .app-loading-label {

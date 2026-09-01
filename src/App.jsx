@@ -48,6 +48,7 @@ export default function App() {
   const [quizKey, setQuizKey] = useState(0); // bumped to force QuizScreen to remount fresh on Restart Same / Retry Wrong
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
+  const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
   const [activeRoomCode, setActiveRoomCode] = useState(savedNavRef?.activeRoomCode ?? null);
   const [activeRoomIsHost, setActiveRoomIsHost] = useState(savedNavRef?.activeRoomIsHost ?? false);
   const [viewUserUid, setViewUserUid] = useState(savedNavRef?.viewUserUid ?? null);
@@ -139,6 +140,22 @@ export default function App() {
     resolve();
     return () => { cancelled = true; };
   }, [profile, semesterData.semesterMainSubjects]);
+
+  // Loading-bar finish sequence: the moment both real loading steps
+  // are actually done, snap the indeterminate sweep to a solid 100%
+  // fill for a beat so the finish is visible, then swap to the real
+  // app. Without this the loader would just unmount instantly,
+  // mid-sweep, which reads as "the bar never finished."
+  useEffect(() => {
+    if (semesterData.loading || calendarLoading) {
+      if (loaderPhase !== 'loading') setLoaderPhase('loading');
+      return;
+    }
+    if (loaderPhase !== 'loading') return; // already completing/done
+    setLoaderPhase('completing');
+    const t = setTimeout(() => setLoaderPhase('done'), 380);
+    return () => clearTimeout(t);
+  }, [semesterData.loading, calendarLoading]);
 
   // Presence heartbeat - pings this session as "online" every 30s so
   // the topbar can show a live headcount of currently active students.
@@ -243,10 +260,7 @@ export default function App() {
     );
   }
 
-  if (semesterData.loading || calendarLoading) {
-    const stepsDone = (semesterData.loading ? 0 : 1) + (calendarLoading ? 0 : 1);
-    const pct = Math.max(12, Math.round((stepsDone / 2) * 100)); // floor at 12% so the bar never looks empty on first paint
-
+  if (loaderPhase !== 'done') {
     return (
       <div className="app-loading-screen">
         <div className="app-loading-logo">
@@ -255,10 +269,15 @@ export default function App() {
         <div className="app-loading-bar-row">
           <span className="app-loading-play">▶</span>
           <div className="app-loading-track">
-            <div className="app-loading-fill" style={{ width: `${pct}%` }} />
+            <div
+              className={loaderPhase === 'completing' ? 'app-loading-fill' : 'app-loading-fill app-loading-fill-indeterminate'}
+              style={loaderPhase === 'completing' ? { width: '100%' } : undefined}
+            />
           </div>
         </div>
-        <div className="app-loading-label">Loading your questions…</div>
+        <div className="app-loading-label">
+          {loaderPhase === 'completing' ? 'Ready!' : 'Loading your questions...'}
+        </div>
       </div>
     );
   }
