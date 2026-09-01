@@ -810,3 +810,63 @@ h1, h2, .display {
 .toggle-switch.on .toggle-knob {
   left: 21px;
 }
+
+/* App-level loading screen (semester data + academic calendar) —
+   YouTube-scrubber-style bar, in the app's own cyan-violet brand
+   gradient instead of red, with a play glyph like the reference. */
+.app-loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  background: var(--bg);
+  padding: 20px;
+}
+
+.app-loading-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.7rem;
+  color: var(--text);
+}
+.app-loading-logo-accent {
+  background: linear-gradient(90deg, #00e5ff, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.app-loading-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 220px;
+}
+
+.app-loading-play {
+  color: var(--cyan);
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.app-loading-track {
+  flex: 1;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.app-loading-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #00e5ff, #a78bfa);
+  transition: width 0.5s ease;
+}
+
+.app-loading-label {
+  color: var(--text3);
+  font-size: 12.5px;
+}

@@ -86,22 +86,41 @@ export function AuthProvider({ children }) {
             }
           }
           if (deviceUnsubRef.current) deviceUnsubRef.current();
-          deviceUnsubRef.current = onSnapshot(doc(db, 'users', u.uid), (snap) => {
-            const data = snap.exists() ? snap.data() : {};
-            setProfile(data);
-            const active = data.activeDeviceId || null;
-            if (active && active !== getDeviceId()) {
-              setKickedMessage(
-                "You've been signed out because this account was signed in on another device."
-              );
-              signOut(auth);
+          deviceUnsubRef.current = onSnapshot(
+            doc(db, 'users', u.uid),
+            (snap) => {
+              const data = snap.exists() ? snap.data() : {};
+              setProfile(data);
+              const active = data.activeDeviceId || null;
+              if (active && active !== getDeviceId()) {
+                setKickedMessage(
+                  "You've been signed out because this account was signed in on another device."
+                );
+                signOut(auth);
+              }
+            },
+            (err) => {
+              // A permissions error or dropped connection here used to
+              // leave `profile` stuck at null forever, which in turn
+              // hung the whole app on "Loading questions...". Falling
+              // back to an empty profile at least lets the student in;
+              // App.jsx's own timeout is the second safety net.
+              console.warn('Profile listener failed:', err);
+              setProfile({});
             }
-          });
+          );
         } else {
           if (deviceUnsubRef.current) deviceUnsubRef.current();
-          deviceUnsubRef.current = onSnapshot(doc(db, 'users', u.uid), (snap) => {
-            setProfile(snap.exists() ? snap.data() : null);
-          });
+          deviceUnsubRef.current = onSnapshot(
+            doc(db, 'users', u.uid),
+            (snap) => {
+              setProfile(snap.exists() ? snap.data() : {});
+            },
+            (err) => {
+              console.warn('Admin profile listener failed:', err);
+              setProfile({});
+            }
+          );
         }
         setUser(u);
       } else {

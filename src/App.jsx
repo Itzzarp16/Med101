@@ -110,7 +110,22 @@ export default function App() {
   // Settings, since `profile` updates live via the AuthContext listener.
   useEffect(() => {
     let cancelled = false;
-    if (!profile) return;
+    if (!profile) {
+      // profile can legitimately stay null for a beat while its
+      // Firestore listener is still resolving, but if it never arrives
+      // (a permissions hiccup, a missing profile doc, etc.) this screen
+      // must not just hang forever with no way forward — fall back to
+      // the default calendar/semester after a few seconds so the
+      // student always reaches the app.
+      const fallbackTimer = setTimeout(() => {
+        if (!cancelled && calendarLoading) {
+          console.warn('Profile never loaded — proceeding with default semester.');
+          setActiveSemesterId('y1s1');
+          setCalendarLoading(false);
+        }
+      }, 6000);
+      return () => { cancelled = true; clearTimeout(fallbackTimer); };
+    }
 
     async function resolve() {
       const calendar = await fetchAcademicCalendar();
@@ -228,9 +243,21 @@ export default function App() {
   }
 
   if (semesterData.loading || calendarLoading) {
+    const stepsDone = (semesterData.loading ? 0 : 1) + (calendarLoading ? 0 : 1);
+    const pct = Math.max(12, Math.round((stepsDone / 2) * 100)); // floor at 12% so the bar never looks empty on first paint
+
     return (
-      <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text3)' }}>
-        Loading questions…
+      <div className="app-loading-screen">
+        <div className="app-loading-logo">
+          Med<span className="app-loading-logo-accent">101</span>
+        </div>
+        <div className="app-loading-bar-row">
+          <span className="app-loading-play">▶</span>
+          <div className="app-loading-track">
+            <div className="app-loading-fill" style={{ width: `${pct}%` }} />
+          </div>
+        </div>
+        <div className="app-loading-label">Loading your questions…</div>
       </div>
     );
   }
