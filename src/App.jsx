@@ -130,14 +130,15 @@ export default function App() {
     async function resolve() {
       const calendar = await fetchAcademicCalendar();
       if (cancelled) return;
-      const semId = resolveCurrentSemester(profile.enrolledYearSemester || 'y1s1', calendar);
+      const availableSemesterIds = Object.keys(semesterData.semesterMainSubjects || {});
+      const semId = resolveCurrentSemester(profile.enrolledYearSemester || 'y1s1', calendar, new Date(), availableSemesterIds);
       setActiveSemesterId(semId);
       setCalendarLoading(false);
     }
 
     resolve();
     return () => { cancelled = true; };
-  }, [profile]);
+  }, [profile, semesterData.semesterMainSubjects]);
 
   // Presence heartbeat — pings this session as "online" every 30s so
   // the topbar can show a live headcount of currently active students.

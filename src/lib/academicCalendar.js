@@ -7,15 +7,17 @@ import { db } from './firebase';
 export const SEMESTER_ORDER = ['y1s1', 'y1s2', 'y2s1', 'y2s2'];
 
 // Fallback dates used until an admin sets real ones in Firestore at
-// config/academicCalendar. Update these to your actual term dates —
-// this is just a reasonable placeholder so gating works before the
-// admin panel (which will let this be edited from the app) exists.
-// Each semester is "active" from its date until the next one's date.
+// config/academicCalendar. These are placeholders only — pushed well
+// into the future on purpose, so a semester with no content yet never
+// silently locks students out via "Content coming soon" just because
+// a placeholder date happened to arrive. Set the real dates via the
+// Admin → Academic Calendar screen once you know them; that Firestore
+// value always overrides these defaults.
 const DEFAULT_CALENDAR = {
   y1s1: '2025-09-01',
   y1s2: '2026-02-01',
-  y2s1: '2026-09-01',
-  y2s2: '2027-02-01',
+  y2s1: '2099-01-01',
+  y2s2: '2099-06-01',
 };
 
 let cachedCalendar = null;
@@ -41,7 +43,14 @@ export async function fetchAcademicCalendar() {
 // now — never earlier than their enrolled one, and automatically
 // advancing as calendar dates pass. Never advances past the last
 // semester defined in SEMESTER_ORDER.
-export function resolveCurrentSemester(enrolledYearSemester, calendar, now = new Date()) {
+//
+// `availableSemesterIds`, when passed, keeps this from ever advancing
+// a student into a semester whose content hasn't actually been added
+// yet (e.g. a placeholder/real calendar date arrives before the admin
+// has uploaded that semester's questions) — it just holds them on the
+// latest semester that does have content, rather than dead-ending them
+// on "Content coming soon" for something that's simply not ready.
+export function resolveCurrentSemester(enrolledYearSemester, calendar, now = new Date(), availableSemesterIds = null) {
   const startIdx = Math.max(0, SEMESTER_ORDER.indexOf(enrolledYearSemester));
   let current = SEMESTER_ORDER[startIdx] || SEMESTER_ORDER[0];
 
@@ -50,7 +59,9 @@ export function resolveCurrentSemester(enrolledYearSemester, calendar, now = new
     const startDate = calendar[semId];
     if (!startDate) break;
     if (new Date(startDate) <= now) {
-      current = semId;
+      if (!availableSemesterIds || availableSemesterIds.includes(semId)) {
+        current = semId;
+      }
     } else {
       break;
     }
