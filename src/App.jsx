@@ -314,10 +314,36 @@ export default function App() {
 
   const { mainSubjectMeta, subjectMeta, subjectGroup, semesterMainSubjects, questions, usingCachedData } = semesterData;
 
+  // The 4s hard cap above can let the app past the branded loader
+  // before semester/calendar data has actually finished resolving
+  // (activeSemesterId still null, or semesterMainSubjects still
+  // empty). That's a genuinely different situation from "this
+  // semester really has no content" - show a neutral still-working
+  // state for it instead of the "Content coming soon" dead-end, so
+  // it doesn't flash misleadingly right before the real subjects
+  // show up moments later.
+  const stillResolving = semesterData.loading || calendarLoading || !activeSemesterId;
+  const semesterSubjectNames = activeSemesterId ? semesterMainSubjects[activeSemesterId] : undefined;
+
+  if (!semesterSubjectNames && stillResolving) {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <div className="screen-fade" key="still-resolving">
+          <div className="app-loading-bar-row" style={{ margin: '80px auto' }}>
+            <span className="app-loading-play">▶</span>
+            <div className="app-loading-track">
+              <div className="app-loading-fill app-loading-fill-indeterminate" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // No data file exists yet for this student's resolved semester (e.g.
   // they've progressed to Y2S1 but only Y1S2 content has been added so
   // far). Show a friendly placeholder instead of an empty dashboard.
-  const semesterSubjectNames = semesterMainSubjects[activeSemesterId];
   if (!semesterSubjectNames) {
     return (
       <div>
