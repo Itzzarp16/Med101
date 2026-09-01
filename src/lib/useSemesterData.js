@@ -16,15 +16,16 @@ const CACHE_PREFIX = 'med101_semester_cache_';
 // Which subjects are migrated to Firestore only changes when the admin
 // migrates one - checking it fresh on *every single page load, for
 // every student* (one Firestore query per candidate subject) is pure
-// overhead. A short session-scoped cache skips that entirely on repeat
-// loads within the same tab, while still picking up admin changes
-// quickly (worst case: a few minutes stale, then self-corrects).
+// overhead. localStorage (not sessionStorage) so this is shared across
+// every open tab, not re-paid per tab - important during testing with
+// many tabs open at once, and still picks up admin changes quickly
+// (worst case: a few minutes stale, then self-corrects).
 const MIGRATED_CACHE_PREFIX = 'med101_migrated_cache_';
 const MIGRATED_CACHE_TTL_MS = 3 * 60 * 1000;
 
 function loadMigratedCache(semesterId) {
   try {
-    const raw = sessionStorage.getItem(MIGRATED_CACHE_PREFIX + semesterId);
+    const raw = localStorage.getItem(MIGRATED_CACHE_PREFIX + semesterId);
     if (!raw) return null;
     const { ts, subjects } = JSON.parse(raw);
     if (Date.now() - ts > MIGRATED_CACHE_TTL_MS) return null;
@@ -36,13 +37,44 @@ function loadMigratedCache(semesterId) {
 
 function saveMigratedCache(semesterId, migratedSet) {
   try {
-    sessionStorage.setItem(
+    localStorage.setItem(
       MIGRATED_CACHE_PREFIX + semesterId,
       JSON.stringify({ ts: Date.now(), subjects: [...migratedSet] })
     );
   } catch {
-    // sessionStorage unavailable/full - just means this load skips the
+    // localStorage unavailable/full - just means this load skips the
     // cache benefit, nothing breaks.
+  }
+}
+
+// The actual migrated question CONTENT (not just which subjects are
+// migrated) is the expensive part - one read per question, every cold
+// load, every tab. Same localStorage + short-TTL treatment: a repeat
+// load within the window reuses it instead of re-downloading every
+// question again.
+const QUESTIONS_CACHE_PREFIX = 'med101_migrated_questions_cache_';
+const QUESTIONS_CACHE_TTL_MS = 3 * 60 * 1000;
+
+function loadQuestionsCache(semesterId, subject) {
+  try {
+    const raw = localStorage.getItem(QUESTIONS_CACHE_PREFIX + semesterId + '_' + subject);
+    if (!raw) return null;
+    const { ts, docs } = JSON.parse(raw);
+    if (Date.now() - ts > QUESTIONS_CACHE_TTL_MS) return null;
+    return docs;
+  } catch {
+    return null;
+  }
+}
+
+function saveQuestionsCache(semesterId, subject, docs) {
+  try {
+    localStorage.setItem(
+      QUESTIONS_CACHE_PREFIX + semesterId + '_' + subject,
+      JSON.stringify({ ts: Date.now(), docs })
+    );
+  } catch {
+    // Storage full/unavailable - just skips the cache benefit.
   }
 }
 
@@ -142,9 +174,16 @@ export function useSemesterData() {
             // Fire all migrated subjects' question fetches at once
             // instead of one-at-a-time - was previously a sequential
             // await-in-a-loop, so N subjects meant N full round trips
-            // stacked back to back.
+            // stacked back to back. Cache-check each one first so a
+            // repeat load within the TTL window costs zero reads.
             const liveResultsBySubject = await Promise.all(
-              migratedList.map((subj) => fetchFirestoreQuestions(data.id, subj))
+              migratedList.map(async (subj) => {
+                const cached = loadQuestionsCache(data.id, subj);
+                if (cached) return cached;
+                const fresh = await fetchFirestoreQuestions(data.id, subj);
+                saveQuestionsCache(data.id, subj, fresh);
+                return fresh;
+              })
             );
 
             migratedList.forEach((subj, i) => {

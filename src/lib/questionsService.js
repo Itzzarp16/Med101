@@ -1,5 +1,5 @@
 import {
-  addDoc, collection, deleteDoc, doc, getDocs, orderBy, query,
+  addDoc, collection, deleteDoc, doc, getDocs, limit, orderBy, query,
   serverTimestamp, updateDoc, where, writeBatch,
 } from 'firebase/firestore';
 import { db } from './firebase';
@@ -22,8 +22,16 @@ export async function fetchFirestoreQuestions(semesterId, mainSubject) {
 }
 
 // Which main subjects (within a semester) have already been migrated
-// to Firestore. Cheap-ish: one query per known subject name, called
-// only from the admin panel, not the student-facing app.
+// to Firestore. Called from both the admin panel and the whole
+// student-facing app (useSemesterData.js) on every cold page load, so
+// this must stay as cheap as possible: limit(1) per subject, since all
+// we need is "does at least one doc exist", not the actual content -
+// without that limit this was reading every single question in every
+// migrated subject just to answer a yes/no, then useSemesterData would
+// immediately re-read the same documents in full via
+// fetchFirestoreQuestions right after. That double-read of full
+// subjects on every uncached load was the dominant source of Firestore
+// read usage in testing.
 export async function fetchMigratedSubjects(semesterId, candidateSubjects) {
   const migrated = new Set();
   await Promise.all(
@@ -31,7 +39,8 @@ export async function fetchMigratedSubjects(semesterId, candidateSubjects) {
       const q = query(
         collection(db, COL),
         where('term', '==', semesterId),
-        where('mainSubject', '==', subj)
+        where('mainSubject', '==', subj),
+        limit(1)
       );
       const snap = await getDocs(q);
       if (!snap.empty) migrated.add(subj);
