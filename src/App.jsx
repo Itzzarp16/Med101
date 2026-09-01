@@ -219,7 +219,9 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <SettingsScreen onBack={goBack} />
+        <div className="screen-fade" key={screen}>
+          <SettingsScreen onBack={goBack} />
+        </div>
       </div>
     );
   }
@@ -228,7 +230,9 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <ProfileScreen onBack={goBack} />
+        <div className="screen-fade" key={screen}>
+          <ProfileScreen onBack={goBack} />
+        </div>
       </div>
     );
   }
@@ -237,7 +241,9 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <AdminCalendarScreen onBack={goBack} />
+        <div className="screen-fade" key={screen}>
+          <AdminCalendarScreen onBack={goBack} />
+        </div>
       </div>
     );
   }
@@ -246,7 +252,9 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <AdminNoticeScreen onBack={goBack} />
+        <div className="screen-fade" key={screen}>
+          <AdminNoticeScreen onBack={goBack} />
+        </div>
       </div>
     );
   }
@@ -255,7 +263,9 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <AdminUserDetailScreen onBack={goBack} initialUid={viewUserUid} />
+        <div className="screen-fade" key={screen}>
+          <AdminUserDetailScreen onBack={goBack} initialUid={viewUserUid} />
+        </div>
       </div>
     );
   }
@@ -264,7 +274,9 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <AdminAnalyticsScreen onBack={goBack} />
+        <div className="screen-fade" key={screen}>
+          <AdminAnalyticsScreen onBack={goBack} />
+        </div>
       </div>
     );
   }
@@ -301,7 +313,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="coming-soon">
+        <div className="screen-fade coming-soon" key={screen}>
           <div className="coming-soon-emoji">📚</div>
           <h1>Content coming soon</h1>
           <p>Questions for your current semester aren't uploaded yet. Check back soon, or update your semester in Settings if you picked the wrong one.</p>
@@ -328,6 +340,7 @@ export default function App() {
         <div className="offline-banner">📴 Offline: showing your last saved question set</div>
       )}
 
+      <div className="screen-fade" key={screen}>
       {screen === 'admin-questions' && isAdmin && (
         <AdminQuestionsScreen
           semesterId={activeSemesterId}
@@ -478,6 +491,7 @@ export default function App() {
           onBack={goBack}
         />
       )}
+      </div>
     </div>
   );
 }
