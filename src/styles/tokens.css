@@ -825,17 +825,39 @@ h1, h2, .display {
   padding: 20px;
 }
 
+.app-loading-logo-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
 .app-loading-logo {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: 1.7rem;
-  color: var(--text);
+  font-size: 2.4rem;
+  line-height: 1;
 }
-.app-loading-logo-accent {
+.app-loading-logo-med {
   background: linear-gradient(90deg, #00e5ff, #a78bfa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+.app-loading-logo-101 {
+  background: linear-gradient(90deg, #a78bfa, #ff4f6b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.app-loading-signature {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  font-weight: 700;
+  color: #f5f7fa;
+  letter-spacing: 0.02em;
+  transform: rotate(-3deg);
 }
 
 .app-loading-bar-row {
@@ -889,11 +911,6 @@ h1, h2, .display {
     margin-left: 100%;
     width: 40%;
   }
-}
-
-.app-loading-label {
-  color: var(--text3);
-  font-size: 12.5px;
 }
 
 /* Screen transition - fades + slides the active screen in whenever

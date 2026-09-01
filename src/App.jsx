@@ -49,6 +49,7 @@ export default function App() {
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
+  const [forceReady, setForceReady] = useState(false); // hard cap: never let the loading screen sit longer than 4s total, even if auth/data genuinely hasn't resolved yet
   const [activeRoomCode, setActiveRoomCode] = useState(savedNavRef?.activeRoomCode ?? null);
   const [activeRoomIsHost, setActiveRoomIsHost] = useState(savedNavRef?.activeRoomIsHost ?? false);
   const [viewUserUid, setViewUserUid] = useState(savedNavRef?.viewUserUid ?? null);
@@ -164,11 +165,22 @@ export default function App() {
     return startPresenceHeartbeat(user.uid, user.displayName || user.email);
   }, [user]);
 
-  if (loading) {
+  // Hard 4-second cap on total loading-screen time. Whatever's still
+  // in flight (auth, semester data, calendar) keeps loading in the
+  // background regardless and updates the UI the moment it resolves -
+  // this just stops the student from ever being stuck staring at the
+  // loader past 4s, even in a slow-network worst case.
+  useEffect(() => {
+    const t = setTimeout(() => setForceReady(true), 4000);
+    return () => clearTimeout(t);
+  }, []);
+
+  if (loading && !forceReady) {
     return (
       <div className="app-loading-screen">
-        <div className="app-loading-logo">
-          Med<span className="app-loading-logo-accent">101</span>
+        <div className="app-loading-logo-stack">
+          <div className="app-loading-logo"><span className="app-loading-logo-med">Med</span><span className="app-loading-logo-101">101</span></div>
+          <div className="app-loading-signature">by Abhishek Verma</div>
         </div>
         <div className="app-loading-bar-row">
           <span className="app-loading-play">▶</span>
@@ -176,7 +188,6 @@ export default function App() {
             <div className="app-loading-fill app-loading-fill-indeterminate" />
           </div>
         </div>
-        <div className="app-loading-label">Signing you in...</div>
       </div>
     );
   }
@@ -281,11 +292,12 @@ export default function App() {
     );
   }
 
-  if (loaderPhase !== 'done') {
+  if (loaderPhase !== 'done' && !forceReady) {
     return (
       <div className="app-loading-screen">
-        <div className="app-loading-logo">
-          Med<span className="app-loading-logo-accent">101</span>
+        <div className="app-loading-logo-stack">
+          <div className="app-loading-logo"><span className="app-loading-logo-med">Med</span><span className="app-loading-logo-101">101</span></div>
+          <div className="app-loading-signature">by Abhishek Verma</div>
         </div>
         <div className="app-loading-bar-row">
           <span className="app-loading-play">▶</span>
@@ -295,9 +307,6 @@ export default function App() {
               style={loaderPhase === 'completing' ? { width: '100%' } : undefined}
             />
           </div>
-        </div>
-        <div className="app-loading-label">
-          {loaderPhase === 'completing' ? 'Ready!' : 'Loading your questions...'}
         </div>
       </div>
     );
