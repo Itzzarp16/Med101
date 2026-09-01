@@ -901,7 +901,7 @@ h1, h2, .display {
    remounts fresh (rather than patching in place) exactly when
    navigation happens, which is what replays the animation. */
 .screen-fade {
-  animation: screen-fade-in 0.42s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: screen-fade-in 1.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes screen-fade-in {
