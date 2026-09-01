@@ -1,5 +1,7 @@
 .home-notice {
+  width: 100%;
   max-width: 960px;
+  box-sizing: border-box;
   margin: 12px auto 0;
   padding: 10px 16px;
   background: rgba(24, 232, 255, 0.08);
