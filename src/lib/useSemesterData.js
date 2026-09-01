@@ -13,6 +13,39 @@ const SEMESTER_MANIFEST = [
 
 const CACHE_PREFIX = 'med101_semester_cache_';
 
+// Which subjects are migrated to Firestore only changes when the admin
+// migrates one — checking it fresh on *every single page load, for
+// every student* (one Firestore query per candidate subject) is pure
+// overhead. A short session-scoped cache skips that entirely on repeat
+// loads within the same tab, while still picking up admin changes
+// quickly (worst case: a few minutes stale, then self-corrects).
+const MIGRATED_CACHE_PREFIX = 'med101_migrated_cache_';
+const MIGRATED_CACHE_TTL_MS = 3 * 60 * 1000;
+
+function loadMigratedCache(semesterId) {
+  try {
+    const raw = sessionStorage.getItem(MIGRATED_CACHE_PREFIX + semesterId);
+    if (!raw) return null;
+    const { ts, subjects } = JSON.parse(raw);
+    if (Date.now() - ts > MIGRATED_CACHE_TTL_MS) return null;
+    return new Set(subjects);
+  } catch {
+    return null;
+  }
+}
+
+function saveMigratedCache(semesterId, migratedSet) {
+  try {
+    sessionStorage.setItem(
+      MIGRATED_CACHE_PREFIX + semesterId,
+      JSON.stringify({ ts: Date.now(), subjects: [...migratedSet] })
+    );
+  } catch {
+    // sessionStorage unavailable/full — just means this load skips the
+    // cache benefit, nothing breaks.
+  }
+}
+
 function loadFromCache(semesterId) {
   try {
     const raw = localStorage.getItem(CACHE_PREFIX + semesterId);
@@ -98,21 +131,36 @@ export function useSemesterData() {
         // without a network too, once it's been read at least once.
         try {
           const candidates = Object.keys(data.mainSubjectMeta || {});
-          const migrated = await fetchMigratedSubjects(data.id, candidates);
-          for (const subj of migrated) {
-            const liveQuestions = await fetchFirestoreQuestions(data.id, subj);
-            questions = questions.filter(
-              (q) => !(q.term === data.id && subjectGroup[q.s] === subj)
+          if (candidates.length > 0) {
+            let migrated = loadMigratedCache(data.id);
+            if (!migrated) {
+              migrated = await fetchMigratedSubjects(data.id, candidates);
+              saveMigratedCache(data.id, migrated);
+            }
+
+            const migratedList = [...migrated];
+            // Fire all migrated subjects' question fetches at once
+            // instead of one-at-a-time — was previously a sequential
+            // await-in-a-loop, so N subjects meant N full round trips
+            // stacked back to back.
+            const liveResultsBySubject = await Promise.all(
+              migratedList.map((subj) => fetchFirestoreQuestions(data.id, subj))
             );
-            const asQuizShape = liveQuestions.map((doc) => ({
-              s: doc.subtopic,
-              q: doc.q,
-              o: doc.o,
-              c: doc.c,
-              term: data.id,
-              firestoreId: doc.id,
-            }));
-            questions = questions.concat(asQuizShape);
+
+            migratedList.forEach((subj, i) => {
+              questions = questions.filter(
+                (q) => !(q.term === data.id && subjectGroup[q.s] === subj)
+              );
+              const asQuizShape = liveResultsBySubject[i].map((doc) => ({
+                s: doc.subtopic,
+                q: doc.q,
+                o: doc.o,
+                c: doc.c,
+                term: data.id,
+                firestoreId: doc.id,
+              }));
+              questions = questions.concat(asQuizShape);
+            });
           }
         } catch (err) {
           console.warn('Could not check/merge migrated subjects for', data.id, err);
