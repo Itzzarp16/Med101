@@ -15,7 +15,7 @@ function buildResult(uid, username, data) {
 }
 
 // initialUid lets this screen be opened already-loaded for a specific
-// student — e.g. tapping their name in the admin "who's online" list —
+// student - e.g. tapping their name in the admin "who's online" list -
 // skipping the username search entirely.
 export default function AdminUserDetailScreen({ onBack, initialUid }) {
   const [username, setUsername] = useState('');
@@ -105,7 +105,7 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
           <div style={{ fontWeight: 800, fontSize: 16, color: 'var(--text)' }}>{result.displayName || '(no name)'}</div>
           <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{result.username ? `@${result.username} · ` : ''}{result.email}</div>
           <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6 }}>
-            Enrolled: <strong>{result.enrolledYearSemester || '—'}</strong>
+            Enrolled: <strong>{result.enrolledYearSemester || '-'}</strong>
           </div>
 
           {result.weakest.length > 0 && (

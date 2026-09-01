@@ -27,7 +27,7 @@ import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence'
 
 // Navigation is backed by real browser history (pushState/popstate) so
 // the phone's back gesture moves one screen back instead of closing the
-// whole site — every forward navigation goes through goTo(), every
+// whole site - every forward navigation goes through goTo(), every
 // "back" action goes through goBack() (== history.back()), and a
 // popstate listener keeps `screen` in sync with whichever entry the
 // user lands on.
@@ -37,7 +37,7 @@ export default function App() {
   // A hard page refresh loses all in-memory React state, but the
   // student should land back on whatever screen they were on (e.g. a
   // quiz in progress) rather than being dumped to the dashboard. This
-  // restores the last-saved navigation snapshot once on mount — the
+  // restores the last-saved navigation snapshot once on mount - the
   // saving side is the useEffect further down.
   const savedNavRef = useState(() => loadNavState())[0];
 
@@ -114,12 +114,12 @@ export default function App() {
       // profile can legitimately stay null for a beat while its
       // Firestore listener is still resolving, but if it never arrives
       // (a permissions hiccup, a missing profile doc, etc.) this screen
-      // must not just hang forever with no way forward — fall back to
+      // must not just hang forever with no way forward - fall back to
       // the default calendar/semester after a few seconds so the
       // student always reaches the app.
       const fallbackTimer = setTimeout(() => {
         if (!cancelled && calendarLoading) {
-          console.warn('Profile never loaded — proceeding with default semester.');
+          console.warn('Profile never loaded, proceeding with default semester.');
           setActiveSemesterId('y1s1');
           setCalendarLoading(false);
         }
@@ -140,7 +140,7 @@ export default function App() {
     return () => { cancelled = true; };
   }, [profile, semesterData.semesterMainSubjects]);
 
-  // Presence heartbeat — pings this session as "online" every 30s so
+  // Presence heartbeat - pings this session as "online" every 30s so
   // the topbar can show a live headcount of currently active students.
   useEffect(() => {
     if (!user) return;
@@ -187,7 +187,7 @@ export default function App() {
   };
 
   // Settings and admin calendar/notice screens are reachable regardless
-  // of semester-data state — a student stuck on "content coming soon"
+  // of semester-data state - a student stuck on "content coming soon"
   // still needs to be able to change their semester back, for instance.
   if (screen === 'settings') {
     return (
@@ -276,7 +276,7 @@ export default function App() {
         <div className="coming-soon">
           <div className="coming-soon-emoji">📚</div>
           <h1>Content coming soon</h1>
-          <p>Questions for your current semester aren't uploaded yet — check back soon, or update your semester in Settings if you picked the wrong one.</p>
+          <p>Questions for your current semester aren't uploaded yet. Check back soon, or update your semester in Settings if you picked the wrong one.</p>
         </div>
       </div>
     );
@@ -288,7 +288,7 @@ export default function App() {
   );
   const scopedQuestions = questions.filter((q) => q.term === activeSemesterId);
 
-  // The pool for whatever subject/topic was picked in TopicPicker — this
+  // The pool for whatever subject/topic was picked in TopicPicker - this
   // feeds QuizModeScreen, which decides exact quantity/order from it.
   const modePool = scopedQuestions.filter((q) => subjectGroup[q.s] === selectedSubject);
 
@@ -297,7 +297,7 @@ export default function App() {
       <TopBar {...topBarProps} />
 
       {usingCachedData && (
-        <div className="offline-banner">📴 Offline — showing your last saved question set</div>
+        <div className="offline-banner">📴 Offline: showing your last saved question set</div>
       )}
 
       {screen === 'admin-questions' && isAdmin && (

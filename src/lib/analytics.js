@@ -4,7 +4,7 @@ import { db } from './firebase';
 const SEMESTER_ORDER = ['y1s1', 'y1s2', 'y2s1', 'y2s2'];
 
 // Each piece is fetched independently and allowed to fail on its own
-// (Promise.allSettled) — a permission hiccup or missing index on one
+// (Promise.allSettled) - a permission hiccup or missing index on one
 // stat shouldn't blank out the whole screen. Deliberately avoids
 // collectionGroup queries (stricter/less predictable rule evaluation
 // in practice) in favor of the leaderboard collection, which already

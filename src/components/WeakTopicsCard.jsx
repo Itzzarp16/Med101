@@ -3,7 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import './WeakTopicsCard.css';
 
-// Only surface a subtopic once there's enough signal — a couple of
+// Only surface a subtopic once there's enough signal - a couple of
 // unlucky guesses on 2 questions shouldn't brand something "weak".
 const MIN_ANSWERED = 8;
 const MAX_SHOWN = 4;

@@ -2,7 +2,7 @@ import { collection, doc, getCountFromServer, getDoc, getDocs, limit, orderBy, q
 import { db } from './firebase';
 
 // A leaderboard rank only counts once a user has answered enough
-// questions in that scope — otherwise one lucky question reads as
+// questions in that scope - otherwise one lucky question reads as
 // "100%" at the top. Ported as-is from the old site.
 const MIN_ANSWERED_FOR_ACCURACY = 100;
 
@@ -16,7 +16,7 @@ function rollupBucket(prev, correct, answered, timeMs) {
     accuracyPct: acc,
     timeMs: (prev?.timeMs || 0) + (timeMs || 0),
   };
-  // Left unset below the floor — Firestore orderBy() then naturally
+  // Left unset below the floor - Firestore orderBy() then naturally
   // excludes unqualified users with zero extra reads.
   if (newAnswered >= MIN_ANSWERED_FOR_ACCURACY) entry.qualifiedAccuracyPct = acc;
   return entry;
@@ -32,8 +32,8 @@ function resolveScope(scopeKey) {
   return { bucketField: 'subjects', bucketKey: scopeKey };
 }
 
-// subjTotals: { [mainSubjectName]: { correct, answered, timeMs } } — this quiz only
-// semTotals:  { [semesterId]: { correct, answered, timeMs } } — this quiz only
+// subjTotals: { [mainSubjectName]: { correct, answered, timeMs } } - this quiz only
+// semTotals:  { [semesterId]: { correct, answered, timeMs } } - this quiz only
 export async function submitLeaderboardResult(user, subjTotals, semTotals, overall) {
   if (!user) return false;
   try {

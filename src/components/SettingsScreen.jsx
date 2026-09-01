@@ -5,7 +5,7 @@ import { useAuth } from '../lib/AuthContext';
 import { playTapSound, isMuted, setMuted } from '../lib/sounds';
 import { isLightMode, setTheme } from '../lib/theme';
 
-// Same options as the signup dropdown — kept in sync there manually
+// Same options as the signup dropdown - kept in sync there manually
 // since there are only a handful of semesters right now.
 const YEAR_SEMESTER_OPTIONS = [
   { value: 'y1s1', label: 'Year 1 · Semester 1' },
@@ -110,7 +110,7 @@ export default function SettingsScreen({ onBack }) {
           {saving ? 'Saving…' : 'Save'}
         </button>
 
-        {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved — your dashboard will update shortly.</div>}
+        {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Your dashboard will update shortly.</div>}
       </div>
     </div>
   );

@@ -27,7 +27,7 @@ export default function WeakTopicsScreen({ onPracticeTopic, onBack }) {
 
       <div className="std-header">
         <h1 className="std-title">🎯 Your Weak Topics</h1>
-        <p className="std-sub">Every topic you've practiced, ranked by accuracy — lowest first.</p>
+        <p className="std-sub">Every topic you've practiced, ranked by accuracy, lowest first.</p>
       </div>
 
       {topics.length === 0 ? (

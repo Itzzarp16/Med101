@@ -3,7 +3,7 @@
 // Firebase → Project settings → General → "Your apps" → SDK setup
 // and configuration → gives you this exact object to copy/paste.
 //
-// This config is safe to keep in the code (it's not a secret —
+// This config is safe to keep in the code (it's not a secret -
 // it ships to every browser anyway). Access is actually controlled
 // by your Firestore Security Rules, not by hiding this object.
 
@@ -30,7 +30,7 @@ export const auth = getAuth(app);
 
 // Offline persistence: caches every document Firestore has read into
 // IndexedDB, so migrated question subjects, the student's own profile,
-// leaderboard data, etc. remain readable with no network at all —
+// leaderboard data, etc. remain readable with no network at all -
 // Firebase handles the cache/sync entirely on its own once this is on.
 export const db = initializeFirestore(app, {
   localCache: persistentLocalCache({ tabManager: persistentSingleTabManager({}) }),

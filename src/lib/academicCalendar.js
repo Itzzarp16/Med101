@@ -2,12 +2,12 @@ import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 
 // The order semesters progress in. A student never sees anything before
-// the one they enrolled in, and — once the calendar says it's time —
+// the one they enrolled in, and - once the calendar says it's time -
 // they automatically move forward, without anyone editing their profile.
 export const SEMESTER_ORDER = ['y1s1', 'y1s2', 'y2s1', 'y2s2'];
 
 // Fallback dates used until an admin sets real ones in Firestore at
-// config/academicCalendar. These are placeholders only — pushed well
+// config/academicCalendar. These are placeholders only - pushed well
 // into the future on purpose, so a semester with no content yet never
 // silently locks students out via "Content coming soon" just because
 // a placeholder date happened to arrive. Set the real dates via the
@@ -22,7 +22,7 @@ const DEFAULT_CALENDAR = {
 
 let cachedCalendar = null;
 let cachedAt = 0;
-const CACHE_MS = 5 * 60 * 1000; // 5 min — this rarely changes
+const CACHE_MS = 5 * 60 * 1000; // 5 min - this rarely changes
 
 export async function fetchAcademicCalendar() {
   const now = Date.now();
@@ -40,14 +40,14 @@ export async function fetchAcademicCalendar() {
 
 // Given when a student enrolled (their chosen starting semester) and
 // today's date, returns which semester they should actually see right
-// now — never earlier than their enrolled one, and automatically
+// now - never earlier than their enrolled one, and automatically
 // advancing as calendar dates pass. Never advances past the last
 // semester defined in SEMESTER_ORDER.
 //
 // `availableSemesterIds`, when passed, keeps this from ever advancing
 // a student into a semester whose content hasn't actually been added
 // yet (e.g. a placeholder/real calendar date arrives before the admin
-// has uploaded that semester's questions) — it just holds them on the
+// has uploaded that semester's questions) - it just holds them on the
 // latest semester that does have content, rather than dead-ending them
 // on "Content coming soon" for something that's simply not ready.
 export function resolveCurrentSemester(enrolledYearSemester, calendar, now = new Date(), availableSemesterIds = null) {
@@ -69,7 +69,7 @@ export function resolveCurrentSemester(enrolledYearSemester, calendar, now = new
   return current;
 }
 
-// Admin-only write — enforced by Firestore rules (config/{doc} write
+// Admin-only write - enforced by Firestore rules (config/{doc} write
 // requires isAdmin()), this is just the client-side helper. dates is a
 // partial or full { y1s1, y1s2, y2s1, y2s2 } object of 'YYYY-MM-DD'
 // strings. Clears the in-memory cache so the change is picked up on

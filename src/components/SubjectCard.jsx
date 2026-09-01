@@ -1,7 +1,7 @@
 import './SubjectCard.css';
 
 // Old site's .subj-card layout exactly (flat glass row, emoji left,
-// text stacked, chevron right) — plus one flourish kept from the
+// text stacked, chevron right) - plus one flourish kept from the
 // earlier design: an animated pulse-trace line, accented per-subject.
 const TRACE_COLORS = ['#18e8ff', '#30f28a', '#ffcc2a', '#ff3a5c', '#b48eff', '#ff6eb4'];
 function traceColorFor(name) {

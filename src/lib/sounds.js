@@ -79,16 +79,16 @@ export function playWrongSound() {
   osc.stop(now + 0.26);
 }
 
-// Appreciation sound — plays once on the quiz results screen, picked by
+// Appreciation sound - plays once on the quiz results screen, picked by
 // final score %. Real audio clips live in /public/sounds/ (drop a file
 // in with the matching name and it just works, no code changes needed).
 // Falls back silently (no sound) if a clip for a tier hasn't been
 // uploaded yet, so this is safe to ship ahead of having all 4 files.
 const APPRECIATION_CLIPS = [
-  { min: 90, file: 'waah-clap.mp3' },   // >90%  — "Waah" + clap
-  { min: 70, file: 'clap.mp3' },        // 70–90% — clap only
-  { min: 50, file: 'do-better.mp3' },   // 50–70% — "Do better"
-  { min: 0, file: 'faah.mp3' },         // <=50% — "Faah"
+  { min: 90, file: 'waah-clap.mp3' },   // >90%  - "Waah" + clap
+  { min: 70, file: 'clap.mp3' },        // 70–90% - clap only
+  { min: 50, file: 'do-better.mp3' },   // 50–70% - "Do better"
+  { min: 0, file: 'faah.mp3' },         // <=50% - "Faah"
 ];
 
 function clipForPct(pct) {

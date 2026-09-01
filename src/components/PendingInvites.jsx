@@ -21,7 +21,7 @@ export default function PendingInvites({ onAccept }) {
       {invites.map((inv) => (
         <div key={inv.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10, padding: '8px 0', borderTop: '1px solid var(--border)' }}>
           <div style={{ fontSize: 12.5, color: 'var(--text2)' }}>
-            <strong style={{ color: 'var(--cyan)' }}>{inv.fromName}</strong> invited you — {inv.mainSubject}
+            <strong style={{ color: 'var(--cyan)' }}>{inv.fromName}</strong> invited you to {inv.mainSubject}
           </div>
           <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
             <button

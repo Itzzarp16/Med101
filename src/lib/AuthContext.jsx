@@ -42,7 +42,7 @@ async function claimDevice(uid) {
   }
 }
 
-// Runs for a resumed/persisted sign-in — never for a fresh login (which
+// Runs for a resumed/persisted sign-in - never for a fresh login (which
 // claims unconditionally instead). Fails OPEN on read errors so a network
 // hiccup never locks a legitimate student out of studying.
 async function verifyDevice(uid) {
@@ -50,11 +50,11 @@ async function verifyDevice(uid) {
     const snap = await getDoc(doc(db, 'users', uid));
     const active = snap.exists() ? snap.data().activeDeviceId : null;
     if (!active) {
-      await claimDevice(uid); // pre-feature account — adopt it, don't kick
+      await claimDevice(uid); // pre-feature account - adopt it, don't kick
       return true;
     }
     if (active === getDeviceId()) return true;
-    return false; // another device claimed it — caller signs out
+    return false; // another device claimed it - caller signs out
   } catch (e) {
     console.warn('verifyDevice failed, allowing access:', e);
     return true;
@@ -146,7 +146,7 @@ export function AuthProvider({ children }) {
     return cred.user;
   }
 
-  // yearSemester: e.g. "y1s1", "y1s2" — the dropdown value from signup
+  // yearSemester: e.g. "y1s1", "y1s2" - the dropdown value from signup
   async function signUp(name, email, password, yearSemester) {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     if (cred.user) await updateProfile(cred.user, { displayName: name });

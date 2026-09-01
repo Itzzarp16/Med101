@@ -9,7 +9,7 @@ const LABELS = {
   y2s2: 'Year 2 · Semester 2',
 };
 
-// Admin sets/adjusts when each semester "starts" — students enrolled in
+// Admin sets/adjusts when each semester "starts" - students enrolled in
 // an earlier semester automatically roll forward once today's date
 // passes the next one's start date. No official term calendar exists
 // yet, so this is meant to be edited by hand as real dates get decided.
@@ -53,7 +53,7 @@ export default function AdminCalendarScreen({ onBack }) {
         <h1 className="std-title">⚙️ Academic Calendar</h1>
         <p className="std-sub">
           Set when each semester starts. Students automatically move to the next
-          semester once its start date passes — no need to touch individual accounts.
+          semester once its start date passes. No need to touch individual accounts.
         </p>
       </div>
 
@@ -77,7 +77,7 @@ export default function AdminCalendarScreen({ onBack }) {
             {saving ? 'Saving…' : 'Save Calendar'}
           </button>
 
-          {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved — students will pick this up within a few minutes.</div>}
+          {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Students will pick this up within a few minutes.</div>}
         </div>
       )}
     </div>

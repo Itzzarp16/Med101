@@ -22,7 +22,7 @@ export async function fetchMyUsername(uid) {
   return snap.exists() ? snap.data().username || null : null;
 }
 
-// Uniqueness is enforced by usernames/{normalizedName} being the doc ID —
+// Uniqueness is enforced by usernames/{normalizedName} being the doc ID -
 // Firestore can't have two documents with the same ID, so a transaction
 // that reads-then-writes that exact path is race-condition-safe: two
 // people claiming the same name at the same instant, one transaction
@@ -55,7 +55,7 @@ export async function claimUsername(user, rawName) {
     tx.set(userRef, { username: display, usernameNormalized: normalized }, { merge: true });
   }).catch((e) => {
     if (e.message === 'already-claimed') {
-      throw new Error('That username is already taken — try another.');
+      throw new Error('That username is already taken - try another.');
     }
     throw e;
   });

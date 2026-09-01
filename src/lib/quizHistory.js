@@ -2,7 +2,7 @@ import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, qu
 import { db } from './firebase';
 
 // Ported from the old site's window.__cloudHistory.add(). One doc per
-// finished quiz attempt at users/{uid}/quizHistory/{autoId} — matches
+// finished quiz attempt at users/{uid}/quizHistory/{autoId} - matches
 // the collection path the Firestore rules already allow for.
 //
 // `entry.questions` (the exact set attempted, in order) and
@@ -52,7 +52,7 @@ export async function deleteQuizHistoryEntry(uid, entryId) {
 // Rolls per-subtopic accuracy into the student's own profile doc, so
 // weak-topic detection works no matter whether they quizzed "All Topics"
 // or a single one. breakdown: { [subtopicName]: { correct, answered } }
-// for just this one quiz attempt — gets merged into the running total.
+// for just this one quiz attempt - gets merged into the running total.
 export async function updateTopicStats(uid, mainSubject, breakdown) {
   if (!uid || !breakdown || Object.keys(breakdown).length === 0) return false;
   try {

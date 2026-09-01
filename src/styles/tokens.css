@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════
    MED101 DESIGN TOKENS
    Carried forward from the existing "Liquid Glass" system
-   (index.html) — same palette/blur language, now as
+   (index.html) - same palette/blur language, now as
    reusable tokens for React components instead of inline CSS.
    ═══════════════════════════════════════════ */
 :root {
@@ -84,7 +84,7 @@ h1, h2, .display {
   font-family: var(--font-heading);
 }
 
-/* Reusable glass panel — the one signature surface every card/panel uses */
+/* Reusable glass panel - the one signature surface every card/panel uses */
 .glass {
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.28);
@@ -683,7 +683,7 @@ h1, h2, .display {
 /* Tablet/laptop: this column of forms and lists (Settings, History,
    Wrong & Flagged, Profile, Admin screens, etc.) stays intentionally
    narrow for readability, but 520px on a 1024px+ screen leaves a lot
-   of dead space either side — widen it a bit as the viewport grows,
+   of dead space either side - widen it a bit as the viewport grows,
    same centered-column feel either way. */
 @media (min-width: 700px) {
   .std-screen {
@@ -697,7 +697,7 @@ h1, h2, .display {
   }
 }
 
-/* Very narrow phones (iPhone SE and similar, <360px) — tighten
+/* Very narrow phones (iPhone SE and similar, <360px) - tighten
    padding so 3-column stat grids (results screen, quiz stats) still
    have breathing room instead of the columns crushing together. */
 @media (max-width: 359px) {
@@ -759,7 +759,7 @@ h1, h2, .display {
   color: var(--text2);
 }
 
-/* Toggle switch — used by Settings (Dark/Light Mode, Sound On/Off) */
+/* Toggle switch - used by Settings (Dark/Light Mode, Sound On/Off) */
 .toggle-row {
   display: flex;
   justify-content: space-between;
@@ -811,7 +811,7 @@ h1, h2, .display {
   left: 21px;
 }
 
-/* App-level loading screen (semester data + academic calendar) —
+/* App-level loading screen (semester data + academic calendar) -
    YouTube-scrubber-style bar, in the app's own cyan-violet brand
    gradient instead of red, with a play glyph like the reference. */
 .app-loading-screen {

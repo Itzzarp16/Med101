@@ -15,7 +15,7 @@ export async function lookupUsername(rawName) {
   return { uid: snap.data().uid, username: snap.data().username };
 }
 
-// Invites live under the RECIPIENT's own uid (users/{toUid}/invites/*) —
+// Invites live under the RECIPIENT's own uid (users/{toUid}/invites/*) -
 // like a mailbox. fromUid is required to match the sender's own auth
 // uid (enforced by security rules) so an invite can't be spoofed as
 // coming from someone else.

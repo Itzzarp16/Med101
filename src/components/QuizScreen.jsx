@@ -28,10 +28,10 @@ function gradeFor(pct) {
 }
 
 // questions arrives already in the exact order/subset QuizModeScreen
-// decided (Random 25, All Sequential, Custom Range, etc.) — this
+// decided (Random 25, All Sequential, Custom Range, etc.) - this
 // component just renders that sequence, it doesn't reorder anything.
 // autoAdvance/timerSeconds are settings chosen on that same screen.
-// roomCode/totalTimeLimitMs are set only for Challenge Room quizzes —
+// roomCode/totalTimeLimitMs are set only for Challenge Room quizzes -
 // a whole-quiz countdown (not per-question) that auto-finishes when it
 // hits zero, and reports the result to the room's shared leaderboard.
 export default function QuizScreen({ mainSubject, topic, semesterId, questions, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
@@ -39,7 +39,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const quizQuestions = questions;
 
   // Restore in-progress position/answers from a prior page load if it
-  // looks like the same attempt (same question count) — this is what
+  // looks like the same attempt (same question count) - this is what
   // lets a refresh resume on question 12 instead of restarting at 1.
   const restoredRef = useState(() => {
     const saved = loadQuizProgress();
@@ -53,7 +53,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [elapsedMs, setElapsedMs] = useState(0);
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
   const [showReview, setShowReview] = useState(false);
-  // Per-question time, ms — -1 means "never visited" (quiz ended early).
+  // Per-question time, ms - -1 means "never visited" (quiz ended early).
   // Recorded the moment a question is answered/times-out/skipped-past,
   // so it reflects actual time-on-question, not just a global average.
   const [questionTimesMs, setQuestionTimesMs] = useState(() => restoredRef?.questionTimesMs ?? new Array(quizQuestions.length).fill(-1));
@@ -93,7 +93,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     return () => clearInterval(t);
   }, [finished]);
 
-  // Whole-quiz countdown for Challenge Rooms — recomputed from the
+  // Whole-quiz countdown for Challenge Rooms - recomputed from the
   // absolute deadline each tick (not a naive ms-1000 decrement), so it
   // stays accurate even if the page was closed/reloaded partway through.
   // Auto-finishes (keeping whatever was answered so far) at zero.
@@ -109,7 +109,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   function nav(dir) {
     playTapSound();
-    if (answers[cur] === -1) recordQuestionTime(cur); // leaving unanswered — count time-on-question up to this point
+    if (answers[cur] === -1) recordQuestionTime(cur); // leaving unanswered - count time-on-question up to this point
     const nx = cur + dir;
     if (nx >= total) {
       setFinished(true);
@@ -120,7 +120,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   }
 
   function answerQ(idx) {
-    if (answers[cur] !== -1) return; // already answered — locked
+    if (answers[cur] !== -1) return; // already answered - locked
     recordQuestionTime(cur);
     const next = [...answers];
     next[cur] = idx;
@@ -157,7 +157,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     setTimeLeft(timerSeconds);
   }, [cur, timerSeconds]);
 
-  // Track wall-clock time spent per question — reset the moment the
+  // Track wall-clock time spent per question - reset the moment the
   // student actually lands on a new question.
   useEffect(() => {
     questionShownAtRef.current = Date.now();
@@ -166,7 +166,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   function recordQuestionTime(index) {
     const elapsed = Date.now() - questionShownAtRef.current;
     setQuestionTimesMs((prev) => {
-      if (prev[index] !== -1) return prev; // already recorded — don't overwrite
+      if (prev[index] !== -1) return prev; // already recorded - don't overwrite
       const next = [...prev];
       next[index] = elapsed;
       return next;
@@ -193,7 +193,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   useEffect(() => () => clearTimeout(advanceTimeoutRef.current), []);
 
-  // Appreciation sound — plays once, right when the results screen
+  // Appreciation sound - plays once, right when the results screen
   // appears, independent of the history/leaderboard save effect below
   // (which requires a signed-in user; this shouldn't).
   useEffect(() => {
@@ -240,7 +240,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       submitRoomResult(roomCode, user.uid, { correct: correctCount, answered: answeredCount, total, pct, timeMs });
     }
 
-    // Per-subtopic breakdown for weak-topic detection — grouped by each
+    // Per-subtopic breakdown for weak-topic detection - grouped by each
     // question's own subtopic (q.s), so it works whether the student
     // quizzed one topic or "All Topics" at once.
     const breakdown = {};
@@ -271,7 +271,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     const skippedCount = total - answeredCount;
     // elapsedMs stops updating the moment finished flips true (its
     // ticking interval is gated on !finished), so this is effectively
-    // frozen at "total time taken" already — no extra state needed.
+    // frozen at "total time taken" already - no extra state needed.
     const timeTakenMs = elapsedMs;
     const avgMsPerQ = total ? timeTakenMs / total : 0;
     const visitedTimes = questionTimesMs.filter((t) => t !== -1);
@@ -285,7 +285,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       .filter(({ i }) => answers[i] !== -1 && answers[i] !== quizQuestions[i].c)
       .map(({ qq }) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c }));
 
-    // Circular accuracy ring — SVG stroke-dashoffset trick, matches the
+    // Circular accuracy ring - SVG stroke-dashoffset trick, matches the
     // thin rounded-cap ring look rather than a filled pie.
     const ringR = 54;
     const ringC = 2 * Math.PI * ringR;
@@ -359,9 +359,9 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
                 }}
               />
               <div className="results-legend">
-                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--green)' }} />Correct — {correctCount}</div>
-                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--red)' }} />Incorrect — {incorrectCount}</div>
-                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--pink)' }} />Skipped — {skippedCount}</div>
+                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--green)' }} />Correct: {correctCount}</div>
+                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--red)' }} />Incorrect: {incorrectCount}</div>
+                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--pink)' }} />Skipped: {skippedCount}</div>
               </div>
             </div>
           </div>
@@ -441,7 +441,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
                         </div>
                       );
                     })}
-                    {ua === -2 && <div className="results-review-timeout">⏰ Timed out — no answer selected</div>}
+                    {ua === -2 && <div className="results-review-timeout">⏰ Timed out - no answer selected</div>}
                   </div>
                 </div>
               );
@@ -457,7 +457,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   return (
     <div className="screen-quiz">
-      {/* Hero header — back, elapsed stopwatch (or room countdown), mode label, score */}
+      {/* Hero header - back, elapsed stopwatch (or room countdown), mode label, score */}
       <div className="hero quiz-hero">
         <div className="quiz-hero-inner">
           <div className="quiz-hero-left">
@@ -512,7 +512,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           </div>
           <div className="stat-card" style={{ '--accent': 'var(--violet)' }}>
             <div className="stat-label">Accuracy</div>
-            <div className="stat-value" style={{ color: 'var(--violet)' }}>{answeredCount ? `${pct}%` : '—'}</div>
+            <div className="stat-value" style={{ color: 'var(--violet)' }}>{answeredCount ? `${pct}%` : '-'}</div>
           </div>
         </div>
 

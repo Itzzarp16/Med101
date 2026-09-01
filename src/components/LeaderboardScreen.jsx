@@ -105,7 +105,7 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
             </div>
             <div className="lb-empty-sub">
               {error || (metric === 'accuracyPct'
-                ? 'Nobody has answered 100+ questions here yet — keep practicing!'
+                ? 'Nobody has answered 100+ questions here yet. Keep practicing!'
                 : 'Be the first to complete a quiz here!')}
             </div>
           </div>
@@ -115,7 +115,7 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
           <div className="lb-list">
             {rows.map((row, i) => {
               const isMe = user && row.uid === user.uid;
-              const timeStr = row.avgTimeSec != null ? `⏱ ${row.avgTimeSec.toFixed(1)}s/question` : '⏱ —';
+              const timeStr = row.avgTimeSec != null ? `⏱ ${row.avgTimeSec.toFixed(1)}s/question` : '⏱ -';
               return (
                 <div key={row.uid} className={isMe ? 'lb-row glass lb-row-me' : 'lb-row glass'}>
                   <div className="lb-rank">{MEDALS[i] || `#${i + 1}`}</div>

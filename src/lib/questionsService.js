@@ -8,7 +8,7 @@ const COL = 'questions';
 
 // Fetch every migrated question for a given main subject within a
 // semester, in display order. Returns [] if that subject hasn't been
-// migrated yet — callers should fall back to the static JSON in that
+// migrated yet - callers should fall back to the static JSON in that
 // case (see useSemesterData.js).
 export async function fetchFirestoreQuestions(semesterId, mainSubject) {
   const q = query(
@@ -43,7 +43,7 @@ export async function fetchMigratedSubjects(semesterId, candidateSubjects) {
 // One-time move of a subject's questions from the static JSON into
 // Firestore as individual documents (chunked into batches of 400,
 // under Firestore's 500-writes-per-batch limit). Safe to call again
-// later if you want to re-migrate — it does NOT delete existing docs
+// later if you want to re-migrate - it does NOT delete existing docs
 // first, so don't run it twice without clearing, or you'll duplicate.
 export async function migrateSubjectToFirestore(semesterId, mainSubject, subtopicQuestions) {
   const chunks = [];
@@ -91,7 +91,7 @@ export async function deleteQuestion(id) {
   await deleteDoc(doc(db, COL, id));
 }
 
-// Swap the `order` value of two questions — used for the up/down
+// Swap the `order` value of two questions - used for the up/down
 // reorder buttons in the admin panel.
 export async function swapOrder(a, b) {
   const batch = writeBatch(db);

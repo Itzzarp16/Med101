@@ -77,7 +77,7 @@ export default function AdminNoticeScreen({ onBack }) {
             {saving ? 'Saving…' : 'Save Notice'}
           </button>
 
-          {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved — live on the dashboard now.</div>}
+          {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Live on the dashboard now.</div>}
         </div>
       )}
     </div>

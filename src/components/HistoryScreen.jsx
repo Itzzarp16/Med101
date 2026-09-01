@@ -75,14 +75,14 @@ export default function HistoryScreen({ onRetry, onBack }) {
 
       <div className="std-header">
         <h1 className="std-title">🕘 History</h1>
-        <p className="std-sub">Every question set you've attempted — retry all, just the wrong ones, or the ones you skipped.</p>
+        <p className="std-sub">Every question set you've attempted. Retry all, just the wrong ones, or the ones you skipped.</p>
       </div>
 
       {loading ? (
         <div className="std-loading">Loading…</div>
       ) : history.length === 0 ? (
         <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>
-          You haven't attempted any question sets yet — finish a quiz to see it here.
+          You haven't attempted any question sets yet. Finish a quiz to see it here.
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>

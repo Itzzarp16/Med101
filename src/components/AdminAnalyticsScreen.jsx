@@ -13,7 +13,7 @@ function StatBox({ label, value, accent }) {
   return (
     <div className="stat-card" style={{ '--accent': accent || 'var(--cyan)' }}>
       <div className="stat-label">{label}</div>
-      <div className="stat-value" style={{ color: accent }}>{value ?? '—'}</div>
+      <div className="stat-value" style={{ color: accent }}>{value ?? '-'}</div>
     </div>
   );
 }
@@ -77,7 +77,7 @@ export default function AdminAnalyticsScreen({ onBack }) {
             {Object.entries(data.semesterCounts).map(([semId, count]) => (
               <div key={semId} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, padding: '4px 0' }}>
                 <span style={{ color: 'var(--text2)' }}>{SEMESTER_LABELS[semId] || semId}</span>
-                <span style={{ color: 'var(--text)', fontWeight: 700 }}>{count ?? '—'}</span>
+                <span style={{ color: 'var(--text)', fontWeight: 700 }}>{count ?? '-'}</span>
               </div>
             ))}
           </div>

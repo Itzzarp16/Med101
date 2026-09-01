@@ -94,7 +94,7 @@ function SubjectEditor({ semesterId, mainSubject, isMigrated, jsonQuestions, onM
         // Most likely cause: this query (two equality filters + an
         // orderBy on a third field) needs a Firestore composite index
         // that hasn't been created yet. Firestore's own error message
-        // for that case includes a direct "create it here" link — we
+        // for that case includes a direct "create it here" link - we
         // surface the raw message so that link is visible, instead of
         // silently hanging on "Loading..." forever like before.
         if (!cancelled) {
@@ -184,7 +184,7 @@ function SubjectEditor({ semesterId, mainSubject, isMigrated, jsonQuestions, onM
           <h2>{mainSubject}</h2>
           <p>
             This subject's {jsonQuestions.length} questions are still in the static file.
-            Migrate them to Firestore to edit, add, delete, or reorder questions from here —
+            Migrate them to Firestore to edit, add, delete, or reorder questions from here,
             without a code deploy.
           </p>
           <button className="admin-q-migrate-btn" onClick={handleMigrate} disabled={migrating}>

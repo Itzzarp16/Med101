@@ -16,7 +16,7 @@ function shuffled(arr) {
 const TIMER_PRESETS = [20, 30, 45, 60];
 
 // Matches the old site's #screen-home exactly: this is the ONLY screen
-// between the subject dashboard and the quiz itself — there's no
+// between the subject dashboard and the quiz itself - there's no
 // separate topic-list step in the old design. A hero banner shows the
 // subject + live question/topic counts, then mode cards (Random 25/50,
 // All Sequential/Random, Custom Range), then multi-select topic chips
@@ -125,8 +125,8 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
         <div className="qmode-grid">
           <ModeCard emoji="🎲" title="Random 25" desc="Quick 5-min practice" selected={mode === 'rand25'} onClick={() => selectMode('rand25')} />
           <ModeCard emoji="⚡" title="Random 50" desc="Medium 10-min session" selected={mode === 'rand50'} onClick={() => selectMode('rand50')} />
-          <ModeCard emoji="📚" title={`All ${pool.length} — Sequential`} desc="Questions in order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
-          <ModeCard emoji="🔀" title={`All ${pool.length} — Random`} desc="Fully shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
+          <ModeCard emoji="📚" title={`All ${pool.length} - Sequential`} desc="Questions in order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
+          <ModeCard emoji="🔀" title={`All ${pool.length} - Random`} desc="Fully shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
           <ModeCard emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
           <ModeCard
             emoji="🆕"

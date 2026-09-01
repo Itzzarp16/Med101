@@ -5,7 +5,7 @@ import { isLightMode, setTheme } from '../lib/theme';
 import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence';
 
 // Everything except the Med101 logo/signature and the user's own name
-// now lives behind a hamburger menu — matches the drawer content the
+// now lives behind a hamburger menu - matches the drawer content the
 // user sketched out: existing features first, admin-only ones in their
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
@@ -39,7 +39,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
     return unsub;
   }, []);
 
-  // Only admin subscribes to the actual names — regular students would
+  // Only admin subscribes to the actual names - regular students would
   // just get a permission error from the database rules if this ran.
   useEffect(() => {
     if (!isAdmin) return;

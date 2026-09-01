@@ -6,7 +6,7 @@ import { fetchFirestoreQuestions, fetchMigratedSubjects } from './questionsServi
 // and quiz screens need. Add an entry here once a new semester's data
 // file exists (same shape as data/y1s2.json). A student whose calendar-
 // resolved semester isn't in this list yet just sees a "coming soon"
-// screen — see App.jsx.
+// screen - see App.jsx.
 const SEMESTER_MANIFEST = [
   { id: 'y1s2', file: '/data/y1s2.json' },
 ];
@@ -14,7 +14,7 @@ const SEMESTER_MANIFEST = [
 const CACHE_PREFIX = 'med101_semester_cache_';
 
 // Which subjects are migrated to Firestore only changes when the admin
-// migrates one — checking it fresh on *every single page load, for
+// migrates one - checking it fresh on *every single page load, for
 // every student* (one Firestore query per candidate subject) is pure
 // overhead. A short session-scoped cache skips that entirely on repeat
 // loads within the same tab, while still picking up admin changes
@@ -41,7 +41,7 @@ function saveMigratedCache(semesterId, migratedSet) {
       JSON.stringify({ ts: Date.now(), subjects: [...migratedSet] })
     );
   } catch {
-    // sessionStorage unavailable/full — just means this load skips the
+    // sessionStorage unavailable/full - just means this load skips the
     // cache benefit, nothing breaks.
   }
 }
@@ -59,7 +59,7 @@ function saveToCache(semesterId, data) {
   try {
     localStorage.setItem(CACHE_PREFIX + semesterId, JSON.stringify(data));
   } catch {
-    // Quota exceeded or storage unavailable — offline fallback just
+    // Quota exceeded or storage unavailable - offline fallback just
     // won't be available for this semester, nothing else breaks.
   }
 }
@@ -124,7 +124,7 @@ export function useSemesterData() {
         });
 
         // For any subject that's been migrated to Firestore, that
-        // becomes the source of truth — replace the JSON questions
+        // becomes the source of truth - replace the JSON questions
         // for that subject with the live Firestore ones, so admin
         // edits/adds/deletes show up without a redeploy. Firestore's
         // own offline persistence (see firebase.js) keeps this working
@@ -140,7 +140,7 @@ export function useSemesterData() {
 
             const migratedList = [...migrated];
             // Fire all migrated subjects' question fetches at once
-            // instead of one-at-a-time — was previously a sequential
+            // instead of one-at-a-time - was previously a sequential
             // await-in-a-loop, so N subjects meant N full round trips
             // stacked back to back.
             const liveResultsBySubject = await Promise.all(

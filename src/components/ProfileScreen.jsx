@@ -57,7 +57,7 @@ export default function ProfileScreen({ onBack }) {
     try {
       const saved = await claimUsername(user, username);
       setCurrentUsername(saved);
-      setUsernameMsg({ type: 'success', text: 'Username claimed — it\'s yours.' });
+      setUsernameMsg({ type: 'success', text: 'Username claimed. It\'s yours.' });
     } catch (e) {
       setUsernameMsg({ type: 'error', text: e.message || String(e) });
     } finally {

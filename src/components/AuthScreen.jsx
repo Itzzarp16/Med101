@@ -6,7 +6,7 @@ import './AuthScreen.css';
 
 // Matches the old site's #auth-screen exactly (same order): icon,
 // gradient title, tabs, name (signup only), year/semester (signup
-// only — new addition, styled to match), email, password with eye
+// only - new addition, styled to match), email, password with eye
 // toggle, confirm password (signup only), forgot password (signin
 // only), submit, message, powered-by badge.
 const YEAR_SEMESTER_OPTIONS = [
@@ -84,7 +84,7 @@ export default function AuthScreen() {
     }
     try {
       await sendPasswordResetEmail(auth, email.trim());
-      setMsg({ text: 'Password reset email sent — check your inbox.', type: 'success' });
+      setMsg({ text: 'Password reset email sent. Check your inbox.', type: 'success' });
     } catch (err) {
       setMsg({ text: ERROR_MESSAGES[err.code] || err.message, type: 'error' });
     }

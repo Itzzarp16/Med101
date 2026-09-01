@@ -19,7 +19,7 @@ function shuffled(arr) {
 }
 
 // mainSubjectMeta/scopedQuestions/subjectGroup come from the currently
-// active semester — a room's question set is always drawn from
+// active semester - a room's question set is always drawn from
 // whatever the host can currently see.
 export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subjectGroup, onEnterRoom, onBack }) {
   const { user } = useAuth();
@@ -185,7 +185,7 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
           <div className="std-loading">Loading…</div>
         ) : myRooms.length === 0 ? (
           <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>
-            No rooms yet — create or join one to see it here.
+            No rooms yet. Create or join one to see it here.
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

@@ -14,7 +14,7 @@ function isYesterday(dateStr, today) {
 
 // Called once per finished quiz. Same-day repeats are cheap no-ops
 // (the transaction still runs, but streakCount/lastActiveDate end up
-// unchanged) — simpler than trying to dedupe client-side across tabs.
+// unchanged) - simpler than trying to dedupe client-side across tabs.
 export async function updateStreakOnActivity(uid) {
   const today = todayStr();
   const ref = doc(db, 'users', uid);
