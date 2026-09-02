@@ -28,6 +28,13 @@ service cloud.firestore {
       allow read: if isAdmin();
     }
 
+    // ── users/{uid}/friends/{friendUid} ──────────────────────────
+    // A student's own friends/watchlist — one-directional (adding
+    // someone doesn't touch their data), so purely self-owned.
+    match /users/{uid}/friends/{friendUid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
     // ── users/{uid}/wrongQuestions/{key} and .../flaggedQuestions/{key} ──
     // A student's own review queues - purely personal, only the owner
     // can read or write them.

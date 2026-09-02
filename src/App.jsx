@@ -6,6 +6,7 @@ import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
 import ChallengeScreen from './components/ChallengeScreen';
+import FriendsScreen from './components/FriendsScreen';
 import RoomLobbyScreen from './components/RoomLobbyScreen';
 import RoomResultsScreen from './components/RoomResultsScreen';
 import AdminCalendarScreen from './components/AdminCalendarScreen';
@@ -202,6 +203,7 @@ export default function App() {
     onHome: goHome,
     onLeaderboard: () => goTo('leaderboard'),
     onChallenge: () => goTo('challenge'),
+    onFriends: () => goTo('friends'),
     onSettings: () => goTo('settings'),
     onProfile: () => goTo('profile'),
     onWeakTopics: () => goTo('weak-topics'),
@@ -506,6 +508,10 @@ export default function App() {
           }}
           onBack={goBack}
         />
+      )}
+
+      {screen === 'friends' && (
+        <FriendsScreen onBack={goBack} />
       )}
 
       {screen === 'room-lobby' && activeRoomCode && (

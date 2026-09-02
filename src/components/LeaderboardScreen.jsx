@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
-import { fetchLeaderboardTop, fetchMyRank } from '../lib/leaderboard';
+import { fetchFriendsLeaderboard, fetchLeaderboardTop, fetchMyRank } from '../lib/leaderboard';
+import { subscribeToFriends } from '../lib/friends';
 import { playTapSound } from '../lib/sounds';
 import './LeaderboardScreen.css';
 
@@ -9,11 +10,15 @@ const MEDALS = ['🥇', '🥈', '🥉'];
 // Matches the old site's #screen-leaderboard exactly: gradient trophy
 // title, scope dropdown (Global + per-subject), metric toggle
 // (Accuracy % / Total Correct), a persistent "Your Rank" card, and rows
-// with medal/rank, name, ✅/❌/⏱ stats, and a gold value badge.
+// with medal/rank, name, ✅/❌/⏱ stats, and a gold value badge. Plus a
+// "Friends Only" toggle that scopes the same view to just your added
+// friends (+ yourself) instead of the whole platform.
 export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack }) {
   const { user } = useAuth();
   const [scope, setScope] = useState(''); // '' = global, or a subject name
   const [metric, setMetric] = useState('accuracyPct');
+  const [friendsOnly, setFriendsOnly] = useState(false);
+  const [friendUids, setFriendUids] = useState([]);
   const [rows, setRows] = useState([]);
   const [myRank, setMyRank] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -23,11 +28,34 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
   const unit = metric === 'accuracyPct' ? '%' : ' correct';
 
   useEffect(() => {
+    if (!user) return;
+    const unsub = subscribeToFriends(user.uid, (friends) => {
+      setFriendUids(friends.map((f) => f.uid));
+    });
+    return unsub;
+  }, [user]);
+
+  useEffect(() => {
     let cancelled = false;
     setLoading(true);
     setError(null);
 
     async function load() {
+      if (friendsOnly) {
+        const uids = user ? [user.uid, ...friendUids] : friendUids;
+        const result = await fetchFriendsLeaderboard(uids, scopeKey, metric);
+        if (cancelled) return;
+        if (result && result.error) {
+          setError(result.error);
+          setRows([]);
+        } else {
+          setRows(result || []);
+        }
+        setMyRank(null); // rank-among-friends is just their position in this short list, no separate call needed
+        setLoading(false);
+        return;
+      }
+
       const [topResult, rankResult] = await Promise.all([
         fetchLeaderboardTop(scopeKey, metric, 40),
         user ? fetchMyRank(user.uid, scopeKey, metric) : Promise.resolve(null),
@@ -45,7 +73,7 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
 
     load();
     return () => { cancelled = true; };
-  }, [scopeKey, metric, user]);
+  }, [scopeKey, metric, user, friendsOnly, friendUids]);
 
   function switchMetric(m) {
     playTapSound();
@@ -61,6 +89,21 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
             <div className="lb-sub">See how you stack up</div>
           </div>
           <button className="btn-ghost lb-home-btn" onClick={() => { playTapSound(); onBack(); }}>← Home</button>
+        </div>
+
+        <div className="lb-metric-row" style={{ marginBottom: 10 }}>
+          <button
+            className={!friendsOnly ? 'btn-ghost lb-metric-btn active' : 'btn-ghost lb-metric-btn'}
+            onClick={() => { playTapSound(); setFriendsOnly(false); }}
+          >
+            🌐 Everyone
+          </button>
+          <button
+            className={friendsOnly ? 'btn-ghost lb-metric-btn active' : 'btn-ghost lb-metric-btn'}
+            onClick={() => { playTapSound(); setFriendsOnly(true); }}
+          >
+            👥 Friends Only
+          </button>
         </div>
 
         <select className="lb-scope-select" value={scope} onChange={(e) => { playTapSound(); setScope(e.target.value); }}>
@@ -84,8 +127,12 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
             ✅ Total Correct
           </button>
         </div>
-        {metric === 'accuracyPct' && (
+        {metric === 'accuracyPct' && !friendsOnly && (
           <div className="lb-accuracy-note">Requires 100+ questions answered in this scope</div>
+        )}
+
+        {friendsOnly && friendUids.length === 0 && (
+          <div className="lb-accuracy-note">You haven't added any friends yet — add some from the hamburger menu.</div>
         )}
 
         {myRank && (
@@ -101,12 +148,14 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
           <div className="lb-empty">
             <div className="lb-empty-emoji">{error ? '⚠️' : '🏳️'}</div>
             <div className="lb-empty-title">
-              {error ? "Something went wrong loading this list" : metric === 'accuracyPct' ? 'No one qualifies yet' : 'No scores yet'}
+              {error ? "Something went wrong loading this list" : friendsOnly ? 'No friends to show yet' : metric === 'accuracyPct' ? 'No one qualifies yet' : 'No scores yet'}
             </div>
             <div className="lb-empty-sub">
-              {error || (metric === 'accuracyPct'
-                ? 'Nobody has answered 100+ questions here yet. Keep practicing!'
-                : 'Be the first to complete a quiz here!')}
+              {error || (friendsOnly
+                ? 'Add some friends by username to see them here.'
+                : (metric === 'accuracyPct'
+                  ? 'Nobody has answered 100+ questions here yet. Keep practicing!'
+                  : 'Be the first to complete a quiz here!'))}
             </div>
           </div>
         )}
