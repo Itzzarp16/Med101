@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
 import QuizModeScreen from './components/QuizModeScreen';
@@ -539,6 +540,7 @@ export default function App() {
         />
       )}
       </div>
+      <Analytics />
     </div>
   );
 }
