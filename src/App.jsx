@@ -173,8 +173,17 @@ export default function App() {
   // background regardless and updates the UI the moment it resolves -
   // this just stops the student from ever being stuck staring at the
   // loader past 4s, even in a slow-network worst case.
+  //
+  // If the finish sequence (completing/flying) has already started by
+  // the time this fires, leave loaderPhase alone - it'll finish on its
+  // own in under a second and should be allowed to. Only force straight
+  // to 'done' if we're still stuck on 'loading' at the 4s mark, so the
+  // loader doesn't pop back up later once data does resolve.
   useEffect(() => {
-    const t = setTimeout(() => setForceReady(true), 4000);
+    const t = setTimeout(() => {
+      setForceReady(true);
+      setLoaderPhase((prev) => (prev === 'loading' ? 'done' : prev));
+    }, 4000);
     return () => clearTimeout(t);
   }, []);
 
@@ -296,7 +305,14 @@ export default function App() {
     );
   }
 
-  if (loaderPhase !== 'done' && !forceReady) {
+  // Once the loader has genuinely started its finish sequence
+  // (completing/flying), let it play through to 'done' even if
+  // forceReady has already fired - forceReady is only meant to cut
+  // short an open-ended *still loading* wait past 4s, not abort a
+  // short, bounded ~1s finish animation that's already in progress.
+  const loaderShouldShow = loaderPhase === 'completing' || loaderPhase === 'flying' || (loaderPhase === 'loading' && !forceReady);
+
+  if (loaderShouldShow) {
     const flying = loaderPhase === 'flying';
     return (
       <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
