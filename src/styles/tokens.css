@@ -867,6 +867,48 @@ h1, h2, .display {
   width: 220px;
 }
 
+/* "Flying" phase - once loading genuinely finishes, the logo shrinks
+   and slides up toward roughly where the real top-bar logo sits,
+   while the play icon + bar fade out. Timed to finish just as the
+   loader unmounts (see loaderPhase 'flying' -> 'done' in App.jsx), so
+   it reads as the big logo *becoming* the small top-bar one rather
+   than the loader just vanishing and a separate logo appearing.
+   Approximate landing spot (not true FLIP/shared-element measurement,
+   which would need refs across two different mounted trees) - close
+   enough on typical mobile widths to sell the illusion. */
+.app-loading-logo-flying {
+  animation: app-loading-logo-fly 0.65s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+@keyframes app-loading-logo-fly {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(calc(-50vw + 60px), calc(-50vh + 26px)) scale(0.5);
+  }
+}
+
+.app-loading-screen-flying .app-loading-bar-row {
+  animation: app-loading-bar-fade-out 0.3s ease forwards;
+}
+
+@keyframes app-loading-bar-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-loading-logo-flying {
+    animation: none;
+  }
+  .app-loading-screen-flying .app-loading-bar-row {
+    animation: none;
+    opacity: 0;
+  }
+}
+
 .app-loading-play {
   color: var(--cyan);
   font-size: 15px;

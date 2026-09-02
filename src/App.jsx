@@ -144,18 +144,20 @@ export default function App() {
 
   // Loading-bar finish sequence: the moment both real loading steps
   // are actually done, snap the indeterminate sweep to a solid 100%
-  // fill for a beat so the finish is visible, then swap to the real
-  // app. Without this the loader would just unmount instantly,
-  // mid-sweep, which reads as "the bar never finished."
+  // fill for a beat, then fly the logo up toward the top bar's
+  // position before finally swapping to the real app - so the logo
+  // reads as *becoming* the top bar logo rather than the loader just
+  // vanishing and a separate small logo appearing in its place.
   useEffect(() => {
     if (semesterData.loading || calendarLoading) {
       if (loaderPhase !== 'loading') setLoaderPhase('loading');
       return;
     }
-    if (loaderPhase !== 'loading') return; // already completing/done
+    if (loaderPhase !== 'loading') return; // already completing/flying/done
     setLoaderPhase('completing');
-    const t = setTimeout(() => setLoaderPhase('done'), 380);
-    return () => clearTimeout(t);
+    const t1 = setTimeout(() => setLoaderPhase('flying'), 380);
+    const t2 = setTimeout(() => setLoaderPhase('done'), 380 + 650);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [semesterData.loading, calendarLoading]);
 
   // Presence heartbeat - pings this session as "online" every 30s so
@@ -293,9 +295,10 @@ export default function App() {
   }
 
   if (loaderPhase !== 'done' && !forceReady) {
+    const flying = loaderPhase === 'flying';
     return (
-      <div className="app-loading-screen">
-        <div className="app-loading-logo-stack">
+      <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
+        <div className={flying ? 'app-loading-logo-stack app-loading-logo-flying' : 'app-loading-logo-stack'}>
           <div className="app-loading-logo"><span className="app-loading-logo-med">Med</span><span className="app-loading-logo-101">101</span></div>
           <div className="app-loading-signature">by Abhishek Verma</div>
         </div>
