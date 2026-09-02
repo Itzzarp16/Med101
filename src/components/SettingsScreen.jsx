@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound, isMuted, setMuted } from '../lib/sounds';
 import { isLightMode, setTheme } from '../lib/theme';
+import { isInstallable, isStandalone, isIOS, onInstallabilityChange, promptInstall } from '../lib/installPrompt';
 
 // Same options as the signup dropdown - kept in sync there manually
 // since there are only a handful of semesters right now.
@@ -24,6 +25,19 @@ export default function SettingsScreen({ onBack }) {
   const [saved, setSaved] = useState(false);
   const [lightMode, setLightMode] = useState(isLightMode());
   const [soundMuted, setSoundMuted] = useState(isMuted());
+  const [installable, setInstallable] = useState(isInstallable());
+  const [installMsg, setInstallMsg] = useState(null);
+  const standalone = isStandalone();
+  const ios = isIOS();
+
+  useEffect(() => onInstallabilityChange(setInstallable), []);
+
+  async function handleInstall() {
+    playTapSound();
+    const outcome = await promptInstall();
+    if (outcome === 'accepted') setInstallMsg('Installed! Check your home screen.');
+    else if (outcome === 'dismissed') setInstallMsg(null);
+  }
 
   function toggleLightMode() {
     const next = !lightMode;
@@ -94,6 +108,25 @@ export default function SettingsScreen({ onBack }) {
           </button>
         </div>
       </div>
+
+      {!standalone && (installable || ios) && (
+        <div className="glass std-card" style={{ marginBottom: 14 }}>
+          <label className="auth-label">📲 Install Med101</label>
+          {installable ? (
+            <>
+              <p className="std-note">
+                Add Med101 to your home screen for quick access, its own app icon, and a full-screen experience with no browser bar.
+              </p>
+              <button className="btn-glow std-save-btn" onClick={handleInstall}>Install App</button>
+              {installMsg && <div className="auth-msg success" style={{ display: 'block' }}>{installMsg}</div>}
+            </>
+          ) : (
+            <p className="std-note">
+              Tap the Share button in Safari, then "Add to Home Screen", to install Med101 with its own icon and full-screen view.
+            </p>
+          )}
+        </div>
+      )}
 
       <div className="glass std-card">
         <label className="auth-label">Year &amp; Semester</label>

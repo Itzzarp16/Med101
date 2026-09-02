@@ -7,6 +7,17 @@ import { initTheme } from './lib/theme'
 
 initTheme();
 
+// Register the service worker so the browser will actually offer
+// "Add to Home Screen" / install (Chrome requires one to be present,
+// even though it doesn't cache anything - see public/sw.js).
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch((err) => {
+      console.warn('Service worker registration failed:', err);
+    });
+  });
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
