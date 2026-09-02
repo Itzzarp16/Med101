@@ -70,7 +70,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
           title="Go to Home"
           onClick={() => { playTapSound(); onHome?.(); }}
         >
-          <span className="topbar-logo">Med<span className="topbar-logo-2">101</span></span>
+          <span className="topbar-logo">Med101</span>
           <div className="topbar-signature">by Abhishek Verma</div>
         </button>
       </div>
@@ -126,7 +126,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
         <div className="menu-overlay" onClick={() => setMenuOpen(false)}>
           <div className="menu-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="menu-drawer-header">
-              <span className="topbar-logo">Med<span className="topbar-logo-2">101</span></span>
+              <span className="topbar-logo">Med101</span>
               <button className="menu-close" onClick={() => setMenuOpen(false)}>✕</button>
             </div>
 
