@@ -50,7 +50,6 @@ export default function App() {
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
-  const [forceReady, setForceReady] = useState(false); // hard cap: never let the loading screen sit longer than 4s total, even if auth/data genuinely hasn't resolved yet
   const [activeRoomCode, setActiveRoomCode] = useState(savedNavRef?.activeRoomCode ?? null);
   const [activeRoomIsHost, setActiveRoomIsHost] = useState(savedNavRef?.activeRoomIsHost ?? false);
   const [viewUserUid, setViewUserUid] = useState(savedNavRef?.viewUserUid ?? null);
@@ -168,26 +167,7 @@ export default function App() {
     return startPresenceHeartbeat(user.uid, user.displayName || user.email);
   }, [user]);
 
-  // Hard 4-second cap on total loading-screen time. Whatever's still
-  // in flight (auth, semester data, calendar) keeps loading in the
-  // background regardless and updates the UI the moment it resolves -
-  // this just stops the student from ever being stuck staring at the
-  // loader past 4s, even in a slow-network worst case.
-  //
-  // If the finish sequence (completing/flying) has already started by
-  // the time this fires, leave loaderPhase alone - it'll finish on its
-  // own in under a second and should be allowed to. Only force straight
-  // to 'done' if we're still stuck on 'loading' at the 4s mark, so the
-  // loader doesn't pop back up later once data does resolve.
-  useEffect(() => {
-    const t = setTimeout(() => {
-      setForceReady(true);
-      setLoaderPhase((prev) => (prev === 'loading' ? 'done' : prev));
-    }, 4000);
-    return () => clearTimeout(t);
-  }, []);
-
-  if (loading && !forceReady) {
+  if (loading) {
     return (
       <div className="app-loading-screen">
         <div className="app-loading-logo-stack">
@@ -305,14 +285,10 @@ export default function App() {
     );
   }
 
-  // Once the loader has genuinely started its finish sequence
-  // (completing/flying), let it play through to 'done' even if
-  // forceReady has already fired - forceReady is only meant to cut
-  // short an open-ended *still loading* wait past 4s, not abort a
-  // short, bounded ~1s finish animation that's already in progress.
-  const loaderShouldShow = loaderPhase === 'completing' || loaderPhase === 'flying' || (loaderPhase === 'loading' && !forceReady);
-
-  if (loaderShouldShow) {
+  // No artificial time cap here - the loader stays up for exactly as
+  // long as auth/semester data/calendar actually take to resolve, then
+  // plays its finish sequence (completing -> flying -> done).
+  if (loaderPhase !== 'done') {
     const flying = loaderPhase === 'flying';
     return (
       <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
