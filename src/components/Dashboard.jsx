@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import SubjectCard from './SubjectCard';
 import HomeNoticeBanner from './HomeNoticeBanner';
-import WeakTopicsCard from './WeakTopicsCard';
 import PendingInvites from './PendingInvites';
 import './Dashboard.css';
 
@@ -44,7 +43,6 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
 
       <HomeNoticeBanner />
       <PendingInvites onAccept={onAcceptInvite} />
-      <WeakTopicsCard onPracticeTopic={onPracticeTopic} />
 
       <div className="subj-grid">
         {Object.entries(mainSubjectMeta).map(([name, meta]) => (
