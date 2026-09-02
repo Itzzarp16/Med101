@@ -14,6 +14,7 @@ import SettingsScreen from './components/SettingsScreen';
 import ProfileScreen from './components/ProfileScreen';
 import WeakTopicsScreen from './components/WeakTopicsScreen';
 import WrongFlaggedScreen from './components/WrongFlaggedScreen';
+import SearchScreen from './components/SearchScreen';
 import HistoryScreen from './components/HistoryScreen';
 import AdminUserDetailScreen from './components/AdminUserDetailScreen';
 import AdminAnalyticsScreen from './components/AdminAnalyticsScreen';
@@ -215,6 +216,7 @@ export default function App() {
     onProfile: () => goTo('profile'),
     onWeakTopics: () => goTo('weak-topics'),
     onWrongFlagged: () => goTo('wrong-flagged'),
+    onSearch: () => goTo('search'),
     onHistory: () => goTo('history'),
     onAdminUserDetail: () => { setViewUserUid(null); goTo('admin-user-detail'); },
     onViewUser: (uid) => { setViewUserUid(uid); goTo('admin-user-detail'); },
@@ -407,6 +409,21 @@ export default function App() {
             const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
             setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
             setSelectedSubject(items[0]?.mainSubject || null);
+            setSelectedTopic(null);
+            goTo('quiz');
+          }}
+          onBack={goBack}
+        />
+      )}
+
+      {screen === 'search' && (
+        <SearchScreen
+          scopedQuestions={scopedQuestions}
+          subjectGroup={subjectGroup}
+          mainSubjectMeta={scopedMainSubjectMeta}
+          onPracticeSet={(items) => {
+            setFinalQuiz({ questions: items, autoAdvance: true, timerSeconds: null });
+            setSelectedSubject(subjectGroup[items[0]?.s] || null);
             setSelectedTopic(null);
             goTo('quiz');
           }}
