@@ -885,7 +885,7 @@ h1, h2, .display {
     transform: translate(0, 0) scale(1);
   }
   100% {
-    transform: translate(calc(-50vw + 60px), calc(-50vh + 26px)) scale(0.5);
+    transform: translate(calc(-50vw + 87px), calc(-50vh + 26px)) scale(0.5);
   }
 }
 
