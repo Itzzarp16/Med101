@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
 import QuizModeScreen from './components/QuizModeScreen';
@@ -50,6 +50,8 @@ export default function App() {
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
+  const logoStackRef = useRef(null);
+  const [logoFlyStyle, setLogoFlyStyle] = useState(null);
   const [activeRoomCode, setActiveRoomCode] = useState(savedNavRef?.activeRoomCode ?? null);
   const [activeRoomIsHost, setActiveRoomIsHost] = useState(savedNavRef?.activeRoomIsHost ?? false);
   const [viewUserUid, setViewUserUid] = useState(savedNavRef?.viewUserUid ?? null);
@@ -285,6 +287,49 @@ export default function App() {
     );
   }
 
+  // Compute the logo's fly-to-topbar animation using real measured
+  // pixels (captured once via getBoundingClientRect + window
+  // dimensions) instead of vh/vw CSS units. vh/vw recalculate live as
+  // mobile Chrome's address bar shows/hides during page load, which
+  // was causing the animation to visibly jump/glitch mid-flight.
+  useEffect(() => {
+    if (loaderPhase !== 'flying') {
+      setLogoFlyStyle(null);
+      return;
+    }
+    const el = logoStackRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const startCenterX = rect.left + rect.width / 2;
+    const startCenterY = rect.top + rect.height / 2;
+    // Roughly where the real top-bar logo sits: topbar padding (14px)
+    // + hamburger button (30px) + gap (8px) before the logo starts,
+    // plus half the small logo's own width; vertically the topbar's
+    // center (~26px from the top).
+    const targetX = 14 + 30 + 8 + 40;
+    const targetY = 26;
+    const dx = targetX - startCenterX;
+    const dy = targetY - startCenterY;
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      setLogoFlyStyle({ transform: `translate(${dx}px, ${dy}px) scale(0.5)`, transition: 'none' });
+      return;
+    }
+    // Set the starting state with no transition first, then apply the
+    // real transform on the next frame so the browser actually
+    // animates between two fixed points rather than jumping straight
+    // to the end (or re-deriving the end point mid-animation).
+    setLogoFlyStyle({ transform: 'translate(0px, 0px) scale(1)', transition: 'none' });
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setLogoFlyStyle({
+          transform: `translate(${dx}px, ${dy}px) scale(0.5)`,
+          transition: 'transform 0.65s cubic-bezier(0.65, 0, 0.35, 1)',
+        });
+      });
+    });
+  }, [loaderPhase]);
+
   // No artificial time cap here - the loader stays up for exactly as
   // long as auth/semester data/calendar actually take to resolve, then
   // plays its finish sequence (completing -> flying -> done).
@@ -292,7 +337,7 @@ export default function App() {
     const flying = loaderPhase === 'flying';
     return (
       <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
-        <div className={flying ? 'app-loading-logo-stack app-loading-logo-flying' : 'app-loading-logo-stack'}>
+        <div ref={logoStackRef} className="app-loading-logo-stack" style={logoFlyStyle || undefined}>
           <div className="app-loading-logo">Med101</div>
           <div className="app-loading-signature">by Abhishek Verma</div>
         </div>

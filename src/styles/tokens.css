@@ -808,7 +808,8 @@ h1, h2, .display {
    YouTube-scrubber-style bar, in the app's own cyan-violet brand
    gradient instead of red, with a play glyph like the reference. */
 .app-loading-screen {
-  min-height: 100vh;
+  position: fixed;
+  inset: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -816,6 +817,7 @@ h1, h2, .display {
   gap: 22px;
   background: var(--bg);
   padding: 20px;
+  z-index: 1000;
 }
 
 .app-loading-logo-stack {
@@ -823,6 +825,7 @@ h1, h2, .display {
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
+  transform-origin: top left;
 }
 
 .app-loading-logo {
@@ -858,21 +861,12 @@ h1, h2, .display {
    loader unmounts (see loaderPhase 'flying' -> 'done' in App.jsx), so
    it reads as the big logo *becoming* the small top-bar one rather
    than the loader just vanishing and a separate logo appearing.
-   Approximate landing spot (not true FLIP/shared-element measurement,
-   which would need refs across two different mounted trees) - close
-   enough on typical mobile widths to sell the illusion. */
-.app-loading-logo-flying {
-  animation: app-loading-logo-fly 0.65s cubic-bezier(0.65, 0, 0.35, 1) forwards;
-}
-
-@keyframes app-loading-logo-fly {
-  0% {
-    transform: translate(0, 0) scale(1);
-  }
-  100% {
-    transform: translate(calc(-50vw + 87px), calc(-50vh + 26px)) scale(0.5);
-  }
-}
+   The actual transform is computed in JS (App.jsx) from real measured
+   pixels via getBoundingClientRect + window dimensions, captured once,
+   and applied as an inline style/transition - NOT a vh/vw-based CSS
+   keyframe. vh/vw recalculate live as mobile Chrome's address bar
+   shows/hides during page load, which was causing the animation to
+   visibly jump/glitch mid-flight on real devices. */
 
 .app-loading-screen-flying .app-loading-bar-row {
   animation: app-loading-bar-fade-out 0.3s ease forwards;
@@ -885,9 +879,6 @@ h1, h2, .display {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .app-loading-logo-flying {
-    animation: none;
-  }
   .app-loading-screen-flying .app-loading-bar-row {
     animation: none;
     opacity: 0;
