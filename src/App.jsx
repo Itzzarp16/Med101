@@ -313,7 +313,7 @@ export default function App() {
     const targetY = 26;
     const dx = targetX - startCenterX;
     const dy = targetY - startCenterY;
-    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
     if (reducedMotion) {
       setLogoFlyStyle({ transform: `translate(${dx}px, ${dy}px) scale(0.5)`, transition: 'none' });
       return;
