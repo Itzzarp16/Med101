@@ -1,4 +1,4 @@
-import { collection, doc, getCountFromServer, getDoc, getDocs, limit, orderBy, query, setDoc, serverTimestamp, where } from 'firebase/firestore';
+import { collection, doc, documentId, getCountFromServer, getDoc, getDocs, limit, orderBy, query, setDoc, serverTimestamp, where } from 'firebase/firestore';
 import { db } from './firebase';
 
 // A leaderboard rank only counts once a user has answered enough
@@ -76,6 +76,22 @@ export async function submitLeaderboardResult(user, subjTotals, semTotals, overa
   }
 }
 
+function mapRow(docId, data, scopeKey, metric) {
+  const { bucketField, bucketKey } = resolveScope(scopeKey);
+  const s = (bucketField ? data[bucketField]?.[bucketKey] : data) || {};
+  const correct = s.totalCorrect || 0;
+  const answered = s.totalAnswered || 0;
+  const timeMs = s.timeMs || 0;
+  return {
+    uid: docId,
+    displayName: data.displayName || 'Anonymous',
+    value: s[metric] || 0,
+    correct,
+    incorrect: Math.max(0, answered - correct),
+    avgTimeSec: answered ? timeMs / answered / 1000 : null,
+  };
+}
+
 // scopeKey: '' / null = global, 'sem:y1s2' = a semester, or a main subject
 // name. metric: 'accuracyPct' | 'totalCorrect'. max: 0/null = no cap.
 // Returns rows, or { error } if the query itself failed (surfaced in the
@@ -89,23 +105,27 @@ export async function fetchLeaderboardTop(scopeKey, metric, max) {
     const constraints = [orderBy(field, 'desc')];
     if (max) constraints.push(limit(max));
     const snap = await getDocs(query(col, ...constraints));
-    return snap.docs.map((d) => {
-      const data = d.data();
-      const s = (bucketField ? data[bucketField]?.[bucketKey] : data) || {};
-      const correct = s.totalCorrect || 0;
-      const answered = s.totalAnswered || 0;
-      const timeMs = s.timeMs || 0;
-      return {
-        uid: d.id,
-        displayName: data.displayName || 'Anonymous',
-        value: s[metric] || 0,
-        correct,
-        incorrect: Math.max(0, answered - correct),
-        avgTimeSec: answered ? timeMs / answered / 1000 : null,
-      };
-    });
+    return snap.docs.map((d) => mapRow(d.id, d.data(), scopeKey, metric));
   } catch (e) {
     console.error('Leaderboard fetch failed:', e);
+    return { error: e.message || String(e) };
+  }
+}
+
+// Same shape as fetchLeaderboardTop, but scoped to just the given uids
+// (a student's friends list plus themselves) instead of the whole
+// platform. Firestore's 'in' operator caps at 30 values, so this quietly
+// takes just the first 30 if someone has a huge friends list.
+export async function fetchFriendsLeaderboard(uids, scopeKey, metric) {
+  if (!uids || uids.length === 0) return [];
+  try {
+    const capped = uids.slice(0, 30);
+    const col = collection(db, 'leaderboard');
+    const snap = await getDocs(query(col, where(documentId(), 'in', capped)));
+    const rows = snap.docs.map((d) => mapRow(d.id, d.data(), scopeKey, metric));
+    return rows.sort((a, b) => b.value - a.value);
+  } catch (e) {
+    console.error('Friends leaderboard fetch failed:', e);
     return { error: e.message || String(e) };
   }
 }
