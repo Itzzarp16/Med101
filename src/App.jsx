@@ -171,6 +171,58 @@ export default function App() {
     return startPresenceHeartbeat(user.uid, user.displayName || user.email);
   }, [user]);
 
+  // Compute the logo's fly-to-topbar animation using real measured
+  // pixels (captured once via getBoundingClientRect + window
+  // dimensions) instead of vh/vw CSS units. vh/vw recalculate live as
+  // mobile Chrome's address bar shows/hides during page load, which
+  // was causing the animation to visibly jump/glitch mid-flight.
+  //
+  // IMPORTANT: this hook must stay above every early return in this
+  // component (Settings/Profile/Admin screens etc. below all return
+  // early) - React requires the same hooks to run in the same order on
+  // every render of a given component instance. Having this effect
+  // declared after those returns meant it was skipped on some renders
+  // (Settings, Profile, any admin screen) but called on others
+  // (Dashboard, still-loading), which is exactly what triggered
+  // "Minified React error #310 - rendered fewer hooks than expected".
+  useEffect(() => {
+    if (loaderPhase !== 'flying') {
+      setLogoFlyStyle(null);
+      return;
+    }
+    const el = logoStackRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const startCenterX = rect.left + rect.width / 2;
+    const startCenterY = rect.top + rect.height / 2;
+    // Roughly where the real top-bar logo sits: topbar padding (14px)
+    // + hamburger button (30px) + gap (8px) before the logo starts,
+    // plus half the small logo's own width; vertically the topbar's
+    // center (~26px from the top).
+    const targetX = 14 + 30 + 8 + 40;
+    const targetY = 26;
+    const dx = targetX - startCenterX;
+    const dy = targetY - startCenterY;
+    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+    if (reducedMotion) {
+      setLogoFlyStyle({ transform: `translate(${dx}px, ${dy}px) scale(0.5)`, transition: 'none' });
+      return;
+    }
+    // Set the starting state with no transition first, then apply the
+    // real transform on the next frame so the browser actually
+    // animates between two fixed points rather than jumping straight
+    // to the end (or re-deriving the end point mid-animation).
+    setLogoFlyStyle({ transform: 'translate(0px, 0px) scale(1)', transition: 'none' });
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setLogoFlyStyle({
+          transform: `translate(${dx}px, ${dy}px) scale(0.5)`,
+          transition: 'transform 0.65s cubic-bezier(0.65, 0, 0.35, 1)',
+        });
+      });
+    });
+  }, [loaderPhase]);
+
   if (loading) {
     return (
       <div className="app-loading-screen">
@@ -289,49 +341,6 @@ export default function App() {
       </div>
     );
   }
-
-  // Compute the logo's fly-to-topbar animation using real measured
-  // pixels (captured once via getBoundingClientRect + window
-  // dimensions) instead of vh/vw CSS units. vh/vw recalculate live as
-  // mobile Chrome's address bar shows/hides during page load, which
-  // was causing the animation to visibly jump/glitch mid-flight.
-  useEffect(() => {
-    if (loaderPhase !== 'flying') {
-      setLogoFlyStyle(null);
-      return;
-    }
-    const el = logoStackRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    const startCenterX = rect.left + rect.width / 2;
-    const startCenterY = rect.top + rect.height / 2;
-    // Roughly where the real top-bar logo sits: topbar padding (14px)
-    // + hamburger button (30px) + gap (8px) before the logo starts,
-    // plus half the small logo's own width; vertically the topbar's
-    // center (~26px from the top).
-    const targetX = 14 + 30 + 8 + 40;
-    const targetY = 26;
-    const dx = targetX - startCenterX;
-    const dy = targetY - startCenterY;
-    const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
-    if (reducedMotion) {
-      setLogoFlyStyle({ transform: `translate(${dx}px, ${dy}px) scale(0.5)`, transition: 'none' });
-      return;
-    }
-    // Set the starting state with no transition first, then apply the
-    // real transform on the next frame so the browser actually
-    // animates between two fixed points rather than jumping straight
-    // to the end (or re-deriving the end point mid-animation).
-    setLogoFlyStyle({ transform: 'translate(0px, 0px) scale(1)', transition: 'none' });
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        setLogoFlyStyle({
-          transform: `translate(${dx}px, ${dy}px) scale(0.5)`,
-          transition: 'transform 0.65s cubic-bezier(0.65, 0, 0.35, 1)',
-        });
-      });
-    });
-  }, [loaderPhase]);
 
   // No artificial time cap here - the loader stays up for exactly as
   // long as auth/semester data/calendar actually take to resolve, then
