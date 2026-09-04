@@ -132,7 +132,7 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
         )}
 
         {friendsOnly && friendUids.length === 0 && (
-          <div className="lb-accuracy-note">You haven't added any friends yet — add some from the hamburger menu.</div>
+          <div className="lb-accuracy-note">You haven't added any friends yet. Add some from the hamburger menu.</div>
         )}
 
         {myRank && (
