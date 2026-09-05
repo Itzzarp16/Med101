@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './SubjectCard.css';
 
 // Old site's .subj-card layout exactly (flat glass row, emoji left,
@@ -11,56 +10,31 @@ function traceColorFor(name) {
   return TRACE_COLORS[hash % TRACE_COLORS.length];
 }
 
-export default function SubjectCard({ emoji, name, desc, questionCount, topicCount, subtopics, onClick }) {
+export default function SubjectCard({ emoji, name, desc, questionCount, topicCount, onClick }) {
   const accent = traceColorFor(name);
-  const [expanded, setExpanded] = useState(false);
-  const hasBreakdown = subtopics && subtopics.length > 0;
 
   return (
-    <div className="subj-card-wrap">
-      <button className="subj-card" onClick={onClick}>
-        <span className="subj-emoji">{emoji}</span>
-        <span className="subj-card-text">
-          <span className="subj-name">{name}</span>
-          <span className="subj-count">{desc}</span>
+    <button className="subj-card" onClick={onClick}>
+      <span className="subj-emoji">{emoji}</span>
+      <span className="subj-card-text">
+        <span className="subj-name">{name}</span>
+        <span className="subj-count">{desc}</span>
 
-          <span className="subj-trace" aria-hidden="true" style={{ '--trace-color': accent }}>
-            <svg viewBox="0 0 200 30" preserveAspectRatio="none">
-              <path
-                className="subj-trace-line"
-                d="M0,15 L28,15 L36,4 L44,26 L52,15 L68,15 L76,7 L84,23 L92,15 L200,15"
-              />
-            </svg>
-          </span>
-
-          <span className="subj-meta">
-            {topicCount != null && <span>{topicCount} topics</span>}
-            {questionCount != null && <span>{questionCount} questions</span>}
-          </span>
+        <span className="subj-trace" aria-hidden="true" style={{ '--trace-color': accent }}>
+          <svg viewBox="0 0 200 30" preserveAspectRatio="none">
+            <path
+              className="subj-trace-line"
+              d="M0,15 L28,15 L36,4 L44,26 L52,15 L68,15 L76,7 L84,23 L92,15 L200,15"
+            />
+          </svg>
         </span>
-        <span className="subj-arrow">›</span>
-      </button>
 
-      {hasBreakdown && (
-        <>
-          <button
-            className="subj-breakdown-toggle"
-            onClick={(e) => { e.stopPropagation(); setExpanded((v) => !v); }}
-          >
-            {expanded ? '▲ Hide topics' : '▼ Show topics'}
-          </button>
-          {expanded && (
-            <div className="subj-breakdown-list">
-              {subtopics.map((t) => (
-                <div key={t.name} className="subj-breakdown-row">
-                  <span className="subj-breakdown-name">{t.name}</span>
-                  <span className="subj-breakdown-count">{t.count}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </>
-      )}
-    </div>
+        <span className="subj-meta">
+          {topicCount != null && <span>{topicCount} topics</span>}
+          {questionCount != null && <span>{questionCount} questions</span>}
+        </span>
+      </span>
+      <span className="subj-arrow">›</span>
+    </button>
   );
 }

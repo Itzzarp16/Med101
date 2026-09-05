@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
+import SubtopicScreen from './components/SubtopicScreen';
 import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
@@ -417,9 +418,12 @@ export default function App() {
   );
   const scopedQuestions = questions.filter((q) => q.term === activeSemesterId);
 
-  // The pool for whatever subject/topic was picked in TopicPicker - this
-  // feeds QuizModeScreen, which decides exact quantity/order from it.
-  const modePool = scopedQuestions.filter((q) => subjectGroup[q.s] === selectedSubject);
+  // The pool for whatever subject/topic was picked in the Subtopic
+  // screen - this feeds QuizModeScreen, which decides exact
+  // quantity/order from it.
+  const modePool = scopedQuestions.filter(
+    (q) => subjectGroup[q.s] === selectedSubject && (!selectedTopic || q.s === selectedTopic)
+  );
 
   return (
     <div>
@@ -492,12 +496,24 @@ export default function App() {
         />
       )}
 
+      {screen === 'subtopic' && (
+        <SubtopicScreen
+          mainSubject={selectedSubject}
+          mainSubjectMeta={scopedMainSubjectMeta}
+          subjectMeta={subjectMeta}
+          subjectGroup={subjectGroup}
+          questions={scopedQuestions}
+          onSelectTopic={(topic) => goTo('mode', { selectedSubject, selectedTopic: topic })}
+          onBack={() => goTo('dashboard')}
+        />
+      )}
+
       {screen === 'dashboard' && (
         <Dashboard
           mainSubjectMeta={scopedMainSubjectMeta}
           subjectGroup={subjectGroup}
           questions={scopedQuestions}
-          onSelectSubject={(name) => goTo('mode', { selectedSubject: name, selectedTopic: null })}
+          onSelectSubject={(name) => goTo('subtopic', { selectedSubject: name, selectedTopic: null })}
           onPracticeTopic={(subject, subtopic) => {
             // Quick-practice shortcut skips mode selection: jumps
             // straight into a Random 25 of that specific weak topic.

@@ -13,25 +13,18 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
   const subjectStats = useMemo(() => {
     const topicsBySubject = {};
     const countsBySubject = {};
-    const subtopicCounts = {}; // { mainSubject: { subtopicName: count } }
     for (const q of questions) {
       const main = subjectGroup[q.s];
       if (!main) continue;
       countsBySubject[main] = (countsBySubject[main] || 0) + 1;
       if (!topicsBySubject[main]) topicsBySubject[main] = new Set();
       topicsBySubject[main].add(q.s);
-      if (!subtopicCounts[main]) subtopicCounts[main] = {};
-      subtopicCounts[main][q.s] = (subtopicCounts[main][q.s] || 0) + 1;
     }
     const result = {};
     for (const main in mainSubjectMeta) {
-      const subtopics = Object.entries(subtopicCounts[main] || {})
-        .map(([name, count]) => ({ name, count }))
-        .sort((a, b) => a.name.localeCompare(b.name));
       result[main] = {
         questionCount: countsBySubject[main] || 0,
         topicCount: topicsBySubject[main] ? topicsBySubject[main].size : 0,
-        subtopics,
       };
     }
     return result;
@@ -60,7 +53,6 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
             desc={meta.desc}
             questionCount={subjectStats[name]?.questionCount}
             topicCount={subjectStats[name]?.topicCount}
-            subtopics={subjectStats[name]?.subtopics}
             onClick={() => onSelectSubject?.(name)}
           />
         ))}
