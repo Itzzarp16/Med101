@@ -36,8 +36,6 @@ export default function SubtopicScreen({ mainSubject, mainSubjectMeta, subjectMe
       <HomeNoticeBanner />
 
       <div className="subj-grid">
-        <SubjectCard emoji="←" name="Back to Subjects" desc="" onClick={onBack} />
-
         <SubjectCard
           emoji={subjectEmoji}
           name={`All ${mainSubject}`}
