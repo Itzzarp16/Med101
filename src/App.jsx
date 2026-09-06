@@ -3,6 +3,7 @@ import { Analytics } from '@vercel/analytics/react';
 import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
 import SubtopicScreen from './components/SubtopicScreen';
+import SlideStack from './components/SlideStack';
 import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
 import LeaderboardScreen from './components/LeaderboardScreen';
@@ -433,6 +434,54 @@ export default function App() {
         <div className="offline-banner">📴 Offline: showing your last saved question set</div>
       )}
 
+      {['subtopic', 'mode', 'quiz'].includes(screen) ? (
+        <SlideStack activeKey={screen}>
+          {screen === 'subtopic' && (
+            <SubtopicScreen
+              mainSubject={selectedSubject}
+              mainSubjectMeta={scopedMainSubjectMeta}
+              subjectMeta={subjectMeta}
+              subjectGroup={subjectGroup}
+              questions={scopedQuestions}
+              onSelectTopic={(topic) => goTo('mode', { selectedSubject, selectedTopic: topic })}
+              onBack={() => goTo('dashboard')}
+            />
+          )}
+          {screen === 'mode' && (
+            <QuizModeScreen
+              pool={modePool}
+              subjectMeta={subjectMeta}
+              subjectName={selectedSubject}
+              emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
+              onStart={(quizQuestions, settings) => {
+                setFinalQuiz({ questions: quizQuestions, ...settings });
+                goTo('quiz');
+              }}
+              onBack={goBack}
+            />
+          )}
+          {screen === 'quiz' && finalQuiz && (
+            <QuizScreen
+              key={quizKey}
+              mainSubject={finalQuiz.roomCode ? finalQuiz.roomMainSubject : selectedSubject}
+              topic={selectedTopic}
+              semesterId={activeSemesterId}
+              questions={finalQuiz.questions}
+              autoAdvance={finalQuiz.autoAdvance}
+              timerSeconds={finalQuiz.timerSeconds}
+              roomCode={finalQuiz.roomCode}
+              totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
+              onExit={goBack}
+              onViewRoomResults={() => goTo('room-results')}
+              onRestartSame={() => setQuizKey((k) => k + 1)}
+              onRetryWrong={(wrongQuestions) => {
+                setFinalQuiz((prev) => ({ ...prev, questions: wrongQuestions }));
+                setQuizKey((k) => k + 1);
+              }}
+            />
+          )}
+        </SlideStack>
+      ) : (
       <div className="screen-fade" key={screen}>
       {screen === 'admin-questions' && isAdmin && (
         <AdminQuestionsScreen
@@ -496,18 +545,6 @@ export default function App() {
         />
       )}
 
-      {screen === 'subtopic' && (
-        <SubtopicScreen
-          mainSubject={selectedSubject}
-          mainSubjectMeta={scopedMainSubjectMeta}
-          subjectMeta={subjectMeta}
-          subjectGroup={subjectGroup}
-          questions={scopedQuestions}
-          onSelectTopic={(topic) => goTo('mode', { selectedSubject, selectedTopic: topic })}
-          onBack={() => goTo('dashboard')}
-        />
-      )}
-
       {screen === 'dashboard' && (
         <Dashboard
           mainSubjectMeta={scopedMainSubjectMeta}
@@ -527,41 +564,6 @@ export default function App() {
             setActiveRoomCode(roomCode);
             setActiveRoomIsHost(false);
             goTo('room-lobby');
-          }}
-        />
-      )}
-
-      {screen === 'mode' && (
-        <QuizModeScreen
-          pool={modePool}
-          subjectMeta={subjectMeta}
-          subjectName={selectedSubject}
-          emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
-          onStart={(quizQuestions, settings) => {
-            setFinalQuiz({ questions: quizQuestions, ...settings });
-            goTo('quiz');
-          }}
-          onBack={goBack}
-        />
-      )}
-
-      {screen === 'quiz' && finalQuiz && (
-        <QuizScreen
-          key={quizKey}
-          mainSubject={finalQuiz.roomCode ? finalQuiz.roomMainSubject : selectedSubject}
-          topic={selectedTopic}
-          semesterId={activeSemesterId}
-          questions={finalQuiz.questions}
-          autoAdvance={finalQuiz.autoAdvance}
-          timerSeconds={finalQuiz.timerSeconds}
-          roomCode={finalQuiz.roomCode}
-          totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
-          onExit={goBack}
-          onViewRoomResults={() => goTo('room-results')}
-          onRestartSame={() => setQuizKey((k) => k + 1)}
-          onRetryWrong={(wrongQuestions) => {
-            setFinalQuiz((prev) => ({ ...prev, questions: wrongQuestions }));
-            setQuizKey((k) => k + 1);
           }}
         />
       )}
@@ -616,6 +618,7 @@ export default function App() {
         />
       )}
       </div>
+      )}
       <Analytics />
     </div>
   );

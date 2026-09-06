@@ -955,3 +955,48 @@ h1, h2, .display {
     animation: none;
   }
 }
+
+/* Synchronized swipe transition for the Subtopic -> Quiz Mode -> Quiz
+   flow - see SlideStack.jsx. Both panes sit in a flex track; while
+   transitioning the track is 200% wide (each pane 50% = 100% of the
+   viewport) and slides left by half its own width, revealing the
+   incoming pane while the outgoing one exits together with it. */
+.slide-stack {
+  overflow: hidden;
+  position: relative;
+}
+
+.slide-track {
+  display: flex;
+  width: 100%;
+}
+
+.slide-track.slide-track-transitioning {
+  width: 200%;
+  animation: slide-track-move 0.48s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+.slide-pane {
+  flex: 0 0 100%;
+  min-width: 0;
+}
+
+.slide-track.slide-track-transitioning .slide-pane {
+  flex: 0 0 50%;
+}
+
+@keyframes slide-track-move {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-track.slide-track-transitioning {
+    animation: none;
+    transform: translateX(-50%);
+  }
+}
