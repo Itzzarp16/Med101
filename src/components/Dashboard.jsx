@@ -53,6 +53,7 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
             desc={meta.desc}
             questionCount={subjectStats[name]?.questionCount}
             topicCount={subjectStats[name]?.topicCount}
+            trace
             onClick={() => onSelectSubject?.(name)}
           />
         ))}
