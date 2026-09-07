@@ -434,8 +434,30 @@ export default function App() {
         <div className="offline-banner">📴 Offline: showing your last saved question set</div>
       )}
 
-      {['subtopic', 'mode', 'quiz'].includes(screen) ? (
+      {['dashboard', 'subtopic', 'mode', 'quiz'].includes(screen) ? (
         <SlideStack activeKey={screen}>
+          {screen === 'dashboard' && (
+            <Dashboard
+              mainSubjectMeta={scopedMainSubjectMeta}
+              subjectGroup={subjectGroup}
+              questions={scopedQuestions}
+              onSelectSubject={(name) => goTo('subtopic', { selectedSubject: name, selectedTopic: null })}
+              onPracticeTopic={(subject, subtopic) => {
+                // Quick-practice shortcut skips mode selection: jumps
+                // straight into a Random 25 of that specific weak topic.
+                const pool = scopedQuestions.filter((q) => q.s === subtopic);
+                const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
+                setFinalQuiz({ questions: shuffledPool, autoAdvance: true, timerSeconds: null });
+                goTo('quiz', { selectedSubject: subject, selectedTopic: subtopic });
+              }}
+              onAcceptInvite={async (roomCode) => {
+                await joinRoom(roomCode, user.uid, user.displayName || user.email);
+                setActiveRoomCode(roomCode);
+                setActiveRoomIsHost(false);
+                goTo('room-lobby');
+              }}
+            />
+          )}
           {screen === 'subtopic' && (
             <SubtopicScreen
               mainSubject={selectedSubject}
@@ -542,29 +564,6 @@ export default function App() {
             goTo('quiz');
           }}
           onBack={goBack}
-        />
-      )}
-
-      {screen === 'dashboard' && (
-        <Dashboard
-          mainSubjectMeta={scopedMainSubjectMeta}
-          subjectGroup={subjectGroup}
-          questions={scopedQuestions}
-          onSelectSubject={(name) => goTo('subtopic', { selectedSubject: name, selectedTopic: null })}
-          onPracticeTopic={(subject, subtopic) => {
-            // Quick-practice shortcut skips mode selection: jumps
-            // straight into a Random 25 of that specific weak topic.
-            const pool = scopedQuestions.filter((q) => q.s === subtopic);
-            const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
-            setFinalQuiz({ questions: shuffledPool, autoAdvance: true, timerSeconds: null });
-            goTo('quiz', { selectedSubject: subject, selectedTopic: subtopic });
-          }}
-          onAcceptInvite={async (roomCode) => {
-            await joinRoom(roomCode, user.uid, user.displayName || user.email);
-            setActiveRoomCode(roomCode);
-            setActiveRoomIsHost(false);
-            goTo('room-lobby');
-          }}
         />
       )}
 
