@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
-import { fetchHomeNotice } from '../lib/homeNotice';
+import { fetchHomeNotice, loadCachedHomeNotice, saveCachedHomeNotice } from '../lib/homeNotice';
 import { playTapSound } from '../lib/sounds';
 import './HomeNoticeBanner.css';
 
 export default function HomeNoticeBanner() {
-  const [notice, setNotice] = useState(null);
+  const [notice, setNotice] = useState(() => loadCachedHomeNotice());
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
     fetchHomeNotice().then((n) => {
-      if (!cancelled) setNotice(n);
+      if (cancelled) return;
+      setNotice(n);
+      saveCachedHomeNotice(n);
     });
     return () => { cancelled = true; };
   }, []);
