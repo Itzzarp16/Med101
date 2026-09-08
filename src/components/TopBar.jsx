@@ -10,7 +10,7 @@ import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence'
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
-export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onFriends, onProfile, onWeakTopics, onWrongFlagged, onHistory, onSearch, onAdminQuestions, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics, onViewUser, screen }) {
+export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onFriends, onProfile, onWeakTopics, onWrongFlagged, onHistory, onSearch, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics, onViewUser, screen }) {
   const { user, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [onlineCount, setOnlineCount] = useState(null);
@@ -146,7 +146,6 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
             {isAdmin && (
               <>
                 <div className="menu-section-label">For Admin Only</div>
-                <button className="menu-item admin" onClick={() => go(onAdminQuestions)}>📝 Manage Questions</button>
                 <button className="menu-item admin" onClick={() => go(onAdminNotice)}>📢 Home Notice</button>
                 <button className="menu-item admin" onClick={() => go(onAdminCalendar)}>⚙️ Academic Calendar</button>
                 <button className="menu-item admin" onClick={() => go(onAdminUserDetail)}>🔍 View User Detail</button>

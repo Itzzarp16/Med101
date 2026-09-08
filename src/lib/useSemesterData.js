@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { fetchFirestoreQuestions, fetchMigratedSubjects } from './questionsService';
 
 // Mirrors the old site's loadSemesterData(): fetches semester JSON files,
 // merges their subject metadata, and exposes everything the dashboard
@@ -12,71 +11,6 @@ const SEMESTER_MANIFEST = [
 ];
 
 const CACHE_PREFIX = 'med101_semester_cache_';
-
-// Which subjects are migrated to Firestore only changes when the admin
-// migrates one - checking it fresh on *every single page load, for
-// every student* (one Firestore query per candidate subject) is pure
-// overhead. localStorage (not sessionStorage) so this is shared across
-// every open tab, not re-paid per tab - important during testing with
-// many tabs open at once, and still picks up admin changes quickly
-// (worst case: a few minutes stale, then self-corrects).
-const MIGRATED_CACHE_PREFIX = 'med101_migrated_cache_';
-const MIGRATED_CACHE_TTL_MS = 3 * 60 * 1000;
-
-function loadMigratedCache(semesterId) {
-  try {
-    const raw = localStorage.getItem(MIGRATED_CACHE_PREFIX + semesterId);
-    if (!raw) return null;
-    const { ts, subjects } = JSON.parse(raw);
-    if (Date.now() - ts > MIGRATED_CACHE_TTL_MS) return null;
-    return new Set(subjects);
-  } catch {
-    return null;
-  }
-}
-
-function saveMigratedCache(semesterId, migratedSet) {
-  try {
-    localStorage.setItem(
-      MIGRATED_CACHE_PREFIX + semesterId,
-      JSON.stringify({ ts: Date.now(), subjects: [...migratedSet] })
-    );
-  } catch {
-    // localStorage unavailable/full - just means this load skips the
-    // cache benefit, nothing breaks.
-  }
-}
-
-// The actual migrated question CONTENT (not just which subjects are
-// migrated) is the expensive part - one read per question, every cold
-// load, every tab. Same localStorage + short-TTL treatment: a repeat
-// load within the window reuses it instead of re-downloading every
-// question again.
-const QUESTIONS_CACHE_PREFIX = 'med101_migrated_questions_cache_';
-const QUESTIONS_CACHE_TTL_MS = 3 * 60 * 1000;
-
-function loadQuestionsCache(semesterId, subject) {
-  try {
-    const raw = localStorage.getItem(QUESTIONS_CACHE_PREFIX + semesterId + '_' + subject);
-    if (!raw) return null;
-    const { ts, docs } = JSON.parse(raw);
-    if (Date.now() - ts > QUESTIONS_CACHE_TTL_MS) return null;
-    return docs;
-  } catch {
-    return null;
-  }
-}
-
-function saveQuestionsCache(semesterId, subject, docs) {
-  try {
-    localStorage.setItem(
-      QUESTIONS_CACHE_PREFIX + semesterId + '_' + subject,
-      JSON.stringify({ ts: Date.now(), docs })
-    );
-  } catch {
-    // Storage full/unavailable - just skips the cache benefit.
-  }
-}
 
 function loadFromCache(semesterId) {
   try {
@@ -96,6 +30,11 @@ function saveToCache(semesterId, data) {
   }
 }
 
+// Questions are served entirely from the static JSON files above - no
+// Firestore reads happen here. (The old "migrated subjects" system that
+// let admin live-edit questions in Firestore has been removed to cut
+// down on read/write usage; questions are edited by updating the JSON
+// files and redeploying.)
 export function useSemesterData() {
   const [state, setState] = useState({
     loading: true,
@@ -154,56 +93,6 @@ export function useSemesterData() {
           emoji: data.emoji,
           accent: data.accent,
         });
-
-        // For any subject that's been migrated to Firestore, that
-        // becomes the source of truth - replace the JSON questions
-        // for that subject with the live Firestore ones, so admin
-        // edits/adds/deletes show up without a redeploy. Firestore's
-        // own offline persistence (see firebase.js) keeps this working
-        // without a network too, once it's been read at least once.
-        try {
-          const candidates = Object.keys(data.mainSubjectMeta || {});
-          if (candidates.length > 0) {
-            let migrated = loadMigratedCache(data.id);
-            if (!migrated) {
-              migrated = await fetchMigratedSubjects(data.id, candidates);
-              saveMigratedCache(data.id, migrated);
-            }
-
-            const migratedList = [...migrated];
-            // Fire all migrated subjects' question fetches at once
-            // instead of one-at-a-time - was previously a sequential
-            // await-in-a-loop, so N subjects meant N full round trips
-            // stacked back to back. Cache-check each one first so a
-            // repeat load within the TTL window costs zero reads.
-            const liveResultsBySubject = await Promise.all(
-              migratedList.map(async (subj) => {
-                const cached = loadQuestionsCache(data.id, subj);
-                if (cached) return cached;
-                const fresh = await fetchFirestoreQuestions(data.id, subj);
-                saveQuestionsCache(data.id, subj, fresh);
-                return fresh;
-              })
-            );
-
-            migratedList.forEach((subj, i) => {
-              questions = questions.filter(
-                (q) => !(q.term === data.id && subjectGroup[q.s] === subj)
-              );
-              const asQuizShape = liveResultsBySubject[i].map((doc) => ({
-                s: doc.subtopic,
-                q: doc.q,
-                o: doc.o,
-                c: doc.c,
-                term: data.id,
-                firestoreId: doc.id,
-              }));
-              questions = questions.concat(asQuizShape);
-            });
-          }
-        } catch (err) {
-          console.warn('Could not check/merge migrated subjects for', data.id, err);
-        }
       }
 
       if (!cancelled) {

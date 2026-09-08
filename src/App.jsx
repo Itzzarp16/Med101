@@ -13,7 +13,6 @@ import RoomLobbyScreen from './components/RoomLobbyScreen';
 import RoomResultsScreen from './components/RoomResultsScreen';
 import AdminCalendarScreen from './components/AdminCalendarScreen';
 import AdminNoticeScreen from './components/AdminNoticeScreen';
-import AdminQuestionsScreen from './components/AdminQuestionsScreen';
 import SettingsScreen from './components/SettingsScreen';
 import ProfileScreen from './components/ProfileScreen';
 import WeakTopicsScreen from './components/WeakTopicsScreen';
@@ -269,7 +268,6 @@ export default function App() {
     onAdminUserDetail: () => { setViewUserUid(null); goTo('admin-user-detail'); },
     onViewUser: (uid) => { setViewUserUid(uid); goTo('admin-user-detail'); },
     onAdminAnalytics: () => goTo('admin-analytics'),
-    onAdminQuestions: () => goTo('admin-questions'),
     onAdminNotice: () => goTo('admin-notice'),
     onAdminCalendar: () => goTo('admin-calendar'),
     screen,
@@ -505,16 +503,6 @@ export default function App() {
         </SlideStack>
       ) : (
       <div className="screen-fade" key={screen}>
-      {screen === 'admin-questions' && isAdmin && (
-        <AdminQuestionsScreen
-          semesterId={activeSemesterId}
-          mainSubjectMeta={scopedMainSubjectMeta}
-          subjectGroup={subjectGroup}
-          jsonQuestions={scopedQuestions}
-          onBack={goBack}
-        />
-      )}
-
       {screen === 'weak-topics' && (
         <WeakTopicsScreen
           onPracticeTopic={(subject, subtopic) => {
