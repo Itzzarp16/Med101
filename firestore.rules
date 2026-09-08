@@ -12,7 +12,7 @@ service cloud.firestore {
     // can look up/manage other students later.
     function isAdmin() {
       return request.auth != null &&
-             request.auth.token.email == 'abhishekpatel9324@gmail.com';
+             request.auth.token.email in ['admin.med101@gmail.com', 'admin1.med101@gmail.com'];
     }
 
     match /users/{uid} {
