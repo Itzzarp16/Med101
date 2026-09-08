@@ -9,8 +9,8 @@ import {
 import { doc, getDoc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
-// Must exactly match the email your Firestore isAdmin() security rule checks.
-const ADMIN_EMAIL = 'abhishekpatel9324@gmail.com';
+// Must exactly match the emails your Firestore isAdmin() security rule checks.
+const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com'];
 
 const AuthContext = createContext(null);
 
@@ -72,7 +72,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       if (u) {
-        if (u.email !== ADMIN_EMAIL) {
+        if (!ADMIN_EMAILS.includes(u.email)) {
           if (deviceClaimPendingRef.current === u.uid) {
             deviceClaimPendingRef.current = null;
           } else {
@@ -139,7 +139,7 @@ export function AuthProvider({ children }) {
 
   async function signIn(email, password) {
     const cred = await signInWithEmailAndPassword(auth, email, password);
-    if (cred.user.email !== ADMIN_EMAIL) {
+    if (!ADMIN_EMAILS.includes(cred.user.email)) {
       deviceClaimPendingRef.current = cred.user.uid;
       await claimDevice(cred.user.uid);
     }
@@ -160,7 +160,7 @@ export function AuthProvider({ children }) {
       },
       { merge: true }
     );
-    if (cred.user.email !== ADMIN_EMAIL) {
+    if (!ADMIN_EMAILS.includes(cred.user.email)) {
       deviceClaimPendingRef.current = cred.user.uid;
       await claimDevice(cred.user.uid);
     }
@@ -171,7 +171,7 @@ export function AuthProvider({ children }) {
     await signOut(auth);
   }
 
-  const isAdmin = !!user && user.email === ADMIN_EMAIL;
+  const isAdmin = !!user && ADMIN_EMAILS.includes(user.email);
 
   return (
     <AuthContext.Provider
