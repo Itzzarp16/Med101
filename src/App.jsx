@@ -230,6 +230,7 @@ export default function App() {
       <div className="app-loading-screen">
         <div className="app-loading-logo-stack">
           <div className="app-loading-logo">Med101</div>
+          <div className="app-loading-signature">by Vijay Yadav</div>
         </div>
         <div className="app-loading-bar-row">
           <span className="app-loading-play">▶</span>
@@ -352,6 +353,7 @@ export default function App() {
       <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
         <div ref={logoStackRef} className="app-loading-logo-stack" style={logoFlyStyle || undefined}>
           <div className="app-loading-logo">Med101</div>
+          <div className="app-loading-signature">by Vijay Yadav</div>
         </div>
         <div className="app-loading-bar-row">
           <span className="app-loading-play">▶</span>

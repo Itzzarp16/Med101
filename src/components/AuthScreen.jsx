@@ -199,7 +199,7 @@ export default function AuthScreen() {
         </form>
 
         <div className="auth-powered">
-          Made by <span>Abhishek Verma</span>
+          by <span>Vijay Yadav</span>
         </div>
       </div>
     </div>
