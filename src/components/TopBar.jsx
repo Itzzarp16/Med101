@@ -71,7 +71,6 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
           onClick={() => { playTapSound(); onHome?.(); }}
         >
           <span className="topbar-logo">Med101</span>
-          <div className="topbar-signature">by Abhishek Verma</div>
         </button>
       </div>
 
