@@ -5,6 +5,7 @@ import { useAuth } from '../lib/AuthContext';
 import { playTapSound, isMuted, setMuted } from '../lib/sounds';
 import { isLightMode, setTheme } from '../lib/theme';
 import { isInstallable, isStandalone, isIOS, onInstallabilityChange, promptInstall } from '../lib/installPrompt';
+import LegalFooter from './LegalFooter';
 
 // Same options as the signup dropdown - kept in sync there manually
 // since there are only a handful of semesters right now.
@@ -145,6 +146,8 @@ export default function SettingsScreen({ onBack }) {
 
         {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Your dashboard will update shortly.</div>}
       </div>
+
+      <LegalFooter />
     </div>
   );
 }

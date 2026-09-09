@@ -3,6 +3,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import { usernameFormatError, checkUsernameAvailable, normalize } from '../lib/profile';
+import LegalFooter from './LegalFooter';
 import './AuthScreen.css';
 
 // Matches the old site's #auth-screen exactly (same order): icon,
@@ -337,6 +338,7 @@ export default function AuthScreen() {
         <div className="auth-powered">
           by <span>Vijay Yadav</span>
         </div>
+        <LegalFooter />
       </div>
     </div>
   );

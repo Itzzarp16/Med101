@@ -1,0 +1,19 @@
+.legal-footer {
+  text-align: center;
+  padding: 14px 0 4px;
+  font-size: 12px;
+}
+
+.legal-footer a {
+  color: var(--text3);
+  text-decoration: none;
+}
+.legal-footer a:hover {
+  color: var(--cyan);
+  text-decoration: underline;
+}
+
+.legal-footer-dot {
+  color: var(--text3);
+  margin: 0 8px;
+}

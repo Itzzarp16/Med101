@@ -4,6 +4,7 @@ import './styles/tokens.css'
 import App from './App.jsx'
 import AdminPortal from './components/AdminPortal.jsx'
 import PrivacyPolicy from './components/PrivacyPolicy.jsx'
+import TermsAndConditions from './components/TermsAndConditions.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -16,6 +17,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 const path = window.location.pathname.replace(/\/+$/, '');
 const isAdminRoute = path === '/admin';
 const isPrivacyRoute = path === '/privacy-policy';
+const isTermsRoute = path === '/terms';
 
 initTheme();
 
@@ -58,6 +60,8 @@ createRoot(document.getElementById('root')).render(
     <ErrorBoundary>
       {isPrivacyRoute ? (
         <PrivacyPolicy />
+      ) : isTermsRoute ? (
+        <TermsAndConditions />
       ) : (
         <AuthProvider>
           {isAdminRoute ? <AdminPortal /> : <App />}
