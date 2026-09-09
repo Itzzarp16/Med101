@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import SubjectCard from './SubjectCard';
 import HomeNoticeBanner from './HomeNoticeBanner';
 import PendingInvites from './PendingInvites';
+import LegalFooter from './LegalFooter';
 import './Dashboard.css';
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
@@ -46,6 +47,7 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
           />
         ))}
       </div>
+      <LegalFooter />
     </div>
   );
 }
