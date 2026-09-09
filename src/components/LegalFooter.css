@@ -1,19 +1,43 @@
 .legal-footer {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  background: #0a0f22;
+  color: #b8c2e0;
   text-align: center;
-  padding: 14px 0 4px;
-  font-size: 12px;
+  padding: 22px 20px 26px;
+  font-size: 13px;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.legal-footer-copyright {
+  color: #e4e9ff;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.legal-footer-tagline {
+  margin-top: 4px;
+  color: #8b96b8;
+}
+
+.legal-footer-links {
+  margin-top: 12px;
 }
 
 .legal-footer a {
-  color: var(--text3);
-  text-decoration: none;
+  color: #b8c2e0;
+  text-decoration: underline;
 }
 .legal-footer a:hover {
-  color: var(--cyan);
-  text-decoration: underline;
+  color: #7dd3fc;
 }
 
 .legal-footer-dot {
-  color: var(--text3);
-  margin: 0 8px;
+  color: #5a6488;
+  margin: 0 10px;
 }

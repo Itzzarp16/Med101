@@ -1,7 +1,7 @@
 import './LegalPage.css';
 
-// Public, no-auth route (see main.jsx) - same reasoning as
-// PrivacyPolicy: needs to be reachable without signing in.
+// Public, no-auth route (see main.jsx) - needs to be reachable
+// without signing in.
 export default function TermsAndConditions() {
   return (
     <div className="legal-page">
@@ -39,22 +39,7 @@ export default function TermsAndConditions() {
           <li>You're responsible for all activity that happens under your account.</li>
         </ul>
 
-        <h2>4. Subscriptions &amp; Payments</h2>
-        <ul>
-          <li>Some content and features require a paid subscription. Payments are processed securely by Razorpay - Med101 does not collect or store your card, UPI, or other payment details.</li>
-          <li>A subscription grants access to premium content for the period you've paid for.</li>
-          <li>Prices may change; any change will apply to future billing periods, not one you've already paid for.</li>
-          <li>If a payment fails or a subscription lapses, premium access may be paused until it's renewed.</li>
-        </ul>
-
-        <h2>5. Cancellations &amp; Refunds</h2>
-        <ul>
-          <li>You may cancel a subscription at any time; cancellation stops future renewal but does not refund the current billing period already paid for.</li>
-          <li>If you believe you were charged in error (e.g. a duplicate or failed transaction that was still charged), contact us at the email below and we'll look into it.</li>
-          <li>Refunds, where granted, are returned to the original payment method via Razorpay and may take several business days to reflect.</li>
-        </ul>
-
-        <h2>6. Content &amp; Intellectual Property</h2>
+        <h2>4. Content &amp; Intellectual Property</h2>
         <p>
           Quiz questions, explanations, notices, and other material on
           Med101 belong to Med101 or its licensors. You may use them for
@@ -63,7 +48,7 @@ export default function TermsAndConditions() {
           platform to build another product).
         </p>
 
-        <h2>7. Acceptable Use</h2>
+        <h2>5. Acceptable Use</h2>
         <p>You agree not to:</p>
         <ul>
           <li>Share your account/login with others</li>
@@ -73,7 +58,7 @@ export default function TermsAndConditions() {
           <li>Use Med101 in any way that disrupts the platform or other users</li>
         </ul>
 
-        <h2>8. Disclaimer of Warranties</h2>
+        <h2>6. Disclaimer of Warranties</h2>
         <p>
           Med101 is provided "as is." We don't guarantee that content is
           error-free, complete, or sufficient on its own to pass any
@@ -81,33 +66,32 @@ export default function TermsAndConditions() {
           results depend on many factors outside our control.
         </p>
 
-        <h2>9. Limitation of Liability</h2>
+        <h2>7. Limitation of Liability</h2>
         <p>
           To the maximum extent permitted by law, Med101 is not liable for
           indirect, incidental, or consequential damages arising from your
           use of the platform, including academic outcomes.
         </p>
 
-        <h2>10. Termination</h2>
+        <h2>8. Termination</h2>
         <p>
           We may suspend or terminate an account that violates these
           Terms, including sharing login credentials or attempting to
           circumvent the single-device restriction.
         </p>
 
-        <h2>11. Changes to These Terms</h2>
+        <h2>9. Changes to These Terms</h2>
         <p>
           We may update these Terms from time to time. Changes will be
           posted on this page with an updated "Last updated" date.
         </p>
 
-        <h2>12. Governing Law</h2>
+        <h2>10. Governing Law</h2>
         <p>These Terms are governed by the laws of India.</p>
 
-        <h2>13. Contact Us</h2>
+        <h2>11. Contact Us</h2>
         <p>
-          Questions about these Terms, billing, or your account can be
-          sent to:{' '}
+          Questions about these Terms or your account can be sent to:{' '}
           <a href="mailto:admin.med101@gmail.com">admin.med101@gmail.com</a>
         </p>
       </div>

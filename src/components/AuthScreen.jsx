@@ -187,6 +187,7 @@ export default function AuthScreen() {
 
   return (
     <div id="auth-screen">
+      <div className="auth-center">
       <div className="auth-card">
         <div className="auth-icon">👨‍⚕️</div>
         <div className="auth-title">{mode === 'signin' ? 'Welcome Back' : 'Create Account'}</div>
@@ -338,8 +339,9 @@ export default function AuthScreen() {
         <div className="auth-powered">
           by <span>Vijay Yadav</span>
         </div>
-        <LegalFooter />
       </div>
+      </div>
+      <LegalFooter />
     </div>
   );
 }

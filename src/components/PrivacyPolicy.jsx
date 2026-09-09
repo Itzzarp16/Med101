@@ -1,7 +1,7 @@
 import './LegalPage.css';
 
-// Public, no-auth route (see main.jsx) - Razorpay's onboarding review
-// needs a real, reachable URL, not a page hidden behind sign-in.
+// Public, no-auth route (see main.jsx) - needs to be reachable
+// without signing in.
 export default function PrivacyPolicy() {
   return (
     <div className="legal-page">
@@ -32,23 +32,10 @@ export default function PrivacyPolicy() {
           <li>Basic technical data such as browser type, generated as part of normal website operation</li>
         </ul>
 
-        <h3>c) Payment information</h3>
-        <p>
-          If you purchase a subscription for premium content or features,
-          payment is processed by Razorpay. We do not collect or store
-          your card, UPI, or other payment instrument details ourselves -
-          Razorpay handles this directly, under its own privacy and
-          security practices. We receive only confirmation that a payment
-          was made, the plan purchased, and transaction/order identifiers
-          needed to activate your subscription and handle support
-          requests.
-        </p>
-
         <h2>2. How We Use Your Information</h2>
         <ul>
           <li>To create and maintain your account</li>
           <li>To provide quiz content, track your progress, and show leaderboards</li>
-          <li>To activate and manage paid subscriptions</li>
           <li>To enforce one active device/session per account</li>
           <li>To communicate with you about your account or support requests</li>
           <li>To maintain the security and integrity of the platform</li>
@@ -59,7 +46,6 @@ export default function PrivacyPolicy() {
         <p>We share information only with the service providers that power Med101, and only as needed for them to provide that service:</p>
         <ul>
           <li><strong>Firebase (Google Cloud)</strong> - hosts our database and authentication</li>
-          <li><strong>Razorpay</strong> - processes payments for subscriptions</li>
           <li><strong>Vercel</strong> - hosts our website</li>
         </ul>
         <p>We do not share your data with advertisers, and we do not use third-party advertising or tracking cookies.</p>
