@@ -11,9 +11,32 @@ initTheme();
 // Register the service worker so the browser will actually offer
 // "Add to Home Screen" / install (Chrome requires one to be present,
 // even though it doesn't cache anything - see public/sw.js).
+//
+// It also doubles as our "new version deployed" signal: every time the
+// browser fetches a changed sw.js, the new worker skips waiting and
+// takes control (see public/sw.js), firing 'controllerchange' below -
+// at which point we reload so the user gets the new build automatically
+// instead of needing a manual hard refresh. We also poll for updates
+// periodically so a tab left open for a while still picks up a new
+// deploy, not just ones caught on next navigation.
 if ('serviceWorker' in navigator) {
+  // If there's already a controller, this page was previously served by
+  // an older service worker - a controllerchange from here on means a
+  // newer one just took over, i.e. a real update. On a brand-new
+  // visitor's first-ever load there's no controller yet, so we skip the
+  // reload then (that initial claim isn't an "update").
+  const hadController = !!navigator.serviceWorker.controller;
+  let refreshing = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (!hadController || refreshing) return;
+    refreshing = true;
+    window.location.reload();
+  });
+
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').catch((err) => {
+    navigator.serviceWorker.register('/sw.js').then((registration) => {
+      setInterval(() => registration.update(), 60 * 1000);
+    }).catch((err) => {
       console.warn('Service worker registration failed:', err);
     });
   });
