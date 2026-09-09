@@ -113,7 +113,7 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
         <p className="std-sub">Look up a student by their unique username.</p>
       </div>
 
-      {!initialUid && (
+      {!initialUid && !result && (
         <div className="glass std-card">
           <div style={{ display: 'flex', gap: 8 }}>
             <input
@@ -141,7 +141,7 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
         </div>
       )}
 
-      {!initialUid && allUsers && (
+      {!initialUid && !result && allUsers && (
         <div className="glass std-card" style={{ marginTop: 14 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="auth-label" style={{ margin: 0 }}>{allUsers.length} students signed up</div>
@@ -182,6 +182,15 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
 
       {result && (
         <div className="glass std-card" style={{ marginTop: 14 }}>
+          {!initialUid && (
+            <button
+              className="btn-ghost"
+              style={{ marginBottom: 12, padding: '6px 12px', fontSize: 12.5 }}
+              onClick={() => { playTapSound(); setResult(null); }}
+            >
+              ← {allUsers ? 'Back to list' : 'Back to search'}
+            </button>
+          )}
           <div style={{ fontWeight: 800, fontSize: 16, color: 'var(--text)' }}>{result.displayName || '(no name)'}</div>
           <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{result.username ? `@${result.username} · ` : ''}{result.email}</div>
           <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6 }}>
