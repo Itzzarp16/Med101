@@ -3,6 +3,17 @@ import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { lookupUsername } from '../lib/invites';
 import { playTapSound } from '../lib/sounds';
+import { formatDuration } from '../lib/timeTracking';
+
+function formatJoinDate(ts) {
+  if (!ts) return null;
+  try {
+    const d = typeof ts.toDate === 'function' ? ts.toDate() : new Date(ts);
+    return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  } catch {
+    return null;
+  }
+}
 
 function buildResult(uid, username, data) {
   const topicStats = data.topicStats || {};
@@ -195,6 +206,12 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
           <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{result.username ? `@${result.username} · ` : ''}{result.email}</div>
           <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6 }}>
             Enrolled: <strong>{result.enrolledYearSemester || '-'}</strong>
+          </div>
+          <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 2 }}>
+            Joined: <strong>{formatJoinDate(result.enrolledAt) || 'Unknown'}</strong>
+          </div>
+          <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 2 }}>
+            Time spent on site: <strong>{formatDuration(result.totalTimeMs)}</strong>
           </div>
 
           {result.weakest.length > 0 && (

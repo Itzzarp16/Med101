@@ -8,6 +8,7 @@ import {
 } from 'firebase/auth';
 import { doc, getDoc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
+import { startTimeTracking } from './timeTracking';
 
 // Must exactly match the emails your Firestore isAdmin() security rule checks.
 const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com'];
@@ -136,6 +137,15 @@ export function AuthProvider({ children }) {
     });
     return () => unsub();
   }, []);
+
+  // Tracks how long this student has the app open in the foreground -
+  // see timeTracking.js. Runs for the whole signed-in session and
+  // restarts cleanly if the user changes (sign-out then a different
+  // sign-in), since it's keyed on user?.uid.
+  useEffect(() => {
+    if (!user?.uid) return;
+    return startTimeTracking(user.uid);
+  }, [user?.uid]);
 
   async function signIn(email, password) {
     const cred = await signInWithEmailAndPassword(auth, email, password);
