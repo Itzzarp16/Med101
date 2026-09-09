@@ -193,11 +193,28 @@ export function AuthProvider({ children }) {
     if (username) {
       try {
         // A Firestore write immediately after account creation can be
-        // rejected with "permission-denied" if the client hasn't yet
-        // picked up the freshly-minted ID token - force a refresh
-        // first so this definitely carries valid auth.
+        // rejected with "permission-denied" - not because the write is
+        // wrong, but because Firestore's own internal auth-credential
+        // listener (separate from onAuthStateChanged, and not always
+        // caught up by a single getIdToken(true)) can lag a few
+        // hundred ms behind the account actually existing. Retry a
+        // few times with backoff before giving up - this is a known
+        // Firebase quirk, not a rules problem (the same call from
+        // Settings, well after sign-in has settled, works fine).
         await cred.user.getIdToken(true);
-        await claimUsername(cred.user, username);
+        let attempt = 0;
+        for (;;) {
+          try {
+            await claimUsername(cred.user, username);
+            break;
+          } catch (e) {
+            const isPermissionIssue = e.code === 'permission-denied' || /permission/i.test(e.message || '');
+            attempt += 1;
+            if (!isPermissionIssue || attempt >= 4) throw e;
+            await new Promise((r) => setTimeout(r, 300 * attempt));
+            await cred.user.getIdToken(true);
+          }
+        }
       } catch (e) {
         // Don't fail the whole signup over a username collision/glitch
         // - the account is real either way. Reported back separately
