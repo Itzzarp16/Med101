@@ -46,6 +46,7 @@ export default function AuthScreen() {
   // feedback on step 1, so a taken name gets caught and can be fixed
   // right there instead of only surfacing after the account exists.
   const [usernameStatus, setUsernameStatus] = useState('idle');
+  const [usernameCheckError, setUsernameCheckError] = useState(null);
   const [yearSemester, setYearSemester] = useState(YEAR_SEMESTER_OPTIONS[0].value);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -82,12 +83,18 @@ export default function AuthScreen() {
     }
     let active = true;
     setUsernameStatus('checking');
+    setUsernameCheckError(null);
     const timer = setTimeout(async () => {
       try {
-        const available = await checkUsernameAvailable(username);
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('timed-out')), 8000));
+        const available = await Promise.race([checkUsernameAvailable(username), timeout]);
         if (active) setUsernameStatus(available ? 'available' : 'taken');
-      } catch {
-        if (active) setUsernameStatus('error'); // network hiccup - don't block on it, just don't confirm either
+      } catch (e) {
+        console.warn('Username availability check failed:', e);
+        if (active) {
+          setUsernameStatus('error');
+          setUsernameCheckError(e.code || e.message || String(e));
+        }
       }
     }, 450);
     return () => { active = false; clearTimeout(timer); };
@@ -231,6 +238,11 @@ export default function AuthScreen() {
               )}
               {usernameStatus === 'taken' && (
                 <div style={{ fontSize: 12, color: 'var(--red)', marginTop: 4 }}>✗ Already taken - try another</div>
+              )}
+              {usernameStatus === 'error' && (
+                <div style={{ fontSize: 12, color: 'var(--amber)', marginTop: 4 }}>
+                  Couldn't verify right now{usernameCheckError ? ` (${usernameCheckError})` : ''} - we'll confirm it right after you sign up.
+                </div>
               )}
             </div>
 
