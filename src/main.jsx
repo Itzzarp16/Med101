@@ -3,15 +3,19 @@ import { createRoot } from 'react-dom/client'
 import './styles/tokens.css'
 import App from './App.jsx'
 import AdminPortal from './components/AdminPortal.jsx'
+import PrivacyPolicy from './components/PrivacyPolicy.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
 import ErrorBoundary from './components/ErrorBoundary'
 
 // App.jsx's own navigation (screen state + pushState) never changes
 // the URL path - the whole student SPA lives at "/". So a real path
-// check here is all it takes to give /admin its own dedicated page,
-// without touching that existing navigation system at all.
-const isAdminRoute = window.location.pathname.replace(/\/+$/, '') === '/admin';
+// check here is all it takes to give /admin (and other static routes)
+// their own dedicated page, without touching that existing navigation
+// system at all.
+const path = window.location.pathname.replace(/\/+$/, '');
+const isAdminRoute = path === '/admin';
+const isPrivacyRoute = path === '/privacy-policy';
 
 initTheme();
 
@@ -52,9 +56,13 @@ if ('serviceWorker' in navigator) {
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ErrorBoundary>
-      <AuthProvider>
-        {isAdminRoute ? <AdminPortal /> : <App />}
-      </AuthProvider>
+      {isPrivacyRoute ? (
+        <PrivacyPolicy />
+      ) : (
+        <AuthProvider>
+          {isAdminRoute ? <AdminPortal /> : <App />}
+        </AuthProvider>
+      )}
     </ErrorBoundary>
   </StrictMode>,
 )
