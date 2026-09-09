@@ -8,8 +8,10 @@ service cloud.firestore {
     // on - without this rule, claimDevice()/verifyDevice() silently
     // fail (fails open) and the lock does nothing.
     //
-    // The admin account gets broader read access so an admin panel
-    // can look up/manage other students later.
+    // Admin gets full read/write here too - needed for the "View All
+    // Users" list, disabling an account, and account deletion (which
+    // overwrites this doc rather than removing it - see
+    // adminAccountActions.js for why).
     function isAdmin() {
       return request.auth != null &&
              request.auth.token.email in ['admin.med101@gmail.com', 'admin1.med101@gmail.com'];
@@ -17,39 +19,46 @@ service cloud.firestore {
 
     match /users/{uid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
-      allow read: if isAdmin();
+      allow read, write: if isAdmin();
     }
 
     // ── users/{uid}/quizHistory/{entryId} ──────────────────────
     // A student's own quiz history - only they (or admin) can read
-    // or write it.
+    // or write it. Admin write is used only to delete these when an
+    // account is deleted.
     match /users/{uid}/quizHistory/{entryId} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
-      allow read: if isAdmin();
+      allow read, write: if isAdmin();
     }
 
     // ── users/{uid}/friends/{friendUid} ──────────────────────────
     // A student's own friends/watchlist — one-directional (adding
-    // someone doesn't touch their data), so purely self-owned.
+    // someone doesn't touch their data), so purely self-owned. Admin
+    // write is used only to delete these when an account is deleted.
     match /users/{uid}/friends/{friendUid} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if isAdmin();
     }
 
     // ── users/{uid}/wrongQuestions/{key} and .../flaggedQuestions/{key} ──
     // A student's own review queues - purely personal, only the owner
-    // can read or write them.
+    // (or admin, for account-deletion cleanup) can read or write them.
     match /users/{uid}/wrongQuestions/{key} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if isAdmin();
     }
     match /users/{uid}/flaggedQuestions/{key} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if isAdmin();
     }
 
     // ── users/{uid}/myRooms/{code} ───────────────────────────────
     // A student's own Challenge Room history - purely personal, so
-    // only the owner can read or write it.
+    // only the owner (or admin, for account-deletion cleanup) can
+    // read or write it.
     match /users/{uid}/myRooms/{code} {
       allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if isAdmin();
     }
 
     // ── users/{uid}/invites/{inviteId} ──────────────────────────
@@ -58,19 +67,23 @@ service cloud.firestore {
     // signed in can CREATE an invite into someone else's mailbox
     // (that's how sending an invite works), but only if the fromUid
     // field matches their own uid - so an invite can never be spoofed
-    // as coming from someone else.
+    // as coming from someone else. Admin read/delete is used only for
+    // account-deletion cleanup.
     match /users/{uid}/invites/{inviteId} {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create: if request.auth != null && request.resource.data.fromUid == request.auth.uid;
+      allow read, write: if isAdmin();
     }
 
     // ── leaderboard/{uid} ───────────────────────────────────────
     // Anyone signed in can READ the leaderboard (it's meant to be
     // seen by everyone), but a student can only write their OWN
-    // entry - never someone else's score.
+    // entry - never someone else's score. Admin write is used only to
+    // remove an entry when an account is deleted.
     match /leaderboard/{uid} {
       allow read: if request.auth != null;
       allow write: if request.auth != null && request.auth.uid == uid;
+      allow write: if isAdmin();
     }
 
     // (Firestore-backed question storage removed - questions are now
@@ -114,12 +127,14 @@ service cloud.firestore {
     // before claiming), but a doc can only be created/updated/deleted
     // by the uid it already belongs to (or, for a brand-new claim, by
     // whoever is creating it - enforced by requiring the new doc's own
-    // uid field to match the writer).
+    // uid field to match the writer). Admin delete is used only for
+    // account-deletion cleanup (freeing up the username).
     match /usernames/{name} {
       allow read: if request.auth != null;
       allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
       allow update: if request.auth != null && request.resource.data.uid == request.auth.uid && resource.data.uid == request.auth.uid;
       allow delete: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow delete: if isAdmin();
     }
 
     // ── config/{docId} ──────────────────────────────────────────

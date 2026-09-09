@@ -4,6 +4,7 @@ import { db } from '../lib/firebase';
 import { lookupUsername } from '../lib/invites';
 import { playTapSound } from '../lib/sounds';
 import { formatDuration } from '../lib/timeTracking';
+import { setAccountDisabled, deleteAccount } from '../lib/adminAccountActions';
 
 function formatJoinDate(ts) {
   if (!ts) return null;
@@ -33,6 +34,9 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
   const [busy, setBusy] = useState(!!initialUid);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+  const [actionBusy, setActionBusy] = useState(false);
+  const [actionError, setActionError] = useState(null);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   // "View All Users" - a separate flow from the single-username search
   // above. Fetched on demand (not on screen open) since it's one read
@@ -65,7 +69,48 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
 
   function openUserFromList(u) {
     playTapSound();
+    setConfirmingDelete(false);
+    setActionError(null);
     setResult(buildResult(u.uid, u.username || null, u));
+  }
+
+  async function handleToggleDisabled() {
+    if (!result) return;
+    playTapSound();
+    setActionError(null);
+    setActionBusy(true);
+    try {
+      const next = !result.disabled;
+      await setAccountDisabled(result.uid, next);
+      setResult((r) => ({ ...r, disabled: next }));
+      // Keep the all-users list in sync so it doesn't show stale status
+      // if the admin goes back to it.
+      setAllUsers((list) => list && list.map((u) => (u.uid === result.uid ? { ...u, disabled: next } : u)));
+    } catch (e) {
+      setActionError(e.message || String(e));
+    } finally {
+      setActionBusy(false);
+    }
+  }
+
+  async function handleDeleteAccount() {
+    if (!result) return;
+    if (!confirmingDelete) {
+      setConfirmingDelete(true);
+      return;
+    }
+    playTapSound();
+    setActionError(null);
+    setActionBusy(true);
+    try {
+      await deleteAccount(result.uid);
+      setAllUsers((list) => list && list.filter((u) => u.uid !== result.uid));
+      setResult(null);
+      setConfirmingDelete(false);
+    } catch (e) {
+      setActionError(e.message || String(e));
+      setActionBusy(false);
+    }
   }
 
   useEffect(() => {
@@ -94,6 +139,8 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
     playTapSound();
     setError(null);
     setResult(null);
+    setConfirmingDelete(false);
+    setActionError(null);
     if (!username.trim()) return;
     setBusy(true);
     try {
@@ -180,7 +227,14 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
                   style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px' }}
                   onClick={() => openUserFromList(u)}
                 >
-                  <span style={{ fontWeight: 700, fontSize: 13.5 }}>{u.displayName || '(no name)'}</span>
+                  <span style={{ fontWeight: 700, fontSize: 13.5, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    {u.displayName || '(no name)'}
+                    {u.disabled && (
+                      <span style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--red)', border: '1px solid var(--red)', borderRadius: 5, padding: '1px 5px' }}>
+                        DISABLED
+                      </span>
+                    )}
+                  </span>
                   <span style={{ fontSize: 11.5, color: 'var(--text3)' }}>{u.username ? `@${u.username} · ` : ''}{u.email || 'no email'}</span>
                 </button>
               ))}
@@ -202,7 +256,14 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
               ← {allUsers ? 'Back to list' : 'Back to search'}
             </button>
           )}
-          <div style={{ fontWeight: 800, fontSize: 16, color: 'var(--text)' }}>{result.displayName || '(no name)'}</div>
+          <div style={{ fontWeight: 800, fontSize: 16, color: 'var(--text)', display: 'flex', alignItems: 'center', gap: 8 }}>
+            {result.displayName || '(no name)'}
+            {result.disabled && (
+              <span style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--red)', border: '1px solid var(--red)', borderRadius: 6, padding: '2px 6px' }}>
+                DISABLED
+              </span>
+            )}
+          </div>
           <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{result.username ? `@${result.username} · ` : ''}{result.email}</div>
           <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6 }}>
             Enrolled: <strong>{result.enrolledYearSemester || '-'}</strong>
@@ -227,6 +288,26 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
               </div>
             </>
           )}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+            {actionError && <div className="auth-msg error" style={{ display: 'block' }}>{actionError}</div>}
+            <button className="btn-ghost" style={{ width: '100%' }} onClick={handleToggleDisabled} disabled={actionBusy}>
+              {actionBusy ? '…' : result.disabled ? '✅ Enable Account' : '🚫 Disable Account'}
+            </button>
+            <button
+              className="btn-ghost"
+              style={{ width: '100%', color: 'var(--red)', borderColor: confirmingDelete ? 'var(--red)' : undefined }}
+              onClick={handleDeleteAccount}
+              disabled={actionBusy}
+            >
+              {actionBusy ? '…' : confirmingDelete ? '⚠️ Tap again to permanently delete' : '🗑️ Delete Account'}
+            </button>
+            {confirmingDelete && (
+              <button className="btn-ghost" style={{ width: '100%', fontSize: 12 }} onClick={() => setConfirmingDelete(false)}>
+                Cancel
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>

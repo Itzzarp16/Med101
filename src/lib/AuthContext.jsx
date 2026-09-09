@@ -92,6 +92,13 @@ export function AuthProvider({ children }) {
             (snap) => {
               const data = snap.exists() ? snap.data() : {};
               setProfile(data);
+              if (data.disabled) {
+                setKickedMessage(
+                  'This account has been disabled. Contact an admin if you think this is a mistake.'
+                );
+                signOut(auth);
+                return;
+              }
               const active = data.activeDeviceId || null;
               if (active && active !== getDeviceId()) {
                 setKickedMessage(
@@ -150,6 +157,11 @@ export function AuthProvider({ children }) {
   async function signIn(email, password) {
     const cred = await signInWithEmailAndPassword(auth, email, password);
     if (!ADMIN_EMAILS.includes(cred.user.email)) {
+      const snap = await getDoc(doc(db, 'users', cred.user.uid));
+      if (snap.exists() && snap.data().disabled) {
+        await signOut(auth);
+        throw new Error('This account has been disabled. Contact an admin if you think this is a mistake.');
+      }
       deviceClaimPendingRef.current = cred.user.uid;
       await claimDevice(cred.user.uid);
     }
