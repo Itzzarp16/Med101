@@ -69,6 +69,7 @@ export default function SettingsScreen({ onBack }) {
   }
 
   return (
+    <>
     <div className="std-screen">
       <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
 
@@ -146,8 +147,8 @@ export default function SettingsScreen({ onBack }) {
 
         {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Your dashboard will update shortly.</div>}
       </div>
-
-      <LegalFooter />
     </div>
+      <LegalFooter />
+    </>
   );
 }

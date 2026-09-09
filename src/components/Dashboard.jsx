@@ -29,25 +29,27 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
   }, [questions, subjectGroup, mainSubjectMeta]);
 
   return (
-    <div className="screen-subject">
-      <HomeNoticeBanner />
-      <PendingInvites onAccept={onAcceptInvite} />
+    <>
+      <div className="screen-subject">
+        <HomeNoticeBanner />
+        <PendingInvites onAccept={onAcceptInvite} />
 
-      <div className="subj-grid">
-        {Object.entries(mainSubjectMeta).map(([name, meta]) => (
-          <SubjectCard
-            key={name}
-            emoji={meta.emoji}
-            name={name}
-            desc={meta.desc}
-            questionCount={subjectStats[name]?.questionCount}
-            topicCount={subjectStats[name]?.topicCount}
-            trace
-            onClick={() => onSelectSubject?.(name)}
-          />
-        ))}
+        <div className="subj-grid">
+          {Object.entries(mainSubjectMeta).map(([name, meta]) => (
+            <SubjectCard
+              key={name}
+              emoji={meta.emoji}
+              name={name}
+              desc={meta.desc}
+              questionCount={subjectStats[name]?.questionCount}
+              topicCount={subjectStats[name]?.topicCount}
+              trace
+              onClick={() => onSelectSubject?.(name)}
+            />
+          ))}
+        </div>
       </div>
       <LegalFooter />
-    </div>
+    </>
   );
 }

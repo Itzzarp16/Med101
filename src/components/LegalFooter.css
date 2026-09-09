@@ -1,10 +1,6 @@
 .legal-footer {
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+  width: 100%;
+  box-sizing: border-box;
   background: #0a0f22;
   color: #b8c2e0;
   text-align: center;
