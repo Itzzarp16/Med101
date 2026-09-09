@@ -9,6 +9,7 @@ import {
 import { doc, getDoc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { startTimeTracking } from './timeTracking';
+import { claimUsername } from './profile';
 
 // Must exactly match the emails your Firestore isAdmin() security rule checks.
 const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com'];
@@ -168,8 +169,14 @@ export function AuthProvider({ children }) {
     return cred.user;
   }
 
-  // yearSemester: e.g. "y1s1", "y1s2" - the dropdown value from signup
-  async function signUp(name, email, password, yearSemester) {
+  // yearSemester: e.g. "y1s1", "y1s2" - the dropdown value from signup.
+  // username is claimed here (not left to the caller) because
+  // onAuthStateChanged fires independently of this function and can
+  // swap the whole screen away as soon as the account exists - doing
+  // the claim as part of signUp guarantees it actually runs to
+  // completion as part of account creation, not as a race against
+  // whatever the UI does once `user` becomes truthy.
+  async function signUp(name, email, password, yearSemester, username) {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
     if (cred.user) await updateProfile(cred.user, { displayName: name });
     await setDoc(
@@ -182,11 +189,28 @@ export function AuthProvider({ children }) {
       },
       { merge: true }
     );
+    let usernameClaimError = null;
+    if (username) {
+      try {
+        // A Firestore write immediately after account creation can be
+        // rejected with "permission-denied" if the client hasn't yet
+        // picked up the freshly-minted ID token - force a refresh
+        // first so this definitely carries valid auth.
+        await cred.user.getIdToken(true);
+        await claimUsername(cred.user, username);
+      } catch (e) {
+        // Don't fail the whole signup over a username collision/glitch
+        // - the account is real either way. Reported back separately
+        // so the caller can tell username-claim failures apart from
+        // account-creation failures and message accordingly.
+        usernameClaimError = e.message || String(e);
+      }
+    }
     if (!ADMIN_EMAILS.includes(cred.user.email)) {
       deviceClaimPendingRef.current = cred.user.uid;
       await claimDevice(cred.user.uid);
     }
-    return cred.user;
+    return { user: cred.user, usernameClaimError };
   }
 
   async function logOut() {

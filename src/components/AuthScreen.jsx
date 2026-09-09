@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
-import { claimUsername, usernameFormatError } from '../lib/profile';
+import { usernameFormatError } from '../lib/profile';
 import './AuthScreen.css';
 
 // Matches the old site's #auth-screen exactly (same order): icon,
@@ -16,11 +16,13 @@ import './AuthScreen.css';
 // (no Firestore read - the security rules require auth to read
 // `usernames`, and the user isn't signed in yet at this point); step
 // 2 collects email/password and actually creates the account.
-// Username is claimed (via claimUsername) right after the Firebase
-// account is created, using the account createUser just returned -
-// claimUsername needs an authenticated user, which doesn't exist
-// until this point. If someone else claimed the same name in the
-// meantime, the account still goes through and we tell the person to
+// The username is claimed inside AuthContext.signUp itself (not here)
+// - onAuthStateChanged fires independently of this component and can
+// swap the whole screen away as soon as the account exists, so the
+// claim needs to be guaranteed to run as part of account creation,
+// not raced against whatever happens to this component afterward. If
+// the claim fails (e.g. someone else grabbed the name in the
+// meantime), the account still goes through and we tell the person to
 // pick a username from Settings instead of blocking signup on it.
 const YEAR_SEMESTER_OPTIONS = [
   { value: 'y1s1', label: 'Year 1 · Semester 1' },
@@ -104,16 +106,15 @@ export default function AuthScreen() {
       if (mode === 'signin') {
         await signIn(email.trim(), password);
       } else {
-        const newUser = await signUp(name.trim(), email.trim(), password, yearSemester);
-        try {
-          await claimUsername(newUser, username.trim());
+        const { usernameClaimError } = await signUp(name.trim(), email.trim(), password, yearSemester, username.trim());
+        if (usernameClaimError) {
+          // Account exists either way - don't strand them mid-signup,
+          // but show the real reason instead of assuming it was a
+          // naming collision, so this is diagnosable if it happens again.
+          console.warn('Username claim failed post-signup:', usernameClaimError);
+          setMsg({ text: `Account created, but the username couldn't be set: ${usernameClaimError}. You can set one from Settings.`, type: 'error' });
+        } else {
           setMsg({ text: 'Account created! Welcome!', type: 'success' });
-        } catch (unameErr) {
-          // Account exists at this point even if the username lost a
-          // last-second race - don't strand them mid-signup, let them
-          // in, but tell them plainly so they know to pick one later.
-          console.warn('Username claim failed post-signup:', unameErr);
-          setMsg({ text: `Account created! That username was just taken though - set a new one from Settings.`, type: 'success' });
         }
       }
     } catch (err) {
