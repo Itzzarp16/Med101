@@ -27,16 +27,33 @@ function gradeFor(pct) {
   return { letter: 'F', color: 'var(--red)' };
 }
 
+// The source data for some subjects (Physiology in particular) lists
+// the correct answer first almost every time - so without reshuffling,
+// a student could score well just by always picking "A" instead of
+// actually knowing the material. We shuffle each question's own option
+// order once per quiz attempt (not on every render) and remap which
+// index is correct to match, so answer position carries no signal.
+function shuffleOptions(q) {
+  const order = q.o.map((_, i) => i);
+  for (let i = order.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [order[i], order[j]] = [order[j], order[i]];
+  }
+  return { ...q, o: order.map((i) => q.o[i]), c: order.indexOf(q.c) };
+}
+
 // questions arrives already in the exact order/subset QuizModeScreen
 // decided (Random 25, All Sequential, Custom Range, etc.) - this
-// component just renders that sequence, it doesn't reorder anything.
+// component just renders that sequence, it doesn't reorder which
+// QUESTIONS appear or how many. It does shuffle each question's own
+// OPTION order (see shuffleOptions above), once per attempt.
 // autoAdvance/timerSeconds are settings chosen on that same screen.
 // roomCode/totalTimeLimitMs are set only for Challenge Room quizzes -
 // a whole-quiz countdown (not per-question) that auto-finishes when it
 // hits zero, and reports the result to the room's shared leaderboard.
 export default function QuizScreen({ mainSubject, topic, semesterId, questions, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
   const { user } = useAuth();
-  const quizQuestions = questions;
+  const quizQuestions = useState(() => questions.map(shuffleOptions))[0];
 
   // Restore in-progress position/answers from a prior page load if it
   // looks like the same attempt (same question count) - this is what
