@@ -227,7 +227,7 @@ export default function AuthScreen() {
                 className="auth-input"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="e.g. dr_priya"
+                placeholder="e.g. dr_vijay"
                 autoComplete="username"
               />
               {usernameStatus === 'checking' && (
