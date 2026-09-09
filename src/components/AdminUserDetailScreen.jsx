@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { lookupUsername } from '../lib/invites';
 import { playTapSound } from '../lib/sounds';
@@ -22,6 +22,40 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
   const [busy, setBusy] = useState(!!initialUid);
   const [error, setError] = useState(null);
   const [result, setResult] = useState(null);
+
+  // "View All Users" - a separate flow from the single-username search
+  // above. Fetched on demand (not on screen open) since it's one read
+  // per signed-up student - fine for an occasional admin action, but
+  // not something to run automatically. Once fetched, filtering by the
+  // search box below is purely client-side (no extra reads), and
+  // tapping a row reuses the already-fetched data instead of re-reading
+  // that user's doc.
+  const [allUsers, setAllUsers] = useState(null);
+  const [loadingAll, setLoadingAll] = useState(false);
+  const [allUsersError, setAllUsersError] = useState(null);
+  const [listFilter, setListFilter] = useState('');
+
+  async function handleViewAllUsers() {
+    playTapSound();
+    setAllUsersError(null);
+    setLoadingAll(true);
+    try {
+      const snap = await getDocs(collection(db, 'users'));
+      const users = snap.docs
+        .map((d) => ({ uid: d.id, ...d.data() }))
+        .sort((a, b) => (a.username || a.displayName || '').localeCompare(b.username || b.displayName || ''));
+      setAllUsers(users);
+    } catch (e) {
+      setAllUsersError(e.message || String(e));
+    } finally {
+      setLoadingAll(false);
+    }
+  }
+
+  function openUserFromList(u) {
+    playTapSound();
+    setResult(buildResult(u.uid, u.username || null, u));
+  }
 
   useEffect(() => {
     if (!initialUid) return;
@@ -94,6 +128,52 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
             </button>
           </div>
           {error && <div className="auth-msg error" style={{ display: 'block' }}>{error}</div>}
+
+          <button
+            className="btn-ghost"
+            style={{ width: '100%', marginTop: 10 }}
+            onClick={handleViewAllUsers}
+            disabled={loadingAll}
+          >
+            {loadingAll ? 'Loading…' : allUsers ? '🔄 Refresh All Users' : '📋 View All Users'}
+          </button>
+          {allUsersError && <div className="auth-msg error" style={{ display: 'block' }}>{allUsersError}</div>}
+        </div>
+      )}
+
+      {!initialUid && allUsers && (
+        <div className="glass std-card" style={{ marginTop: 14 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="auth-label" style={{ margin: 0 }}>{allUsers.length} students signed up</div>
+          </div>
+          <input
+            className="auth-input"
+            value={listFilter}
+            onChange={(e) => setListFilter(e.target.value)}
+            placeholder="Filter by name, username, or email…"
+            style={{ marginTop: 8 }}
+          />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 10, maxHeight: 420, overflowY: 'auto' }}>
+            {allUsers
+              .filter((u) => {
+                const q = listFilter.trim().toLowerCase();
+                if (!q) return true;
+                return (u.username || '').toLowerCase().includes(q)
+                  || (u.displayName || '').toLowerCase().includes(q)
+                  || (u.email || '').toLowerCase().includes(q);
+              })
+              .map((u) => (
+                <button
+                  key={u.uid}
+                  className="btn-ghost"
+                  style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px' }}
+                  onClick={() => openUserFromList(u)}
+                >
+                  <span style={{ fontWeight: 700, fontSize: 13.5 }}>{u.displayName || '(no name)'}</span>
+                  <span style={{ fontSize: 11.5, color: 'var(--text3)' }}>{u.username ? `@${u.username} · ` : ''}{u.email || 'no email'}</span>
+                </button>
+              ))}
+          </div>
         </div>
       )}
 
