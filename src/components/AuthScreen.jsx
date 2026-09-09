@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
-import { claimUsername, isUsernameAvailable } from '../lib/profile';
+import { claimUsername, usernameFormatError } from '../lib/profile';
 import './AuthScreen.css';
 
 // Matches the old site's #auth-screen exactly (same order): icon,
@@ -12,12 +12,16 @@ import './AuthScreen.css';
 // only), submit, message, powered-by badge.
 //
 // Signup is now two steps: step 1 collects name, username and
-// year/semester and only advances once the username is validated and
-// available; step 2 collects email/password and actually creates the
-// account. Username is claimed (via claimUsername) right after the
-// Firebase account is created, using the account that createUser just
-// returned - claimUsername needs an authenticated user, which doesn't
-// exist until this point.
+// year/semester, checking only that the username's format is valid
+// (no Firestore read - the security rules require auth to read
+// `usernames`, and the user isn't signed in yet at this point); step
+// 2 collects email/password and actually creates the account.
+// Username is claimed (via claimUsername) right after the Firebase
+// account is created, using the account createUser just returned -
+// claimUsername needs an authenticated user, which doesn't exist
+// until this point. If someone else claimed the same name in the
+// meantime, the account still goes through and we tell the person to
+// pick a username from Settings instead of blocking signup on it.
 const YEAR_SEMESTER_OPTIONS = [
   { value: 'y1s1', label: 'Year 1 · Semester 1' },
   { value: 'y1s2', label: 'Year 1 · Semester 2' },
@@ -57,7 +61,7 @@ export default function AuthScreen() {
     setMsg(null);
   }
 
-  async function handleNext(e) {
+  function handleNext(e) {
     e.preventDefault();
     setMsg(null);
 
@@ -69,20 +73,13 @@ export default function AuthScreen() {
       setMsg({ text: 'Please choose a username.', type: 'error' });
       return;
     }
-
-    setBusy(true);
-    try {
-      const check = await isUsernameAvailable(username);
-      if (!check.ok) {
-        setMsg({ text: check.reason, type: 'error' });
-        return;
-      }
-      setSignupStep(2);
-    } catch (err) {
-      setMsg({ text: err.message || 'Could not check that username. Try again.', type: 'error' });
-    } finally {
-      setBusy(false);
+    const formatError = usernameFormatError(username);
+    if (formatError) {
+      setMsg({ text: formatError, type: 'error' });
+      return;
     }
+
+    setSignupStep(2);
   }
 
   async function handleSubmit(e) {
@@ -110,13 +107,14 @@ export default function AuthScreen() {
         const newUser = await signUp(name.trim(), email.trim(), password, yearSemester);
         try {
           await claimUsername(newUser, username.trim());
+          setMsg({ text: 'Account created! Welcome!', type: 'success' });
         } catch (unameErr) {
           // Account exists at this point even if the username lost a
           // last-second race - don't strand them mid-signup, let them
-          // in and they can claim a username from Settings instead.
+          // in, but tell them plainly so they know to pick one later.
           console.warn('Username claim failed post-signup:', unameErr);
+          setMsg({ text: `Account created! That username was just taken though - set a new one from Settings.`, type: 'success' });
         }
-        setMsg({ text: 'Account created! Welcome!', type: 'success' });
       }
     } catch (err) {
       setMsg({ text: ERROR_MESSAGES[err.code] || err.message, type: 'error' });
@@ -197,8 +195,8 @@ export default function AuthScreen() {
               </select>
             </div>
 
-            <button type="submit" className="auth-btn" disabled={busy}>
-              {busy ? 'Checking…' : 'Next →'}
+            <button type="submit" className="auth-btn">
+              Next →
             </button>
 
             {msg && <div className={`auth-msg ${msg.type}`} style={{ display: 'block' }}>{msg.text}</div>}
