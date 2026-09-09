@@ -4,11 +4,22 @@ import {
 import { doc, getDoc, runTransaction, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
-function normalize(name) {
+export function normalize(name) {
   return name.trim().toLowerCase();
 }
 
 export const USERNAME_RULES = /^[a-z0-9_]{3,20}$/;
+
+// Checks whether a username is currently free, for live feedback on
+// the signup form (step 1) before an account even exists. Only usable
+// now that usernames/{name} allows public reads (see firestore.rules) -
+// it used to require auth, which is exactly why this check didn't
+// exist before and people only found out a name was taken after
+// their account was already created.
+export async function checkUsernameAvailable(rawName) {
+  const snap = await getDoc(doc(db, 'usernames', normalize(rawName)));
+  return !snap.exists();
+}
 
 // Format-only check, no network call - safe to use before the user is
 // signed in (e.g. signup step 1), since Firestore rules require auth

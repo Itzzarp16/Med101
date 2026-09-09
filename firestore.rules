@@ -130,7 +130,12 @@ service cloud.firestore {
     // uid field to match the writer). Admin delete is used only for
     // account-deletion cleanup (freeing up the username).
     match /usernames/{name} {
-      allow read: if request.auth != null;
+      // Public (no auth required) so the signup form can check
+      // availability live, before the account even exists - a doc
+      // here only ever contains { uid, username }, nothing sensitive,
+      // so exposing "is this name taken" to anyone is a fine trade for
+      // catching collisions before signup instead of after.
+      allow read: if true;
       allow create: if request.auth != null && request.resource.data.uid == request.auth.uid;
       allow update: if request.auth != null && request.resource.data.uid == request.auth.uid && resource.data.uid == request.auth.uid;
       allow delete: if request.auth != null && resource.data.uid == request.auth.uid;

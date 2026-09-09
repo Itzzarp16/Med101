@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
-import { usernameFormatError } from '../lib/profile';
+import { usernameFormatError, checkUsernameAvailable, normalize } from '../lib/profile';
 import './AuthScreen.css';
 
 // Matches the old site's #auth-screen exactly (same order): icon,
@@ -12,18 +12,22 @@ import './AuthScreen.css';
 // only), submit, message, powered-by badge.
 //
 // Signup is now two steps: step 1 collects name, username and
-// year/semester, checking only that the username's format is valid
-// (no Firestore read - the security rules require auth to read
-// `usernames`, and the user isn't signed in yet at this point); step
-// 2 collects email/password and actually creates the account.
+// year/semester. Username availability is checked live here (debounced,
+// against the now-public-read usernames/{name} collection - see
+// firestore.rules) so a taken name gets caught and can be fixed right
+// on this screen; step 2 collects email/password and actually creates
+// the account.
 // The username is claimed inside AuthContext.signUp itself (not here)
 // - onAuthStateChanged fires independently of this component and can
 // swap the whole screen away as soon as the account exists, so the
 // claim needs to be guaranteed to run as part of account creation,
-// not raced against whatever happens to this component afterward. If
-// the claim fails (e.g. someone else grabbed the name in the
-// meantime), the account still goes through and we tell the person to
-// pick a username from Settings instead of blocking signup on it.
+// not raced against whatever happens to this component afterward. The
+// live check above catches the common case (name already taken) before
+// signup even starts, but a last-second collision between the check
+// and the actual claim is still possible - if the claim itself still
+// fails, the account still goes through and a persistent notice (see
+// AuthContext's signupNotice) tells the person to set one from
+// Settings instead of blocking signup on it.
 const YEAR_SEMESTER_OPTIONS = [
   { value: 'y1s1', label: 'Year 1 · Semester 1' },
   { value: 'y1s2', label: 'Year 1 · Semester 2' },
@@ -38,6 +42,11 @@ export default function AuthScreen() {
 
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
+  // 'idle' | 'checking' | 'available' | 'taken' | 'error' - live
+  // feedback on step 1, so a taken name gets caught and can be fixed
+  // right there instead of only surfacing after the account exists.
+  const [usernameStatus, setUsernameStatus] = useState('idle');
+  const [usernameCheckError, setUsernameCheckError] = useState(null);
   const [yearSemester, setYearSemester] = useState(YEAR_SEMESTER_OPTIONS[0].value);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -63,6 +72,34 @@ export default function AuthScreen() {
     setMsg(null);
   }
 
+  // Debounced live check: waits for typing to pause before hitting
+  // Firestore, and ignores a result if the username changed again
+  // while the request was in flight (the `active` flag below).
+  useEffect(() => {
+    if (mode !== 'signup' || signupStep !== 1) return;
+    if (usernameFormatError(username)) {
+      setUsernameStatus('idle');
+      return;
+    }
+    let active = true;
+    setUsernameStatus('checking');
+    setUsernameCheckError(null);
+    const timer = setTimeout(async () => {
+      try {
+        const timeout = new Promise((_, reject) => setTimeout(() => reject(new Error('timed-out')), 8000));
+        const available = await Promise.race([checkUsernameAvailable(username), timeout]);
+        if (active) setUsernameStatus(available ? 'available' : 'taken');
+      } catch (e) {
+        console.warn('Username availability check failed:', e);
+        if (active) {
+          setUsernameStatus('error');
+          setUsernameCheckError(e.code || e.message || String(e));
+        }
+      }
+    }, 450);
+    return () => { active = false; clearTimeout(timer); };
+  }, [username, mode, signupStep]);
+
   function handleNext(e) {
     e.preventDefault();
     setMsg(null);
@@ -78,6 +115,14 @@ export default function AuthScreen() {
     const formatError = usernameFormatError(username);
     if (formatError) {
       setMsg({ text: formatError, type: 'error' });
+      return;
+    }
+    if (usernameStatus === 'taken') {
+      setMsg({ text: `"${normalize(username)}" is already taken - please choose another.`, type: 'error' });
+      return;
+    }
+    if (usernameStatus === 'checking') {
+      setMsg({ text: 'Still checking that username - one moment and try again.', type: 'error' });
       return;
     }
 
@@ -158,14 +203,14 @@ export default function AuthScreen() {
             className={mode === 'signin' ? 'auth-tab active' : 'auth-tab'}
             onClick={() => switchMode('signin')}
           >
-            Sign In
+            Login
           </button>
           <button
             type="button"
             className={mode === 'signup' ? 'auth-tab active' : 'auth-tab'}
             onClick={() => switchMode('signup')}
           >
-            Sign Up
+            Create Account
           </button>
         </div>
 
@@ -177,18 +222,32 @@ export default function AuthScreen() {
             </div>
 
             <div style={{ marginBottom: 14 }}>
-              <label className="auth-label">Username</label>
+              <label className="auth-label">Create Username</label>
               <input
                 className="auth-input"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="e.g. dr_priya"
+                placeholder="e.g. dr_vijay"
                 autoComplete="username"
               />
+              {usernameStatus === 'checking' && (
+                <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>Checking availability…</div>
+              )}
+              {usernameStatus === 'available' && (
+                <div style={{ fontSize: 12, color: 'var(--green)', marginTop: 4 }}>✓ Available</div>
+              )}
+              {usernameStatus === 'taken' && (
+                <div style={{ fontSize: 12, color: 'var(--red)', marginTop: 4 }}>✗ Already taken - try another</div>
+              )}
+              {usernameStatus === 'error' && (
+                <div style={{ fontSize: 12, color: 'var(--amber)', marginTop: 4 }}>
+                  Couldn't verify right now{usernameCheckError ? ` (${usernameCheckError})` : ''} - we'll confirm it right after you sign up.
+                </div>
+              )}
             </div>
 
             <div>
-              <label className="auth-label">Year &amp; Semester</label>
+              <label className="auth-label">Choose Your Year and Semester</label>
               <select className="auth-input" value={yearSemester} onChange={(e) => setYearSemester(e.target.value)}>
                 {YEAR_SEMESTER_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
