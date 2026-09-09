@@ -4,7 +4,6 @@ import AdminNoticeScreen from './AdminNoticeScreen';
 import AdminCalendarScreen from './AdminCalendarScreen';
 import AdminUserDetailScreen from './AdminUserDetailScreen';
 import AdminAnalyticsScreen from './AdminAnalyticsScreen';
-import AuthScreen from './AuthScreen';
 import './AdminPortal.css';
 
 // Standalone admin-only surface, served at /admin. Separate from the
@@ -34,6 +33,67 @@ function AdminScreenFor({ tab }) {
   }
 }
 
+function AdminLogin() {
+  const { signIn } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [busy, setBusy] = useState(false);
+
+  const ERROR_MESSAGES = {
+    'auth/user-not-found': 'No account found with this email.',
+    'auth/wrong-password': 'Incorrect password.',
+    'auth/invalid-email': 'Please enter a valid email address.',
+    'auth/too-many-requests': 'Too many failed attempts. Try again later.',
+    'auth/network-request-failed': 'Network error. Check your connection.',
+    'auth/invalid-credential': 'Invalid email or password.',
+  };
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError(null);
+    if (!email.trim() || !password) {
+      setError('Enter your email and password.');
+      return;
+    }
+    setBusy(true);
+    try {
+      await signIn(email.trim(), password);
+    } catch (err) {
+      setError(ERROR_MESSAGES[err.code] || err.message);
+      setBusy(false);
+    }
+  }
+
+  return (
+    <form className="admin-login-form" onSubmit={handleSubmit}>
+      <label className="auth-label">Email</label>
+      <input
+        className="auth-input"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        placeholder="admin@med101.space"
+        autoComplete="email"
+        autoFocus
+      />
+      <label className="auth-label" style={{ marginTop: 14 }}>Password</label>
+      <input
+        className="auth-input"
+        type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        placeholder="••••••••"
+        autoComplete="current-password"
+      />
+      <button type="submit" className="admin-login-btn" disabled={busy}>
+        {busy ? 'Signing in…' : 'Sign In'}
+      </button>
+      {error && <div className="admin-login-error">{error}</div>}
+    </form>
+  );
+}
+
 export default function AdminPortal() {
   const { user, profile, loading, isAdmin, logOut } = useAuth();
   const [tab, setTab] = useState('notice');
@@ -44,11 +104,12 @@ export default function AdminPortal() {
 
   if (!user) {
     // Let an admin sign in directly from /admin rather than bouncing
-    // them to the main site first.
+    // them to the main site first - deliberately bare: just email,
+    // password, submit. No sign-up tab, no site branding.
     return (
       <div className="admin-portal-authwrap">
-        <div className="admin-portal-authnote">Med101 Admin Portal</div>
-        <AuthScreen />
+        <div className="admin-portal-authnote">Med101 Admin</div>
+        <AdminLogin />
       </div>
     );
   }
