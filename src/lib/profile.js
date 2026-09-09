@@ -10,6 +10,23 @@ function normalize(name) {
 
 const USERNAME_RULES = /^[a-z0-9_]{3,20}$/;
 
+// Quick pre-check used during signup step 1, before the Firebase auth
+// account (and therefore the authenticated claimUsername transaction)
+// exists yet. Not the source of truth - claimUsername's transaction
+// still re-checks atomically at the real claim - but it lets us tell
+// someone their username is taken before they've filled in email/password.
+export async function isUsernameAvailable(rawName) {
+  const normalized = normalize(rawName.trim());
+  if (!USERNAME_RULES.test(normalized)) {
+    return { ok: false, reason: 'Username must be 3-20 characters: letters, numbers, or underscore only.' };
+  }
+  const snap = await getDoc(doc(db, 'usernames', normalized));
+  if (snap.exists()) {
+    return { ok: false, reason: 'That username is already taken - try another.' };
+  }
+  return { ok: true };
+}
+
 export async function updateDisplayName(user, newName) {
   const trimmed = newName.trim();
   if (!trimmed) throw new Error('Name cannot be empty.');
