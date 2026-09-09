@@ -68,6 +68,14 @@ export function AuthProvider({ children }) {
   const [profile, setProfile] = useState(null); // users/{uid} doc data
   const [loading, setLoading] = useState(true);
   const [kickedMessage, setKickedMessage] = useState(null);
+  // Surfaced when signup succeeds but the username claim didn't. This is
+  // a persistent, dismissible top-level banner (not just a message
+  // returned to the caller) because AuthScreen may already be on its
+  // way out by the time this resolves - see signUp()'s signupGateRef
+  // comment below. A banner rendered from AuthContext itself survives
+  // the AuthScreen -> Dashboard transition; a message living only in
+  // AuthScreen's own local state would not.
+  const [signupNotice, setSignupNotice] = useState(null);
   const deviceUnsubRef = useRef(null);
   const deviceClaimPendingRef = useRef(null); // uid just claimed via explicit login
   const signupGateRef = useRef(null); // { uid, promise } - see signUp() below
@@ -191,6 +199,12 @@ export function AuthProvider({ children }) {
   // the claim as part of signUp guarantees it actually runs to
   // completion as part of account creation, not as a race against
   // whatever the UI does once `user` becomes truthy.
+  //
+  // signupGateRef blocks onAuthStateChanged's handling of this same
+  // uid (see the effect above) until this whole function - profile
+  // write, username claim + retries, device claim - has finished, so
+  // the account is fully set up before the app ever treats the student
+  // as signed in.
   async function signUp(name, email, password, yearSemester, username) {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
 
@@ -238,10 +252,13 @@ export function AuthProvider({ children }) {
           }
         } catch (e) {
           // Don't fail the whole signup over a username collision/glitch
-          // - the account is real either way. Reported back separately
-          // so the caller can tell username-claim failures apart from
-          // account-creation failures and message accordingly.
+          // - the account is real either way. Set as a persistent
+          // top-level notice (see signupNotice above) so it's still
+          // visible even after AuthScreen hands off to the Dashboard.
           usernameClaimError = e.message || String(e);
+          setSignupNotice(
+            `Account created, but the username "${username}" couldn't be set (${usernameClaimError}). You can set one from Settings.`
+          );
         }
       }
       if (!ADMIN_EMAILS.includes(cred.user.email)) {
@@ -263,7 +280,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, profile, loading, isAdmin, signIn, signUp, logOut, kickedMessage, setKickedMessage }}
+      value={{ user, profile, loading, isAdmin, signIn, signUp, logOut, kickedMessage, setKickedMessage, signupNotice, setSignupNotice }}
     >
       {children}
     </AuthContext.Provider>

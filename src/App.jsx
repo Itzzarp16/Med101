@@ -36,7 +36,7 @@ import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence'
 // popstate listener keeps `screen` in sync with whichever entry the
 // user lands on.
 export default function App() {
-  const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage } = useAuth();
+  const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, signupNotice, setSignupNotice } = useAuth();
   const semesterData = useSemesterData();
   // A hard page refresh loses all in-memory React state, but the
   // student should land back on whatever screen they were on (e.g. a
@@ -426,6 +426,11 @@ export default function App() {
 
   return (
     <div>
+      {signupNotice && (
+        <div className="kicked-banner" onClick={() => setSignupNotice(null)}>
+          {signupNotice}
+        </div>
+      )}
       <TopBar {...topBarProps} />
 
       {usingCachedData && (
