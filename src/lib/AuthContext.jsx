@@ -70,10 +70,25 @@ export function AuthProvider({ children }) {
   const [kickedMessage, setKickedMessage] = useState(null);
   const deviceUnsubRef = useRef(null);
   const deviceClaimPendingRef = useRef(null); // uid just claimed via explicit login
+  const signupGateRef = useRef(null); // { uid, promise } - see signUp() below
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       if (u) {
+        // If this uid just came from signUp(), wait for it to fully
+        // finish (profile write, username claim + retries, device
+        // claim) before doing anything else - otherwise this handler
+        // races signUp() and can swap AuthScreen out for the
+        // dashboard while the username claim is still in flight,
+        // which is exactly what was happening before.
+        if (signupGateRef.current && signupGateRef.current.uid === u.uid) {
+          await signupGateRef.current.promise;
+          // signUp()'s own promise resolves a tick after the gate does,
+          // so give AuthScreen a moment to receive that result and
+          // render its message before we swap the screen out from
+          // under it.
+          await new Promise((r) => setTimeout(r, 1200));
+        }
         if (!ADMIN_EMAILS.includes(u.email)) {
           if (deviceClaimPendingRef.current === u.uid) {
             deviceClaimPendingRef.current = null;
@@ -178,56 +193,66 @@ export function AuthProvider({ children }) {
   // whatever the UI does once `user` becomes truthy.
   async function signUp(name, email, password, yearSemester, username) {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
-    if (cred.user) await updateProfile(cred.user, { displayName: name });
-    await setDoc(
-      doc(db, 'users', cred.user.uid),
-      {
-        displayName: name,
-        email,
-        enrolledYearSemester: yearSemester,
-        enrolledAt: serverTimestamp(),
-      },
-      { merge: true }
-    );
-    let usernameClaimError = null;
-    if (username) {
-      try {
-        // A Firestore write immediately after account creation can be
-        // rejected with "permission-denied" - not because the write is
-        // wrong, but because Firestore's own internal auth-credential
-        // listener (separate from onAuthStateChanged, and not always
-        // caught up by a single getIdToken(true)) can lag a few
-        // hundred ms behind the account actually existing. Retry a
-        // few times with backoff before giving up - this is a known
-        // Firebase quirk, not a rules problem (the same call from
-        // Settings, well after sign-in has settled, works fine).
-        await cred.user.getIdToken(true);
-        let attempt = 0;
-        for (;;) {
-          try {
-            await claimUsername(cred.user, username);
-            break;
-          } catch (e) {
-            const isPermissionIssue = e.code === 'permission-denied' || /permission/i.test(e.message || '');
-            attempt += 1;
-            if (!isPermissionIssue || attempt >= 4) throw e;
-            await new Promise((r) => setTimeout(r, 300 * attempt));
-            await cred.user.getIdToken(true);
+
+    let releaseGate;
+    const gate = new Promise((resolve) => { releaseGate = resolve; });
+    signupGateRef.current = { uid: cred.user.uid, promise: gate };
+
+    try {
+      if (cred.user) await updateProfile(cred.user, { displayName: name });
+      await setDoc(
+        doc(db, 'users', cred.user.uid),
+        {
+          displayName: name,
+          email,
+          enrolledYearSemester: yearSemester,
+          enrolledAt: serverTimestamp(),
+        },
+        { merge: true }
+      );
+      let usernameClaimError = null;
+      if (username) {
+        try {
+          // A Firestore write immediately after account creation can be
+          // rejected with "permission-denied" - not because the write is
+          // wrong, but because Firestore's own internal auth-credential
+          // listener (separate from onAuthStateChanged, and not always
+          // caught up by a single getIdToken(true)) can lag a few
+          // hundred ms behind the account actually existing. Retry a
+          // few times with backoff before giving up - this is a known
+          // Firebase quirk, not a rules problem (the same call from
+          // Settings, well after sign-in has settled, works fine).
+          await cred.user.getIdToken(true);
+          let attempt = 0;
+          for (;;) {
+            try {
+              await claimUsername(cred.user, username);
+              break;
+            } catch (e) {
+              const isPermissionIssue = e.code === 'permission-denied' || /permission/i.test(e.message || '');
+              attempt += 1;
+              if (!isPermissionIssue || attempt >= 4) throw e;
+              await new Promise((r) => setTimeout(r, 300 * attempt));
+              await cred.user.getIdToken(true);
+            }
           }
+        } catch (e) {
+          // Don't fail the whole signup over a username collision/glitch
+          // - the account is real either way. Reported back separately
+          // so the caller can tell username-claim failures apart from
+          // account-creation failures and message accordingly.
+          usernameClaimError = e.message || String(e);
         }
-      } catch (e) {
-        // Don't fail the whole signup over a username collision/glitch
-        // - the account is real either way. Reported back separately
-        // so the caller can tell username-claim failures apart from
-        // account-creation failures and message accordingly.
-        usernameClaimError = e.message || String(e);
       }
+      if (!ADMIN_EMAILS.includes(cred.user.email)) {
+        deviceClaimPendingRef.current = cred.user.uid;
+        await claimDevice(cred.user.uid);
+      }
+      return { user: cred.user, usernameClaimError };
+    } finally {
+      releaseGate();
+      if (signupGateRef.current?.uid === cred.user.uid) signupGateRef.current = null;
     }
-    if (!ADMIN_EMAILS.includes(cred.user.email)) {
-      deviceClaimPendingRef.current = cred.user.uid;
-      await claimDevice(cred.user.uid);
-    }
-    return { user: cred.user, usernameClaimError };
   }
 
   async function logOut() {
