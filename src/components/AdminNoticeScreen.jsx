@@ -3,7 +3,7 @@ import { fetchHomeNotice, saveHomeNotice } from '../lib/homeNotice';
 import { playTapSound } from '../lib/sounds';
 
 // Styled with the shared std-screen/glass/auth-input classes.
-export default function AdminNoticeScreen({ onBack }) {
+export default function AdminNoticeScreen({ onBack , hideBack = false }) {
   const [text, setText] = useState('');
   const [enabled, setEnabled] = useState(true);
   const [loading, setLoading] = useState(true);
@@ -39,7 +39,9 @@ export default function AdminNoticeScreen({ onBack }) {
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      {!hideBack && (
+        <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      )}
 
       <div className="std-header">
         <h1 className="std-title">📢 Home Notice</h1>

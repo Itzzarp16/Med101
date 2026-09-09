@@ -14,7 +14,7 @@ const LABELS = {
 // passes the next one's start date. No official term calendar exists
 // yet, so this is meant to be edited by hand as real dates get decided.
 // Styled with the shared std-screen/glass/auth-input classes.
-export default function AdminCalendarScreen({ onBack }) {
+export default function AdminCalendarScreen({ onBack , hideBack = false }) {
   const [dates, setDates] = useState({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -47,7 +47,9 @@ export default function AdminCalendarScreen({ onBack }) {
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      {!hideBack && (
+        <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      )}
 
       <div className="std-header">
         <h1 className="std-title">⚙️ Academic Calendar</h1>

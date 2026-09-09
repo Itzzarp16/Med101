@@ -2,9 +2,16 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/tokens.css'
 import App from './App.jsx'
+import AdminPortal from './components/AdminPortal.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
 import ErrorBoundary from './components/ErrorBoundary'
+
+// App.jsx's own navigation (screen state + pushState) never changes
+// the URL path - the whole student SPA lives at "/". So a real path
+// check here is all it takes to give /admin its own dedicated page,
+// without touching that existing navigation system at all.
+const isAdminRoute = window.location.pathname.replace(/\/+$/, '') === '/admin';
 
 initTheme();
 
@@ -46,7 +53,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ErrorBoundary>
       <AuthProvider>
-        <App />
+        {isAdminRoute ? <AdminPortal /> : <App />}
       </AuthProvider>
     </ErrorBoundary>
   </StrictMode>,

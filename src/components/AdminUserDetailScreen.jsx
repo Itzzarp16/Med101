@@ -29,7 +29,7 @@ function buildResult(uid, username, data) {
 // initialUid lets this screen be opened already-loaded for a specific
 // student - e.g. tapping their name in the admin "who's online" list -
 // skipping the username search entirely.
-export default function AdminUserDetailScreen({ onBack, initialUid }) {
+export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = false }) {
   const [username, setUsername] = useState('');
   const [busy, setBusy] = useState(!!initialUid);
   const [error, setError] = useState(null);
@@ -164,7 +164,9 @@ export default function AdminUserDetailScreen({ onBack, initialUid }) {
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      {!hideBack && (
+        <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      )}
 
       <div className="std-header">
         <h1 className="std-title">🔍 View User Detail</h1>

@@ -18,7 +18,7 @@ function StatBox({ label, value, accent }) {
   );
 }
 
-export default function AdminAnalyticsScreen({ onBack }) {
+export default function AdminAnalyticsScreen({ onBack , hideBack = false }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [fatalError, setFatalError] = useState(null);
@@ -40,7 +40,9 @@ export default function AdminAnalyticsScreen({ onBack }) {
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      {!hideBack && (
+        <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      )}
 
       <div className="std-header">
         <h1 className="std-title">📊 Usage Analytics</h1>
