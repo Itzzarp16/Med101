@@ -203,14 +203,14 @@ export default function AuthScreen() {
             className={mode === 'signin' ? 'auth-tab active' : 'auth-tab'}
             onClick={() => switchMode('signin')}
           >
-            Sign In
+            Login
           </button>
           <button
             type="button"
             className={mode === 'signup' ? 'auth-tab active' : 'auth-tab'}
             onClick={() => switchMode('signup')}
           >
-            Sign Up
+            Create Account
           </button>
         </div>
 
@@ -222,7 +222,7 @@ export default function AuthScreen() {
             </div>
 
             <div style={{ marginBottom: 14 }}>
-              <label className="auth-label">Username</label>
+              <label className="auth-label">Create Username</label>
               <input
                 className="auth-input"
                 value={username}
@@ -247,7 +247,7 @@ export default function AuthScreen() {
             </div>
 
             <div>
-              <label className="auth-label">Year &amp; Semester</label>
+              <label className="auth-label">Choose Your Year and Semester</label>
               <select className="auth-input" value={yearSemester} onChange={(e) => setYearSemester(e.target.value)}>
                 {YEAR_SEMESTER_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>{opt.label}</option>
