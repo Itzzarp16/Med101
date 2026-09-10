@@ -38,7 +38,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
 
   // Subscription config (UPI ID / price / instructions) - editable
   // right here since it's the same admin who deals with both.
-  const [config, setConfig] = useState({ upiId: '', priceLabel: '', qrImageUrl: '', instructions: '' });
+  const [config, setConfig] = useState({ upiId: '', priceLabel: '', instructions: '' });
   const [configLoading, setConfigLoading] = useState(true);
   const [configSaving, setConfigSaving] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
@@ -67,7 +67,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     loadRequests();
     loadCodes();
     getSubscriptionConfig().then((c) => {
-      if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', qrImageUrl: c.qrImageUrl || '', instructions: c.instructions || '' });
+      if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '' });
       setConfigLoading(false);
     });
   }, []);
@@ -154,8 +154,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
             <input className="auth-input" value={config.priceLabel} onChange={(e) => setConfig((c) => ({ ...c, priceLabel: e.target.value }))} placeholder="e.g. ₹299 / 3 months" />
             <label className="auth-label" style={{ marginTop: 10 }}>UPI ID</label>
             <input className="auth-input" value={config.upiId} onChange={(e) => setConfig((c) => ({ ...c, upiId: e.target.value }))} placeholder="yourname@upi" style={{ fontFamily: 'var(--font-mono)' }} />
-            <label className="auth-label" style={{ marginTop: 10 }}>QR Image URL (optional)</label>
-            <input className="auth-input" value={config.qrImageUrl} onChange={(e) => setConfig((c) => ({ ...c, qrImageUrl: e.target.value }))} placeholder="https://..." />
+            <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>The QR code and payment link are generated automatically from this UPI ID - no image to upload.</div>
             <label className="auth-label" style={{ marginTop: 10 }}>Instructions (optional)</label>
             <textarea className="auth-input" rows={3} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={config.instructions} onChange={(e) => setConfig((c) => ({ ...c, instructions: e.target.value }))} placeholder="Any extra notes shown to students on the payment page" />
             <button className="btn-glow std-save-btn" onClick={handleSaveConfig} disabled={configSaving}>

@@ -5,6 +5,7 @@ import {
   redeemActivationCode, getMyPremiumStatus,
 } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
+import { buildUpiUri } from '../lib/upi';
 import LiveQrCode from './LiveQrCode';
 import './PremiumScreen.css';
 
@@ -158,13 +159,9 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
                 <div className="pay-card-eyebrow">Scan to Pay</div>
                 {config.priceLabel && <div className="pay-card-price">{formatPrice(config.priceLabel)}</div>}
 
-                {config.upiId ? (
+                {config.upiId && (
                   <div className="pay-qr-frame">
                     <LiveQrCode upiId={config.upiId} amount={extractAmount(config.priceLabel)} />
-                  </div>
-                ) : config.qrImageUrl && (
-                  <div className="pay-qr-frame">
-                    <img src={config.qrImageUrl} alt="UPI payment QR code" />
                   </div>
                 )}
 
@@ -177,8 +174,18 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
                   </div>
                 )}
 
+                {config.upiId && (
+                  <a
+                    className="pay-tap-btn"
+                    href={buildUpiUri({ upiId: config.upiId, amount: extractAmount(config.priceLabel) })}
+                    onClick={() => playTapSound()}
+                  >
+                    📲 Tap to Pay in UPI App
+                  </a>
+                )}
+
                 <ol className="pay-steps">
-                  <li>Scan the QR or pay via UPI to the ID above</li>
+                  <li>Scan the QR, or tap "Pay in UPI App" on mobile</li>
                   <li>Submit the transaction ID (UTR) below</li>
                   <li>We'll verify and send you an activation code</li>
                   <li>Enter the code to unlock full access</li>

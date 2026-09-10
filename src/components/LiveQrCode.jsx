@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
+import { buildUpiUri } from '../lib/upi';
 
 // Generates a real, scannable UPI QR code on the fly from the admin's
 // configured UPI ID (and price, if it's a clean number) - so it's
@@ -19,10 +20,7 @@ export default function LiveQrCode({ upiId, amount, payeeName = 'Med101', note =
     let cancelled = false;
     setFailed(false);
 
-    const params = new URLSearchParams({ pa: upiId, pn: payeeName, cu: 'INR' });
-    if (amount) params.set('am', amount);
-    if (note) params.set('tn', note);
-    const upiUri = `upi://pay?${params.toString()}`;
+    const upiUri = buildUpiUri({ upiId, amount, payeeName, note });
 
     QRCode.toString(upiUri, { type: 'svg', margin: 1, color: { dark: '#000000', light: '#ffffff' } })
       .then((str) => { if (!cancelled) setSvg(str); })

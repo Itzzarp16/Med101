@@ -116,6 +116,27 @@
   color: var(--cyan);
 }
 
+.pay-tap-btn {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--cyan2) 0%, var(--violet) 100%);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14.5px;
+  box-shadow: 0 0 22px rgba(24, 232, 255, 0.3), 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
+}
+.pay-tap-btn:hover {
+  transform: translateY(-2px);
+}
+
 .pay-steps {
   text-align: left;
   font-size: 13px;
