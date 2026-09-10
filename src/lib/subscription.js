@@ -56,6 +56,41 @@ export async function getPendingPaymentRequests() {
   return snap.docs.map((d) => ({ utr: d.id, ...d.data() }));
 }
 
+// ── Admin: every code ever issued, with who it belongs to ──────────
+// Distinct from getPendingPaymentRequests (the review queue) - this
+// is the historical record: who's been given a code, when, whether
+// they've redeemed it yet, and when their access runs out. uid is on
+// every code regardless of how old it is, so we look up each
+// student's name/email from their own user doc rather than embedding
+// it on the code at issue time - one lookup per distinct student
+// (not per code), and it stays correct even if they change their
+// display name later.
+export async function getAllActivationCodes() {
+  const snap = await getDocs(collection(db, 'activationCodes'));
+  const codes = snap.docs.map((d) => ({ code: d.id, ...d.data() }));
+  codes.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+
+  const uniqueUids = [...new Set(codes.map((c) => c.uid))];
+  const userDocs = await Promise.all(uniqueUids.map((uid) => getDoc(doc(db, 'users', uid)).catch(() => null)));
+  const userByUid = {};
+  uniqueUids.forEach((uid, i) => { userByUid[uid] = userDocs[i]?.exists() ? userDocs[i].data() : null; });
+
+  return codes.map((c) => {
+    const student = userByUid[c.uid];
+    let expiresAt = null;
+    if (c.used && c.usedAt && c.durationDays) {
+      const usedAtMs = c.usedAt.toMillis ? c.usedAt.toMillis() : c.usedAt.seconds * 1000;
+      expiresAt = new Date(usedAtMs + c.durationDays * 24 * 60 * 60 * 1000);
+    }
+    return {
+      ...c,
+      studentName: student?.displayName || '(unknown)',
+      studentEmail: student?.email || '',
+      expiresAt,
+    };
+  });
+}
+
 function generateCode() {
   // 8 chars from an unambiguous alphabet (no 0/O/1/I) - readable over
   // a phone call or a blurry WhatsApp screenshot, still ~40 bits of

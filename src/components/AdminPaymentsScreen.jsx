@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPendingPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig } from '../lib/subscription';
+import { getPendingPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 
 const DURATION_PRESETS = [
@@ -9,9 +9,26 @@ const DURATION_PRESETS = [
   { label: '1 Year', days: 365 },
 ];
 
+function fmtDate(ts) {
+  if (!ts) return '-';
+  const ms = ts.toMillis ? ts.toMillis() : ts.seconds * 1000;
+  return new Date(ms).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function expiryLabel(codeRow) {
+  if (!codeRow.used) return { text: 'Not activated yet', color: 'var(--text3)' };
+  if (!codeRow.expiresAt) return { text: '-', color: 'var(--text3)' };
+  const daysLeft = Math.ceil((codeRow.expiresAt.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
+  if (daysLeft < 0) return { text: `Expired ${fmtDate({ seconds: codeRow.expiresAt.getTime() / 1000 })}`, color: 'var(--red)' };
+  if (daysLeft === 0) return { text: 'Expires today', color: 'var(--amber)' };
+  return { text: `${daysLeft} day${daysLeft === 1 ? '' : 's'} left`, color: daysLeft <= 7 ? 'var(--amber)' : 'var(--green)' };
+}
+
 export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [requests, setRequests] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [codes, setCodes] = useState(null);
+  const [codesLoading, setCodesLoading] = useState(true);
   const [busyUtr, setBusyUtr] = useState(null);
   const [durationByUtr, setDurationByUtr] = useState({});
   const [customDaysByUtr, setCustomDaysByUtr] = useState({});
@@ -37,8 +54,18 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     }
   }
 
+  async function loadCodes() {
+    setCodesLoading(true);
+    try {
+      setCodes(await getAllActivationCodes());
+    } finally {
+      setCodesLoading(false);
+    }
+  }
+
   useEffect(() => {
     loadRequests();
+    loadCodes();
     getSubscriptionConfig().then((c) => {
       if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', qrImageUrl: c.qrImageUrl || '', instructions: c.instructions || '' });
       setConfigLoading(false);
@@ -72,6 +99,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
       const code = await approvePaymentRequest(req.utr, req.uid, days);
       setIssuedCode({ utr: req.utr, code, days, email: req.email });
       await loadRequests();
+      await loadCodes();
     } catch (e) {
       alert('Failed to approve: ' + (e.message || e));
     } finally {
@@ -215,6 +243,33 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
             )}
           </div>
         ))
+      )}
+
+      <div className="auth-label" style={{ marginTop: 22 }}>
+        Issued Codes {codes ? `(${codes.length})` : ''}
+      </div>
+
+      {codesLoading ? (
+        <div className="std-loading">Loading…</div>
+      ) : codes.length === 0 ? (
+        <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No codes issued yet.</div>
+      ) : (
+        codes.map((c) => {
+          const expiry = expiryLabel(c);
+          return (
+            <div key={c.code} className="glass std-card" style={{ marginTop: 10 }}>
+              <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
+              <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{c.studentEmail}</div>
+              <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <span>Code: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.code}</strong></span>
+                <span>Duration: <strong>{c.durationDays} days</strong></span>
+                <span>Issued: <strong>{fmtDate(c.createdAt)}</strong></span>
+                <span>Activated: <strong>{c.used ? fmtDate(c.usedAt) : 'Not yet'}</strong></span>
+              </div>
+              <div style={{ marginTop: 8, fontSize: 13, fontWeight: 700, color: expiry.color }}>{expiry.text}</div>
+            </div>
+          );
+        })
       )}
     </div>
   );
