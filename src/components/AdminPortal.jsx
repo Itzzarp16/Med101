@@ -14,11 +14,11 @@ import './AdminPortal.css';
 // links to on the main site, so there's exactly one implementation of
 // each admin feature; this file just gives them their own home.
 const TABS = [
+  { id: 'payments', label: '💳 Payments' },
   { id: 'notice', label: '📢 Home Notice' },
   { id: 'calendar', label: '⚙️ Academic Calendar' },
   { id: 'users', label: '🔍 User Detail' },
   { id: 'analytics', label: '📊 Usage Analytics' },
-  { id: 'payments', label: '💳 Payments' },
 ];
 
 function AdminScreenFor({ tab }) {
@@ -99,7 +99,7 @@ function AdminLogin() {
 
 export default function AdminPortal() {
   const { user, profile, loading, isAdmin, logOut } = useAuth();
-  const [tab, setTab] = useState('notice');
+  const [tab, setTab] = useState('payments');
 
   if (loading) {
     return <div className="admin-portal-loading">Loading…</div>;
