@@ -5,6 +5,7 @@ import {
   redeemActivationCode, getMyPremiumStatus,
 } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
+import './PremiumScreen.css';
 
 const STATUS_LABEL = {
   pending: { text: 'Pending review', color: 'var(--amber)' },
@@ -29,6 +30,16 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
   const [code, setCode] = useState('');
   const [redeeming, setRedeeming] = useState(false);
   const [redeemMsg, setRedeemMsg] = useState(null);
+  const [copied, setCopied] = useState(false);
+
+  function handleCopyUpi() {
+    if (!config?.upiId) return;
+    playTapSound();
+    navigator.clipboard?.writeText(config.upiId).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1800);
+    });
+  }
 
   async function loadAll() {
     const [cfg, status, reqs] = await Promise.all([
@@ -120,23 +131,37 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
           </div>
 
           {config && (
-            <div className="glass std-card">
-              <div className="auth-label" style={{ margin: 0 }}>How to Subscribe</div>
-              {config.priceLabel && (
-                <div style={{ fontSize: 20, fontWeight: 800, marginTop: 6 }}>{config.priceLabel}</div>
-              )}
-              <ol style={{ fontSize: 13, color: 'var(--text2)', marginTop: 10, paddingLeft: 18, lineHeight: 1.7 }}>
-                <li>Pay via UPI to: <strong style={{ fontFamily: 'var(--font-mono)', color: 'var(--text)' }}>{config.upiId}</strong></li>
-                <li>Submit the transaction ID (UTR) below</li>
-                <li>We'll verify and send you an activation code</li>
-                <li>Enter the code to unlock full access</li>
-              </ol>
-              {config.qrImageUrl && (
-                <img src={config.qrImageUrl} alt="Payment QR code" style={{ width: '100%', maxWidth: 220, margin: '10px auto', display: 'block', borderRadius: 12 }} />
-              )}
-              {config.instructions && (
-                <div style={{ fontSize: 12.5, color: 'var(--text3)', marginTop: 8 }}>{config.instructions}</div>
-              )}
+            <div className="pay-card">
+              <div className="pay-card-inner">
+                <div className="pay-card-eyebrow">Scan to Pay</div>
+                {config.priceLabel && <div className="pay-card-price">{config.priceLabel}</div>}
+
+                {config.qrImageUrl && (
+                  <div className="pay-qr-frame">
+                    <img src={config.qrImageUrl} alt="UPI payment QR code" />
+                  </div>
+                )}
+
+                {config.upiId && (
+                  <div className="pay-upi-row">
+                    <span className="pay-upi-id">{config.upiId}</span>
+                    <button type="button" className="pay-upi-copy" onClick={handleCopyUpi}>
+                      {copied ? '✓ Copied' : 'Copy'}
+                    </button>
+                  </div>
+                )}
+
+                <ol className="pay-steps">
+                  <li>Scan the QR or pay via UPI to the ID above</li>
+                  <li>Submit the transaction ID (UTR) below</li>
+                  <li>We'll verify and send you an activation code</li>
+                  <li>Enter the code to unlock full access</li>
+                </ol>
+
+                {config.instructions && (
+                  <div className="pay-instructions">{config.instructions}</div>
+                )}
+              </div>
             </div>
           )}
 
