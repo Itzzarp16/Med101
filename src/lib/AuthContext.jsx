@@ -12,7 +12,7 @@ import { startTimeTracking } from './timeTracking';
 import { claimUsername } from './profile';
 
 // Must exactly match the emails your Firestore isAdmin() security rule checks.
-const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com'];
+const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
 
 const AuthContext = createContext(null);
 

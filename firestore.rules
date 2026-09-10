@@ -14,7 +14,7 @@ service cloud.firestore {
     // adminAccountActions.js for why).
     function isAdmin() {
       return request.auth != null &&
-             request.auth.token.email in ['admin.med101@gmail.com', 'admin1.med101@gmail.com'];
+             request.auth.token.email in ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
     }
 
     match /users/{uid} {

@@ -7,7 +7,7 @@
       }
     },
     "presenceNames": {
-      ".read": "auth != null && (auth.token.email === 'admin.med101@gmail.com' || auth.token.email === 'admin1.med101@gmail.com')",
+      ".read": "auth != null && (auth.token.email === 'admin.med101@gmail.com' || auth.token.email === 'admin1.med101@gmail.com' || auth.token.email === 'admin2.med101@gmail.com')",
       "$uid": {
         ".write": "auth != null && auth.uid === $uid"
       }
