@@ -13,6 +13,17 @@ const STATUS_LABEL = {
   rejected: { text: 'Rejected', color: 'var(--red)' },
 };
 
+// Admin's Price Label field is free text (e.g. "₹299 / 3 months"),
+// but if they just typed a bare number like "11", show it as ₹11
+// rather than a naked "11" - only kicks in when the whole label is
+// just digits/decimal, so a fuller label they've already formatted
+// themselves is left untouched.
+function formatPrice(label) {
+  if (!label) return label;
+  const trimmed = label.trim();
+  return /^\d+(\.\d+)?$/.test(trimmed) ? `₹${trimmed}` : label;
+}
+
 export default function PremiumScreen({ onBack, onRedeemed }) {
   const { user } = useAuth();
   const [config, setConfig] = useState(null);
@@ -134,7 +145,7 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
             <div className="pay-card">
               <div className="pay-card-inner">
                 <div className="pay-card-eyebrow">Scan to Pay</div>
-                {config.priceLabel && <div className="pay-card-price">{config.priceLabel}</div>}
+                {config.priceLabel && <div className="pay-card-price">{formatPrice(config.priceLabel)}</div>}
 
                 {config.qrImageUrl && (
                   <div className="pay-qr-frame">
