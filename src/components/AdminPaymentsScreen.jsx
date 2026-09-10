@@ -180,7 +180,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
             <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{req.email}</div>
             <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
               <span>Banking name: <strong>{req.bankingName || '-'}</strong></span>
-              <span>Amount: <strong>{req.amount || '-'}</strong></span>
               <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{req.utr}</strong></span>
               <span>Phone: <strong>{req.phone || '-'}</strong></span>
             </div>

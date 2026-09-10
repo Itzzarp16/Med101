@@ -23,7 +23,7 @@ export async function saveSubscriptionConfig({ upiId, priceLabel, qrImageUrl, in
 // ── Student: submit a payment for admin review ──────────────────────
 // Doc ID is the UTR itself - see firestore.rules for why that's what
 // blocks a duplicate submission of the same transaction.
-export async function submitPaymentRequest({ uid, email, displayName, bankingName, amount, phone, utr }) {
+export async function submitPaymentRequest({ uid, email, displayName, bankingName, phone, utr }) {
   const cleanUtr = utr.trim();
   if (!cleanUtr) throw new Error('Please enter the transaction ID (UTR).');
   const ref = doc(db, 'paymentRequests', cleanUtr);
@@ -33,7 +33,7 @@ export async function submitPaymentRequest({ uid, email, displayName, bankingNam
   }
   await setDoc(ref, {
     uid, email, displayName: displayName || '', bankingName: bankingName || '',
-    amount: amount || '', phone: phone || '',
+    phone: phone || '',
     status: 'pending',
     createdAt: serverTimestamp(),
   });

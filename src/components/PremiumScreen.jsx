@@ -44,7 +44,6 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
   const [myRequests, setMyRequests] = useState([]);
 
   const [bankingName, setBankingName] = useState('');
-  const [amount, setAmount] = useState('');
   const [phone, setPhone] = useState('');
   const [utr, setUtr] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -91,10 +90,10 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
     try {
       await submitPaymentRequest({
         uid: user.uid, email: user.email, displayName: user.displayName,
-        bankingName, amount, phone, utr,
+        bankingName, phone, utr,
       });
       setSubmitMsg({ text: 'Submitted! We\'ll review it and send you an activation code shortly.', type: 'success' });
-      setBankingName(''); setAmount(''); setPhone(''); setUtr('');
+      setBankingName(''); setPhone(''); setUtr('');
       loadAll();
     } catch (e) {
       setSubmitMsg({ text: e.message || String(e), type: 'error' });
@@ -202,8 +201,6 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
             <div className="auth-label" style={{ margin: 0 }}>Submit Your Payment</div>
             <label className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
             <input className="auth-input" value={bankingName} onChange={(e) => setBankingName(e.target.value)} placeholder="Name on the account you paid from" />
-            <label className="auth-label" style={{ marginTop: 10 }}>Amount Paid</label>
-            <input className="auth-input" value={amount} onChange={(e) => setAmount(e.target.value)} placeholder="e.g. 299" inputMode="decimal" />
             <label className="auth-label" style={{ marginTop: 10 }}>Your Contact Number</label>
             <input className="auth-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="e.g. 9876543210" inputMode="tel" />
             <label className="auth-label" style={{ marginTop: 10 }}>Transaction ID (UTR)</label>
