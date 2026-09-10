@@ -5,6 +5,7 @@ import {
   redeemActivationCode, getMyPremiumStatus,
 } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
+import LiveQrCode from './LiveQrCode';
 import './PremiumScreen.css';
 
 const STATUS_LABEL = {
@@ -22,6 +23,16 @@ function formatPrice(label) {
   if (!label) return label;
   const trimmed = label.trim();
   return /^\d+(\.\d+)?$/.test(trimmed) ? `₹${trimmed}` : label;
+}
+
+// Only prefills the UPI app's amount field when the label is a clean
+// number (or ₹-prefixed number) like "11" or "₹11" - a fuller label
+// like "₹299 / 3 months" doesn't reliably map to one amount, so it's
+// left for the student to enter themselves in that case.
+function extractAmount(label) {
+  if (!label) return null;
+  const m = label.trim().match(/^₹?(\d+(\.\d+)?)$/);
+  return m ? m[1] : null;
 }
 
 export default function PremiumScreen({ onBack, onRedeemed }) {
@@ -147,7 +158,11 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
                 <div className="pay-card-eyebrow">Scan to Pay</div>
                 {config.priceLabel && <div className="pay-card-price">{formatPrice(config.priceLabel)}</div>}
 
-                {config.qrImageUrl && (
+                {config.upiId ? (
+                  <div className="pay-qr-frame">
+                    <LiveQrCode upiId={config.upiId} amount={extractAmount(config.priceLabel)} />
+                  </div>
+                ) : config.qrImageUrl && (
                   <div className="pay-qr-frame">
                     <img src={config.qrImageUrl} alt="UPI payment QR code" />
                   </div>

@@ -48,14 +48,36 @@
   background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%);
 }
 
-.pay-qr-frame img {
+.pay-qr-frame img,
+.pay-qr-frame .pay-qr-svg,
+.pay-qr-frame .pay-qr-svg svg {
   display: block;
   width: 190px;
   height: 190px;
+}
+
+.pay-qr-frame img,
+.pay-qr-frame .pay-qr-svg {
   object-fit: contain;
   border-radius: 15px;
   background: #fff;
   padding: 10px;
+  box-sizing: content-box;
+}
+
+.pay-qr-loading {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12.5px;
+  color: #667;
+  background: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  box-sizing: content-box;
 }
 
 .pay-upi-row {
