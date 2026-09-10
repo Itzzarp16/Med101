@@ -28,6 +28,7 @@ export default function PrivacyPolicy() {
         <h3>b) Information collected automatically</h3>
         <ul>
           <li>Quiz activity and study progress (e.g. questions attempted, scores, time spent), used to power your dashboard and leaderboards</li>
+          <li>Total time spent actively using the site, visible to admins for usage insights</li>
           <li>A device identifier used to enforce single-device sign-in on your account</li>
           <li>Basic technical data such as browser type, generated as part of normal website operation</li>
         </ul>
@@ -62,8 +63,14 @@ export default function PrivacyPolicy() {
         <h2>5. Data Retention</h2>
         <p>
           We retain your account information for as long as your account
-          is active. If you'd like your account and associated data
-          deleted, contact us using the details below.
+          is active. If you'd like your account deleted, contact us using
+          the details below. When we process a deletion request, we
+          permanently erase your quiz history, scores, username, and
+          study data, and permanently block the account from being used
+          again. Your name and email address are not fully erasable due
+          to a technical limitation of our authentication provider, but
+          are retained only to keep the account blocked and are not used
+          for any other purpose after deletion.
         </p>
 
         <h2>6. Your Rights</h2>
@@ -71,7 +78,7 @@ export default function PrivacyPolicy() {
         <ul>
           <li>Access or update your name, username, and year/semester from your profile settings</li>
           <li>Request a copy of the personal data we hold about you</li>
-          <li>Request deletion of your account and personal data</li>
+          <li>Request deletion of your account and study data (see Section 5 for what this covers)</li>
         </ul>
         <p>To exercise any of these, email us at the address below.</p>
 
