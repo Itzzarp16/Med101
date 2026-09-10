@@ -2,23 +2,35 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    function isAdmin() {
+      return request.auth != null &&
+             request.auth.token.email in ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
+    }
+
     // ── users/{uid} ─────────────────────────────────────────────
     // A student can only read/write their OWN profile doc. This is
     // what the single-device lock and the year/semester field rely
     // on - without this rule, claimDevice()/verifyDevice() silently
     // fail (fails open) and the lock does nothing.
     //
+    // create vs update are split deliberately: create (signup's very
+    // first setDoc, when no doc exists yet) is unrestricted for the
+    // owner, but update blocks the student from ever touching
+    // `disabled` themselves - without this split, a disabled student
+    // could simply reactivate their own account via dev tools/a raw
+    // Firestore write, which defeats the whole point of that feature.
+    // (Premium status is deliberately NOT stored as a writable field
+    // here at all - see activationCodes below for why.)
+    //
     // Admin gets full read/write here too - needed for the "View All
     // Users" list, disabling an account, and account deletion (which
     // overwrites this doc rather than removing it - see
     // adminAccountActions.js for why).
-    function isAdmin() {
-      return request.auth != null &&
-             request.auth.token.email in ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
-    }
-
     match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid;
+      allow update: if request.auth != null && request.auth.uid == uid
+                    && !request.resource.data.diff(resource.data).affectedKeys().hasAny(['disabled']);
       allow read, write: if isAdmin();
     }
 
@@ -90,6 +102,49 @@ service cloud.firestore {
     // served entirely from static JSON files bundled with the app, to
     // eliminate the read/write cost of the old admin-editable system.)
 
+    // ── paymentRequests/{utr} ────────────────────────────────────
+    // A student's premium-purchase submission (manual UPI flow - see
+    // subscription.js). Doc ID is the UTR/transaction ID itself, which
+    // is what naturally blocks a duplicate submission of the same
+    // transaction: a second create attempt on an ID that already
+    // exists is an UPDATE in Firestore's eyes, not a create, and
+    // students have no update permission here at all - only admin can
+    // transition a request's status.
+    match /paymentRequests/{utr} {
+      allow create: if request.auth != null && request.resource.data.uid == request.auth.uid
+                    && request.resource.data.status == 'pending';
+      allow get, list: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow get, list: if isAdmin();
+      allow update: if isAdmin();
+    }
+
+    // ── activationCodes/{code} ────────────────────────────────────
+    // The premium redemption codes themselves. Deliberately the ONLY
+    // source of truth for premium status - there is no `premiumUntil`
+    // (or similar) field a student can write on their own users/{uid}
+    // doc, because that would let anyone grant themselves premium via
+    // a raw Firestore write from dev tools. Instead, premium status is
+    // computed client-side by reading a student's own USED codes and
+    // taking the latest (usedAt + durationDays) - since a code can only
+    // ever be created by admin, and can only be flipped from unused to
+    // used exactly once by its rightful owner, there is no way for a
+    // student to fabricate a valid "used" code for themselves.
+    match /activationCodes/{code} {
+      allow create: if isAdmin();
+      allow get, list: if request.auth != null && resource.data.uid == request.auth.uid;
+      allow get, list: if isAdmin();
+      // The one-time redemption transition: only the code's rightful
+      // owner, only while it's still unused, only flipping it to used
+      // and stamping who/when - nothing else about the code (uid,
+      // durationDays, the code's own identity) can be changed.
+      allow update: if request.auth != null
+                    && resource.data.uid == request.auth.uid
+                    && resource.data.used == false
+                    && request.resource.data.used == true
+                    && request.resource.data.usedBy == request.auth.uid
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['used', 'usedAt', 'usedBy']);
+    }
+
     // ── rooms/{code} ────────────────────────────────────────────
     // Challenge Rooms: any signed-in student can create a room (the
     // host's uid must match their own auth uid), and any signed-in
@@ -148,8 +203,8 @@ service cloud.firestore {
 
     // ── config/{docId} ──────────────────────────────────────────
     // Home notice, leaderboard default scope, academic calendar,
-    // etc. Everyone signed in can read (the app needs these to
-    // render), only admin can write.
+    // subscription price/UPI details, etc. Everyone signed in can
+    // read (the app needs these to render), only admin can write.
     match /config/{docId} {
       allow read: if request.auth != null;
       allow write: if isAdmin();

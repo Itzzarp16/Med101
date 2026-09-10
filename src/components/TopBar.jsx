@@ -10,7 +10,7 @@ import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence'
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
-export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onFriends, onProfile, onWeakTopics, onWrongFlagged, onHistory, onSearch, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics, onViewUser, screen }) {
+export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onFriends, onProfile, onWeakTopics, onWrongFlagged, onHistory, onSearch, onPremium, onAdminNotice, onAdminCalendar, onAdminUserDetail, onAdminAnalytics, onAdminPayments, onViewUser, screen }) {
   const { user, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [onlineCount, setOnlineCount] = useState(null);
@@ -142,6 +142,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
             <button className="menu-item" onClick={() => go(onWrongFlagged)}>📌 Wrong &amp; Flagged Questions</button>
             <button className="menu-item" onClick={() => go(onSearch)}>🔍 Search Questions</button>
             <button className="menu-item" onClick={() => go(onHistory)}>🕘 History</button>
+            <button className="menu-item" onClick={() => go(onPremium)}>⭐ Get Premium</button>
 
             {isAdmin && (
               <>
@@ -150,6 +151,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
                 <button className="menu-item admin" onClick={() => go(onAdminCalendar)}>⚙️ Academic Calendar</button>
                 <button className="menu-item admin" onClick={() => go(onAdminUserDetail)}>🔍 View User Detail</button>
                 <button className="menu-item admin" onClick={() => go(onAdminAnalytics)}>📊 Usage Analytics</button>
+                <button className="menu-item admin" onClick={() => go(onAdminPayments)}>💳 Payments</button>
               </>
             )}
 

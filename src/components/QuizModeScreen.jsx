@@ -22,7 +22,7 @@ const TIMER_PRESETS = [20, 30, 45, 60];
 // All Sequential/Random, Custom Range), then multi-select topic chips
 // (picking any chip switches mode to "topic" and filters the pool to
 // just those topics), then Auto-advance/Timer settings.
-export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, onStart, onBack }) {
+export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, isPremium, onGetPremium, onStart, onBack }) {
   const { profile } = useAuth();
   const [mode, setMode] = useState('rand25');
   const [selectedTopics, setSelectedTopics] = useState(() => new Set());
@@ -62,6 +62,19 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
 
   function handleStart() {
     playTapSound();
+
+    // Free preview: regardless of whatever mode is/was selected, a
+    // non-premium student always gets exactly the first 25 questions
+    // in fixed source order - never randomised, never more than 25,
+    // same 25 every time. This is enforced here (not just hidden in
+    // the UI below) so there's a single place that decides what a
+    // free student actually receives.
+    if (!isPremium) {
+      const preview = pool.slice(0, Math.min(25, pool.length));
+      onStart(preview, { autoAdvance, timerSeconds: timerOn ? timerSeconds : null });
+      return;
+    }
+
     let quizQ;
     if (mode === 'unseen') {
       quizQ = shuffled(unseenPool);
@@ -121,6 +134,24 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
       <div className="qmode-body">
         <button className="btn-ghost qmode-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
 
+        {!isPremium ? (
+          <>
+            <div className="qmode-custom glass" style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>🔒 Free Preview</div>
+              <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6 }}>
+                You can try the first {Math.min(25, pool.length)} questions of {subjectName} for free.
+                Get Premium to unlock all {pool.length} questions, every mode, and every subject.
+              </p>
+            </div>
+            <button className="btn-glow qmode-start-btn" onClick={handleStart}>
+              Start Free Preview (Q1–{Math.min(25, pool.length)}) →
+            </button>
+            <button className="btn-ghost" style={{ width: '100%', marginTop: 10 }} onClick={() => { playTapSound(); onGetPremium?.(); }}>
+              ⭐ Get Premium for Full Access
+            </button>
+          </>
+        ) : (
+          <>
         <div className="qmode-section-label">Quiz Mode</div>
         <div className="qmode-grid">
           <ModeCard emoji="🎲" title="Random 25" desc="Quick 5-min practice" selected={mode === 'rand25'} onClick={() => selectMode('rand25')} />
@@ -197,6 +228,8 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
         </div>
 
         <button className="btn-glow qmode-start-btn" onClick={handleStart}>Start Quiz →</button>
+          </>
+        )}
       </div>
     </div>
   );
