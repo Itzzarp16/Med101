@@ -39,7 +39,25 @@ export default function TermsAndConditions() {
           <li>You're responsible for all activity that happens under your account.</li>
         </ul>
 
-        <h2>4. Content &amp; Intellectual Property</h2>
+        <h2>4. Premium Subscriptions &amp; Payments</h2>
+        <p>Premium content/features are activated through a manual process, not an automatic payment gateway:</p>
+        <ul>
+          <li>You pay us directly via UPI, using the UPI ID/QR code shown in the app.</li>
+          <li>You then submit the transaction ID (UTR), the name on the account you paid from, the amount, and a phone number, so we can verify the payment.</li>
+          <li>Our admin team manually checks this against our own bank/UPI records. This isn't instant - please allow a reasonable time for review.</li>
+          <li>Once approved, you'll receive a one-time activation code to redeem in the app, unlocking Premium for the duration you paid for.</li>
+          <li>Submitting inaccurate payment details, or a transaction ID that doesn't correspond to an actual payment to us, may result in rejection and, for repeated or deliberate attempts, account suspension.</li>
+        </ul>
+
+        <h2>5. Cancellations &amp; Refunds</h2>
+        <ul>
+          <li>Premium is a one-time payment for a fixed duration, not an auto-renewing subscription - there's nothing to "cancel" in that sense.</li>
+          <li>If you've submitted a payment that hasn't been approved yet and change your mind, contact us before approval and we'll refund it.</li>
+          <li>Once a payment is approved and an activation code is issued, it's non-refundable, except where required by law.</li>
+          <li>If you believe a payment was verified incorrectly, or you were charged in error, contact us at the email below and we'll look into it.</li>
+        </ul>
+
+        <h2>6. Content &amp; Intellectual Property</h2>
         <p>
           Quiz questions, explanations, notices, and other material on
           Med101 belong to Med101 or its licensors. You may use them for
@@ -48,7 +66,7 @@ export default function TermsAndConditions() {
           platform to build another product).
         </p>
 
-        <h2>5. Acceptable Use</h2>
+        <h2>7. Acceptable Use</h2>
         <p>You agree not to:</p>
         <ul>
           <li>Share your account/login with others</li>
@@ -58,7 +76,7 @@ export default function TermsAndConditions() {
           <li>Use Med101 in any way that disrupts the platform or other users</li>
         </ul>
 
-        <h2>6. Disclaimer of Warranties</h2>
+        <h2>8. Disclaimer of Warranties</h2>
         <p>
           Med101 is provided "as is." We don't guarantee that content is
           error-free, complete, or sufficient on its own to pass any
@@ -66,32 +84,33 @@ export default function TermsAndConditions() {
           results depend on many factors outside our control.
         </p>
 
-        <h2>7. Limitation of Liability</h2>
+        <h2>9. Limitation of Liability</h2>
         <p>
           To the maximum extent permitted by law, Med101 is not liable for
           indirect, incidental, or consequential damages arising from your
           use of the platform, including academic outcomes.
         </p>
 
-        <h2>8. Termination</h2>
+        <h2>10. Termination</h2>
         <p>
           We may suspend or terminate an account that violates these
           Terms, including sharing login credentials or attempting to
           circumvent the single-device restriction.
         </p>
 
-        <h2>9. Changes to These Terms</h2>
+        <h2>11. Changes to These Terms</h2>
         <p>
           We may update these Terms from time to time. Changes will be
           posted on this page with an updated "Last updated" date.
         </p>
 
-        <h2>10. Governing Law</h2>
+        <h2>12. Governing Law</h2>
         <p>These Terms are governed by the laws of India.</p>
 
-        <h2>11. Contact Us</h2>
+        <h2>13. Contact Us</h2>
         <p>
-          Questions about these Terms or your account can be sent to:{' '}
+          Questions about these Terms, a payment, or your account can be
+          sent to:{' '}
           <a href="mailto:admin.med101@gmail.com">admin.med101@gmail.com</a>
         </p>
       </div>

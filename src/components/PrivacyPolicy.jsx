@@ -33,12 +33,36 @@ export default function PrivacyPolicy() {
           <li>Basic technical data such as browser type, generated as part of normal website operation</li>
         </ul>
 
+        <h3>c) Payment information (Premium)</h3>
+        <p>
+          Med101's Premium subscription is handled manually, not through a
+          payment gateway. If you choose to subscribe, you pay us
+          directly via UPI (outside the app), then submit the following
+          to us so we can verify and approve your payment:
+        </p>
+        <ul>
+          <li>The transaction ID (UTR) from your payment</li>
+          <li>The name on the bank account/UPI ID you paid from</li>
+          <li>The amount paid</li>
+          <li>A phone number, in case we need to reach you about the payment</li>
+        </ul>
+        <p>
+          We do not collect or see your card, UPI PIN, or bank login
+          details - only what you submit above, which our admin team
+          uses solely to match your payment against our bank/UPI
+          statement and activate your subscription. Once approved, we
+          issue a one-time activation code to your account; we do not
+          separately store your card or bank account details anywhere
+          else in the app.
+        </p>
+
         <h2>2. How We Use Your Information</h2>
         <ul>
           <li>To create and maintain your account</li>
           <li>To provide quiz content, track your progress, and show leaderboards</li>
+          <li>To verify manually-submitted payments and activate Premium subscriptions</li>
           <li>To enforce one active device/session per account</li>
-          <li>To communicate with you about your account or support requests</li>
+          <li>To communicate with you about your account, a payment, or support requests</li>
           <li>To maintain the security and integrity of the platform</li>
         </ul>
         <p>We do not sell your personal information to anyone.</p>
@@ -49,7 +73,12 @@ export default function PrivacyPolicy() {
           <li><strong>Firebase (Google Cloud)</strong> - hosts our database and authentication</li>
           <li><strong>Vercel</strong> - hosts our website</li>
         </ul>
-        <p>We do not share your data with advertisers, and we do not use third-party advertising or tracking cookies.</p>
+        <p>
+          Payment verification (Section 1c) is handled directly by our
+          own admin team, not a third-party payment processor. We do
+          not share your data with advertisers, and we do not use
+          third-party advertising or tracking cookies.
+        </p>
 
         <h2>4. Data Security</h2>
         <p>
@@ -70,7 +99,9 @@ export default function PrivacyPolicy() {
           again. Your name and email address are not fully erasable due
           to a technical limitation of our authentication provider, but
           are retained only to keep the account blocked and are not used
-          for any other purpose after deletion.
+          for any other purpose after deletion. Payment records (Section
+          1c) are kept separately for bookkeeping purposes even after an
+          account is deleted.
         </p>
 
         <h2>6. Your Rights</h2>
