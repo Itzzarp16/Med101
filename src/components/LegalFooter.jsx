@@ -2,14 +2,8 @@ import './LegalFooter.css';
 
 export default function LegalFooter() {
   return (
-    <div className="legal-footer">
-      <div className="legal-footer-copyright">
-        © 2026 Med101 — a medical MCQ study platform
-      </div>
-
-      <div className="legal-footer-tagline">
-        Built for medical students preparing for exams.
-      </div>
+    <div className="legal-footer-copyright">© 2026 Med101</div>
+<div className="legal-footer-tagline">Learn. Practice. Improve.</div>
 
       <div className="legal-footer-links">
         <a
