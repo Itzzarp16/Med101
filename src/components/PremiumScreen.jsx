@@ -170,7 +170,7 @@ export default function PremiumScreen({ onBack }) {
             )}
           </div>
 
-          {config && (
+          {!premium.isPremium && config && (
             <div className="pay-card">
               <div className="pay-card-inner">
                 <div className="pay-card-eyebrow">Scan to Pay</div>
@@ -211,21 +211,23 @@ export default function PremiumScreen({ onBack }) {
             </div>
           )}
 
-          <form className="glass std-card" onSubmit={handleSubmit}>
-            <div className="auth-label" style={{ margin: 0 }}>Submit Your Payment</div>
-            <label className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
-            <input className="auth-input" value={bankingName} onChange={(e) => setBankingName(e.target.value)} placeholder="Name on the account you paid from" />
-            <label className="auth-label" style={{ marginTop: 10 }}>Your Contact Number</label>
-            <input className="auth-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="e.g. 9876543210" inputMode="tel" />
-            <label className="auth-label" style={{ marginTop: 10 }}>Transaction ID (UTR)</label>
-            <input className="auth-input" value={utr} onChange={(e) => setUtr(e.target.value)} placeholder="From your UPI app's payment history" style={{ fontFamily: 'var(--font-mono)' }} />
-            <button className="btn-glow std-save-btn" type="submit" disabled={submitting}>
-              {submitting ? 'Submitting…' : 'Submit for Review'}
-            </button>
-            {submitMsg && <div className={`auth-msg ${submitMsg.type}`} style={{ display: 'block' }}>{submitMsg.text}</div>}
-          </form>
+          {!premium.isPremium && (
+            <form className="glass std-card" onSubmit={handleSubmit}>
+              <div className="auth-label" style={{ margin: 0 }}>Submit Your Payment</div>
+              <label className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
+              <input className="auth-input" value={bankingName} onChange={(e) => setBankingName(e.target.value)} placeholder="Name on the account you paid from" />
+              <label className="auth-label" style={{ marginTop: 10 }}>Your Contact Number</label>
+              <input className="auth-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="e.g. 9876543210" inputMode="tel" />
+              <label className="auth-label" style={{ marginTop: 10 }}>Transaction ID (UTR)</label>
+              <input className="auth-input" value={utr} onChange={(e) => setUtr(e.target.value)} placeholder="From your UPI app's payment history" style={{ fontFamily: 'var(--font-mono)' }} />
+              <button className="btn-glow std-save-btn" type="submit" disabled={submitting}>
+                {submitting ? 'Submitting…' : 'Submit for Review'}
+              </button>
+              {submitMsg && <div className={`auth-msg ${submitMsg.type}`} style={{ display: 'block' }}>{submitMsg.text}</div>}
+            </form>
+          )}
 
-          {config?.activationMethod === 'code' && (
+          {!premium.isPremium && config?.activationMethod === 'code' && (
             <form className="glass std-card" onSubmit={handleRedeem}>
               <div className="auth-label" style={{ margin: 0 }}>Have an Activation Code?</div>
               <input
@@ -242,7 +244,7 @@ export default function PremiumScreen({ onBack }) {
             </form>
           )}
 
-          {myRequests.length > 0 && (
+          {!premium.isPremium && myRequests.length > 0 && (
             <div className="glass std-card">
               <div className="auth-label" style={{ margin: 0 }}>Your Submissions</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
