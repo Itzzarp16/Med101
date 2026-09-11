@@ -38,6 +38,20 @@ function firestoreString(fields, name) {
   return fields?.[name]?.stringValue || '';
 }
 
+async function getConfiguredPriceLabel(idToken) {
+  const projectId = process.env.FIREBASE_PROJECT_ID || 'med101-1';
+  const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(projectId)}/databases/(default)/documents/config/subscription`;
+  try {
+    const response = await fetch(url, { headers: { Authorization: `Bearer ${idToken}` } });
+    if (!response.ok) return null;
+    const doc = await response.json();
+    return firestoreString(doc.fields, 'priceLabel') || null;
+  } catch (e) {
+    console.warn('Could not fetch configured price label:', e);
+    return null; // notification still sends, just without a price line
+  }
+}
+
 async function getOwnPaymentRequest(idToken, utr) {
   const projectId = process.env.FIREBASE_PROJECT_ID || 'med101-1';
   const encodedUtr = encodeURIComponent(utr);
@@ -91,6 +105,7 @@ export default async function handler(req, res) {
     const displayName = firestoreString(fields, 'displayName');
     const bankingName = firestoreString(fields, 'bankingName');
     const phone = firestoreString(fields, 'phone');
+    const priceLabel = await getConfiguredPriceLabel(idToken);
 
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
@@ -104,7 +119,7 @@ export default async function handler(req, res) {
     const message = [
   '\u{1F514} <b>MED101 — New Payment Submission</b>',
   '',
-  '\u{1F4B0} <b>Amount:</b> \u20B911',
+  ...(priceLabel ? [`\u{1F4B0} <b>Price:</b> ${escapeHtml(priceLabel)}`] : []),
   `\u{1F464} <b>User:</b> ${escapeHtml(displayName || '(not provided)')}`,
   `\u{1F4E7} <b>Email:</b> ${escapeHtml(account.email || '(not provided)')}`,
   `\u{1F3E6} <b>Banking Name:</b> ${escapeHtml(bankingName || '(not provided)')}`,
