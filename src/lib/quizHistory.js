@@ -1,5 +1,6 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, limit, orderBy, query, serverTimestamp, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
+import { getDeviceId } from './deviceId';
 
 // Ported from the old site's window.__cloudHistory.add(). One doc per
 // finished quiz attempt at users/{uid}/quizHistory/{autoId} - matches
@@ -15,7 +16,7 @@ export async function addQuizHistoryEntry(uid, entry) {
   if (!uid) return false;
   try {
     const col = collection(db, 'users', uid, 'quizHistory');
-    await addDoc(col, { ...entry, createdAt: serverTimestamp() });
+    await addDoc(col, { ...entry, deviceId: getDeviceId(), createdAt: serverTimestamp() });
     return true;
   } catch (e) {
     console.error('Cloud history add failed:', e);

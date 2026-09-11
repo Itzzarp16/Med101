@@ -6,10 +6,11 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import { doc, getDoc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, getDoc, getDocFromServer, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { auth, db } from './firebase';
 import { startTimeTracking } from './timeTracking';
 import { claimUsername } from './profile';
+import { getDeviceId } from './deviceId';
 
 // Must exactly match the emails your Firestore isAdmin() security rule checks.
 const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
@@ -21,16 +22,6 @@ const AuthContext = createContext(null);
 // browser's random ID to users/{uid}.activeDeviceId. Every other signed-in
 // device is listening (onSnapshot) for that field changing away from its
 // own ID, and signs itself out the moment it does. Admin is exempt.
-function getDeviceId() {
-  let id = localStorage.getItem('medDeviceId');
-  if (!id) {
-    id = window.crypto?.randomUUID
-      ? crypto.randomUUID()
-      : 'dev-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
-    localStorage.setItem('medDeviceId', id);
-  }
-  return id;
-}
 
 async function claimDevice(uid) {
   try {
@@ -168,6 +159,59 @@ export function AuthProvider({ children }) {
     });
     return () => unsub();
   }, []);
+
+  // ── Close the offline bypass window ────────────────────────────
+  // The device-lock above relies on an onSnapshot listener to push
+  // "someone else claimed this account" to every other open device -
+  // but a listener can't deliver anything to a device with no network
+  // connection. That leaves a real gap: go offline, sign in elsewhere,
+  // and the offline device keeps working (and never gets kicked)
+  // until the moment it happens to reconnect, if ever. Since the app's
+  // question bank is static/bundled, an offline device can keep
+  // studying with a stale session indefinitely.
+  //
+  // This can't be closed to zero purely client-side (nothing can reach
+  // a device with literally no connection), but it can be shrunk to
+  // "must still be fully offline right now" instead of "was offline at
+  // some point and never happened to reconnect while the tab was
+  // open": the instant the browser reports connectivity again, or the
+  // tab is foregrounded (covers mobile Chrome being backgrounded while
+  // offline, then reopened once back online), force an uncached
+  // server read of activeDeviceId and sign out immediately on a
+  // mismatch, rather than waiting on the realtime listener to
+  // reconcile on its own schedule.
+  useEffect(() => {
+    if (!user || ADMIN_EMAILS.includes(user.email)) return;
+
+    async function recheck() {
+      try {
+        const snap = await getDocFromServer(doc(db, 'users', user.uid));
+        const active = snap.exists() ? snap.data().activeDeviceId : null;
+        if (active && active !== getDeviceId()) {
+          setKickedMessage(
+            "You've been signed out because this account was signed in on another device."
+          );
+          await signOut(auth);
+        }
+      } catch (e) {
+        // Still offline, or a transient error - the next 'online'/
+        // visibility event (or the realtime listener, once it
+        // reconnects) will catch it.
+        console.warn('Device re-check failed (likely offline):', e);
+      }
+    }
+
+    function onVisible() {
+      if (document.visibilityState === 'visible') recheck();
+    }
+
+    window.addEventListener('online', recheck);
+    document.addEventListener('visibilitychange', onVisible);
+    return () => {
+      window.removeEventListener('online', recheck);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
+  }, [user]);
 
   // Tracks how long this student has the app open in the foreground -
   // see timeTracking.js. Runs for the whole signed-in session and

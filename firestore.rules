@@ -38,8 +38,20 @@ service cloud.firestore {
     // A student's own quiz history - only they (or admin) can read
     // or write it. Admin write is used only to delete these when an
     // account is deleted.
+    //
+    // create additionally requires the entry's deviceId to match the
+    // account's current activeDeviceId - this is the server-side
+    // backstop for the single-device lock: the client-side "kick" is
+    // a push (onSnapshot) that can't reach a genuinely offline
+    // device, so without this a stale device that goes offline right
+    // as another device signs in could keep submitting quiz results
+    // under the same account indefinitely. This only blocks NEW
+    // results from a stale device - it doesn't touch read/update/
+    // delete of already-saved entries.
     match /users/{uid}/quizHistory/{entryId} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, update, delete: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == uid
+                    && request.resource.data.deviceId == get(/databases/$(database)/documents/users/$(uid)).data.activeDeviceId;
       allow read, write: if isAdmin();
     }
 
