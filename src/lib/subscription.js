@@ -2,7 +2,7 @@ import {
   doc, getDoc, setDoc, updateDoc, runTransaction,
   collection, query, where, getDocs, serverTimestamp,
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { auth, db } from './firebase';
 
 // ── Config (admin-editable UPI ID / price / instructions) ──────────
 // Same pattern as homeNotice.js - a single admin-editable doc, read by
