@@ -23,7 +23,7 @@ import AdminUserDetailScreen from './components/AdminUserDetailScreen';
 import AdminAnalyticsScreen from './components/AdminAnalyticsScreen';
 import AdminPaymentsScreen from './components/AdminPaymentsScreen';
 import PremiumScreen from './components/PremiumScreen';
-import { getMyPremiumStatus } from './lib/subscription';
+import { subscribeToMyPremiumStatus } from './lib/subscription';
 import AuthScreen from './components/AuthScreen';
 import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
@@ -54,24 +54,16 @@ export default function App() {
   const [finalQuiz, setFinalQuiz] = useState(savedNavRef?.finalQuiz ?? null); // { questions, autoAdvance, timerSeconds } once mode is chosen
   const [quizKey, setQuizKey] = useState(0); // bumped to force QuizScreen to remount fresh on Restart Same / Retry Wrong
 
-  // Premium status - deliberately re-derived from Firestore (not a
-  // real-time listener) since it only needs to change right after a
-  // redemption, which we can refresh explicitly (see PremiumScreen's
-  // onRedeemed below) rather than keeping a live subscription open for
-  // something that changes this rarely. Defaults to false (not
-  // premium) until the check resolves, so the paywall fails closed
-  // rather than briefly over-granting access.
+  // Premium status - a live subscription (not a one-time check), so
+  // approving a payment unlocks access immediately without the student
+  // needing to hard-refresh or sign out and back in. Defaults to false
+  // (not premium) until the first snapshot arrives, so the paywall
+  // fails closed rather than briefly over-granting access.
   const [isPremium, setIsPremium] = useState(false);
-  async function refreshPremiumStatus() {
-    if (!user) return;
-    try {
-      const status = await getMyPremiumStatus(user.uid);
-      setIsPremium(status.isPremium);
-    } catch (e) {
-      console.warn('Premium status check failed:', e);
-    }
-  }
-  useEffect(() => { refreshPremiumStatus(); }, [user?.uid]);
+  useEffect(() => {
+    if (!user?.uid) { setIsPremium(false); return; }
+    return subscribeToMyPremiumStatus(user.uid, (status) => setIsPremium(status.isPremium));
+  }, [user?.uid]);
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
@@ -382,7 +374,7 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <PremiumScreen onBack={goBack} onRedeemed={refreshPremiumStatus} />
+          <PremiumScreen onBack={goBack} />
         </div>
       </div>
     );

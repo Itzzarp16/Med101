@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPendingPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
+import { subscribeToPendingPaymentRequests, subscribeToRejectedPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 
 const DURATION_PRESETS = [
@@ -12,6 +12,8 @@ const DURATION_PRESETS = [
 export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [requests, setRequests] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [rejected, setRejected] = useState(null);
+  const [rejectedLoading, setRejectedLoading] = useState(true);
   const [codes, setCodes] = useState(null);
   const [codesLoading, setCodesLoading] = useState(true);
   const [busyUtr, setBusyUtr] = useState(null);
@@ -27,17 +29,8 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [configLoading, setConfigLoading] = useState(true);
   const [configSaving, setConfigSaving] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
-
-  async function loadRequests() {
-    setLoading(true);
-    try {
-      const list = await getPendingPaymentRequests();
-      list.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
-      setRequests(list);
-    } finally {
-      setLoading(false);
-    }
-  }
+  const [showSettings, setShowSettings] = useState(false);
+  const [showRejected, setShowRejected] = useState(false);
 
   async function loadCodes() {
     setCodesLoading(true);
@@ -49,12 +42,25 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   }
 
   useEffect(() => {
-    loadRequests();
+    setLoading(true);
+    const unsubPending = subscribeToPendingPaymentRequests((list) => {
+      setRequests(list);
+      setLoading(false);
+    });
+    setRejectedLoading(true);
+    const unsubRejected = subscribeToRejectedPaymentRequests((list) => {
+      setRejected(list);
+      setRejectedLoading(false);
+    });
     loadCodes();
     getSubscriptionConfig().then((c) => {
       if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '', activationMethod: c.activationMethod === 'code' ? 'code' : 'auto' });
       setConfigLoading(false);
     });
+    return () => {
+      unsubPending();
+      unsubRejected();
+    };
   }, []);
 
   async function handleSaveConfig() {
@@ -83,7 +89,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     try {
       const { code, autoActivate } = await approvePaymentRequest(req.utr, req.uid, days, config.activationMethod);
       setIssuedCode({ utr: req.utr, code, days, email: req.email, autoActivate });
-      await loadRequests();
       await loadCodes();
     } catch (e) {
       alert('Failed to approve: ' + (e.message || e));
@@ -99,7 +104,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
       await rejectPaymentRequest(utr, rejectReason);
       setRejectingUtr(null);
       setRejectReason('');
-      await loadRequests();
     } catch (e) {
       alert('Failed to reject: ' + (e.message || e));
     } finally {
@@ -138,51 +142,101 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
         </div>
       )}
 
-      <div className="glass std-card">
-        <div className="auth-label" style={{ margin: 0 }}>Subscription Settings</div>
-        {configLoading ? (
-          <div className="std-loading">Loading…</div>
-        ) : (
-          <>
-            <label className="auth-label" style={{ marginTop: 10 }}>Price Label</label>
-            <input className="auth-input" value={config.priceLabel} onChange={(e) => setConfig((c) => ({ ...c, priceLabel: e.target.value }))} placeholder="e.g. ₹299 / 3 months" />
-            <label className="auth-label" style={{ marginTop: 10 }}>UPI ID</label>
-            <input className="auth-input" value={config.upiId} onChange={(e) => setConfig((c) => ({ ...c, upiId: e.target.value }))} placeholder="yourname@upi" style={{ fontFamily: 'var(--font-mono)' }} />
-            <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>The QR code and payment link are generated automatically from this UPI ID - no image to upload.</div>
-            <label className="auth-label" style={{ marginTop: 10 }}>Instructions (optional)</label>
-            <textarea className="auth-input" rows={3} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={config.instructions} onChange={(e) => setConfig((c) => ({ ...c, instructions: e.target.value }))} placeholder="Any extra notes shown to students on the payment page" />
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+        <button
+          className="btn-ghost"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, width: 'auto',
+            padding: '10px 16px', fontSize: 13.5, fontWeight: 700,
+          }}
+          onClick={() => { playTapSound(); setShowSettings(true); }}
+        >
+          ⚙️ Payment Settings
+        </button>
 
-            <label className="auth-label" style={{ marginTop: 10 }}>When You Approve a Payment</label>
-            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
-              <button
-                className={config.activationMethod === 'auto' ? 'tpreset sel' : 'tpreset'}
-                onClick={() => setConfig((c) => ({ ...c, activationMethod: 'auto' }))}
-                type="button"
-              >
-                ⚡ Activate Instantly
-              </button>
-              <button
-                className={config.activationMethod === 'code' ? 'tpreset sel' : 'tpreset'}
-                onClick={() => setConfig((c) => ({ ...c, activationMethod: 'code' }))}
-                type="button"
-              >
-                🔑 Issue a Code
-              </button>
-            </div>
-            <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>
-              {config.activationMethod === 'code'
-                ? 'Approving generates a code shown once to you - the student enters it themselves to activate.'
-                : 'Approving turns on premium for that student right away - nothing for them to enter.'}
-              {' '}You can switch this anytime; it only affects approvals from now on.
-            </div>
-
-            <button className="btn-glow std-save-btn" onClick={handleSaveConfig} disabled={configSaving}>
-              {configSaving ? 'Saving…' : 'Save Settings'}
-            </button>
-            {configSaved && <div className="auth-msg success" style={{ display: 'block' }}>Saved.</div>}
-          </>
-        )}
+        <button
+          className="btn-ghost"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, width: 'auto',
+            padding: '10px 16px', fontSize: 13.5, fontWeight: 700,
+            borderColor: 'rgba(255, 58, 92, 0.35)', color: 'var(--red)',
+          }}
+          onClick={() => { playTapSound(); setShowRejected(true); }}
+        >
+          ✗ Rejected Requests {rejected ? `(${rejected.length})` : ''}
+        </button>
       </div>
+
+      {showSettings && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 100,
+            background: 'rgba(6, 8, 24, 0.72)', backdropFilter: 'blur(3px)',
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+            padding: '32px 16px', overflowY: 'auto',
+          }}
+          onClick={() => setShowSettings(false)}
+        >
+          <div
+            className="glass std-card"
+            style={{ maxWidth: 480, width: '100%', margin: 0 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="auth-label" style={{ margin: 0 }}>⚙️ Payment Settings</div>
+              <button
+                className="btn-ghost"
+                style={{ width: 32, height: 32, padding: 0, borderRadius: '50%', fontSize: 16, lineHeight: 1 }}
+                onClick={() => { playTapSound(); setShowSettings(false); }}
+              >
+                ✕
+              </button>
+            </div>
+            {configLoading ? (
+              <div className="std-loading">Loading…</div>
+            ) : (
+              <>
+                <label className="auth-label" style={{ marginTop: 10 }}>Price Label</label>
+                <input className="auth-input" value={config.priceLabel} onChange={(e) => setConfig((c) => ({ ...c, priceLabel: e.target.value }))} placeholder="e.g. ₹299 / 3 months" />
+                <label className="auth-label" style={{ marginTop: 10 }}>UPI ID</label>
+                <input className="auth-input" value={config.upiId} onChange={(e) => setConfig((c) => ({ ...c, upiId: e.target.value }))} placeholder="yourname@upi" style={{ fontFamily: 'var(--font-mono)' }} />
+                <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>The QR code and payment link are generated automatically from this UPI ID - no image to upload.</div>
+                <label className="auth-label" style={{ marginTop: 10 }}>Instructions (optional)</label>
+                <textarea className="auth-input" rows={3} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={config.instructions} onChange={(e) => setConfig((c) => ({ ...c, instructions: e.target.value }))} placeholder="Any extra notes shown to students on the payment page" />
+
+                <label className="auth-label" style={{ marginTop: 10 }}>When You Approve a Payment</label>
+                <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+                  <button
+                    className={config.activationMethod === 'auto' ? 'tpreset sel' : 'tpreset'}
+                    onClick={() => setConfig((c) => ({ ...c, activationMethod: 'auto' }))}
+                    type="button"
+                  >
+                    ⚡ Activate Instantly
+                  </button>
+                  <button
+                    className={config.activationMethod === 'code' ? 'tpreset sel' : 'tpreset'}
+                    onClick={() => setConfig((c) => ({ ...c, activationMethod: 'code' }))}
+                    type="button"
+                  >
+                    🔑 Issue a Code
+                  </button>
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>
+                  {config.activationMethod === 'code'
+                    ? 'Approving generates a code shown once to you - the student enters it themselves to activate.'
+                    : 'Approving turns on premium for that student right away - nothing for them to enter.'}
+                  {' '}You can switch this anytime; it only affects approvals from now on.
+                </div>
+
+                <button className="btn-glow std-save-btn" onClick={handleSaveConfig} disabled={configSaving}>
+                  {configSaving ? 'Saving…' : 'Save Settings'}
+                </button>
+                {configSaved && <div className="auth-msg success" style={{ display: 'block' }}>Saved.</div>}
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="auth-label" style={{ marginTop: 18 }}>
         Pending Requests {requests ? `(${requests.length})` : ''}
@@ -260,6 +314,60 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
             )}
           </div>
         ))
+      )}
+
+      {showRejected && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 100,
+            background: 'rgba(6, 8, 24, 0.72)', backdropFilter: 'blur(3px)',
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+            padding: '32px 16px', overflowY: 'auto',
+          }}
+          onClick={() => setShowRejected(false)}
+        >
+          <div
+            style={{ maxWidth: 480, width: '100%' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="glass std-card" style={{ marginBottom: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className="auth-label" style={{ margin: 0, color: 'var(--red)' }}>
+                  ✗ Rejected Requests {rejected ? `(${rejected.length})` : ''}
+                </div>
+                <button
+                  className="btn-ghost"
+                  style={{ width: 32, height: 32, padding: 0, borderRadius: '50%', fontSize: 16, lineHeight: 1 }}
+                  onClick={() => { playTapSound(); setShowRejected(false); }}
+                >
+                  ✕
+                </button>
+              </div>
+            </div>
+
+            {rejectedLoading ? (
+              <div className="std-loading">Loading…</div>
+            ) : rejected.length === 0 ? (
+              <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No rejected payments.</div>
+            ) : (
+              rejected.map((req) => (
+                <div key={req.utr} className="glass std-card" style={{ marginTop: 10, borderColor: 'rgba(255, 58, 92, 0.35)' }}>
+                  <div style={{ fontWeight: 700, fontSize: 14 }}>{req.displayName || '(no name)'}</div>
+                  <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{req.email}</div>
+                  <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <span>Banking name: <strong>{req.bankingName || '-'}</strong></span>
+                    <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{req.utr}</strong></span>
+                    <span>Phone: <strong>{req.phone || '-'}</strong></span>
+                    <span>Rejected on: <strong>{fmtDate(req.reviewedAt)}</strong></span>
+                  </div>
+                  <div style={{ marginTop: 8, fontSize: 13, color: 'var(--red)' }}>
+                    Reason: {req.rejectionReason ? req.rejectionReason : <span style={{ color: 'var(--text3)' }}>(none given)</span>}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       )}
 
       <div className="auth-label" style={{ marginTop: 22 }}>
