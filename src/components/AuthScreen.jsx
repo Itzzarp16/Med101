@@ -69,9 +69,10 @@ export default function AuthScreen() {
   };
 
   function switchMode(newMode) {
-    setMode(newMode);
-    setSignupStep(1);
-    setMsg(null);
+  setMode(newMode);
+  setSignupStep(1);
+  setTermsAccepted(false);
+  setMsg(null);
   }
 
   // Debounced live check: waits for typing to pause before hitting
