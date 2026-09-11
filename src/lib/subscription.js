@@ -136,6 +136,23 @@ export async function getMyPaymentRequests(uid) {
   return snap.docs.map((d) => ({ utr: d.id, ...d.data() }));
 }
 
+// Live version - so a student sees their submission flip from
+// "Pending review" to "Approved"/"Rejected" the instant admin acts on
+// it, no manual/hard refresh needed. Returns an unsubscribe function.
+export function subscribeToMyPaymentRequests(uid, callback) {
+  const q = query(
+    collection(db, 'paymentRequests'),
+    where('uid', '==', uid)
+  );
+  return onSnapshot(q, (snap) => {
+    const list = snap.docs.map((d) => ({ utr: d.id, ...d.data() }));
+    list.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+    callback(list);
+  }, (err) => {
+    console.warn('My payment requests listener failed:', err);
+  });
+}
+
 export async function getPendingPaymentRequests() {
   const q = query(
     collection(db, 'paymentRequests'),
@@ -360,19 +377,10 @@ export async function redeemActivationCode(uid, rawCode) {
   });
 }
 
-export async function getMyPremiumStatus(uid) {
-  const q = query(
-    collection(db, 'activationCodes'),
-    where('uid', '==', uid),
-    where('used', '==', true)
-  );
-
-  const snap = await getDocs(q);
+function computePremiumFromCodeDocs(docs) {
   let latest = null;
 
-  snap.docs.forEach((d) => {
-    const data = d.data();
-
+  docs.forEach((data) => {
     if (!data.usedAt || !data.durationDays) return;
 
     const usedAtMs = data.usedAt.toMillis
@@ -394,4 +402,32 @@ export async function getMyPremiumStatus(uid) {
       !!premiumUntil && premiumUntil.getTime() > Date.now(),
     premiumUntil
   };
+}
+
+export async function getMyPremiumStatus(uid) {
+  const q = query(
+    collection(db, 'activationCodes'),
+    where('uid', '==', uid),
+    where('used', '==', true)
+  );
+
+  const snap = await getDocs(q);
+  return computePremiumFromCodeDocs(snap.docs.map((d) => d.data()));
+}
+
+// Live version - so approving a payment (whether instant-activate or
+// a redeemed code) unlocks the student's access the moment it happens,
+// with no manual/hard refresh and no need to sign out and back in.
+// Returns an unsubscribe function.
+export function subscribeToMyPremiumStatus(uid, callback) {
+  const q = query(
+    collection(db, 'activationCodes'),
+    where('uid', '==', uid),
+    where('used', '==', true)
+  );
+  return onSnapshot(q, (snap) => {
+    callback(computePremiumFromCodeDocs(snap.docs.map((d) => d.data())));
+  }, (err) => {
+    console.warn('Premium status listener failed:', err);
+  });
 }

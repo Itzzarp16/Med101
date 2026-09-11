@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import {
-  getSubscriptionConfig, submitPaymentRequest, getMyPaymentRequests,
-  redeemActivationCode, getMyPremiumStatus,
+  getSubscriptionConfig, submitPaymentRequest, subscribeToMyPaymentRequests,
+  redeemActivationCode, subscribeToMyPremiumStatus,
 } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 import { buildUpiUri } from '../lib/upi';
@@ -36,7 +36,7 @@ function extractAmount(label) {
   return m ? m[1] : null;
 }
 
-export default function PremiumScreen({ onBack, onRedeemed }) {
+export default function PremiumScreen({ onBack }) {
   const { user, isAdmin } = useAuth();
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -64,20 +64,24 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
     });
   }
 
-  async function loadAll() {
-    const [cfg, status, reqs] = await Promise.all([
-      getSubscriptionConfig(),
-      getMyPremiumStatus(user.uid),
-      getMyPaymentRequests(user.uid),
-    ]);
-    setConfig(cfg);
-    setPremium(status);
-    reqs.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
-    setMyRequests(reqs);
-    setLoading(false);
-  }
+  useEffect(() => {
+    getSubscriptionConfig().then(setConfig);
+  }, []);
 
-  useEffect(() => { loadAll(); }, [user.uid]);
+  useEffect(() => {
+    // Live, not a one-time fetch - so an admin approving/rejecting this
+    // student's payment (or activating premium) shows up immediately,
+    // with no hard refresh needed.
+    const unsubPremium = subscribeToMyPremiumStatus(user.uid, (status) => {
+      setPremium(status);
+      setLoading(false);
+    });
+    const unsubRequests = subscribeToMyPaymentRequests(user.uid, setMyRequests);
+    return () => {
+      unsubPremium();
+      unsubRequests();
+    };
+  }, [user.uid]);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -100,7 +104,6 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
         type: 'success',
       });
       setBankingName(''); setPhone(''); setUtr('');
-      loadAll();
     } catch (e) {
       setSubmitMsg({ text: e.message || String(e), type: 'error' });
     } finally {
@@ -118,8 +121,6 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
       await redeemActivationCode(user.uid, code);
       setRedeemMsg({ text: 'Premium activated! Enjoy full access.', type: 'success' });
       setCode('');
-      loadAll();
-      onRedeemed?.();
     } catch (e) {
       setRedeemMsg({ text: e.message || String(e), type: 'error' });
     } finally {
