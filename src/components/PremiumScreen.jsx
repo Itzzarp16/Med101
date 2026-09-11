@@ -259,6 +259,12 @@ export default function PremiumScreen({ onBack }) {
                       <span style={{ color: STATUS_LABEL[r.status]?.color, fontWeight: 700 }}>{STATUS_LABEL[r.status]?.text || r.status}</span>
                     </div>
 
+                    {r.status === 'rejected' && r.rejectionReason && (
+                      <div style={{ marginTop: 6, fontSize: 12.5, color: 'var(--text2)' }}>
+                        Reason: {r.rejectionReason}
+                      </div>
+                    )}
+
                     {r.status === 'approved' && r.code && (
                       <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                         <span className="pay-upi-id" style={{ fontSize: 13 }}>{r.code}</span>
