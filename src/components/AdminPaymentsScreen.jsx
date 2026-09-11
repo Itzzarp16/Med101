@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPendingPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
+import { getPendingPaymentRequests, getRejectedPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 
 const DURATION_PRESETS = [
@@ -12,6 +12,8 @@ const DURATION_PRESETS = [
 export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [requests, setRequests] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [rejected, setRejected] = useState(null);
+  const [rejectedLoading, setRejectedLoading] = useState(true);
   const [codes, setCodes] = useState(null);
   const [codesLoading, setCodesLoading] = useState(true);
   const [busyUtr, setBusyUtr] = useState(null);
@@ -39,6 +41,15 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     }
   }
 
+  async function loadRejected() {
+    setRejectedLoading(true);
+    try {
+      setRejected(await getRejectedPaymentRequests());
+    } finally {
+      setRejectedLoading(false);
+    }
+  }
+
   async function loadCodes() {
     setCodesLoading(true);
     try {
@@ -50,6 +61,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
 
   useEffect(() => {
     loadRequests();
+    loadRejected();
     loadCodes();
     getSubscriptionConfig().then((c) => {
       if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '', activationMethod: c.activationMethod === 'code' ? 'code' : 'auto' });
@@ -100,6 +112,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
       setRejectingUtr(null);
       setRejectReason('');
       await loadRequests();
+      await loadRejected();
     } catch (e) {
       alert('Failed to reject: ' + (e.message || e));
     } finally {
@@ -258,6 +271,32 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                 </div>
               </>
             )}
+          </div>
+        ))
+      )}
+
+      <div className="auth-label" style={{ marginTop: 22 }}>
+        Rejected Requests {rejected ? `(${rejected.length})` : ''}
+      </div>
+
+      {rejectedLoading ? (
+        <div className="std-loading">Loading…</div>
+      ) : rejected.length === 0 ? (
+        <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No rejected payments.</div>
+      ) : (
+        rejected.map((req) => (
+          <div key={req.utr} className="glass std-card" style={{ marginTop: 10, borderColor: 'rgba(255, 58, 92, 0.35)' }}>
+            <div style={{ fontWeight: 700, fontSize: 14 }}>{req.displayName || '(no name)'}</div>
+            <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{req.email}</div>
+            <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
+              <span>Banking name: <strong>{req.bankingName || '-'}</strong></span>
+              <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{req.utr}</strong></span>
+              <span>Phone: <strong>{req.phone || '-'}</strong></span>
+              <span>Rejected on: <strong>{fmtDate(req.reviewedAt)}</strong></span>
+            </div>
+            <div style={{ marginTop: 8, fontSize: 13, color: 'var(--red)' }}>
+              Reason: {req.rejectionReason ? req.rejectionReason : <span style={{ color: 'var(--text3)' }}>(none given)</span>}
+            </div>
           </div>
         ))
       )}

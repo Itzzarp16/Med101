@@ -145,6 +145,17 @@ export async function getPendingPaymentRequests() {
   return snap.docs.map((d) => ({ utr: d.id, ...d.data() }));
 }
 
+export async function getRejectedPaymentRequests() {
+  const q = query(
+    collection(db, 'paymentRequests'),
+    where('status', '==', 'rejected')
+  );
+  const snap = await getDocs(q);
+  const list = snap.docs.map((d) => ({ utr: d.id, ...d.data() }));
+  list.sort((a, b) => (b.reviewedAt?.toMillis?.() || 0) - (a.reviewedAt?.toMillis?.() || 0));
+  return list;
+}
+
 export async function getAllActivationCodes() {
   const snap = await getDocs(collection(db, 'activationCodes'));
   const codes = snap.docs.map((d) => ({ code: d.id, ...d.data() }));
