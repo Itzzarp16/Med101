@@ -1,6 +1,6 @@
 import {
   doc, getDoc, setDoc, updateDoc, runTransaction,
-  collection, query, where, getDocs, serverTimestamp,
+  collection, query, where, getDocs, onSnapshot, serverTimestamp,
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
@@ -145,6 +145,24 @@ export async function getPendingPaymentRequests() {
   return snap.docs.map((d) => ({ utr: d.id, ...d.data() }));
 }
 
+// Live version - fires immediately on every change (a new submission,
+// or one going from pending to approved/rejected), so the admin screen
+// never needs a manual/force refresh to see a new request come in.
+// Returns an unsubscribe function; call it on unmount.
+export function subscribeToPendingPaymentRequests(callback) {
+  const q = query(
+    collection(db, 'paymentRequests'),
+    where('status', '==', 'pending')
+  );
+  return onSnapshot(q, (snap) => {
+    const list = snap.docs.map((d) => ({ utr: d.id, ...d.data() }));
+    list.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+    callback(list);
+  }, (err) => {
+    console.warn('Pending payments listener failed:', err);
+  });
+}
+
 export async function getRejectedPaymentRequests() {
   const q = query(
     collection(db, 'paymentRequests'),
@@ -154,6 +172,21 @@ export async function getRejectedPaymentRequests() {
   const list = snap.docs.map((d) => ({ utr: d.id, ...d.data() }));
   list.sort((a, b) => (b.reviewedAt?.toMillis?.() || 0) - (a.reviewedAt?.toMillis?.() || 0));
   return list;
+}
+
+// Live version, same reasoning as subscribeToPendingPaymentRequests.
+export function subscribeToRejectedPaymentRequests(callback) {
+  const q = query(
+    collection(db, 'paymentRequests'),
+    where('status', '==', 'rejected')
+  );
+  return onSnapshot(q, (snap) => {
+    const list = snap.docs.map((d) => ({ utr: d.id, ...d.data() }));
+    list.sort((a, b) => (b.reviewedAt?.toMillis?.() || 0) - (a.reviewedAt?.toMillis?.() || 0));
+    callback(list);
+  }, (err) => {
+    console.warn('Rejected payments listener failed:', err);
+  });
 }
 
 export async function getAllActivationCodes() {

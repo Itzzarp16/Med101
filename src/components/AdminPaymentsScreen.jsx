@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPendingPaymentRequests, getRejectedPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
+import { subscribeToPendingPaymentRequests, subscribeToRejectedPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 
 const DURATION_PRESETS = [
@@ -32,26 +32,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [showSettings, setShowSettings] = useState(false);
   const [showRejected, setShowRejected] = useState(false);
 
-  async function loadRequests() {
-    setLoading(true);
-    try {
-      const list = await getPendingPaymentRequests();
-      list.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
-      setRequests(list);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  async function loadRejected() {
-    setRejectedLoading(true);
-    try {
-      setRejected(await getRejectedPaymentRequests());
-    } finally {
-      setRejectedLoading(false);
-    }
-  }
-
   async function loadCodes() {
     setCodesLoading(true);
     try {
@@ -62,13 +42,25 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   }
 
   useEffect(() => {
-    loadRequests();
-    loadRejected();
+    setLoading(true);
+    const unsubPending = subscribeToPendingPaymentRequests((list) => {
+      setRequests(list);
+      setLoading(false);
+    });
+    setRejectedLoading(true);
+    const unsubRejected = subscribeToRejectedPaymentRequests((list) => {
+      setRejected(list);
+      setRejectedLoading(false);
+    });
     loadCodes();
     getSubscriptionConfig().then((c) => {
       if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '', activationMethod: c.activationMethod === 'code' ? 'code' : 'auto' });
       setConfigLoading(false);
     });
+    return () => {
+      unsubPending();
+      unsubRejected();
+    };
   }, []);
 
   async function handleSaveConfig() {
@@ -97,7 +89,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     try {
       const { code, autoActivate } = await approvePaymentRequest(req.utr, req.uid, days, config.activationMethod);
       setIssuedCode({ utr: req.utr, code, days, email: req.email, autoActivate });
-      await loadRequests();
       await loadCodes();
     } catch (e) {
       alert('Failed to approve: ' + (e.message || e));
@@ -113,8 +104,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
       await rejectPaymentRequest(utr, rejectReason);
       setRejectingUtr(null);
       setRejectReason('');
-      await loadRequests();
-      await loadRejected();
     } catch (e) {
       alert('Failed to reject: ' + (e.message || e));
     } finally {
