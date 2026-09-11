@@ -37,7 +37,7 @@ function extractAmount(label) {
 }
 
 export default function PremiumScreen({ onBack, onRedeemed }) {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [premium, setPremium] = useState({ isPremium: false, premiumUntil: null });
@@ -130,7 +130,14 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
         <p className="std-sub">Unlock every question, in every subject.</p>
       </div>
 
-      {loading ? (
+      {isAdmin ? (
+        <div className="glass std-card" style={{ borderColor: 'var(--green)' }}>
+          <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Full Access (Admin)</div>
+          <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
+            Admin accounts always have complete access to every subject and question - no subscription needed.
+          </div>
+        </div>
+      ) : loading ? (
         <div className="std-loading">Loading…</div>
       ) : (
         <>
