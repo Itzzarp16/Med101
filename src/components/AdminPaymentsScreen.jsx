@@ -30,6 +30,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [configSaving, setConfigSaving] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showRejected, setShowRejected] = useState(false);
 
   async function loadRequests() {
     setLoading(true);
@@ -312,30 +313,70 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
         ))
       )}
 
-      <div className="auth-label" style={{ marginTop: 22 }}>
-        Rejected Requests {rejected ? `(${rejected.length})` : ''}
-      </div>
+      <button
+        className="btn-ghost"
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8, width: 'auto',
+          padding: '10px 16px', fontSize: 13.5, fontWeight: 700, marginTop: 18,
+          borderColor: 'rgba(255, 58, 92, 0.35)', color: 'var(--red)',
+        }}
+        onClick={() => { playTapSound(); setShowRejected(true); }}
+      >
+        ✗ Rejected Requests {rejected ? `(${rejected.length})` : ''}
+      </button>
 
-      {rejectedLoading ? (
-        <div className="std-loading">Loading…</div>
-      ) : rejected.length === 0 ? (
-        <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No rejected payments.</div>
-      ) : (
-        rejected.map((req) => (
-          <div key={req.utr} className="glass std-card" style={{ marginTop: 10, borderColor: 'rgba(255, 58, 92, 0.35)' }}>
-            <div style={{ fontWeight: 700, fontSize: 14 }}>{req.displayName || '(no name)'}</div>
-            <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{req.email}</div>
-            <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
-              <span>Banking name: <strong>{req.bankingName || '-'}</strong></span>
-              <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{req.utr}</strong></span>
-              <span>Phone: <strong>{req.phone || '-'}</strong></span>
-              <span>Rejected on: <strong>{fmtDate(req.reviewedAt)}</strong></span>
+      {showRejected && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 100,
+            background: 'rgba(6, 8, 24, 0.72)', backdropFilter: 'blur(3px)',
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+            padding: '32px 16px', overflowY: 'auto',
+          }}
+          onClick={() => setShowRejected(false)}
+        >
+          <div
+            style={{ maxWidth: 480, width: '100%' }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="glass std-card" style={{ marginBottom: 10 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <div className="auth-label" style={{ margin: 0, color: 'var(--red)' }}>
+                  ✗ Rejected Requests {rejected ? `(${rejected.length})` : ''}
+                </div>
+                <button
+                  className="btn-ghost"
+                  style={{ width: 32, height: 32, padding: 0, borderRadius: '50%', fontSize: 16, lineHeight: 1 }}
+                  onClick={() => { playTapSound(); setShowRejected(false); }}
+                >
+                  ✕
+                </button>
+              </div>
             </div>
-            <div style={{ marginTop: 8, fontSize: 13, color: 'var(--red)' }}>
-              Reason: {req.rejectionReason ? req.rejectionReason : <span style={{ color: 'var(--text3)' }}>(none given)</span>}
-            </div>
+
+            {rejectedLoading ? (
+              <div className="std-loading">Loading…</div>
+            ) : rejected.length === 0 ? (
+              <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No rejected payments.</div>
+            ) : (
+              rejected.map((req) => (
+                <div key={req.utr} className="glass std-card" style={{ marginTop: 10, borderColor: 'rgba(255, 58, 92, 0.35)' }}>
+                  <div style={{ fontWeight: 700, fontSize: 14 }}>{req.displayName || '(no name)'}</div>
+                  <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{req.email}</div>
+                  <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <span>Banking name: <strong>{req.bankingName || '-'}</strong></span>
+                    <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{req.utr}</strong></span>
+                    <span>Phone: <strong>{req.phone || '-'}</strong></span>
+                    <span>Rejected on: <strong>{fmtDate(req.reviewedAt)}</strong></span>
+                  </div>
+                  <div style={{ marginTop: 8, fontSize: 13, color: 'var(--red)' }}>
+                    Reason: {req.rejectionReason ? req.rejectionReason : <span style={{ color: 'var(--text3)' }}>(none given)</span>}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
-        ))
+        </div>
       )}
 
       <div className="auth-label" style={{ marginTop: 22 }}>
