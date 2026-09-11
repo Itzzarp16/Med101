@@ -112,14 +112,12 @@ export default function PremiumScreen({ onBack }) {
     }
   }
 
-  async function handleRedeem(e) {
-    e.preventDefault();
-    playTapSound();
+  async function redeemCode(rawCode) {
     setRedeemMsg(null);
-    if (!code.trim()) return;
+    if (!rawCode.trim()) return;
     setRedeeming(true);
     try {
-      await redeemActivationCode(user.uid, code);
+      await redeemActivationCode(user.uid, rawCode);
       setRedeemMsg({ text: 'Premium activated! Enjoy full access.', type: 'success' });
       setCode('');
       setShowThankYou(true);
@@ -128,6 +126,12 @@ export default function PremiumScreen({ onBack }) {
     } finally {
       setRedeeming(false);
     }
+  }
+
+  function handleRedeem(e) {
+    e.preventDefault();
+    playTapSound();
+    redeemCode(code);
   }
 
   return (
@@ -247,11 +251,35 @@ export default function PremiumScreen({ onBack }) {
           {!premium.isPremium && myRequests.length > 0 && (
             <div className="glass std-card">
               <div className="auth-label" style={{ margin: 0 }}>Your Submissions</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
                 {myRequests.map((r) => (
-                  <div key={r.utr} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5 }}>
-                    <span style={{ color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>{r.utr}</span>
-                    <span style={{ color: STATUS_LABEL[r.status]?.color, fontWeight: 700 }}>{STATUS_LABEL[r.status]?.text || r.status}</span>
+                  <div key={r.utr} style={{ borderTop: '1px solid var(--border)', paddingTop: 8 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5 }}>
+                      <span style={{ color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>{r.utr}</span>
+                      <span style={{ color: STATUS_LABEL[r.status]?.color, fontWeight: 700 }}>{STATUS_LABEL[r.status]?.text || r.status}</span>
+                    </div>
+
+                    {r.status === 'approved' && r.code && (
+                      <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+                        <span className="pay-upi-id" style={{ fontSize: 13 }}>{r.code}</span>
+                        <button
+                          type="button"
+                          className="pay-upi-copy"
+                          onClick={() => { playTapSound(); navigator.clipboard?.writeText(r.code); }}
+                        >
+                          Copy
+                        </button>
+                        <button
+                          type="button"
+                          className="pay-upi-copy"
+                          style={{ borderColor: 'var(--green)', color: 'var(--green)' }}
+                          onClick={() => { playTapSound(); redeemCode(r.code); }}
+                          disabled={redeeming}
+                        >
+                          {redeeming ? 'Activating…' : '✓ Activate Now'}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
