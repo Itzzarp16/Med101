@@ -314,20 +314,52 @@ export default function AuthScreen() {
             </div>
 
             {showingSignupStep2 && (
-              <div style={{ marginTop: 14 }}>
-                <label className="auth-label">Confirm Password</label>
-                <div className="auth-input-wrap">
-                  <input
-                    className="auth-input"
-                    type={showPw ? 'text' : 'password'}
-                    value={confirm}
-                    onChange={(e) => setConfirm(e.target.value)}
-                    placeholder="••••••••"
-                    style={{ paddingRight: 44 }}
-                  />
-                </div>
-              </div>
-            )}
+  <>
+    <div style={{ marginTop: 14 }}>
+      <label className="auth-label">Confirm Password</label>
+      <div className="auth-input-wrap">
+        <input
+          className="auth-input"
+          type={showPw ? 'text' : 'password'}
+          value={confirm}
+          onChange={(e) => setConfirm(e.target.value)}
+          placeholder="••••••••"
+          style={{ paddingRight: 44 }}
+        />
+      </div>
+    </div>
+
+    <label
+      style={{
+        display: 'flex',
+        alignItems: 'flex-start',
+        gap: 8,
+        marginTop: 16,
+        fontSize: 13,
+        lineHeight: 1.5,
+        cursor: 'pointer'
+      }}
+    >
+      <input
+        type="checkbox"
+        checked={termsAccepted}
+        onChange={(e) => setTermsAccepted(e.target.checked)}
+        style={{ marginTop: 3 }}
+      />
+
+      <span>
+        I agree to the{' '}
+        <a href="/terms" target="_blank" rel="noopener noreferrer">
+          Terms & Conditions
+        </a>{' '}
+        and{' '}
+        <a href="/privacy" target="_blank" rel="noopener noreferrer">
+          Privacy Policy
+        </a>.
+      </span>
+    </label>
+  </>
+)}
 
             {mode === 'signin' && (
               <div style={{ marginTop: 6, textAlign: 'right' }}>
