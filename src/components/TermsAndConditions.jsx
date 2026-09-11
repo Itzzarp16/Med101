@@ -106,7 +106,7 @@ export default function TermsAndConditions() {
 
         
 
-        <h2>13. Contact Us</h2>
+        <h2>12. Contact Us</h2>
         <p>
           Questions about these Terms, a payment, or your account can be
           sent to:{' '}
