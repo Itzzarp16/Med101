@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
+import { getAllActivationCodes, revokeActivationCode, fmtDate, expiryLabel } from '../lib/subscription';
+import { playTapSound } from '../lib/sounds';
 
 // Split out of AdminPaymentsScreen's "Issued Codes" list into its own
 // tab, showing only students whose subscription is currently active
@@ -8,6 +9,9 @@ import { getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription
 export default function AdminSubscribersScreen() {
   const [codes, setCodes] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [confirmingCode, setConfirmingCode] = useState(null); // code armed for revoke, two-tap confirm
+  const [revokingCode, setRevokingCode] = useState(null);
+  const [revokeError, setRevokeError] = useState(null);
 
   async function load() {
     setLoading(true);
@@ -20,6 +24,25 @@ export default function AdminSubscribersScreen() {
 
   useEffect(() => { load(); }, []);
 
+  async function handleRevoke(code) {
+    playTapSound();
+    setRevokeError(null);
+    if (confirmingCode !== code) {
+      setConfirmingCode(code);
+      return;
+    }
+    setRevokingCode(code);
+    try {
+      await revokeActivationCode(code);
+      setConfirmingCode(null);
+      await load(); // the student loses access immediately either way (live listener) - this just refreshes this list
+    } catch (e) {
+      setRevokeError(e.message || String(e));
+    } finally {
+      setRevokingCode(null);
+    }
+  }
+
   const active = codes ? codes.filter((c) => c.used && c.expiresAt && c.expiresAt.getTime() > Date.now()) : [];
 
   return (
@@ -31,6 +54,8 @@ export default function AdminSubscribersScreen() {
         Students with an active Premium subscription right now.
       </p>
 
+      {revokeError && <div className="auth-msg error" style={{ display: 'block', marginBottom: 10 }}>{revokeError}</div>}
+
       {loading ? (
         <div className="std-loading">Loading…</div>
       ) : active.length === 0 ? (
@@ -38,6 +63,7 @@ export default function AdminSubscribersScreen() {
       ) : (
         active.map((c) => {
           const expiry = expiryLabel(c);
+          const confirming = confirmingCode === c.code;
           return (
             <div key={c.code} className="glass std-card" style={{ marginTop: 10 }}>
               <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
@@ -52,6 +78,22 @@ export default function AdminSubscribersScreen() {
                 <span>Activated: <strong>{fmtDate(c.usedAt)}</strong></span>
               </div>
               <div style={{ marginTop: 8, fontSize: 13, fontWeight: 700, color: expiry.color }}>{expiry.text}</div>
+
+              <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+                <button
+                  className="btn-ghost"
+                  style={{ flex: 1, color: 'var(--red)', borderColor: confirming ? 'var(--red)' : undefined, fontSize: 13 }}
+                  onClick={() => handleRevoke(c.code)}
+                  disabled={revokingCode === c.code}
+                >
+                  {revokingCode === c.code ? '…' : confirming ? '⚠️ Tap again to end their access now' : '🗑️ Revoke Subscription'}
+                </button>
+                {confirming && (
+                  <button className="btn-ghost" style={{ fontSize: 13 }} onClick={() => { playTapSound(); setConfirmingCode(null); }}>
+                    Cancel
+                  </button>
+                )}
+              </div>
             </div>
           );
         })

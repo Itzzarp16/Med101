@@ -1,5 +1,5 @@
 import {
-  doc, getDoc, setDoc, updateDoc, runTransaction,
+  doc, getDoc, setDoc, updateDoc, deleteDoc, runTransaction,
   collection, query, where, getDocs, onSnapshot, serverTimestamp,
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
@@ -216,6 +216,19 @@ export function subscribeToRejectedPaymentRequests(callback) {
   }, (err) => {
     console.warn('Rejected payments listener failed:', err);
   });
+}
+
+// Admin: end a subscription early. Premium status is computed purely
+// from activationCodes docs where used == true (see
+// computePremiumFromCodeDocs below) - there's no separate
+// premiumUntil field anywhere to "unset" - so revoking just means
+// deleting the code doc. subscribeToMyPremiumStatus is a live
+// onSnapshot on that same query, so the student loses access
+// immediately, no refresh needed. This does NOT touch the original
+// paymentRequests doc (the payment record itself stays, for
+// bookkeeping) - only the activation is undone.
+export async function revokeActivationCode(code) {
+  await deleteDoc(doc(db, 'activationCodes', code));
 }
 
 export async function getAllActivationCodes() {

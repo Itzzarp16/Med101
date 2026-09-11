@@ -145,6 +145,7 @@ service cloud.firestore {
       allow create: if isAdmin();
       allow get, list: if request.auth != null && resource.data.uid == request.auth.uid;
       allow get, list: if isAdmin();
+      allow delete: if isAdmin();
       // The one-time redemption transition: only the code's rightful
       // owner, only while it's still unused, only flipping it to used
       // and stamping who/when - nothing else about the code (uid,
