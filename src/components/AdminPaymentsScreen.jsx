@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPendingPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes } from '../lib/subscription';
+import { getPendingPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 
 const DURATION_PRESETS = [
@@ -8,21 +8,6 @@ const DURATION_PRESETS = [
   { label: '6 Months', days: 180 },
   { label: '1 Year', days: 365 },
 ];
-
-function fmtDate(ts) {
-  if (!ts) return '-';
-  const ms = ts.toMillis ? ts.toMillis() : ts.seconds * 1000;
-  return new Date(ms).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-}
-
-function expiryLabel(codeRow) {
-  if (!codeRow.used) return { text: 'Not activated yet', color: 'var(--text3)' };
-  if (!codeRow.expiresAt) return { text: '-', color: 'var(--text3)' };
-  const daysLeft = Math.ceil((codeRow.expiresAt.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
-  if (daysLeft < 0) return { text: `Expired ${fmtDate({ seconds: codeRow.expiresAt.getTime() / 1000 })}`, color: 'var(--red)' };
-  if (daysLeft === 0) return { text: 'Expires today', color: 'var(--amber)' };
-  return { text: `${daysLeft} day${daysLeft === 1 ? '' : 's'} left`, color: daysLeft <= 7 ? 'var(--amber)' : 'var(--green)' };
-}
 
 export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [requests, setRequests] = useState(null);
@@ -253,7 +238,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
         <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No codes issued yet.</div>
       ) : (
         (() => {
-          const active = codes.filter((c) => c.used && c.expiresAt && c.expiresAt.getTime() > Date.now());
           const notActivated = codes.filter((c) => !c.used);
           const expired = codes.filter((c) => c.used && c.expiresAt && c.expiresAt.getTime() <= Date.now());
 
@@ -274,25 +258,22 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
             );
           };
 
+          if (notActivated.length === 0 && expired.length === 0) {
+            return <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No pending or expired codes. See the Subscribers tab for active ones.</div>;
+          }
+
           return (
             <>
-              <div className="auth-label" style={{ marginTop: 14, color: 'var(--green)' }}>
-                ✅ Already Subscribed ({active.length})
-              </div>
-              {active.length === 0 ? (
-                <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No active subscriptions right now.</div>
-              ) : active.map(renderCard)}
-
               {notActivated.length > 0 && (
                 <>
-                  <div className="auth-label" style={{ marginTop: 20 }}>⏳ Not Yet Activated ({notActivated.length})</div>
+                  <div className="auth-label">⏳ Not Yet Activated ({notActivated.length})</div>
                   {notActivated.map(renderCard)}
                 </>
               )}
 
               {expired.length > 0 && (
                 <>
-                  <div className="auth-label" style={{ marginTop: 20, color: 'var(--text3)' }}>Expired ({expired.length})</div>
+                  <div className="auth-label" style={{ marginTop: 20 }}>Expired ({expired.length})</div>
                   {expired.map(renderCard)}
                 </>
               )}

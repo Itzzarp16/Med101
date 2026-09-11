@@ -7,6 +7,21 @@ import { db } from './firebase';
 // ── Config (admin-editable UPI ID / price / instructions) ──────────
 // Same pattern as homeNotice.js - a single admin-editable doc, read by
 // everyone, written only by admin.
+export function fmtDate(ts) {
+  if (!ts) return '-';
+  const ms = ts.toMillis ? ts.toMillis() : ts.seconds * 1000;
+  return new Date(ms).toLocaleString('en-IN', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+export function expiryLabel(codeRow) {
+  if (!codeRow.used) return { text: 'Not activated yet', color: 'var(--text3)' };
+  if (!codeRow.expiresAt) return { text: '-', color: 'var(--text3)' };
+  const daysLeft = Math.ceil((codeRow.expiresAt.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
+  if (daysLeft < 0) return { text: `Expired ${fmtDate({ seconds: codeRow.expiresAt.getTime() / 1000 })}`, color: 'var(--red)' };
+  if (daysLeft === 0) return { text: 'Expires today', color: 'var(--amber)' };
+  return { text: `${daysLeft} day${daysLeft === 1 ? '' : 's'} left`, color: daysLeft <= 7 ? 'var(--amber)' : 'var(--green)' };
+}
+
 export async function getSubscriptionConfig() {
   const snap = await getDoc(doc(db, 'config', 'subscription'));
   return snap.exists() ? snap.data() : null;

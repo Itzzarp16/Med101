@@ -5,6 +5,7 @@ import AdminCalendarScreen from './AdminCalendarScreen';
 import AdminUserDetailScreen from './AdminUserDetailScreen';
 import AdminAnalyticsScreen from './AdminAnalyticsScreen';
 import AdminPaymentsScreen from './AdminPaymentsScreen';
+import AdminSubscribersScreen from './AdminSubscribersScreen';
 import './AdminPortal.css';
 
 // Standalone admin-only surface, served at /admin. Separate from the
@@ -15,6 +16,7 @@ import './AdminPortal.css';
 // each admin feature; this file just gives them their own home.
 const TABS = [
   { id: 'payments', label: '💳 Payments' },
+  { id: 'subscribers', label: '✅ Subscribers' },
   { id: 'notice', label: '📢 Home Notice' },
   { id: 'calendar', label: '⚙️ Academic Calendar' },
   { id: 'users', label: '🔍 User Detail' },
@@ -32,6 +34,7 @@ function AdminScreenFor({ tab }) {
     case 'users': return <AdminUserDetailScreen onBack={noop} initialUid={null} hideBack />;
     case 'analytics': return <AdminAnalyticsScreen onBack={noop} hideBack />;
     case 'payments': return <AdminPaymentsScreen onBack={noop} hideBack />;
+    case 'subscribers': return <AdminSubscribersScreen onBack={noop} hideBack />;
     default: return null;
   }
 }
