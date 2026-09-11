@@ -7,6 +7,8 @@ import PrivacyPolicy from './components/PrivacyPolicy.jsx'
 import TermsAndConditions from './components/TermsAndConditions.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
+import { startVersionWatcher } from './lib/versionCheck'
+import OfflineGuard from './components/OfflineGuard.jsx'
 import ErrorBoundary from './components/ErrorBoundary'
 
 // App.jsx's own navigation (screen state + pushState) never changes
@@ -20,6 +22,7 @@ const isPrivacyRoute = path === '/privacy-policy';
 const isTermsRoute = path === '/terms';
 
 initTheme();
+startVersionWatcher();
 
 // Register the service worker so the browser will actually offer
 // "Add to Home Screen" / install (Chrome requires one to be present,
@@ -58,6 +61,7 @@ if ('serviceWorker' in navigator) {
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ErrorBoundary>
+      <OfflineGuard />
       {isPrivacyRoute ? (
         <PrivacyPolicy />
       ) : isTermsRoute ? (

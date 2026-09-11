@@ -412,7 +412,7 @@ export default function App() {
     );
   }
 
-  const { mainSubjectMeta, subjectMeta, subjectGroup, semesterMainSubjects, questions, usingCachedData } = semesterData;
+  const { mainSubjectMeta, subjectMeta, subjectGroup, semesterMainSubjects, questions, error: dataError } = semesterData;
 
   // The 4s hard cap above can let the app past the branded loader
   // before semester/calendar data has actually finished resolving
@@ -479,8 +479,11 @@ export default function App() {
       )}
       <TopBar {...topBarProps} />
 
-      {usingCachedData && (
-        <div className="offline-banner">📴 Offline: showing your last saved question set</div>
+      {dataError && (
+        <div className="offline-banner">
+          📡 Couldn't load question data - check your connection.{' '}
+          <button className="btn-ghost" style={{ padding: '2px 10px', marginLeft: 6 }} onClick={() => window.location.reload()}>Retry</button>
+        </div>
       )}
 
       {['dashboard', 'subtopic', 'mode', 'quiz'].includes(screen) ? (

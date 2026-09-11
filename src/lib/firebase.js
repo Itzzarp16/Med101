@@ -9,7 +9,7 @@
 
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { initializeFirestore, persistentLocalCache, persistentSingleTabManager } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 import { getFunctions } from 'firebase/functions';
 import { getDatabase } from 'firebase/database';
@@ -28,13 +28,12 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
-// Offline persistence: caches every document Firestore has read into
-// IndexedDB, so migrated question subjects, the student's own profile,
-// leaderboard data, etc. remain readable with no network at all -
-// Firebase handles the cache/sync entirely on its own once this is on.
-export const db = initializeFirestore(app, {
-  localCache: persistentLocalCache({ tabManager: persistentSingleTabManager({}) }),
-});
+// Deliberately NOT using persistentLocalCache here - the site is meant
+// to require a live connection (no working offline with stale cached
+// data), so this uses Firestore's default in-memory-only cache: reads
+// and writes fail immediately when there's no connection, rather than
+// silently continuing to work from IndexedDB.
+export const db = getFirestore(app);
 
 export const storage = getStorage(app);
 export const functions = getFunctions(app);

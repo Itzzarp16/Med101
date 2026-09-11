@@ -10,31 +10,16 @@ const SEMESTER_MANIFEST = [
   { id: 'y1s2', file: '/data/y1s2.json' },
 ];
 
-const CACHE_PREFIX = 'med101_semester_cache_';
-
-function loadFromCache(semesterId) {
-  try {
-    const raw = localStorage.getItem(CACHE_PREFIX + semesterId);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
-}
-
-function saveToCache(semesterId, data) {
-  try {
-    localStorage.setItem(CACHE_PREFIX + semesterId, JSON.stringify(data));
-  } catch {
-    // Quota exceeded or storage unavailable - offline fallback just
-    // won't be available for this semester, nothing else breaks.
-  }
-}
-
 // Questions are served entirely from the static JSON files above - no
 // Firestore reads happen here. (The old "migrated subjects" system that
 // let admin live-edit questions in Firestore has been removed to cut
 // down on read/write usage; questions are edited by updating the JSON
 // files and redeploying.)
+//
+// Deliberately no offline/localStorage fallback here: the site is
+// meant to require a live connection, so a failed fetch surfaces as a
+// real error (see App.jsx's offline screen) instead of silently
+// continuing to work from a stale cached copy.
 export function useSemesterData() {
   const [state, setState] = useState({
     loading: true,
@@ -45,7 +30,6 @@ export function useSemesterData() {
     subjectGroup: {},         // { subtopicName: mainSubjectName }
     semesterMainSubjects: {}, // { semesterId: [mainSubjectName, ...] }
     questions: [],            // all questions, tagged with .term = semesterId
-    usingCachedData: false,   // true if any semester fell back to a local cache
   });
 
   useEffect(() => {
@@ -58,24 +42,20 @@ export function useSemesterData() {
       const subjectGroup = {};
       const semesterMainSubjects = {};
       let questions = [];
-      let usingCachedData = false;
 
       for (const entry of SEMESTER_MANIFEST) {
         let data = null;
 
         try {
-          const res = await fetch(entry.file);
+          const res = await fetch(entry.file, { cache: 'no-store' });
+          if (!res.ok) throw new Error(`${entry.file} responded ${res.status}`);
           data = await res.json();
-          saveToCache(entry.id, data); // refresh the offline fallback on every successful load
         } catch (err) {
-          console.warn('Network fetch failed, trying cached copy:', entry.file, err);
-          data = loadFromCache(entry.id);
-          if (data) {
-            usingCachedData = true;
-          } else {
-            console.error('No cached copy available for', entry.file, err);
-            continue;
+          console.error('Failed to load question data (no offline fallback):', entry.file, err);
+          if (!cancelled) {
+            setState((s) => ({ ...s, loading: false, error: 'connection' }));
           }
+          return;
         }
 
         data.questions.forEach((q) => {
@@ -105,7 +85,6 @@ export function useSemesterData() {
           subjectGroup,
           semesterMainSubjects,
           questions,
-          usingCachedData,
         });
       }
     }
