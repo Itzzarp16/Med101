@@ -84,6 +84,13 @@ export default function AuthScreen() {
       setUsernameStatus('idle');
       return;
     }
+    if (mode === 'signup' && !termsAccepted) {
+  setMsg({
+    text: 'Please agree to the Terms & Conditions and Privacy Policy before creating your account.',
+    type: 'error'
+  });
+  return;
+    }
     let active = true;
     setUsernameStatus('checking');
     setUsernameCheckError(null);
