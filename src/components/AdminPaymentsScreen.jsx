@@ -252,22 +252,53 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
       ) : codes.length === 0 ? (
         <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No codes issued yet.</div>
       ) : (
-        codes.map((c) => {
-          const expiry = expiryLabel(c);
-          return (
-            <div key={c.code} className="glass std-card" style={{ marginTop: 10 }}>
-              <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
-              <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{c.studentEmail}</div>
-              <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <span>Code: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.code}</strong></span>
-                <span>Duration: <strong>{c.durationDays} days</strong></span>
-                <span>Issued: <strong>{fmtDate(c.createdAt)}</strong></span>
-                <span>Activated: <strong>{c.used ? fmtDate(c.usedAt) : 'Not yet'}</strong></span>
+        (() => {
+          const active = codes.filter((c) => c.used && c.expiresAt && c.expiresAt.getTime() > Date.now());
+          const notActivated = codes.filter((c) => !c.used);
+          const expired = codes.filter((c) => c.used && c.expiresAt && c.expiresAt.getTime() <= Date.now());
+
+          const renderCard = (c) => {
+            const expiry = expiryLabel(c);
+            return (
+              <div key={c.code} className="glass std-card" style={{ marginTop: 10 }}>
+                <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
+                <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{c.studentEmail}</div>
+                <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  <span>Code: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.code}</strong></span>
+                  <span>Duration: <strong>{c.durationDays} days</strong></span>
+                  <span>Issued: <strong>{fmtDate(c.createdAt)}</strong></span>
+                  <span>Activated: <strong>{c.used ? fmtDate(c.usedAt) : 'Not yet'}</strong></span>
+                </div>
+                <div style={{ marginTop: 8, fontSize: 13, fontWeight: 700, color: expiry.color }}>{expiry.text}</div>
               </div>
-              <div style={{ marginTop: 8, fontSize: 13, fontWeight: 700, color: expiry.color }}>{expiry.text}</div>
-            </div>
+            );
+          };
+
+          return (
+            <>
+              <div className="auth-label" style={{ marginTop: 14, color: 'var(--green)' }}>
+                ✅ Already Subscribed ({active.length})
+              </div>
+              {active.length === 0 ? (
+                <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No active subscriptions right now.</div>
+              ) : active.map(renderCard)}
+
+              {notActivated.length > 0 && (
+                <>
+                  <div className="auth-label" style={{ marginTop: 20 }}>⏳ Not Yet Activated ({notActivated.length})</div>
+                  {notActivated.map(renderCard)}
+                </>
+              )}
+
+              {expired.length > 0 && (
+                <>
+                  <div className="auth-label" style={{ marginTop: 20, color: 'var(--text3)' }}>Expired ({expired.length})</div>
+                  {expired.map(renderCard)}
+                </>
+              )}
+            </>
           );
-        })
+        })()
       )}
     </div>
   );
