@@ -49,10 +49,11 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
   const [submitting, setSubmitting] = useState(false);
   const [submitMsg, setSubmitMsg] = useState(null);
 
+  const [copied, setCopied] = useState(false);
+
   const [code, setCode] = useState('');
   const [redeeming, setRedeeming] = useState(false);
   const [redeemMsg, setRedeemMsg] = useState(null);
-  const [copied, setCopied] = useState(false);
 
   function handleCopyUpi() {
     if (!config?.upiId) return;
@@ -92,7 +93,12 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
         uid: user.uid, email: user.email, displayName: user.displayName,
         bankingName, phone, utr,
       });
-      setSubmitMsg({ text: 'Submitted! We\'ll review it and send you an activation code shortly.', type: 'success' });
+      setSubmitMsg({
+        text: config?.activationMethod === 'code'
+          ? 'Submitted! We\'ll review it and send you an activation code shortly.'
+          : 'Submitted! We\'ll review it and activate your account shortly.',
+        type: 'success',
+      });
       setBankingName(''); setPhone(''); setUtr('');
       loadAll();
     } catch (e) {
@@ -193,8 +199,14 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
                 <ol className="pay-steps">
                   <li>Scan the QR, or tap "Pay in UPI App" on mobile</li>
                   <li>Submit the transaction ID (UTR) below</li>
-                  <li>We'll verify and send you an activation code</li>
-                  <li>Enter the code to unlock full access</li>
+                  {config.activationMethod === 'code' ? (
+                    <>
+                      <li>We'll verify and send you an activation code</li>
+                      <li>Enter the code to unlock full access</li>
+                    </>
+                  ) : (
+                    <li>We'll verify and activate your account - nothing else to do</li>
+                  )}
                 </ol>
 
                 {config.instructions && (
@@ -218,20 +230,22 @@ export default function PremiumScreen({ onBack, onRedeemed }) {
             {submitMsg && <div className={`auth-msg ${submitMsg.type}`} style={{ display: 'block' }}>{submitMsg.text}</div>}
           </form>
 
-          <form className="glass std-card" onSubmit={handleRedeem}>
-            <div className="auth-label" style={{ margin: 0 }}>Have an Activation Code?</div>
-            <input
-              className="auth-input"
-              style={{ marginTop: 10, fontFamily: 'var(--font-mono)', textTransform: 'uppercase' }}
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="MED-XXXXXXXX"
-            />
-            <button className="btn-glow std-save-btn" type="submit" disabled={redeeming}>
-              {redeeming ? 'Activating…' : 'Activate'}
-            </button>
-            {redeemMsg && <div className={`auth-msg ${redeemMsg.type}`} style={{ display: 'block' }}>{redeemMsg.text}</div>}
-          </form>
+          {config?.activationMethod === 'code' && (
+            <form className="glass std-card" onSubmit={handleRedeem}>
+              <div className="auth-label" style={{ margin: 0 }}>Have an Activation Code?</div>
+              <input
+                className="auth-input"
+                style={{ marginTop: 10, fontFamily: 'var(--font-mono)', textTransform: 'uppercase' }}
+                value={code}
+                onChange={(e) => setCode(e.target.value)}
+                placeholder="MED-XXXXXXXX"
+              />
+              <button className="btn-glow std-save-btn" type="submit" disabled={redeeming}>
+                {redeeming ? 'Activating…' : 'Activate'}
+              </button>
+              {redeemMsg && <div className={`auth-msg ${redeemMsg.type}`} style={{ display: 'block' }}>{redeemMsg.text}</div>}
+            </form>
+          )}
 
           {myRequests.length > 0 && (
             <div className="glass std-card">
