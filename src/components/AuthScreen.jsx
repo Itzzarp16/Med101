@@ -52,6 +52,7 @@ export default function AuthScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
   const [showPw, setShowPw] = useState(false);
   const [msg, setMsg] = useState(null); // { text, type }
   const [busy, setBusy] = useState(false);
