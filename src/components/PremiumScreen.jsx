@@ -6,6 +6,7 @@ import {
 } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 import LiveQrCode from './LiveQrCode';
+import PremiumThankYou from './PremiumThankYou';
 import './PremiumScreen.css';
 
 const STATUS_LABEL = {
@@ -53,6 +54,7 @@ export default function PremiumScreen({ onBack }) {
   const [code, setCode] = useState('');
   const [redeeming, setRedeeming] = useState(false);
   const [redeemMsg, setRedeemMsg] = useState(null);
+  const [showThankYou, setShowThankYou] = useState(false);
 
   function handleCopyUpi() {
     if (!config?.upiId) return;
@@ -120,6 +122,7 @@ export default function PremiumScreen({ onBack }) {
       await redeemActivationCode(user.uid, code);
       setRedeemMsg({ text: 'Premium activated! Enjoy full access.', type: 'success' });
       setCode('');
+      setShowThankYou(true);
     } catch (e) {
       setRedeemMsg({ text: e.message || String(e), type: 'error' });
     } finally {
@@ -129,6 +132,8 @@ export default function PremiumScreen({ onBack }) {
 
   return (
     <div className="std-screen">
+      {showThankYou && <PremiumThankYou onClose={() => setShowThankYou(false)} />}
+
       <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
 
       <div className="std-header">
