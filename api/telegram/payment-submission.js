@@ -102,19 +102,19 @@ export default async function handler(req, res) {
     }
 
     const message = [
-      'ðŸ”” <b>MED101 â€” New Payment Submission</b>',
-      '',
-      'ðŸ’° <b>Amount:</b> â‚¹11',
-      `ðŸ‘¤ <b>User:</b> ${escapeHtml(displayName || '(not provided)')}`,
-      `ðŸ“§ <b>Email:</b> ${escapeHtml(account.email || '(not provided)')}`,
-      `ðŸ¦ <b>Banking Name:</b> ${escapeHtml(bankingName || '(not provided)')}`,
-      `ðŸ“± <b>Phone:</b> ${escapeHtml(phone || '(not provided)')}`,
-      `ðŸ”¢ <b>UTR:</b> <code>${escapeHtml(utr.trim())}</code>`,
-      '',
-      'â³ <b>Status:</b> Pending admin review',
-      '',
-      'Open the MED101 Admin Portal to verify and approve.',
-    ].join('\n');
+  '\u{1F514} <b>MED101 — New Payment Submission</b>',
+  '',
+  '\u{1F4B0} <b>Amount:</b> \u20B911',
+  `\u{1F464} <b>User:</b> ${escapeHtml(displayName || '(not provided)')}`,
+  `\u{1F4E7} <b>Email:</b> ${escapeHtml(account.email || '(not provided)')}`,
+  `\u{1F3E6} <b>Banking Name:</b> ${escapeHtml(bankingName || '(not provided)')}`,
+  `\u{1F4F1} <b>Phone:</b> ${escapeHtml(phone || '(not provided)')}`,
+  `\u{1F522} <b>UTR:</b> <code>${escapeHtml(utr.trim())}</code>`,
+  '',
+  '\u{23F3} <b>Status:</b> Pending admin review',
+  '',
+  'Open the MED101 Admin Portal to verify and approve.',
+].join('\n');
 
     const telegramResponse = await fetch(`${TELEGRAM_API}/bot${encodeURIComponent(botToken)}/sendMessage`, {
       method: 'POST',
