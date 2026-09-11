@@ -5,7 +5,7 @@ import {
   redeemActivationCode, subscribeToMyPremiumStatus,
 } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
-import { buildUpiUri } from '../lib/upi';
+import { buildUpiIntentUri } from '../lib/upi';
 import LiveQrCode from './LiveQrCode';
 import './PremiumScreen.css';
 
@@ -190,7 +190,7 @@ export default function PremiumScreen({ onBack }) {
                 {config.upiId && (
                   <a
                     className="pay-tap-btn"
-                    href={buildUpiUri({ upiId: config.upiId, amount: extractAmount(config.priceLabel) })}
+                    href={buildUpiIntentUri({ upiId: config.upiId, amount: extractAmount(config.priceLabel) })}
                     onClick={() => playTapSound()}
                   >
                     📲 Tap to Pay in UPI App
