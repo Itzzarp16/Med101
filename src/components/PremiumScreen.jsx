@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import {
-  getSubscriptionConfig, submitPaymentRequest, subscribeToMyPaymentRequests,
+  subscribeToSubscriptionConfig, submitPaymentRequest, subscribeToMyPaymentRequests,
   redeemActivationCode, subscribeToMyPremiumStatus,
 } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
@@ -66,7 +66,7 @@ export default function PremiumScreen({ onBack }) {
   }
 
   useEffect(() => {
-    getSubscriptionConfig().then(setConfig);
+    return subscribeToSubscriptionConfig(setConfig);
   }, []);
 
   useEffect(() => {
@@ -156,12 +156,19 @@ export default function PremiumScreen({ onBack }) {
         <div className="std-loading">Loading…</div>
       ) : (
         <>
-          <div className="glass std-card" style={{ borderColor: premium.isPremium ? 'var(--green)' : undefined }}>
+          <div className="glass std-card" style={{ borderColor: premium.isPremium ? 'var(--green)' : config?.premiumPaused ? 'var(--cyan)' : undefined }}>
             {premium.isPremium ? (
               <>
                 <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Premium Active</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
                   Valid until <strong>{premium.premiumUntil.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</strong>
+                </div>
+              </>
+            ) : config?.premiumPaused ? (
+              <>
+                <div className="auth-label" style={{ margin: 0, color: 'var(--cyan)' }}>🎉 Free For Everyone Right Now</div>
+                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
+                  All Premium features are unlocked for every student at the moment - nothing to pay, nothing to do.
                 </div>
               </>
             ) : (
@@ -174,7 +181,7 @@ export default function PremiumScreen({ onBack }) {
             )}
           </div>
 
-          {!premium.isPremium && config && (
+          {!premium.isPremium && !config?.premiumPaused && config && (
             <div className="pay-card">
               <div className="pay-card-inner">
                 <div className="pay-card-eyebrow">Scan to Pay</div>
@@ -215,7 +222,7 @@ export default function PremiumScreen({ onBack }) {
             </div>
           )}
 
-          {!premium.isPremium && (
+          {!premium.isPremium && !config?.premiumPaused && (
             <form className="glass std-card" onSubmit={handleSubmit}>
               <div className="auth-label" style={{ margin: 0 }}>Submit Your Payment</div>
               <label className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
@@ -231,7 +238,7 @@ export default function PremiumScreen({ onBack }) {
             </form>
           )}
 
-          {!premium.isPremium && config?.activationMethod === 'code' && (
+          {!premium.isPremium && !config?.premiumPaused && config?.activationMethod === 'code' && (
             <form className="glass std-card" onSubmit={handleRedeem}>
               <div className="auth-label" style={{ margin: 0 }}>Have an Activation Code?</div>
               <input
@@ -248,7 +255,7 @@ export default function PremiumScreen({ onBack }) {
             </form>
           )}
 
-          {!premium.isPremium && myRequests.length > 0 && (
+          {!premium.isPremium && !config?.premiumPaused && myRequests.length > 0 && (
             <div className="glass std-card">
               <div className="auth-label" style={{ margin: 0 }}>Your Submissions</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>

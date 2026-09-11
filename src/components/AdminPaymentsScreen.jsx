@@ -25,7 +25,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
 
   // Subscription config (UPI ID / price / instructions) - editable
   // right here since it's the same admin who deals with both.
-  const [config, setConfig] = useState({ upiId: '', priceLabel: '', instructions: '', activationMethod: 'auto' });
+  const [config, setConfig] = useState({ upiId: '', priceLabel: '', instructions: '', activationMethod: 'auto', premiumPaused: false });
   const [configLoading, setConfigLoading] = useState(true);
   const [configSaving, setConfigSaving] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
@@ -54,7 +54,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     });
     loadCodes();
     getSubscriptionConfig().then((c) => {
-      if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '', activationMethod: c.activationMethod === 'code' ? 'code' : 'auto' });
+      if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '', activationMethod: c.activationMethod === 'code' ? 'code' : 'auto', premiumPaused: !!c.premiumPaused });
       setConfigLoading(false);
     });
     return () => {
@@ -196,7 +196,33 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
               <div className="std-loading">Loading…</div>
             ) : (
               <>
-                <label className="auth-label" style={{ marginTop: 10 }}>Price Label</label>
+                <label className="qmode-toggle-row" style={{ cursor: 'pointer', marginTop: 10 }}>
+                  <div>
+                    <div className="qmode-toggle-title" style={{ color: config.premiumPaused ? 'var(--amber)' : undefined }}>
+                      ⏸️ Pause Premium (make everything free)
+                    </div>
+                    <div className="qmode-toggle-desc">
+                      {config.premiumPaused
+                        ? 'Every student currently has full free access. Turn this off to resume charging.'
+                        : "Everyone's normal subscription status applies."}
+                    </div>
+                  </div>
+                  <div
+                    className={config.premiumPaused ? 'toggle-track on' : 'toggle-track'}
+                    onClick={() => setConfig((c) => ({ ...c, premiumPaused: !c.premiumPaused }))}
+                  >
+                    <div className="toggle-thumb" />
+                  </div>
+                </label>
+                {config.premiumPaused && (
+                  <div style={{ fontSize: 12, color: 'var(--amber)', marginTop: 6 }}>
+                    ⚠️ Nobody's actual subscription records are touched by this - it's just a
+                    site-wide override. Resume anytime and everyone's real status (including
+                    expiry dates) picks back up exactly where it was.
+                  </div>
+                )}
+
+                <label className="auth-label" style={{ marginTop: 18 }}>Price Label</label>
                 <input className="auth-input" value={config.priceLabel} onChange={(e) => setConfig((c) => ({ ...c, priceLabel: e.target.value }))} placeholder="e.g. ₹299 / 3 months" />
                 <label className="auth-label" style={{ marginTop: 10 }}>UPI ID</label>
                 <input className="auth-input" value={config.upiId} onChange={(e) => setConfig((c) => ({ ...c, upiId: e.target.value }))} placeholder="yourname@upi" style={{ fontFamily: 'var(--font-mono)' }} />

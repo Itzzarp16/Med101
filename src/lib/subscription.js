@@ -43,12 +43,23 @@ export async function getSubscriptionConfig() {
   return snap.exists() ? snap.data() : null;
 }
 
+// Live version - so toggling premiumPaused (or any other setting)
+// takes effect immediately for every open tab, no refresh needed.
+export function subscribeToSubscriptionConfig(callback) {
+  return onSnapshot(doc(db, 'config', 'subscription'), (snap) => {
+    callback(snap.exists() ? snap.data() : null);
+  }, (err) => {
+    console.warn('Subscription config listener failed:', err);
+  });
+}
+
 export async function saveSubscriptionConfig({
   upiId,
   priceLabel,
   qrImageUrl,
   instructions,
-  activationMethod
+  activationMethod,
+  premiumPaused
 }) {
   await setDoc(
     doc(db, 'config', 'subscription'),
@@ -58,6 +69,7 @@ export async function saveSubscriptionConfig({
       qrImageUrl: qrImageUrl || null,
       instructions: instructions || '',
       activationMethod: activationMethod === 'code' ? 'code' : 'auto',
+      premiumPaused: !!premiumPaused,
       updatedAt: serverTimestamp(),
     },
     { merge: true }

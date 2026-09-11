@@ -23,7 +23,7 @@ import AdminUserDetailScreen from './components/AdminUserDetailScreen';
 import AdminAnalyticsScreen from './components/AdminAnalyticsScreen';
 import AdminPaymentsScreen from './components/AdminPaymentsScreen';
 import PremiumScreen from './components/PremiumScreen';
-import { subscribeToMyPremiumStatus } from './lib/subscription';
+import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig } from './lib/subscription';
 import AuthScreen from './components/AuthScreen';
 import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
@@ -64,6 +64,17 @@ export default function App() {
     if (!user?.uid) { setIsPremium(false); return; }
     return subscribeToMyPremiumStatus(user.uid, (status) => setIsPremium(status.isPremium));
   }, [user?.uid]);
+
+  // Admin can temporarily make Premium free for everyone (e.g. a
+  // promo, or just pausing monetization for a while) without touching
+  // anyone's actual subscription records - this is a display-time
+  // override only, combined into the isPremium prop passed down below.
+  // Live subscription so flipping it takes effect for every open tab
+  // immediately, same as everything else in this app.
+  const [premiumPaused, setPremiumPaused] = useState(false);
+  useEffect(() => {
+    return subscribeToSubscriptionConfig((config) => setPremiumPaused(!!config?.premiumPaused));
+  }, []);
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
@@ -519,7 +530,7 @@ export default function App() {
               subjectMeta={subjectMeta}
               subjectName={selectedSubject}
               emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
-              isPremium={isPremium || isAdmin}
+              isPremium={isPremium || isAdmin || premiumPaused}
               onGetPremium={() => goTo('premium')}
               onStart={(quizQuestions, settings) => {
                 setFinalQuiz({ questions: quizQuestions, ...settings });
