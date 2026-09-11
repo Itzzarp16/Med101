@@ -18,6 +18,16 @@ export default function LegalFooter() {
         <span className="legal-footer-dot">·</span>
 
         <a
+          href="/contact"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Contact Us
+        </a>
+
+        <span className="legal-footer-dot">·</span>
+
+        <a
           href="/privacy-policy"
           target="_blank"
           rel="noopener noreferrer"
