@@ -153,16 +153,30 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
         </div>
       )}
 
-      <button
-        className="btn-ghost"
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8, width: 'auto',
-          padding: '10px 16px', fontSize: 13.5, fontWeight: 700,
-        }}
-        onClick={() => { playTapSound(); setShowSettings(true); }}
-      >
-        ⚙️ Payment Settings
-      </button>
+      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+        <button
+          className="btn-ghost"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, width: 'auto',
+            padding: '10px 16px', fontSize: 13.5, fontWeight: 700,
+          }}
+          onClick={() => { playTapSound(); setShowSettings(true); }}
+        >
+          ⚙️ Payment Settings
+        </button>
+
+        <button
+          className="btn-ghost"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, width: 'auto',
+            padding: '10px 16px', fontSize: 13.5, fontWeight: 700,
+            borderColor: 'rgba(255, 58, 92, 0.35)', color: 'var(--red)',
+          }}
+          onClick={() => { playTapSound(); setShowRejected(true); }}
+        >
+          ✗ Rejected Requests {rejected ? `(${rejected.length})` : ''}
+        </button>
+      </div>
 
       {showSettings && (
         <div
@@ -312,18 +326,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
           </div>
         ))
       )}
-
-      <button
-        className="btn-ghost"
-        style={{
-          display: 'inline-flex', alignItems: 'center', gap: 8, width: 'auto',
-          padding: '10px 16px', fontSize: 13.5, fontWeight: 700, marginTop: 18,
-          borderColor: 'rgba(255, 58, 92, 0.35)', color: 'var(--red)',
-        }}
-        onClick={() => { playTapSound(); setShowRejected(true); }}
-      >
-        ✗ Rejected Requests {rejected ? `(${rejected.length})` : ''}
-      </button>
 
       {showRejected && (
         <div
