@@ -348,15 +348,15 @@ export default function AuthScreen() {
       />
 
       <span>
-        I agree to the{' '}
-        <a href="/terms" target="_blank" rel="noopener noreferrer">
-          Terms & Conditions
-        </a>{' '}
-        and{' '}
-        <a href="/privacy" target="_blank" rel="noopener noreferrer">
-          Privacy Policy
-        </a>.
-      </span>
+  I agree to the{' '}
+  <a href="/terms" target="_blank" rel="noopener noreferrer">
+    Terms & Conditions
+  </a>{' '}
+  and{' '}
+  <a href="/privacy-policy" target="_blank" rel="noopener noreferrer">
+    Privacy Policy
+  </a>.
+</span>
     </label>
   </>
 )}
