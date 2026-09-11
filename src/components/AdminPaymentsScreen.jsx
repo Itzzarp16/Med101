@@ -248,6 +248,9 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                 <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
                 <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{c.studentEmail}</div>
                 <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  {c.bankingName && <span>Paid as: <strong>{c.bankingName}</strong></span>}
+                  {c.phone && <span>Phone: <strong>{c.phone}</strong></span>}
+                  {c.utr && <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.utr}</strong></span>}
                   <span>Code: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.code}</strong></span>
                   <span>Duration: <strong>{c.durationDays} days</strong></span>
                   <span>Issued: <strong>{fmtDate(c.createdAt)}</strong></span>

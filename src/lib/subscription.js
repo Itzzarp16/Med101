@@ -90,8 +90,18 @@ export async function getAllActivationCodes() {
   const userByUid = {};
   uniqueUids.forEach((uid, i) => { userByUid[uid] = userDocs[i]?.exists() ? userDocs[i].data() : null; });
 
+  // Each code links back to the paymentRequests doc (same id as the
+  // UTR) it was approved from, which has what the student actually
+  // submitted - banking name and phone - that isn't on the code
+  // itself.
+  const uniqueUtrs = [...new Set(codes.map((c) => c.utr).filter(Boolean))];
+  const reqDocs = await Promise.all(uniqueUtrs.map((utr) => getDoc(doc(db, 'paymentRequests', utr)).catch(() => null)));
+  const reqByUtr = {};
+  uniqueUtrs.forEach((utr, i) => { reqByUtr[utr] = reqDocs[i]?.exists() ? reqDocs[i].data() : null; });
+
   return codes.map((c) => {
     const student = userByUid[c.uid];
+    const request = c.utr ? reqByUtr[c.utr] : null;
     let expiresAt = null;
     if (c.used && c.usedAt && c.durationDays) {
       const usedAtMs = c.usedAt.toMillis ? c.usedAt.toMillis() : c.usedAt.seconds * 1000;
@@ -101,6 +111,8 @@ export async function getAllActivationCodes() {
       ...c,
       studentName: student?.displayName || '(unknown)',
       studentEmail: student?.email || '',
+      bankingName: request?.bankingName || '',
+      phone: request?.phone || '',
       expiresAt,
     };
   });
