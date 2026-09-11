@@ -29,6 +29,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [configLoading, setConfigLoading] = useState(true);
   const [configSaving, setConfigSaving] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   async function loadRequests() {
     setLoading(true);
@@ -151,51 +152,87 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
         </div>
       )}
 
-      <div className="glass std-card">
-        <div className="auth-label" style={{ margin: 0 }}>Subscription Settings</div>
-        {configLoading ? (
-          <div className="std-loading">Loading…</div>
-        ) : (
-          <>
-            <label className="auth-label" style={{ marginTop: 10 }}>Price Label</label>
-            <input className="auth-input" value={config.priceLabel} onChange={(e) => setConfig((c) => ({ ...c, priceLabel: e.target.value }))} placeholder="e.g. ₹299 / 3 months" />
-            <label className="auth-label" style={{ marginTop: 10 }}>UPI ID</label>
-            <input className="auth-input" value={config.upiId} onChange={(e) => setConfig((c) => ({ ...c, upiId: e.target.value }))} placeholder="yourname@upi" style={{ fontFamily: 'var(--font-mono)' }} />
-            <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>The QR code and payment link are generated automatically from this UPI ID - no image to upload.</div>
-            <label className="auth-label" style={{ marginTop: 10 }}>Instructions (optional)</label>
-            <textarea className="auth-input" rows={3} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={config.instructions} onChange={(e) => setConfig((c) => ({ ...c, instructions: e.target.value }))} placeholder="Any extra notes shown to students on the payment page" />
+      <button
+        className="btn-ghost"
+        style={{
+          display: 'inline-flex', alignItems: 'center', gap: 8, width: 'auto',
+          padding: '10px 16px', fontSize: 13.5, fontWeight: 700,
+        }}
+        onClick={() => { playTapSound(); setShowSettings(true); }}
+      >
+        ⚙️ Payment Settings
+      </button>
 
-            <label className="auth-label" style={{ marginTop: 10 }}>When You Approve a Payment</label>
-            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+      {showSettings && (
+        <div
+          style={{
+            position: 'fixed', inset: 0, zIndex: 100,
+            background: 'rgba(6, 8, 24, 0.72)', backdropFilter: 'blur(3px)',
+            display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
+            padding: '32px 16px', overflowY: 'auto',
+          }}
+          onClick={() => setShowSettings(false)}
+        >
+          <div
+            className="glass std-card"
+            style={{ maxWidth: 480, width: '100%', margin: 0 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="auth-label" style={{ margin: 0 }}>⚙️ Payment Settings</div>
               <button
-                className={config.activationMethod === 'auto' ? 'tpreset sel' : 'tpreset'}
-                onClick={() => setConfig((c) => ({ ...c, activationMethod: 'auto' }))}
-                type="button"
+                className="btn-ghost"
+                style={{ width: 32, height: 32, padding: 0, borderRadius: '50%', fontSize: 16, lineHeight: 1 }}
+                onClick={() => { playTapSound(); setShowSettings(false); }}
               >
-                ⚡ Activate Instantly
-              </button>
-              <button
-                className={config.activationMethod === 'code' ? 'tpreset sel' : 'tpreset'}
-                onClick={() => setConfig((c) => ({ ...c, activationMethod: 'code' }))}
-                type="button"
-              >
-                🔑 Issue a Code
+                ✕
               </button>
             </div>
-            <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>
-              {config.activationMethod === 'code'
-                ? 'Approving generates a code shown once to you - the student enters it themselves to activate.'
-                : 'Approving turns on premium for that student right away - nothing for them to enter.'}
-              {' '}You can switch this anytime; it only affects approvals from now on.
-            </div>
+            {configLoading ? (
+              <div className="std-loading">Loading…</div>
+            ) : (
+              <>
+                <label className="auth-label" style={{ marginTop: 10 }}>Price Label</label>
+                <input className="auth-input" value={config.priceLabel} onChange={(e) => setConfig((c) => ({ ...c, priceLabel: e.target.value }))} placeholder="e.g. ₹299 / 3 months" />
+                <label className="auth-label" style={{ marginTop: 10 }}>UPI ID</label>
+                <input className="auth-input" value={config.upiId} onChange={(e) => setConfig((c) => ({ ...c, upiId: e.target.value }))} placeholder="yourname@upi" style={{ fontFamily: 'var(--font-mono)' }} />
+                <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>The QR code and payment link are generated automatically from this UPI ID - no image to upload.</div>
+                <label className="auth-label" style={{ marginTop: 10 }}>Instructions (optional)</label>
+                <textarea className="auth-input" rows={3} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={config.instructions} onChange={(e) => setConfig((c) => ({ ...c, instructions: e.target.value }))} placeholder="Any extra notes shown to students on the payment page" />
 
-            <button className="btn-glow std-save-btn" onClick={handleSaveConfig} disabled={configSaving}>
-              {configSaving ? 'Saving…' : 'Save Settings'}
-            </button>
-            {configSaved && <div className="auth-msg success" style={{ display: 'block' }}>Saved.</div>}
-          </>
-        )}
-      </div>
+                <label className="auth-label" style={{ marginTop: 10 }}>When You Approve a Payment</label>
+                <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+                  <button
+                    className={config.activationMethod === 'auto' ? 'tpreset sel' : 'tpreset'}
+                    onClick={() => setConfig((c) => ({ ...c, activationMethod: 'auto' }))}
+                    type="button"
+                  >
+                    ⚡ Activate Instantly
+                  </button>
+                  <button
+                    className={config.activationMethod === 'code' ? 'tpreset sel' : 'tpreset'}
+                    onClick={() => setConfig((c) => ({ ...c, activationMethod: 'code' }))}
+                    type="button"
+                  >
+                    🔑 Issue a Code
+                  </button>
+                </div>
+                <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>
+                  {config.activationMethod === 'code'
+                    ? 'Approving generates a code shown once to you - the student enters it themselves to activate.'
+                    : 'Approving turns on premium for that student right away - nothing for them to enter.'}
+                  {' '}You can switch this anytime; it only affects approvals from now on.
+                </div>
+
+                <button className="btn-glow std-save-btn" onClick={handleSaveConfig} disabled={configSaving}>
+                  {configSaving ? 'Saving…' : 'Save Settings'}
+                </button>
+                {configSaved && <div className="auth-msg success" style={{ display: 'block' }}>Saved.</div>}
+              </>
+            )}
+          </div>
+        </div>
+      )}
 
       <div className="auth-label" style={{ marginTop: 18 }}>
         Pending Requests {requests ? `(${requests.length})` : ''}
