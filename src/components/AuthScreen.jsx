@@ -156,12 +156,13 @@ export default function AuthScreen() {
   return;
 }
 
-if (mode === 'signup' && !termsAccepted) {
+if (mode === 'signup' && signupStep === 2 && !termsAccepted) {
   setMsg({
     text: 'Please agree to the Terms & Conditions and Privacy Policy before creating your account.',
     type: 'error'
   });
   return;
+}
 }
     }
 
