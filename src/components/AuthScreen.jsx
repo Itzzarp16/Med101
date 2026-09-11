@@ -152,8 +152,17 @@ export default function AuthScreen() {
       return;
     }
     if (mode === 'signup' && password.length < 6) {
-      setMsg({ text: 'Password must be at least 6 characters.', type: 'error' });
-      return;
+  setMsg({ text: 'Password must be at least 6 characters.', type: 'error' });
+  return;
+}
+
+if (mode === 'signup' && !termsAccepted) {
+  setMsg({
+    text: 'Please agree to the Terms & Conditions and Privacy Policy before creating your account.',
+    type: 'error'
+  });
+  return;
+}
     }
 
     setBusy(true);
