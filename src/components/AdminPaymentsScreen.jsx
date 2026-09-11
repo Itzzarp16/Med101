@@ -23,7 +23,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
 
   // Subscription config (UPI ID / price / instructions) - editable
   // right here since it's the same admin who deals with both.
-  const [config, setConfig] = useState({ upiId: '', priceLabel: '', instructions: '' });
+  const [config, setConfig] = useState({ upiId: '', priceLabel: '', instructions: '', activationMethod: 'auto' });
   const [configLoading, setConfigLoading] = useState(true);
   const [configSaving, setConfigSaving] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
@@ -52,7 +52,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     loadRequests();
     loadCodes();
     getSubscriptionConfig().then((c) => {
-      if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '' });
+      if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '', activationMethod: c.activationMethod === 'code' ? 'code' : 'auto' });
       setConfigLoading(false);
     });
   }, []);
@@ -81,8 +81,8 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     }
     setBusyUtr(req.utr);
     try {
-      const code = await approvePaymentRequest(req.utr, req.uid, days);
-      setIssuedCode({ utr: req.utr, code, days, email: req.email });
+      const { code, autoActivate } = await approvePaymentRequest(req.utr, req.uid, days, config.activationMethod);
+      setIssuedCode({ utr: req.utr, code, days, email: req.email, autoActivate });
       await loadRequests();
       await loadCodes();
     } catch (e) {
@@ -120,11 +120,20 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
 
       {issuedCode && (
         <div className="glass std-card" style={{ borderColor: 'var(--green)' }}>
-          <div className="auth-label" style={{ margin: 0 }}>✅ Approved — send this code to {issuedCode.email}</div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: 22, fontWeight: 800, color: 'var(--green)', margin: '10px 0', letterSpacing: 1 }}>
-            {issuedCode.code}
-          </div>
-          <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>Valid for {issuedCode.days} days once redeemed.</div>
+          {issuedCode.autoActivate ? (
+            <>
+              <div className="auth-label" style={{ margin: 0 }}>✅ Premium activated for {issuedCode.email}</div>
+              <div style={{ fontSize: 12.5, color: 'var(--text3)', marginTop: 6 }}>Valid for {issuedCode.days} days, effective now - nothing for them to enter.</div>
+            </>
+          ) : (
+            <>
+              <div className="auth-label" style={{ margin: 0 }}>✅ Approved — send this code to {issuedCode.email}</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 22, fontWeight: 800, color: 'var(--green)', margin: '10px 0', letterSpacing: 1 }}>
+                {issuedCode.code}
+              </div>
+              <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>Valid for {issuedCode.days} days once redeemed.</div>
+            </>
+          )}
           <button className="btn-ghost" style={{ width: '100%', marginTop: 10 }} onClick={() => setIssuedCode(null)}>Dismiss</button>
         </div>
       )}
@@ -142,6 +151,31 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
             <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>The QR code and payment link are generated automatically from this UPI ID - no image to upload.</div>
             <label className="auth-label" style={{ marginTop: 10 }}>Instructions (optional)</label>
             <textarea className="auth-input" rows={3} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={config.instructions} onChange={(e) => setConfig((c) => ({ ...c, instructions: e.target.value }))} placeholder="Any extra notes shown to students on the payment page" />
+
+            <label className="auth-label" style={{ marginTop: 10 }}>When You Approve a Payment</label>
+            <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
+              <button
+                className={config.activationMethod === 'auto' ? 'tpreset sel' : 'tpreset'}
+                onClick={() => setConfig((c) => ({ ...c, activationMethod: 'auto' }))}
+                type="button"
+              >
+                ⚡ Activate Instantly
+              </button>
+              <button
+                className={config.activationMethod === 'code' ? 'tpreset sel' : 'tpreset'}
+                onClick={() => setConfig((c) => ({ ...c, activationMethod: 'code' }))}
+                type="button"
+              >
+                🔑 Issue a Code
+              </button>
+            </div>
+            <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>
+              {config.activationMethod === 'code'
+                ? 'Approving generates a code shown once to you - the student enters it themselves to activate.'
+                : 'Approving turns on premium for that student right away - nothing for them to enter.'}
+              {' '}You can switch this anytime; it only affects approvals from now on.
+            </div>
+
             <button className="btn-glow std-save-btn" onClick={handleSaveConfig} disabled={configSaving}>
               {configSaving ? 'Saving…' : 'Save Settings'}
             </button>

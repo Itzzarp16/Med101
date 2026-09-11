@@ -1,6 +1,6 @@
 import {
   doc, getDoc, setDoc, updateDoc, runTransaction,
-  collection, query, where, getDocs, serverTimestamp, Timestamp,
+  collection, query, where, getDocs, serverTimestamp,
 } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -27,10 +27,21 @@ export async function getSubscriptionConfig() {
   return snap.exists() ? snap.data() : null;
 }
 
-export async function saveSubscriptionConfig({ upiId, priceLabel, qrImageUrl, instructions }) {
+export async function saveSubscriptionConfig({ upiId, priceLabel, qrImageUrl, instructions, activationMethod }) {
   await setDoc(
     doc(db, 'config', 'subscription'),
-    { upiId, priceLabel, qrImageUrl: qrImageUrl || null, instructions: instructions || '', updatedAt: serverTimestamp() },
+    {
+      upiId, priceLabel, qrImageUrl: qrImageUrl || null, instructions: instructions || '',
+      // 'auto' = approving a payment instantly activates premium for
+      // that student, no code involved. 'code' = approving generates a
+      // code (shown once to admin) that the student must enter
+      // themselves to activate - useful if you want to relay it
+      // through WhatsApp/SMS first, or hold activation until you're
+      // ready. Switchable anytime; only affects approvals from then on,
+      // past ones are unaffected either way.
+      activationMethod: activationMethod === 'code' ? 'code' : 'auto',
+      updatedAt: serverTimestamp(),
+    },
     { merge: true }
   );
 }
@@ -132,12 +143,16 @@ function generateCode() {
   return code;
 }
 
-// Approving a request creates the activation code (admin-only per
-// rules) and marks the request approved with the duration chosen and
-// the code issued, so it's all visible together in the admin queue's
-// history. Retries on the astronomically unlikely chance of a code
-// collision.
-export async function approvePaymentRequest(utr, uid, durationDays) {
+// Approving a request either activates premium instantly (method =
+// 'auto') or issues a code the student must enter themselves (method =
+// 'code') - whichever the admin currently has set in Subscription
+// Settings. Either way this creates the activationCodes doc (admin-
+// only per rules), which is the actual source of truth
+// getMyPremiumStatus reads from, and doubles as the human-readable
+// record in the admin history (getAllActivationCodes) - the only
+// difference is whether `used` starts true (already activated) or
+// false (waiting on the student to redeem it).
+export async function approvePaymentRequest(utr, uid, durationDays, method = 'auto') {
   let code;
   for (let attempt = 0; attempt < 3; attempt++) {
     code = generateCode();
@@ -146,18 +161,22 @@ export async function approvePaymentRequest(utr, uid, durationDays) {
     if (!clash.exists()) break;
     if (attempt === 2) throw new Error('Could not generate a unique code - try approving again.');
   }
+  const now = serverTimestamp();
+  const autoActivate = method !== 'code';
   await setDoc(doc(db, 'activationCodes', code), {
     uid, utr, durationDays,
-    used: false,
-    createdAt: serverTimestamp(),
+    used: autoActivate,
+    ...(autoActivate ? { usedBy: uid, usedAt: now } : {}),
+    createdAt: now,
   });
   await updateDoc(doc(db, 'paymentRequests', utr), {
     status: 'approved',
     durationDays,
     code,
+    activationMethod: autoActivate ? 'auto' : 'code',
     reviewedAt: serverTimestamp(),
   });
-  return code;
+  return { code, autoActivate };
 }
 
 export async function rejectPaymentRequest(utr, reason) {
@@ -169,10 +188,13 @@ export async function rejectPaymentRequest(utr, reason) {
 }
 
 // ── Student: redeem a code ──────────────────────────────────────────
-// A transaction so two attempts to redeem the same code (e.g. a
-// double-tap) can't both succeed - the security rule's own
-// resource.data.used == false precondition backs this up too, but the
-// transaction also gives us a clean "already used" error to show.
+// Only relevant when the admin's current method is 'code' - in 'auto'
+// mode a student's access is already active by the time they see the
+// "approved" status, so there's nothing to redeem. A transaction so
+// two attempts to redeem the same code (e.g. a double-tap) can't both
+// succeed - the security rule's own resource.data.used == false
+// precondition backs this up too, but the transaction also gives us a
+// clean "already used" error to show.
 export async function redeemActivationCode(uid, rawCode) {
   const code = rawCode.trim().toUpperCase();
   const ref = doc(db, 'activationCodes', code);
