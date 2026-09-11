@@ -524,7 +524,7 @@ export default function App() {
               subjectMeta={subjectMeta}
               subjectName={selectedSubject}
               emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
-              isPremium={isPremium}
+              isPremium={isPremium || isAdmin}
               onGetPremium={() => goTo('premium')}
               onStart={(quizQuestions, settings) => {
                 setFinalQuiz({ questions: quizQuestions, ...settings });
