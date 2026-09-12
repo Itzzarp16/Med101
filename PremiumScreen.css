@@ -1,0 +1,153 @@
+/* Featured "Scan to Pay" card - same .glass surface as everything
+   else, but with a brand gradient ring so it reads as the primary
+   call-to-action rather than just another info card. */
+.pay-card {
+  position: relative;
+  padding: 2px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 55%, var(--pink) 100%);
+  box-shadow: 0 0 32px rgba(24, 232, 255, 0.22), 0 10px 32px rgba(0, 0, 0, 0.35);
+  margin-top: 16px;
+}
+
+.pay-card-inner {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 22px 18px 20px;
+  text-align: center;
+}
+
+.pay-card-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 700;
+}
+
+.pay-card-price {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  margin-top: 4px;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* QR codes need real contrast to scan reliably, so it sits on its own
+   clean white plate rather than the dark glass background - framed
+   with a thin gradient ring to tie it back into the brand. */
+.pay-qr-frame {
+  width: fit-content;
+  margin: 16px auto 4px;
+  padding: 3px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%);
+}
+
+.pay-qr-frame img,
+.pay-qr-frame .pay-qr-svg,
+.pay-qr-frame .pay-qr-svg svg {
+  display: block;
+  width: 190px;
+  height: 190px;
+}
+
+.pay-qr-frame img,
+.pay-qr-frame .pay-qr-svg {
+  object-fit: contain;
+  border-radius: 15px;
+  background: #fff;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
+.pay-qr-loading {
+  width: 190px;
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 12.5px;
+  color: #667;
+  background: #fff;
+  border-radius: 15px;
+  padding: 10px;
+  box-sizing: content-box;
+}
+
+.pay-upi-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.pay-upi-id {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 10px;
+  padding: 7px 12px;
+}
+
+.pay-upi-copy {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text2);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.pay-upi-copy:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.pay-tap-btn {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 12px;
+  padding: 13px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--cyan2) 0%, var(--violet) 100%);
+  color: #fff;
+  text-align: center;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14.5px;
+  box-shadow: 0 0 22px rgba(24, 232, 255, 0.3), 0 4px 16px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
+}
+.pay-tap-btn:hover {
+  transform: translateY(-2px);
+}
+
+.pay-steps {
+  text-align: left;
+  font-size: 13px;
+  color: var(--text2);
+  margin-top: 18px;
+  padding-left: 18px;
+  line-height: 1.7;
+}
+
+.pay-instructions {
+  font-size: 12.5px;
+  color: var(--text3);
+  margin-top: 10px;
+}

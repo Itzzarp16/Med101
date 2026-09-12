@@ -1,0 +1,138 @@
+/* Ported 1:1 from the old site's .subj-card / .subj-name / .subj-count /
+   .subj-emoji / .subj-arrow rules. */
+.subj-card {
+  background: rgba(255, 255, 255, 0.11);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  padding: 18px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(.34, 1.2, .64, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  min-height: 72px;
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.28), inset 0 -1px 0 rgba(0, 0, 0, 0.16), 0 6px 28px rgba(0, 0, 0, 0.30);
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-body);
+}
+
+.subj-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(24, 232, 255, 0.10), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.subj-card:hover::before {
+  opacity: 1;
+}
+
+.subj-card:hover {
+  border-color: rgba(255, 255, 255, 0.40);
+  transform: translateY(-4px) scale(1.01);
+  background: rgba(255, 255, 255, 0.17);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.38), 0 16px 48px rgba(24, 232, 255, 0.15), 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+.subj-card-text {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.subj-name {
+  font-weight: 700;
+  font-size: 15.5px;
+  color: var(--text);
+  line-height: 1.4;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.subj-count {
+  font-size: 12.5px;
+  color: var(--text2);
+  margin-top: 5px;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.subj-emoji {
+  font-size: 30px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.subj-arrow {
+  margin-left: auto;
+  color: var(--text2);
+  font-size: 18px;
+  flex-shrink: 0;
+  transition: transform 0.2s, color 0.2s;
+  align-self: center;
+}
+
+.subj-card:hover .subj-arrow {
+  color: var(--cyan);
+  transform: translateX(4px);
+}
+
+/* ── Pulse trace flourish, kept from the earlier design ── */
+.subj-trace {
+  --trace-color: var(--cyan);
+  display: block;
+  height: 26px;
+  width: 100%;
+  margin-top: 10px;
+  opacity: 0.85;
+}
+
+.subj-trace svg {
+  width: 100%;
+  height: 100%;
+}
+
+.subj-trace-line {
+  fill: none;
+  stroke: var(--trace-color);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 260;
+  stroke-dashoffset: 260;
+  animation: subj-trace-draw 2.6s ease-in-out infinite;
+}
+
+@keyframes subj-trace-draw {
+  0% { stroke-dashoffset: 260; opacity: 0.2; }
+  45% { stroke-dashoffset: 0; opacity: 1; }
+  55% { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: -260; opacity: 0.2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subj-trace-line {
+    animation: none;
+    stroke-dashoffset: 0;
+    opacity: 0.6;
+  }
+}
+
+.subj-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+}

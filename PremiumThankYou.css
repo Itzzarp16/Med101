@@ -1,0 +1,103 @@
+.thanks-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100000;
+  background: rgba(6, 8, 24, 0.82);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: thanks-fade-in 0.25s ease;
+}
+
+@keyframes thanks-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.thanks-card {
+  position: relative;
+  width: 100%;
+  max-width: 360px;
+  padding: 2px;
+  border-radius: 22px;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 55%, var(--pink) 100%);
+  box-shadow: 0 0 40px rgba(24, 232, 255, 0.28), 0 12px 36px rgba(0, 0, 0, 0.4);
+  animation: thanks-pop-in 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+}
+
+@keyframes thanks-pop-in {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.thanks-card-inner {
+  background: var(--surface);
+  border-radius: 20px;
+  padding: 30px 24px 24px;
+  text-align: center;
+  position: relative;
+}
+
+.thanks-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text2);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.thanks-close:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.thanks-icon {
+  position: relative;
+  font-size: 52px;
+}
+
+.thanks-title {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 800;
+  margin: 6px 0 2px;
+  background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.thanks-sub {
+  position: relative;
+  font-size: 13.5px;
+  color: var(--text2);
+  margin: 0 0 16px;
+}
+
+.thanks-note {
+  position: relative;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--text3);
+  margin: 0 0 18px;
+  padding: 0 6px;
+}
+
+.thanks-countdown {
+  position: relative;
+  font-size: 12px;
+  color: var(--text3);
+  font-family: var(--font-mono);
+}

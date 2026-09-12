@@ -1,0 +1,39 @@
+.legal-footer {
+  width: 100%;
+  box-sizing: border-box;
+  background: var(--chrome-bg-strip);
+  color: var(--text2);
+  text-align: center;
+  padding: 22px 20px 26px;
+  font-size: 13px;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.legal-footer-copyright {
+  color: var(--text);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.legal-footer-tagline {
+  margin-top: 4px;
+  color: var(--text3);
+}
+
+.legal-footer-links {
+  margin-top: 12px;
+}
+
+.legal-footer a {
+  color: var(--text2);
+  text-decoration: underline;
+}
+.legal-footer a:hover {
+  color: var(--cyan);
+}
+
+.legal-footer-dot {
+  color: var(--text3);
+  margin: 0 10px;
+}

@@ -1,0 +1,37 @@
+.offline-guard {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  background: var(--chrome-bg-overlay);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.offline-guard-card {
+  max-width: 340px;
+  text-align: center;
+  color: var(--text);
+  font-family: var(--font-body, sans-serif);
+}
+
+.offline-guard-icon {
+  font-size: 44px;
+  margin-bottom: 14px;
+}
+
+.offline-guard-title {
+  font-family: var(--font-heading, sans-serif);
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.offline-guard-text {
+  font-size: 14px;
+  color: var(--text3);
+  line-height: 1.6;
+  margin: 0;
+}
