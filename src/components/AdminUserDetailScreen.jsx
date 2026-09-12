@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { doc, getDoc, collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc, collection, getDocs, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { lookupUsername } from '../lib/invites';
 import { playTapSound } from '../lib/sounds';
@@ -115,24 +115,21 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
 
   useEffect(() => {
     if (!initialUid) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const snap = await getDoc(doc(db, 'users', initialUid));
-        if (cancelled) return;
-        if (!snap.exists()) {
-          setError('User profile not found.');
-          return;
-        }
-        const data = snap.data();
-        setResult(buildResult(initialUid, data.username || null, data));
-      } catch (e) {
-        if (!cancelled) setError(e.message || String(e));
-      } finally {
-        if (!cancelled) setBusy(false);
+    setBusy(true);
+    const unsub = onSnapshot(doc(db, 'users', initialUid), (snap) => {
+      if (!snap.exists()) {
+        setError('User profile not found.');
+        setBusy(false);
+        return;
       }
-    })();
-    return () => { cancelled = true; };
+      const data = snap.data();
+      setResult(buildResult(initialUid, data.username || null, data));
+      setBusy(false);
+    }, (e) => {
+      setError(e.message || String(e));
+      setBusy(false);
+    });
+    return unsub;
   }, [initialUid]);
 
   async function handleSearch() {

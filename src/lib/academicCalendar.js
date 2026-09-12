@@ -1,4 +1,4 @@
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, getDoc, onSnapshot, setDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 
 // The order semesters progress in. A student never sees anything before
@@ -36,6 +36,21 @@ export async function fetchAcademicCalendar() {
   }
   cachedAt = now;
   return cachedCalendar;
+}
+
+// Live version - a calendar edit (e.g. moving a semester's start
+// date) now takes effect for every already-open tab immediately,
+// instead of only on the next full reload. Also refreshes the
+// same module-level cache fetchAcademicCalendar() reads from, so the
+// two stay in sync.
+export function subscribeToAcademicCalendar(callback) {
+  return onSnapshot(doc(db, 'config', 'academicCalendar'), (snap) => {
+    cachedCalendar = snap.exists() ? { ...DEFAULT_CALENDAR, ...snap.data() } : DEFAULT_CALENDAR;
+    cachedAt = Date.now();
+    callback(cachedCalendar);
+  }, (err) => {
+    console.warn('Academic calendar listener failed:', err);
+  });
 }
 
 // Given when a student enrolled (their chosen starting semester) and

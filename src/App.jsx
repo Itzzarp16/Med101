@@ -28,7 +28,7 @@ import AuthScreen from './components/AuthScreen';
 import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
-import { fetchAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
+import { subscribeToAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 import { startPresenceHeartbeat } from './lib/presence';
 import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence';
 
@@ -159,17 +159,15 @@ export default function App() {
       return () => { cancelled = true; clearTimeout(fallbackTimer); };
     }
 
-    async function resolve() {
-      const calendar = await fetchAcademicCalendar();
+    const unsubCalendar = subscribeToAcademicCalendar((calendar) => {
       if (cancelled) return;
       const availableSemesterIds = Object.keys(semesterData.semesterMainSubjects || {});
       const semId = resolveCurrentSemester(profile.enrolledYearSemester || 'y1s1', calendar, new Date(), availableSemesterIds);
       setActiveSemesterId(semId);
       setCalendarLoading(false);
-    }
+    });
 
-    resolve();
-    return () => { cancelled = true; };
+    return () => { cancelled = true; unsubCalendar(); };
   }, [profile, semesterData.semesterMainSubjects]);
 
   // Loading-bar finish sequence: the moment both real loading steps

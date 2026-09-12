@@ -231,6 +231,23 @@ export async function revokeActivationCode(code) {
   await deleteDoc(doc(db, 'activationCodes', code));
 }
 
+// Live version of getAllActivationCodes. The function itself does
+// joins (a users doc + a paymentRequests doc per code) that don't
+// compose into a single onSnapshot - so instead this just watches the
+// raw activationCodes collection for ANY change (new code issued, one
+// revoked, one redeemed) and re-runs the full joined load each time.
+// A code being issued/revoked/redeemed is inherently a rare, discrete
+// event (not a rapid stream), so re-running the small number of
+// per-code lookups on each change is cheap and keeps this list live
+// with no manual refresh, without needing to hand-roll a live join.
+export function subscribeToAllActivationCodes(callback) {
+  return onSnapshot(collection(db, 'activationCodes'), () => {
+    getAllActivationCodes().then(callback);
+  }, (err) => {
+    console.warn('Activation codes listener failed:', err);
+  });
+}
+
 export async function getAllActivationCodes() {
   const snap = await getDocs(collection(db, 'activationCodes'));
   const codes = snap.docs.map((d) => ({ code: d.id, ...d.data() }));

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { subscribeToPendingPaymentRequests, subscribeToRejectedPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, getAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
+import { subscribeToPendingPaymentRequests, subscribeToRejectedPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, subscribeToAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 
 const DURATION_PRESETS = [
@@ -32,15 +32,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [showSettings, setShowSettings] = useState(false);
   const [showRejected, setShowRejected] = useState(false);
 
-  async function loadCodes() {
-    setCodesLoading(true);
-    try {
-      setCodes(await getAllActivationCodes());
-    } finally {
-      setCodesLoading(false);
-    }
-  }
-
   useEffect(() => {
     setLoading(true);
     const unsubPending = subscribeToPendingPaymentRequests((list) => {
@@ -52,7 +43,11 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
       setRejected(list);
       setRejectedLoading(false);
     });
-    loadCodes();
+    setCodesLoading(true);
+    const unsubCodes = subscribeToAllActivationCodes((list) => {
+      setCodes(list);
+      setCodesLoading(false);
+    });
     getSubscriptionConfig().then((c) => {
       if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '', activationMethod: c.activationMethod === 'code' ? 'code' : 'auto', premiumPaused: !!c.premiumPaused });
       setConfigLoading(false);
@@ -60,6 +55,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     return () => {
       unsubPending();
       unsubRejected();
+      unsubCodes();
     };
   }, []);
 
@@ -89,7 +85,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     try {
       const { code, autoActivate } = await approvePaymentRequest(req.utr, req.uid, days, config.activationMethod);
       setIssuedCode({ utr: req.utr, code, days, email: req.email, autoActivate });
-      await loadCodes();
     } catch (e) {
       alert('Failed to approve: ' + (e.message || e));
     } finally {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
-import { fetchFriendsLeaderboard, fetchLeaderboardTop, fetchMyRank } from '../lib/leaderboard';
+import { subscribeToFriendsLeaderboard, subscribeToLeaderboardTop, fetchMyRank } from '../lib/leaderboard';
 import { subscribeToFriends } from '../lib/friends';
 import { playTapSound } from '../lib/sounds';
 import './LeaderboardScreen.css';
@@ -36,15 +36,12 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
   }, [user]);
 
   useEffect(() => {
-    let cancelled = false;
     setLoading(true);
     setError(null);
 
-    async function load() {
-      if (friendsOnly) {
-        const uids = user ? [user.uid, ...friendUids] : friendUids;
-        const result = await fetchFriendsLeaderboard(uids, scopeKey, metric);
-        if (cancelled) return;
+    if (friendsOnly) {
+      const uids = user ? [user.uid, ...friendUids] : friendUids;
+      const unsub = subscribeToFriendsLeaderboard(uids, scopeKey, metric, (result) => {
         if (result && result.error) {
           setError(result.error);
           setRows([]);
@@ -53,13 +50,12 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
         }
         setMyRank(null); // rank-among-friends is just their position in this short list, no separate call needed
         setLoading(false);
-        return;
-      }
+      });
+      return unsub;
+    }
 
-      const [topResult, rankResult] = await Promise.all([
-        fetchLeaderboardTop(scopeKey, metric, 40),
-        user ? fetchMyRank(user.uid, scopeKey, metric) : Promise.resolve(null),
-      ]);
+    let cancelled = false;
+    const unsub = subscribeToLeaderboardTop(scopeKey, metric, 40, (topResult) => {
       if (cancelled) return;
       if (topResult && topResult.error) {
         setError(topResult.error);
@@ -67,12 +63,19 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
       } else {
         setRows(topResult || []);
       }
-      setMyRank(rankResult);
       setLoading(false);
-    }
 
-    load();
-    return () => { cancelled = true; };
+      // fetchMyRank can't be made live (count-aggregation queries have
+      // no onSnapshot equivalent) - re-run it every time the top list
+      // itself updates, so it stays reasonably fresh anyway.
+      if (user) {
+        fetchMyRank(user.uid, scopeKey, metric).then((r) => { if (!cancelled) setMyRank(r); });
+      } else {
+        setMyRank(null);
+      }
+    });
+
+    return () => { cancelled = true; unsub(); };
   }, [scopeKey, metric, user, friendsOnly, friendUids]);
 
   function switchMetric(m) {

@@ -1,4 +1,4 @@
-import { collection, doc, documentId, getCountFromServer, getDoc, getDocs, limit, orderBy, query, setDoc, serverTimestamp, where } from 'firebase/firestore';
+import { collection, doc, documentId, getCountFromServer, getDoc, getDocs, limit, onSnapshot, orderBy, query, setDoc, serverTimestamp, where } from 'firebase/firestore';
 import { db } from './firebase';
 
 // A leaderboard rank only counts once a user has answered enough
@@ -96,6 +96,25 @@ function mapRow(docId, data, scopeKey, metric) {
 // name. metric: 'accuracyPct' | 'totalCorrect'. max: 0/null = no cap.
 // Returns rows, or { error } if the query itself failed (surfaced in the
 // UI rather than only logged, since students can't check devtools).
+// Live version of fetchLeaderboardTop - so someone else finishing a
+// quiz and climbing the board updates everyone already viewing it,
+// with no manual refresh. Same shape/error handling; onSnapshot's own
+// error callback plays the role of the try/catch.
+export function subscribeToLeaderboardTop(scopeKey, metric, max, callback) {
+  const queryFieldName = metric === 'accuracyPct' ? 'qualifiedAccuracyPct' : metric;
+  const { bucketField, bucketKey } = resolveScope(scopeKey);
+  const field = bucketField ? `${bucketField}.${bucketKey}.${queryFieldName}` : queryFieldName;
+  const col = collection(db, 'leaderboard');
+  const constraints = [orderBy(field, 'desc')];
+  if (max) constraints.push(limit(max));
+  return onSnapshot(query(col, ...constraints), (snap) => {
+    callback(snap.docs.map((d) => mapRow(d.id, d.data(), scopeKey, metric)));
+  }, (err) => {
+    console.error('Leaderboard listener failed:', err);
+    callback({ error: err.message || String(err) });
+  });
+}
+
 export async function fetchLeaderboardTop(scopeKey, metric, max) {
   try {
     const queryFieldName = metric === 'accuracyPct' ? 'qualifiedAccuracyPct' : metric;
@@ -116,6 +135,21 @@ export async function fetchLeaderboardTop(scopeKey, metric, max) {
 // (a student's friends list plus themselves) instead of the whole
 // platform. Firestore's 'in' operator caps at 30 values, so this quietly
 // takes just the first 30 if someone has a huge friends list.
+// Live version of fetchFriendsLeaderboard - same 'in' query, just
+// via onSnapshot instead of a one-time getDocs.
+export function subscribeToFriendsLeaderboard(uids, scopeKey, metric, callback) {
+  if (!uids || uids.length === 0) { callback([]); return () => {}; }
+  const capped = uids.slice(0, 30);
+  const col = collection(db, 'leaderboard');
+  return onSnapshot(query(col, where(documentId(), 'in', capped)), (snap) => {
+    const rows = snap.docs.map((d) => mapRow(d.id, d.data(), scopeKey, metric));
+    callback(rows.sort((a, b) => b.value - a.value));
+  }, (err) => {
+    console.error('Friends leaderboard listener failed:', err);
+    callback({ error: err.message || String(err) });
+  });
+}
+
 export async function fetchFriendsLeaderboard(uids, scopeKey, metric) {
   if (!uids || uids.length === 0) return [];
   try {
@@ -134,6 +168,15 @@ export async function fetchFriendsLeaderboard(uids, scopeKey, metric) {
 // or null if they have no entry yet (or haven't crossed the answered-
 // question floor). Uses count aggregation so it doesn't download the
 // whole leaderboard just to find one rank.
+//
+// Stays one-time (no live version): Firestore's count-aggregation
+// queries (getCountFromServer) have no onSnapshot equivalent in the
+// JS SDK - the only way to make a rank number "live" would be to
+// download the entire leaderboard and rank client-side, which is
+// exactly what this aggregation approach exists to avoid. In
+// practice this is refetched whenever the live top-list updates (see
+// LeaderboardScreen.jsx), so it stays reasonably fresh without
+// needing its own listener.
 export async function fetchMyRank(uid, scopeKey, metric) {
   if (!uid) return null;
   try {

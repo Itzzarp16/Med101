@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getAllActivationCodes, revokeActivationCode, fmtDate, expiryLabel } from '../lib/subscription';
+import { subscribeToAllActivationCodes, revokeActivationCode, fmtDate, expiryLabel } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 
 // Split out of AdminPaymentsScreen's "Issued Codes" list into its own
@@ -13,16 +13,13 @@ export default function AdminSubscribersScreen() {
   const [revokingCode, setRevokingCode] = useState(null);
   const [revokeError, setRevokeError] = useState(null);
 
-  async function load() {
-    setLoading(true);
-    try {
-      setCodes(await getAllActivationCodes());
-    } finally {
+  useEffect(() => {
+    const unsub = subscribeToAllActivationCodes((list) => {
+      setCodes(list);
       setLoading(false);
-    }
-  }
-
-  useEffect(() => { load(); }, []);
+    });
+    return unsub;
+  }, []);
 
   async function handleRevoke(code) {
     playTapSound();
@@ -35,7 +32,8 @@ export default function AdminSubscribersScreen() {
     try {
       await revokeActivationCode(code);
       setConfirmingCode(null);
-      await load(); // the student loses access immediately either way (live listener) - this just refreshes this list
+      // no manual reload needed - the live subscription above picks up
+      // the deletion automatically
     } catch (e) {
       setRevokeError(e.message || String(e));
     } finally {
