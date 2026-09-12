@@ -7,6 +7,7 @@ import PrivacyPolicy from './components/PrivacyPolicy.jsx'
 import TermsAndConditions from './components/TermsAndConditions.jsx'
 import AboutUs from './components/AboutUs.jsx'
 import ContactUs from './components/ContactUs.jsx'
+import ResetPassword from './components/ResetPassword.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
 import { startVersionWatcher } from './lib/versionCheck'
@@ -24,6 +25,7 @@ const isPrivacyRoute = path === '/privacy-policy';
 const isTermsRoute = path === '/terms';
 const isAboutRoute = path === '/about-us';
 const isContactRoute = path === '/contact';
+const isResetPasswordRoute = path === '/reset-password';
 
 initTheme();
 startVersionWatcher();
@@ -74,6 +76,8 @@ createRoot(document.getElementById('root')).render(
         <AboutUs />
       ) : isContactRoute ? (
         <ContactUs />
+      ) : isResetPasswordRoute ? (
+        <ResetPassword />
       ) : (
         <AuthProvider>
           {isAdminRoute ? <AdminPortal /> : <App />}
