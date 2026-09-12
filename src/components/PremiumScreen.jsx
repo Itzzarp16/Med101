@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import {
   subscribeToSubscriptionConfig, submitPaymentRequest, subscribeToMyPaymentRequests,
@@ -9,6 +9,31 @@ import LiveQrCode from './LiveQrCode';
 import PremiumThankYou from './PremiumThankYou';
 import PremiumRejected from './PremiumRejected';
 import './PremiumScreen.css';
+
+// Which rejected payment UTRs this student has already been shown the
+// rejection overlay for - persisted so a rejection they never saw
+// (closed the app before checking Premium) still surfaces next time
+// they open the Premium screen, but a rejection they've already
+// acknowledged (dismissed or hit Retry on) never pops up again.
+function getSeenRejections(uid) {
+  try {
+    return JSON.parse(localStorage.getItem(`med101_seen_rejections_${uid}`) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function markRejectionSeen(uid, utr) {
+  const seen = getSeenRejections(uid);
+  if (!seen.includes(utr)) {
+    try {
+      localStorage.setItem(`med101_seen_rejections_${uid}`, JSON.stringify([...seen, utr]));
+    } catch {
+      // Storage unavailable/full - worst case the overlay shows again
+      // next visit, which is harmless (just once more than ideal).
+    }
+  }
+}
 
 const STATUS_LABEL = {
   pending: { text: 'Pending review', color: 'var(--amber)' },
@@ -78,7 +103,6 @@ export default function PremiumScreen({ onBack }) {
   }, []);
 
   const [rejectedOverlay, setRejectedOverlay] = useState(null); // { utr, reason } or null
-  const prevStatusesRef = useRef(null); // null until the first snapshot lands - that first one is a baseline, not a "live" change
 
   useEffect(() => {
     // Live, not a one-time fetch - so an admin approving/rejecting this
@@ -89,18 +113,20 @@ export default function PremiumScreen({ onBack }) {
       setLoading(false);
     });
     const unsubRequests = subscribeToMyPaymentRequests(user.uid, (list) => {
-      const prev = prevStatusesRef.current;
-      if (prev) {
-        // Only the *baseline* snapshot is skipped - every update after
-        // that is a live change, so this only shows the overlay for a
-        // rejection that happens while the student is actually here,
-        // never for an old one already sitting there from a past visit.
-        const justRejected = list.find((r) => r.status === 'rejected' && prev[r.utr] && prev[r.utr] !== 'rejected');
-        if (justRejected) {
-          setRejectedOverlay({ utr: justRejected.utr, reason: justRejected.rejectionReason });
-        }
+      // Show the rejection overlay for the most recent rejected request
+      // the student hasn't acknowledged yet (dismissed or hit Retry on)
+      // - persisted per-account, so this fires the next time they open
+      // the Premium screen even if they closed the app before seeing
+      // it, but never repeats once they've actually seen it. Only
+      // relevant here (PremiumScreen only mounts when they navigate to
+      // Premium), so it never surfaces just from opening the app.
+      const seen = getSeenRejections(user.uid);
+      const unseenRejected = list
+        .filter((r) => r.status === 'rejected' && !seen.includes(r.utr))
+        .sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+      if (unseenRejected.length > 0) {
+        setRejectedOverlay({ utr: unseenRejected[0].utr, reason: unseenRejected[0].rejectionReason });
       }
-      prevStatusesRef.current = Object.fromEntries(list.map((r) => [r.utr, r.status]));
       setMyRequests(list);
     });
     return () => {
@@ -108,6 +134,11 @@ export default function PremiumScreen({ onBack }) {
       unsubRequests();
     };
   }, [user.uid]);
+
+  function dismissRejectedOverlay() {
+    if (rejectedOverlay) markRejectionSeen(user.uid, rejectedOverlay.utr);
+    setRejectedOverlay(null);
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -165,8 +196,8 @@ export default function PremiumScreen({ onBack }) {
       {rejectedOverlay && (
         <PremiumRejected
           reason={rejectedOverlay.reason}
-          onRetry={() => setRejectedOverlay(null)}
-          onClose={() => setRejectedOverlay(null)}
+          onRetry={dismissRejectedOverlay}
+          onClose={dismissRejectedOverlay}
         />
       )}
 
