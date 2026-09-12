@@ -538,26 +538,26 @@ export default function App() {
             />
           )}
           {screen === 'quiz' && finalQuiz && (
-  <QuizScreen
-    key={quizKey}
-    mainSubject={finalQuiz.roomCode ? finalQuiz.roomMainSubject : selectedSubject}
-    topic={selectedTopic}
-    semesterId={activeSemesterId}
-    questions={finalQuiz.questions}
-    isPremium={isPremium || isAdmin || premiumPaused}
-    autoAdvance={finalQuiz.autoAdvance}
-    timerSeconds={finalQuiz.timerSeconds}
-    roomCode={finalQuiz.roomCode}
-    totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
-    onExit={goBack}
-    onViewRoomResults={() => goTo('room-results')}
-    onRestartSame={() => setQuizKey((k) => k + 1)}
-    onRetryWrong={(wrongQuestions) => {
-      setFinalQuiz((prev) => ({ ...prev, questions: wrongQuestions }));
-      setQuizKey((k) => k + 1);
-    }}
-  />
-)}
+            <QuizScreen
+              key={quizKey}
+              mainSubject={finalQuiz.roomCode ? finalQuiz.roomMainSubject : selectedSubject}
+              topic={selectedTopic}
+              semesterId={activeSemesterId}
+              questions={finalQuiz.questions}
+              isPremium={isPremium || isAdmin || premiumPaused}
+              autoAdvance={finalQuiz.autoAdvance}
+              timerSeconds={finalQuiz.timerSeconds}
+              roomCode={finalQuiz.roomCode}
+              totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
+              onExit={goBack}
+              onViewRoomResults={() => goTo('room-results')}
+              onRestartSame={() => setQuizKey((k) => k + 1)}
+              onRetryWrong={(wrongQuestions) => {
+                setFinalQuiz((prev) => ({ ...prev, questions: wrongQuestions }));
+                setQuizKey((k) => k + 1);
+              }}
+            />
+          )}
         </SlideStack>
       ) : (
       <div className="screen-fade" key={screen}>
