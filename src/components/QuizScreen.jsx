@@ -177,10 +177,10 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     }
 
 
-    // Start the explanation request immediately. It runs in the background
-    // so Auto-advance remains fast; the result is also reused in Detailed
-    // Review because the server caches explanations by the canonical question.
-    if (isPremium) loadAIExplanation(q);
+    // Explanation is now purely on-demand (the "✨ Explain with AI" /
+    // "Explain with Gemini" buttons below) rather than firing for every
+    // answered question automatically - that was burning through the
+    // daily generation limit even for questions nobody wanted explained.
 
     if (autoAdvance) {
       advanceTimeoutRef.current = setTimeout(() => nav(1), 550);
@@ -627,8 +627,10 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
               <div className="ai-explanation-text">{aiExplanations[q.q]}</div>
             ) : (
               <>
-                <div className="ai-explanation-error">{aiErrors[q.q] || 'Explanation is not available yet.'}</div>
-                <button className="btn-ghost ai-explanation-btn" onClick={() => loadAIExplanation(q)}>Try Again</button>
+                <div className="ai-explanation-error">{aiErrors[q.q] || 'Want to know why this is the answer?'}</div>
+                <button className="btn-ghost ai-explanation-btn" onClick={() => loadAIExplanation(q)}>
+                  {aiErrors[q.q] ? 'Try Again' : '✨ Explain with AI'}
+                </button>
               </>
             )}
           </div>
