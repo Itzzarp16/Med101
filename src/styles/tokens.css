@@ -20,6 +20,21 @@
   --g-border: rgba(255, 255, 255, 0.22);
   --g-border-hi: rgba(255, 255, 255, 0.38);
 
+  /* "Chrome" surfaces - topbar, hamburger menu, popovers, and other
+     full-strip dark-navy overlays. These were hardcoded per-component
+     (never theme-aware) until the light-mode contrast fix below - the
+     text inside them (var(--text) etc.) already correctly switches to
+     dark for light mode, but the surface itself never switched to
+     match, so light-mode text was landing on a background that
+     stayed dark. Values here match each component's previous hardcoded
+     rgba exactly, so dark mode is pixel-identical to before. */
+  --chrome-bg-topbar: rgba(10, 15, 34, 0.72);
+  --chrome-bg-menu: rgba(10, 15, 34, 0.92);
+  --chrome-bg-popover: rgba(10, 15, 34, 0.94);
+  --chrome-bg-strip: #0a0f22;
+  --chrome-bg-overlay: rgba(6, 8, 24, 0.94);
+  --chrome-border: rgba(255, 255, 255, 0.15);
+
   /* Accents */
   --cyan: #18e8ff;      /* progress / correct / primary actions */
   --cyan2: #00ccee;
@@ -66,6 +81,12 @@ body.light-mode {
   --text3: #3d6080;
   --spec-top: rgba(255, 255, 255, 0.60);
   --spec-side: rgba(255, 255, 255, 0.30);
+  --chrome-bg-topbar: rgba(255, 255, 255, 0.85);
+  --chrome-bg-menu: rgba(255, 255, 255, 0.96);
+  --chrome-bg-popover: rgba(255, 255, 255, 0.97);
+  --chrome-bg-strip: #ffffff;
+  --chrome-bg-overlay: rgba(232, 238, 255, 0.94);
+  --chrome-border: rgba(0, 0, 0, 0.12);
 }
 
 * {
@@ -235,10 +256,10 @@ h1, h2, .display {
   top: 0;
   z-index: 10;
   height: 52px;
-  background: rgba(10, 15, 34, 0.72);
+  background: var(--chrome-bg-topbar);
   backdrop-filter: blur(40px) saturate(200%);
   -webkit-backdrop-filter: blur(40px) saturate(200%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid var(--chrome-border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -433,9 +454,9 @@ h1, h2, .display {
   right: 12px;
   width: min(260px, 80vw);
   max-height: 60vh;
-  background: rgba(10, 15, 34, 0.94);
+  background: var(--chrome-bg-popover);
   backdrop-filter: blur(40px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  border: 1px solid var(--chrome-border);
   border-radius: 16px;
   padding: 12px;
   z-index: 210;
@@ -534,10 +555,10 @@ h1, h2, .display {
 .menu-drawer {
   width: min(300px, 82vw);
   height: 100%;
-  background: rgba(10, 15, 34, 0.92);
+  background: var(--chrome-bg-menu);
   backdrop-filter: blur(40px) saturate(200%);
   -webkit-backdrop-filter: blur(40px) saturate(200%);
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid var(--chrome-border);
   padding: 18px 16px 24px;
   display: flex;
   flex-direction: column;

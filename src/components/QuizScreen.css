@@ -246,6 +246,14 @@
   border-color: var(--green);
 }
 
+/* Light mode's --green (#118855) is much darker than dark mode's
+   bright mint (#30f28a) - black text loses contrast against it, so
+   this specific combination needs its own override. Dark mode is
+   untouched (the rule above still applies there). */
+body.light-mode .opt-btn.correct .opt-label {
+  color: #fff;
+}
+
 .opt-btn.wrong .opt-label {
   background: var(--red);
   color: #fff;

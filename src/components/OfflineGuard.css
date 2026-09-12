@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   z-index: 999999;
-  background: rgba(6, 8, 24, 0.94);
+  background: var(--chrome-bg-overlay);
   backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
@@ -13,7 +13,7 @@
 .offline-guard-card {
   max-width: 340px;
   text-align: center;
-  color: #e4e9ff;
+  color: var(--text);
   font-family: var(--font-body, sans-serif);
 }
 
@@ -31,7 +31,7 @@
 
 .offline-guard-text {
   font-size: 14px;
-  color: #8b96b8;
+  color: var(--text3);
   line-height: 1.6;
   margin: 0;
 }

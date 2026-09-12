@@ -1,8 +1,8 @@
 .legal-footer {
   width: 100%;
   box-sizing: border-box;
-  background: #0a0f22;
-  color: #b8c2e0;
+  background: var(--chrome-bg-strip);
+  color: var(--text2);
   text-align: center;
   padding: 22px 20px 26px;
   font-size: 13px;
@@ -11,14 +11,14 @@
 }
 
 .legal-footer-copyright {
-  color: #e4e9ff;
+  color: var(--text);
   font-weight: 600;
   font-size: 14px;
 }
 
 .legal-footer-tagline {
   margin-top: 4px;
-  color: #8b96b8;
+  color: var(--text3);
 }
 
 .legal-footer-links {
@@ -26,14 +26,14 @@
 }
 
 .legal-footer a {
-  color: #b8c2e0;
+  color: var(--text2);
   text-decoration: underline;
 }
 .legal-footer a:hover {
-  color: #7dd3fc;
+  color: var(--cyan);
 }
 
 .legal-footer-dot {
-  color: #5a6488;
+  color: var(--text3);
   margin: 0 10px;
 }

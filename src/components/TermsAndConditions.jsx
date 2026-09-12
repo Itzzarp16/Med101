@@ -7,7 +7,7 @@ export default function TermsAndConditions() {
     <div className="legal-page">
       <div className="legal-card">
         <h1>Terms &amp; Conditions</h1>
-        <p className="legal-updated">Last updated: 10 September 2026</p>
+        <p className="legal-updated">Last updated: 12 September 2026</p>
 
         <p>
           These Terms &amp; Conditions ("Terms") govern your use of Med101
@@ -104,10 +104,9 @@ export default function TermsAndConditions() {
           posted on this page with an updated "Last updated" date.
         </p>
 
-        <h2>12. Governing Law</h2>
-        <p>These Terms are governed by the laws of India.</p>
+        
 
-        <h2>13. Contact Us</h2>
+        <h2>12. Contact Us</h2>
         <p>
           Questions about these Terms, a payment, or your account can be
           sent to:{' '}

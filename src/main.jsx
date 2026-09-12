@@ -5,6 +5,8 @@ import App from './App.jsx'
 import AdminPortal from './components/AdminPortal.jsx'
 import PrivacyPolicy from './components/PrivacyPolicy.jsx'
 import TermsAndConditions from './components/TermsAndConditions.jsx'
+import AboutUs from './components/AboutUs.jsx'
+import ContactUs from './components/ContactUs.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
 import { startVersionWatcher } from './lib/versionCheck'
@@ -20,6 +22,8 @@ const path = window.location.pathname.replace(/\/+$/, '');
 const isAdminRoute = path === '/admin';
 const isPrivacyRoute = path === '/privacy-policy';
 const isTermsRoute = path === '/terms';
+const isAboutRoute = path === '/about-us';
+const isContactRoute = path === '/contact';
 
 initTheme();
 startVersionWatcher();
@@ -66,6 +70,10 @@ createRoot(document.getElementById('root')).render(
         <PrivacyPolicy />
       ) : isTermsRoute ? (
         <TermsAndConditions />
+      ) : isAboutRoute ? (
+        <AboutUs />
+      ) : isContactRoute ? (
+        <ContactUs />
       ) : (
         <AuthProvider>
           {isAdminRoute ? <AdminPortal /> : <App />}
