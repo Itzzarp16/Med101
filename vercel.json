@@ -61,10 +61,14 @@
       ]
     }
   ],
-  "functions": {
-    "api/ai-explanation.js": {
-      "includeFiles": [
-        "public/data/**/*.json"
+  {
+  "rewrites": [
+    {
+      "source": "/((?!api/|assets/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
       ]
     }
   }
