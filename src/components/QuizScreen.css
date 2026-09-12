@@ -675,3 +675,46 @@ body.light-mode .opt-btn.correct .opt-label {
     padding-right: 24px;
   }
 }
+
+    padding-right: 24px;
+  }
+}
+
+/* Gemini AI explanation */
+.ai-explanation-card {
+  margin: 14px 0 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(134, 59, 255, 0.35);
+  border-radius: 14px;
+  background: rgba(134, 59, 255, 0.08);
+}
+
+.ai-explanation-review {
+  margin-top: 14px;
+}
+
+.ai-explanation-title {
+  font-weight: 800;
+  margin-bottom: 8px;
+  color: var(--violet);
+}
+
+.ai-explanation-text {
+  line-height: 1.6;
+  color: var(--text);
+  white-space: pre-wrap;
+}
+
+.ai-explanation-loading,
+.ai-explanation-error {
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+.ai-explanation-error {
+  color: var(--amber);
+}
+
+.ai-explanation-btn {
+  margin-top: 10px;
+}

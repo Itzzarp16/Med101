@@ -8,6 +8,7 @@ import { submitLeaderboardResult } from '../lib/leaderboard';
 import { submitRoomResult } from '../lib/rooms';
 import { recordWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
 import { saveQuizProgress, loadQuizProgress, clearQuizProgress } from '../lib/quizProgress';
+import { getAIExplanation } from '../lib/aiExplanation';
 import './QuizScreen.css';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
@@ -51,7 +52,7 @@ function shuffleOptions(q) {
 // roomCode/totalTimeLimitMs are set only for Challenge Room quizzes -
 // a whole-quiz countdown (not per-question) that auto-finishes when it
 // hits zero, and reports the result to the room's shared leaderboard.
-export default function QuizScreen({ mainSubject, topic, semesterId, questions, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
+export default function QuizScreen({ mainSubject, topic, semesterId, questions, isPremium, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
   const { user } = useAuth();
   const quizQuestions = useState(() => questions.map(shuffleOptions))[0];
 
@@ -70,6 +71,9 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [elapsedMs, setElapsedMs] = useState(0);
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
   const [showReview, setShowReview] = useState(false);
+  const [aiExplanations, setAiExplanations] = useState({});
+  const [aiLoading, setAiLoading] = useState({});
+  const [aiErrors, setAiErrors] = useState({});
   // Per-question time, ms - -1 means "never visited" (quiz ended early).
   // Recorded the moment a question is answered/times-out/skipped-past,
   // so it reflects actual time-on-question, not just a global average.
@@ -136,6 +140,29 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     setCur(nx);
   }
 
+  async function loadAIExplanation(question) {
+    const key = question.q;
+    if (!isPremium || aiExplanations[key] || aiLoading[key]) return;
+
+    setAiLoading((prev) => ({ ...prev, [key]: true }));
+    setAiErrors((prev) => ({ ...prev, [key]: null }));
+
+    try {
+      const result = await getAIExplanation({
+        subject: mainSubject,
+        subtopic: question.s,
+        question: question.q,
+        options: question.o,
+        correctIndex: question.c,
+      });
+      setAiExplanations((prev) => ({ ...prev, [key]: result.explanation }));
+    } catch (error) {
+      setAiErrors((prev) => ({ ...prev, [key]: error.message || 'Could not load AI explanation.' }));
+    } finally {
+      setAiLoading((prev) => ({ ...prev, [key]: false }));
+    }
+  }
+
   function answerQ(idx) {
     if (answers[cur] !== -1) return; // already answered - locked
     recordQuestionTime(cur);
@@ -148,6 +175,12 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       playWrongSound();
       if (user) recordWrongQuestion(user.uid, mainSubject, q);
     }
+
+
+    // Start the explanation request immediately. It runs in the background
+    // so Auto-advance remains fast; the result is also reused in Detailed
+    // Review because the server caches explanations by the canonical question.
+    if (isPremium) loadAIExplanation(q);
 
     if (autoAdvance) {
       advanceTimeoutRef.current = setTimeout(() => nav(1), 550);
@@ -460,6 +493,21 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
                     })}
                     {ua === -2 && <div className="results-review-timeout">⏰ Timed out - no answer selected</div>}
                   </div>
+                  {isPremium && (ua !== -1) && (
+                    <div className="ai-explanation-card ai-explanation-review">
+                      <div className="ai-explanation-title">✨ Gemini Explanation</div>
+                      {aiLoading[qq.q] ? (
+                        <div className="ai-explanation-loading">Generating explanation…</div>
+                      ) : aiExplanations[qq.q] ? (
+                        <div className="ai-explanation-text">{aiExplanations[qq.q]}</div>
+                      ) : (
+                        <>
+                          <div className="ai-explanation-error">{aiErrors[qq.q] || 'Tap below to generate the explanation.'}</div>
+                          <button className="btn-ghost ai-explanation-btn" onClick={() => loadAIExplanation(qq)}>Explain with Gemini</button>
+                        </>
+                      )}
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -569,6 +617,22 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             );
           })}
         </div>
+
+        {answered && isPremium && (
+          <div className="ai-explanation-card">
+            <div className="ai-explanation-title">✨ Gemini Explanation</div>
+            {aiLoading[q.q] ? (
+              <div className="ai-explanation-loading">Generating explanation…</div>
+            ) : aiExplanations[q.q] ? (
+              <div className="ai-explanation-text">{aiExplanations[q.q]}</div>
+            ) : (
+              <>
+                <div className="ai-explanation-error">{aiErrors[q.q] || 'Explanation is not available yet.'}</div>
+                <button className="btn-ghost ai-explanation-btn" onClick={() => loadAIExplanation(q)}>Try Again</button>
+              </>
+            )}
+          </div>
+        )}
 
         {/* Nav */}
         <div className="quiz-nav">
