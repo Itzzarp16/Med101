@@ -231,7 +231,17 @@ export default function AuthScreen() {
     }
 
     try {
-      await sendPasswordResetEmail(auth, email.trim());
+      // Points the reset link straight at our own /reset-password page
+      // instead of med101-1.firebaseapp.com/__/auth/action. This is set
+      // here in code rather than via Firebase Console's "Customize
+      // action URL" (Authentication -> Templates), which throws "An
+      // error occurred when updating action URL" for this project -
+      // actionCodeSettings achieves the same thing per-call and isn't
+      // affected by whatever's wrong with that console toggle.
+      await sendPasswordResetEmail(auth, email.trim(), {
+        url: 'https://med101.space/reset-password',
+        handleCodeInApp: true,
+      });
 
       setMsg({
         text: 'Password reset email sent. Check your inbox.',
