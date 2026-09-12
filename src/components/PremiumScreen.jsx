@@ -42,6 +42,13 @@ export default function PremiumScreen({ onBack }) {
   const [loading, setLoading] = useState(true);
   const [premium, setPremium] = useState({ isPremium: false, premiumUntil: null });
   const [myRequests, setMyRequests] = useState([]);
+  // Once a payment's been submitted, the whole "pay now" flow should
+  // step out of the way - either they're waiting on a decision, or
+  // they already have a code to enter. Only a rejection reopens it
+  // (they need a way to try again).
+  const hasPendingRequest = myRequests.some((r) => r.status === 'pending');
+  const hasApprovedUnredeemed = myRequests.some((r) => r.status === 'approved');
+  const hidePaymentFlow = hasPendingRequest || hasApprovedUnredeemed;
 
   const [bankingName, setBankingName] = useState('');
   const [phone, setPhone] = useState('');
@@ -156,7 +163,7 @@ export default function PremiumScreen({ onBack }) {
         <div className="std-loading">Loading…</div>
       ) : (
         <>
-          <div className="glass std-card" style={{ borderColor: premium.isPremium ? 'var(--green)' : config?.premiumPaused ? 'var(--cyan)' : undefined }}>
+          <div className="glass std-card" style={{ borderColor: premium.isPremium ? 'var(--green)' : config?.premiumPaused ? 'var(--cyan)' : hasPendingRequest ? 'var(--amber)' : undefined }}>
             {premium.isPremium ? (
               <>
                 <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Premium Active</div>
@@ -171,6 +178,13 @@ export default function PremiumScreen({ onBack }) {
                   All Premium features are unlocked for every student at the moment - nothing to pay, nothing to do.
                 </div>
               </>
+            ) : hasPendingRequest ? (
+              <>
+                <div className="auth-label" style={{ margin: 0, color: 'var(--amber)' }}>⏳ Waiting for Approval</div>
+                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
+                  We've got your payment details - check below for the current status.
+                </div>
+              </>
             ) : (
               <>
                 <div className="auth-label" style={{ margin: 0 }}>Free Preview</div>
@@ -181,7 +195,7 @@ export default function PremiumScreen({ onBack }) {
             )}
           </div>
 
-          {!premium.isPremium && !config?.premiumPaused && config && (
+          {!premium.isPremium && !config?.premiumPaused && !hidePaymentFlow && config && (
             <div className="pay-card">
               <div className="pay-card-inner">
                 <div className="pay-card-eyebrow">Scan to Pay</div>
@@ -222,7 +236,7 @@ export default function PremiumScreen({ onBack }) {
             </div>
           )}
 
-          {!premium.isPremium && !config?.premiumPaused && (
+          {!premium.isPremium && !config?.premiumPaused && !hidePaymentFlow && (
             <form className="glass std-card" onSubmit={handleSubmit}>
               <div className="auth-label" style={{ margin: 0 }}>Submit Your Payment</div>
               <label className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
@@ -238,7 +252,7 @@ export default function PremiumScreen({ onBack }) {
             </form>
           )}
 
-          {!premium.isPremium && !config?.premiumPaused && config?.activationMethod === 'code' && (
+          {!premium.isPremium && !config?.premiumPaused && !hasPendingRequest && config?.activationMethod === 'code' && (
             <form className="glass std-card" onSubmit={handleRedeem}>
               <div className="auth-label" style={{ margin: 0 }}>Have an Activation Code?</div>
               <input
