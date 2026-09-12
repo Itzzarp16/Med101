@@ -223,6 +223,17 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // ── AI explanation cache / usage ─────────────────────────────
+    // These collections are server-only. The Vercel AI endpoint uses a
+    // Firebase service account, so client-side reads and writes must never
+    // be allowed here.
+    match /aiExplanations/{cacheId} {
+      allow read, write: if false;
+    }
+    match /aiUsage/{usageId} {
+      allow read, write: if false;
+    }
+
     // Default deny for anything not explicitly matched above.
     match /{document=**} {
       allow read, write: if false;
