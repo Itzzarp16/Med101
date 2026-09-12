@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import {
   subscribeToSubscriptionConfig, submitPaymentRequest, subscribeToMyPaymentRequests,
@@ -7,6 +7,7 @@ import {
 import { playTapSound } from '../lib/sounds';
 import LiveQrCode from './LiveQrCode';
 import PremiumThankYou from './PremiumThankYou';
+import PremiumRejected from './PremiumRejected';
 import './PremiumScreen.css';
 
 const STATUS_LABEL = {
@@ -76,6 +77,9 @@ export default function PremiumScreen({ onBack }) {
     return subscribeToSubscriptionConfig(setConfig);
   }, []);
 
+  const [rejectedOverlay, setRejectedOverlay] = useState(null); // { utr, reason } or null
+  const prevStatusesRef = useRef(null); // null until the first snapshot lands - that first one is a baseline, not a "live" change
+
   useEffect(() => {
     // Live, not a one-time fetch - so an admin approving/rejecting this
     // student's payment (or activating premium) shows up immediately,
@@ -84,7 +88,21 @@ export default function PremiumScreen({ onBack }) {
       setPremium(status);
       setLoading(false);
     });
-    const unsubRequests = subscribeToMyPaymentRequests(user.uid, setMyRequests);
+    const unsubRequests = subscribeToMyPaymentRequests(user.uid, (list) => {
+      const prev = prevStatusesRef.current;
+      if (prev) {
+        // Only the *baseline* snapshot is skipped - every update after
+        // that is a live change, so this only shows the overlay for a
+        // rejection that happens while the student is actually here,
+        // never for an old one already sitting there from a past visit.
+        const justRejected = list.find((r) => r.status === 'rejected' && prev[r.utr] && prev[r.utr] !== 'rejected');
+        if (justRejected) {
+          setRejectedOverlay({ utr: justRejected.utr, reason: justRejected.rejectionReason });
+        }
+      }
+      prevStatusesRef.current = Object.fromEntries(list.map((r) => [r.utr, r.status]));
+      setMyRequests(list);
+    });
     return () => {
       unsubPremium();
       unsubRequests();
@@ -144,6 +162,13 @@ export default function PremiumScreen({ onBack }) {
   return (
     <div className="std-screen">
       {showThankYou && <PremiumThankYou onClose={() => setShowThankYou(false)} />}
+      {rejectedOverlay && (
+        <PremiumRejected
+          reason={rejectedOverlay.reason}
+          onRetry={() => setRejectedOverlay(null)}
+          onClose={() => setRejectedOverlay(null)}
+        />
+      )}
 
       <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
 
