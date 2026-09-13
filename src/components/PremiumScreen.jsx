@@ -39,6 +39,7 @@ const STATUS_LABEL = {
   pending: { text: 'Pending review', color: 'var(--amber)' },
   approved: { text: 'Approved', color: 'var(--green)' },
   rejected: { text: 'Rejected', color: 'var(--red)' },
+  revoked: { text: 'Access ended', color: 'var(--red)' },
 };
 
 // Admin's Price Label field is free text (e.g. "₹299 / 3 months"),
@@ -339,6 +340,12 @@ export default function PremiumScreen({ onBack }) {
                     {r.status === 'rejected' && r.rejectionReason && (
                       <div style={{ marginTop: 6, fontSize: 12.5, color: 'var(--text2)' }}>
                         Reason: {r.rejectionReason}
+                      </div>
+                    )}
+
+                    {r.status === 'revoked' && (
+                      <div style={{ marginTop: 6, fontSize: 12.5, color: 'var(--text2)' }}>
+                        Your access was ended early by an admin. Subscribe again below if you'd like to continue.
                       </div>
                     )}
 

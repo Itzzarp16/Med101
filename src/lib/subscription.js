@@ -228,7 +228,24 @@ export function subscribeToRejectedPaymentRequests(callback) {
 // paymentRequests doc (the payment record itself stays, for
 // bookkeeping) - only the activation is undone.
 export async function revokeActivationCode(code) {
-  await deleteDoc(doc(db, 'activationCodes', code));
+  const ref = doc(db, 'activationCodes', code);
+  const snap = await getDoc(ref);
+  const utr = snap.exists() ? snap.data().utr : null;
+
+  await deleteDoc(ref);
+
+  // Without this, the student's Premium screen keeps showing the
+  // original request as "Approved" with a Copy/Activate Now button for
+  // a code that no longer exists - confusing, and re-clicking Activate
+  // Now would just fail with "doesn't exist or isn't yours" instead of
+  // explaining what actually happened. Older codes issued before utr
+  // linking existed won't have one - nothing to update in that case.
+  if (utr) {
+    await updateDoc(doc(db, 'paymentRequests', utr), {
+      status: 'revoked',
+      revokedAt: serverTimestamp(),
+    }).catch((e) => console.warn('Could not mark payment request as revoked:', e));
+  }
 }
 
 // Live version of getAllActivationCodes. The function itself does
