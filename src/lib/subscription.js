@@ -227,7 +227,7 @@ export function subscribeToRejectedPaymentRequests(callback) {
 // immediately, no refresh needed. This does NOT touch the original
 // paymentRequests doc (the payment record itself stays, for
 // bookkeeping) - only the activation is undone.
-export async function revokeActivationCode(code) {
+export async function revokeActivationCode(code, reason) {
   const ref = doc(db, 'activationCodes', code);
   const snap = await getDoc(ref);
   const utr = snap.exists() ? snap.data().utr : null;
@@ -244,6 +244,7 @@ export async function revokeActivationCode(code) {
     await updateDoc(doc(db, 'paymentRequests', utr), {
       status: 'revoked',
       revokedAt: serverTimestamp(),
+      revokedReason: reason || '',
     }).catch((e) => console.warn('Could not mark payment request as revoked:', e));
   }
 }

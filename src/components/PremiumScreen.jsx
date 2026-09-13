@@ -345,7 +345,7 @@ export default function PremiumScreen({ onBack }) {
 
                     {r.status === 'revoked' && (
                       <div style={{ marginTop: 6, fontSize: 12.5, color: 'var(--text2)' }}>
-                        Your access was ended early by an admin. Subscribe again below if you'd like to continue.
+                        Your access was ended early by an admin{r.revokedReason ? `: ${r.revokedReason}` : '.'} Subscribe again below if you'd like to continue.
                       </div>
                     )}
 

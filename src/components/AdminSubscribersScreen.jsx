@@ -9,8 +9,9 @@ import { playTapSound } from '../lib/sounds';
 export default function AdminSubscribersScreen() {
   const [codes, setCodes] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [confirmingCode, setConfirmingCode] = useState(null); // code armed for revoke, two-tap confirm
-  const [revokingCode, setRevokingCode] = useState(null);
+  const [revokingCode, setRevokingCode] = useState(null); // code with the reason box open
+  const [revokeReason, setRevokeReason] = useState('');
+  const [busyCode, setBusyCode] = useState(null);
   const [revokeError, setRevokeError] = useState(null);
 
   useEffect(() => {
@@ -21,23 +22,20 @@ export default function AdminSubscribersScreen() {
     return unsub;
   }, []);
 
-  async function handleRevoke(code) {
+  async function handleConfirmRevoke(code) {
     playTapSound();
     setRevokeError(null);
-    if (confirmingCode !== code) {
-      setConfirmingCode(code);
-      return;
-    }
-    setRevokingCode(code);
+    setBusyCode(code);
     try {
-      await revokeActivationCode(code);
-      setConfirmingCode(null);
+      await revokeActivationCode(code, revokeReason);
+      setRevokingCode(null);
+      setRevokeReason('');
       // no manual reload needed - the live subscription above picks up
       // the deletion automatically
     } catch (e) {
       setRevokeError(e.message || String(e));
     } finally {
-      setRevokingCode(null);
+      setBusyCode(null);
     }
   }
 
@@ -61,7 +59,7 @@ export default function AdminSubscribersScreen() {
       ) : (
         active.map((c) => {
           const expiry = expiryLabel(c);
-          const confirming = confirmingCode === c.code;
+          const revoking = revokingCode === c.code;
           return (
             <div key={c.code} className="glass std-card" style={{ marginTop: 10 }}>
               <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
@@ -77,21 +75,41 @@ export default function AdminSubscribersScreen() {
               </div>
               <div style={{ marginTop: 8, fontSize: 13, fontWeight: 700, color: expiry.color }}>{expiry.text}</div>
 
-              <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+              {revoking ? (
+                <div style={{ marginTop: 10 }}>
+                  <input
+                    className="auth-input"
+                    value={revokeReason}
+                    onChange={(e) => setRevokeReason(e.target.value)}
+                    placeholder="Reason (optional, shown to student)"
+                  />
+                  <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                    <button
+                      className="btn-ghost"
+                      style={{ flex: 1, color: 'var(--red)' }}
+                      onClick={() => handleConfirmRevoke(c.code)}
+                      disabled={busyCode === c.code}
+                    >
+                      {busyCode === c.code ? '…' : '⚠️ Confirm - end their access now'}
+                    </button>
+                    <button
+                      className="btn-ghost"
+                      style={{ flex: 1 }}
+                      onClick={() => { playTapSound(); setRevokingCode(null); setRevokeReason(''); }}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
                 <button
                   className="btn-ghost"
-                  style={{ flex: 1, color: 'var(--red)', borderColor: confirming ? 'var(--red)' : undefined, fontSize: 13 }}
-                  onClick={() => handleRevoke(c.code)}
-                  disabled={revokingCode === c.code}
+                  style={{ width: '100%', marginTop: 12, color: 'var(--red)', fontSize: 13 }}
+                  onClick={() => { playTapSound(); setRevokeError(null); setRevokingCode(c.code); }}
                 >
-                  {revokingCode === c.code ? '…' : confirming ? '⚠️ Tap again to end their access now' : '🗑️ Revoke Subscription'}
+                  🗑️ Revoke Subscription
                 </button>
-                {confirming && (
-                  <button className="btn-ghost" style={{ fontSize: 13 }} onClick={() => { playTapSound(); setConfirmingCode(null); }}>
-                    Cancel
-                  </button>
-                )}
-              </div>
+              )}
             </div>
           );
         })
