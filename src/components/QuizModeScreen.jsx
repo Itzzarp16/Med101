@@ -235,7 +235,7 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
   );
 }
 
-function ModeCard({ emoji, title, desc, selected, onClick, wide, disabled }) {
+export function ModeCard({ emoji, title, desc, selected, onClick, wide, disabled }) {
   return (
     <button
       className={`mode-card${selected ? ' selected' : ''}${wide ? ' wide' : ''}`}
@@ -252,7 +252,7 @@ function ModeCard({ emoji, title, desc, selected, onClick, wide, disabled }) {
   );
 }
 
-function ToggleRow({ title, desc, on, onToggle }) {
+export function ToggleRow({ title, desc, on, onToggle }) {
   return (
     <div className="qmode-toggle-row">
       <div>

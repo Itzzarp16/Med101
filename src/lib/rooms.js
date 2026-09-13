@@ -23,7 +23,7 @@ async function recordMyRoom(uid, { roomCode, mainSubject, role }) {
 
 // Freezes the exact question set at creation time so editing/migrating
 // the source questions later never changes an in-progress room.
-export async function createRoom({ hostUid, hostName, mainSubject, questions, timeLimitMinutes }) {
+export async function createRoom({ hostUid, hostName, mainSubject, questions, timeLimitMinutes, autoAdvance = true, timerSeconds = null }) {
   for (let attempt = 0; attempt < 6; attempt++) {
     const code = randomCode();
     const ref = doc(db, 'rooms', code);
@@ -36,6 +36,12 @@ export async function createRoom({ hostUid, hostName, mainSubject, questions, ti
       mainSubject,
       questions, // frozen snapshot: [{ s, q, o, c }, ...]
       timeLimitMinutes,
+      // Per-question settings, same shape as the regular quiz mode
+      // picker - stored on the room (not chosen per-participant) so
+      // every participant gets an identical experience for a fair
+      // comparison, same reasoning as freezing `questions` above.
+      autoAdvance,
+      timerSeconds,
       createdAt: serverTimestamp(),
     });
     await recordMyRoom(hostUid, { roomCode: code, mainSubject, role: 'host' });
