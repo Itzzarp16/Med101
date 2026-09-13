@@ -64,10 +64,17 @@ async function questionExistsInBank(req, { subtopic, question, options, correctI
   // (see SEMESTER_MANIFEST in src/lib/useSemesterData.js).
   const files = ['y1s2'];
 
+  let anyFileReachable = false;
+
   for (const id of files) {
+    const url = `${proto}://${host}/data/${id}.json`;
     try {
-      const bankRes = await fetch(`${proto}://${host}/data/${id}.json`);
-      if (!bankRes.ok) continue;
+      const bankRes = await fetch(url);
+      if (!bankRes.ok) {
+        console.error(`Question bank fetch failed: ${url} -> HTTP ${bankRes.status}`);
+        continue;
+      }
+      anyFileReachable = true;
       const bank = await bankRes.json();
       const found = (bank.questions || []).some((q) =>
         q.s === subtopic &&
@@ -77,12 +84,12 @@ async function questionExistsInBank(req, { subtopic, question, options, correctI
         q.o.length === options.length &&
         q.o.every((opt, i) => opt === options[i])
       );
-      if (found) return true;
-    } catch {
-      // try the next file
+      if (found) return { found: true, bankUnreachable: false };
+    } catch (e) {
+      console.error(`Question bank fetch threw: ${url}`, e);
     }
   }
-  return false;
+  return { found: false, bankUnreachable: !anyFileReachable };
 }
 
 async function generateExplanation({ subject, subtopic, question, options, correctIndex }) {
@@ -157,7 +164,12 @@ export default async function handler(req, res) {
     if (!allowed) return json(res, 403, { error: 'AI explanations are a Premium feature.' });
 
     const validQuestion = await questionExistsInBank(req, { subtopic, question, options, correctIndex });
-    if (!validQuestion) return json(res, 400, { error: 'Question does not match the Med101 question bank.' });
+    if (!validQuestion.found) {
+      if (validQuestion.bankUnreachable) {
+        return json(res, 502, { error: 'Could not verify against the question bank right now - try again in a moment.' });
+      }
+      return json(res, 400, { error: 'Question does not match the Med101 question bank.' });
+    }
 
     const cacheId = questionCacheId({ subject, subtopic, question, options, correctIndex });
     const cacheRef = db.doc(`aiExplanations/${cacheId}`);
