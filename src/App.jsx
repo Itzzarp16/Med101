@@ -638,8 +638,8 @@ export default function App() {
           onStart={(room) => {
             setFinalQuiz({
               questions: room.questions,
-              autoAdvance: true,
-              timerSeconds: null,
+              autoAdvance: room.autoAdvance !== false, // default true for older rooms with no stored value
+              timerSeconds: room.timerSeconds ?? null,
               roomCode: activeRoomCode,
               roomMainSubject: room.mainSubject,
               totalTimeLimitMs: room.timeLimitMinutes * 60000,
