@@ -26,8 +26,15 @@ function json(res, status, body) {
   return res.status(status).json(body);
 }
 
+// Keyed on content that's stable across shuffles - NOT the options
+// array order or correctIndex, which change per attempt (see
+// questionExistsInBank above) - so the same underlying question
+// shares one cache entry no matter how its options were shuffled for
+// whoever asked.
 function questionCacheId({ subject, subtopic, question, options, correctIndex }) {
-  const normalized = JSON.stringify({ subject, subtopic, question, options, correctIndex });
+  const correctText = options[correctIndex];
+  const sortedOptions = [...options].sort();
+  const normalized = JSON.stringify({ subject, subtopic, question, sortedOptions, correctText });
   return createHash('sha256').update(normalized).digest('hex').slice(0, 40);
 }
 
@@ -57,12 +64,22 @@ async function isPremiumOrPaused(db, uid) {
 // actually one of Med101's own questions, so this endpoint can't be used
 // as a free-form "ask Gemini anything" proxy. Fetches the same static
 // JSON the app itself serves questions from.
+//
+// Compares by CONTENT, not position: QuizScreen shuffles each
+// question's option order once per attempt (remapping which index is
+// "correct" to match) so answer position carries no signal - the
+// submitted options/correctIndex are legitimately reordered from the
+// bank's own order, so this must match the same SET of option strings
+// and the same correct-answer TEXT, not the same array order.
 async function questionExistsInBank(req, { subtopic, question, options, correctIndex }) {
   const host = req.headers['x-forwarded-host'] || req.headers.host || 'med101.space';
   const proto = req.headers['x-forwarded-proto'] || 'https';
   // TODO: extend this list if/when more semester data files are added
   // (see SEMESTER_MANIFEST in src/lib/useSemesterData.js).
   const files = ['y1s2'];
+
+  const submittedCorrectText = options[correctIndex];
+  const submittedSorted = [...options].sort();
 
   let anyFileReachable = false;
 
@@ -76,14 +93,13 @@ async function questionExistsInBank(req, { subtopic, question, options, correctI
       }
       anyFileReachable = true;
       const bank = await bankRes.json();
-      const found = (bank.questions || []).some((q) =>
-        q.s === subtopic &&
-        q.q === question &&
-        q.c === correctIndex &&
-        Array.isArray(q.o) &&
-        q.o.length === options.length &&
-        q.o.every((opt, i) => opt === options[i])
-      );
+      const found = (bank.questions || []).some((q) => {
+        if (q.s !== subtopic || q.q !== question) return false;
+        if (!Array.isArray(q.o) || q.o.length !== options.length) return false;
+        if (q.o[q.c] !== submittedCorrectText) return false;
+        const bankSorted = [...q.o].sort();
+        return bankSorted.every((opt, i) => opt === submittedSorted[i]);
+      });
       if (found) return { found: true, bankUnreachable: false };
     } catch (e) {
       console.error(`Question bank fetch threw: ${url}`, e);
