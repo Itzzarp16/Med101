@@ -287,7 +287,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     });
 
     if (roomCode) {
-      submitRoomResult(roomCode, user.uid, { correct: correctCount, answered: answeredCount, total, pct, timeMs });
+      submitRoomResult(roomCode, user.uid, { correct: correctCount, answered: answeredCount, total, pct, timeMs, answers });
     }
 
     // Per-subtopic breakdown for weak-topic detection - grouped by each
