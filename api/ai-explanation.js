@@ -26,6 +26,12 @@ function json(res, status, body) {
   return res.status(status).json(body);
 }
 
+// Bumped whenever the prompt/output format changes meaningfully (e.g.
+// the long -> short rewrite) - included in the cache key so old cached
+// explanations under the previous format are simply orphaned rather
+// than needing a manual Firestore cleanup.
+const PROMPT_VERSION = 'v2-concise';
+
 // Keyed on content that's stable across shuffles - NOT the options
 // array order or correctIndex, which change per attempt (see
 // questionExistsInBank above) - so the same underlying question
@@ -34,7 +40,7 @@ function json(res, status, body) {
 function questionCacheId({ subject, subtopic, question, options, correctIndex }) {
   const correctText = options[correctIndex];
   const sortedOptions = [...options].sort();
-  const normalized = JSON.stringify({ subject, subtopic, question, sortedOptions, correctText });
+  const normalized = JSON.stringify({ v: PROMPT_VERSION, subject, subtopic, question, sortedOptions, correctText });
   return createHash('sha256').update(normalized).digest('hex').slice(0, 40);
 }
 
@@ -124,7 +130,7 @@ async function generateExplanation({ subject, subtopic, question, options, corre
     `Options:\n${labeled}`,
     `Correct answer: ${correctLetter}. ${options[correctIndex]}`,
     '',
-    'Write a clear, concise explanation (3-5 sentences) of why this is the correct answer, referencing the key medical concept involved. Briefly note why the most tempting wrong option (if any) is incorrect. Plain text only, no markdown formatting, no restating the question verbatim.',
+    'Explain in AT MOST 2 short sentences and 40 words total why this is the correct answer, naming the key concept. Be direct - no preamble, no restating the question, no markdown.',
   ].filter(Boolean).join('\n');
 
   const response = await fetch(
@@ -134,7 +140,7 @@ async function generateExplanation({ subject, subtopic, question, options, corre
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.4, maxOutputTokens: 400 },
+        generationConfig: { temperature: 0.4, maxOutputTokens: 90 },
       }),
     }
   );
