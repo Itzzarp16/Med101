@@ -26,5 +26,8 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "oxlint": "^1.79.0",
     "vite": "^8.2.2"
+  },
+  "overrides": {
+    "jose": "^4.15.5"
   }
 }
