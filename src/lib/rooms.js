@@ -88,10 +88,10 @@ export function subscribeToParticipants(code, callback) {
   });
 }
 
-export async function submitRoomResult(code, uid, { correct, answered, total, pct, timeMs }) {
+export async function submitRoomResult(code, uid, { correct, answered, total, pct, timeMs, answers }) {
   await setDoc(
     doc(db, 'rooms', code, 'participants', uid),
-    { finished: true, correct, answered, total, pct, timeMs, finishedAt: serverTimestamp() },
+    { finished: true, correct, answered, total, pct, timeMs, answers: answers || [], finishedAt: serverTimestamp() },
     { merge: true }
   );
 }

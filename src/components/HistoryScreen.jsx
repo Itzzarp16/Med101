@@ -3,6 +3,8 @@ import { useAuth } from '../lib/AuthContext';
 import { fetchQuizHistory, deleteQuizHistoryEntry } from '../lib/quizHistory';
 import { playTapSound } from '../lib/sounds';
 
+const LABELS = ['A', 'B', 'C', 'D', 'E'];
+
 function formatWhen(ts) {
   if (!ts) return '';
   const d = new Date(ts);
@@ -40,6 +42,7 @@ export default function HistoryScreen({ onRetry, onBack }) {
   const { user } = useAuth();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [expandedIds, setExpandedIds] = useState(() => new Set());
 
   useEffect(() => {
     let cancelled = false;
@@ -57,6 +60,16 @@ export default function HistoryScreen({ onRetry, onBack }) {
     playTapSound();
     setHistory((prev) => prev.filter((h) => h.id !== id));
     await deleteQuizHistoryEntry(user.uid, id);
+  }
+
+  function toggleExpanded(id) {
+    playTapSound();
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
   }
 
   function handleRetry(entry, mode) {
@@ -113,27 +126,77 @@ export default function HistoryScreen({ onRetry, onBack }) {
                 <div style={{ fontSize: 11.5, color: 'var(--text3)', marginBottom: 10 }}>{formatWhen(entry.ts)}</div>
 
                 {hasSet ? (
-                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                    <button className="btn-glow" style={{ flex: '1 1 auto', fontSize: 12.5, padding: '8px 12px' }} onClick={() => handleRetry(entry, 'all')}>
-                      Retry All ({entry.questions.length})
+                  <>
+                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+                      <button className="btn-glow" style={{ flex: '1 1 auto', fontSize: 12.5, padding: '8px 12px' }} onClick={() => handleRetry(entry, 'all')}>
+                        Retry All ({entry.questions.length})
+                      </button>
+                      <button
+                        className="btn-ghost"
+                        style={{ flex: '1 1 auto', fontSize: 12.5, padding: '8px 12px' }}
+                        disabled={wrongCount === 0}
+                        onClick={() => handleRetry(entry, 'wrong')}
+                      >
+                        Retry Wrong ({wrongCount})
+                      </button>
+                      <button
+                        className="btn-ghost"
+                        style={{ flex: '1 1 auto', fontSize: 12.5, padding: '8px 12px' }}
+                        disabled={skippedCount === 0}
+                        onClick={() => handleRetry(entry, 'skipped')}
+                      >
+                        Retry Skipped ({skippedCount})
+                      </button>
+                    </div>
+
+                    <button className="results-review-toggle" onClick={() => toggleExpanded(entry.id)}>
+                      {expandedIds.has(entry.id) ? 'Hide Questions ▲' : `View Questions (${entry.questions.length}) ▼`}
                     </button>
-                    <button
-                      className="btn-ghost"
-                      style={{ flex: '1 1 auto', fontSize: 12.5, padding: '8px 12px' }}
-                      disabled={wrongCount === 0}
-                      onClick={() => handleRetry(entry, 'wrong')}
-                    >
-                      Retry Wrong ({wrongCount})
-                    </button>
-                    <button
-                      className="btn-ghost"
-                      style={{ flex: '1 1 auto', fontSize: 12.5, padding: '8px 12px' }}
-                      disabled={skippedCount === 0}
-                      onClick={() => handleRetry(entry, 'skipped')}
-                    >
-                      Retry Skipped ({skippedCount})
-                    </button>
-                  </div>
+
+                    {expandedIds.has(entry.id) && (
+                      <div className="results-review-list">
+                        {entry.questions.map((qq, i) => {
+                          const ua = entry.answers?.[i];
+                          const isSkipped = ua === -1;
+                          const isTimedOut = ua === -2;
+                          const isCorrect = ua === qq.c;
+                          const borderColor = (isSkipped || isTimedOut) ? 'var(--pink)' : isCorrect ? 'var(--green)' : 'var(--red)';
+                          return (
+                            <div key={i} className="results-review-card" style={{ borderLeftColor: borderColor }}>
+                              <div className="results-review-card-head">
+                                <span className="results-review-qnum">{i + 1}. {qq.s}</span>
+                                <span className="results-review-status">
+                                  {isSkipped || isTimedOut ? '⏭️' : isCorrect ? '✅' : '❌'}
+                                </span>
+                              </div>
+                              <p className="results-review-question">{qq.q}</p>
+                              <div className="results-review-options">
+                                {qq.o.map((opt, oi) => {
+                                  const isCorrectOpt = oi === qq.c;
+                                  const isUserPick = oi === ua;
+                                  return (
+                                    <div
+                                      key={oi}
+                                      className={
+                                        isCorrectOpt ? 'results-review-opt correct' :
+                                        (isUserPick && !isCorrectOpt) ? 'results-review-opt wrong' :
+                                        'results-review-opt'
+                                      }
+                                    >
+                                      <span className="results-review-opt-label">{LABELS[oi]}.</span> {opt}
+                                      {isCorrectOpt && <span className="results-review-opt-tag correct-tag"> ✓</span>}
+                                      {isUserPick && !isCorrectOpt && <span className="results-review-opt-tag wrong-tag"> ← Your answer</span>}
+                                    </div>
+                                  );
+                                })}
+                                {isTimedOut && <div className="results-review-timeout">⏰ Timed out - no answer selected</div>}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <div style={{ fontSize: 11.5, color: 'var(--text3)', fontStyle: 'italic' }}>
                     This older attempt wasn't saved with retry data.
