@@ -395,7 +395,7 @@ h1, h2, .display {
   font-family: 'Caveat', cursive;
   font-size: 13px;
   font-weight: 700;
-  color: #f5f7fa;
+  color: var(--text);
   letter-spacing: 0.02em;
   transform: rotate(-3deg);
   display: inline-block;
@@ -865,7 +865,7 @@ h1, h2, .display {
   font-family: 'Caveat', cursive;
   font-size: 26px;
   font-weight: 700;
-  color: #f5f7fa;
+  color: var(--text);
   letter-spacing: 0.02em;
   transform: rotate(-3deg);
 }
