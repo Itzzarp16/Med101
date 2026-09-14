@@ -133,7 +133,7 @@ export default function ProfileScreen({ onBack }) {
           className="auth-input"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="e.g. priya_2027"
+          placeholder="e.g. sanjana_2027"
           style={{ fontFamily: 'var(--font-mono)' }}
         />
         <p className="std-note">3–20 characters: letters, numbers, or underscore. No one else can have the same one.</p>
@@ -145,7 +145,9 @@ export default function ProfileScreen({ onBack }) {
 
       {/* Password */}
       <div className="glass std-card" style={{ marginTop: 14 }}>
-        <label className="auth-label">Current Password</label>
+        <div className="auth-label" style={{ margin: 0 }}>Change Password</div>
+
+        <label className="auth-label" style={{ marginTop: 10 }}>Current Password</label>
         <input className="auth-input" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} placeholder="••••••••" autoComplete="current-password" />
 
         <label className="auth-label" style={{ marginTop: 10 }}>New Password</label>
