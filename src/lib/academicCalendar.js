@@ -4,7 +4,7 @@ import { db } from './firebase';
 // The order semesters progress in. A student never sees anything before
 // the one they enrolled in, and - once the calendar says it's time -
 // they automatically move forward, without anyone editing their profile.
-export const SEMESTER_ORDER = ['y1s1', 'y1s2', 'y2s1', 'y2s2'];
+export const SEMESTER_ORDER = ['y1s1', 'y1s2', 'y2s1', 'y2s2', 'y3s1', 'y3s2'];
 
 // Fallback dates used until an admin sets real ones in Firestore at
 // config/academicCalendar. These are placeholders only - pushed well
@@ -18,6 +18,8 @@ const DEFAULT_CALENDAR = {
   y1s2: '2026-02-01',
   y2s1: '2099-01-01',
   y2s2: '2099-06-01',
+  y3s1: '2099-11-01',
+  y3s2: '2100-04-01',
 };
 
 let cachedCalendar = null;
@@ -86,9 +88,9 @@ export function resolveCurrentSemester(enrolledYearSemester, calendar, now = new
 
 // Admin-only write - enforced by Firestore rules (config/{doc} write
 // requires isAdmin()), this is just the client-side helper. dates is a
-// partial or full { y1s1, y1s2, y2s1, y2s2 } object of 'YYYY-MM-DD'
-// strings. Clears the in-memory cache so the change is picked up on
-// next read instead of waiting out the 5-minute cache window.
+// partial or full { y1s1, y1s2, y2s1, y2s2, y3s1, y3s2 } object of
+// 'YYYY-MM-DD' strings. Clears the in-memory cache so the change is
+// picked up on next read instead of waiting out the 5-minute cache window.
 export async function saveAcademicCalendar(dates) {
   await setDoc(
     doc(db, 'config', 'academicCalendar'),

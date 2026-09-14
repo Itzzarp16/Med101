@@ -1,7 +1,7 @@
 import { collection, getCountFromServer, getDocs, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 
-const SEMESTER_ORDER = ['y1s1', 'y1s2', 'y2s1', 'y2s2'];
+const SEMESTER_ORDER = ['y1s1', 'y1s2', 'y2s1', 'y2s2', 'y3s1', 'y3s2'];
 
 // Each piece is fetched independently and allowed to fail on its own
 // (Promise.allSettled) - a permission hiccup or missing index on one

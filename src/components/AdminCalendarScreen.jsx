@@ -7,6 +7,8 @@ const LABELS = {
   y1s2: 'Year 1 · Semester 2',
   y2s1: 'Year 2 · Semester 1',
   y2s2: 'Year 2 · Semester 2',
+  y3s1: 'Year 3 · Semester 1',
+  y3s2: 'Year 3 · Semester 2',
 };
 
 // Admin sets/adjusts when each semester "starts" - students enrolled in

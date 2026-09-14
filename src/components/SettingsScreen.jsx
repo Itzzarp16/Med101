@@ -14,6 +14,8 @@ const YEAR_SEMESTER_OPTIONS = [
   { value: 'y1s2', label: 'Year 1 · Semester 2' },
   { value: 'y2s1', label: 'Year 2 · Semester 1' },
   { value: 'y2s2', label: 'Year 2 · Semester 2' },
+  { value: 'y3s1', label: 'Year 3 · Semester 1' },
+  { value: 'y3s2', label: 'Year 3 · Semester 2' },
 ];
 
 // Styled with the same shared classes as the rest of the app (auth
