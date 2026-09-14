@@ -870,6 +870,17 @@ h1, h2, .display {
   transform: rotate(-3deg);
 }
 
+.app-loading-tagline {
+  margin-top: 6px;
+  font-family: var(--font-body, sans-serif);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+  text-align: left;
+}
+
 .app-loading-bar-row {
   display: flex;
   align-items: center;
