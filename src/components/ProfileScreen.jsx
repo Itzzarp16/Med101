@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import { changePassword, claimUsername, fetchMyUsername, updateDisplayName } from '../lib/profile';
 import { playTapSound } from '../lib/sounds';
@@ -18,6 +20,7 @@ export default function ProfileScreen({ onBack }) {
   const [currentPw, setCurrentPw] = useState('');
   const [newPw, setNewPw] = useState('');
   const [confirmPw, setConfirmPw] = useState('');
+  const [showPwForm, setShowPwForm] = useState(false);
   const [pwSaving, setPwSaving] = useState(false);
   const [pwMsg, setPwMsg] = useState(null);
 
@@ -93,6 +96,24 @@ export default function ProfileScreen({ onBack }) {
     }
   }
 
+  async function handleForgotPassword() {
+    playTapSound();
+    setPwMsg(null);
+    if (!user?.email) return;
+    try {
+      // Same reasoning as AuthScreen's handleForgotPassword: points the
+      // reset link at our own /reset-password page via actionCodeSettings
+      // rather than Firebase Console's broken "Customize action URL" toggle.
+      await sendPasswordResetEmail(auth, user.email, {
+        url: 'https://med101.space/reset-password',
+        handleCodeInApp: true,
+      });
+      setPwMsg({ type: 'success', text: `Password reset email sent to ${user.email}. Check your inbox.` });
+    } catch (e) {
+      setPwMsg({ type: 'error', text: e.message || String(e) });
+    }
+  }
+
   return (
     <div className="std-screen">
       <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
@@ -147,19 +168,35 @@ export default function ProfileScreen({ onBack }) {
       <div className="glass std-card" style={{ marginTop: 14 }}>
         <div className="auth-label" style={{ margin: 0 }}>Change Password</div>
 
-        <label className="auth-label" style={{ marginTop: 10 }}>Current Password</label>
-        <input className="auth-input" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} placeholder="••••••••" autoComplete="current-password" />
+        {!showPwForm ? (
+          <button
+            className="btn-ghost std-save-btn"
+            style={{ marginTop: 10 }}
+            onClick={() => { playTapSound(); setShowPwForm(true); }}
+          >
+            Change Your Password
+          </button>
+        ) : (
+          <>
+            <label className="auth-label" style={{ marginTop: 10 }}>Current Password</label>
+            <input className="auth-input" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} placeholder="••••••••" autoComplete="current-password" />
 
-        <label className="auth-label" style={{ marginTop: 10 }}>New Password</label>
-        <input className="auth-input" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder="••••••••" autoComplete="new-password" />
+            <label className="auth-label" style={{ marginTop: 10 }}>New Password</label>
+            <input className="auth-input" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder="••••••••" autoComplete="new-password" />
 
-        <label className="auth-label" style={{ marginTop: 10 }}>Confirm New Password</label>
-        <input className="auth-input" type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} placeholder="••••••••" />
+            <label className="auth-label" style={{ marginTop: 10 }}>Confirm New Password</label>
+            <input className="auth-input" type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} placeholder="••••••••" />
 
-        {pwMsg && <div className={`auth-msg ${pwMsg.type}`} style={{ display: 'block' }}>{pwMsg.text}</div>}
-        <button className="btn-glow std-save-btn" onClick={handleChangePassword} disabled={pwSaving}>
-          {pwSaving ? 'Changing…' : 'Change Password'}
-        </button>
+            <div style={{ marginTop: 6, textAlign: 'right' }}>
+              <button type="button" className="auth-forgot" onClick={handleForgotPassword}>Forgot password?</button>
+            </div>
+
+            {pwMsg && <div className={`auth-msg ${pwMsg.type}`} style={{ display: 'block' }}>{pwMsg.text}</div>}
+            <button className="btn-glow std-save-btn" onClick={handleChangePassword} disabled={pwSaving}>
+              {pwSaving ? 'Changing…' : 'Change Password'}
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
