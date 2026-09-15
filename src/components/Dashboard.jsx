@@ -7,7 +7,7 @@ import './Dashboard.css';
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
 // header, then the scrolling notice, then a centered max-width subj-grid.
-export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject, onPracticeTopic, onAcceptInvite }) {
+export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite }) {
   const subjectStats = useMemo(() => {
     const topicsBySubject = {};
     const countsBySubject = {};
@@ -35,18 +35,21 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
         <PendingInvites onAccept={onAcceptInvite} />
 
         <div className="subj-grid">
-          {Object.entries(mainSubjectMeta).map(([name, meta]) => (
-            <SubjectCard
-              key={name}
-              emoji={meta.emoji}
-              name={name}
-              desc={meta.desc}
-              questionCount={subjectStats[name]?.questionCount}
-              topicCount={subjectStats[name]?.topicCount}
-              trace
-              onClick={() => onSelectSubject?.(name)}
-            />
-          ))}
+          {Object.entries(mainSubjectMeta).map(([name, meta]) => {
+            const hasQuestions = (subjectStats[name]?.questionCount || 0) > 0;
+            return (
+              <SubjectCard
+                key={name}
+                emoji={meta.emoji}
+                name={name}
+                desc={meta.desc}
+                questionCount={subjectStats[name]?.questionCount}
+                topicCount={subjectStats[name]?.topicCount}
+                trace
+                onClick={() => (hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
+              />
+            );
+          })}
         </div>
       </div>
       <LegalFooter />

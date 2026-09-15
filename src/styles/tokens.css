@@ -646,6 +646,16 @@ h1, h2, .display {
   cursor: pointer;
 }
 
+.info-banner {
+  background: rgba(24, 232, 255, 0.12);
+  color: var(--cyan);
+  border-bottom: 1px solid rgba(24, 232, 255, 0.3);
+  padding: 12px 20px;
+  text-align: center;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
 .coming-soon {
   min-height: 70vh;
   display: flex;
