@@ -53,13 +53,6 @@ export default function App() {
   const [selectedTopic, setSelectedTopic] = useState(savedNavRef?.selectedTopic ?? null); // null = "All Topics" within subject
   const [finalQuiz, setFinalQuiz] = useState(savedNavRef?.finalQuiz ?? null); // { questions, autoAdvance, timerSeconds } once mode is chosen
   const [quizKey, setQuizKey] = useState(0); // bumped to force QuizScreen to remount fresh on Restart Same / Retry Wrong
-  const [comingSoonNotice, setComingSoonNotice] = useState(null); // subject name tapped on the dashboard that has no questions yet
-
-  useEffect(() => {
-    if (!comingSoonNotice) return;
-    const t = setTimeout(() => setComingSoonNotice(null), 2500);
-    return () => clearTimeout(t);
-  }, [comingSoonNotice]);
 
   // Premium status - a live subscription (not a one-time check), so
   // approving a payment unlocks access immediately without the student
@@ -487,11 +480,6 @@ export default function App() {
           {signupNotice}
         </div>
       )}
-      {comingSoonNotice && (
-        <div className="info-banner" onClick={() => setComingSoonNotice(null)}>
-          📚 {comingSoonNotice} — content coming soon
-        </div>
-      )}
       <TopBar {...topBarProps} />
 
       {dataError && (
@@ -501,15 +489,25 @@ export default function App() {
         </div>
       )}
 
-      {['dashboard', 'subtopic', 'mode', 'quiz'].includes(screen) ? (
+      {['dashboard', 'subtopic', 'mode', 'quiz', 'subject-soon'].includes(screen) ? (
         <SlideStack activeKey={screen}>
+          {screen === 'subject-soon' && (
+            <div className="screen-fade coming-soon" key={screen}>
+              <div className="coming-soon-emoji">{scopedMainSubjectMeta[selectedSubject]?.emoji || '📚'}</div>
+              <h1>{selectedSubject}</h1>
+              <p>Content coming soon — questions for this subject haven't been uploaded yet. Check back soon.</p>
+              <button className="btn-ghost" style={{ marginTop: 16 }} onClick={() => goTo('dashboard')}>
+                ← Back to Subjects
+              </button>
+            </div>
+          )}
           {screen === 'dashboard' && (
             <Dashboard
               mainSubjectMeta={scopedMainSubjectMeta}
               subjectGroup={subjectGroup}
               questions={scopedQuestions}
               onSelectSubject={(name) => goTo('subtopic', { selectedSubject: name, selectedTopic: null })}
-              onComingSoon={(name) => setComingSoonNotice(name)}
+              onComingSoon={(name) => goTo('subject-soon', { selectedSubject: name, selectedTopic: null })}
               onPracticeTopic={(subject, subtopic) => {
                 // Quick-practice shortcut skips mode selection: jumps
                 // straight into a Random 25 of that specific weak topic.
