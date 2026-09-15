@@ -15,11 +15,6 @@
       "desc": "Content coming soon",
       "accent": "var(--cyan)"
     },
-    "Anatomy": {
-      "emoji": "🦴",
-      "desc": "Content coming soon",
-      "accent": "#f59e0b"
-    },
     "Microbiology": {
       "emoji": "🦠",
       "desc": "Content coming soon",
@@ -34,6 +29,11 @@
       "emoji": "🧬",
       "desc": "Content coming soon",
       "accent": "var(--violet)"
+    },
+    "Topographical Anatomy and Operative Surgery": {
+      "emoji": "🦴",
+      "desc": "Content coming soon",
+      "accent": "#f59e0b"
     }
   },
   "subjectMeta": {},
