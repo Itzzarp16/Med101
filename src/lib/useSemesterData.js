@@ -8,6 +8,8 @@ import { useEffect, useState } from 'react';
 // screen - see App.jsx.
 const SEMESTER_MANIFEST = [
   { id: 'y1s2', file: '/data/y1s2.json' },
+  { id: 'y2s1', file: '/data/y2s1.json' },
+  { id: 'y2s2', file: '/data/y2s2.json' },
 ];
 
 // Questions are served entirely from the static JSON files above - no

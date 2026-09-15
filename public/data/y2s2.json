@@ -1,0 +1,47 @@
+{
+  "id": "y2s2",
+  "label": "Year 2 · Semester 2",
+  "desc": "Coming up",
+  "emoji": "📙",
+  "accent": "var(--pink)",
+  "mainSubjectMeta": {
+    "Pathology 2": {
+      "emoji": "🧬",
+      "desc": "Content coming soon",
+      "accent": "var(--violet)"
+    },
+    "Communication Skills in Healthcare": {
+      "emoji": "🗣️",
+      "desc": "Content coming soon",
+      "accent": "var(--cyan)"
+    },
+    "Medical Radiology and Radiotherapy": {
+      "emoji": "☢️",
+      "desc": "Content coming soon",
+      "accent": "#f59e0b"
+    },
+    "Propedeutics of Child Diseases": {
+      "emoji": "🧒",
+      "desc": "Content coming soon",
+      "accent": "#34d399"
+    },
+    "Propedeutics of Internal Medicine 1": {
+      "emoji": "🩺",
+      "desc": "Content coming soon",
+      "accent": "var(--pink)"
+    },
+    "Basic Pharmacology 1": {
+      "emoji": "💊",
+      "desc": "Content coming soon",
+      "accent": "var(--green)"
+    },
+    "Clinical Anatomy and Nerves": {
+      "emoji": "🧠",
+      "desc": "Content coming soon",
+      "accent": "var(--cyan)"
+    }
+  },
+  "subjectMeta": {},
+  "subjectGroup": {},
+  "questions": []
+}

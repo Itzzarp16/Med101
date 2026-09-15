@@ -1,0 +1,42 @@
+{
+  "id": "y2s1",
+  "label": "Year 2 · Semester 1",
+  "desc": "Coming up",
+  "emoji": "📗",
+  "accent": "var(--green)",
+  "mainSubjectMeta": {
+    "Clinical Biochemistry": {
+      "emoji": "🧫",
+      "desc": "Content coming soon",
+      "accent": "#34d399"
+    },
+    "Human Physiology 2": {
+      "emoji": "🫀",
+      "desc": "Content coming soon",
+      "accent": "var(--cyan)"
+    },
+    "Anatomy": {
+      "emoji": "🦴",
+      "desc": "Content coming soon",
+      "accent": "#f59e0b"
+    },
+    "Microbiology": {
+      "emoji": "🦠",
+      "desc": "Content coming soon",
+      "accent": "var(--green)"
+    },
+    "Community Medicine": {
+      "emoji": "🏥",
+      "desc": "Content coming soon",
+      "accent": "var(--pink)"
+    },
+    "Pathology 1": {
+      "emoji": "🧬",
+      "desc": "Content coming soon",
+      "accent": "var(--violet)"
+    }
+  },
+  "subjectMeta": {},
+  "subjectGroup": {},
+  "questions": []
+}
