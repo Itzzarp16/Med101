@@ -19,7 +19,7 @@ function highlight(text, term) {
 }
 
 // scopedQuestions/subjectGroup/mainSubjectMeta all come from the
-// already-loaded active-semester data — search is purely client-side
+// already-loaded active-semester data - search is purely client-side
 // filtering, no extra reads needed.
 export default function SearchScreen({ scopedQuestions, subjectGroup, mainSubjectMeta, onPracticeSet, onBack }) {
   const [term, setTerm] = useState('');
@@ -61,14 +61,14 @@ export default function SearchScreen({ scopedQuestions, subjectGroup, mainSubjec
         {term.trim().length >= 2 && (
           <p className="std-note">
             {results.length}{results.length === MAX_RESULTS ? '+' : ''} match{results.length === 1 ? '' : 'es'}
-            {results.length === MAX_RESULTS && ' (showing first 60 — narrow your search for more precise results)'}
+            {results.length === MAX_RESULTS && ' (showing first 60, narrow your search for more precise results)'}
           </p>
         )}
       </div>
 
       {term.trim().length > 0 && term.trim().length < 2 && (
         <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>
-          Keep typing — at least 2 characters.
+          Keep typing, at least 2 characters.
         </div>
       )}
 

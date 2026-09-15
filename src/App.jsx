@@ -495,7 +495,7 @@ export default function App() {
             <div className="screen-fade coming-soon" key={screen}>
               <div className="coming-soon-emoji">{scopedMainSubjectMeta[selectedSubject]?.emoji || '📚'}</div>
               <h1>{selectedSubject}</h1>
-              <p>Content coming soon — questions for this subject haven't been uploaded yet. Check back soon.</p>
+              <p>Content coming soon. Questions for this subject haven't been uploaded yet. Check back soon.</p>
               <button className="btn-ghost" style={{ marginTop: 16 }} onClick={() => goTo('dashboard')}>
                 ← Back to Subjects
               </button>

@@ -3,7 +3,7 @@ import { db } from './firebase';
 import { lookupUsername } from './invites';
 
 // Deliberately one-directional (like a watchlist), not a mutual
-// request/accept flow — adding someone to your own friends list is
+// request/accept flow - adding someone to your own friends list is
 // purely a write to YOUR OWN subcollection, so it stays secure under
 // simple "own data only" rules with no cross-user writes needed.
 export async function addFriendByUsername(uid, rawUsername) {

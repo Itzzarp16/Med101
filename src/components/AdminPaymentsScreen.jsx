@@ -126,7 +126,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
             </>
           ) : (
             <>
-              <div className="auth-label" style={{ margin: 0 }}>✅ Approved — send this code to {issuedCode.email}</div>
+              <div className="auth-label" style={{ margin: 0 }}>✅ Approved: send this code to {issuedCode.email}</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 22, fontWeight: 800, color: 'var(--green)', margin: '10px 0', letterSpacing: 1 }}>
                 {issuedCode.code}
               </div>
