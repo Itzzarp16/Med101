@@ -31,6 +31,21 @@ drawn rects, different numbering), this parser will need a matching
 update - see /areas/med101.md "Question upload plan" for the planned
 Option 2 (AI-powered, format-agnostic) upgrade path.
 
+File transport: the client (uploadQuestions.js) sends the PDF as
+base64 chunks written to Firestore (pdfUploadChunks/{uploadId}_{i}),
+not directly in this request's body, and not via Firebase Storage.
+Two platform limits ruled those out:
+  - Vercel caps a serverless function's request body at 4.5MB, which
+    a base64-encoded PDF of any real size (a few hundred questions
+    and up) exceeds easily.
+  - Firebase Storage requires the Blaze (pay-as-you-go) plan even for
+    tiny files - this project is on Spark, so Storage isn't usable at
+    all right now (see the profile-photo feature's commit history for
+    the same constraint hit and worked around the same way).
+Firestore has no per-upload size ceiling (each chunk doc just needs
+to stay under Firestore's own ~1MiB field limit), so it's the
+transport that works within both constraints.
+
 Required env vars:
   Firestore path (same Firebase service account already used by
   api/ai-explanation.js - see GEMINI_SETUP.md):
@@ -302,17 +317,41 @@ class handler(BaseHTTPRequestHandler):
         semester_id = body.get('semesterId')
         main_subject = body.get('mainSubject')
         subtopic = body.get('subtopic')
-        pdf_b64 = body.get('pdfBase64')
+        upload_id = body.get('uploadId')
+        chunk_count = body.get('chunkCount')
         emoji = body.get('emoji') or '📖'
         desc = body.get('desc') or ''
 
-        if not semester_id or not main_subject or not subtopic or not pdf_b64:
-            return self._send(400, {'error': 'semesterId, mainSubject, subtopic, and pdfBase64 are all required.'})
+        if not semester_id or not main_subject or not subtopic or not upload_id or not chunk_count:
+            return self._send(400, {'error': 'semesterId, mainSubject, subtopic, uploadId, and chunkCount are all required.'})
 
+        # The PDF arrives as base64 chunks in Firestore (pdfUploadChunks/
+        # {uploadId}_{index}) rather than directly in the request body -
+        # see uploadQuestions.js for why: Vercel caps a serverless
+        # function's request body at 4.5MB, which a base64-encoded PDF of
+        # any real size blows straight through, and Firebase Storage
+        # (the other obvious fix) requires the Blaze plan, which this
+        # project isn't on. Firestore has no such ceiling per-upload -
+        # each doc just needs to stay under its own ~1MiB field limit,
+        # which is why the client splits into chunks in the first place.
+        db_client = firestore.client()
+        chunk_refs = [db_client.collection('pdfUploadChunks').document(f'{upload_id}_{i}') for i in range(int(chunk_count))]
         try:
+            chunk_snaps = [ref.get() for ref in chunk_refs]
+            if not all(s.exists for s in chunk_snaps):
+                return self._send(400, {'error': 'Uploaded file chunks were not found - please try uploading again.'})
+            pdf_b64 = ''.join(s.to_dict()['data'] for s in chunk_snaps)
             pdf_bytes = base64.b64decode(pdf_b64)
-        except Exception:
-            return self._send(400, {'error': 'pdfBase64 could not be decoded.'})
+        except Exception as e:
+            return self._send(500, {'error': f'Could not reassemble the uploaded file: {e}'})
+        finally:
+            # Best-effort cleanup - these chunks only ever existed to get
+            # the file here once. Not fatal if it fails.
+            for ref in chunk_refs:
+                try:
+                    ref.delete()
+                except Exception:
+                    pass
 
         try:
             parsed, malformed, total_q_matches = parse_pdf_bytes(pdf_bytes)

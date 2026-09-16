@@ -241,6 +241,20 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // ── pdfUploadChunks/{uploadId}_{index} ───────────────────────
+    // Scratch space used only as a transport mechanism for
+    // api/upload-questions.py: the admin's browser can't send a large
+    // PDF directly in one request (Vercel's 4.5MB body cap) and can't
+    // use Firebase Storage (requires the Blaze plan, which this
+    // project isn't on), so it splits the base64 file into chunks and
+    // writes them here; the Python function reads them back out,
+    // reassembles, and deletes them (client does its own best-effort
+    // cleanup too). Nothing here is meant to persist - admin-only,
+    // matching every other admin-write collection.
+    match /pdfUploadChunks/{chunkId} {
+      allow read, write: if isAdmin();
+    }
+
     // ── AI explanation cache / usage ─────────────────────────────
     // These collections are server-only. The Vercel AI endpoint uses a
     // Firebase service account, so client-side reads and writes must never
