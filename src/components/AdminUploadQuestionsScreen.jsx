@@ -50,8 +50,11 @@ export default function AdminUploadQuestionsScreen({ onBack, semesters, semester
       setResult(data);
     } catch (e) {
       setError(e.message || 'Upload failed.');
-      if (e.incompleteQuestionNumbers?.length) {
-        setResult({ incompleteQuestionNumbers: e.incompleteQuestionNumbers });
+      if (e.incompleteQuestionNumbers?.length || e.malformedQuestions?.length) {
+        setResult({
+          incompleteQuestionNumbers: e.incompleteQuestionNumbers,
+          malformedQuestions: e.malformedQuestions,
+        });
       }
     } finally {
       setBusy(false);
@@ -164,16 +167,29 @@ export default function AdminUploadQuestionsScreen({ onBack, semesters, semester
               ? ' — committed to GitHub, live in about a minute once Vercel finishes rebuilding.'
               : ' — live now.'}
             {result.skippedCount > 0 && (
-              <> {result.skippedCount} question{result.skippedCount === 1 ? '' : 's'} had no
-              detectable highlighted answer and were skipped (#{result.incompleteQuestionNumbers?.join(', ')}).</>
+              <>
+                {' '}{result.skippedCount} question{result.skippedCount === 1 ? '' : 's'} were skipped.
+                {result.incompleteQuestionNumbers?.length > 0 && (
+                  <> No highlighted answer detected on #{result.incompleteQuestionNumbers.join(', ')}.</>
+                )}
+                {result.malformedQuestions?.length > 0 && (
+                  <> Structural issue on #{result.malformedQuestions.map((m) => m.num).join(', ')}
+                  — check those questions in the PDF.</>
+                )}
+              </>
             )}
           </div>
         )}
 
-        {!result?.success && result?.incompleteQuestionNumbers?.length > 0 && (
+        {!result?.success && (result?.incompleteQuestionNumbers?.length > 0 || result?.malformedQuestions?.length > 0) && (
           <div className="auth-msg error" style={{ display: 'block' }}>
-            Questions found but none had a detectable highlighted answer
-            (#{result.incompleteQuestionNumbers.join(', ')}) - nothing was saved.
+            Questions found but none could be saved.
+            {result.incompleteQuestionNumbers?.length > 0 && (
+              <> No highlighted answer on #{result.incompleteQuestionNumbers.join(', ')}.</>
+            )}
+            {result.malformedQuestions?.length > 0 && (
+              <> Structural issue on #{result.malformedQuestions.map((m) => `${m.num} (${m.reason})`).join('; ')}.</>
+            )}
           </div>
         )}
       </div>

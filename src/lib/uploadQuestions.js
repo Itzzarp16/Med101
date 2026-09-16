@@ -32,6 +32,7 @@ export async function uploadQuestionPdf({ semesterId, mainSubject, subtopic, emo
     const error = new Error(data.error || 'Could not upload questions.');
     error.status = response.status;
     error.incompleteQuestionNumbers = data.incompleteQuestionNumbers;
+    error.malformedQuestions = data.malformedQuestions;
     throw error;
   }
 
