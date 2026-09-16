@@ -12,8 +12,24 @@ import { startTimeTracking } from './timeTracking';
 import { claimUsername } from './profile';
 import { getDeviceId } from './deviceId';
 
-// Must exactly match the emails your Firestore isAdmin() security rule checks.
-const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
+// Admin status is now determined by a Firebase custom claim
+// ({admin: true} on the user's ID token) rather than a hardcoded email
+// list - see docs/set-admin-claims.md for the one-time script that
+// grants this claim to an account. This means:
+//  - Students can no longer see which 3 accounts are admin (the old
+//    list shipped in the client JS bundle, readable by anyone)
+//  - firestore.rules / storage.rules / api/upload-questions.py all
+//    check the same claim now instead of duplicating an email list
+//    in four places that could silently drift out of sync
+//
+// A claim only shows up on a token minted AFTER it was set - an
+// account that was already signed in when the claim was granted won't
+// see it until they sign out/in again (or the SDK's automatic hourly
+// refresh happens to run).
+async function checkAdminClaim(user) {
+  const result = await user.getIdTokenResult();
+  return result.claims.admin === true;
+}
 
 const AuthContext = createContext(null);
 
@@ -57,6 +73,7 @@ async function verifyDevice(uid) {
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null); // users/{uid} doc data
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   // updateProfile() mutates auth.currentUser in place rather than
   // replacing it, so setUser(auth.currentUser) after a photo/name
@@ -97,7 +114,9 @@ export function AuthProvider({ children }) {
           // under it.
           await new Promise((r) => setTimeout(r, 1200));
         }
-        if (!ADMIN_EMAILS.includes(u.email)) {
+        const admin = await checkAdminClaim(u);
+        setIsAdmin(admin);
+        if (!admin) {
           if (deviceClaimPendingRef.current === u.uid) {
             deviceClaimPendingRef.current = null;
           } else {
@@ -162,6 +181,7 @@ export function AuthProvider({ children }) {
         }
         deviceClaimPendingRef.current = null;
         setUser(null);
+        setIsAdmin(false);
         setProfile(null);
       }
       setLoading(false);
@@ -190,7 +210,7 @@ export function AuthProvider({ children }) {
   // mismatch, rather than waiting on the realtime listener to
   // reconcile on its own schedule.
   useEffect(() => {
-    if (!user || ADMIN_EMAILS.includes(user.email)) return;
+    if (!user || isAdmin) return;
 
     async function recheck() {
       try {
@@ -220,7 +240,7 @@ export function AuthProvider({ children }) {
       window.removeEventListener('online', recheck);
       document.removeEventListener('visibilitychange', onVisible);
     };
-  }, [user]);
+  }, [user, isAdmin]);
 
   // Tracks how long this student has the app open in the foreground -
   // see timeTracking.js. Runs for the whole signed-in session and
@@ -233,7 +253,7 @@ export function AuthProvider({ children }) {
 
   async function signIn(email, password) {
     const cred = await signInWithEmailAndPassword(auth, email, password);
-    if (!ADMIN_EMAILS.includes(cred.user.email)) {
+    if (!(await checkAdminClaim(cred.user))) {
       const snap = await getDoc(doc(db, 'users', cred.user.uid));
       if (snap.exists() && snap.data().disabled) {
         await signOut(auth);
@@ -314,7 +334,7 @@ export function AuthProvider({ children }) {
           );
         }
       }
-      if (!ADMIN_EMAILS.includes(cred.user.email)) {
+      if (!(await checkAdminClaim(cred.user))) {
         deviceClaimPendingRef.current = cred.user.uid;
         await claimDevice(cred.user.uid);
       }
@@ -338,8 +358,6 @@ export function AuthProvider({ children }) {
     await auth.currentUser.reload();
     bumpUserTick((n) => n + 1);
   }
-
-  const isAdmin = !!user && ADMIN_EMAILS.includes(user.email);
 
   return (
     <AuthContext.Provider

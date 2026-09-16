@@ -62,13 +62,10 @@ import requests
 import firebase_admin
 from firebase_admin import credentials, auth as fb_auth, firestore
 
-# Must exactly match ADMIN_EMAILS in src/lib/AuthContext.jsx and
-# isAdmin() in firestore.rules - keep all three in sync by hand.
-ADMIN_EMAILS = {
-    'admin.med101@gmail.com',
-    'admin1.med101@gmail.com',
-    'admin2.med101@gmail.com',
-}
+# Admin status is a Firebase custom claim ({admin: true}) now, checked
+# directly on the verified token below - see checkAdminClaim() in
+# AuthContext.jsx and isAdmin() in firestore.rules/storage.rules for
+# the other two places this same claim is checked.
 
 ALLOWED_ORIGINS = {'https://med101.space', 'https://www.med101.space'}
 
@@ -295,7 +292,7 @@ class handler(BaseHTTPRequestHandler):
             return self._send(401, {'error': f'Invalid or expired session: {e}'})
 
         email = decoded.get('email')
-        if email not in ADMIN_EMAILS:
+        if decoded.get('admin') is not True:
             return self._send(403, {'error': 'Admin access required.'})
 
         save_method = body.get('saveMethod') or 'firestore'
