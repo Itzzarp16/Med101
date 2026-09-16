@@ -34,10 +34,13 @@ const SEMESTER_MANIFEST = [
 // like the current Y2 placeholders) starts showing real questions the
 // moment its entry appears, with no redeploy.
 //
-// Deliberately no offline/localStorage fallback here: the site is
-// meant to require a live connection, so a failed fetch surfaces as a
-// real error (see App.jsx's offline screen) instead of silently
-// continuing to work from a stale cached copy.
+// Deliberately no offline/localStorage fallback for the JSON fetch
+// above: the site is meant to require a live connection, so a failed
+// JSON fetch surfaces as a real error (see App.jsx's offline screen)
+// instead of silently continuing to work from a stale cached copy.
+// The Firestore uploaded-questions read is treated differently
+// (soft-fail, see below) since it's a supplementary layer, not core
+// content.
 export function useSemesterData() {
   const [state, setState] = useState({
     loading: true,
@@ -114,11 +117,15 @@ export function useSemesterData() {
             });
           }
         } catch (err) {
-          console.error('Failed to load uploaded questions for', entry.id, err);
-          if (!cancelled) {
-            setState((s) => ({ ...s, loading: false, error: 'connection' }));
-          }
-          return;
+          // Deliberately non-fatal, unlike the JSON fetch above: this
+          // read can legitimately fail before auth is established
+          // (e.g. AdminPortal's own pre-login screen also calls this
+          // hook, and firestore.rules requires request.auth != null
+          // for uploadedQuestions) - a permission or network hiccup
+          // here should just mean "no admin-uploaded extras this
+          // load", not take down the whole semester JSON the rest of
+          // the app needs regardless.
+          console.warn('Could not load uploaded questions for', entry.id, '- continuing without them:', err);
         }
       }
 

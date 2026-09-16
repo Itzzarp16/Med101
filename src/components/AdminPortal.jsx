@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
+import { useSemesterData } from '../lib/useSemesterData';
 import AdminNoticeScreen from './AdminNoticeScreen';
 import AdminCalendarScreen from './AdminCalendarScreen';
 import AdminUserDetailScreen from './AdminUserDetailScreen';
 import AdminAnalyticsScreen from './AdminAnalyticsScreen';
 import AdminPaymentsScreen from './AdminPaymentsScreen';
 import AdminSubscribersScreen from './AdminSubscribersScreen';
+import AdminUploadQuestionsScreen from './AdminUploadQuestionsScreen';
 import './AdminPortal.css';
 
 // Standalone admin-only surface, served at /admin. Separate from the
@@ -19,11 +21,12 @@ const TABS = [
   { id: 'subscribers', label: '✅ Subscribers' },
   { id: 'notice', label: '📢 Home Notice' },
   { id: 'calendar', label: '⚙️ Academic Calendar' },
+  { id: 'upload', label: '📤 Upload Questions' },
   { id: 'users', label: '🔍 User Detail' },
   { id: 'analytics', label: '📊 Usage Analytics' },
 ];
 
-function AdminScreenFor({ tab }) {
+function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
   // Each screen still takes an onBack, since they're written as
   // full-screen views; here "back" just returns to the portal's own
   // tab bar instead of going anywhere.
@@ -31,6 +34,7 @@ function AdminScreenFor({ tab }) {
   switch (tab) {
     case 'notice': return <AdminNoticeScreen onBack={noop} hideBack />;
     case 'calendar': return <AdminCalendarScreen onBack={noop} hideBack />;
+    case 'upload': return <AdminUploadQuestionsScreen onBack={noop} hideBack semesters={semesters} semesterMainSubjects={semesterMainSubjects} />;
     case 'users': return <AdminUserDetailScreen onBack={noop} initialUid={null} hideBack />;
     case 'analytics': return <AdminAnalyticsScreen onBack={noop} hideBack />;
     case 'payments': return <AdminPaymentsScreen onBack={noop} hideBack />;
@@ -103,6 +107,7 @@ function AdminLogin() {
 export default function AdminPortal() {
   const { user, profile, loading, isAdmin, logOut } = useAuth();
   const [tab, setTab] = useState('payments');
+  const { semesters, semesterMainSubjects } = useSemesterData();
 
   if (loading) {
     return <div className="admin-portal-loading">Loading…</div>;
@@ -156,7 +161,7 @@ export default function AdminPortal() {
       </nav>
 
       <main className="admin-portal-content">
-        <AdminScreenFor tab={tab} />
+        <AdminScreenFor tab={tab} semesters={semesters} semesterMainSubjects={semesterMainSubjects} />
       </main>
     </div>
   );
