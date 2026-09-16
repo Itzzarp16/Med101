@@ -41,7 +41,319 @@
       "accent": "var(--cyan)"
     }
   },
-  "subjectMeta": {},
-  "subjectGroup": {},
-  "questions": []
+  "subjectMeta": {
+    "Pharma": {
+      "emoji": "📖",
+      "desc": "",
+      "accent": "var(--cyan)"
+    }
+  },
+  "subjectGroup": {
+    "Pharma": "Basic Pharmacology 1"
+  },
+  "questions": [
+    {
+      "s": "Pharma",
+      "q": "Explain what the spinal cord terminal thread (filum terminale) is",
+      "o": [
+        "Bundles of neuronal processes extending from the spinal cord to the organs",
+        "A hollow canal that passes through the center of the spinal cord",
+        "A narrow process of the spinal cord that fuses with the coccyx periosteum",
+        "Nerve fibers extending from neurons"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Pharma",
+      "q": "Show the enlargements of the spinal cord",
+      "o": [
+        "cervical and thoracic",
+        "lumbar and sacral",
+        "thoracic and lumbar",
+        "cervical and lumbosacral"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Pharma",
+      "q": "Describe what makes up the nervous activity of humans and animals",
+      "o": [
+        "mind",
+        "intellectual activity",
+        "excitement",
+        "a reflex"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Pharma",
+      "q": "Specify where the lower cervical segments of the spinal cord are located",
+      "o": [
+        "1 vertebra higher than the corresponding vertebrae",
+        "at the level of the corresponding vertebrae",
+        "2 vertebrae higher than the corresponding vertebrae",
+        "3 vertebrae higher than the corresponding vertebrae"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Pharma",
+      "q": "Determine what the middle funiculus (lateral funiculus) of the spinal cord is located between",
+      "o": [
+        "anterior median fissure and anterior lateral sulcus",
+        "anterior and posterior lateral sulci",
+        "posterior lateral and posterior median sulci",
+        "posterior lateral and posterior intermediate sulci"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Pharma",
+      "q": "Describe where the cerebrospinal fluid is located",
+      "o": [
+        "in the epidural space",
+        "in the subdural space",
+        "in the subarachnoid space",
+        "none of the above"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Pharma",
+      "q": "Name what is located in the anterior horns of the spinal cord",
+      "o": [
+        "sensitive (afferent) neurons",
+        "motor (efferent) neurons",
+        "autonomic (sympathetic) neurons",
+        "autonomic (parasympathetic) neurons"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Pharma",
+      "q": "A 40-year-old patient was admitted to the infectious diseases department of a hospital with a high body temperature. Objectively: severe meningeal symptoms. A spinal puncture was performed. What anatomical formation was punctured?",
+      "o": [
+        "Spatium epidurale",
+        "Spatium subdurale",
+        "Spatium subarachnoideum",
+        "Cavum trigeminale"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Pharma",
+      "q": "Specify how many segments the lumbar spinal cord includes",
+      "o": [
+        "5 segments",
+        "12 segments"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Pharma",
+      "q": "Explain what receptors are",
+      "o": [
+        "sensitive structures that transmit impulses to the central nervous system",
+        "sensitive structures that transmit nerve impulses from interneurons to effector ones",
+        "sensitive structures that perceive stimuli and convert the energy of stimuli into the process of nervous arousal",
+        "sensitive structures that perceive nerve impulses from sensory neurons"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Pharma",
+      "q": "List the order in which the spinal cord meninges are located (from the center to the periphery)",
+      "o": [
+        "Dura, Pia, arachnoid",
+        "Dura, arachnoid, Pia",
+        "Pia, arachnoid, dura",
+        "Pia, Dura, arachnoid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Pharma",
+      "q": "Show where the upper border of the spinal cord is located",
+      "o": [
+        "at the level of the I cervical vertebra",
+        "at the level of the lower edge of the foramen magnum (large occipital foramen)",
+        "at the level of the jugular foramen",
+        "at the level of the II cervical vertebra"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Pharma",
+      "q": "Find out how many segments there are in the cervical region",
+      "o": [
+        "5 segments",
+        "12 segments",
+        "7 segments",
+        "8 segments"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Pharma",
+      "q": "Show where the lower cervical spinal cord segments are located",
+      "o": [
+        "1 vertebra higher than the corresponding vertebrae",
+        "at the level of the corresponding vertebrae"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Pharma",
+      "q": "Specify what is located in the posterior horns of the spinal cord",
+      "o": [
+        "sensitive (afferent) neurons",
+        "motor (efferent) neurons",
+        "autonomic (sympathetic) neurons",
+        "interneurons (associative neurons)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Pharma",
+      "q": "Name where the lateral funiculus of the spinal cord is located",
+      "o": [
+        "between the anterior median fissure and anterior lateral sulcus",
+        "between the anterior and posterior lateral sulci",
+        "between the posterior lateral and posterior median sulci",
+        "between the posterior lateral and posterior intermediate sulci"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Pharma",
+      "q": "Find out where the anterior (motor) roots of the spinal nerves emerge from the spinal cord",
+      "o": [
+        "through the anterior median fissure",
+        "through the anterior lateral sulcus",
+        "through the posterior lateral sulcus",
+        "through the posterior median sulcus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Pharma",
+      "q": "Explain where the subarachnoid space is located",
+      "o": [
+        "between the pia mater and the spinal cord",
+        "between the pia and arachnoid maters",
+        "between the dura and arachnoid maters",
+        "between the spinal canal wall and the dura mater"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Pharma",
+      "q": "Specify which level corresponds to the lower border of the spinal cord",
+      "o": [
+        "XII thoracic vertebra",
+        "XII thoracic to I lumbar vertebrae",
+        "I to II lumbar vertebrae",
+        "II to III lumbar vertebrae"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Pharma",
+      "q": "Select which part of the spinal cord includes 12 segments (e.g., thoracic part)",
+      "o": [
+        "5 segments",
+        "12 segments (thoracic part)",
+        "7 segments",
+        "8 segments"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Pharma",
+      "q": "What is the space between the walls of the vertebral canal and the spinal cord filled with?",
+      "o": [
+        "Gray and white matter",
+        "Adipose tissue and white matter",
+        "Cerebrospinal fluid, white matter, and adipose tissue",
+        "Adipose tissue, blood vessels, and cerebrospinal fluid"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Pharma",
+      "q": "Specify where the lower thoracic segments of the spinal cord are located",
+      "o": [
+        "1 vertebra higher than the corresponding vertebrae",
+        "at the level of the corresponding vertebrae",
+        "2 vertebrae higher than the corresponding vertebrae",
+        "3 vertebrae higher than the corresponding vertebrae"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Pharma",
+      "q": "Determine how the anterior roots of the spinal cord are formed",
+      "o": [
+        "Axons of the spinal ganglion cells",
+        "Axons of the anterior horn cells",
+        "Axons of the lateral horn cells only"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Pharma",
+      "q": "Compare where the lateral columns (horns) of the spinal cord gray matter are distinct",
+      "o": [
+        "VIII cervical to XII thoracic segments",
+        "I thoracic to III lumbar segments",
+        "VIII cervical to I–II lumbar segments",
+        "I thoracic to V lumbar segments"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Pharma",
+      "q": "Show where the posterior roots of the spinal nerves enter the spinal cord",
+      "o": [
+        "through the anterior median fissure",
+        "through the anterior lateral sulcus",
+        "through the posterior lateral sulcus",
+        "through the posterior median sulcus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Pharma",
+      "q": "In a patient, an epidural abscess (epiduritis) is an accumulation of pus in the epidural space of the spinal cord. Determine the localization of this pathological process",
+      "o": [
+        "Between the arachnoid and the pia mater",
+        "Between the arachnoid and the pia mater",
+        "Between the dura mater and the arachnoid",
+        "Between the periosteum of the vertebral canal and the dura mater"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Pharma",
+      "q": "Determine how the unified nervous system is functionally divided",
+      "o": [
+        "into central and peripheral",
+        "into somatic and autonomic (vegetative)",
+        "into cranial and spinal nerves",
+        "All are correct"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Pharma",
+      "q": "The blood supply to the spinal cord is derived from",
+      "o": [
+        "The anterior spinal artery, and the right and left posterior spinal arteries",
+        "The carotid artery, and the right and left posterior spinal arteries",
+        "The anterior spinal artery, and the right and left pulmonary arteries",
+        "The iliac blood vessels"
+      ],
+      "c": 0
+    }
+  ]
 }
