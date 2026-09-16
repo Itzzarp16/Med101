@@ -11,7 +11,7 @@ import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence'
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
 export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge, onFriends, onProfile, onWeakTopics, onWrongFlagged, onHistory, onSearch, onPremium, onAdminNotice, onAdminCalendar, onAdminUploadQuestions, onAdminUserDetail, onAdminAnalytics, onAdminPayments, onViewUser, screen }) {
-  const { user, isAdmin, logOut } = useAuth();
+  const { user, profile, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const [onlineCount, setOnlineCount] = useState(null);
   const [onlineNames, setOnlineNames] = useState(null);
@@ -92,11 +92,11 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
           )
         )}
         <button className="topbar-user" title="View your profile" onClick={() => { playTapSound(); onProfile?.(); }}>
-          {user?.photoURL && (
+          {profile?.photoURL && (
             <span
               style={{
                 display: 'inline-block', width: 22, height: 22, borderRadius: '50%',
-                background: `center/cover url(${user.photoURL})`, marginRight: 6, verticalAlign: 'middle',
+                background: `center/cover url(${profile.photoURL})`, marginRight: 6, verticalAlign: 'middle',
               }}
             />
           )}

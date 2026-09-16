@@ -2,22 +2,35 @@ import {
   EmailAuthProvider, reauthenticateWithCredential, updatePassword, updateProfile,
 } from 'firebase/auth';
 import { doc, getDoc, runTransaction, setDoc } from 'firebase/firestore';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
-import { db, storage } from './firebase';
+import { db } from './firebase';
 
-// ── Profile photo upload ────────────────────────────────────────────
-// Raw phone photos can be several MB and arbitrary dimensions - we
-// downscale to a small square-ish JPEG client-side before it ever
-// touches the network, both to keep Storage cost/bandwidth low and so
-// upload doesn't stall on a slow connection. AVATAR_MAX_DIMENSION caps
-// the longer edge; Storage rules also enforce a hard server-side size
-// ceiling as a backstop (a client can't be trusted to actually run
-// this code before hitting the API directly).
+// ── Profile photo upload (Firestore-only, no Firebase Storage) ─────
+// TEMPORARY until the Firebase project is on the Blaze plan: Storage
+// now requires Blaze even for tiny files (see the Sept 2024/Feb 2026
+// Google Cloud Storage billing change), so this stores the resized
+// photo directly as a base64 data URI on users/{uid}.photoURL instead
+// of a Storage object. Firestore documents allow up to 1MB, and this
+// avatar is downscaled hard enough to stay well under that.
+//
+// Deliberately NOT written to Firebase Auth's updateProfile({photoURL})
+// - Auth profile fields ride along on every ID token, which gets sent
+// as a header on essentially every Firestore/Storage/API call. A
+// 20-30KB base64 string in there would bloat every request and risks
+// hitting header-size limits. Firestore's own onSnapshot listener on
+// users/{uid} (see AuthContext's `profile` state) already propagates
+// this live to every screen without needing that.
+//
+// When Blaze is active: swap this back to uploading the resized blob
+// to Storage (ref/uploadBytes/getDownloadURL) and writing the
+// resulting URL to both Auth's photoURL and this same Firestore field
+// - AVATAR_MAX_DIMENSION can also go back up since a real URL doesn't
+// have this size pressure.
 const MAX_SOURCE_BYTES = 10 * 1024 * 1024; // reject absurdly large picks before even trying to decode them
-const AVATAR_MAX_DIMENSION = 512;
-const AVATAR_JPEG_QUALITY = 0.85;
+const AVATAR_MAX_DIMENSION = 200;
+const AVATAR_JPEG_QUALITY = 0.7;
+const MAX_DATA_URI_BYTES = 300 * 1024; // sanity ceiling, well under Firestore's 1MB doc limit
 
-function resizeImageToJpegBlob(file) {
+function resizeImageToJpegDataUri(file) {
   return new Promise((resolve, reject) => {
     const img = new Image();
     const objectUrl = URL.createObjectURL(file);
@@ -30,11 +43,7 @@ function resizeImageToJpegBlob(file) {
       canvas.width = w;
       canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      canvas.toBlob(
-        (blob) => (blob ? resolve(blob) : reject(new Error('Could not process that image.'))),
-        'image/jpeg',
-        AVATAR_JPEG_QUALITY
-      );
+      resolve(canvas.toDataURL('image/jpeg', AVATAR_JPEG_QUALITY));
     };
     img.onerror = () => {
       URL.revokeObjectURL(objectUrl);
@@ -44,24 +53,19 @@ function resizeImageToJpegBlob(file) {
   });
 }
 
-// Fixed filename (not a unique name per upload) - re-uploading just
-// overwrites the same Storage object instead of accumulating orphaned
-// old photos that nothing ever cleans up.
 export async function uploadProfilePhoto(user, file) {
   if (!file) throw new Error('Choose a photo first.');
   if (!file.type.startsWith('image/')) throw new Error('Please choose an image file.');
   if (file.size > MAX_SOURCE_BYTES) throw new Error('That image is too large (max 10MB).');
 
-  const blob = await resizeImageToJpegBlob(file);
+  const dataUri = await resizeImageToJpegDataUri(file);
+  if (dataUri.length > MAX_DATA_URI_BYTES) {
+    throw new Error('That photo is too complex to store this way - try a simpler/smaller image.');
+  }
 
-  const fileRef = ref(storage, `avatars/${user.uid}/photo.jpg`);
-  await uploadBytes(fileRef, blob, { contentType: 'image/jpeg' });
-  const url = await getDownloadURL(fileRef);
+  await setDoc(doc(db, 'users', user.uid), { photoURL: dataUri }, { merge: true });
 
-  await updateProfile(user, { photoURL: url });
-  await setDoc(doc(db, 'users', user.uid), { photoURL: url }, { merge: true });
-
-  return url;
+  return dataUri;
 }
 
 export function normalize(name) {

@@ -6,7 +6,7 @@ import { changePassword, claimUsername, fetchMyUsername, updateDisplayName, uplo
 import { playTapSound } from '../lib/sounds';
 
 export default function ProfileScreen({ onBack }) {
-  const { user, profile, refreshUser } = useAuth();
+  const { user, profile } = useAuth();
 
   const [name, setName] = useState(user?.displayName || '');
   const [nameSaving, setNameSaving] = useState(false);
@@ -62,7 +62,6 @@ export default function ProfileScreen({ onBack }) {
     setPhotoUploading(true);
     try {
       await uploadProfilePhoto(user, file);
-      await refreshUser();
       setPhotoMsg({ type: 'success', text: 'Profile photo updated.' });
     } catch (e) {
       setPhotoMsg({ type: 'error', text: e.message || String(e) });
@@ -153,13 +152,13 @@ export default function ProfileScreen({ onBack }) {
           title="Change profile photo"
           style={{
             width: 88, height: 88, borderRadius: '50%', border: '2px solid var(--violet)',
-            background: user.photoURL ? `center/cover url(${user.photoURL})` : 'var(--bg2)',
+            background: profile?.photoURL ? `center/cover url(${profile.photoURL})` : 'var(--bg2)',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             fontSize: 32, fontWeight: 700, color: 'var(--violet)', cursor: 'pointer',
             opacity: photoUploading ? 0.6 : 1, padding: 0,
           }}
         >
-          {!user.photoURL && (user.displayName?.[0] || user.email?.[0] || '?').toUpperCase()}
+          {!profile?.photoURL && (user.displayName?.[0] || user.email?.[0] || '?').toUpperCase()}
         </button>
         <input
           ref={fileInputRef}
@@ -169,7 +168,7 @@ export default function ProfileScreen({ onBack }) {
           style={{ display: 'none' }}
         />
         <button className="btn-ghost" style={{ fontSize: 13 }} onClick={() => { playTapSound(); fileInputRef.current?.click(); }} disabled={photoUploading}>
-          {photoUploading ? 'Uploading…' : (user.photoURL ? 'Change Photo' : 'Add Profile Photo')}
+          {photoUploading ? 'Uploading…' : (profile?.photoURL ? 'Change Photo' : 'Add Profile Photo')}
         </button>
         {photoMsg && <div className={`auth-msg ${photoMsg.type}`} style={{ display: 'block' }}>{photoMsg.text}</div>}
       </div>
