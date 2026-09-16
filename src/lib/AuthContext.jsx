@@ -58,6 +58,15 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null); // users/{uid} doc data
   const [loading, setLoading] = useState(true);
+  // updateProfile() mutates auth.currentUser in place rather than
+  // replacing it, so setUser(auth.currentUser) after a photo/name
+  // change would be setting state to the exact same reference React
+  // already has - a same-reference setState is a no-op bail-out, so
+  // nothing would re-render. This tick exists purely to force
+  // AuthProvider to re-render (and thus hand consumers a fresh
+  // {user, ...} context value) after such a mutation; it's not read
+  // anywhere itself.
+  const [, bumpUserTick] = useState(0);
   const [kickedMessage, setKickedMessage] = useState(null);
   // Surfaced when signup succeeds but the username claim didn't. This is
   // a persistent, dismissible top-level banner (not just a message
@@ -320,11 +329,21 @@ export function AuthProvider({ children }) {
     await signOut(auth);
   }
 
+  // Call after anything that mutates auth.currentUser directly
+  // (updateProfile for displayName/photoURL) so the new value actually
+  // shows up in components reading `user` from context - see the
+  // bumpUserTick comment above for why a plain setUser() wouldn't do it.
+  async function refreshUser() {
+    if (!auth.currentUser) return;
+    await auth.currentUser.reload();
+    bumpUserTick((n) => n + 1);
+  }
+
   const isAdmin = !!user && ADMIN_EMAILS.includes(user.email);
 
   return (
     <AuthContext.Provider
-      value={{ user, profile, loading, isAdmin, signIn, signUp, logOut, kickedMessage, setKickedMessage, signupNotice, setSignupNotice }}
+      value={{ user, profile, loading, isAdmin, signIn, signUp, logOut, refreshUser, kickedMessage, setKickedMessage, signupNotice, setSignupNotice }}
     >
       {children}
     </AuthContext.Provider>

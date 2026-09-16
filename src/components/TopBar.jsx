@@ -92,6 +92,14 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
           )
         )}
         <button className="topbar-user" title="View your profile" onClick={() => { playTapSound(); onProfile?.(); }}>
+          {user?.photoURL && (
+            <span
+              style={{
+                display: 'inline-block', width: 22, height: 22, borderRadius: '50%',
+                background: `center/cover url(${user.photoURL})`, marginRight: 6, verticalAlign: 'middle',
+              }}
+            />
+          )}
           {user?.displayName || user?.email}
         </button>
       </div>
