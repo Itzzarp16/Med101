@@ -223,6 +223,18 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
 
+    // ── uploadedQuestions/{docId} ────────────────────────────────
+    // Question banks parsed from admin-uploaded PDFs (see
+    // api/upload-questions.py) - merged into the question set at
+    // runtime by useSemesterData.js alongside the static JSON files.
+    // Only the Vercel endpoint's service account writes here (after
+    // verifying the caller is admin itself), so client writes are
+    // blocked entirely - same shape as config/{docId} for reads.
+    match /uploadedQuestions/{docId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
     // ── AI explanation cache / usage ─────────────────────────────
     // These collections are server-only. The Vercel AI endpoint uses a
     // Firebase service account, so client-side reads and writes must never

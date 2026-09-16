@@ -81,8 +81,12 @@ async function questionExistsInBank(req, { subtopic, question, options, correctI
   const host = req.headers['x-forwarded-host'] || req.headers.host || 'med101.space';
   const proto = req.headers['x-forwarded-proto'] || 'https';
   // TODO: extend this list if/when more semester data files are added
-  // (see SEMESTER_MANIFEST in src/lib/useSemesterData.js).
-  const files = ['y1s2'];
+  // (see SEMESTER_MANIFEST in src/lib/useSemesterData.js). Does NOT
+  // check the uploadedQuestions Firestore collection (see
+  // api/upload-questions.py) - AI explanations for admin-uploaded
+  // questions will report "not in bank" until this is extended to
+  // also query Firestore.
+  const files = ['y1s2', 'y2s1', 'y2s2'];
 
   const submittedCorrectText = options[correctIndex];
   const submittedSorted = [...options].sort();

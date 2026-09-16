@@ -37,12 +37,19 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
         <div className="subj-grid">
           {Object.entries(mainSubjectMeta).map(([name, meta]) => {
             const hasQuestions = (subjectStats[name]?.questionCount || 0) > 0;
+            // The static "Content coming soon" desc lives in the semester
+            // JSON (see y2s1/y2s2.json) - once an upload gives this subject
+            // real questions, that label would be actively wrong, so drop
+            // it here rather than requiring a JSON edit + redeploy just to
+            // clear it. The real topic/question counts already render
+            // below regardless.
+            const desc = hasQuestions && meta.desc === 'Content coming soon' ? '' : meta.desc;
             return (
               <SubjectCard
                 key={name}
                 emoji={meta.emoji}
                 name={name}
-                desc={meta.desc}
+                desc={desc}
                 questionCount={subjectStats[name]?.questionCount}
                 topicCount={subjectStats[name]?.topicCount}
                 trace

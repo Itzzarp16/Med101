@@ -12,6 +12,7 @@ import FriendsScreen from './components/FriendsScreen';
 import RoomLobbyScreen from './components/RoomLobbyScreen';
 import RoomResultsScreen from './components/RoomResultsScreen';
 import AdminCalendarScreen from './components/AdminCalendarScreen';
+import AdminUploadQuestionsScreen from './components/AdminUploadQuestionsScreen';
 import AdminNoticeScreen from './components/AdminNoticeScreen';
 import SettingsScreen from './components/SettingsScreen';
 import ProfileScreen from './components/ProfileScreen';
@@ -295,6 +296,7 @@ export default function App() {
     onAdminAnalytics: () => goTo('admin-analytics'),
     onAdminNotice: () => goTo('admin-notice'),
     onAdminCalendar: () => goTo('admin-calendar'),
+    onAdminUploadQuestions: () => goTo('admin-upload-questions'),
     onAdminPayments: () => goTo('admin-payments'),
     screen,
   };
@@ -415,7 +417,18 @@ export default function App() {
     );
   }
 
-  const { mainSubjectMeta, subjectMeta, subjectGroup, semesterMainSubjects, questions, error: dataError } = semesterData;
+  const { mainSubjectMeta, subjectMeta, subjectGroup, semesterMainSubjects, questions, semesters, error: dataError } = semesterData;
+
+  if (screen === 'admin-upload-questions' && isAdmin) {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <div className="screen-fade" key={screen}>
+          <AdminUploadQuestionsScreen onBack={goBack} semesters={semesters} semesterMainSubjects={semesterMainSubjects} />
+        </div>
+      </div>
+    );
+  }
 
   // The 4s hard cap above can let the app past the branded loader
   // before semester/calendar data has actually finished resolving

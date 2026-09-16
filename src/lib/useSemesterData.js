@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from './firebase';
 
 // Mirrors the old site's loadSemesterData(): fetches semester JSON files,
 // merges their subject metadata, and exposes everything the dashboard
@@ -12,11 +14,18 @@ const SEMESTER_MANIFEST = [
   { id: 'y2s2', file: '/data/y2s2.json' },
 ];
 
-// Questions are served entirely from the static JSON files above - no
-// Firestore reads happen here. (The old "migrated subjects" system that
-// let admin live-edit questions in Firestore has been removed to cut
-// down on read/write usage; questions are edited by updating the JSON
-// files and redeploying.)
+// Questions mainly come from the static JSON files above, PLUS a
+// single Firestore read of the uploadedQuestions collection - the
+// live target for api/upload-questions.py (the admin PDF-upload
+// parser). Each doc there carries its own semesterId/mainSubject/
+// subtopic, so it merges into the exact same mainSubjectMeta/
+// subjectMeta/subjectGroup/questions shape as the JSON files: a
+// subject already listed in a semester's JSON (even with 0 questions,
+// like the current Y2 placeholders) starts showing real questions the
+// moment a matching doc appears here, with no redeploy. (The old
+// "migrated subjects" system that let admin live-edit EVERY question
+// in Firestore was removed to cut down on read/write usage; this is
+// deliberately narrower - just the newly-uploaded batches.)
 //
 // Deliberately no offline/localStorage fallback here: the site is
 // meant to require a live connection, so a failed fetch surfaces as a
@@ -75,6 +84,34 @@ export function useSemesterData() {
           emoji: data.emoji,
           accent: data.accent,
         });
+      }
+
+      // Merge in admin-uploaded question batches (see file header).
+      // A doc here whose semesterId isn't in SEMESTER_MANIFEST yet is
+      // silently skipped rather than erroring - it just hasn't been
+      // scaffolded into a semester JSON file yet.
+      try {
+        const uploadedSnap = await getDocs(collection(db, 'uploadedQuestions'));
+        uploadedSnap.forEach((docSnap) => {
+          const u = docSnap.data();
+          if (!u.semesterId || !semesterMainSubjects[u.semesterId]) return;
+          const taggedQuestions = (u.questions || []).map((q) => ({ ...q, term: u.semesterId }));
+          questions = questions.concat(taggedQuestions);
+          subjectGroup[u.subtopic] = u.mainSubject;
+          if (u.subtopicEmoji || u.subtopicDesc) {
+            subjectMeta[u.subtopic] = {
+              ...(subjectMeta[u.subtopic] || {}),
+              emoji: u.subtopicEmoji || subjectMeta[u.subtopic]?.emoji,
+              desc: u.subtopicDesc || subjectMeta[u.subtopic]?.desc,
+            };
+          }
+        });
+      } catch (err) {
+        console.error('Failed to load uploaded question batches:', err);
+        if (!cancelled) {
+          setState((s) => ({ ...s, loading: false, error: 'connection' }));
+        }
+        return;
       }
 
       if (!cancelled) {
