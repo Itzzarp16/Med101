@@ -41,10 +41,16 @@
       "emoji": "📖",
       "desc": "",
       "accent": "var(--cyan)"
+    },
+    "Biochemistry": {
+      "emoji": "📖",
+      "desc": "",
+      "accent": "var(--cyan)"
     }
   },
   "subjectGroup": {
-    "Spinal cord": "Topographical Anatomy and Operative Surgery"
+    "Spinal cord": "Topographical Anatomy and Operative Surgery",
+    "Biochemistry": "Clinical Biochemistry"
   },
   "questions": [
     {
@@ -90,6 +96,4911 @@
         "3 vertebrae higher than the corresponding vertebrae"
       ],
       "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain what the spinal cord terminal thread (filum terminale) is",
+      "o": [
+        "Bundles of neuronal processes extending from the spinal cord to the organs",
+        "A hollow canal that passes through the center of the spinal cord",
+        "A narrow process of the spinal cord that fuses with the coccyx periosteum",
+        "Nerve fibers extending from neurons"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show the enlargements of the spinal cord",
+      "o": [
+        "cervical and thoracic",
+        "lumbar and sacral",
+        "thoracic and lumbar",
+        "cervical and lumbosacral"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Describe what makes up the nervous activity of humans and animals",
+      "o": [
+        "mind",
+        "intellectual activity",
+        "excitement",
+        "a reflex"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify where the lower cervical segments of the spinal cord are located",
+      "o": [
+        "1 vertebra higher than the corresponding vertebrae",
+        "at the level of the corresponding vertebrae",
+        "2 vertebrae higher than the corresponding vertebrae",
+        "3 vertebrae higher than the corresponding vertebrae"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Determine what the middle funiculus (lateral funiculus) of the spinal cord is located between",
+      "o": [
+        "anterior median fissure and anterior lateral sulcus",
+        "anterior and posterior lateral sulci",
+        "posterior lateral and posterior median sulci",
+        "posterior lateral and posterior intermediate sulci"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Describe where the cerebrospinal fluid is located",
+      "o": [
+        "in the epidural space",
+        "in the subdural space",
+        "in the subarachnoid space",
+        "none of the above"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name what is located in the anterior horns of the spinal cord",
+      "o": [
+        "sensitive (afferent) neurons",
+        "motor (efferent) neurons",
+        "autonomic (sympathetic) neurons",
+        "autonomic (parasympathetic) neurons"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "A 40-year-old patient was admitted to the infectious diseases department of a hospital with a high body temperature. Objectively: severe meningeal symptoms. A spinal puncture was performed. What anatomical formation was punctured?",
+      "o": [
+        "Spatium epidurale",
+        "Spatium subdurale",
+        "Spatium subarachnoideum",
+        "Cavum trigeminale"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify how many segments the lumbar spinal cord includes",
+      "o": [
+        "5 segments",
+        "12 segments"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain what receptors are",
+      "o": [
+        "sensitive structures that transmit impulses to the central nervous system",
+        "sensitive structures that transmit nerve impulses from interneurons to effector ones",
+        "sensitive structures that perceive stimuli and convert the energy of stimuli into the process of nervous arousal",
+        "sensitive structures that perceive nerve impulses from sensory neurons"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the order in which the spinal cord meninges are located (from the center to the periphery)",
+      "o": [
+        "Dura, Pia, arachnoid",
+        "Dura, arachnoid, Pia",
+        "Pia, arachnoid, dura",
+        "Pia, Dura, arachnoid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the upper border of the spinal cord is located",
+      "o": [
+        "at the level of the I cervical vertebra",
+        "at the level of the lower edge of the foramen magnum (large occipital foramen)",
+        "at the level of the jugular foramen",
+        "at the level of the II cervical vertebra"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find out how many segments there are in the cervical region",
+      "o": [
+        "5 segments",
+        "12 segments",
+        "7 segments",
+        "8 segments"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the lower cervical spinal cord segments are located",
+      "o": [
+        "1 vertebra higher than the corresponding vertebrae",
+        "at the level of the corresponding vertebrae"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify what is located in the posterior horns of the spinal cord",
+      "o": [
+        "sensitive (afferent) neurons",
+        "motor (efferent) neurons",
+        "autonomic (sympathetic) neurons",
+        "interneurons (associative neurons)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name where the lateral funiculus of the spinal cord is located",
+      "o": [
+        "between the anterior median fissure and anterior lateral sulcus",
+        "between the anterior and posterior lateral sulci",
+        "between the posterior lateral and posterior median sulci",
+        "between the posterior lateral and posterior intermediate sulci"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find out where the anterior (motor) roots of the spinal nerves emerge from the spinal cord",
+      "o": [
+        "through the anterior median fissure",
+        "through the anterior lateral sulcus",
+        "through the posterior lateral sulcus",
+        "through the posterior median sulcus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain where the subarachnoid space is located",
+      "o": [
+        "between the pia mater and the spinal cord",
+        "between the pia and arachnoid maters",
+        "between the dura and arachnoid maters",
+        "between the spinal canal wall and the dura mater"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which level corresponds to the lower border of the spinal cord",
+      "o": [
+        "XII thoracic vertebra",
+        "XII thoracic to I lumbar vertebrae",
+        "I to II lumbar vertebrae",
+        "II to III lumbar vertebrae"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Select which part of the spinal cord includes 12 segments (e.g., thoracic part)",
+      "o": [
+        "5 segments",
+        "12 segments (thoracic part)",
+        "7 segments",
+        "8 segments"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the space between the walls of the vertebral canal and the spinal cord filled with?",
+      "o": [
+        "Gray and white matter",
+        "Adipose tissue and white matter",
+        "Cerebrospinal fluid, white matter, and adipose tissue",
+        "Adipose tissue, blood vessels, and cerebrospinal fluid"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify where the lower thoracic segments of the spinal cord are located",
+      "o": [
+        "1 vertebra higher than the corresponding vertebrae",
+        "at the level of the corresponding vertebrae",
+        "2 vertebrae higher than the corresponding vertebrae",
+        "3 vertebrae higher than the corresponding vertebrae"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Determine how the anterior roots of the spinal cord are formed",
+      "o": [
+        "Axons of the spinal ganglion cells",
+        "Axons of the anterior horn cells",
+        "Axons of the lateral horn cells only"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Compare where the lateral columns (horns) of the spinal cord gray matter are distinct",
+      "o": [
+        "VIII cervical to XII thoracic segments",
+        "I thoracic to III lumbar segments",
+        "VIII cervical to I–II lumbar segments",
+        "I thoracic to V lumbar segments"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the posterior roots of the spinal nerves enter the spinal cord",
+      "o": [
+        "through the anterior median fissure",
+        "through the anterior lateral sulcus",
+        "through the posterior lateral sulcus",
+        "through the posterior median sulcus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "In a patient, an epidural abscess (epiduritis) is an accumulation of pus in the epidural space of the spinal cord. Determine the localization of this pathological process",
+      "o": [
+        "Between the arachnoid and the pia mater",
+        "Between the arachnoid and the pia mater",
+        "Between the dura mater and the arachnoid",
+        "Between the periosteum of the vertebral canal and the dura mater"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Determine how the unified nervous system is functionally divided",
+      "o": [
+        "into central and peripheral",
+        "into somatic and autonomic (vegetative)",
+        "into cranial and spinal nerves",
+        "All are correct"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The blood supply to the spinal cord is derived from",
+      "o": [
+        "The anterior spinal artery, and the right and left posterior spinal arteries",
+        "The carotid artery, and the right and left posterior spinal arteries",
+        "The anterior spinal artery, and the right and left pulmonary arteries",
+        "The iliac blood vessels"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The spinal cord communicates with the",
+      "o": [
+        "Brain and ANS",
+        "Brain and peripheral nerves",
+        "Eye and the brain",
+        "Skeletal muscle and the peripheral nerves"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The motor nervous system cells carry information from the CNS to the",
+      "o": [
+        "Organs, muscles and glands",
+        "Thalamus",
+        "Cerebellum",
+        "Cerebral cortex"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "How many pairs of sacral nerves are there?",
+      "o": [
+        "4",
+        "6",
+        "5",
+        "10"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The lower extent of the spinal dura mater is at the level of the",
+      "o": [
+        "L. 1 vertebra",
+        "L. 3 vertebra",
+        "S. 2 vertebra",
+        "Coccyx"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The nervus intermedius carries",
+      "o": [
+        "Motor fibres",
+        "Sensory fibres",
+        "Parasympathetic fibres",
+        "Both sensory and parasympathetic fibres"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the part of the brain in which the inferior salivatory nucleus is located",
+      "o": [
+        "Cerebellum",
+        "cerebral hemispheres",
+        "midbrain",
+        "the medulla oblongata"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What nerve is most likely to be compromised in a fracture of the petrous part of the temporal bone?",
+      "o": [
+        "Glossopharyngeal nerve",
+        "Facial nerve",
+        "Hypoglossal nerve",
+        "Oculomotor nerve"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which of the following cranial nerves passes through the internal acoustic meatus?",
+      "o": [
+        "Glossopharyngeal and Vagus nerves",
+        "Hypoglossal and Vagus nerves",
+        "Vestibulocochlear and Facial nerves",
+        "Vestibulocochlear and Hypoglossal nerves"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What cranial nerve is most likely affected in a patient who presents with defective eye abduction?",
+      "o": [
+        "Optic nerve (CN II)",
+        "Abducens nerve (CN VI)",
+        "Oculomotor nerve (CN III)",
+        "Trochlear nerve (CN IV)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "How do you test the clinical function of the abducens nerve (CN VI)?",
+      "o": [
+        "Ask the patient to look medially and then downwards",
+        "Ask the patient to look laterally",
+        "Ask the patient to look medially and then upwards",
+        "Ask the patient to tightly close their eyes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "How do you test the clinical function of the trochlear nerve (CN IV)?",
+      "o": [
+        "Ask the patient to look medially and then downwards",
+        "Ask the patient to look laterally",
+        "Ask the patient to look medially and then upwards",
+        "Ask the patient to look directly upwards"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "A motorcyclist is injured in a road traffic accident, suffers a severe closed head injury, and develops raised intracranial pressure. Which cranial nerve is typically the first to be affected by this process due to its long intracranial course?",
+      "o": [
+        "Oculomotor nerve",
+        "Trigeminal nerve (motor branch)",
+        "Abducens nerve",
+        "Hypoglossal nerve"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "A 64-year-old diabetic male presents with double vision. On examination, his left eye is deviated \"down and out\" and he cannot move it medially or upwards. What is the most likely cause?",
+      "o": [
+        "Oculomotor nerve palsy",
+        "Trochlear nerve palsy",
+        "Abducens nerve palsy",
+        "Optic nerve palsy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which cranial nerve is affected if a patient is unable to look medially and downwards?",
+      "o": [
+        "Facial nerve",
+        "Oculomotor nerve",
+        "Abducens nerve",
+        "Trochlear nerve"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which foramina of the skull does the olfactory nerve (CN I) pass through?",
+      "o": [
+        "Foramina of the cribriform plate",
+        "Superior orbital fissure",
+        "Optic canal",
+        "Foramen rotundum"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which of the following cranial nerves develops as an extension of the telencephalon?",
+      "o": [
+        "Optic nerve",
+        "Olfactory nerve",
+        "Ophthalmic nerve",
+        "Oculomotor nerve"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which of the following cranial nerves develops as an extension of the diencephalon?",
+      "o": [
+        "Optic nerve",
+        "Olfactory nerve",
+        "Ophthalmic nerve",
+        "Oculomotor nerve"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which foramen of the skull does the maxillary nerve (CN V2) pass through?",
+      "o": [
+        "Foramen rotundum",
+        "Foramen ovale",
+        "Jugular foramen",
+        "Superior orbital fissure"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Conclude what macrostructure the cerebellum is the largest part of",
+      "o": [
+        "Forebrain",
+        "Midbrain",
+        "Cerebrum",
+        "Hindbrain (metencephalon)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show which of the following pathways run within the inferior cerebellar peduncles",
+      "o": [
+        "Pontocerebellar, posterior spinocerebellar, and external arcuate fibers",
+        "Anterior spinocerebellar and dentatorubral tracts",
+        "Pontocerebellar fibers only",
+        "Posterior spinocerebellar, external arcuate, olivocerebellar, and vestibulocerebellar fibers"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Determine which nuclei are located within the white matter of the cerebellum",
+      "o": [
+        "Dentate, emboliform, and lenticular nuclei",
+        "Dentate, globose, emboliform, and trapezoid nuclei",
+        "Dentate, emboliform, globose, and fastigial nuclei",
+        "Fastigial, emboliform, and dentate nuclei only"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the intrinsic cerebellar nucleus among the following",
+      "o": [
+        "Posterior nucleus of the trapezoid body",
+        "Reticular formation nucleus",
+        "Olivary nucleus",
+        "Emboliform nucleus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate which surfaces are anatomically distinguished in the cerebellum",
+      "o": [
+        "Anterior and posterior surfaces",
+        "Upper (superior) and lower (inferior) surfaces",
+        "Medial and lateral surfaces",
+        "Ventral and dorsal surfaces"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Determine where the intrinsic (proper) nuclei of the pons are located",
+      "o": [
+        "In the basilar (ventral) part of the pons",
+        "In the tegmentum (dorsal part) of the pons",
+        "In the trapezoid body",
+        "In the middle cerebellar peduncle"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the anatomical formation that divides the pons into the tegmentum (cap) and the basilar part (base)",
+      "o": [
+        "Transverse fibers of the pons",
+        "Medial lemniscus",
+        "Spinal lemniscus",
+        "Trapezoid body"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Justify how the internal cerebellar gray matter is represented",
+      "o": [
+        "Middle cerebellar peduncle",
+        "Deep cerebellar nuclei",
+        "Basal nuclei",
+        "Red nuclei"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which cerebellar nucleus is functionally related to the vestibular apparatus (vestibulocerebellum)",
+      "o": [
+        "Dentate nucleus",
+        "Emboliform nucleus",
+        "Globose nucleus",
+        "Fastigial nucleus (Nucleus fastigii)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show the part of the brain that connects directly to the cerebellum through its massive middle peduncles",
+      "o": [
+        "Medulla oblongata",
+        "Pons",
+        "Diencephalon",
+        "Midbrain"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which cranial nerve nuclei are located in the pons",
+      "o": [
+        "Fifth to eighth pairs (V, VI, VII, VIII)",
+        "Ninth to twelfth pairs (IX, X, XI, XII)",
+        "Third and fourth pairs (III, IV)",
+        "First and second pairs (I, II)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Determine what anatomical formation is stretched between the peduncles of the flocculus (pedunculus flocculi)",
+      "o": [
+        "The superior medullary velum",
+        "Septum pellucidum",
+        "The inferior medullary velum",
+        "Vermis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the part of the brain that is connected to the cerebellum by its superior peduncles",
+      "o": [
+        "Pons",
+        "Diencephalon",
+        "Medulla oblongata",
+        "Midbrain (mesencephalon)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate the true deep cerebellar nucleus",
+      "o": [
+        "Dentate nucleus",
+        "Red nucleus",
+        "Caudate nucleus",
+        "Olivary nucleus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Determine which pathways pass through the superior cerebellar peduncles",
+      "o": [
+        "Pontocerebellar and posterior spinocerebellar tracts",
+        "Anterior spinocerebellar and dentatorubral tracts",
+        "Pontocerebellar tracts only",
+        "Olivocerebellar and vestibulocerebellar tracts"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the primary function of the dentate nucleus of the cerebellum",
+      "o": [
+        "Reflex coordination of neck movements",
+        "Reflex coordination of torso movements",
+        "Reflex coordination of limb movements",
+        "Regulation of visceral autonomic functions"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Anatomically, the cerebellum is divided by fissures into what three main lobes?",
+      "o": [
+        "Anterior, posterior, and flocculonodular lobes",
+        "Lateral, medial, and posterior lobes",
+        "Anterior, inferior, and flocculonodular lobes",
+        "Superior, inferior, and main lobes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the cerebellar nucleus among the choices",
+      "o": [
+        "Posterior nucleus of the trapezoid body",
+        "Reticular formation nucleus",
+        "Inferior olivary nucleus",
+        "Globose nucleus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate how many anatomical lobes the cerebellum is divided into by its primary fissures",
+      "o": [
+        "One lobe",
+        "Two lobes",
+        "Three lobes",
+        "Four lobes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain what the flocculus and the nodule together form",
+      "o": [
+        "Anterior lobe",
+        "Posterior lobe",
+        "Posterolateral fissure",
+        "All are correct"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The ventral surface of the midbrain contains",
+      "o": [
+        "cerebral peduncles (crura cerebri)",
+        "superior and inferior colliculi",
+        "lateral geniculate bodies",
+        "medial geniculate bodies"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the primary function of the inferior colliculi of the midbrain tectum?",
+      "o": [
+        "subcortical olfactory centers",
+        "subcortical centers of taste",
+        "subcortical centers of visio",
+        "subcortical centers of hearing"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which major descending tract runs specifically through the middle of the base of the cerebral peduncle (crus cerebri)?",
+      "o": [
+        "tractus tectospinalis",
+        "tractus rubrospinalis",
+        "tractus frontopontinus",
+        "tractus corticospinalis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which anatomical structure represents a prominent subcortical center of hearing?",
+      "o": [
+        "medial geniculate body",
+        "superior colliculus of the midbrain",
+        "lateral geniculate body",
+        "thalamus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which ascending sensory pathways pass through the tegmentum of the midbrain?",
+      "o": [
+        "frontopontine and corticofugal pathways",
+        "lateral and medial lemnisci (loops)",
+        "corticospinal and corticonuclear pathways",
+        "temporopontine and occipitopontine pathways"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The nuclei of which pairs of cranial nerves are anatomically located within the midbrain?",
+      "o": [
+        "olfactory (CN I) and optic (CN II)",
+        "oculomotor (CN III) and abducens (CN VI)",
+        "oculomotor (CN III) and trochlear (CN IV) nerves",
+        "vagus (CN X) and trigeminal (CN V) nerves"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the lateral horns of the spinal cord is located",
+      "o": [
+        "At the level of C1-C7",
+        "At the level of C1-T1",
+        "At the level of C8-L2",
+        "At the level of T1-T12"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The cerebral aqueduct (aqueduct of Sylvius) directly connects",
+      "o": [
+        "the lateral ventricle with the third ventricle",
+        "the third ventricle with the fourth ventricle",
+        "the fourth ventricle with the lateral ventricles",
+        "the left lateral ventricle with the right lateral ventricle"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which structures of the midbrain serve as important subcortical motor centers of the extrapyramidal system?",
+      "o": [
+        "hypothalamic nuclei",
+        "nuclei of the superior colliculus",
+        "nuclei of the inferior colliculus",
+        "red nucleus (nucleus ruber) and substantia nigra"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What types of nuclei are functionally included in the oculomotor nerve (CN III) within the midbrain?",
+      "o": [
+        "somatic motor and parasympathetic (Edinger-Westphal) nuclei",
+        "somatic motor and trochlear nuclei",
+        "superior salivatory nucleus",
+        "nucleus ambiguous"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The midbrain cavity is",
+      "o": [
+        "IV ventricle",
+        "the cerebral aqueduct (aqueductus cerebri)",
+        "III ventricle",
+        "central canal"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Anatomical structure that is part of the midbrain",
+      "o": [
+        "substantia nigra",
+        "infundibulum",
+        "trapezoid body",
+        "superior medullary velum"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Тhe pedincular fossa of the midbrain is located",
+      "o": [
+        "Anteriorly",
+        "Posteriorly",
+        "Superoirly",
+        "Inferiorly"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "At the level of the lower colliculi of the midbrain, which cranial nerve nuclei are located in the gray matter?",
+      "o": [
+        "the abducens nerve",
+        "oculomotor nerve",
+        "the facial nerve",
+        "trochlear nerve (CN IV)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "At the level of the upper colliculi of the midbrain, which cranial nerve nuclei are located in the gray matter?",
+      "o": [
+        "the trochlear nerve",
+        "the abducens nerve",
+        "oculomotor nerve (CN III)",
+        "facial nerve"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "On the dorsal surface of the midbrain there are",
+      "o": [
+        "cerebral peduncles",
+        "superior and inferior colliculi (corpora quadrigemina)",
+        "lateral geniculate bodies",
+        "medial geniculate bodies"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the primary function of the superior colliculi of the midbrain?",
+      "o": [
+        "subcortical centers of smell",
+        "subcortical centers of taste",
+        "subcortical centers of vision (visual reflexes)",
+        "subcortical centers of hearing"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The red nucleus (nucleus ruber) is located",
+      "o": [
+        "in the epithalamus",
+        "in the thalamus",
+        "in the hypothalamus",
+        "in the tegmentum of the midbrain"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which pathways originate from the nuclei of the superior and inferior colliculi (tectum of the midbrain)?",
+      "o": [
+        "rubrospinal tract",
+        "tectospinal tract",
+        "medial lemniscus",
+        "posterior longitudinal fasciculus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The nuclei of which cranial nerves are located in the midbrain?",
+      "o": [
+        "olfactory and optic nerves",
+        "oculomotor and abducens nerves",
+        "oculomotor and trochlear nerves (CN III and CN IV)",
+        "vagus and trigeminal nerves"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which embryonic brain vesicle directly gives rise to the pons and the cerebellum?",
+      "o": [
+        "Myelencephalon",
+        "Metencephalon",
+        "Mesencephalon",
+        "Diencephalon"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The floor of the fourth ventricle is formed by the dorsal surfaces of which two structures?",
+      "o": [
+        "Pons and medulla oblongata",
+        "Pons and midbrain",
+        "Medulla oblongata and spinal cord",
+        "Cerebellum and pons"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What anatomical structures form the lateral side of the rhomboid fossa?",
+      "o": [
+        "Trapezoid body",
+        "Striate arteries",
+        "Medullary striae (striae medullares)",
+        "Vestibular areas"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Through which apertures does the fourth ventricle communicate with the subarachnoid space?",
+      "o": [
+        "Interventricular foramina (of Monro)",
+        "Cerebral aqueduct (of Sylvius)",
+        "Lateral apertures (of Luschka) and median aperture (of Magendie)",
+        "Central canal and terminal notch"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What structure forms the lower part of the roof of the fourth ventricle (posterior roof)?",
+      "o": [
+        "Superior medullary velum",
+        "Inferior medullary velum and choroid plexus",
+        "Tectum of midbrain",
+        "Vermis of cerebellum"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which cranial nerve nuclei are located in the lateral regions of the rhomboid fossa within the area vestibularis?",
+      "o": [
+        "Hypoglossal nerve nuclei (CN XII)",
+        "Vagus nerve nuclei (CN X)",
+        "Vestibulocochlear nerve nuclei (CN VIII)",
+        "Facial nerve nuclei (CN VII)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The facial colliculus (colliculus facialis) on the floor of the fourth ventricle is formed by the axons of the facial nerve looping around the nucleus of which nerve?",
+      "o": [
+        "Trigeminal nerve (CN V)",
+        "Abducens nerve (CN VI)",
+        "Glossopharyngeal nerve (CN IX)",
+        "Oculomotor nerve (CN III)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which structure serves as the anatomical boundary separating the rhombencephalon from the spinal cord?",
+      "o": [
+        "Olive",
+        "Obex",
+        "Decussation of the pyramids (decussatio pyramidum)",
+        "Sulcus limitans"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "In the rhomboid fossa, what structure marks the developmental boundary between the medial motor nuclei and the lateral sensory nuclei?",
+      "o": [
+        "Median sulcus",
+        "sulcus limitans",
+        "Medullary striae",
+        "Inferior fovea"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What structure located in the upper tegmentum of the pons/rhomboid fossa is responsible for producing noradrenaline and appears as a blue-gray spot?",
+      "o": [
+        "Substantia nigra",
+        "Red nucleus",
+        "Vagoneural triangle",
+        "Locus coeruleus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What anatomical feature marks the boundary on the surface of the rhomboid fossa, dividing it into superior (pontine) and inferior (medullary) parts?",
+      "o": [
+        "Median sulcus",
+        "Sulcus limitans",
+        "Medullary striae (striae medullares)",
+        "Facial colliculus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The roof (tegmen) of the fourth ventricle is tent-shaped. What structures directly form the upper and lower parts of this roof?",
+      "o": [
+        "The cerebral peduncles and the pineal gland",
+        "The superior and inferior medullary vela",
+        "The choroid plexus and the tectorial membrane only",
+        "The gracile and cuneate tubercles"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The fourth ventricle communicates rostrally with the third ventricle via which anatomical pathway?",
+      "o": [
+        "Cerebral aqueduct (of Sylvius)",
+        "Interventricular foramina (of Monro)",
+        "Central canal",
+        "Median aperture (of Magendie)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The facial colliculus (colliculus facialis) is a prominent elevation in the medial eminence of the rhomboid fossa. Which cranial nerve nucleus lies directly deep to this structure?",
+      "o": [
+        "Facial nerve nucleus (CN VII)",
+        "Abducens nerve nucleus (CN VI)",
+        "Hypoglossal nerve nucleus (CN XII)",
+        "Vagus nerve nucleus (CN X)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find what belongs to the hypothalamus",
+      "o": [
+        "medial and lateral geniculate bodies",
+        "optic chiasm, optic tract, tuber cinereum, infundibulum, pituitary gland, and mammillary bodies",
+        "optic chiasm, tuber cinereum, infundibulum, epiphysis, and habenular commissure",
+        "epiphysis, habenular commissure, habenula, and triangles of habenula"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Select the function of the lateral geniculate body",
+      "o": [
+        "subcortical center of smell",
+        "subcortical center of taste",
+        "subcortical center of vision",
+        "the subcortical center of hearing"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Describe how the posterior wall of the third ventricle is formed",
+      "o": [
+        "the terminal lamina, columns of the fornix, and anterior commissure",
+        "the corpus callosum",
+        "crus of the fornix",
+        "epithalamic (posterior) commissure"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the anatomical formation that is part of the epithalamus (suprathalamic region)",
+      "o": [
+        "medial geniculate body",
+        "interthalamic adhesion",
+        "mammillary bodies",
+        "epithalamic commissure"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find what belongs to the epithalamus (suprathalamic region)",
+      "o": [
+        "medial and lateral geniculate bodies",
+        "tuber cinereum, infundibulum, and pituitary gland",
+        "epiphysis, commissure of habenulae, habenulae, and triangles of habenulae",
+        "pituitary gland, habenular commissure, habenulae, and mammillary bodie"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify where the supraoptic nucleus of the hypothalamus is located",
+      "o": [
+        "in the anterior hypothalamic region",
+        "in the intermediate (tuberal) hypothalamic area",
+        "in the posterior hypothalamic region",
+        "none of the above"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the habenula belongs",
+      "o": [
+        "to the epithalamus (suprathalamic region) of the diencephalon",
+        "to the metathalamus of the diencephalon",
+        "to the hypothalamus",
+        "to the midbrain"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find how the lateral wall of the third ventricle is formed",
+      "o": [
+        "the corpus callosum",
+        "the medial surface of the thalamus",
+        "crus of the fornix",
+        "hypothalamus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which division of the diencephalon acts as the primary relay station for sensory information?",
+      "o": [
+        "Thalamus",
+        "Hypothalamus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The pineal gland belongs to which division of the diencephalon?",
+      "o": [
+        "Hypothalamus",
+        "Thalamus",
+        "Epithalamus",
+        "Metathalamus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which structure forms the major part of the floor of the diencephalon?",
+      "o": [
+        "Thalamus",
+        "Hypothalamus",
+        "Epithalamus",
+        "Subthalamus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The medial and lateral geniculate bodies form which division?",
+      "o": [
+        "Epithalamus",
+        "Subthalamus",
+        "Hypothalamus",
+        "Metathalamus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which division contains the control centers for the autonomic nervous system and body temperature?",
+      "o": [
+        "Thalamus",
+        "Epithalamus",
+        "Hypothalamus",
+        "Metathalamus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The habenular nuclei and stria medullaris are components of the",
+      "o": [
+        "Epithalamus",
+        "Hypothalamus",
+        "Subthalamus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which division is functionally related to the basal ganglia and includes the subthalamic nucleus?",
+      "o": [
+        "Metathalamus",
+        "Subthalamus",
+        "Epithalamus",
+        "Hypothalamus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which division of the brain contains the cavity of the third ventricle?",
+      "o": [
+        "Mesencephalon",
+        "Telencephalon",
+        "Diencephalon",
+        "Metencephalon"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which structure forms the major part of the lateral walls of the third ventricle?",
+      "o": [
+        "Hypothalamus",
+        "Medial surface of the thalamus",
+        "Hippocampus",
+        "Internal capsule"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What thin structure forms the lower part of the anterior wall of the third ventricle?",
+      "o": [
+        "Lamina terminalis",
+        "Corpus callosum",
+        "Interthalamic adhesion",
+        "Pineal gland"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which landmark forms the floor (inferior boundary) of the third ventricle?",
+      "o": [
+        "Epithalamus",
+        "Columns of the fornix",
+        "Posterior commissure",
+        "Hypothalamus (including tuber cinereum and mammillary bodies)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What structure forms the posterior wall of the third ventricle?",
+      "o": [
+        "Anterior commissure",
+        "Optic chiasm",
+        "Epithalamic (posterior) commissure and pineal gland",
+        "Interventricular foramen"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Through which opening does the third ventricle communicate anteriorly with the lateral ventricles?",
+      "o": [
+        "Cerebral aqueduct",
+        "Median aperture",
+        "Interventricular foramen (of Monro)",
+        "Lateral aperture"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What structures form the vascular roof (superior wall) of the third ventricle?",
+      "o": [
+        "Tela choroidea and choroid plexus",
+        "Corpus callosum and septum pellucidum",
+        "Optic tracts and chiasm",
+        "Habenular triangles and stria medullaris"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which structure bounds the internal capsule on its lateral side",
+      "o": [
+        "The amygdaloid body",
+        "The claustrum",
+        "The lenticular nucleus",
+        "The thalamus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which structures bound the internal capsule on its medial side",
+      "o": [
+        "The lenticular nucleus",
+        "The head of the caudate nucleus and the thalamus",
+        "The claustrum",
+        "The amygdaloid body"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify whether the basal nuclei of the hemispheres include",
+      "o": [
+        "The optic thalamus",
+        "Amygdaloid body",
+        "Substantia nigra",
+        "Red nucleus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which structure belongs to the limbic system",
+      "o": [
+        "Olives",
+        "Pyramids",
+        "Cerebral peduncles",
+        "Hippocampus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State what structures belong to the limbic system",
+      "o": [
+        "Precentral and postcentral gyri",
+        "Superior and inferior frontal gyri",
+        "Cingulate, parahippocampal, and dentate gyri",
+        "Cuneus and precuneus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The complex functional circuit underlying the limbic system, which includes the hippocampus, fornix, mammillary bodies, anterior thalamic nucleus, and cingulate gyrus, is called",
+      "o": [
+        "The substantia nigra pathway",
+        "Papez circuit (Papez ring)",
+        "Reticular formation",
+        "The locus coeruleus pathway"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The limbic system explicitly includes which of the following structures?",
+      "o": [
+        "Straight gyrus (gyrus rectus)",
+        "Hippocampus",
+        "Paracentral lobule",
+        "Angular gyrus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the most lateral part of the basal ganglia (striatum/lenticular nucleus components)",
+      "o": [
+        "Caudate nucleus",
+        "Globus pallidus",
+        "Claustrum",
+        "Putamen"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The basal nuclei of the hemispheres include",
+      "o": [
+        "Substantia nigra",
+        "Red nucleus",
+        "Lenticular nucleus",
+        "Thalamus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify what constitutes the cavity of the telencephalon (endbrain)",
+      "o": [
+        "The IV ventricle",
+        "Cerebral aqueduct",
+        "III ventricle",
+        "Lateral ventricles"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show what forms the medial wall of the anterior horn of the lateral ventricle",
+      "o": [
+        "The head of the caudate nucleus",
+        "Fibers of the corpus callosum",
+        "The septum pellucidum",
+        "The hippocampus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify what forms the medial wall of the inferior horn of the lateral ventricle",
+      "o": [
+        "The tail of the caudate nucleus",
+        "Collateral eminence",
+        "The hippocampus",
+        "Fibers of the corpus callosum"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show what forms the lateral wall of the anterior horn of the lateral ventricle",
+      "o": [
+        "The head of the caudate nucleus",
+        "Fibers of the corpus callosum",
+        "Septum pellucidum",
+        "Tail of the caudate nucleus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Analyze what anatomical structure is located on the medial wall of the posterior horn of the lateral ventricle",
+      "o": [
+        "The bulb of the posterior horn",
+        "The collateral triangle",
+        "Tail of the caudate nucleus",
+        "The calcar avris (formed by the calcarine sulcus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify what structure is located on the lower wall (floor) of the posterior horn of the lateral ventricle",
+      "o": [
+        "The bulb of the posterior horn",
+        "The collateral triangle",
+        "The hippocampus",
+        "Amygdala body"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify what forms the medial wall of the central part (pars centralis) of the lateral ventricle",
+      "o": [
+        "The body of the caudate nucleus",
+        "The body of the fornix (corpus fornicis)",
+        "Thalamus",
+        "The septum pellucidum"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find the true anatomical parts of the fornix (vault of the brain)",
+      "o": [
+        "Body, genu, trunk",
+        "Columns, body, crura (columnae, corpus, crura fornicis)",
+        "Anterior and posterior commissures",
+        "Genu, trunk, body"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which sulcus forms the posterior boundary of the frontal lobe, separating it from the parietal lobe?",
+      "o": [
+        "Lateral sulcus (Sylvian fissure)",
+        "Precentral sulcus",
+        "Central sulcus (Rolando's fissure)",
+        "Olfactory sulcus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which gyrus is located directly anterior to the central sulcus and contains the primary motor cortex?",
+      "o": [
+        "Superior frontal gyrus",
+        "Precentral gyrus",
+        "Postcentral gyrus",
+        "Inferior frontal gyrus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The lateral surface of the frontal lobe is divided into superior, middle, and inferior frontal gyri by which two sulci?",
+      "o": [
+        "Superior and inferior frontal sulci",
+        "Precentral and central sulci",
+        "Olfactory and orbital sulci",
+        "Cingulate and paracentral sulci"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The inferior frontal gyrus is subdivided into three parts: pars orbitalis, pars triangularis, and which of the following?",
+      "o": [
+        "Pars marginalis",
+        "Pars opercularis",
+        "Pars orbitalis superior",
+        "Pars angularis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "In the dominant hemisphere, which specific part of the inferior frontal gyrus contains Broca's motor speech center?",
+      "o": [
+        "Pars orbitalis and pars triangularis",
+        "Superior frontal gyrus",
+        "Pars triangularis and pars opercularis",
+        "Precentral gyrus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which sulcus runs parallel to the longitudinal fissure on the inferior (orbital) surface of the frontal lobe, lodging a cranial nerve structure?",
+      "o": [
+        "Rectus sulcus",
+        "Olfactory sulcus",
+        "H-shaped orbital sulcus",
+        "Precentral sulcus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the name of the narrow, straight gyrus located on the medial side of the olfactory sulcus on the inferior surface of the frontal lobe?",
+      "o": [
+        "Gyrus rectus (straight gyrus)",
+        "Cingulate gyrus",
+        "Medial orbital gyrus",
+        "Paracentral lobule"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "On the medial surface of the hemisphere, the anterior part of the paracentral lobule belongs to the frontal lobe. What is its primary function?",
+      "o": [
+        "Visual perception",
+        "Auditory integration",
+        "Motor control of the lower limb and foot",
+        "Autonomic regulation of heart rat"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "A patient can completely understand spoken language but has lost the ability to produce articulate speech (motor aphasia). Which frontal lobe gyrus is damaged?",
+      "o": [
+        "Gyrus frontalis superior",
+        "Gyrus precentralis",
+        "Gyrus frontalis medius",
+        "Gyrus frontalis inferior"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "How many parallel horizontal gyri are typically distinguished on the superolateral surface of the temporal lobe?",
+      "o": [
+        "Two",
+        "Three",
+        "Four",
+        "Five"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where are the transverse temporal gyri (Heschl’s gyri), which contain the primary auditory cortex, anatomically located?",
+      "o": [
+        "On the inferior surface of the inferior temporal gyrus",
+        "Within the collateral sulcus",
+        "On the superior surface of the superior temporal gyrus, buried inside the lateral sulcus",
+        "In the depth of the rhinal sulcus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which gyrus is bounded superiorly by the superior temporal sulcus and inferiorly by the inferior temporal sulcus?",
+      "o": [
+        "Superior temporal gyrus",
+        "Middle temporal gyrus",
+        "Inferior temporal gyrus",
+        "Fusiform gyrus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "On the inferomedial surface of the temporal lobe, which sulcus runs parallel to and lateral to the parahippocampal gyrus?",
+      "o": [
+        "Collateral sulcus",
+        "Superior temporal sulcus",
+        "Calcarine sulcus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The anterior hook-like extremity of the parahippocampal gyrus, which serves as an important component of the olfactory and limbic systems, is called the",
+      "o": [
+        "Cuneus",
+        "Lingual gyrus",
+        "Uncus",
+        "Insula"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which gyrus is located between the collateral sulcus and the occipitotemporal sulcus on the inferior surface of the hemisphere?",
+      "o": [
+        "Inferior temporal gyrus",
+        "Parahippocampal gyrus",
+        "Lateral occipitotemporal gyrus (Fusiform gyrus)",
+        "Lingual gyrus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The posterior part of the superior temporal gyrus in the dominant hemisphere contains sensory speech center. What is this specialized area called?",
+      "o": [
+        "Broca's area",
+        "Wernicke's area",
+        "Exner's area",
+        "Luria's area"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which anatomical structure separates the uncus and parahippocampal gyrus from the structures of the midbrain?",
+      "o": [
+        "Superior temporal sulcus",
+        "Ambient gyrus and hippocampal sulcus",
+        "Central sulcus",
+        "Renal sulcus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which gyrus is located immediately superior to the corpus callosum, bounded above by the cingulate sulcus?",
+      "o": [
+        "Parahippocampal gyrus",
+        "Cingulate gyrus",
+        "Medial frontal gyrus",
+        "Lingual gyrus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which deep sulcus separates the cuneus from the precuneus on the medial aspect of the occipital and parietal lobes?",
+      "o": [
+        "Calcarine sulcus",
+        "Collateral sulcus",
+        "Parieto-occipital sulcus",
+        "Cingulate sulcus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The visual cortex (primary visual area) is localized in the cortex surrounding which medial surface structure?",
+      "o": [
+        "Collateral sulcus",
+        "Calcarine sulcus",
+        "Cingulate gyrus",
+        "Subparietal sulcus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the name of the wedge-shaped lobe on the medial surface bounded by the parieto-occipital sulcus anteriorly and the calcarine sulcus inferiorly?",
+      "o": [
+        "Cuneus",
+        "Gyrus rectus",
+        "Precuneus",
+        "Lingual gyrus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The precuneus is a prominent region on the medial surface. Which lobe of the cerebral hemisphere does it belong to?",
+      "o": [
+        "Frontal lobe",
+        "Parietal lobe",
+        "Occipital lobe",
+        "Temporal lobe"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which structure represents the medial continuation of the precentral and postcentral gyri surrounding the terminal end of the central sulcus?",
+      "o": [
+        "Cingulate gyrus",
+        "Uncus",
+        "Isthmus of cingulate gyrus",
+        "Paracentral lobule"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which gyrus lies between the calcarine sulcus and the collateral sulcus on the medial/inferior surface of the occipital lobe",
+      "o": [
+        "Lingual gyrus",
+        "Cuneus",
+        "Parahippocampal gyrus",
+        "Gyrus rectus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The marginal branch (ramus marginalis) is the terminal upward continuation of which major sulcus?",
+      "o": [
+        "Callosal sulcus",
+        "Cingulate sulcus",
+        "Parieto-occipital sulcus",
+        "Central sulcus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which hook-like anterior termination of the parahippocampal gyrus serves as a primary subcortical center for olfaction on the medial/inferior surface?",
+      "o": [
+        "Hippocampus",
+        "Uncus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What narrow segment of gray matter connects the cingulate gyrus posteriorly to the parahippocampal gyrus?",
+      "o": [
+        "Subfornical organ",
+        "Paraterminal gyrus",
+        "Isthmus of the cingulate gyrus",
+        "Subcallosal area"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which sensory modalities are primarily carried by the dorsal column-medial lemniscus pathway?",
+      "o": [
+        "Pain and temperature",
+        "Fine (discriminative) touch, proprioception, and vibration",
+        "Crude touch and pressure",
+        "Itch and tickle"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where are the cell bodies of the first-order neurons of the fasciculus gracilis and fasciculus cuneatus located?",
+      "o": [
+        "Dorsal root ganglia",
+        "Posterior grey horn of the spinal cord",
+        "Nucleus gracilis and cuneatus",
+        "Thalamus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "At what spinal cord level does the fasciculus cuneatus appear, occupying the lateral part of the posterior funiculus?",
+      "o": [
+        "At all spinal levels",
+        "Only in the lumbar and sacral segments",
+        "At and above the T6 spinal segment",
+        "Only in the coccygeal segments"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "After decussating in the medulla, the fibers of the dorsal column pathway ascend through the brainstem as which structure?",
+      "o": [
+        "Lateral spinothalamic tract",
+        "Anterior spinothalamic tract",
+        "Medial lemniscus",
+        "Spinal lemniscus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "In which specific thalamic nucleus do the third-order neurons of the medial lemniscus pathway reside?",
+      "o": [
+        "Ventral anterior (VA) nucleus",
+        "Ventral lateral (VL) nucleus",
+        "Ventral posterolateral (VPL) nucleus",
+        "Medial geniculate body"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": ".Where is the primary somatosensory cortex (the ultimate cortical destination of the DCML pathway) located?",
+      "o": [
+        "Precentral gyrus of the frontal lobe",
+        "Postcentral gyrus of the parietal lobe",
+        "Superior temporal gyrus",
+        "Cingulate gyrus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which pathway is specifically responsible for transmitting sharp pain and temperature sensations?",
+      "o": [
+        "Anterior spinothalamic tract",
+        "Lateral spinothalamic tract",
+        "Fasciculus gracilis",
+        "Spinoreticular tract"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where do the first-order neurons of the lateral spinothalamic tract synapse with second-order neurons?",
+      "o": [
+        "In the medulla oblongata",
+        "In the substantia gelatinosa (Rexed laminae II/III) of the posterior horn",
+        "In Clarke's column (nucleus dorsalis)",
+        "In the anterior grey horn"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where do the second-order axons of the spinothalamic tract decussate?",
+      "o": [
+        "In the anterior white commissure of the spinal cord, 1–2 segments above their origin",
+        "In the decussation of pyramids",
+        "In the tegmentum of the pons",
+        "They ascend strictly ipsilaterally and do not decussate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which spinal cord tract is primarily responsible for transmitting slow, chronic, and dull pain sensations to the brain?",
+      "o": [
+        "Lateral corticospinal tract",
+        "Lateral spinothalamic tract",
+        "Paleospinothalamic tract",
+        "Dorsal column-medial lemniscal system"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The anterior spinothalamic tract is primarily responsible for carrying which type of sensation?",
+      "o": [
+        "Conscious proprioception",
+        "Thermal sensations",
+        "Crude touch and pressure",
+        "Two-point discrimination"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "In the brainstem, the spinothalamic tracts merge with spinotectal fibers to form which structure?",
+      "o": [
+        "Medial lemniscus",
+        "Spinal lemniscus",
+        "Lateral lemniscus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "A patient presents with a complete loss of pain and temperature sensation on the left side of the body below the T10 level. Where is the lesion most likely located?",
+      "o": [
+        "Left side of the spinal cord at T10",
+        "Right side of the spinal cord at T8–T9",
+        "Left side of the spinal cord at L2",
+        "Right posterior funiculus at T10"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the primary function of the spinocerebellar tracts?",
+      "o": [
+        "Transmitting conscious pain and touch to the cerebral cortex",
+        "Transmitting unconscious proprioceptive information to the cerebellum",
+        "Planning voluntary motor movements",
+        "Coordinating auditory and visual reflexes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where are the second-order cell bodies of the posterior (dorsal) spinocerebellar tract located?",
+      "o": [
+        "Nucleus cuneatus",
+        "Substantia gelatinosa",
+        "Thoracic nucleus (Clarke's column)",
+        "Nucleus proprius"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Through which structure does the posterior spinocerebellar tract enter the cerebellum?",
+      "o": [
+        "Superior cerebellar peduncle",
+        "Middle cerebellar peduncle",
+        "Inferior cerebellar peduncle",
+        "Flocculonodular lobe"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which statement is TRUE regarding the anterior (ventral) spinocerebellar tract?",
+      "o": [
+        "It decussates twice (once in the spinal cord and once in the brainstem) to end ipsilaterally",
+        "It enters the cerebellum via the inferior cerebellar peduncle",
+        "It carries information exclusively from the upper limbs"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Through which structure does the anterior spinocerebellar tract enter the cerebellum?",
+      "o": [
+        "Superior cerebellar peduncle",
+        "Middle cerebellar peduncle",
+        "Inferior cerebellar peduncle",
+        "Horizontal fissure"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which pathway serves as the upper limb equivalent of the posterior spinocerebellar tract?",
+      "o": [
+        "Rostral spinocerebellar tract",
+        "Cuneocerebellar tract",
+        "Spinotectal tract",
+        "Fasciculus cuneatus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where do the fibers of the cuneocerebellar tract originate before entering the inferior cerebellar peduncle?",
+      "o": [
+        "Clarke's column",
+        "Principal cuneate nucleus",
+        "Accessory (lateral) cuneate nucleus",
+        "Red nucleus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which ascending pathway terminates in the superior colliculus of the midbrain and is involved in spinovisual reflexes?",
+      "o": [
+        "Spinoreticular tract",
+        "Spinoolivary tract",
+        "Spinotectal tract",
+        "Lateral spinothalamic tract"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which tract terminates in the reticular formation of the brainstem and is responsible for the behavioral and arousal responses to pain?",
+      "o": [
+        "Lateral spinothalamic tract",
+        "Spinoreticular tract"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The spinoolivary tract relays indirect proprioceptive information to the cerebellum via which fiber type?",
+      "o": [
+        "Mossy fibers",
+        "Climbing fibers",
+        "Parallel fibers",
+        "Purkinje axons"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "n Tabes Dorsalis (a late manifestation of neurosyphilis), there is selective bilateral destruction of the posterior columns. Which symptom will the patient display?",
+      "o": [
+        "Complete loss of pain and temperature sensation",
+        "Spastic paralysis of the lower limbs",
+        "Loss of position sense, vibratory sense, and a positive Romberg sign",
+        "Total loss of voluntary movement"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "In Brown-Séquard syndrome (hemisection of the spinal cord), what happens to pain and temperature sensation?",
+      "o": [
+        "Lost on the ipsilateral side below the level of the lesion",
+        "Lost on the contralateral side below the level of the lesion",
+        "Lost bilaterally at the level of the lesion only",
+        "Completely preserved on both sides"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "In Brown-Séquard syndrome, conscious proprioception and fine touch are lost on which side?",
+      "o": [
+        "Ipsilateral side below the level of the lesion",
+        "Contralateral side below the level of the lesion",
+        "Bilaterally below the level of the lesion",
+        "Proprioception is not affected by spinal hemisection"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Sensory information from the face and scalp is carried to the thalamus by which ascending system?",
+      "o": [
+        "Medial lemniscus pathway",
+        "Dorsal column system",
+        "Trigeminal lemniscus (Trigeminothalamic pathways)",
+        "Solitariothalamic tract"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Somatotopic organization of the posterior columns dictates that fibers originating from the sacral and lumbar regions run in which part of the column?",
+      "o": [
+        "Most medial part (fasciculus gracilis)",
+        "Most lateral part (fasciculus cuneatus)",
+        "Anterior part",
+        "Central gray matter"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where does the tectospinal tract originate?",
+      "o": [
+        "Red nucleus",
+        "Substantia nigra",
+        "Superior colliculus of the midbrain tectum",
+        "Inferior colliculus of the midbrain tectum"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the primary function of the tectospinal tract?",
+      "o": [
+        "Voluntary fine movements of the fingers",
+        "Maintenance of upright posture against gravity",
+        "Reflex postural movements of the head and neck in response to visual/auditory stimuli",
+        "Control of respiratory muscle rhythms"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which descending pathway originates in the vestibular nuclei of the pons and medulla?",
+      "o": [
+        "Corticospinal tract",
+        "Rubrospinal tract",
+        "Vestibulospinal tract",
+        "Tectospinal tract"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the main action of the lateral vestibulospinal tract on spinal motor neurons?",
+      "o": [
+        "Excitation of extensor (antigravity) muscles and inhibition of flexor muscles",
+        "Excitation of flexor muscles and inhibition of extensor muscles",
+        "Voluntary control of vocal cords",
+        "Transmission of pain impulses"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which descending tract is primarily involved in maintaining balance, equilibrium, and posture against gravity?",
+      "o": [
+        "Lateral corticospinal tract",
+        "Corticonuclear tract",
+        "Tectospinal tract",
+        "Vestibulospinal tract"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where do the pontine (medial) and medullary (lateral) reticulospinal tracts originate?",
+      "o": [
+        "Cerebral cortex",
+        "Cerebellar nuclei",
+        "Reticular formation of the brainstem",
+        "Spinal cord gray matter"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "An injury confined strictly to the upper motor neurons (UMN) results in which clinical sign?",
+      "o": [
+        "Flaccid paralysis",
+        "Muscle atrophy and fasciculations",
+        "Spastic paralysis and hyperreflexia (increased reflexes)",
+        "Complete loss of touch sensation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "An injury to the lower motor neurons (LMN) in the anterior horn of the spinal cord results in",
+      "o": [
+        "Flaccid paralysis, muscle atrophy, and hyporeflexia",
+        "Spasticity and clasp-knife rigidity",
+        "Babinski sign",
+        "Chorea and tremors"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The presence of a positive Babinski reflex (fanning out of the toes) in an adult indicates damage to which tract?",
+      "o": [
+        "Spinothalamic tract",
+        "Vestibulospinal tract",
+        "Corticospinal tract",
+        "Rubrospinal tract"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "A lesion in the right internal capsule (posterior limb) will cause motor deficits on which side of the body?",
+      "o": [
+        "Left side only (contralateral",
+        "Right side only (ipsilateral)",
+        "Bilateral lower extremities only",
+        "Bilateral upper extremities only"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which descending tract descends only to the cervical segments of the spinal cord to coordinate head movements?",
+      "o": [
+        "Lateral corticospinal tract",
+        "Tectospinal tract",
+        "Rubrospinal tract",
+        "Olivospinal tract"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Monoaminergic descending pathways, such as the raphespinal tract, originate in the brainstem and primarily modulate",
+      "o": [
+        "Voluntary precise movements of the tongue",
+        "Voluntary contraction of the urinary bladder",
+        "Pain transmission (gating mechanism) in the dorsal horn",
+        "Visual coordination of eye movements"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which of the following tracts is considered a principal medial descending pathway controlling axial and proximal limb muscles?",
+      "o": [
+        "Lateral corticospinal tract",
+        "Rubrospinal tract",
+        "Medial vestibulospinal and reticulospinal tracts",
+        "Corticonuclear tract"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the target layer (Rexed laminae) in the spinal cord gray matter where most lateral corticospinal tract fibers terminate",
+      "o": [
+        "Laminae I–III (superficial dorsal horn)",
+        "Laminae IV–VII (intermediate zone)",
+        "Lamina X (around central canal)",
+        "Only Lamina IX (direct synapse on motor neurons in humans for fine finger control)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Together, the rubrospinal, tectospinal, vestibulospinal, and reticulospinal tracts are collectively classified as part of which system",
+      "o": [
+        "Pyramidal system",
+        "Extrapyramidal system"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the layers (coats) of the eyeball",
+      "o": [
+        "fibrous, vascular, and retinal coats;",
+        "fibrous, vascular proper, and sclera;",
+        "sclera, cornea, and retina;",
+        "vascular coat, ciliary body, and iris;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify what belongs to the light-refracting media of the eyeball",
+      "o": [
+        "pupil;",
+        "sclera;",
+        "iris;",
+        "lens;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find the location of the nucleus (cortical center) of the visual analyzer",
+      "o": [
+        "in the posterior part of the inferior frontal gyrus;",
+        "in the superior temporal gyrus;",
+        "in the angular gyrus;",
+        "on the medial surface of the occipital lobe, on the sides of the calcarine sulcus;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the cartilaginous protrusion on the auricle in front of the external auditory canal",
+      "o": [
+        "the lobule of the auricle (earlobe);",
+        "antitragus;",
+        "helix;",
+        "tragus;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the name of the anterior wall of the tympanic cavity",
+      "o": [
+        "jugular wall;",
+        "mastoid wall;",
+        "carotid wall;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify what constitutes the first neurons of the auditory pathway of the vestibulocochlear nerve (CN VIII)",
+      "o": [
+        "anterior (ventral) and posterior (dorsal) cochlear nuclei;",
+        "hair sensory cells of the vestibular ganglion;",
+        "sensory bipolar neurons of the spiral ganglion of the cochlea;",
+        "nucleus of the trapezoid body;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the olfactory region of the nasal cavity is located",
+      "o": [
+        "upper and middle nasal meatuses;",
+        "middle and lower nasal meatuses;",
+        "nasal septum and middle nasal concha;",
+        "superior nasal concha and the upper part of the nasal septum;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify what the mammary gland is by its evolutionary origin",
+      "o": [
+        "a modified simple alveolar-tubular gland;",
+        "a modified sebaceous gland;",
+        "a modified complex alveolar-tubular gland;",
+        "a modified sweat gland"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the anterior chamber of the eyeball is located",
+      "o": [
+        "between the posterior surface of the iris and the retina;",
+        "between the anterior surface of the lens and the posterior surface of the iris;",
+        "between the cornea anteriorly and the lens posteriorly;",
+        "between the cornea anteriorly and the anterior surface of the iris posteriorly;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify what the fibrous membrane (coat) of the eyeball consists of",
+      "o": [
+        "the choroid proper and the iris;",
+        "the cornea and the ciliary body;",
+        "the cornea and the sclera;",
+        "the sclera and the iris;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show which muscle narrows the pupil",
+      "o": [
+        "superior rectus;",
+        "superior oblique;",
+        "pupillary dilator;",
+        "pupillary sphincter;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Analyze from what embryonic structures the auricle is formed",
+      "o": [
+        "from mesenchymal hillocks adjacent to the first ectodermal branchial groove;",
+        "from the endoderm of the head section of the embryo;",
+        "rom the distal part of the first pharyngeal (visceral) pouch;",
+        "from a simple thickening of the ectoderm on the surface of the head section"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show what structure is located on the inner surface of the auricle, parallel to the helix",
+      "o": [
+        "eminence of the concha;",
+        "the auricular tubercle;",
+        "antitragus;",
+        "The antihelix"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify what communication the auditory (Eustachian) tube serves to provide",
+      "o": [
+        "between the vestibule of the bony labyrinth and the pharynx;",
+        "between the nasopharynx and the tympanic cavity;",
+        "between the tympanic cavity and the nasal cavity;",
+        "between the oral cavity and the cochlea;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate what constitutes the second neurons of the auditory pathway of the vestibulocochlear nerve (CN VIII)",
+      "o": [
+        "anterior (ventral) and posterior (dorsal) cochlear nuclei of the pons/medulla;",
+        "hair sensory cells of the vestibular ganglion;",
+        "sensory bipolar neurons of the spiral ganglion of the cochlea;",
+        "nucleus of the trapezoid body;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find which papillae of the tongue's mucosa lack taste buds",
+      "o": [
+        "filiform papillae (papillae filiformes);",
+        "vallate papillae (papillae vallatae);",
+        "foliate papillae (papillae foliatae);",
+        "fungiform papillae (papillae fungiformes);"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the two distinct layers distinguished within the skin proper (dermis)",
+      "o": [
+        "the upper scalloped layer and the lower cambial layer;",
+        "superficial papillary layer and deep reticular layer;",
+        "external papillary layer and internal scalloped layer;",
+        "superficial stratum basale and deep cambial layer;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify where the nerve impulse first arises within the sensory pathway of the retina",
+      "o": [
+        "in the rod and cone visual cells (photoreceptors);",
+        "in the optic disc (blind spot);",
+        "in the bipolar neurocytes;",
+        "in the ganglion neurocytes;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the free, curved cartilaginous margin of the auricle",
+      "o": [
+        "the lobule of the auricle (earlobe);",
+        "antitragus;",
+        "helix;",
+        "antihelix;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the lacrimal gland is located",
+      "o": [
+        "upper medial corner of the orbit;",
+        "upper lateral corner of the orbit;",
+        "inferior medial corner of the orbit;",
+        "inferior lateral corner of the orbit;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show what structures belong to the middle ear",
+      "o": [
+        "the tympanic cavity with the auditory ossicles, the auditory (Eustachian) tube, and the mastoid air cells;",
+        "the tympanic membrane, tympanic cavity, auditory ossicles, and internal auditory meatus;",
+        "the tympanic membrane, auditory ossicles, auditory tube, and cochlea;",
+        "the external auditory canal, tympanic cavity, and auditory tube;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State what the upper wall (roof) of the tympanic cavity is called",
+      "o": [
+        "jugular wall;",
+        "tegmental wall (paries tegmentalis);",
+        "carotid wall;",
+        "labyrinthine wall;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify what components are included in the bony labyrinth",
+      "o": [
+        "the vestibule, cochlea, and semicircular canals;",
+        "the auditory tube, auditory ossicles, and semicircular canals;",
+        "the cochlea, semicircular canals, and tympanic cavity;",
+        "the vestibule, tympanic cavity, and auditory ossicles;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which area of the mucosa receives taste innervation from the chorda tympani of the facial nerve (CN VII)",
+      "o": [
+        "posterior 1/3 of the tongue;",
+        "anterior 2/3 of the tongue;",
+        "root of the tongue and palatine arches;",
+        "the region of the vallate papillae of the tongue;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show what histological structure the lobes of the mammary gland have",
+      "o": [
+        "simple tubular glands;",
+        "simple sebaceous glands;",
+        "simple alveolar-tubular glands;",
+        "complex alveolar-tubular glands;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State what fluid fills the membranous labyrinth",
+      "o": [
+        "air;",
+        "endolymph;",
+        "blood;",
+        "perilymph;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the cortical center of olfaction is located",
+      "o": [
+        "in the uncus of the parahippocampal gyrus;",
+        "in the olfactory bulb;",
+        "in the hippocampus;",
+        "in the cingulate gyrus;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify which vessels fuse to form the basilar artery",
+      "o": [
+        "posterior cerebral arteries",
+        "anterior cerebral arteries",
+        "middle cerebral arteries",
+        "vertebral arteries"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the terminal branches of the external carotid artery",
+      "o": [
+        "ascending pharyngeal and maxillary arteries;",
+        "superficial temporal and maxillary arteries;",
+        "deep temporal and maxillary arteries;",
+        "superior temporal and middle temporal arteries;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State which artery supplies blood to the submandibular gland",
+      "o": [
+        "facial artery;",
+        "deep temporal artery;",
+        "superficial temporal artery;",
+        "lingual artery;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show which arteries are directly involved in the formation of the arterial circle of the brain (Circle of Willis)",
+      "o": [
+        "basilar artery;",
+        "middle cerebral arteries;",
+        "anterior choroidal arteries;",
+        "anterior cerebral arteries;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify what passes through the triangular foramen of the axillary region",
+      "o": [
+        "anterior circumflex humeral artery;",
+        "posterior circumflex humeral artery;",
+        "circumflex scapular artery;",
+        "subclavian artery;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain which arteries anastomose in the anterior medial cubital (ulnar) groove",
+      "o": [
+        "superior ulnar collateral and anterior ulnar recurrent arteries;",
+        "inferior ulnar collateral and anterior ulnar recurrent arteries;",
+        "middle collateral and recurrent interosseous arteries;",
+        "radial collateral and radial recurrent arteries;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the branch of the radial artery that arises in the hand/dorsal region",
+      "o": [
+        "common interosseous artery;",
+        "deep palmar branch;",
+        "anterior interosseous artery;",
+        "first dorsal metacarpal artery;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find the level at which the superficial palmar arch is located",
+      "o": [
+        "the base of the metacarpal bones;",
+        "the middle of the bodies of the metacarpal bones",
+        "the intercarpal joints;",
+        "the heads of the metacarpal bones;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the origin of the right subclavian artery",
+      "o": [
+        "Aortic arch",
+        "Brachiocephalic trunk",
+        "Right common carotid artery",
+        "Descending aorta"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State which artery is a direct extension of the subclavian artery",
+      "o": [
+        "Brachial artery",
+        "Axillary artery",
+        "Vertebral artery",
+        "Common carotid artery"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify which arteries belong to the anterior group of branches of the external carotid artery",
+      "o": [
+        "ascending pharyngeal, lingual, and facial arteries;",
+        "maxillary, facial, and superior thyroid arteries;",
+        "anterior auricular, facial, and lingual arteries;",
+        "facial, lingual, and superior thyroid arteries;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the anatomical parts of the internal carotid artery",
+      "o": [
+        "sphenoidal, insular, and cortical parts;",
+        "cervical and cranial parts;",
+        "cervical, petrous, cavernous, and cerebral parts;",
+        "cervical, cavernous, tympanic, and intracranial parts;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show which artery supplies the medial surface of the cerebral hemispheres",
+      "o": [
+        "anterior cerebral artery;",
+        "middle cerebral artery;",
+        "basilar artery;",
+        "posterior cerebral artery;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the branches that originate from the vertebral artery",
+      "o": [
+        "middle cerebral arteries;",
+        "superior cerebellar arteries;",
+        "anterior spinal and posterior inferior cerebellar arteries;",
+        "anterior cerebellar artery"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the branch of the ulnar artery",
+      "o": [
+        "dorsal metacarpal arteries;",
+        "common interosseous artery;",
+        "inferior ulnar collateral artery;",
+        "princeps pollicis artery (artery of the thumb"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Analyze which arteries are directly involved in the formation of the deep palmar arch",
+      "o": [
+        "the palmar carpal branch and the terminal section of the ulnar artery;",
+        "the deep palmar branch and the terminal section of the ulnar artery;",
+        "the deep palmar branch of the ulnar artery and the terminal section of the radial artery;",
+        "the deep palmar branch and the anterior interosseous artery;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the level at which the deep palmar arch is located",
+      "o": [
+        "the middle of the bodies of the metacarpal bones;",
+        "the bases of the metacarpal bones;",
+        "the heads of the metacarpal bones;",
+        "the intercarpal joints;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which artery connects the anterior cerebral arteries of the right and left sides?",
+      "o": [
+        "Anterior inferior cerebellar artery",
+        "Basilar artery",
+        "Anterior communicating artery",
+        "Posterior communicating artery"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which of the following pairs of source arteries supply the entire system of the Circle of Willis?",
+      "o": [
+        "External carotid and subclavian arteries",
+        "Common carotid and axillary arteries",
+        "Maxillary and superficial temporal arteries",
+        "Internal carotid and vertebral arteries"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The Circle of Willis surrounds which of the following central anatomical structures?",
+      "o": [
+        "Corpus callosum",
+        "Cerebellar tonsils",
+        "Thalamus",
+        "Optic chiasm and infundibulum"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "A berry (saccular) aneurysm at the junction of the anterior communicating artery and anterior cerebral artery can compress which structure?",
+      "o": [
+        "Facial nerve (CN VII)",
+        "Oculomotor nerve (CN III)",
+        "Optic chiasm",
+        "Olfactory nerve(CN I)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the primary physiological and clinical purpose of the Circle of Willis?",
+      "o": [
+        "To increase the blood pressure before it enters the cortex",
+        "To filter cerebrospinal fluid",
+        "To provide collateral blood flow in case of a slow occlusion of a primary feeding artery",
+        "To ensure equal bilateral distribution of neurotransmitters to both hemispheres"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the clinical classification of the hemorrhage that occurs when a saccular aneurysm of the Circle of Willis ruptures?",
+      "o": [
+        "Intraventricular hemorrhage only",
+        "Epidural hemorrhage",
+        "Subarachnoid hemorrhage",
+        "Subdural hematoma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the thoracic aorta is located",
+      "o": [
+        "in the anterior mediastinum;",
+        "in the middle mediastinum;",
+        "in the posterior mediastinum;",
+        "in the upper mediastinum;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate the source from which the posterior intercostal arteries branch",
+      "o": [
+        "from the thoracic aorta;",
+        "from the superior phrenic (diaphragmatic) arteries;",
+        "from the internal thoracic artery;",
+        "from the vertebral artery;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show what is located to the right of the abdominal aorta",
+      "o": [
+        "superior vena cava;",
+        "inferior vena cava;",
+        "portal vein;",
+        "the root of the mesentery of the small intestine;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the level at which the middle suprarenal (adrenal) artery branches from the abdominal aorta",
+      "o": [
+        "XI thoracic vertebra;",
+        "XII thoracic vertebra (or L1 level);",
+        "I lumbar vertebra;",
+        "II lumbar vertebra;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the splenic artery originates from",
+      "o": [
+        "from the celiac trunk;",
+        "from the superior mesenteric artery;",
+        "from the inferior mesenteric artery;",
+        "from the common hepatic artery;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Select which arteries approach the lesser curvature of the stomach",
+      "o": [
+        "short gastric arteries;",
+        "right and left gastric arteries;",
+        "right and left gastro-omental (gastro-epiploic) arteries;",
+        "right gastric and right gastro-omental arteries;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the branches of the superior mesenteric artery",
+      "o": [
+        "left colic artery;",
+        "superior pancreaticoduodenal arteries;",
+        "middle colic artery;",
+        "sigmoid arteries;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate the femoral artery is a direct continuation of the",
+      "o": [
+        "common iliac artery;",
+        "external iliac artery;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the peroneal (fibular) artery originates from",
+      "o": [
+        "anterior tibial artery;",
+        "the popliteal artery;",
+        "posterior tibial artery;",
+        "femoral artery;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the parietal branches of the thoracic aorta",
+      "o": [
+        "anterior intercostal arteries;",
+        "posterior intercostal arteries (and superior phrenic arteries);",
+        "mediastinal branches;",
+        "esophageal branches;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the visceral branches of the thoracic aorta",
+      "o": [
+        "mediastinal, pericardial, bronchial, and esophageal branches;",
+        "superior and inferior phrenic arteries;",
+        "anterior and posterior intercostal arteries;",
+        "superior phrenic arteries;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the terminal branches into which the abdominal aorta divides",
+      "o": [
+        "the two external iliac arteries;",
+        "the two internal iliac arteries;",
+        "the two common iliac arteries;",
+        "external and internal iliac arteries;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate the level at which the inferior phrenic (diaphragmatic) arteries branch from the abdominal aorta",
+      "o": [
+        "XI thoracic vertebra;",
+        "XII thoracic vertebra;",
+        "I lumbar vertebra;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify where the testicular (or ovarian) arteries originate from",
+      "o": [
+        "the abdominal aorta;",
+        "renal arteries;",
+        "internal iliac artery;",
+        "inferior mesenteric artery;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the vessel from which the gastroduodenal artery branches",
+      "o": [
+        "the celiac trunk;",
+        "splenic artery;",
+        "common hepatic artery;",
+        "superior mesenteric artery;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State which arteries supply the greater curvature of the stomach",
+      "o": [
+        "short gastric arteries;",
+        "right and left gastric arteries;",
+        "right and left gastro-omental (gastro-epiploic) arteries;",
+        "right gastric and right gastro-omental arteries;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate the two arteries that form the Riolan's arch (arc of Riolan)",
+      "o": [
+        "middle colic and right colic arteries;",
+        "middle colic and left colic arteries;",
+        "jejunal and ileal arteries;",
+        "right colic and ileal arteries;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the true branch of the femoral artery",
+      "o": [
+        "descending genicular (patellar) artery;",
+        "posterior tibial artery;",
+        "lateral superior genicular artery;",
+        "deep circumflex iliac artery;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain what vessel the dorsal artery of the foot (a. dorsalis pedis) is a continuation of",
+      "o": [
+        "the anterior tibial artery;",
+        "posterior tibial artery;",
+        "peroneal artery;",
+        "arcuate artery;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the visceral branches of the thoracic aorta",
+      "o": [
+        "superior phrenic arteries;",
+        "posterior intercostal arteries;",
+        "anterior intercostal arteries;",
+        "mediastinal branches (along with bronchial, esophageal, and pericardial);"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find the origin of the esophageal branches",
+      "o": [
+        "from the thoracic aorta;",
+        "the abdominal aorta;",
+        "from the internal thoracic artery;",
+        "from the vertebral artery;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the parietal branches of the abdominal aorta",
+      "o": [
+        "middle suprarenal, renal, and ovarian (testicular) arteries;",
+        "lumbar, superior and inferior mesenteric arteries;",
+        "the celiac trunk, superior and inferior mesenteric arteries;",
+        "inferior phrenic and lumbar arteries;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the level at which the superior mesenteric artery branches from the abdominal aorta",
+      "o": [
+        "X thoracic vertebra;",
+        "XI thoracic vertebra;",
+        "I lumbar vertebra;",
+        "II lumbar vertebra;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the vessel from which the left gastro-omental (gastro-epiploic) artery branches",
+      "o": [
+        "the gastroduodenal artery;",
+        "splenic artery;",
+        "common hepatic artery;",
+        "superior mesenteric artery;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show which arteries approach the fundus of the stomach",
+      "o": [
+        "right and left gastric arteries;",
+        "right and left gastro-omental arteries;",
+        "short gastric arteries;",
+        "right gastric and right gastro-omental arteries;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify where the uterine artery originates from",
+      "o": [
+        "common iliac artery;",
+        "external iliac artery;",
+        "internal iliac artery;",
+        "external pudendal artery"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the terminal branches of the popliteal artery",
+      "o": [
+        "lateral and medial superior genicular arteries;",
+        "lateral and medial inferior genicular arteries;",
+        "anterior and posterior tibial arteries;",
+        "anterior tibial and peroneal arteries;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the branches of the ascending aorta",
+      "o": [
+        "brachiocephalic trunk;",
+        "left subclavian artery;",
+        "left common carotid artery;",
+        "coronary arteries of the heart."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate the location of the thoracic portion of the descending aorta",
+      "o": [
+        "Upper mediastinum",
+        "anterior mediastinum",
+        "Middle mediastinum",
+        "Posterior mediastinum"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the unpaired visceral branches of the abdominal aorta",
+      "o": [
+        "the celiac trunk, superior and inferior mesenteric arteries;",
+        "inferior phrenic and lumbar arteries;",
+        "lumbar, superior and inferior mesenteric arteries;",
+        "middle suprarenal, renal, and ovarian (testicular) arteries"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the level at which the inferior mesenteric artery branches from the abdominal aorta",
+      "o": [
+        "XI thoracic vertebra;",
+        "XII thoracic vertebra;",
+        "I lumbar vertebra;",
+        "III lumbar vertebra;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate the vessel from which the right gastro-omental (gastro-epiploic) artery branches",
+      "o": [
+        "common hepatic artery;",
+        "splenic artery;",
+        "the celiac trunk;",
+        "gastroduodenal artery;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Distinguish the branch that belongs to the superior mesenteric artery",
+      "o": [
+        "left colic artery;",
+        "superior pancreaticoduodenal arteries;",
+        "inferior pancreaticoduodenal arteries",
+        "left gastro-omental artery;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the source from which the inferior ureteric arteries branch",
+      "o": [
+        "renal arteries;",
+        "internal iliac artery;",
+        "umbilical artery (or common iliac/internal iliac branches);",
+        "uterine artery;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate the level at which the common iliac artery divides into the external and internal iliac arteries",
+      "o": [
+        "IV lumbar vertebra",
+        "V lumbar vertebra;",
+        "sacroiliac joint;",
+        "sacrococcygeal joint;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show the source from which the lateral anterior malleolar (ankle) artery arises",
+      "o": [
+        "posterior tibial artery;",
+        "anterior tibial artery;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the anterior intercostal arteries originate from",
+      "o": [
+        "from the thoracic aorta;",
+        "from the superior phrenic arteries;",
+        "from the internal thoracic artery;",
+        "from the vertebral artery;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the anatomical borders where the abdominal aorta is located",
+      "o": [
+        "XII thoracic to III lumbar vertebrae",
+        "I to V lumbar vertebrae;",
+        "XII thoracic to IV lumbar vertebrae;",
+        "XI thoracic to V lumbar vertebrae;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the paired visceral branches of the abdominal aorta",
+      "o": [
+        "middle suprarenal, renal, and ovarian (testicular) arteries;",
+        "lumbar, superior and inferior mesenteric arteries;",
+        "middle suprarenal, inferior phrenic, and lumbar arteries;",
+        "the celiac trunk, superior and inferior mesenteric arteries;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate the level at which the celiac trunk branches from the abdominal aorta",
+      "o": [
+        "XI thoracic vertebra;",
+        "XII thoracic vertebra;",
+        "I lumbar vertebra;",
+        "II lumbar vertebra;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain the source vessel from which the short gastric branches arise",
+      "o": [
+        "gastroduodenal artery;",
+        "splenic artery;",
+        "common hepatic artery;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find the origin of the superior pancreaticoduodenal artery",
+      "o": [
+        "superior mesenteric artery;",
+        "splenic artery;",
+        "gastroduodenal artery;",
+        "common hepatic artery;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the branch that belongs to the superior mesenteric artery",
+      "o": [
+        "left gastro-omental artery;",
+        "superior pancreaticoduodenal arteries;",
+        "sigmoid arteries;",
+        "ileocolic artery;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the true branch of the external iliac artery",
+      "o": [
+        "obturator artery;",
+        "superficial circumflex iliac artery;",
+        "deep circumflex iliac artery;",
+        "superficial epigastric artery;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the terminal branches of the dorsal artery of the foot (a. dorsalis pedis)",
+      "o": [
+        "lateral and medial plantar arteries;",
+        "deep plantar branch and arcuate artery;",
+        "arcuate artery and first dorsal metatarsal artery;",
+        "first dorsal metatarsal artery and deep plantar branch;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the plantar arterial arch is located on the foot",
+      "o": [
+        "at the level of the base of the metatarsal bones;",
+        "at the level of the middle of the metatarsal bones;",
+        "at the level of the heads of the metatarsal bones;",
+        "at the level of the metatarsophalangeal joints;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the intracranial tributaries of the internal jugular vein",
+      "o": [
+        "posterior auricular vein;",
+        "facial vein;",
+        "retromandibular vein;",
+        "labyrinthine veins (along with dural venous sinuses);"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the inferior sagittal sinus is located",
+      "o": [
+        "along the posterior margin of the lesser wing of the sphenoid bone;",
+        "along the internal occipital crest;",
+        "at the inferior free margin of the falx cerebri;",
+        "along the superior attached margin of the falx cerebri;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify which vein is the main collector of blood from the organs of the head and neck",
+      "o": [
+        "internal jugular vein;",
+        "external jugular vein;",
+        "anterior jugular vein;",
+        "subclavian vein;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show which vessel continues directly into the azygos (unpaired) vein",
+      "o": [
+        "left ascending lumbar vein;",
+        "right ascending lumbar vein;",
+        "hemiazygos vein;",
+        "accessory hemiazygos vein;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the superficial (cutaneous) veins of the upper extremity",
+      "o": [
+        "radial vein;",
+        "ulnar vein;",
+        "axillary vein;",
+        "cephalic and basilic veins (superficial veins of the arm);"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Select the parietal (wall) tributaries of the inferior vena cava",
+      "o": [
+        "testicular veins;",
+        "renal veins;",
+        "lumbar veins (and inferior phrenic veins);",
+        "hepatic veins;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the major structural tributary that forms the portal vein",
+      "o": [
+        "middle rectal vein;",
+        "hepatic veins;",
+        "suprarenal (adrenal) veins;",
+        "splenic vein (along with superior mesenteric vein);"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Analyze what the umbilical vein turns into after birth",
+      "o": [
+        "ligamentum venosum;",
+        "right lateral umbilical ligament;",
+        "the round ligament of the liver (ligamentum teres hepatis);",
+        "left lateral umbilical ligament;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which of the following is a component of a porto-caval (porto-systemic) anastomosis",
+      "o": [
+        "middle and inferior rectal veins; (Note: this is a cava-caval anastomosis)",
+        "lumbar and ascending lumbar veins;",
+        "superior epigastric and paraumbilical veins (anterior abdominal wall anastomosis);",
+        "thoracoepigastric and superficial epigastric veins;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate where the transverse sinus of the dura mater continues directly into",
+      "o": [
+        "the inferior sagittal sinus;",
+        "the cavernous sinus;",
+        "the sigmoid sinus;",
+        "the inferior petrosal sinus;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the anterior jugular vein typically drains into",
+      "o": [
+        "into the internal jugular vein;",
+        "into the external jugular vein (or subclavian vein / jugular venous arch);",
+        "into the subclavian vein;",
+        "into the brachiocephalic vein;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Tell where the right posterior intercostal veins drain into",
+      "o": [
+        "into the hemiazygos vein;",
+        "into the accessory hemiazygos vein;",
+        "into the internal thoracic vein;",
+        "into the azygos vein;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the lateral superficial vein of the arm (cephalic vein) is a continuation of",
+      "o": [
+        "the fifth dorsal metacarpal vein;",
+        "the radial part of the dorsal venous network of the hand (from the 1st digit side);",
+        "the fourth dorsal metacarpal vein;",
+        "palmar metacarpal veins;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State whether the hepatic veins are direct tributaries of the",
+      "o": [
+        "portal vein;",
+        "splenic vein;",
+        "inferior vena cava;",
+        "superior mesenteric vein"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the tributary that directly flows into the portal vein system",
+      "o": [
+        "suprarenal (adrenal) vein",
+        "hepatic veins",
+        "inferior mesenteric vein (typically drains into splenic, which forms the portal vein);",
+        "internal iliac vein;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify where the venous duct (ductus venosus / Arantius) drains into during fetal life",
+      "o": [
+        "into the portal vein;",
+        "into the inferior vena cava;",
+        "into the umbilical artery;",
+        "into the hepatic artery;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which of the following forms a classic porto-caval anastomosis",
+      "o": [
+        "the thoracoepigastric vein and the superior epigastric vein;",
+        "thoracoepigastric vein and superficial epigastric vein;",
+        "superior and middle rectal veins (rectal venous plexus anastomosis);",
+        "middle and lower rectal veins;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the vessel of which the internal jugular vein is a direct continuation",
+      "o": [
+        "the transverse sinus of the dura mater;",
+        "the sigmoid sinus of the dura mater (at the jugular foramen)",
+        "the cavernous sinus of the dura mater;",
+        "the superior sagittal sinus of the dura mater;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the level at which the superior vena cava is formed from the confluence of the right and left brachiocephalic veins",
+      "o": [
+        "at the level of the junction of the 1st right costal cartilage with the sternum;",
+        "at the junction of the 2nd right rib with the sternum;",
+        "at the junction of the 3rd right costal cartilage with the sternum;",
+        "at the left sternoclavicular joint;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the vertebral vein typically drains into",
+      "o": [
+        "into the subclavian vein;",
+        "into the brachiocephalic vein;",
+        "the axillary vein;",
+        "into the superior vena cava;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the lateral superficial vein of the arm (cephalic vein) drains into",
+      "o": [
+        "brachial vein;",
+        "basilic (medial superficial) vein;",
+        "axillary vein (in the deltopectoral triangle);",
+        "subclavian vein;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate where the great saphenous vein of the leg begins",
+      "o": [
+        "behind the lateral malleolus;",
+        "in front of the medial malleolus (ankle);",
+        "from the plantar digital veins;",
+        "from the plantar metatarsal veins;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State whether the splenic vein is a direct tributary of the",
+      "o": [
+        "portal vein (combines with superior mesenteric vein);",
+        "hepatic vein;",
+        "inferior vena cava;",
+        "renal vein;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the tributary that belongs specifically to the external iliac vein",
+      "o": [
+        "superior gluteal veins;",
+        "inferior gluteal veins;",
+        "obturator veins;",
+        "inferior epigastric and deep circumflex iliac veins"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which veins form a cava-caval anastomosis",
+      "o": [
+        "superior epigastric and paraumbilical veins;",
+        "esophageal veins and gastric veins;",
+        "inferior epigastric and paraumbilical veins;",
+        "thoracoepigastric veins (system of SVC) and superficial epigastric veins (system of IVC)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which of the following is a porto-caval anastomosis involving the upper gastrointestinal track",
+      "o": [
+        "superior and inferior epigastric veins;",
+        "esophageal veins (draining to azygos/SVC) and gastric veins (draining to portal vein);",
+        "middle and lower rectal veins;",
+        "thoracoepigastric and superficial epigastric veins;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain the purpose of the lymphatic system",
+      "o": [
+        "transfer of substances from the blood into the tissue fluid",
+        "return of substances from the tissue fluid into the blood",
+        "supply oxygen to the organs",
+        "provide an immune response to infection"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify which blood vessel receives lymph from the lymphatic system",
+      "o": [
+        "Capillaries",
+        "Arteries",
+        "Veins",
+        "none of these"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What type of tissue does lymph belong to?",
+      "o": [
+        "fluid tissue",
+        "immune tissue",
+        "connective tissue",
+        "nerve tissue"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify, the thoracic lymphatic duct is formed from the confluence of",
+      "o": [
+        "right and left subclavian lymphatic trunks",
+        "right and left lumbar lymphatic trunks",
+        "right and left jugular trunks",
+        "right and left bronchomediastinal lymphatic trunks"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the right lymphatic duct flows into",
+      "o": [
+        "into the right brachial vein",
+        "into the right subclavian vein",
+        "into the right venous angle",
+        "into the inferior vena cava"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the parietal lymph nodes of the abdominal cavity",
+      "o": [
+        "mesenteric nodes",
+        "colonic nodes",
+        "common iliac nodes",
+        "lumbar nodes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the right lymphatic duct flows into (repeated question)",
+      "o": [
+        "the right subclavian vein",
+        "the left subclavian vein",
+        "right brachial vein",
+        "the right venous angle"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the visceral lymph nodes of the thoracic cavity",
+      "o": [
+        "periorbital nodes",
+        "mediastinal nodes",
+        "upper diaphragmatic nodes",
+        "lower diaphragmatic nodes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Analyze where there are no lymphatic capillaries",
+      "o": [
+        "in the kidneys",
+        "in the pancreas",
+        "in the parenchyma of the spleen",
+        "in the uterus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain how the lymph moves",
+      "o": [
+        "from down to up",
+        "from top downward",
+        "chaotic",
+        "all answers are correct"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify, the thoracic lymphatic duct is formed in the abdominal cavity at the level of",
+      "o": [
+        "XI-XII thoracic vertebrae",
+        "XII thoracic - II lumbar vertebrae",
+        "II-III lumbar vertebrae",
+        "III-IV lumbar vertebrae"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the lymphatic vessels from which organ flow directly into the thoracic lymphatic duct",
+      "o": [
+        "Stomach",
+        "esophagus (thoracic part)",
+        "spleen",
+        "the kidneys"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the visceral lymph nodes of the abdomen",
+      "o": [
+        "lumbar nodes",
+        "common iliac nodes",
+        "inferior diaphragmatic nodes",
+        "mesenteric nodes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Lymphatic vessels from the walls of the stomach flow into",
+      "o": [
+        "Lymphonodi celiaci (celiac lymph nodes)",
+        "cardiac lymph nodes",
+        "pancreaticoduodenal lymph nodes",
+        "lower diaphragmatic lymph nodes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the lymphatic flow pathway",
+      "o": [
+        "blindly closed lymphatic capillaries → lymphatic vessels → lymph nodes → blood",
+        "lymph nodes → lymphatic vessels → blood → capillaries"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify from what is tissue fluid formed?",
+      "o": [
+        "from blood (via filtration of plasma through blood capillaries)",
+        "from lymph",
+        "from intercellular substance",
+        "from gastric juice"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show where the lymph vessels of the posterior group of the lower extremity drain into",
+      "o": [
+        "the obturator lymph nodes",
+        "external iliac lymph nodes",
+        "deep inguinal lymph nodes",
+        "popliteal (hamstring) lymph nodes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify the location of the parametrial (periniferous) lymph nodes",
+      "o": [
+        "between the rectum and uterus",
+        "in the leaves of the broad ligament of the uterus",
+        "in the perimetrium",
+        "in the muscular layer of the uterus (myometrium)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the function of the lymphatic system?",
+      "o": [
+        "transports decomposition products",
+        "transports oxygen and carbon dioxide",
+        "ensures that proteins, fats, and water return to the blood",
+        "all of the above"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State what prevents lymph from flowing back into the vessels",
+      "o": [
+        "peculiarities of lymph composition",
+        "valves in vessels",
+        "blood flow"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Analyze how does the movement of lymph occur?",
+      "o": [
+        "muscle contractions (skeletal muscle pump)",
+        "contractions of the heart",
+        "gravity",
+        "magic"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the thoracic lymphatic duct passes into the thoracic cavity through",
+      "o": [
+        "the esophageal orifice of the diaphragm",
+        "the aortic orifice of the diaphragm",
+        "the gap between the legs of the diaphragm",
+        "orifice of inferior vena cava"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify, the lymph from the tongue drains",
+      "o": [
+        "to parotid lymph nodes",
+        "to the submandibular and deep lateral cervical lymph nodes",
+        "to deep anterior cervical lymph nodes",
+        "to the subchinolaryngeal lymph nodes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the parietal lymph nodes of the pelvic cavity",
+      "o": [
+        "inferior supracostal nodes",
+        "periuterine nodes",
+        "lumbar nodes",
+        "common iliac nodes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify, lymph from the mandibular teeth drains",
+      "o": [
+        "to the facial lymph nodes",
+        "to parotid lymph nodes",
+        "to pharyngeal lymph nodes",
+        "to submandibular lymph nodes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find from which organs and body parts lymph flows to the superficial inguinal nodes",
+      "o": [
+        "Lower extremity (Extremitas inferior)",
+        "External genitalia (Organa genitalia externa)",
+        "both are correct",
+        "both are not correct"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain what is a structural part of the lymphatic system?",
+      "o": [
+        "spleen",
+        "red bone marrow",
+        "lymphatic trunks and ducts",
+        "thymus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which fluid contains cellular formed elements (predominantly lymphocytes)",
+      "o": [
+        "muscle fluid",
+        "lymph",
+        "fat fluid",
+        "nerve fluid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the function of the lymph nodes?",
+      "o": [
+        "accumulation of lymph",
+        "promoting lymph movement",
+        "purification (filtration) of lymph",
+        "lymph formation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which structures are located along the pathway of the lymphatic vessels",
+      "o": [
+        "lymph nodes",
+        "lymphatic capillaries",
+        "lymphatic ducts",
+        "all answers are correct"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify where the thoracic lymphatic duct flows into",
+      "o": [
+        "the right subclavian vein",
+        "the left subclavian vein",
+        "right brachial vein",
+        "left venous angle"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "List the parietal lymph nodes of the thoracic cavity",
+      "o": [
+        "mediastinal nodes",
+        "bronchopulmonary nodes",
+        "parathoracic / intercostal nodes",
+        "tracheobronchial nodes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the visceral lymph nodes of the pelvic cavity",
+      "o": [
+        "internal iliac nodes",
+        "common iliac nodes",
+        "lumbar nodes",
+        "periuterine nodes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate where the lymphatic vessels of the medial group of the lower extremity flow into",
+      "o": [
+        "into the deep inguinal lymph nodes",
+        "into the superficial inguinal lymph nodes",
+        "into the popliteal lymph nodes",
+        "into the internal iliac lymph nodes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the largest group of lymph nodes in the head and neck region called?",
+      "o": [
+        "occipital lymph nodes",
+        "superficial cervical lymph nodes",
+        "submandibular lymph nodes",
+        "lateral cervical deep lymph nodes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which of the following lymphatic trunks is unpaired in the human body?",
+      "o": [
+        "Lumbar trunk",
+        "Subclavian trunk",
+        "Jugular trunk",
+        "Intestinal trunk"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The right and left lumbar trunks, along with the intestinal trunk, usually empty directly into which dilated structure?",
+      "o": [
+        "Hemiazygos vein",
+        "Cisterna chyli",
+        "Right lymphatic duct",
+        "Superior vena cava"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which lymphatic trunk drains lymph from the deep structures of the chest wall and the thoracic viscera?",
+      "o": [
+        "Intestinal trunk",
+        "Subclavian trunk",
+        "Bronchomediastinal trunk",
+        "Jugular trunk"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which major vessel the cisterna chyli continues into as it passes superiorly through the aortic hiatus of the diaphragm",
+      "o": [
+        "Right lymphatic duct;",
+        "Internal jugular vein;",
+        "Hemiandazygos vein;",
+        "Thoracic duct (ductus thoracicus);"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where are the bipolar cell bodies of the olfactory nerve fibers located?",
+      "o": [
+        "In the olfactory bulb",
+        "In the olfactory epithelium of the nasal cavity",
+        "In the cribriform plate",
+        "In the olfactory tract"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Through which bony structure do the olfactory nerve bundles (fila olfactoria) pass?",
+      "o": [
+        "Foramen rotundum",
+        "Superior orbital fissure",
+        "Optic canal",
+        "Cribriform plate of the ethmoid bone"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Where do the central processes (axons) of the olfactory nerve fibers first synapse?",
+      "o": [
+        "In the primary olfactory cortex",
+        "In the thalamus",
+        "In the olfactory bulb (mitral cells)",
+        "In the nasal mucosa"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the first (superior) division of the trigeminal nerve",
+      "o": [
+        "Maxillary nerve",
+        "Mandibular nerve",
+        "Ophthalmic nerve",
+        "Facial nerve"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Through which cranial foramen does the maxillary nerve exit the skull?",
+      "o": [
+        "Foramen ovale;",
+        "Superior orbital fissure;",
+        "Foramen rotundum;",
+        "Foramen spinosum;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which branch of the trigeminal nerve carries both sensory and motor fibers?",
+      "o": [
+        "Ophthalmic nerve",
+        "Maxillary nerve",
+        "Mandibular nerve",
+        "Nasociliary nerve;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the branch of the mandibular nerve ($V_3$) that provides sensory innervation to the anterior two-thirds of the tongue",
+      "o": [
+        "Inferior alveolar nerve;",
+        "Lingual nerve;",
+        "Buccal nerve;",
+        "Auriculotemporal nerve;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which of the following is a direct terminal branch of the ophthalmic nerve ?",
+      "o": [
+        "Frontal nerve;",
+        "Infraorbital nerve;",
+        "Mental nerve;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the two primary branches of the vestibulocochlear nerve",
+      "o": [
+        "Cochlear and tympanic branches;",
+        "Cochlear and vestibular nerves;",
+        "Ampullary and saccular nerves;",
+        "Utricular and vestibular nerves;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which branch of CN VIII carries auditory (hearing) impulses from the organ of Corti",
+      "o": [
+        "Cochlear nerve;",
+        "Superior vestibular nerve;",
+        "Inferior vestibular nerve;",
+        "Vestibular ganglion;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the specific nerve branch that supplies the macula of the saccule and the posterior semicircular canal",
+      "o": [
+        "Cochlear nerve;",
+        "Superior vestibular nerve;",
+        "Inferior vestibular nerve;",
+        "Chorda tympani;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the branch of CN IX that provides sensory innervation to the middle ear cavity",
+      "o": [
+        "Lingual branch",
+        "Tympanic nerve (Jacobson's nerve)",
+        "Pharyngeal branch",
+        "Tonsillar branch"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which branch of the glossopharyngeal nerve carries visceral sensory fibers from the carotid sinus and carotid body?",
+      "o": [
+        "Lesser petrosal nerve",
+        "Muscular branch",
+        "Carotid sinus nerve (Hering's nerve)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the motor branch of CN IX that supplies the stylopharyngeus muscle",
+      "o": [
+        "Tonsillar branch",
+        "Pharyngeal branch",
+        "Lingual branch",
+        "Muscular (stylopharyngeal) branch"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the branches of CN IX that provide taste (special sensory) and general somatic sensory innervation to the posterior third of the tongue",
+      "o": [
+        "Tonsillar branches",
+        "Lesser petrosal branches",
+        "Lingual branches",
+        "Pharyngeal branches"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "SPECIFY ANATOMICAL FORMATIONS RELATED TO THE PERIPHERAL NERVOUS SYSTEM;",
+      "o": [
+        "nerves",
+        "nodes (ganglia)",
+        "spinal cord",
+        "nerve endings"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the name given to the junction of the spinal cord roots in the intervertebral foramen;",
+      "o": [
+        "The spinal cord spinal nerve",
+        "Spinal nerve",
+        "Anterior cord",
+        "Posterior cord"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify which branches of the spinal nerves form plexuses",
+      "o": [
+        "anterior",
+        "posterior",
+        "white connective"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify which structure is formed by the anterior branches of the four upper cervical spinal nerves;",
+      "o": [
+        "The cervical loop",
+        "Cervical plexus",
+        "Brachial plexus",
+        "diaphragmatic nerve"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The patient has no sensation in the skin on the outer surface of the occiput and behind the auricle. Determine which nerve is injured",
+      "o": [
+        "Transverse nerve in the neck.",
+        "Major auricular nerve",
+        "Occipital nerve",
+        "supraclavicular"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the structure of the anterior C5-C8 and Th1 branches.",
+      "o": [
+        "cervical loop",
+        "cervical plexus",
+        "brachial plexus",
+        "diaphragmatic nerve"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the lumbar plexus lying in the thickness of which muscle at the front of the transverse processes of the lumbar vertebrae",
+      "o": [
+        "quadratus",
+        "iliac",
+        "iliopsoas-lumbar",
+        "greater-lumbarr"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the nerve innervating the perineal muscles",
+      "o": [
+        "N. cutaneus femoris posterior",
+        "N.pudendus",
+        "N. gluteus superior"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name the nerve innervating the skin on the dorsal surface of the I, II, 1/2 III fingers",
+      "o": [
+        "N. ulnaris",
+        "N. radialis",
+        "N. medianus",
+        "N. musculocutaneus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "By accidentally bumping his elbow on a table, the patient felt a burning pain, tingling on the inner surface of his forearm. Which nerve was injured in this case?",
+      "o": [
+        "N. ulnaris.",
+        "N. radialis.",
+        "N. medianus.",
+        "N. axillaris."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "IDENTIFY THE NERVE FIBERS THAT ARE PRIMARY IN THE FORMATION OF SPINAL NERVES",
+      "o": [
+        "parasympathetic preganglionic",
+        "afferent (sensory)",
+        "efferent somatic (motor)",
+        "sympathetic preganglionic"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify where the spinal node is located",
+      "o": [
+        "on anterior root",
+        "On posterior root",
+        "on the trunk",
+        "on a branch"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify which anatomical structure is formed by an area of the spinal cord at the level of formation of one pair of spinal nerves",
+      "o": [
+        "spinal segment",
+        "spinal nerve",
+        "Anterior rope"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the anterior branches of which spinal nerves do not form plexuses",
+      "o": [
+        "cervical",
+        "thoracic",
+        "lumbar",
+        "sacral"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State what is in front of the cervical plexus",
+      "o": [
+        "sternoclavicularis mastoid muscle",
+        "subcutaneous muscle",
+        "skin",
+        "Subiliac Scapular Muscle"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The victim has a neck wound with injury to the anterior lumbar muscle. A asymmetry of respiratory movements. Which nerve could be injured in this case?",
+      "o": [
+        "Great auricular",
+        "Transverse nerve of the neck",
+        "Small occipital nerve",
+        "diaphragmatic nerve."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Name which nerve bundles are divided into by the axillary artery in the brachial plexus;",
+      "o": [
+        "anterior, middle, posterior",
+        "upper, middle, lower",
+        "Right, left, lateral",
+        "medial, lateral, posterior"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify which lumbar plexus nerve passes in the inguinal canal and branches into the skin of the pubis and external genitalia;",
+      "o": [
+        "nervus iliohypogastricus",
+        "Nervus ilioinguinalis",
+        "genitofemoralis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State through which anatomical entity the superior gluteal nerve exits the pelvic cavity;",
+      "o": [
+        "Canalis obturatorius",
+        "Foramen suprapiriforme",
+        "Foramen infrapiriforme",
+        "Foramen ischiadicum minus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the nerve innervating the skin on the palmar surface of the V and 1/2 of the IV fingers and the dorsal surface of the V, IV, and 1/2 of the III fingers",
+      "o": [
+        "N. ulnaris",
+        "N. Radialis",
+        "N. medianus",
+        "N. Musculocutaneus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "A patient was diagnosed with sensitivity disturbance in the area of anterior and inner surface of the upper third of the thigh and skin of the external genitalia. Find out which nerve is affected",
+      "o": [
+        "Nervus ilioinguinalis",
+        "femoralis",
+        "genitofemoralis",
+        "obturatorius"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which specific components of the brachial plexus unite to directly form the posterior cord?",
+      "o": [
+        "The posterior divisions of all three trunks (superior, middle, and inferior)",
+        "The roots of C5 and C6",
+        "The anterior divisions of the superior and middle trunks",
+        "The anterior division of the inferior trunk"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The cords of the brachial plexus are named (lateral, medial, and posterior) based on their anatomical relationship to which structure?",
+      "o": [
+        "Subclavian artery",
+        "Scalenus anterior muscle",
+        "Clavicle",
+        "Axillary artery"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which terminal nerve is formed by the contributions of both the lateral and medial cords of the brachial plexus?",
+      "o": [
+        "Median nerve",
+        "Radial nerve",
+        "Axillary nerve",
+        "Ulnar nerve"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "When neurovascular structures travel within the costal groove of a rib, what is the correct superior-to-inferior arrangement?",
+      "o": [
+        "Intercostal vein, intercostal nerve, intercostal artery",
+        "Intercostal vein, intercostal artery, intercostal nerve",
+        "Intercostal nerve, intercostal artery, intercostal vein",
+        "Intercostal artery, intercostal vein, intercostal nerve"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Between which two anatomical muscular layers do the intercostal nerves primarily travel within the chest wall?",
+      "o": [
+        "Innermost intercostal muscle and endothoracic fascia",
+        "Pectoralis major and external intercostal muscles",
+        "External intercostal and internal intercostal muscles",
+        "internal intercostal and innermost intercostal muscles"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which intercostal nerve contributes to the formation of the intercostobrachial nerve, providing cutaneous innervation to the axilla and medial arm?",
+      "o": [
+        "Seventh intercostal nerve",
+        "First intercostal nerve",
+        "Second intercostal nerve",
+        "Fourth intercostal nerve"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which of the following represents the correct anatomical origin of the intercostal nerves?",
+      "o": [
+        "Anterior rami of thoracic spinal nerves T2–T12",
+        "Posterior rami of thoracic spinal nerves T1–T11",
+        "Anterior rami of thoracic spinal nerves T1–T11",
+        "Sympathetic chain ganglia of the thoracic region"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the Autonomic Nervous System gives functional innervation",
+      "o": [
+        "skeletal muscles",
+        "smooth muscle fibers of internal organs",
+        "smooth muscle fibers of blood vessels",
+        "glandular tissue"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the location of the centers of the sympathetic nervous system",
+      "o": [
+        "Lateral horns of the spinal cord",
+        "anterior horns of spinal cord",
+        "brain stem",
+        "in the spinal canal;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State what coordinates all parts of the autonomic nervous system",
+      "o": [
+        "Hypothalamus",
+        "spinal cord",
+        "cerebral cortex",
+        "Correct 1 and 3"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain what the sympathetic part of the autonomic nervous system is responsible for.",
+      "o": [
+        "Increase in heart rate, gastric juice production, pupil constriction",
+        "slows the heart rate, lowers blood glucose levels, constricts pupils",
+        "increased gastric juice production, constriction of the blood vessels of the skin, dilation of the pupils.",
+        "dilation of the pupils, increased sweat production, increased blood glucose levels"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which nodes belong to the sympathetic nervous system",
+      "o": [
+        "paravertebral",
+        "prevertebral",
+        "periorgan",
+        "intraorganic"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which organs are regulated by the human autonomic nervous system?",
+      "o": [
+        "muscles of upper and lower extremities",
+        "heart and blood vessels, digestive organs",
+        "facial muscles",
+        "diaphragm and intercostal muscles"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the functions of the autonomic node",
+      "o": [
+        "reflexive",
+        "impulse switching from pre- to postganglionic fibers",
+        "receptor",
+        "conductive"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show from where the parasympathetic innervation of the lacrimal gland is received",
+      "o": [
+        "the submandibular node;",
+        "the hypoglossal node;",
+        "the auricular node;",
+        "the ganglion pterygopalatinum;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the autonomic nodes from which the postganglionic fibers branch to the bladder",
+      "o": [
+        "the gg. coeliaci",
+        "lower mesenteric node (g. mesentericum inferius)",
+        "lower hypogastric plexus nodes (plexus hypogastricus inferior)",
+        "terminal nodes (gg. terminalia)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify where the Centers of the parasympathetic nervous system are located ;",
+      "o": [
+        "brain stem",
+        "anterior horns of spinal cord",
+        "lateral horns of the spinal cord",
+        "Sacral region"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Which statement most accurately describes the anatomical position of the solar (celiac) plexus?",
+      "o": [
+        "Directly behind the sternum in the anterior mediastinum.",
+        "Around the base of the celiac trunk and the superior mesenteric artery.",
+        "below diagphram",
+        "In the lesser pelvis between the urinary bladder and the rectum."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Choose three consequences of irritation of the sympathetic part of the central nervous system",
+      "o": [
+        "acceleration and intensification of heart beating",
+        "slowing down of gastric juice formation",
+        "weakening of wave-like contractions of intestinal walls",
+        "intensification of undulate contractions of the bowel walls"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate which segmental centers belong to the parasympathetic nervous system",
+      "o": [
+        "mesencephalic division",
+        "bulbar division",
+        "thoracolumbar region",
+        "sacral division"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State which of the following features are characteristic of the autonomic nervous system",
+      "o": [
+        "segmental location of the centers",
+        "thin myelin sheath of nerve fibers",
+        "presence of peripheral reflex arcs",
+        "multisegmentary principle in the innervation of organs"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify distinctive features characteristic of the sympathetic nervous system",
+      "o": [
+        "short postganglionic fibers",
+        "ubiquity of spreading",
+        "protective role",
+        "adaptation and trophic funct ion"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Show what approaches the sympathetic trunk",
+      "o": [
+        "white connective branches;",
+        "gray connective branches;",
+        "small intrinsic nerve;",
+        "large innominate nerve;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Autonomic (sympathetic) nuclei are located",
+      "o": [
+        "in the gray matter of all cervical segments of the spinal cord;",
+        "in the grey matter of all sacral segments of the spinal cord;",
+        "in the gray matter of all lumbar spinal cord segments;",
+        "in the lateral horns of the VIII cervical, all thoracic, I-II lumbar segments;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Tell me what the main mediator of the sympathetic nervous system is;",
+      "o": [
+        "serotonin",
+        "adrenalin",
+        "noradrenalin",
+        "vasopressin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Find where the white connective branches come from;",
+      "o": [
+        "from the sacral spinal nerves",
+        "from all thoracic spinal nerves",
+        "from all cervical spinal nerves",
+        "from coccygeal spinal nerves"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify which functions are regulated by the sympathetic branch of the human autonomic nervous system?",
+      "o": [
+        "weakening of heartbeat",
+        "increase in heart rate",
+        "weakening of undulating bowel movements",
+        "decrease in sweating"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate which nodes of the sympathetic trunk have gray connecting branches",
+      "o": [
+        "cervical nodes (gg. cervicalia)",
+        "thoracic nodes (gg. thoracica)",
+        "lumbar nodes (gg. lumbalia)",
+        "sacral nodes (gg. sacralia)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the branches that branch off the sympathetic trunk",
+      "o": [
+        "white connecting branches (rr. communicantes albi)",
+        "meningeal branches (rr. meningei)",
+        "gray connective branches (rr. communicantes grisei)",
+        "internal nerves (nn. splanchnici).)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the branches of the thoracic division of the sympathetic trunk",
+      "o": [
+        "great internal nerve (n. splanchnicus major)",
+        "diaphragmatic nerve (n. phrenicus)",
+        "thoracic cardiac nerves (nn. cardiaci thoracici)",
+        "gray connective branches (rr. communicantes grisei)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Indicate which of the following nodes are parasympathetic",
+      "o": [
+        "auricular node (g. oticum)",
+        "pterygopalatal node (g. pterygopalatinum)",
+        "ciliary node (g. ciliare)",
+        "ventricular nodes (gg. coeliaci)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "The parasympathetic innervation of the trachea is carried out by branches of",
+      "o": [
+        "vagus nerve;",
+        "the plexus coeliacus;",
+        "superior mesenteric plexus;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Select from where the heart receives sympathetic innervation",
+      "o": [
+        "the cardiac branches of the vagus nerve;",
+        "diaphragmatic nerve;",
+        "the plexus coeliacus;",
+        "upper, lower cervical cardiac nerves and thoracic cardiac nerves;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Specify if the oculomotor nerve contains",
+      "o": [
+        "sensory fibers",
+        "parasympathetic fibers",
+        "associative fibers",
+        "sympathetic fibers"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Determine what is the peripheral part of autonomic nervous system",
+      "o": [
+        "parasympathetic nucleus of 3rd pair of cranial nerves",
+        "sympathetic trunk",
+        "parasympathetic nuclei of lateral horns of sacral spinal cord segments",
+        "sympathetic nucleus of lateral columns of spinal cord"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the features characteristic of the parasympathetic nervous system.",
+      "o": [
+        "Nerve centers are located in the brain stem and sacral spinal cord",
+        "Nerve centers are located in the cervical, thoracic and lumbar spinal cord",
+        "The major nerves are the solar, pulmonary, and cardiac plexuses",
+        "Nodes are located in pairs along the spinal cord"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the branches of the nodes of the thoracic portion of the sympathetic trunk",
+      "o": [
+        "Nervi cardiaci thoracici",
+        "Nervus splanchnicus major",
+        "Rami communicantes albi",
+        "Rami communicantes grisei"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Identify the muscles that receive parasympathetic innervation",
+      "o": [
+        "pupil dilator muscle (m. dilatator pupillae)",
+        "muscle of speculum (m. stapedius)",
+        "ciliary muscle (m. ciliaris)",
+        ".pupil constrictor muscle (m. sphincter pupillae)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry",
+      "q": "State the primary function of the autonomic nervous system",
+      "o": [
+        "ability to perceive sensory stimuli",
+        "voluntary motor activity",
+        "homeostasis maintenance",
+        "reflex-automatic motor activity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Location of the first neurons of the sympathetic department of the autonomic nervous system",
+      "o": [
+        "lateral horns of the sacral spinal cord",
+        "lateral horns of the thoracolumbar spinal cord",
+        "cervical and lumbar spinal cord thickening",
+        "intramural ganglia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Explain what is a reflex?",
+      "o": [
+        "A nerve impulse;",
+        "a nerve ending;",
+        "a response to an external stimulus;",
+        "nerve excitation."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry",
+      "q": "Sympathetic and parasympathetic subunits belong to",
+      "o": [
+        "the central nervous system;",
+        "autonomic nervous system;",
+        "peripheral;",
+        "somatic."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry",
+      "q": "What is the primary physiological role of the solar (celiac) plexus in the body?",
+      "o": [
+        "Coordination of complex voluntary movements of skeletal muscles.",
+        "Transmission of pain signals from the skin of the face.",
+        "Regulation of secretion and motility of the abdominal organs.",
+        "Providing higher mental functions and memory."
+      ],
+      "c": 2
     }
   ]
 }
