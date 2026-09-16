@@ -19,6 +19,7 @@ export default function AdminUploadQuestionsScreen({ onBack, semesters, semester
   const [emoji, setEmoji] = useState('');
   const [desc, setDesc] = useState('');
   const [file, setFile] = useState(null);
+  const [saveMethod, setSaveMethod] = useState('firestore');
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState(null);
@@ -44,6 +45,7 @@ export default function AdminUploadQuestionsScreen({ onBack, semesters, semester
         emoji: emoji.trim() || undefined,
         desc: desc.trim() || undefined,
         file,
+        saveMethod,
       });
       setResult(data);
     } catch (e) {
@@ -117,6 +119,30 @@ export default function AdminUploadQuestionsScreen({ onBack, semesters, semester
           onChange={(e) => setDesc(e.target.value)}
         />
 
+        <label className="auth-label">Save method</label>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13.5, cursor: 'pointer' }}>
+            <input
+              type="radio"
+              name="saveMethod"
+              checked={saveMethod === 'firestore'}
+              onChange={() => setSaveMethod('firestore')}
+              style={{ marginTop: 3 }}
+            />
+            <span><strong>Instant (Firestore)</strong> — live the moment you upload, tiny ongoing read cost (a few extra reads per app load, effectively free)</span>
+          </label>
+          <label style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13.5, cursor: 'pointer' }}>
+            <input
+              type="radio"
+              name="saveMethod"
+              checked={saveMethod === 'github'}
+              onChange={() => setSaveMethod('github')}
+              style={{ marginTop: 3 }}
+            />
+            <span><strong>Commit to GitHub</strong> — zero Firestore usage, becomes part of the static file, but takes ~30-60s to go live while Vercel rebuilds. Requires GITHUB_TOKEN to be set in Vercel.</span>
+          </label>
+        </div>
+
         <label className="auth-label">PDF file</label>
         <input
           className="auth-input"
@@ -133,7 +159,10 @@ export default function AdminUploadQuestionsScreen({ onBack, semesters, semester
 
         {result?.success && (
           <div className="auth-msg success" style={{ display: 'block' }}>
-            Saved {result.savedCount} question{result.savedCount === 1 ? '' : 's'}.
+            Saved {result.savedCount} question{result.savedCount === 1 ? '' : 's'}
+            {result.saveMethod === 'github'
+              ? ' — committed to GitHub, live in about a minute once Vercel finishes rebuilding.'
+              : ' — live now.'}
             {result.skippedCount > 0 && (
               <> {result.skippedCount} question{result.skippedCount === 1 ? '' : 's'} had no
               detectable highlighted answer and were skipped (#{result.incompleteQuestionNumbers?.join(', ')}).</>

@@ -1,7 +1,17 @@
 """
 Vercel Python serverless function: parses an admin-uploaded PDF
-question bank and writes the parsed questions straight to Firestore,
-where useSemesterData.js picks them up live (no redeploy needed).
+question bank and saves the parsed questions via one of two methods,
+chosen per-upload by the `saveMethod` field:
+
+  - saveMethod: 'firestore' (default) - writes to Firestore, where
+    useSemesterData.js picks it up live within the same page load, no
+    redeploy. Small ongoing Firestore read cost (see below).
+  - saveMethod: 'github' - commits the questions directly into the
+    semester's static JSON file (public/data/{semesterId}.json) via
+    the GitHub Contents API. Zero Firestore usage at all - the
+    questions become indistinguishable from the hand-written JSON
+    content. Costs a Vercel rebuild (~30-60s) since production
+    auto-deploys from this branch; nothing else to do by hand.
 
 Expected PDF format (Option 1 - free, pattern-based parser, built
 against Abhi's real "HA2_26_Answer_Key" export):
@@ -21,11 +31,22 @@ drawn rects, different numbering), this parser will need a matching
 update - see /areas/med101.md "Question upload plan" for the planned
 Option 2 (AI-powered, format-agnostic) upgrade path.
 
-Required env vars (same Firebase service account already used by
-api/ai-explanation.js - see GEMINI_SETUP.md):
-  FIREBASE_PROJECT_ID
-  FIREBASE_CLIENT_EMAIL
-  FIREBASE_PRIVATE_KEY
+Required env vars:
+  Firestore path (same Firebase service account already used by
+  api/ai-explanation.js - see GEMINI_SETUP.md):
+    FIREBASE_PROJECT_ID
+    FIREBASE_CLIENT_EMAIL
+    FIREBASE_PRIVATE_KEY
+  GitHub path (add these once in Vercel -> Settings -> Environment
+  Variables if you want to use saveMethod: 'github' - not required
+  for the Firestore path):
+    GITHUB_TOKEN   - a personal access token with 'repo' scope (or a
+                     fine-grained token with Contents: Read & Write
+                     on this repo only)
+    GITHUB_REPO    - defaults to 'Itzzarp16/Med101' if unset
+    GITHUB_BRANCH  - defaults to 'react-rebuild' if unset - must be
+                     whichever branch is set as Vercel's Production
+                     Branch, or the commit won't auto-deploy
 
 Vercel Python function requirements are declared in api/requirements.txt.
 """
@@ -37,6 +58,7 @@ import base64
 from http.server import BaseHTTPRequestHandler
 
 import fitz  # PyMuPDF
+import requests
 import firebase_admin
 from firebase_admin import credentials, auth as fb_auth, firestore
 
@@ -77,6 +99,47 @@ def _init_admin():
 
 def slugify(s):
     return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
+
+
+def github_upsert_questions(semester_id, main_subject, subtopic, questions_out, emoji, desc):
+    """Commits the parsed questions into public/data/{semesterId}.json
+    on GitHub, replacing any previously-uploaded batch for this same
+    subtopic (matched by the .s field) - re-uploading a corrected PDF
+    for the same subtopic overwrites rather than duplicates, same
+    behavior as the Firestore path. Raises on any failure - the caller
+    catches and reports it."""
+    token = os.environ['GITHUB_TOKEN']
+    repo = os.environ.get('GITHUB_REPO', 'Itzzarp16/Med101')
+    branch = os.environ.get('GITHUB_BRANCH', 'react-rebuild')
+    path = f'public/data/{semester_id}.json'
+    api_url = f'https://api.github.com/repos/{repo}/contents/{path}'
+    headers = {'Authorization': f'Bearer {token}', 'Accept': 'application/vnd.github+json'}
+
+    get_resp = requests.get(api_url, headers=headers, params={'ref': branch}, timeout=20)
+    get_resp.raise_for_status()
+    file_info = get_resp.json()
+    sha = file_info['sha']
+    data = json.loads(base64.b64decode(file_info['content']).decode('utf-8'))
+
+    # Replace this subtopic's questions wholesale (drop the old batch,
+    # append the new one) rather than appending on top of stale data.
+    data['questions'] = [q for q in data.get('questions', []) if q.get('s') != subtopic] + questions_out
+    data.setdefault('subjectGroup', {})[subtopic] = main_subject
+    existing_meta = data.setdefault('subjectMeta', {}).get(subtopic, {})
+    data['subjectMeta'][subtopic] = {
+        'emoji': emoji or existing_meta.get('emoji', '📖'),
+        'desc': desc or existing_meta.get('desc', ''),
+        'accent': existing_meta.get('accent', 'var(--cyan)'),
+    }
+
+    new_content = json.dumps(data, ensure_ascii=False, indent=2) + '\n'
+    put_resp = requests.put(api_url, headers=headers, json={
+        'message': f'Upload questions: {subtopic} ({main_subject}, {semester_id})',
+        'content': base64.b64encode(new_content.encode('utf-8')).decode('utf-8'),
+        'sha': sha,
+        'branch': branch,
+    }, timeout=20)
+    put_resp.raise_for_status()
 
 
 def parse_pdf_bytes(pdf_bytes):
@@ -192,6 +255,10 @@ class handler(BaseHTTPRequestHandler):
         if email not in ADMIN_EMAILS:
             return self._send(403, {'error': 'Admin access required.'})
 
+        save_method = body.get('saveMethod') or 'firestore'
+        if save_method not in ('firestore', 'github'):
+            return self._send(400, {'error': "saveMethod must be 'firestore' or 'github'."})
+
         semester_id = body.get('semesterId')
         main_subject = body.get('mainSubject')
         subtopic = body.get('subtopic')
@@ -232,34 +299,43 @@ class handler(BaseHTTPRequestHandler):
             })
 
         try:
-            db = firestore.client()
-            # One document PER SEMESTER (not per upload) - the client
-            # reads uploadedQuestions/{semesterId} directly by ID, so
-            # this keeps the app's read cost fixed at exactly one doc
-            # per active semester no matter how many subtopics get
-            # uploaded over time. Read-merge-write here (instead of a
-            # dotted-field-path merge) so re-uploading one subtopic
-            # only touches its own entry, leaving every other
-            # previously-uploaded subtopic in this semester untouched.
-            sem_ref = db.collection('uploadedQuestions').document(semester_id)
-            sem_snap = sem_ref.get()
-            subjects = (sem_snap.to_dict() or {}).get('subjects', {}) if sem_snap.exists else {}
-            subtopic_key = slugify(subtopic)
-            subjects[subtopic_key] = {
-                'mainSubject': main_subject,
-                'subtopic': subtopic,
-                'subtopicEmoji': emoji,
-                'subtopicDesc': desc,
-                'questions': questions_out,
-                'updatedAt': firestore.SERVER_TIMESTAMP,
-                'uploadedBy': email,
-            }
-            sem_ref.set({'subjects': subjects}, merge=False)
+            if save_method == 'github':
+                # Zero Firestore usage - commits straight into the
+                # static JSON file. Requires GITHUB_TOKEN to be set;
+                # a missing/invalid token raises here and is reported
+                # to the admin rather than silently falling back.
+                github_upsert_questions(semester_id, main_subject, subtopic, questions_out, emoji, desc)
+            else:
+                db = firestore.client()
+                # One document PER SEMESTER (not per upload) - the client
+                # reads uploadedQuestions/{semesterId} directly by ID, so
+                # this keeps the app's read cost fixed at exactly one doc
+                # per active semester no matter how many subtopics get
+                # uploaded over time. Read-merge-write here (instead of a
+                # dotted-field-path merge) so re-uploading one subtopic
+                # only touches its own entry, leaving every other
+                # previously-uploaded subtopic in this semester untouched.
+                sem_ref = db.collection('uploadedQuestions').document(semester_id)
+                sem_snap = sem_ref.get()
+                subjects = (sem_snap.to_dict() or {}).get('subjects', {}) if sem_snap.exists else {}
+                subtopic_key = slugify(subtopic)
+                subjects[subtopic_key] = {
+                    'mainSubject': main_subject,
+                    'subtopic': subtopic,
+                    'subtopicEmoji': emoji,
+                    'subtopicDesc': desc,
+                    'questions': questions_out,
+                    'updatedAt': firestore.SERVER_TIMESTAMP,
+                    'uploadedBy': email,
+                }
+                sem_ref.set({'subjects': subjects}, merge=False)
         except Exception as e:
-            return self._send(500, {'error': f'Could not save to Firestore: {e}'})
+            dest = 'GitHub' if save_method == 'github' else 'Firestore'
+            return self._send(500, {'error': f'Could not save to {dest}: {e}'})
 
         return self._send(200, {
             'success': True,
+            'saveMethod': save_method,
             'savedCount': len(questions_out),
             'skippedCount': len(incomplete),
             'incompleteQuestionNumbers': incomplete,

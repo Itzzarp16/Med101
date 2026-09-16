@@ -11,7 +11,7 @@ function fileToBase64(file) {
   });
 }
 
-export async function uploadQuestionPdf({ semesterId, mainSubject, subtopic, emoji, desc, file }) {
+export async function uploadQuestionPdf({ semesterId, mainSubject, subtopic, emoji, desc, file, saveMethod }) {
   const user = auth.currentUser;
   if (!user) throw new Error('Please sign in as admin to upload questions.');
 
@@ -24,7 +24,7 @@ export async function uploadQuestionPdf({ semesterId, mainSubject, subtopic, emo
       'Content-Type': 'application/json',
       Authorization: `Bearer ${idToken}`,
     },
-    body: JSON.stringify({ semesterId, mainSubject, subtopic, emoji, desc, pdfBase64 }),
+    body: JSON.stringify({ semesterId, mainSubject, subtopic, emoji, desc, pdfBase64, saveMethod }),
   });
 
   const data = await response.json().catch(() => ({}));
