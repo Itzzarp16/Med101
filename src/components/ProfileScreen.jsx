@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
-import { changePassword, claimUsername, fetchMyUsername, updateDisplayName } from '../lib/profile';
+import { changePassword, claimUsername, fetchMyUsername, updateDisplayName, uploadProfilePhoto } from '../lib/profile';
 import { playTapSound } from '../lib/sounds';
 
 export default function ProfileScreen({ onBack }) {
-  const { user, profile } = useAuth();
+  const { user, profile, refreshUser } = useAuth();
 
   const [name, setName] = useState(user?.displayName || '');
   const [nameSaving, setNameSaving] = useState(false);
   const [nameMsg, setNameMsg] = useState(null);
+
+  const [photoUploading, setPhotoUploading] = useState(false);
+  const [photoMsg, setPhotoMsg] = useState(null);
+  const fileInputRef = useRef(null);
 
   const [username, setUsername] = useState('');
   const [currentUsername, setCurrentUsername] = useState(null);
@@ -46,6 +50,24 @@ export default function ProfileScreen({ onBack }) {
       setNameMsg({ type: 'error', text: e.message || String(e) });
     } finally {
       setNameSaving(false);
+    }
+  }
+
+  async function handlePhotoPicked(e) {
+    const file = e.target.files?.[0];
+    e.target.value = ''; // allow re-picking the same file later
+    if (!file) return;
+    playTapSound();
+    setPhotoMsg(null);
+    setPhotoUploading(true);
+    try {
+      await uploadProfilePhoto(user, file);
+      await refreshUser();
+      setPhotoMsg({ type: 'success', text: 'Profile photo updated.' });
+    } catch (e) {
+      setPhotoMsg({ type: 'error', text: e.message || String(e) });
+    } finally {
+      setPhotoUploading(false);
     }
   }
 
@@ -121,6 +143,35 @@ export default function ProfileScreen({ onBack }) {
       <div className="std-header">
         <h1 className="std-title">🙍 Your Profile</h1>
         <p className="std-sub">{user.email}</p>
+      </div>
+
+      <div className="glass std-card" style={{ marginBottom: 14, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+        <button
+          type="button"
+          onClick={() => { playTapSound(); fileInputRef.current?.click(); }}
+          disabled={photoUploading}
+          title="Change profile photo"
+          style={{
+            width: 88, height: 88, borderRadius: '50%', border: '2px solid var(--violet)',
+            background: user.photoURL ? `center/cover url(${user.photoURL})` : 'var(--bg2)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 32, fontWeight: 700, color: 'var(--violet)', cursor: 'pointer',
+            opacity: photoUploading ? 0.6 : 1, padding: 0,
+          }}
+        >
+          {!user.photoURL && (user.displayName?.[0] || user.email?.[0] || '?').toUpperCase()}
+        </button>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handlePhotoPicked}
+          style={{ display: 'none' }}
+        />
+        <button className="btn-ghost" style={{ fontSize: 13 }} onClick={() => { playTapSound(); fileInputRef.current?.click(); }} disabled={photoUploading}>
+          {photoUploading ? 'Uploading…' : (user.photoURL ? 'Change Photo' : 'Add Profile Photo')}
+        </button>
+        {photoMsg && <div className={`auth-msg ${photoMsg.type}`} style={{ display: 'block' }}>{photoMsg.text}</div>}
       </div>
 
       <div className="quiz-stats-grid" style={{ marginBottom: 14 }}>

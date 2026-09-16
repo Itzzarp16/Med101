@@ -1,0 +1,34 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isAdmin() {
+      return request.auth != null &&
+             request.auth.token.email in ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
+    }
+
+    // ── avatars/{uid}/{fileName} ────────────────────────────────
+    // Read is public (not gated on request.auth) because avatars are
+    // rendered via plain <img src="..."> tags across the app
+    // (leaderboard, friends list, challenge rooms) - those requests
+    // don't carry a Firebase Auth header, so a read rule that required
+    // request.auth would silently break every one of those images for
+    // students who haven't (or can't, e.g. a stale token) authenticate
+    // that particular request. Avatars aren't sensitive data, so this
+    // trade-off is intentional, not an oversight.
+    //
+    // Write is restricted to the owner uploading to their own path,
+    // with a server-side backstop on size and content type - the
+    // client already resizes/compresses to well under this, but the
+    // client can't be trusted to actually run that code before
+    // someone hits the Storage API directly.
+    match /avatars/{uid}/{fileName} {
+      allow read: if true;
+      allow write: if request.auth != null
+                   && request.auth.uid == uid
+                   && request.resource.size < 2 * 1024 * 1024
+                   && request.resource.contentType.matches('image/.*');
+      allow delete: if (request.auth != null && request.auth.uid == uid) || isAdmin();
+    }
+  }
+}
