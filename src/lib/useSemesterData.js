@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
 // Mirrors the old site's loadSemesterData(): fetches semester JSON files,
@@ -14,18 +14,25 @@ const SEMESTER_MANIFEST = [
   { id: 'y2s2', file: '/data/y2s2.json' },
 ];
 
-// Questions mainly come from the static JSON files above, PLUS a
-// single Firestore read of the uploadedQuestions collection - the
-// live target for api/upload-questions.py (the admin PDF-upload
-// parser). Each doc there carries its own semesterId/mainSubject/
-// subtopic, so it merges into the exact same mainSubjectMeta/
-// subjectMeta/subjectGroup/questions shape as the JSON files: a
+// Questions mainly come from the static JSON files above, PLUS one
+// Firestore document read PER SEMESTER (uploadedQuestions/{semesterId})
+// - the live target for api/upload-questions.py (the admin PDF-upload
+// parser). This is deliberately ONE doc per semester rather than one
+// doc per upload/subtopic: reading a whole collection here would mean
+// the read cost per app load grows with how much content has ever
+// been uploaded (exactly the Firestore-cost problem the old "migrated
+// subjects" system had, which is why it was removed). Fetching by a
+// known doc ID instead keeps this fixed at exactly
+// SEMESTER_MANIFEST.length reads, no matter how many subtopics end up
+// inside each semester's doc.
+//
+// Each semester doc holds a `subjects` map keyed by a slug, so
+// re-uploading one subtopic overwrites only that entry (see the
+// Python function) - merges into the exact same mainSubjectMeta/
+// subjectMeta/subjectGroup/questions shape as the JSON files, so a
 // subject already listed in a semester's JSON (even with 0 questions,
 // like the current Y2 placeholders) starts showing real questions the
-// moment a matching doc appears here, with no redeploy. (The old
-// "migrated subjects" system that let admin live-edit EVERY question
-// in Firestore was removed to cut down on read/write usage; this is
-// deliberately narrower - just the newly-uploaded batches.)
+// moment its entry appears, with no redeploy.
 //
 // Deliberately no offline/localStorage fallback here: the site is
 // meant to require a live connection, so a failed fetch surfaces as a
@@ -84,34 +91,35 @@ export function useSemesterData() {
           emoji: data.emoji,
           accent: data.accent,
         });
-      }
 
-      // Merge in admin-uploaded question batches (see file header).
-      // A doc here whose semesterId isn't in SEMESTER_MANIFEST yet is
-      // silently skipped rather than erroring - it just hasn't been
-      // scaffolded into a semester JSON file yet.
-      try {
-        const uploadedSnap = await getDocs(collection(db, 'uploadedQuestions'));
-        uploadedSnap.forEach((docSnap) => {
-          const u = docSnap.data();
-          if (!u.semesterId || !semesterMainSubjects[u.semesterId]) return;
-          const taggedQuestions = (u.questions || []).map((q) => ({ ...q, term: u.semesterId }));
-          questions = questions.concat(taggedQuestions);
-          subjectGroup[u.subtopic] = u.mainSubject;
-          if (u.subtopicEmoji || u.subtopicDesc) {
-            subjectMeta[u.subtopic] = {
-              ...(subjectMeta[u.subtopic] || {}),
-              emoji: u.subtopicEmoji || subjectMeta[u.subtopic]?.emoji,
-              desc: u.subtopicDesc || subjectMeta[u.subtopic]?.desc,
-            };
+        // One doc read for THIS semester's admin-uploaded questions
+        // (see file header for why it's one doc, not a collection
+        // scan). A semester with nothing uploaded yet just won't have
+        // a doc - exists() is false, nothing to merge, no error.
+        try {
+          const uploadSnap = await getDoc(doc(db, 'uploadedQuestions', entry.id));
+          if (uploadSnap.exists()) {
+            const subjects = uploadSnap.data().subjects || {};
+            Object.values(subjects).forEach((u) => {
+              const taggedQuestions = (u.questions || []).map((q) => ({ ...q, term: entry.id }));
+              questions = questions.concat(taggedQuestions);
+              subjectGroup[u.subtopic] = u.mainSubject;
+              if (u.subtopicEmoji || u.subtopicDesc) {
+                subjectMeta[u.subtopic] = {
+                  ...(subjectMeta[u.subtopic] || {}),
+                  emoji: u.subtopicEmoji || subjectMeta[u.subtopic]?.emoji,
+                  desc: u.subtopicDesc || subjectMeta[u.subtopic]?.desc,
+                };
+              }
+            });
           }
-        });
-      } catch (err) {
-        console.error('Failed to load uploaded question batches:', err);
-        if (!cancelled) {
-          setState((s) => ({ ...s, loading: false, error: 'connection' }));
+        } catch (err) {
+          console.error('Failed to load uploaded questions for', entry.id, err);
+          if (!cancelled) {
+            setState((s) => ({ ...s, loading: false, error: 'connection' }));
+          }
+          return;
         }
-        return;
       }
 
       if (!cancelled) {

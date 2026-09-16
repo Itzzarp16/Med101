@@ -231,12 +231,21 @@ class handler(BaseHTTPRequestHandler):
                 'incompleteQuestionNumbers': incomplete,
             })
 
-        doc_id = f"{semester_id}__{slugify(main_subject)}__{slugify(subtopic)}"
-
         try:
             db = firestore.client()
-            db.collection('uploadedQuestions').document(doc_id).set({
-                'semesterId': semester_id,
+            # One document PER SEMESTER (not per upload) - the client
+            # reads uploadedQuestions/{semesterId} directly by ID, so
+            # this keeps the app's read cost fixed at exactly one doc
+            # per active semester no matter how many subtopics get
+            # uploaded over time. Read-merge-write here (instead of a
+            # dotted-field-path merge) so re-uploading one subtopic
+            # only touches its own entry, leaving every other
+            # previously-uploaded subtopic in this semester untouched.
+            sem_ref = db.collection('uploadedQuestions').document(semester_id)
+            sem_snap = sem_ref.get()
+            subjects = (sem_snap.to_dict() or {}).get('subjects', {}) if sem_snap.exists else {}
+            subtopic_key = slugify(subtopic)
+            subjects[subtopic_key] = {
                 'mainSubject': main_subject,
                 'subtopic': subtopic,
                 'subtopicEmoji': emoji,
@@ -244,7 +253,8 @@ class handler(BaseHTTPRequestHandler):
                 'questions': questions_out,
                 'updatedAt': firestore.SERVER_TIMESTAMP,
                 'uploadedBy': email,
-            })
+            }
+            sem_ref.set({'subjects': subjects}, merge=False)
         except Exception as e:
             return self._send(500, {'error': f'Could not save to Firestore: {e}'})
 
