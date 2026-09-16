@@ -142,19 +142,61 @@ def github_upsert_questions(semester_id, main_subject, subtopic, questions_out, 
     put_resp.raise_for_status()
 
 
+EXPECTED_LETTERS = ('A', 'B', 'C', 'D')
+
+
+def _malformed_reason(stem, options):
+    if not stem:
+        return 'question text is empty (numbering matched but no stem text followed)'
+    missing = [l for l in EXPECTED_LETTERS if l not in options]
+    if missing:
+        found = len(options)
+        return f'only {found} option(s) detected, missing {", ".join(missing)}'
+    extra = [l for l in options if l not in EXPECTED_LETTERS]
+    if extra:
+        return f'unexpected option label(s): {", ".join(extra)}'
+    return 'unrecognized structure'
+
+
 def parse_pdf_bytes(pdf_bytes):
-    """Returns a list of {'num', 'q', 'o': [...4 options], 'c': index-or-None}."""
+    """Returns (questions, malformed, total_q_matches).
+
+    questions: list of {'num', 'q', 'o': [...exactly 4 options, A-D order], 'c': index-or-None}
+    malformed: list of {'num', 'reason'} for questions whose numbering matched
+      but which didn't resolve to a clean stem + exactly options A-D (e.g. a
+      layout that broke the option-lettering regex, a stray page-break, etc.)
+    total_q_matches: how many times the "N. text" numbering pattern matched at
+      all, across the whole document - if this is 0 the PDF almost certainly
+      isn't in the expected format at all, as opposed to being in the right
+      format but hitting parse edge cases.
+    """
     doc = fitz.open(stream=pdf_bytes, filetype='pdf')
     questions = []
+    malformed = []
+    total_q_matches = 0
     current_q = None
 
     def flush():
         nonlocal current_q
-        if current_q and current_q['stem'] and len(current_q['options']) >= 2:
-            stem = ' '.join(current_q['stem']).strip().rstrip(':').strip()
+        if current_q is None:
+            return
+        stem = ' '.join(current_q['stem']).strip().rstrip(':').strip()
+        has_all_options = all(l in current_q['options'] for l in EXPECTED_LETTERS) \
+            and len(current_q['options']) == len(EXPECTED_LETTERS)
+        if not stem or not has_all_options:
+            malformed.append({
+                'num': current_q['num'],
+                'reason': _malformed_reason(stem, current_q['options']),
+            })
+        else:
+            # Build options in fixed A-D order (not PDF encounter order) -
+            # if a layout ever interleaves options oddly (e.g. two-column
+            # pages), encounter order can differ from letter order, which
+            # would silently point 'c' (a positional index) at the wrong
+            # option. Keying strictly off the letter avoids that.
             opts = []
             correct = None
-            for i, letter in enumerate(current_q['order']):
+            for i, letter in enumerate(EXPECTED_LETTERS):
                 o = current_q['options'][letter]
                 opts.append(' '.join(o['text']).strip())
                 if o['correct']:
@@ -190,6 +232,7 @@ def parse_pdf_bytes(pdf_bytes):
             om = OPT_PAT.match(text)
             if qm:
                 flush()
+                total_q_matches += 1
                 current_q = {'num': qm.group(1), 'stem': [qm.group(2)], 'options': {}, 'order': []}
             elif om and current_q is not None:
                 letter = om.group(1)
@@ -205,7 +248,7 @@ def parse_pdf_bytes(pdf_bytes):
                     current_q['stem'].append(text)
         flush()
 
-    return questions
+    return questions, malformed, total_q_matches
 
 
 class handler(BaseHTTPRequestHandler):
@@ -275,14 +318,16 @@ class handler(BaseHTTPRequestHandler):
             return self._send(400, {'error': 'pdfBase64 could not be decoded.'})
 
         try:
-            parsed = parse_pdf_bytes(pdf_bytes)
+            parsed, malformed, total_q_matches = parse_pdf_bytes(pdf_bytes)
         except Exception as e:
             return self._send(500, {'error': f'Could not parse PDF: {e}'})
 
-        if not parsed:
+        if total_q_matches == 0:
             return self._send(422, {
-                'error': 'No questions were recognized in this PDF. Check that it matches the expected '
-                         'format (numbered questions, A-D options, yellow-highlighted correct answer).'
+                'error': "No numbered questions were detected anywhere in this PDF. This parser only "
+                         "matches questions written as 'N. question text' - if this PDF uses a "
+                         "different numbering or layout, it isn't a match for this parser at all "
+                         "(see the format note at the top of upload-questions.py)."
             })
 
         incomplete = [q['num'] for q in parsed if q['c'] is None]
@@ -292,10 +337,16 @@ class handler(BaseHTTPRequestHandler):
         ]
 
         if not questions_out:
+            error = 'Questions were found but none could be saved: '
+            reasons = []
+            if incomplete:
+                reasons.append(f'{len(incomplete)} had no detectable highlighted answer')
+            if malformed:
+                reasons.append(f'{len(malformed)} had a structural problem (see malformedQuestions)')
             return self._send(422, {
-                'error': 'Questions were found but none had a detectable highlighted answer - '
-                         'nothing was saved.',
+                'error': error + '; '.join(reasons) + '.',
                 'incompleteQuestionNumbers': incomplete,
+                'malformedQuestions': malformed,
             })
 
         try:
@@ -337,6 +388,7 @@ class handler(BaseHTTPRequestHandler):
             'success': True,
             'saveMethod': save_method,
             'savedCount': len(questions_out),
-            'skippedCount': len(incomplete),
+            'skippedCount': len(incomplete) + len(malformed),
             'incompleteQuestionNumbers': incomplete,
+            'malformedQuestions': malformed,
         })
