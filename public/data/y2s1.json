@@ -36,7 +36,60 @@
       "accent": "#f59e0b"
     }
   },
-  "subjectMeta": {},
-  "subjectGroup": {},
-  "questions": []
+  "subjectMeta": {
+    "Spinal cord": {
+      "emoji": "📖",
+      "desc": "",
+      "accent": "var(--cyan)"
+    }
+  },
+  "subjectGroup": {
+    "Spinal cord": "Topographical Anatomy and Operative Surgery"
+  },
+  "questions": [
+    {
+      "s": "Spinal cord",
+      "q": "Explain what the spinal cord terminal thread (filum terminale) is",
+      "o": [
+        "Bundles of neuronal processes extending from the spinal cord to the organs",
+        "A hollow canal that passes through the center of the spinal cord",
+        "A narrow process of the spinal cord that fuses with the coccyx periosteum",
+        "Nerve fibers extending from neurons"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Spinal cord",
+      "q": "Show the enlargements of the spinal cord",
+      "o": [
+        "cervical and thoracic",
+        "lumbar and sacral",
+        "thoracic and lumbar",
+        "cervical and lumbosacral"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Spinal cord",
+      "q": "Describe what makes up the nervous activity of humans and animals",
+      "o": [
+        "mind",
+        "intellectual activity",
+        "excitement",
+        "a reflex"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Spinal cord",
+      "q": "Specify where the lower cervical segments of the spinal cord are located",
+      "o": [
+        "1 vertebra higher than the corresponding vertebrae",
+        "at the level of the corresponding vertebrae",
+        "2 vertebrae higher than the corresponding vertebrae",
+        "3 vertebrae higher than the corresponding vertebrae"
+      ],
+      "c": 0
+    }
+  ]
 }
