@@ -5,8 +5,13 @@
 //   npm install firebase-admin --no-save
 //   node scripts/set-admin-claims.js /path/to/service-account-key.json
 
-const { cert, initializeApp } = require('firebase-admin/app');
+const { applicationDefault, initializeApp } = require('firebase-admin/app');
 const { getAuth } = require('firebase-admin/auth');
+
+// Cloud Shell variant: uses whoever is logged into Cloud Shell (via
+// `gcloud auth application-default login`) instead of a downloaded
+// service account key file - nothing sensitive to handle or delete
+// afterward. See docs/set-admin-claims.md, "Option 2".
 
 const ADMIN_EMAILS = [
   'admin.med101@gmail.com',
@@ -14,15 +19,7 @@ const ADMIN_EMAILS = [
   'admin2.med101@gmail.com',
 ];
 
-const keyPath = process.argv[2];
-if (!keyPath) {
-  console.error('Usage: node scripts/set-admin-claims.js /path/to/service-account-key.json');
-  process.exit(1);
-}
-
-initializeApp({
-  credential: cert(require(require('path').resolve(keyPath))),
-});
+initializeApp({ credential: applicationDefault() });
 
 async function main() {
   for (const email of ADMIN_EMAILS) {
@@ -34,7 +31,7 @@ async function main() {
       console.error(`✗ ${email} - failed: ${e.message}`);
     }
   }
-  console.log('\nDone. Each admin needs to sign out/in for this to take effect - see step 3 in docs/set-admin-claims.md.');
+  console.log('\nDone. Each admin needs to sign out/in for this to take effect.');
 }
 
 main().then(() => process.exit(0));
