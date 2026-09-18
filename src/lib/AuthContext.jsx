@@ -98,6 +98,11 @@ export function AuthProvider({ children }) {
   // onAuthStateChanged). Same "survives the AuthScreen -> Dashboard
   // transition" reasoning as signupNotice above.
   const [showWhatsAppPrompt, setShowWhatsAppPrompt] = useState(false);
+  // Only set on signUp() (new accounts), never signIn() - existing
+  // users go straight to the WhatsApp prompt. Finishing/skipping the
+  // tour is what triggers showWhatsAppPrompt for new users, so the
+  // two never stack as two overlapping modals - see finishOnboarding().
+  const [showOnboardingTour, setShowOnboardingTour] = useState(false);
   const deviceUnsubRef = useRef(null);
   const deviceClaimPendingRef = useRef(null); // uid just claimed via explicit login
   const signupGateRef = useRef(null); // { uid, promise } - see signUp() below
@@ -340,7 +345,7 @@ export function AuthProvider({ children }) {
       if (!ADMIN_EMAILS.includes(cred.user.email)) {
         deviceClaimPendingRef.current = cred.user.uid;
         await claimDevice(cred.user.uid);
-        setShowWhatsAppPrompt(true);
+        setShowOnboardingTour(true);
       }
       sendWelcomeEmail(cred.user); // fire-and-forget - never blocks or fails signup
       return { user: cred.user, usernameClaimError };
@@ -352,6 +357,13 @@ export function AuthProvider({ children }) {
 
   async function logOut() {
     await signOut(auth);
+  }
+
+  // Called when the onboarding tour finishes or is skipped - chains
+  // straight into the WhatsApp prompt so the two never appear at once.
+  function finishOnboardingTour() {
+    setShowOnboardingTour(false);
+    setShowWhatsAppPrompt(true);
   }
 
   // Call after anything that mutates auth.currentUser directly
@@ -368,7 +380,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, profile, loading, isAdmin, signIn, signUp, logOut, refreshUser, kickedMessage, setKickedMessage, signupNotice, setSignupNotice, showWhatsAppPrompt, setShowWhatsAppPrompt }}
+      value={{ user, profile, loading, isAdmin, signIn, signUp, logOut, refreshUser, kickedMessage, setKickedMessage, signupNotice, setSignupNotice, showWhatsAppPrompt, setShowWhatsAppPrompt, showOnboardingTour, finishOnboardingTour }}
     >
       {children}
     </AuthContext.Provider>

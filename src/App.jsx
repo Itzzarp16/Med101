@@ -27,6 +27,7 @@ import PremiumScreen from './components/PremiumScreen';
 import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig } from './lib/subscription';
 import AuthScreen from './components/AuthScreen';
 import WhatsAppPromptModal from './components/WhatsAppPromptModal';
+import OnboardingTour from './components/OnboardingTour';
 import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
@@ -41,7 +42,7 @@ import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence'
 // popstate listener keeps `screen` in sync with whichever entry the
 // user lands on.
 export default function App() {
-  const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, signupNotice, setSignupNotice, showWhatsAppPrompt, setShowWhatsAppPrompt } = useAuth();
+  const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, signupNotice, setSignupNotice, showWhatsAppPrompt, setShowWhatsAppPrompt, showOnboardingTour, finishOnboardingTour } = useAuth();
   const semesterData = useSemesterData();
   // A hard page refresh loses all in-memory React state, but the
   // student should land back on whatever screen they were on (e.g. a
@@ -399,6 +400,9 @@ export default function App() {
     const flying = loaderPhase === 'flying';
     return (
       <>
+        {showOnboardingTour && (
+          <OnboardingTour onFinish={finishOnboardingTour} />
+        )}
         {showWhatsAppPrompt && (
           <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
         )}
@@ -496,6 +500,9 @@ export default function App() {
         <div className="kicked-banner" onClick={() => setSignupNotice(null)}>
           {signupNotice}
         </div>
+      )}
+      {showOnboardingTour && (
+        <OnboardingTour onFinish={finishOnboardingTour} />
       )}
       {showWhatsAppPrompt && (
         <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
