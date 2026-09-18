@@ -108,6 +108,18 @@ body {
 
 h1, h2, .display {
   font-family: var(--font-heading);
+  /* Same white -> cyan -> violet gradient already used by most
+     screen titles (.std-title, .qmode-hero-title, .lb-title, etc.) -
+     applied here as the default so any heading without its own
+     specific color (legal pages, admin messages, etc.) matches the
+     site's look instead of falling back to plain body-text white. A
+     heading that needs a different, deliberate color (e.g.
+     .rejected-title's red for "Payment Rejected") still overrides
+     this per-component as before. */
+  background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Reusable glass panel - the one signature surface every card/panel uses */

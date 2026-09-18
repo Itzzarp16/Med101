@@ -305,6 +305,10 @@ body.light-mode .opt-btn.correct .opt-label {
   font-weight: 800;
   font-size: 1.7rem;
   margin: 0;
+  background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .results-hero-sub {
