@@ -398,7 +398,11 @@ export default function App() {
   if (loaderPhase !== 'done') {
     const flying = loaderPhase === 'flying';
     return (
-      <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
+      <>
+        {showWhatsAppPrompt && (
+          <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
+        )}
+        <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
         <div ref={logoStackRef} className="app-loading-logo-stack" style={logoFlyStyle || undefined}>
           <div className="app-loading-logo">Med101</div>
           <div className="app-loading-tagline">Learn. Practice. Improve.</div>
@@ -413,6 +417,7 @@ export default function App() {
           </div>
         </div>
       </div>
+      </>
     );
   }
 
