@@ -5,13 +5,16 @@
    reusable tokens for React components instead of inline CSS.
    ═══════════════════════════════════════════ */
 :root {
-  /* Background */
-  --bg: #060818;
-  --bg2: #0a0f22;
-  --surface: #0e1530;
-  --surface2: #131c38;
-  --border: #1f2f50;
-  --border2: #263860;
+  /* Background - true black, replacing the previous navy-black, per
+     the "black with the current liquid glass style" direction. Not
+     pure #000 so shadows/depth cues on glass panels still read
+     (a flat #000 body behind a #000-ish drop shadow is invisible). */
+  --bg: #050505;
+  --bg2: #0a0a0a;
+  --surface: #121212;
+  --surface2: #1a1a1a;
+  --border: #2a2a2a;
+  --border2: #383838;
 
   /* Glass layers */
   --g1: rgba(255, 255, 255, 0.10);
@@ -21,18 +24,19 @@
   --g-border-hi: rgba(255, 255, 255, 0.38);
 
   /* "Chrome" surfaces - topbar, hamburger menu, popovers, and other
-     full-strip dark-navy overlays. These were hardcoded per-component
+     full-strip dark overlays. These were hardcoded per-component
      (never theme-aware) until the light-mode contrast fix below - the
      text inside them (var(--text) etc.) already correctly switches to
      dark for light mode, but the surface itself never switched to
      match, so light-mode text was landing on a background that
-     stayed dark. Values here match each component's previous hardcoded
-     rgba exactly, so dark mode is pixel-identical to before. */
-  --chrome-bg-topbar: rgba(10, 15, 34, 0.72);
-  --chrome-bg-menu: rgba(10, 15, 34, 0.92);
-  --chrome-bg-popover: rgba(10, 15, 34, 0.94);
-  --chrome-bg-strip: #0a0f22;
-  --chrome-bg-overlay: rgba(6, 8, 24, 0.94);
+     stayed dark. Values here were navy-tinted (matching the old --bg2/
+     --bg) and are now black-tinted to match, at the same alpha/blur -
+     same depth relationships, recolored. */
+  --chrome-bg-topbar: rgba(5, 5, 5, 0.72);
+  --chrome-bg-menu: rgba(5, 5, 5, 0.92);
+  --chrome-bg-popover: rgba(5, 5, 5, 0.94);
+  --chrome-bg-strip: #0a0a0a;
+  --chrome-bg-overlay: rgba(0, 0, 0, 0.94);
   --chrome-border: rgba(255, 255, 255, 0.15);
 
   /* Accents */

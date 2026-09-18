@@ -166,7 +166,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
         <div
           style={{
             position: 'fixed', inset: 0, zIndex: 100,
-            background: 'rgba(6, 8, 24, 0.72)', backdropFilter: 'blur(3px)',
+            background: 'rgba(0, 0, 0, 0.72)', backdropFilter: 'blur(3px)',
             display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
             padding: '32px 16px', overflowY: 'auto',
           }}
@@ -341,7 +341,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
         <div
           style={{
             position: 'fixed', inset: 0, zIndex: 100,
-            background: 'rgba(6, 8, 24, 0.72)', backdropFilter: 'blur(3px)',
+            background: 'rgba(0, 0, 0, 0.72)', backdropFilter: 'blur(3px)',
             display: 'flex', alignItems: 'flex-start', justifyContent: 'center',
             padding: '32px 16px', overflowY: 'auto',
           }}
