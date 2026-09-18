@@ -154,7 +154,14 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
               style={{ textDecoration: 'none' }}
               onClick={() => { playTapSound(); setMenuOpen(false); }}
             >
-              💬 WhatsApp Group
+              <svg width="16" height="16" viewBox="0 0 24 24" style={{ verticalAlign: '-3px', marginRight: 6 }}>
+                <circle cx="12" cy="12" r="12" fill="#25D366" />
+                <path
+                  fill="#fff"
+                  d="M12 5.5a6.5 6.5 0 0 0-5.6 9.8L5.5 18.5l3.3-.87A6.5 6.5 0 1 0 12 5.5Zm0 1.3a5.2 5.2 0 0 1 4.42 7.95l-.16.26.63 2.3-2.36-.62-.25.15A5.2 5.2 0 1 1 12 6.8Zm-2.62 2.62c-.14 0-.36.05-.55.27-.19.21-.72.7-.72 1.72s.74 2 .84 2.13c.1.14 1.44 2.2 3.5 3.08 1.72.74 2.07.59 2.44.55.37-.04 1.2-.49 1.37-.96.17-.47.17-.87.12-.96-.05-.08-.19-.13-.4-.23-.2-.1-1.2-.6-1.39-.66-.19-.07-.32-.1-.46.1-.14.21-.53.66-.65.79-.12.14-.24.15-.44.05-.2-.1-.87-.32-1.65-1.02-.61-.54-1.02-1.21-1.14-1.42-.12-.2-.01-.31.09-.41.09-.09.2-.24.3-.36.1-.12.13-.2.2-.34.07-.14.03-.26-.02-.36-.05-.1-.46-1.11-.63-1.51-.16-.4-.33-.34-.46-.35Z"
+                />
+              </svg>
+              WhatsApp Group
             </a>
             <button className="menu-item" onClick={() => go(onWeakTopics)}>🎯 Your Weak Topics</button>
             <button className="menu-item" onClick={() => go(onWrongFlagged)}>📌 Wrong &amp; Flagged Questions</button>
