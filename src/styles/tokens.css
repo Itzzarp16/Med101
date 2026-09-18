@@ -108,18 +108,18 @@ body {
 
 h1, h2, .display {
   font-family: var(--font-heading);
-  /* Same white -> cyan -> violet gradient already used by most
-     screen titles (.std-title, .qmode-hero-title, .lb-title, etc.) -
-     applied here as the default so any heading without its own
-     specific color (legal pages, admin messages, etc.) matches the
-     site's look instead of falling back to plain body-text white. A
-     heading that needs a different, deliberate color (e.g.
-     .rejected-title's red for "Payment Rejected") still overrides
-     this per-component as before. */
-  background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, var(--violet) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  /* Flat cyan - the site's one signature accent, used everywhere for
+     progress/correct-answer states and primary actions - applied
+     here as the default so every heading ties back to that same
+     identity, including screens that previously fell back to plain
+     body-text white (legal pages, admin messages, etc.). Replaced an
+     earlier white->cyan->violet gradient treatment (still visible in
+     git history) that read as busy and shifted unpredictably
+     depending on how a title wrapped across lines. A heading that
+     needs a different, deliberate color (e.g. .rejected-title's red
+     for "Payment Rejected", .lb-title's gold for the leaderboard)
+     still overrides this per-component as before. */
+  color: var(--cyan);
 }
 
 /* Reusable glass panel - the one signature surface every card/panel uses */
@@ -750,10 +750,7 @@ h1, h2, .display {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
   font-size: 1.5rem;
-  background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, var(--violet) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--cyan);
   margin: 0;
 }
 
