@@ -146,6 +146,16 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
             <button className="menu-item" onClick={() => go(onSettings)}>🎓 Change Year &amp; Semester</button>
             <button className="menu-item" onClick={() => go(onChallenge)}>👥 Challenge a Friend</button>
             <button className="menu-item" onClick={() => go(onFriends)}>🧑‍🤝‍🧑 Friends</button>
+            <a
+              className="menu-item"
+              href="https://chat.whatsapp.com/Kn2NDwg7Wij5VQbs35hYMx?s=cl&p=a&mlu=4&ilr=4"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ textDecoration: 'none' }}
+              onClick={() => { playTapSound(); setMenuOpen(false); }}
+            >
+              💬 WhatsApp Group
+            </a>
             <button className="menu-item" onClick={() => go(onWeakTopics)}>🎯 Your Weak Topics</button>
             <button className="menu-item" onClick={() => go(onWrongFlagged)}>📌 Wrong &amp; Flagged Questions</button>
             <button className="menu-item" onClick={() => go(onSearch)}>🔍 Search Questions</button>

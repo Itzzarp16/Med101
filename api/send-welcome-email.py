@@ -37,6 +37,7 @@ from firebase_admin import credentials, auth as fb_auth, firestore
 ALLOWED_ORIGINS = {'https://med101.space', 'https://www.med101.space'}
 
 FROM_EMAIL = os.environ.get('FROM_EMAIL', 'Med101 <welcome@med101.space>')
+WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/Kn2NDwg7Wij5VQbs35hYMx?s=cl&p=a&mlu=4&ilr=4'
 
 # Must exactly match YEAR_SEMESTER_OPTIONS in AuthScreen.jsx/SettingsScreen.jsx.
 YEAR_SEMESTER_LABELS = {
@@ -82,6 +83,7 @@ def _welcome_email_html(name, year_semester):
         .replace('{{NAME}}', safe_name)
         .replace('{{YEAR_SEMESTER_LABEL}}', label)
         .replace('{{CTA_URL}}', 'https://med101.space')
+        .replace('{{WHATSAPP_URL}}', WHATSAPP_GROUP_URL)
     )
 
 
