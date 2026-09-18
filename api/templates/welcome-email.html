@@ -1,0 +1,73 @@
+<!--
+  Welcome email template. Kept as a standalone file (not an inline
+  Python string) so it's easy to edit without touching the function
+  logic in send-welcome-email.py, which loads this file and replaces
+  the {{TOKEN}} placeholders below with real values.
+
+  Email-client constraints this deliberately respects:
+  - No CSS gradient text (background-clip:text) for the wordmark -
+    that's invisible in Outlook and several other clients. Uses a
+    real <img> logo instead.
+  - No prefers-color-scheme / media queries - many email clients
+    ignore them or apply them inconsistently, which can leave dark
+    text on a dark background. Every color here is hardcoded, so the
+    email looks identical everywhere regardless of the recipient's
+    own light/dark mode setting.
+  - Table-free but simple, single-column, inline styles only (no
+    <style> block) - the safest baseline across Gmail, Outlook,
+    Apple Mail, etc.
+
+  Tokens: {{NAME}}, {{YEAR_SEMESTER_LABEL}}, {{CTA_URL}}
+-->
+<div style="background:#050505;padding:32px 16px;font-family:-apple-system,Segoe UI,Roboto,sans-serif;">
+  <div style="max-width:480px;margin:0 auto;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:16px;padding:32px 28px;">
+
+    <img src="https://med101.space/icon-512.png" width="48" height="48" alt="Med101"
+         style="display:block;border-radius:12px;margin-bottom:12px;" />
+
+    <div style="font-size:22px;font-weight:800;letter-spacing:-0.01em;color:#e8e8e8;">
+      Med101
+    </div>
+    <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#8a8a8a;margin-top:4px;">
+      Learn. Practice. Improve.
+    </div>
+
+    <h1 style="color:#f2f2f2;font-size:20px;margin:28px 0 12px;">Welcome, {{NAME}}! 🎉</h1>
+
+    <p style="color:#c8c8c8;font-size:14px;line-height:1.6;margin:0 0 20px;">
+      Your Med101 account is ready, with the full question bank for
+      <strong style="color:#e8e8e8;">{{YEAR_SEMESTER_LABEL}}</strong> - quizzes, weak-topic
+      tracking, and everything else, whenever you want to study.
+    </p>
+
+    <div style="background:#121212;border:1px solid #2a2a2a;border-radius:12px;padding:18px 20px;margin-bottom:24px;">
+      <div style="color:#a78bfa;font-size:11px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:12px;">
+        Getting started
+      </div>
+      <table role="presentation" cellpadding="0" cellspacing="0" style="width:100%;">
+        <tr>
+          <td style="color:#c8c8c8;font-size:13px;line-height:1.9;vertical-align:top;">
+            1. Take your first quiz on any topic<br/>
+            2. Check Weak Topics after a few quizzes to see what to focus on<br/>
+            3. Challenge a classmate head-to-head once you're warmed up
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <a href="{{CTA_URL}}"
+       style="display:inline-block;padding:12px 24px;border-radius:10px;
+              background:linear-gradient(90deg,#00e5ff,#a78bfa,#ff4f6b);color:#050505;
+              font-weight:700;font-size:14px;text-decoration:none;">
+      Start studying
+    </a>
+
+    <p style="color:#6a6a6a;font-size:12px;line-height:1.6;margin:32px 0 0;border-top:1px solid #2a2a2a;padding-top:16px;">
+      Questions or feedback? Just reply, or email
+      <a href="mailto:admin.med101@gmail.com" style="color:#8a8a8a;">admin.med101@gmail.com</a>.
+      <br/>
+      This is a one-time welcome email sent when you created your account.
+      If you didn't create this account, you can ignore it.
+    </p>
+  </div>
+</div>

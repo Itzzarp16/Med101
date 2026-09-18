@@ -38,6 +38,20 @@ ALLOWED_ORIGINS = {'https://med101.space', 'https://www.med101.space'}
 
 FROM_EMAIL = os.environ.get('FROM_EMAIL', 'Med101 <welcome@med101.space>')
 
+# Must exactly match YEAR_SEMESTER_OPTIONS in AuthScreen.jsx/SettingsScreen.jsx.
+YEAR_SEMESTER_LABELS = {
+    'y1s1': 'Year 1 · Semester 1',
+    'y1s2': 'Year 1 · Semester 2',
+    'y2s1': 'Year 2 · Semester 1',
+    'y2s2': 'Year 2 · Semester 2',
+    'y3s1': 'Year 3 · Semester 1',
+    'y3s2': 'Year 3 · Semester 2',
+}
+
+_TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), 'templates', 'welcome-email.html')
+with open(_TEMPLATE_PATH, 'r', encoding='utf-8') as f:
+    _TEMPLATE = f.read()
+
 _app = None
 
 
@@ -60,37 +74,15 @@ def _init_admin():
     return _app
 
 
-def _welcome_email_html(name):
+def _welcome_email_html(name, year_semester):
     safe_name = (name or 'there').split('<')[0].strip() or 'there'
-    return f"""
-<div style="background:#050505;padding:32px 16px;font-family:-apple-system,Segoe UI,Roboto,sans-serif;">
-  <div style="max-width:480px;margin:0 auto;background:#0a0a0a;border:1px solid #2a2a2a;border-radius:16px;padding:32px 28px;">
-    <div style="font-size:26px;font-weight:800;letter-spacing:-0.01em;
-                background:linear-gradient(90deg,#00e5ff,#a78bfa,#ff4f6b);
-                -webkit-background-clip:text;background-clip:text;color:#a78bfa;">
-      Med101
-    </div>
-    <div style="font-size:11px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#8a8a8a;margin-top:4px;">
-      Learn. Practice. Improve.
-    </div>
-    <h1 style="color:#f2f2f2;font-size:20px;margin:28px 0 12px;">Welcome, {safe_name}! 🎉</h1>
-    <p style="color:#c8c8c8;font-size:14px;line-height:1.6;margin:0 0 16px;">
-      Your Med101 account is ready. You've got access to the full question bank for your
-      year and semester - quizzes, weak-topic tracking, and everything else, whenever you
-      want to study.
-    </p>
-    <a href="https://med101.space"
-       style="display:inline-block;margin-top:8px;padding:12px 24px;border-radius:10px;
-              background:linear-gradient(90deg,#00e5ff,#a78bfa,#ff4f6b);color:#050505;
-              font-weight:700;font-size:14px;text-decoration:none;">
-      Start studying
-    </a>
-    <p style="color:#6a6a6a;font-size:12px;line-height:1.6;margin:28px 0 0;">
-      If you didn't create this account, you can ignore this email.
-    </p>
-  </div>
-</div>
-""".strip()
+    label = YEAR_SEMESTER_LABELS.get(year_semester, 'your year and semester')
+    return (
+        _TEMPLATE
+        .replace('{{NAME}}', safe_name)
+        .replace('{{YEAR_SEMESTER_LABEL}}', label)
+        .replace('{{CTA_URL}}', 'https://med101.space')
+    )
 
 
 class handler(BaseHTTPRequestHandler):
@@ -140,10 +132,13 @@ class handler(BaseHTTPRequestHandler):
 
         try:
             existing = user_ref.get()
-            if existing.exists and existing.to_dict().get('welcomeEmailSent'):
+            existing_data = existing.to_dict() if existing.exists else {}
+            if existing_data.get('welcomeEmailSent'):
                 return self._send(200, {'sent': False, 'reason': 'already sent'})
         except Exception as e:
             return self._send(500, {'error': f'Could not check send status: {e}'})
+
+        year_semester = existing_data.get('enrolledYearSemester')
 
         resend_key = os.environ.get('RESEND_API_KEY')
         if not resend_key:
@@ -157,7 +152,7 @@ class handler(BaseHTTPRequestHandler):
                     'from': FROM_EMAIL,
                     'to': [email],
                     'subject': 'Welcome to Med101 🎉',
-                    'html': _welcome_email_html(name),
+                    'html': _welcome_email_html(name, year_semester),
                 },
                 timeout=10,
             )

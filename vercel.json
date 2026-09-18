@@ -1,4 +1,9 @@
 {
+  "functions": {
+    "api/send-welcome-email.py": {
+      "includeFiles": "api/templates/**"
+    }
+  },
   "rewrites": [
     {
       "source": "/((?!api/|assets/).*)",
