@@ -28,10 +28,7 @@
   font-size: clamp(1.7rem, 5vw, 2.6rem);
   font-weight: 800;
   line-height: 1.1;
-  background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, var(--violet) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--cyan);
   margin: 0 0 10px;
 }
 

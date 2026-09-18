@@ -25,10 +25,7 @@
   font-family: 'Syne', sans-serif;
   font-size: clamp(1.8rem, 5vw, 2.8rem);
   font-weight: 800;
-  background: linear-gradient(135deg, #fff 0%, var(--cyan) 60%, var(--violet) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--cyan);
   line-height: 1.1;
   margin-bottom: 8px;
 }
