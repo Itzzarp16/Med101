@@ -116,6 +116,20 @@ body {
   overflow-x: hidden;
 }
 
+/* Plain <a> tags (a handful of inline links like the Terms &
+   Conditions / Privacy Policy checkbox on signup) had no site styling
+   at all, so they fell back to the browser default - unvisited blue,
+   but VISITED links render dark purple, which has poor contrast and
+   is genuinely hard to read against the black background. Cyan for
+   both states keeps them legible and on-brand; underline is kept for
+   link affordance since color alone isn't a reliable-enough cue. */
+a, a:visited {
+  color: var(--cyan2);
+}
+a:hover, a:active {
+  color: var(--cyan);
+}
+
 h1, h2, .display {
   font-family: var(--font-heading);
   /* Flat cyan - the site's one signature accent, used everywhere for
