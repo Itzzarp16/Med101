@@ -25,7 +25,7 @@
   font-family: 'Syne', sans-serif;
   font-size: clamp(1.8rem, 5vw, 2.8rem);
   font-weight: 800;
-  color: var(--cyan);
+  color: var(--heading);
   line-height: 1.1;
   margin-bottom: 8px;
 }

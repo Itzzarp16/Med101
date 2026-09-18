@@ -48,6 +48,15 @@
   --amber: #ffcc2a;     /* admin-only context */
   --pink: #ff6eb4;
 
+  /* Headings - a softer, desaturated pale cyan rather than the full-
+     saturation --cyan. Large blocks of a vivid, fully-saturated color
+     (headings cover far more area than a button or progress bar) read
+     as harsh/glowing against a black background and were causing eye
+     strain - this keeps the same cyan-family identity at much lower
+     saturation/higher lightness, closer to --text but still visibly
+     tinted and distinct from plain body text. */
+  --heading: #b8e8f0;
+
   /* Text */
   --text: #eef4ff;
   --text2: #c0d4f0;
@@ -80,6 +89,7 @@ body.light-mode {
   --red: #cc1133;
   --amber: #aa7700;
   --pink: #aa2266;
+  --heading: #0090c8;
   --text: #081428;
   --text2: #1e3a5c;
   --text3: #3d6080;
@@ -119,7 +129,7 @@ h1, h2, .display {
      needs a different, deliberate color (e.g. .rejected-title's red
      for "Payment Rejected", .lb-title's gold for the leaderboard)
      still overrides this per-component as before. */
-  color: var(--cyan);
+  color: var(--heading);
 }
 
 /* Reusable glass panel - the one signature surface every card/panel uses */
@@ -750,7 +760,7 @@ h1, h2, .display {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
   font-size: 1.5rem;
-  color: var(--cyan);
+  color: var(--heading);
   margin: 0;
 }
 

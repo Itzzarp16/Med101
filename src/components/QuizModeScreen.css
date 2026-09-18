@@ -28,7 +28,7 @@
   font-size: clamp(1.7rem, 5vw, 2.6rem);
   font-weight: 800;
   line-height: 1.1;
-  color: var(--cyan);
+  color: var(--heading);
   margin: 0 0 10px;
 }
 

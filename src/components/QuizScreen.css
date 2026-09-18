@@ -305,7 +305,7 @@ body.light-mode .opt-btn.correct .opt-label {
   font-weight: 800;
   font-size: 1.7rem;
   margin: 0;
-  color: var(--cyan);
+  color: var(--heading);
 }
 
 .results-hero-sub {
