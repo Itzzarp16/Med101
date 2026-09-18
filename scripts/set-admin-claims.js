@@ -1,17 +1,20 @@
 // One-time script: grants {admin: true} custom claim to the admin
-// accounts. See docs/set-admin-claims.md for full instructions.
+// accounts. See docs/set-admin-claims.md for full instructions on
+// both ways to run this (Cloud Shell - no key file needed - or
+// locally with a downloaded service account key).
 //
-// Usage:
+// Usage (from Cloud Shell, or locally with gcloud application-default
+// credentials already set up):
 //   npm install firebase-admin --no-save
-//   node scripts/set-admin-claims.js /path/to/service-account-key.json
+//   node scripts/set-admin-claims.js
+//
+// Usage (locally, with a downloaded service account key - see
+// docs/set-admin-claims.md "Option 2"):
+//   npm install firebase-admin --no-save
+//   GOOGLE_APPLICATION_CREDENTIALS=/path/to/key.json node scripts/set-admin-claims.js
 
 const { applicationDefault, initializeApp } = require('firebase-admin/app');
 const { getAuth } = require('firebase-admin/auth');
-
-// Cloud Shell variant: uses whoever is logged into Cloud Shell (via
-// `gcloud auth application-default login`) instead of a downloaded
-// service account key file - nothing sensitive to handle or delete
-// afterward. See docs/set-admin-claims.md, "Option 2".
 
 const ADMIN_EMAILS = [
   'admin.med101@gmail.com',
