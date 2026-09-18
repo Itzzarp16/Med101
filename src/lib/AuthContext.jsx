@@ -92,6 +92,12 @@ export function AuthProvider({ children }) {
   // the AuthScreen -> Dashboard transition; a message living only in
   // AuthScreen's own local state would not.
   const [signupNotice, setSignupNotice] = useState(null);
+  // Shown once right after a successful sign-in or signup (not on a
+  // resumed/persisted session from a page reload, since this is set
+  // explicitly inside signIn()/signUp() rather than derived from
+  // onAuthStateChanged). Same "survives the AuthScreen -> Dashboard
+  // transition" reasoning as signupNotice above.
+  const [showWhatsAppPrompt, setShowWhatsAppPrompt] = useState(false);
   const deviceUnsubRef = useRef(null);
   const deviceClaimPendingRef = useRef(null); // uid just claimed via explicit login
   const signupGateRef = useRef(null); // { uid, promise } - see signUp() below
@@ -257,6 +263,7 @@ export function AuthProvider({ children }) {
       }
       deviceClaimPendingRef.current = cred.user.uid;
       await claimDevice(cred.user.uid);
+      setShowWhatsAppPrompt(true);
     }
     return cred.user;
   }
@@ -333,6 +340,7 @@ export function AuthProvider({ children }) {
       if (!ADMIN_EMAILS.includes(cred.user.email)) {
         deviceClaimPendingRef.current = cred.user.uid;
         await claimDevice(cred.user.uid);
+        setShowWhatsAppPrompt(true);
       }
       sendWelcomeEmail(cred.user); // fire-and-forget - never blocks or fails signup
       return { user: cred.user, usernameClaimError };
@@ -360,7 +368,7 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, profile, loading, isAdmin, signIn, signUp, logOut, refreshUser, kickedMessage, setKickedMessage, signupNotice, setSignupNotice }}
+      value={{ user, profile, loading, isAdmin, signIn, signUp, logOut, refreshUser, kickedMessage, setKickedMessage, signupNotice, setSignupNotice, showWhatsAppPrompt, setShowWhatsAppPrompt }}
     >
       {children}
     </AuthContext.Provider>
