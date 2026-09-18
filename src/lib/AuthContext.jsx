@@ -54,6 +54,22 @@ async function verifyDevice(uid) {
   }
 }
 
+// Fire-and-forget - a slow/failed email send should never hold up or
+// break account creation. The endpoint itself is idempotent (checks
+// users/{uid}.welcomeEmailSent) so a retry or double-call is harmless.
+async function sendWelcomeEmail(user) {
+  try {
+    const idToken = await user.getIdToken();
+    await fetch('/api/send-welcome-email', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+      body: '{}',
+    });
+  } catch (e) {
+    console.warn('Welcome email failed to send:', e);
+  }
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null); // users/{uid} doc data
@@ -318,6 +334,7 @@ export function AuthProvider({ children }) {
         deviceClaimPendingRef.current = cred.user.uid;
         await claimDevice(cred.user.uid);
       }
+      sendWelcomeEmail(cred.user); // fire-and-forget - never blocks or fails signup
       return { user: cred.user, usernameClaimError };
     } finally {
       releaseGate();
