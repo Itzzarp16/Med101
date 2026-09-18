@@ -407,16 +407,15 @@ h1, h2, .display {
   letter-spacing: -0.01em;
 }
 
-.topbar-signature {
-  font-family: 'Caveat', cursive;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
-  letter-spacing: 0.02em;
-  transform: rotate(-3deg);
-  display: inline-block;
-  margin-top: -3px;
-  margin-left: 1px;
+.topbar-tagline {
+  font-family: var(--font-body, sans-serif);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-top: 1px;
+  white-space: nowrap;
 }
 
 .topbar-right {

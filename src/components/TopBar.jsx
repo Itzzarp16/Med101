@@ -71,6 +71,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
           onClick={() => { playTapSound(); onHome?.(); }}
         >
           <span className="topbar-logo">Med101</span>
+          <span className="topbar-tagline">Learn. Practice. Improve.</span>
         </button>
       </div>
 
