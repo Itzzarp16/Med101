@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { fetchHomeNotice, loadCachedHomeNotice, saveCachedHomeNotice } from '../lib/homeNotice';
 import { playTapSound } from '../lib/sounds';
+import useLockBodyScroll from '../lib/useLockBodyScroll';
 import './HomeNoticeBanner.css';
 
 export default function HomeNoticeBanner() {
   const [notice, setNotice] = useState(() => loadCachedHomeNotice());
   const [open, setOpen] = useState(false);
+  useLockBodyScroll(open);
 
   useEffect(() => {
     let cancelled = false;
