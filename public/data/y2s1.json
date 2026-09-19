@@ -46,11 +46,17 @@
       "emoji": "📖",
       "desc": "",
       "accent": "var(--cyan)"
+    },
+    "Physiology": {
+      "emoji": "📖",
+      "desc": "",
+      "accent": "var(--cyan)"
     }
   },
   "subjectGroup": {
     "Spinal cord": "Topographical Anatomy and Operative Surgery",
-    "Biochemistry": "Clinical Biochemistry"
+    "Biochemistry": "Clinical Biochemistry",
+    "Physiology": "Human Physiology 2"
   },
   "questions": [
     {
@@ -4999,6 +5005,3735 @@
         "Transmission of pain signals from the skin of the face.",
         "Regulation of secretion and motility of the abdominal organs.",
         "Providing higher mental functions and memory."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The patient's blood pH is 7.0. Make a conclusion.",
+      "o": [
+        "Alkalosis",
+        "homeostasis",
+        "acidosis",
+        "normal"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Agglutination is defined as",
+      "o": [
+        "the sticking of erythrocytes when blood of incompatible groups mixes",
+        "clotting of blood when blood of incompatible groups is mixed",
+        "destruction of erythrocytes when placed in a hypotonic solution",
+        "breakdown of leukocytes when mixing blood of incompatible groups"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Agglutinins are part of",
+      "o": [
+        "red blood cells",
+        "leucocytes",
+        "platelets",
+        "blood plasma"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Agglutinogens are a part of",
+      "o": [
+        "erythrocytes",
+        "leukocytes",
+        "platelets",
+        "blood plasma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The heparin antagonist is the basophilic acid contained in",
+      "o": [
+        "anaphylaxin",
+        "heparin sulfate",
+        "thrombostenin",
+        "histamine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Blood plasma proteins create",
+      "o": [
+        "osmotic pressure",
+        "oncotic pressure",
+        "hydrostatic pressure",
+        "hemodynamic pressure"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "In what processes is blood coagulation factor XII (Hageman) involved?",
+      "o": [
+        "In the third phase of hemocoagulation",
+        "In retraction and fibrinolysis",
+        "In retraction and second phase of hemocoagulation",
+        "In fibrinolysis and the first phase of secondary hemostasis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Which cellular elements of the blood contain heparin?",
+      "o": [
+        "In erythrocytes",
+        "In neutrophils",
+        "In platelets",
+        "in basophils"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "In which case would leukocytosis be true?",
+      "o": [
+        "After a meal",
+        "During physical exertion",
+        "In inflammatory reactions",
+        "During stress"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The first phase of hemocoagulation involves",
+      "o": [
+        "thrombin formation",
+        "fibrin formation",
+        "prothrombinase formation",
+        "fibrinolysis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "How long after the formation of the blood clot is the retraction completed?",
+      "o": [
+        "10-20 min",
+        "1-2 min",
+        "5-10 s",
+        "2-3 hours"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The third phase of hemocoagulation involves",
+      "o": [
+        "platelet adhesion and aggregation",
+        "fibrinolysis",
+        "prothrombinase formation",
+        "fibrinase formation"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Substances that dissolve clots or prevent blood clotting are called",
+      "o": [
+        "hemopoietins",
+        "antibodies",
+        "coagulants",
+        "anticoagulants"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The external pathway of the first phase of hemocoagulation (secondary hemostasis) is associated with",
+      "o": [
+        "damage to cellular elements and exposure of collagen fibers",
+        "platelet adhesion",
+        "release of serotonin and norepinephrine from platelets",
+        "damage of vascular wall and surrounding tissues"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The intrinsic pathway of the first phase of hemocoagulation (secondary hemostasis) is associated with",
+      "o": [
+        "damage to cell membranes and exposure of collagen fibers",
+        "platelet adhesion",
+        "release of serotonin and norepinephrine from vascular wall",
+        "damage of vascular wall and surrounding tissues"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The second phase of hemocoagulation involves",
+      "o": [
+        "platelet adhesion and aggregation",
+        "formation of thrombin",
+        "prothrombinase formation",
+        "clot retraction and fibrinolysis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Blood clotting time can decrease during",
+      "o": [
+        "mental work",
+        "emotional stress",
+        "rest",
+        "sleep"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Select the compound of hemoglobin (Hb) that has the greatest ability to attach carbon dioxide.",
+      "o": [
+        "methemoglobin",
+        "HbS",
+        "Deoxyhemoglobin",
+        "oxyhemoglobin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Where are most hematopoietic factors synthesized?",
+      "o": [
+        "In the liver",
+        "In plasma",
+        "In the kidneys",
+        "in the spleen"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Hemophilia A (a disease in which blood does not clot) can occur in",
+      "o": [
+        "a deficiency of anti-hemophilic globulin in the plasma",
+        "thromboplastin deficiency in platelets",
+        "absence of fibrin stabilizing factor",
+        "excessive content of antihemophilic globulin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Blood is diluted to count the number of leukocytes",
+      "o": [
+        "5% sodium citrate solution",
+        "Thurk's liquid",
+        "0.9% NaCl solution",
+        "distilled water"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "To count erythrocytes in a Goryaev counting chamber, blood is diluted",
+      "o": [
+        "4% acetic acid solution",
+        "3% NaCl solution",
+        "distilled water",
+        "0.1 NaCl solution"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "All phases of hemocoagulation require the participation of ions",
+      "o": [
+        "calcium",
+        "chlorine",
+        "sodium",
+        "potassium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "If the process of fibrinolysis is disrupted, there is a threat of development",
+      "o": [
+        "thromboembolism (clogging of blood vessels with blood clots",
+        "massive blood loss",
+        "hemotransfusion shock",
+        "hemolysis of erythrocytes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The importance of proteins as a buffer system is that they",
+      "o": [
+        "carry out carbon dioxide transport",
+        "prevent an increase in concentration of H+ ions in blood",
+        "behave as alkali in an acidic environment and as acid in an alkaline environment",
+        "maintain osmotic pressure"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "To which group does the blood under study belong if it is agglutinated with standard Group I and Group II sera?",
+      "o": [
+        "Group IV",
+        "Group III",
+        "To group II",
+        "To group I"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Which group the blood under study belongs to if it is not agglutinated by standard sera",
+      "o": [
+        "Group IV",
+        "group III",
+        "To group II",
+        "Group I"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Platelets are involved in",
+      "o": [
+        "synthesis of anticoagulants",
+        "transport of oxygen and carbon dioxide",
+        "processes of specific immunity",
+        "phagocytosis processes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The increase in the number of red blood cells during adaptation to high altitude is associated with",
+      "o": [
+        "change in the shape of red blood cells",
+        "decrease in erythrocyte decay",
+        "increase in erythrocyte synthesis",
+        "increase in blood supply to internal organs"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Specify the normal content of hemoglobin in the blood",
+      "o": [
+        "In women 95-115 g/l, in men 110-115 g/l",
+        "Women have 120-150 g/l, men 130-160 g/l",
+        "women have 155-160 g/l, men 168-180 g/l",
+        "In women 100-110 g/l, in men 120-125 g/l"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Functions of basophils",
+      "o": [
+        "participation in blood clotting (internal pathway)",
+        "phagocytosis, antibody synthesis",
+        "phagocytosis, histamine formation",
+        "formation of histamine and heparin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Which substances are the functional components of blood?",
+      "o": [
+        "nutrients transported by the blood",
+        "hormones and enzymes transported by the blood",
+        "minerals, blood proteins",
+        "macromolecules"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What processes occur after coagulation?",
+      "o": [
+        "vascular-platelet hemostasis",
+        "conversion of fibrinogen into fibrin",
+        "clot retraction and fibrinolysis",
+        "viscous metamorphosis of platelets"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Which blood plasma protein in coagulation changes from soluble state into insoluble state?",
+      "o": [
+        "plasminogen is converted into plasmin",
+        "fibrinogen is converted into fibrin",
+        "prothrombin changes into thrombin",
+        "angiotensinogen turns into angiotensin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Which of vessels provides the stopping of bleeding vascular-platelet hemostasis?",
+      "o": [
+        "from the vessels of the microcirculatory",
+        "from the middle arteries",
+        "from medium veins",
+        "from large vessels"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "How do thromboxane (I) and prostacyclin (II) affect platelet aggregation platelets aggregation?",
+      "o": [
+        "I- stimulates, II - inhibits",
+        "I-inhibits, II-stimulates",
+        "I and II - stimulate",
+        "I and II - inhibit"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "How does the blood flowing out of the lungs clot compared to the blood flowing into the lungs?",
+      "o": [
+        "slower",
+        "faster",
+        "at the same rate",
+        "it is unable to clot"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Why does the rate of erythrocyte sedimentation during pregnancy increases;",
+      "o": [
+        "due to increased number of erythrocytes in blood",
+        "due to an increase in plasma albumin content",
+        "because of an increase in plasma fibrinogen",
+        "due to a decrease in fibrinogen in plasma E. due to an increase in blood volume"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Why does the rate of erythrocyte sedimentation of erythrocytes increases?",
+      "o": [
+        "due to an increase in the number of white blood cells",
+        "due to an increase in plasma albumin content",
+        "due to an increase in the content of large molecular proteins in plasma",
+        "decrease in the amount of large molecular weight proteins in plasma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "In which solution does osmotic hemolysis occur of erythrocytes (I) and in which solution does plasmolysis (II) occur?",
+      "o": [
+        "I - in hypotonic, II - in isotonic",
+        "I - in hypertonic, II - in isotonic",
+        "I - in hypotonic, II - in hypertonic",
+        "I - in hypertonic, II - in hypotonic"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient with acute blood loss requires urgent transfusion. His medical history indicates a previous hemolytic transfusion reaction. Laboratory testing reveals the presence of anti-A and anti-D antibodies in the plasma. Which blood type is the safest for transfusion in this patient?",
+      "o": [
+        "A (II) Rh￿",
+        "B (III) Rh￿",
+        "O (I) Rh￿",
+        "AB (IV) Rh￿"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "A pregnant woman is Rh-negative, while the fetus is Rh-positive. She has a history of one previous delivery without prophylactic anti-D immunoglobulin. The newborn develops hemolytic disease of the newborn. What is the main pathogenic mechanism responsible for this condition?",
+      "o": [
+        "Activation of the complement system via the alternative pathway",
+        "Transfusion of maternal erythrocytes to the fetus",
+        "Transplacental passage of maternal IgG antibodies",
+        "Immune aggregation of fetal platelets"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient with septic shock presents with severe hypotension despite an increased cardiac output. Which hemodynamic change most likely explains this condition?",
+      "o": [
+        "Increased total peripheral resistance",
+        "Decreased venous return",
+        "Arteriolar dilation with reduced peripheral resistance",
+        "Decreased stroke volume"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "During assessment of microcirculation, blood flow velocity in capillaries is found to be significantly lower than in arteries. What is the primary reason for this phenomenon?",
+      "o": [
+        "Increased blood viscosity in capillaries",
+        "Large total cross-sectional area of capillaries",
+        "Reduced pressure in venules",
+        "Decreased elasticity of the vessel wall"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient presents with frequent gingival bleeding and petechial hemorrhages. Platelet count is normal, but platelet adhesion to the vascular wall is impaired. Deficiency of which factor is most likely responsible?",
+      "o": [
+        "Fibrinogen",
+        "Factor VIII",
+        "von Willebrand factor",
+        "Prothrombin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Laboratory tests show a prolonged activated partial thromboplastin time (aPTT) with a normal prothrombin time (PT). Which part of the hemostatic system is most likely impaired?",
+      "o": [
+        "Extrinsic coagulation pathway",
+        "Intrinsic coagulation pathway",
+        "Platelet hemostasis",
+        "Fibrinolysis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient with polycythemia has a hematocrit level of 65%. Sluggish blood flow and a tendency toward thrombosis are observed. Which factor most strongly contributes to these hemodynamic disturbances?",
+      "o": [
+        "Reduced cardiac output",
+        "Increased plasma osmotic pressure",
+        "Increased blood viscosity",
+        "Decreased venous tone PHYSIOLOGY OF CVS."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Basal vascular tone is caused by",
+      "o": [
+        "influence of the parasympathetic nervous system",
+        "automatism of vascular smooth muscle cells",
+        "influence of sympathetic nervous system",
+        "humoral effects on blood vessels"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "In which parts of the bloodstream is intravascular pressure lowest?",
+      "o": [
+        "in capillaries",
+        "In arterioles",
+        "In veins",
+        "in large-caliber arteries"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "In which part of the vascular system does blood move most slowly?",
+      "o": [
+        "in the aorta",
+        "in large-caliber arteries",
+        "in veins",
+        "in capillaries"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The time for the complete circulation of blood through the cardiovascular system is",
+      "o": [
+        "20-23 s",
+        "1.5-2 min",
+        "55-60 s",
+        "40-45 s"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Select the definition of arterial pulse.",
+      "o": [
+        "The rhythmic change in pressure in the heart cavities",
+        "Rhythmic oscillations of the chest wall during heart contractions",
+        "Stretching of the arterial wall as BP rises during cardiac systole",
+        "Rhythmic contractions of the heart"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Hyperpolarization of the membrane in the cells of the sinus-atrial node when the vagus nerve is stimulated by",
+      "o": [
+        "acetylcholinesterase",
+        "acetylcholine",
+        "noradrenaline",
+        "adrenaline"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "The homeometric mechanism of heart regulation consists in",
+      "o": [
+        "intensification of heart contractions when there is a change in aortic pressure",
+        "increase in heart rate when the baseline length of muscle fibers changes",
+        "increase in heart rate when the baseline length of muscle fibers changes",
+        "increase in heart rate with changes in aortic pressure"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The diameter of the vascular lumen decreases under the influence of the above biologically active substances, except for",
+      "o": [
+        "angiotensin",
+        "vasopressin",
+        "serotonin",
+        "histamine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Capacitance vessels are referred to as",
+      "o": [
+        "arterioles",
+        "veins",
+        "capillaries",
+        "aorta"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What elements does the intracardiac reflex arc consist of?",
+      "o": [
+        "Extracardiac innervation elements",
+        "Elements of the conduction system and gap contacts",
+        "Sinus-atrial and atrial-ventricular nodes",
+        "From afferent neurons with stretch receptors, insertion neurons and efferent neurons innervating myocardium"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Intensity of blood supply to an organ is estimated by the value of",
+      "o": [
+        "the volumetric velocity of blood flow",
+        "pulse wave velocity",
+        "blood pressure",
+        "time of complete blood circulation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The incisura of the sphygmographic wave corresponds in time to",
+      "o": [
+        "the slamming of the semilunar valves",
+        "the moment of rapid expulsion of blood from the ventricle",
+        "opening of the semilunar valves",
+        "slamming of atrial-ventricular valves"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "How does turning off the vagus nerves (by cutting or injecting atropine) affect the heart rate (HR)?",
+      "o": [
+        "first the HR will decrease, then it will increase",
+        "the HR will decrease",
+        "heart rate will remain unchanged",
+        "heart rate will increase"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "How does BP change with increasing physical activity?",
+      "o": [
+        "Both systolic and diastolic BP do not change",
+        "Systolic BP decreases, diastolic BP increases",
+        "Systolic BP increases and diastolic BP does not change",
+        "Systolic BP doesn't change, diastolic BP increases"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the difference between the values of systolic and diastolic BP?",
+      "o": [
+        "Lateral pressure",
+        "end-diastolic pressure",
+        "mean pressure",
+        "pulse pressure"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Which waves on the BP curve in the acute experience have the highest frequency?",
+      "o": [
+        "All of the above",
+        "Waves of order III",
+        "Waves of order II",
+        "First-order waves"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Which hemodynamic factors affect the value of BP?",
+      "o": [
+        "Heart valve function and pulse wave velocity",
+        "Minute blood flow volume and respiratory excursions",
+        "Pulse wave velocity",
+        "Minute blood flow volume and peripheral resistance value"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Which hormones stimulate cardiac activity?",
+      "o": [
+        "Adrenaline, noradrenaline, and thyroxine",
+        "Serotonin",
+        "thyroxine and insulin",
+        "adrenaline and antidiuretic hormone"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Which nerves going to the heart have a central tone?",
+      "o": [
+        "Parasympathetic",
+        "None",
+        "Sympathetic and parasympathetic",
+        "Sympathetic"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Which BP parameters change in a person after physical activity?",
+      "o": [
+        "None change",
+        "Minimum BP",
+        "Average BP",
+        "Maximum BP"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Which regulatory mechanisms are referred to as extracardiac?",
+      "o": [
+        "Intercellular interactions",
+        "Intracardiac peripheral reflexes",
+        "Reflexes involving extracardiac nerves and humoral mechanisms",
+        "Humoral mechanisms, peripheral reflexes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Which regulatory mechanisms are referred to as intracardiac mechanisms?",
+      "o": [
+        "Intracellular mechanisms, intercellular interactions, intracardiac peripheral reflexes",
+        "Intracellular mechanisms, nervous system influences",
+        "Intracellular mechanisms, humoral influences, intercellular interactions",
+        "Humoral influences, intercellular interactions, peripheral reflexes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What reflexes are caused by irritation of aortic arch and carotid sinus baroreceptors?",
+      "o": [
+        "Does not cause any changes",
+        "Combined",
+        "Pressor",
+        "Depressor"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the value of blood pressure in the veins outside the chest?",
+      "o": [
+        "40-50 mmHg",
+        "5-9 mmHg",
+        "25-30 mmHg",
+        "2-3 mmHg"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the amount of blood pressure at the arterial end of a capillary?",
+      "o": [
+        "50-60 mmHg",
+        "3-5 mmHg",
+        "10-15 mmHg",
+        "20-30 mmHg"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the amount of blood pressure at the venous end of a capillary?",
+      "o": [
+        "10-15 mmHg",
+        "45 mmHg",
+        "10 mmHg",
+        "3 mmHg"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the speed of pulse wave propagation through medium-diameter elastic vessels?",
+      "o": [
+        "100-140 cm/s",
+        "6-9 m/s",
+        "0.5-1 cm/s",
+        "1-2 m/s"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What mechanism underlies the increase in heart rate during the athlete's condition before the start?",
+      "o": [
+        "Intracardiac peripheral reflex",
+        "Influence of the carotid sinus",
+        "Purely hormonal influence",
+        "Conditioned reflex mechanism"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Which division of the nervous system performs extracardiac regulation of cardiac activity?",
+      "o": [
+        "Sympathetic and parasympathetic divisions of the autonomic nervous system",
+        "Somatic and autonomic divisions",
+        "Somatic and parasympathetic divisions",
+        "somatic division"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Which vasodilator is secreted by vascular endotheliocytes?",
+      "o": [
+        "bradykinin",
+        "NO (nitric oxide)",
+        "serotonin",
+        "acetylcholine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Blood flow in working skeletal muscles during physical activity",
+      "o": [
+        "does not change",
+        "it increases after 10 min",
+        "it increases after 20-30 s",
+        "it increases in 0.5-1 s"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The linear velocity of blood flow in the aorta is equal to",
+      "o": [
+        "1 mm/s",
+        "0.5 cm/s",
+        "0.5-1 m/s",
+        "25 cm/sec"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The linear velocity of blood flow in capillaries is",
+      "o": [
+        "0.5 cm/s",
+        "25 cm/s",
+        "50 cm/sec",
+        "0.5-1 mm/s"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "A method of examining arterial vessels",
+      "o": [
+        "pneumography",
+        "plethysmography",
+        "sphygmography",
+        "phlebography"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "A method of recording the oscillation of the walls of the venous vessels",
+      "o": [
+        "pneumography",
+        "phlebography",
+        "sphygmography",
+        "plethysmography"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Against the background of strong irritation of the vagus nerves, the heart stopped. After some time, despite continued irritation, the heart resumed its work. What is this effect called?",
+      "o": [
+        "The phenomenon of slipping away",
+        "The law of the ladder",
+        "Negative inotropic effect",
+        "Frank-Starling's Law"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "State the main mechanisms of distant regulation of vascular tone.",
+      "o": [
+        "Humoral and neurogenic",
+        "Myogenic and metabolic",
+        "Neurogenic and metabolic",
+        "Humoral and myogenic"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The greatest number of smooth muscle cells is found in the wall of",
+      "o": [
+        "arterioles",
+        "lymphatic vessels",
+        "venules",
+        "capillaries"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Normal BP level with decreased vascular resistance is provided by",
+      "o": [
+        "decreased frequency and increased force of heart contractions",
+        "decrease in heart rate and force",
+        "an increase in the frequency and strength of the heartbeat",
+        "increase in heart rate and decrease in force of heart beats"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The state of elastic properties of arterial vessels can be judged by the value of",
+      "o": [
+        "pulse wave velocity",
+        "amplitude of A waveform",
+        "heart rate",
+        "R-R interval on electrocardiogram"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Total peripheral vascular resistance depends on",
+      "o": [
+        "heart rate",
+        "linear velocity of blood flow",
+        "volumetric blood flow rate",
+        "lumen diameter and vessel length"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The volumetric blood flow rate reflects",
+      "o": [
+        "circulating blood volume (CVC)",
+        "the time of a complete blood cycle",
+        "the amount of blood flowing through the vascular bed per unit of time",
+        "velocity of blood particles along a vessel"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The basic law of the heart (Franck-Starling's law) is based on the mechanism of",
+      "o": [
+        "homeometric regulation of the heart",
+        "heterometric regulation of the heart",
+        "humoral regulation of the heart",
+        "extracardiac regulation of the heart"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "The main factor in the movement of blood through the arteries",
+      "o": [
+        "presence of valves",
+        "difference between intravascular and tissue pressure",
+        "pressure difference in the proximal and distal parts of the vessels",
+        "suctioning action of the thorax during inhalation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The main link in the microcirculatory system is",
+      "o": [
+        "capillaries",
+        "arteriolo-venular anastomoses",
+        "venules",
+        "arterioles"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Under the influence of acetylcholine, potassium conductance of sinus-atrial node cell membrane",
+      "o": [
+        "does not change",
+        "at first decreases, then increases",
+        "it increases",
+        "decreases"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Under the influence of histamine, the diameter of the lumen of peripheral vessels",
+      "o": [
+        "increases only in the presence of angiotensin",
+        "it increases",
+        "decreases",
+        "does not change"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "When acetylcholine is applied to the myocardium, it occurs",
+      "o": [
+        "myocyte membrane hyperpolarization",
+        "repolarization of myocyte membrane",
+        "depolarization of myocyte membrane",
+        "rapid heartbeat"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "When norepinephrine is applied to the myocardium, the following occurs",
+      "o": [
+        "membrane polarization will not change",
+        "hyperpolarization",
+        "depolarization of myocyte membrane",
+        "repolarization of myocyte membrane"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "When the vagus nerve is irritated, the sinus-atrial node cells experience",
+      "o": [
+        "lengthening of the diastolic depolarization phase",
+        "membrane repolarization",
+        "shortening of diastolic depolarization phase",
+        "membrane depolarization"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Resistive vessels are called",
+      "o": [
+        "arterioles",
+        "veins",
+        "capillaries",
+        "aorta"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What heart structures are intracardiac peripheral reflexes associated with?",
+      "o": [
+        "With the crevicular contacts",
+        "With the intramural ganglia of the myocardium",
+        "With intercellular contacts",
+        "With elements of the conduction system"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Sympathetic cholinergic nerve fibers cause in blood vessels",
+      "o": [
+        "have no significant effect",
+        "sometimes vasoconstriction, sometimes vasodilation",
+        "vasodilation",
+        "vasoconstriction"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The speed of pulse wave propagation is the higher the",
+      "o": [
+        "greater the stiffness of the arterial wall",
+        "less stiffness of arterial wall",
+        "more force of heartbeat",
+        "lower BP"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Average BP during physical activity",
+      "o": [
+        "first increases and then decreases",
+        "increases",
+        "decreases",
+        "does not change"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Increased blood pressure in the aortic arch and carotid sinuses causes",
+      "o": [
+        "depressor reflex",
+        "Aschner's eye reflex",
+        "pressor reflex at rest, depressor reflex during physical activity",
+        "pressor reflex"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "An increase in the end-diastolic length of myocardial muscle fibers occurs when",
+      "o": [
+        "increase in total peripheral vascular resistance",
+        "decrease in venous inflow to the heart",
+        "increase in venous blood flow to the heart",
+        "increase in blood pressure in the aorta"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Elastic shock-absorbing vessels are called",
+      "o": [
+        "capillaries",
+        "veins",
+        "large vessels of elastic and muscular types",
+        "arterioles"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Increased contraction of the left ventricle with increased blood pressure in the aorta refers to",
+      "o": [
+        "homeometric regulation of the heart",
+        "metabolic regulation of the heart",
+        "extracardiac regulation of the heart",
+        "heterometric regulation of the heart"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The enhancement of myocardial contraction by an increase in the end-diastolic length of muscle fibers (heterometric mechanism) is provided by",
+      "o": [
+        "the influence of the vagus nerve on cardiac function",
+        "intracardiac peripheral reflex",
+        "intercellular interaction mechanism",
+        "intracellular regulatory mechanism"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What can explain working hypertrophy of cardiac muscle?",
+      "o": [
+        "decreased synthesis of contractile proteins",
+        "Increased activity of cardiac conduction system",
+        "Increased number of muscle fibers",
+        "Increased synthesis of contractile proteins"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the maximum BP in the brachial artery in newborns?",
+      "o": [
+        "100 mmHg",
+        "50 mmHg",
+        "80 mmHg",
+        "35 mmHg"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the minimum (diastolic) BP in the brachial artery in a healthy middle-aged person?",
+      "o": [
+        "105-120 mmHg",
+        "90-95 mmHg",
+        "35-50 mmHg",
+        "60-80 mmHg"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the average BP of a healthy middle-aged person?",
+      "o": [
+        "110-120 mmHg",
+        "50-70 mmHg",
+        "90-95 mmHg",
+        "35-60 mmHg"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is called the law of the heart (Frank-Starling's law)?",
+      "o": [
+        "Increase in heart rate with an increase in aortic pressure",
+        "Increase in heart force in proportion to diastolic myocardial distension",
+        "Decrease in the force of heart contraction with increasing blood flow to the heart",
+        "Increased force of heart contraction with increasing BP"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Which of the following best characterizes the oval window?",
+      "o": [
+        "Drops blood from right to left",
+        "Connects the pulmonary artery to the aorta",
+        "Discharges deoxygenated blood into the left atrium",
+        "Functions after birth"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What causes slow diastolic depolarization of the heart's pacing cells?",
+      "o": [
+        "Entry of potassium ions into the cell",
+        "Exit of calcium ions from the cell",
+        "Entry of sodium and calcium ions into the cell",
+        "release of sodium ions from cell"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the degree of automatism of the different parts of the cardiac conductive system?",
+      "o": [
+        "decreases from the sinoatrial node to the atrioventricular node and then increases",
+        "decreases from the base of the heart to the apex",
+        "Same",
+        "decreases from the apex to the base of the heart E. increases from the sinoatrial node to the atrioventricular node and then decreases"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Slow diastolic depolarization is characteristic of cells",
+      "o": [
+        "contractile atrial cardiomyocytes",
+        "skeletal muscle fibers",
+        "skeletal muscle fibers",
+        "heart pacing cells E. contractile cardiomyocytes of ventricles"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The aortic valve opens in the left ventricle at a pressure (in mm Hg)",
+      "o": [
+        "more than 5-7",
+        "more than 10-15",
+        "more than 120-130",
+        "more than 70-80 E. more than 25-30"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is normal systolic volume at rest?",
+      "o": [
+        "65-70 ml",
+        "10-15 ml",
+        "4,5-5,0 л",
+        "150-200 ml E. 20-30 ml"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "After the aortic semilunar valve is opened, the blood pressure in the left ventricle",
+      "o": [
+        "Rises from 80 to 120 mmHg",
+        "Decreases to 0 mmHg",
+        "Decreases to 80 mmHg",
+        "Rises from 10 to 25 mmHg E. Does not change"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The absolute refractoriness of a typical ventricular cardiomyocyte lasts for",
+      "o": [
+        "5-10 ms",
+        "250.0-300.0 ms",
+        "0.5-1.0 ms",
+        "25.0-30.0 ms E. 2.0-5.0 ms"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the normal end-systolic blood volume (in ml)?",
+      "o": [
+        "160-200",
+        "120-140",
+        "20-30",
+        "70-80 E. 15-20"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The rapid depolarization phase of a typical cardiomyocyte is determined by ions",
+      "o": [
+        "sodium",
+        "potassium",
+        "chlorine",
+        "magnesium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the normal end-diastolic blood volume (in ml)?",
+      "o": [
+        "15-20",
+        "70-80",
+        "120-140",
+        "20-30 E. 160-200"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Electrodes for recording ECG in the III standard lead are placed as follows",
+      "o": [
+        "right arm - left leg",
+        "left arm-left leg",
+        "right arm-left arm",
+        "right arm and left arm-left leg E. right arm and left leg-left arm"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Electrodes for ECG recording in the first standard lead are placed as follows",
+      "o": [
+        "right arm and left arm-left leg",
+        "right arm-left arm",
+        "right arm-left leg",
+        "right arm and left leg-left arm"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "After bilateral transection of sympathetic nerves in the dog",
+      "o": [
+        "The heart rate will decrease",
+        "The heart rate will first increase and then decrease",
+        "The heart rate will not change",
+        "The heart will stop"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The electrocardiogram can be used to judge",
+      "o": [
+        "myocardial excitability and conduction",
+        "heart valve function",
+        "pumping function",
+        "strength of heart contractions"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The dromotropic effect on cardiac function is a change in",
+      "o": [
+        "pumping function",
+        "myocardial conduction",
+        "myocardial excitability",
+        "heart rate PHYSIOLOGY OF RESPIRATION."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "How does the minute volume of respiration change with an increase in the pressure of carbon dioxide in the alveolar air?",
+      "o": [
+        "Does not change",
+        "Significantly reduced",
+        "Decreases",
+        "Increases"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "How does the volume of the chest change when exhaling?",
+      "o": [
+        "Does not change",
+        "Decreases",
+        "Increases",
+        "not changed"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "How does the volume of the lungs change with an increase in the pressure difference in the pleural cavity and alveoli?",
+      "o": [
+        "Remains unchanged",
+        "Increases",
+        "Decreases",
+        "not changed"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "In case of violation of the tightness of the pleural cavity, pulmonary ventilation",
+      "o": [
+        "decreases",
+        "intensifies",
+        "does not change",
+        "is terminated"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the volume of anatomical dead space?",
+      "o": [
+        "80-100 ml",
+        "140-150 ml",
+        "200-250 ml",
+        "300-400 ml"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the volume of minute ventilation?",
+      "o": [
+        "10-16 l",
+        "4-6 l",
+        "6-9 l",
+        "16-20 l"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the volume of minute pulmonary ventilation under load?",
+      "o": [
+        "15-20 l",
+        "60-90 l",
+        "200-250 l",
+        "300-350 l"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the volume of residual air?",
+      "o": [
+        "2000-2500 ml",
+        "1000-1200 ml",
+        "350-500 ml",
+        "400-450 ml"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the reserve volume of inspiration?",
+      "o": [
+        "1200-1500 ml",
+        "2000-3000 ml",
+        "1000-1200 ml",
+        "1500-2000 ml"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the vital capacity of the lungs in women?",
+      "o": [
+        "2000-2500 ml",
+        "1500-2500 ml",
+        "3000-4500 ml",
+        "4500-5000 ml"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the total lung capacity?",
+      "o": [
+        "Vital lung capacity + collapsed volume",
+        "Vital capacity of the lungs + respiratory volume",
+        "Vital capacity of the lungs + residual volume",
+        "collapsed volume + respiratory volume"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "How much air can a person inhale with a calm breath?",
+      "o": [
+        "800-1000 ml",
+        "1300-1500 ml",
+        "350-500 ml",
+        "700-800 ml"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "How much air can a person exhale at rest?",
+      "o": [
+        "150-350 ml",
+        "350-500 ml",
+        "750-850 ml",
+        "900-1000 ml"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "In what phase of breathing does the blood pressure in the veins of the chest cavity become lower than atmospheric?",
+      "o": [
+        "When exhaling",
+        "When inhaling",
+        "In all phases of breathing",
+        "When breathing stops"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "In the pleural cavity during inhalation, the pressure is lower than atmospheric",
+      "o": [
+        "by 6 mm Hg",
+        "by 9 mm Hg",
+        "by 2 mm Hg",
+        "by 5 mm Hg"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "In the pleural cavity after exhalation, the pressure is lower than atmospheric",
+      "o": [
+        "by 6 mm Hg",
+        "by 3 mm Hg",
+        "by 10 mm Hg",
+        "by 12 mm Hg"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "How many times does the consumption of O2 and the formation of CO2 increase during physical activity?",
+      "o": [
+        "15-20 times",
+        "50-60 times",
+        "30-40 times",
+        "100 times"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Which receptors are involved in the stimulation of lung ventilation during the initial period of physical activity?",
+      "o": [
+        "Proprioreceptors of skeletal muscles",
+        "Central and peripheral chemoreceptors",
+        "Peripheral chemoreceptors",
+        "Central chemoreceptors"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the reason for the intake of air into the lungs when inhaling?",
+      "o": [
+        "An increase in the volume of the chest",
+        "Pressure in the alveoli, lower than atmospheric",
+        "pressure in the alveoli, higher than atmospheric",
+        "pressure in the alveoli equals atmospheric"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the function of surfactant?",
+      "o": [
+        "Prevents the friction of pleural leaflets",
+        "Facilitates the exchange of gases in the lungs",
+        "Does not allow the alveoli to subside",
+        "Allows the alveoli to subside"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the relative gas content in the alveolar air?",
+      "o": [
+        "O2 - 16.5%, CO2 - 4.5%, N2 - 79%",
+        "O2- 20%, CO2 - 0.3%, N2- 79%",
+        "O2 - 14.5%, CO2 - 6.5%, N2 - 79%",
+        "O2 - 22%, CO2 - 3%, N2 - 79%"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the relative content of gases in the exhaled air?",
+      "o": [
+        "O2- 21%, CO2- 0.03%, N2- 79%",
+        "O2 - 20%, CO2 - 5%, N2 - 79%",
+        "O2 - 16.5%, CO2 - 4.5%, N2 - 79%",
+        "O2 - 22%, CO2 - 3%, N2 - 79%"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the relative content of gases in the inhaled air?",
+      "o": [
+        "O2 - 21%, CO2 - 0.03%, N2 - 79%",
+        "O2 -15.5%, CO2 - 6.5%, N2 - 79%",
+        "O2 - 16.5%, CO2 - 4.5%, N2 - 79%",
+        "O2 - 22%, CO2 - 3%, N2 - 79%"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the partial pressure of oxygen in the alveolar air?",
+      "o": [
+        "200 mmHg",
+        "100 mmHg",
+        "80 mmHg",
+        "40 mmHg"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the partial pressure of carbon dioxide in the alveolar air?",
+      "o": [
+        "200 mmHg",
+        "100 mmHg",
+        "40 mmHg",
+        "46 mm Hg"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the composition of the air contained in the anatomical dead space?",
+      "o": [
+        "Alveolar",
+        "Pleural",
+        "Inhaled",
+        "Exhaled"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Blood is injected into a space filled with nitrogen alone. Nitrogen pressure - 750 mm Hg. What gases will pass into and out of the blood?",
+      "o": [
+        "N2 and O2 - into the blood, CO2 - out of the blood",
+        "N2 - into the blood, O2 and CO2 - out of the blood",
+        "N2 - from the blood, O2 and CO2 - into the blood",
+        "N2, O2 and CO2 - from blood"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "A stable level of lung ventilation, or plateau level, with increased physical activity occurs on average after",
+      "o": [
+        "30 s",
+        "3 s",
+        "10 ms",
+        "1 ms"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The number of respiratory movements in an adult at rest is equal to",
+      "o": [
+        "30-35 per minute",
+        "8-10 v min",
+        "16-20 v min",
+        "20-28 v min"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Mountain sickness in humans develops at an altitude of more than",
+      "o": [
+        "3000 m",
+        "2000 m",
+        "1000 m",
+        "500 m"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The dissociation of oxyhemoglobin increases under the condition",
+      "o": [
+        "increasing the pH of the blood, reducing the CO2 content in the blood",
+        "decrease in body temperature, increase in the content of carboxyhemoglobin",
+        "increase in blood pH, increase in body temperature, increase in CO2 content in the blood",
+        "increase in blood pH and increase in body temperature"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What are the main muscles involved in the act of calm inhalation?",
+      "o": [
+        "Diaphragm, stair and rhomboid muscles",
+        "Diaphragm, abdominal and trapezius muscles",
+        "Diaphragm, intercostal external and intercostal muscles",
+        "Abdominal and trapezius muscles"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What parameters do I need to know to calculate minute pulmonary ventilation?",
+      "o": [
+        "The frequency of respiratory movements and the reserve volume of inspiration",
+        "The frequency of respiratory movements and the residual volume",
+        "The frequency of respiratory movements and respiratory volume",
+        "The frequency of respiratory movements"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the oxygen tension in arterial blood?",
+      "o": [
+        "40 mm Hg",
+        "20 mm Hg",
+        "96 mm Hg",
+        "120 mm Hg"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the oxygen voltage in the venous blood?",
+      "o": [
+        "40 mm Hg",
+        "96 mm Hg",
+        "120 mm Hg",
+        "46 mm Hg"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "When does excitation occur in the lung stretch receptors?",
+      "o": [
+        "When the hypothalamic centers are excited",
+        "When the expiratory department of the respiratory center is excited",
+        "With a decrease in lung volume",
+        "With an increase in lung volume"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The method for determining the content of oxyhemoglobin in the blood is called",
+      "o": [
+        "pneumography",
+        "tachography",
+        "spirometry",
+        "oxyhemometry"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The voltage of carbon dioxide in venous blood",
+      "o": [
+        "100 mm Hg",
+        "46 mm Hg",
+        "40 mm Hg",
+        "15 mm Hg"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "With respiratory alkalosis, the partial pressure of CO2 in the blood",
+      "o": [
+        "increases first and then decreases",
+        "does not change",
+        "increases",
+        "decreases"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "During physical exertion, ventilation of the lungs",
+      "o": [
+        "first decreases and then increases",
+        "decreases",
+        "increases",
+        "does not change"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "An increase in the oxygen content in the blood causes",
+      "o": [
+        "hyperventilation of the lungs",
+        "does not affect lung ventilation",
+        "hypoventilation of the lungs",
+        "hyperventilation and hypoventilation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the direct cause that causes hyperventilation of the lungs in the mountains?",
+      "o": [
+        "Stimulation of the mechanoreceptors of the lungs",
+        "Stimulation of irritant receptors",
+        "Stimulation of chemoreceptors of sinocarotid zones",
+        "Stimulation of central chemoreceptors"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is called the oxygen capacity of blood?",
+      "o": [
+        "The maximum amount of oxygen that can bind blood when hemoglobin is fully saturated with oxygen",
+        "Diffusion of oxygen and alveolar air into the blood",
+        "Part of the oxygen absorbed by tissues from venous blood",
+        "Part of the oxygen absorbed by tissues from arterial blood"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is called the oxygen utilization coefficient?",
+      "o": [
+        "The maximum amount of oxygen that can bind blood when hemoglobin is fully saturated with oxygen",
+        "Most of the oxygen contained in arterial blood",
+        "Part of oxygen absorbed by tissues from venous blood",
+        "Part of oxygen absorbed by tissues from arterial blood"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "From which neurons of the bulbar department does the impulse flow to the external intercostal muscles?",
+      "o": [
+        "From the neurons of the Varoliev bridge",
+        "From cerebellar neurons",
+        "From expiratory neurons of the respiratory center",
+        "From inspiratory neurons of the respiratory center"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "If a person dives without special equipment with preliminary hyperventilation, the cause of sudden loss of consciousness may be increasing",
+      "o": [
+        "asphyxia",
+        "hypoxia",
+        "hyperoxia",
+        "hypercapnia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Which department of the central nervous system provides voluntary breathing?",
+      "o": [
+        "Subcortical nuclei",
+        "Bulbar department",
+        "The cerebellum",
+        "The cerebral cortex"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The danger of preliminary hyperventilation when diving without special equipment is the probable development of",
+      "o": [
+        "metabolic alkalosis",
+        "metabolic acidosis",
+        "respiratory alkalosis",
+        "respiratory acidosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "When diving to a depth with special equipment, the pressure of the supplied gas mixture",
+      "o": [
+        "for every 10 m of immersion, it increases by 1 atm",
+        "2 times higher than atmospheric",
+        "below atmospheric",
+        "equal to atmospheric"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "When submerged under water, there is a danger of hypothermia, since",
+      "o": [
+        "the heat capacity and thermal conductivity of water is less than that of air",
+        "the thermal conductivity of water is less, and the heat capacity is greater than that of air",
+        "the thermal conductivity of water is greater and the heat capacity is less than that of air",
+        "the thermal conductivity and heat capacity of water is greater than that of air"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is called a respiratory dead space?",
+      "o": [
+        "Bronchioles with alveolar passages",
+        "Respiratory tract in which there is no gas exchange between air and blood",
+        "Alveoli that are not perfused with blood",
+        "Respiratory tract in which there is gas exchange between air and blood"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What does the term \"respiratory coefficient\" mean?",
+      "o": [
+        "The ratio of the number of molecules of released CO2 to the number of molecules of absorbed O2",
+        "The amount of nitrogen absorbed and released",
+        "The number of molecules of O2 absorbed by the body",
+        "The number of molecules of CO2 released from the body"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is considered the strongest respiratory stimulant?",
+      "o": [
+        "Hypoxia",
+        "Hypocapnia",
+        "Hyperoxia",
+        "Hypercapnia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Increased ventilation of the lungs with increased physical activity is accompanied by",
+      "o": [
+        "hypocapnia and hypoxia",
+        "hypercapnia and hypoxia",
+        "hypocapnia",
+        "hypoxia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Where is the carbonic anhydrase enzyme located?",
+      "o": [
+        "In mucus",
+        "In surfactant",
+        "In red blood cells",
+        "In blood plasma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The danger of pre-hyperventilation when diving without special equipment is the likely development of",
+      "o": [
+        "metabolic alkalosis",
+        "metabolic acidosis",
+        "respiratory alkalosis",
+        "respiratory acidosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Why is it impossible to increase the length of a standard tube (30-35 cm) when diving with a mask and a tube?",
+      "o": [
+        "There is a pressure gradient between the air pressure in the alveoli and the water pressure on the chest",
+        "Due to the risk of hypercapnia",
+        "Due to the risk of hypoxia",
+        "The volume of dead space increases"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Which parts of the central nervous system are involved in the regulation of respiration?",
+      "o": [
+        "Cerebral cortex, spinal cord, midbrain",
+        "Bulbar, cerebellum, limbic system",
+        "Bulbar, hypothalamus, cerebral cortex",
+        "Cerebral cortex, cerebellum, midbrain DIGESTION. METABOLISM.."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Vitamin K is involved in the synthesis of",
+      "o": [
+        "fibrinolytic factors",
+        "secondary anticoagulants",
+        "primary anticoagulants",
+        "blood clotting factors"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "From what components in the absence of fat in food can fat be synthesized?",
+      "o": [
+        "From carbohydrates",
+        "fiber",
+        "from amino acids",
+        "from starch"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Inactivation of hydrochloric acid and pepsin in the duodenum occurs under the influence of",
+      "o": [
+        "bile",
+        "mucoproteins",
+        "trypsin",
+        "enterokinase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the name of the method of determining the amount of heat generated by the body?",
+      "o": [
+        "sphygmography",
+        "Oxyhemography",
+        "Calorimetry",
+        "Spirometry"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What amino acids are called non-essential?",
+      "o": [
+        "Amino acids that are not synthesized in the human body",
+        "Amino acids that can be synthesized in the human body",
+        "Amino acids that must be supplied to the body",
+        "Amino acids not involved in protein synthesis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What amino acids are called essential?",
+      "o": [
+        "Amino acids that are not synthesized in the human body and must be supplied with food",
+        "Amino acids that can be synthesized in the human body",
+        "Amino acids that must be supplied to the body",
+        "Amino acids not involved in protein synthesis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What types of motor activity are characteristic of the stomach?",
+      "o": [
+        "Peristalsis",
+        "Rhythmic segmentation",
+        "pendulum movements",
+        "pendulum and Rhythmic"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What vitamins are synthesized by bacteria in the large intestine?",
+      "o": [
+        "Vitamin D",
+        "Vitamins A and E",
+        "Vitamins P and C",
+        "Vitamins K and B vitamins"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What are the main enzymes secreted by the salivary glands?",
+      "o": [
+        "amylase, lipase",
+        "Lipase, maltase",
+        "Maltase, enterokinase",
+        "Maltase, amylase"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Which salivary glands secrete predominantly serous secretions?",
+      "o": [
+        "sublingual",
+        "Parotid",
+        "submandibular",
+        "sublingual, submandibular"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What enzymes are secreted by the pancreas in an active state?",
+      "o": [
+        "Pepsin",
+        "Trypsinogen",
+        "Procarboxypeptidases A and B",
+        "Amylase, lipase, nucleases"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the pH of gastric juice in the presence of protein foods?",
+      "o": [
+        "4.0-5.5",
+        "0.8-1.5",
+        "5.5-6.0",
+        "7.4-8.0"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the normal basal metabolic rate for a man with an average body weight of 70 kg?",
+      "o": [
+        "500 kcal",
+        "3000 kcal",
+        "2000 kcal",
+        "1700 kcal"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the main role of the digestive tract hormone gastrin?",
+      "o": [
+        "Stimulates the secretion of the pancreas",
+        "Stimulates the secretion of gastric juice",
+        "converts pepsinogen to pepsin",
+        "Activate pancreatic enzymes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What type of contraction of the muscles of the small intestine ensures the movement of food through the intestines?",
+      "o": [
+        "Rhythmic segmentation",
+        "pendulum movements",
+        "Propulsive peristalsis",
+        "Non-propulsive peristalsis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What type of contraction is performed by the longitudinal layer of the muscles of the small intestine?",
+      "o": [
+        "rhythmic segmentation",
+        "peristaltic contractions",
+        "Pendulum contractions",
+        "pendulum and Rhythmic"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What part of the CNS directly controls appetite, fat synthesis and breakdown?",
+      "o": [
+        "hypothalamus",
+        "Thalamus",
+        "cerebellum",
+        "Midbrain"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What factor in the gastrointestinal tract converts insoluble fatty acids into soluble?",
+      "o": [
+        "hydrochloric acid in the stomach",
+        "Bile acids",
+        "gastric lipase",
+        "pancreatic juice lipase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "The intestinal phase of gastric secretion is observed when chyme enters",
+      "o": [
+        "oral cavity",
+        "duodenum",
+        "stomach",
+        "large intestine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "At what level does the reflex arc of the chewing reflex close?",
+      "o": [
+        "on the thalamic",
+        "on the spinal",
+        "On the bulbar",
+        "on the cerebellum"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "At what level of the CNS does the reflex arc of the swallowing reflex close?",
+      "o": [
+        "On the bulbar",
+        "on the thalamic",
+        "on the spinal",
+        "on the cerebellum"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What food produces the most acidic gastric juice?",
+      "o": [
+        "for bread",
+        "For meat",
+        "for milk",
+        "for sugar"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "The formation of secretin is stimulated by",
+      "o": [
+        "pepsin",
+        "trypsinogen",
+        "hydrochloric acid",
+        "hydrolysis products"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Pepsin of gastric juice hydrolyzes",
+      "o": [
+        "fats",
+        "proteins",
+        "mucopolysaccharides",
+        "carbohydrates"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Digestion of carbohydrates in the stomach occurs under the action of amylase",
+      "o": [
+        "saliva",
+        "gastric juice",
+        "pancreas",
+        "juice of large intestine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The process happens periodically",
+      "o": [
+        "both processes",
+        "formation of bile",
+        "bile secretion",
+        "bile excretion"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Hepatic bile differs from gallbladder",
+      "o": [
+        "low content of water, potassium ions",
+        "high content of fatty acids, sodium ions, chlorine, cholesterol, calcium",
+        "low content of bile acids, bile pigments, cholesterol",
+        "high content of fatty acids, potassium ions"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "In relation to plasma saliva",
+      "o": [
+        "hypotonic",
+        "hypertonic",
+        "isotonic",
+        "isotonic, hypotonic"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Under the influence of gastrin, gastric motility",
+      "o": [
+        "varies depending on the phase of digestion",
+        "amplifies",
+        "does not change",
+        "getting weaker"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Under the influence of bile are absorbed",
+      "o": [
+        "glucose",
+        "products of protein hydrolysis",
+        "fat-soluble vitamins, cholesterol, calcium",
+        "monosaccharides, amino acids"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The conversion of pepsinogen to pepsin is activated under the influence of",
+      "o": [
+        "saliva",
+        "hydrochloric acid and pepsin",
+        "enterokinase",
+        "gastrin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Under what conditions is trypsinogen converted to trypsin?",
+      "o": [
+        "under the influence of gastric enzymes",
+        "Under the influence of bile",
+        "Under the influence of hydrochloric acid of gastric juice",
+        "Upon contact with the mucous membrane of the duodenum and the action of enterokinase"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Saliva reaction",
+      "o": [
+        "always alkaline",
+        "varies depending on the composition of food",
+        "always neutral",
+        "always sour"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "The receptors that are irritated by the swallowing reflex are located on",
+      "o": [
+        "the root of the tongue",
+        "the middle third of the tongue",
+        "anterior third of the tongue",
+        "lateral surface of the tongue"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "With the highest speed evacuated from the stomach",
+      "o": [
+        "peptides",
+        "carbohydrates",
+        "fats",
+        "proteins"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "With the lowest speed evacuated from the stomach",
+      "o": [
+        "peptides",
+        "proteins",
+        "fats",
+        "carbohydrates"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Secretin stimulates the secretion of pancreatic juice with a predominance of",
+      "o": [
+        "bicarbonates",
+        "mucus",
+        "enzymes",
+        "HCL"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The secretion of the gastric glands excites",
+      "o": [
+        "histamine",
+        "cholecystokinin (pancreozymin)",
+        "VIP",
+        "secretin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The secretion of digestive enzymes is inhibited by the hormone",
+      "o": [
+        "growth hormone",
+        "insulin",
+        "aldosterone",
+        "adrenaline"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The secretion of hydrochloric acid by the glands of the stomach inhibits",
+      "o": [
+        "acetylcholine",
+        "secretin",
+        "histamine",
+        "gastrin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What percentage of body weight is normally fat?",
+      "o": [
+        "50-60%",
+        "0-1%",
+        "10-20%",
+        "40-50%"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "How many amino acids are found in dietary proteins?",
+      "o": [
+        "5",
+        "100",
+        "60",
+        "20"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "How many liters of gastric juice is excreted in an adult per day?",
+      "o": [
+        "0.3 l",
+        "2.5 l",
+        "10 l",
+        "30 l"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "How many non-essential amino acids are there?",
+      "o": [
+        "12",
+        "10",
+        "5",
+        "20"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "How many essential amino acids are there?",
+      "o": [
+        "12",
+        "8",
+        "5",
+        "20"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "According to the surface rule, a person's energy expenditure is proportional to him",
+      "o": [
+        "the size of the body surface",
+        "age",
+        "body weight",
+        "growth"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Stimulation of what nerve conductors that innervate the salivary glands leads to the release of a small amount of saliva rich in organic substances?",
+      "o": [
+        "parasympathetic",
+        "recurrent nerve",
+        "Accessory nerve",
+        "Sympathetic"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Saliva enzymes act mainly on",
+      "o": [
+        "carbohydrates",
+        "fats",
+        "proteins",
+        "peptides"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The swallowing center is located in",
+      "o": [
+        "cerebellum",
+        "diencephalon",
+        "medulla oblongata",
+        "midbrain"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The salivary center is located in",
+      "o": [
+        "midbrain",
+        "medulla oblongata",
+        "the hypothalamus",
+        "diencephalon"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the respiratory coefficient for protein oxidation?",
+      "o": [
+        "0.5",
+        "1.0",
+        "0.1",
+        "0.8"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the respiratory quotient for fat oxidation?",
+      "o": [
+        "0.7",
+        "1.0",
+        "0.1",
+        "0.8"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the respiratory quotient for carbohydrate oxidation?",
+      "o": [
+        "0.8",
+        "1.0",
+        "0.1",
+        "0.5"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What causes proteins to swell in the digestive tract?",
+      "o": [
+        "intestinal juice",
+        "bile",
+        "Hydrochloric acid",
+        "Enzymes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What does the term \"positive nitrogen balance\" mean?",
+      "o": [
+        "The amount of nitrogen excreted from the body",
+        "Protein content in food",
+        "The state of nitrogen metabolism, in which the excretion of nitrogen from the body exceeds its intake with food",
+        "The state of nitrogen metabolism, in which the intake of nitrogen from food exceeds its excretion from the body"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What causes the pyloric sphincter of the stomach to open?",
+      "o": [
+        "Acid environment in the pylorus and duodenum",
+        "Alkaline environment in the pyloric region and duodenum",
+        "Acidic environment in the pyloric region, alkaline - in the duodenum",
+        "Alkaline environment in the pyloric region, acidic - in the duodenum"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What stimulates the digestive tract hormone cholecystokinin (pancreozymin)?",
+      "o": [
+        "Increase in the alkalinity of pancreatic juice",
+        "Enrichment of pancreatic juice with salts",
+        "Formation of pancreatic enzymes",
+        "Decrease in the alkalinity of pancreatic juice"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the nitrogen balance of the body?",
+      "o": [
+        "The difference between the amount of nitrogen that enters the body with food and the amount of nitrogen excreted from the body",
+        "The amount of nitrogen ingested with food",
+        "The ratio of essential and non-essential amino acids in a protein",
+        "The ratio of amino acids in the protein"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the biological value of food proteins?",
+      "o": [
+        "The importance of food proteins for life",
+        "The relative amount of protein in food",
+        "high calorie content",
+        "The content of all amino acids in proteins, including essential ones PHYSIOLOGY OF THERMOREGULATION AND ENERGY."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The polymer of glucose in the human body is",
+      "o": [
+        "Starch",
+        "Glycogen",
+        "Cellulose",
+        "Triglyceride"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Which of the following do you need to know to determine the daily intake of energy in the body?",
+      "o": [
+        "The amount of oxygen consumed",
+        "The amount of proteins, fats and carbohydrates consumed",
+        "Volume of emitted carbon dioxide",
+        "The amount of released heat"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "The caloric value of carbohydrates is",
+      "o": [
+        "1.3 kcal/g",
+        "4.1 kcal/g",
+        "7.2 kcal/g",
+        "9.3 kcal/g"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "The caloric value of fats is",
+      "o": [
+        "1.3 kcal/g",
+        "4.1 kcal/g",
+        "7.2 kcal/g",
+        "9.3 kcal/g"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Which of the chemical reactions occurring in the body leads to a greater release of energy per 1 g of the substrate?",
+      "o": [
+        "Protein oxidation",
+        "Carbohydrate oxidation",
+        "Fat oxidation",
+        "The amount of energy released in all the above cases is the same"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "What food substances can participate in the metabolism in the body?",
+      "o": [
+        "All received with food",
+        "All absorbed from the gastrointestinal tract into the blood",
+        "All hydrolyzed in the gastrointestinal tract",
+        "Only complete organic matter"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Nutrients are considered digestible.",
+      "o": [
+        "Broken down in the gastrointestinal tract",
+        "Absorbed from the gastrointestinal tract into the blood",
+        "Included in the cellular structures",
+        "subjected to catabolism in cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Fully digestible food ingredients",
+      "o": [
+        "Does not break down in cells",
+        "Not excreted in feces",
+        "Not found in urine",
+        "Not hydrolyzed in the gastrointestinal tract"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Correction for digestibility must be made when determining",
+      "o": [
+        "basal exchange",
+        "Daily income of energy",
+        "Completeness of proteins",
+        "Daily energy consumption"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "The main exchange is",
+      "o": [
+        "Metabolism of proteins, fats and carbohydrates at rest",
+        "Energy consumption at rest",
+        "Method for determining energy costs",
+        "Energy consumption in the usual way of life for a given person"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "In order to calculate the daily energy intake in the body, you need to know",
+      "o": [
+        "Daily oxygen intake",
+        "Daily release of carbon dioxide",
+        "Caloric value of proteins, fats and carbohydrates",
+        "Daily excretion of nitrogen in the urine E. Daily release of heat"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Basal metabolic rate is the amount of energy a person expends while",
+      "o": [
+        "normal load",
+        "In complete peace",
+        "To maintain body temperature when the ambient temperature changes",
+        "During heavy physical work"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Basal metabolic rate is the amount of energy a person expends while",
+      "o": [
+        "hard physical work",
+        "type of activity for this person",
+        "In physical and emotional peace",
+        "During sleep"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Which of the following processes can consume basal metabolic energy?",
+      "o": [
+        "Skeletal muscle work during exercise",
+        "brain activity during sleep",
+        "Brain activity during intense mental stress",
+        "The work of the heart at rest"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Under mental load, energy consumption",
+      "o": [
+        "More main exchange",
+        "Less basal exchange",
+        "Equal to basal exchange",
+        "May be more or less than basal exchange, depending"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "When measuring basal metabolic rate, the subject must",
+      "o": [
+        "Stand",
+        "Sit",
+        "Lie",
+        "Walk"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Is it possible to measure basal metabolic rate after a meal?",
+      "o": [
+        "Yes",
+        "Not",
+        "Only in children",
+        "Depending on the composition of the food"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "To determine the daily intake of energy in the body using",
+      "o": [
+        "direct calorimetry",
+        "Indirect calorimetry",
+        "Answers (1) and (2) are correct",
+        "All answers are wrong"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The method of calculating the energy consumption of the body by the amount of heat emitted by the body is called",
+      "o": [
+        "thermometry",
+        "Direct calorimetry",
+        "Indirect calorimetry",
+        "Physiological calorimetry"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "When determining energy consumption by direct calorimetry, they examine",
+      "o": [
+        "Composition of exhaled air",
+        "The amount of nitrogen in urine and the composition of exhaled air",
+        "The amount of heat given off by the body",
+        "The number of calories in the food eaten"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Direct calorimetry can be used to determine",
+      "o": [
+        "body temperature",
+        "Nutrient calorie content",
+        "Daily energy consumption",
+        "daily calorie intake"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "cannot be determined by direct calorimetry.",
+      "o": [
+        "BX",
+        "Energy consumption at rest",
+        "Daily energy consumption",
+        "Daily income of energy"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "To determine the daily energy consumption by indirect calorimetry, it is necessary to calculate",
+      "o": [
+        "The amount of oxygen consumed and carbon dioxide released",
+        "The number of proteins, fats and carbohydrates consumed",
+        "Nutrient absorption",
+        "Nutrient calorie content"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The method of calculating the body's energy consumption by the ratio of gases consumed and released during breathing is called",
+      "o": [
+        "Gasometry",
+        "Direct calorimetry",
+        "Indirect calorimetry",
+        "Spirometry"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "The ratio of the volume of CO2 released during respiration to the absorbed O2 I is used when",
+      "o": [
+        "Determination of proper body temperature",
+        "Calculation of the proper mass of adipose tissue",
+        "Definition energy consumption of the body",
+        "Determining the composition of food digested per day"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Indirect calorimetry can be used to determine",
+      "o": [
+        "body temperature",
+        "Nutrient calorie content",
+        "Daily energy consumption",
+        "daily calorie intake"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Cannot be determined using indirect calorimetry",
+      "o": [
+        "BX",
+        "Energy consumption at rest",
+        "Daily energy consumption",
+        "Daily income of energy"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The caloric value of proteins, fats and carbohydrates is used in",
+      "o": [
+        "Determination of the daily income of energy",
+        "Definition of the basic exchange",
+        "Direct calorimetry",
+        "Indirect calorimetry"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The central thermoreceptors are",
+      "o": [
+        "in the medulla oblongata",
+        "In the aortic arch",
+        "in the hypothalamus",
+        "In the cerebral cortex"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "In what part of the nervous system is the center responsible for the occurrence of muscle tremors in the cold?",
+      "o": [
+        "In the lateral horns of the spinal cord",
+        "in the hypothalamus",
+        "in the medulla oblongata",
+        "In the midbrain"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Choose the right position",
+      "o": [
+        "The thermoregulatory center is located in the medulla oblongata",
+        "Thermoreceptors are located in the pons",
+        "The hypothalamus plays a major role in regulating body temperature",
+        "Thermoreceptors are located only in the skin, but not in the CNS"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Thermoreceptors are available",
+      "o": [
+        "Only in skin",
+        "Only in skin and mucous membranes",
+        "In the skin, mucous membranes and in the central nervous system",
+        "Only in the hypothalamus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Heat dissipation refers to",
+      "o": [
+        "Shiver",
+        "Radiation",
+        "Increased metabolism in the liver",
+        "Increased metabolism in muscles"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Choose the correct statement",
+      "o": [
+        "Trembling is a way to increase heat transfer, not heat production",
+        "Heat transfer does not include radiation.",
+        "Heat conduction is not a method of heat transfer in a living organism.",
+        "During the evaporation of water from the surface of the body, heat is released"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Radiation is one of the mechanisms",
+      "o": [
+        "Heat products",
+        "Heat dissipation",
+        "Both heat production and heat transfer",
+        "Thermal conduction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Heat conduction is one of the mechanisms",
+      "o": [
+        "Heat production in the body",
+        "Heat transfer in the body",
+        "Both heat production and heat transfer in the body",
+        "Heat transfer only in inanimate objects"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Which of the following is not required at determining the daily intake of energy in the body?",
+      "o": [
+        "The amount of oxygen consumed",
+        "The amount of protein consumed",
+        "The amount of fat consumed",
+        "The amount of carbohydrates consumed"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Muscle trembling when cooling a person",
+      "o": [
+        "Serves to generate heat in the muscles",
+        "Necessary for vasoconstriction of the skin and superficial muscles",
+        "Needed to increase blood flow in the vessels of the skin and superficial muscles",
+        "Is a rudimentary reaction"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "In an adult, an increase in heat production will be most suppressed by drugs",
+      "o": [
+        "Blocking increase in hepatic metabolism",
+        "Blocking the expansion of skin vessels",
+        "Blocking muscle contractions",
+        "Sweat blocking PHYSIOLOGY OF EXCRETION."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "All organs are involved in the excretion of end products of metabolism, with the exception of",
+      "o": [
+        "kidneys",
+        "gastrointestinal tract",
+        "lungs and sweat glands",
+        "spleens"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "In which part of the nephron does aldosterone act?",
+      "o": [
+        "in the distal tubule",
+        "In the ascending loop of Henle",
+        "descending loop of Henle",
+        "In the proximal tubule"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "In which part of the nephron does obligatory reabsorption take place?",
+      "o": [
+        "In the Shumlyansky-Bowman capsule",
+        "In the proximal",
+        "in the loop of Henle",
+        "in the distal region"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Where does reabsorption take place in the nephron?",
+      "o": [
+        "in the distal canal",
+        "in the glomeruli",
+        "in the loop of Henle",
+        "In the proximal tubule"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "In which part of the nephron does filtration occur?",
+      "o": [
+        "in the proximal tubule",
+        "In the renal glomeruli",
+        "loop of Henle",
+        "in the distal tubule"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "Synthesized in the cells of the renal tubules",
+      "o": [
+        "creatinine",
+        "aldosterone",
+        "urea",
+        "hippuric acid, ammonia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "The body revealed a deficiency of K+. In this case, in the renal tubules, potassium ions undergo",
+      "o": [
+        "filtering",
+        "reabsorption and secretion",
+        "secretions",
+        "enhanced reabsorption"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "Synthesized in the kidneys",
+      "o": [
+        "adrenaline, aldosterone",
+        "histamine, calcitonin",
+        "angiotensin II, serotonin",
+        "renin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "During urination, potassium ions are secreted into",
+      "o": [
+        "proximal nephron",
+        "distal nephron",
+        "loop of Henle",
+        "collecting ducts"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "During urination, organic acids and bases are secreted into",
+      "o": [
+        "proximal nephron",
+        "distal nephron",
+        "loop of Henle",
+        "collecting ducts"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What hormone can cause water retention in the body?",
+      "o": [
+        "aldosterone",
+        "adrenaline",
+        "glucagon",
+        "Antidiuretic"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "What hormone can cause sodium retention in the body?",
+      "o": [
+        "adrenaline",
+        "antidiuretic",
+        "Aldosterone",
+        "glucagon"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "Difficulty in the outflow of urine from the tubules of the nephron. How will glomerular filtration change?",
+      "o": [
+        "will increase significantly",
+        "will decrease",
+        "will increase",
+        "will not change significantly"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "What part of the nephron consumes a lot of oxygen?",
+      "o": [
+        "tubules",
+        "All departments are the same",
+        "glomeruli",
+        "collecting ducts"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the mechanism of action of vasopressin on diuresis?",
+      "o": [
+        "Increases water reabsorption",
+        "Reduces water reabsorption",
+        "Decreases sodium reabsorption",
+        "Increases sodium reabsorption"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "What is the mechanism of action of aldosterone on diuresis?",
+      "o": [
+        "Increases sodium reabsorption",
+        "Reduces sodium reabsorption",
+        "Reduces water reabsorption",
+        "Increases water reabsorption in the proximal tubule"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Which of the statements is incorrect? The kidneys are involved in the regulation of",
+      "o": [
+        "leukopoiesis",
+        "excretion of protein metabolism products",
+        "constancy of osmotic pressure and blood pH",
+        "volume of blood and other body fluids"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The amount of primary urine (filtrate) formed in the kidneys during the day is",
+      "o": [
+        "180-200 l",
+        "200-300 l",
+        "10-15 l",
+        "1.5 l"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The final urine is formed as a result of",
+      "o": [
+        "filtration, reabsorption, secretion",
+        "filtration, osmosis",
+        "filtration, hemolysis, secretion",
+        "filtration, diffusion, absorption"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Cleansing coefficient in the kidney",
+      "o": [
+        "the volume of plasma released from a non-threshold substance in 1 min",
+        "the volume of plasma filtered into the capsule in 1 min",
+        "the volume of primary urine formed during the day",
+        "the amount of threshold substance released into the lumen of the tubules in 1 min"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Water is absorbed most intensively in",
+      "o": [
+        "proximal tubule",
+        "collecting duct",
+        "loop of Henle",
+        "distal tubule"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Obligate water reabsorption occurs mainly in",
+      "o": [
+        "descending part of the loop of Henle",
+        "distal convoluted tubule",
+        "proximal convoluted tubule",
+        "ascending loop of Henle"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Mandatory reabsorption of amino acids occurs in",
+      "o": [
+        "proximal convoluted tubule",
+        "collecting ducts",
+        "distal convoluted tubule",
+        "loop of Henle"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Mandatory reabsorption of amino acids occurs in",
+      "o": [
+        "proximal convoluted tubule",
+        "collecting ducts",
+        "distal convoluted tubule",
+        "loop of Henle"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The oncotic pressure of blood plasma in the capillaries of the renal glomerulus is",
+      "o": [
+        "25-30 mm Hg",
+        "50-70 mm Hg",
+        "70-80 mm Hg",
+        "80-90 mm Hg"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The main resulting force that provides blood filtration in the renal glomeruli",
+      "o": [
+        "effective filtration pressure in the glomeruli",
+        "hydrostatic fluid pressure in the loop of Henle",
+        "hydrostatic pressure of the liquid in the Bowman capsule",
+        "oncotic pressure of plasma proteins"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The main elements of the nephron are all of the following except",
+      "o": [
+        "capsules of the renal corpuscle",
+        "distal tubule",
+        "proximal tubule",
+        "renal pelvis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Physiology",
+      "q": "From the difference in the lumen of the afferent and efferent arterioles and the permeability of the membrane of the capillaries of the glomerulus depends on the value",
+      "o": [
+        "blood plasma filtration",
+        "tubular secretion",
+        "urine reabsorption",
+        "plasma oncotic pressure"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Primary active transport ensures the reabsorption of substances from the tubule of the kidney into the blood",
+      "o": [
+        "against an electrochemical gradient with energy consumption",
+        "along the concentration gradient using energy",
+        "along the concentration gradient without energy expenditure",
+        "against the electrochemical gradient without energy consumption"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Increases water reabsorption in the kidney",
+      "o": [
+        "vasopressin",
+        "acetylcholine",
+        "renin",
+        "adrenaline"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Bud. The category of non-threshold substances includes",
+      "o": [
+        "inulin",
+        "urea",
+        "amino acids",
+        "glucose"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Threshold substances include",
+      "o": [
+        "glucose",
+        "albumin",
+        "hippuric acid",
+        "creatinine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The process of secretion in the nephrons of the kidney is",
+      "o": [
+        "active removal of substances from the blood into the lumen of the tubules",
+        "excretion of metabolic products from the body",
+        "active absorption of substances from the renal tubules into the blood",
+        "filtration of blood plasma into the lumen of the tubule"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Reabsorption during urination is called",
+      "o": [
+        "the process of reabsorption of substances from the renal tubules into the blood",
+        "release of substances from the blood into the lumen of the renal tubules",
+        "the formation of primary urine",
+        "only active absorption of substances from the renal tubules"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Reabsorption in the renal tubules is regulated by",
+      "o": [
+        "aldosterone, vasopressin",
+        "acetylcholine, histamine",
+        "serotonin, norepinephrine",
+        "adrenaline, oxytocin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Reabsorption of water in nephrons is carried out by",
+      "o": [
+        "passive transport",
+        "facilitated diffusion",
+        "filtering",
+        "active transport"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The reflex center of involuntary urination is located in",
+      "o": [
+        "sacral spinal cord",
+        "cerebellum",
+        "medulla oblongata",
+        "thalamus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Which ion transport is associated with glucose reabsorption in the kidney?",
+      "o": [
+        "sodium",
+        "magnesium",
+        "chlorine",
+        "Potassium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The renal tubular system responsible for the concentration and osmotic dilution of urine is called",
+      "o": [
+        "countercurrent-multiplier tubular system",
+        "a system of tubules",
+        "tubular system",
+        "glomerular system"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "An increase in the concentration of renin in the blood plasma leads to a narrowing of the lumen of the vessels, because. in the blood increases the content of",
+      "o": [
+        "angiotensin",
+        "histamine",
+        "acetylcholine",
+        "bradykinin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The specific gravity of urine is normally",
+      "o": [
+        "1010-1025",
+        "1045-1050",
+        "1030-1040",
+        "1005-1010"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "Do not pass through the kidney filter",
+      "o": [
+        "large molecular proteins, cellular elements",
+        "water, mannitol",
+        "inulin, egg albumin",
+        "glucose, Ca, K, Na ions"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The effective filtration pressure in the glomeruli is",
+      "o": [
+        "20 mm Hg",
+        "50 mm Hg",
+        "120 mm Hg",
+        "70 mm Hg"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "The patient is in good health with BP=120/80 mm Hg. If his blood pressure drops to 100/60 mmHg, will his daily diuresis change?",
+      "o": [
+        "decrease",
+        "will not change significantly",
+        "will increase",
+        "first increases then decreases"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient with liver cirrhosis and ascites develops decreased urine output. Arterial blood pressure is low, and the RAAS is activated. Which mechanism maintains GFR at the early stage?",
+      "o": [
+        "Dilation of the afferent arteriole",
+        "Increase in plasma oncotic pressure",
+        "Selective constriction of the efferent arteriole",
+        "Decrease in Bowman's capsule pressure"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient takes NSAIDs for chronic pain. After several days, serum creatinine increases. Which mechanism explains the decrease in GFR?",
+      "o": [
+        "Blockade of angiotensin II",
+        "Inhibition of prostaglandin synthesis → constriction of the afferent arteriole",
+        "Dilation of the efferent arteriole",
+        "Activation of the macula densa"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient's arterial pressure fluctuates between 90–160 mmHg, yet GFR remains stable. Which mechanism is responsible?",
+      "o": [
+        "Sympathetic regulation",
+        "Myogenic response of the afferent arteriole",
+        "ADH activation",
+        "Aldosterone-dependent regulation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient has increased NaCl delivery to the macula densa. Which consequence is most likely?",
+      "o": [
+        "Increased renin secretion",
+        "Dilation of the afferent arteriole",
+        "Decreased GFR",
+        "Activation of the sympathetic nervous system"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient complains of thirst after prolonged exposure to hot weather. Plasma osmolarity is increased. What is the key hormonal response?",
+      "o": [
+        "Decreased ADH secretion",
+        "Increased ADH secretion",
+        "Decreased aldosterone secretion",
+        "Increased atrial natriuretic peptide secretion"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient is diagnosed with syndrome of inappropriate ADH secretion (SIADH). Which findings are expected?",
+      "o": [
+        "Hypernatremia and polyuria",
+        "Hyponatremia and concentrated urine",
+        "Decreased water reabsorption",
+        "Increased sodium excretion"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient receives intravenous normal saline. Which factor will decrease sodium reabsorption in the kidneys?",
+      "o": [
+        "RAAS activation",
+        "Increased aldosterone secretion",
+        "Release of atrial natriuretic peptide (ANP)",
+        "Decreased atrial pressure"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient with renal failure is found to have hyperkalemia. Which compensatory mechanism will be activated?",
+      "o": [
+        "Decreased aldosterone secretion",
+        "Increased ADH secretion",
+        "Increased aldosterone secretion",
+        "Decreased distal potassium secretion"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient is treated with thiazide diuretics. Two weeks later, hypokalemia is detected. Where does most potassium regulation occur?",
+      "o": [
+        "Proximal tubule",
+        "Thin descending limb of the loop of Henle",
+        "Distal convoluted tubule and collecting ducts",
+        "Glomerulus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Physiology",
+      "q": "A patient with hypocalcemia has elevated parathyroid hormone levels. Which renal effect of PTH is most important?",
+      "o": [
+        "Decreased calcium reabsorption",
+        "Increased calcium reabsorption and decreased phosphate reabsorption",
+        "Increased calcium excretion",
+        "Inhibition of calcitriol synthesis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Physiology",
+      "q": "After administration of a loop diuretic, a patient develops hypocalcemia. The main reason is",
+      "o": [
+        "Reduced action of PTH",
+        "Blockade of the Na￿/Cl￿ cotransporter",
+        "Inhibition of the Na￿/K￿/2Cl￿ cotransporter with loss of lumen-positive potential",
+        "Increased calcium excretion in the proximal tubule"
       ],
       "c": 2
     }
