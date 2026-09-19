@@ -1,10 +1,13 @@
 import { playTapSound } from '../lib/sounds';
+import useLockBodyScroll from '../lib/useLockBodyScroll';
 
 // Must match the WhatsApp link in TopBar.jsx's side menu and
 // api/templates/welcome-email.html.
 const WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/Kn2NDwg7Wij5VQbs35hYMx?s=cl&p=a&mlu=4&ilr=4';
 
 export default function WhatsAppPromptModal({ onClose }) {
+  useLockBodyScroll();
+
   function close() {
     playTapSound();
     onClose();

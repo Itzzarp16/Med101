@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { playTapSound } from '../lib/sounds';
+import useLockBodyScroll from '../lib/useLockBodyScroll';
 
 const STEPS = [
   {
@@ -35,6 +36,7 @@ const STEPS = [
 ];
 
 export default function OnboardingTour({ onFinish }) {
+  useLockBodyScroll();
   const [step, setStep] = useState(0);
   const isLast = step === STEPS.length - 1;
   const current = STEPS[step];
