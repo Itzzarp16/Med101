@@ -600,10 +600,6 @@ export default function AuthScreen() {
               )}
             </form>
           )}
-
-          <div className="auth-powered">
-            by <span>Vijay Yadav</span>
-          </div>
         </div>
       </div>
 
