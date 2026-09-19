@@ -289,6 +289,14 @@ export function AuthProvider({ children }) {
   async function signUp(name, email, password, yearSemester, username) {
     const cred = await createUserWithEmailAndPassword(auth, email, password);
 
+    // Fires the instant the Firebase Auth account itself exists - the
+    // rest of this function (profile doc write, username-claim retry
+    // loop, device claim) can take several seconds on a slow
+    // connection, but none of that gates the tour showing up.
+    if (!ADMIN_EMAILS.includes(cred.user.email)) {
+      setShowOnboardingTour(true);
+    }
+
     let releaseGate;
     const gate = new Promise((resolve) => { releaseGate = resolve; });
     signupGateRef.current = { uid: cred.user.uid, promise: gate };
@@ -345,7 +353,6 @@ export function AuthProvider({ children }) {
       if (!ADMIN_EMAILS.includes(cred.user.email)) {
         deviceClaimPendingRef.current = cred.user.uid;
         await claimDevice(cred.user.uid);
-        setShowOnboardingTour(true);
       }
       sendWelcomeEmail(cred.user); // fire-and-forget - never blocks or fails signup
       return { user: cred.user, usernameClaimError };
