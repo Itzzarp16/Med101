@@ -266,9 +266,14 @@ export function AuthProvider({ children }) {
         await signOut(auth);
         throw new Error('This account has been disabled. Contact an admin if you think this is a mistake.');
       }
+      // Fires as soon as we know the account isn't disabled - the
+      // disabled-check has to stay ahead of this (can't show the
+      // prompt to someone about to get signed back out), but
+      // claimDevice() below is unrelated to whether the prompt should
+      // show and shouldn't delay it.
+      setShowWhatsAppPrompt(true);
       deviceClaimPendingRef.current = cred.user.uid;
       await claimDevice(cred.user.uid);
-      setShowWhatsAppPrompt(true);
     }
     return cred.user;
   }
