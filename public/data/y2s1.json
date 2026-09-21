@@ -48,32 +48,32 @@
       "accent": "var(--cyan)"
     },
     "Blood Physiology": {
-      "emoji": "📖",
+      "emoji": "🩸",
       "desc": "",
       "accent": "var(--cyan)"
     },
     "Physiology of CVS": {
-      "emoji": "📖",
+      "emoji": "🫀",
       "desc": "",
       "accent": "var(--cyan)"
     },
     "Physiology of Respiration": {
-      "emoji": "📖",
+      "emoji": "🫁",
       "desc": "",
       "accent": "var(--cyan)"
     },
     "Digestion & Metabolism": {
-      "emoji": "📖",
+      "emoji": "🍽️",
       "desc": "",
       "accent": "var(--cyan)"
     },
     "Thermoregulation & Energy": {
-      "emoji": "📖",
+      "emoji": "🌡️",
       "desc": "",
       "accent": "var(--cyan)"
     },
     "Physiology of Excretion": {
-      "emoji": "📖",
+      "emoji": "💧",
       "desc": "",
       "accent": "var(--cyan)"
     }
