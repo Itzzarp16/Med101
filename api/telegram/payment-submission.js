@@ -1,4 +1,4 @@
-// Vercel serverless endoint for MED101 payment notifications.
+// Vercel serverless endpoint for MED101 payment notifications.
 // Uses the payment-specific Telegram chat.
 
 const TELEGRAM_API = 'https://api.telegram.org';
