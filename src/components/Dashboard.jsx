@@ -7,7 +7,7 @@ import './Dashboard.css';
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
 // header, then the scrolling notice, then a centered max-width subj-grid.
-export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite }) {
+export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, semesterId }) {
   const subjectStats = useMemo(() => {
     const topicsBySubject = {};
     const countsBySubject = {};
@@ -31,7 +31,7 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
   return (
     <>
       <div className="screen-subject">
-        <HomeNoticeBanner />
+        <HomeNoticeBanner semesterId={semesterId} />
         <PendingInvites onAccept={onAcceptInvite} />
 
         <div className="subj-grid">

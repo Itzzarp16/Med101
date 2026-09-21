@@ -343,7 +343,7 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <AdminNoticeScreen onBack={goBack} />
+          <AdminNoticeScreen onBack={goBack} semesters={semesterData.semesters} />
         </div>
       </div>
     );
@@ -533,6 +533,7 @@ export default function App() {
               mainSubjectMeta={scopedMainSubjectMeta}
               subjectGroup={subjectGroup}
               questions={scopedQuestions}
+              semesterId={activeSemesterId}
               onSelectSubject={(name) => goTo('subtopic', { selectedSubject: name, selectedTopic: null })}
               onComingSoon={(name) => goTo('subject-soon', { selectedSubject: name, selectedTopic: null })}
               onPracticeTopic={(subject, subtopic) => {

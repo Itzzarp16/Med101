@@ -32,7 +32,7 @@ function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
   // tab bar instead of going anywhere.
   const noop = () => {};
   switch (tab) {
-    case 'notice': return <AdminNoticeScreen onBack={noop} hideBack />;
+    case 'notice': return <AdminNoticeScreen onBack={noop} hideBack semesters={semesters} />;
     case 'calendar': return <AdminCalendarScreen onBack={noop} hideBack />;
     case 'upload': return <AdminUploadQuestionsScreen onBack={noop} hideBack semesters={semesters} semesterMainSubjects={semesterMainSubjects} />;
     case 'users': return <AdminUserDetailScreen onBack={noop} initialUid={null} hideBack />;
