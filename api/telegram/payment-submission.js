@@ -1,5 +1,6 @@
 // Vercel serverless endpoint for MED101 payment notifications.
-// Uses the payment-specific Telegram chat.
+// Sends payment notifications to the Payment Notification topic
+// inside the MED101 Telegram group.
 
 const TELEGRAM_API = 'https://api.telegram.org';
 
@@ -25,12 +26,15 @@ export default async function handler(req, res) {
   }
 
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_PAYMENT_CHAT_ID;
 
-  if (!botToken || !chatId) {
-    console.error(
-      'Missing TELEGRAM_BOT_TOKEN or TELEGRAM_PAYMENT_CHAT_ID.'
-    );
+  // Your MED101 Telegram group
+  const chatId = '-1004372584895';
+
+  // Payment notification topic
+  const messageThreadId = 8;
+
+  if (!botToken) {
+    console.error('Missing TELEGRAM_BOT_TOKEN.');
 
     return json(res, 503, {
       error: 'Telegram payment notification is not configured.',
@@ -56,7 +60,8 @@ export default async function handler(req, res) {
         : '';
 
     const amount =
-      typeof body.amount === 'string' || typeof body.amount === 'number'
+      typeof body.amount === 'string' ||
+      typeof body.amount === 'number'
         ? String(body.amount)
         : '11';
 
@@ -88,6 +93,7 @@ export default async function handler(req, res) {
         },
         body: JSON.stringify({
           chat_id: chatId,
+          message_thread_id: messageThreadId,
           text: message,
           parse_mode: 'HTML',
           disable_web_page_preview: true,
@@ -123,4 +129,4 @@ export default async function handler(req, res) {
         error.message || 'Notification failed.',
     });
   }
-  }
+}
