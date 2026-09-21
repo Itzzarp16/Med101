@@ -4,9 +4,6 @@
 const FIREBASE_LOOKUP_URL =
   'https://identitytoolkit.googleapis.com/v1/accounts:lookup';
 
-const FIRESTORE_URL =
-  'https://firestore.googleapis.com/v1/projects';
-
 const TELEGRAM_API = 'https://api.telegram.org';
 
 function json(res, status, body) {
@@ -35,7 +32,9 @@ async function verifyFirebaseIdToken(idToken) {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ idToken }),
+      body: JSON.stringify({
+        idToken,
+      }),
     }
   );
 
@@ -53,43 +52,18 @@ async function verifyFirebaseIdToken(idToken) {
   return account;
 }
 
-function firestoreString(fields, name) {
-  return fields?.[name]?.stringValue || '';
-}
-
-async function getUserProfile(idToken, uid) {
-  const projectId = process.env.FIREBASE_PROJECT_ID || 'med101-1';
-
-  const url =
-    `${FIRESTORE_URL}/${encodeURIComponent(projectId)}` +
-    `/databases/(default)/documents/users/${encodeURIComponent(uid)}`;
-
-  const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${idToken}`,
-    },
-  });
-
-  if (response.status === 404) {
-    return null;
-  }
-
-  if (!response.ok) {
-    throw new Error('Could not read the new account profile.');
-  }
-
-  return response.json();
-}
-
 export default async function handler(req, res) {
+  // Only POST requests are allowed.
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
+
     return json(res, 405, {
       error: 'Method not allowed.',
     });
   }
 
-  // Only allow requests originating from MED101.
+  // Reduce accidental cross-site use.
+  // Firebase authentication below remains the primary security check.
   const origin = req.headers.origin;
 
   if (
@@ -104,6 +78,7 @@ export default async function handler(req, res) {
     });
   }
 
+  // Read Firebase ID token.
   const authHeader = req.headers.authorization || '';
   const match = authHeader.match(/^Bearer\s+(.+)$/i);
 
@@ -116,36 +91,40 @@ export default async function handler(req, res) {
   try {
     const idToken = match[1];
 
-    // Verify that the request comes from a real Firebase user.
+    // Verify the Firebase account.
     const account = await verifyFirebaseIdToken(idToken);
 
-    // Read the profile that AuthContext already created.
-    const userDoc = await getUserProfile(idToken, account.localId);
+    const body = req.body || {};
 
-    const fields = userDoc?.fields || {};
-
-    const displayName = firestoreString(fields, 'displayName');
-    const email =
-      firestoreString(fields, 'email') ||
-      account.email ||
-      '(not provided)';
-
-    const yearSemester = firestoreString(
-      fields,
-      'enrolledYearSemester'
-    );
+    // These values come directly from the signup form.
+    const name =
+      typeof body.name === 'string'
+        ? body.name.trim()
+        : '';
 
     const username =
-      firestoreString(fields, 'username') ||
-      '(not set)';
+      typeof body.username === 'string'
+        ? body.username.trim()
+        : '';
 
+    const yearSemester =
+      typeof body.yearSemester === 'string'
+        ? body.yearSemester.trim()
+        : '';
+
+    const email =
+      account.email || '(not provided)';
+
+    // Telegram credentials stay ONLY in Vercel Environment Variables.
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
     const chatId = process.env.TELEGRAM_CHAT_ID;
 
     if (!botToken || !chatId) {
-      console.error('Telegram environment variables are missing.');
+      console.error(
+        'Telegram environment variables are missing.'
+      );
 
-      // Don't make account creation fail because Telegram is unavailable.
+      // Telegram failure must not break account creation.
       return json(res, 503, {
         error: 'Telegram notification is not configured.',
       });
@@ -154,17 +133,28 @@ export default async function handler(req, res) {
     const message = [
       '🆕 <b>MED101 — New Account Created</b>',
       '',
-      `👤 <b>Name:</b> ${escapeHtml(displayName || '(not provided)')}`,
-      `🔹 <b>Username:</b> ${escapeHtml(username)}`,
+      `👤 <b>Name:</b> ${escapeHtml(
+        name || '(not provided)'
+      )}`,
+      `🔹 <b>Username:</b> ${escapeHtml(
+        username || '(not provided)'
+      )}`,
       `📧 <b>Email:</b> ${escapeHtml(email)}`,
-      `🎓 <b>Year/Semester:</b> ${escapeHtml(yearSemester || '(not provided)')}`,
-      `🆔 <b>UID:</b> <code>${escapeHtml(account.localId)}</code>`,
+      `🎓 <b>Year/Semester:</b> ${escapeHtml(
+        yearSemester || '(not provided)'
+      )}`,
+      `🆔 <b>UID:</b> <code>${escapeHtml(
+        account.localId
+      )}</code>`,
       '',
       '✅ <b>Status:</b> Account created successfully',
     ].join('\n');
 
+    // Send notification to Telegram.
     const telegramResponse = await fetch(
-      `${TELEGRAM_API}/bot${encodeURIComponent(botToken)}/sendMessage`,
+      `${TELEGRAM_API}/bot${encodeURIComponent(
+        botToken
+      )}/sendMessage`,
       {
         method: 'POST',
         headers: {
@@ -179,9 +169,13 @@ export default async function handler(req, res) {
       }
     );
 
-    const telegramData = await telegramResponse.json().catch(() => null);
+    const telegramData =
+      await telegramResponse.json().catch(() => null);
 
-    if (!telegramResponse.ok || !telegramData?.ok) {
+    if (
+      !telegramResponse.ok ||
+      !telegramData?.ok
+    ) {
       console.error(
         'Telegram sendMessage failed:',
         telegramData || telegramResponse.status
@@ -203,7 +197,7 @@ export default async function handler(req, res) {
     );
 
     return json(res, 500, {
-      error: error.message || 'Notification failed.',
+      error:
+        error.message || 'Notification failed.',
     });
   }
-        }
