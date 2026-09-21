@@ -1,5 +1,5 @@
 // Vercel serverless endpoint for MED101 account creation notifications.
-// Telegram credentials MUST stay in Vercel Environment Variables.
+// Uses the account-specific Telegram chat.
 
 const FIREBASE_LOOKUP_URL =
   'https://identitytoolkit.googleapis.com/v1/accounts:lookup';
@@ -22,7 +22,9 @@ async function verifyFirebaseIdToken(idToken) {
   const apiKey = process.env.FIREBASE_WEB_API_KEY;
 
   if (!apiKey) {
-    throw new Error('FIREBASE_WEB_API_KEY is not configured.');
+    throw new Error(
+      'FIREBASE_WEB_API_KEY is not configured.'
+    );
   }
 
   const response = await fetch(
@@ -53,7 +55,6 @@ async function verifyFirebaseIdToken(idToken) {
 }
 
 export default async function handler(req, res) {
-  // Only POST requests are allowed.
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
 
@@ -62,8 +63,6 @@ export default async function handler(req, res) {
     });
   }
 
-  // Reduce accidental cross-site use.
-  // Firebase authentication below remains the primary security check.
   const origin = req.headers.origin;
 
   if (
@@ -78,7 +77,6 @@ export default async function handler(req, res) {
     });
   }
 
-  // Read Firebase ID token.
   const authHeader = req.headers.authorization || '';
   const match = authHeader.match(/^Bearer\s+(.+)$/i);
 
@@ -91,12 +89,10 @@ export default async function handler(req, res) {
   try {
     const idToken = match[1];
 
-    // Verify the Firebase account.
     const account = await verifyFirebaseIdToken(idToken);
 
     const body = req.body || {};
 
-    // These values come directly from the signup form.
     const name =
       typeof body.name === 'string'
         ? body.name.trim()
@@ -115,18 +111,19 @@ export default async function handler(req, res) {
     const email =
       account.email || '(not provided)';
 
-    // Telegram credentials stay ONLY in Vercel Environment Variables.
+    // IMPORTANT:
+    // Account-creation notifications use a DIFFERENT chat.
     const botToken = process.env.TELEGRAM_BOT_TOKEN;
-    const chatId = process.env.TELEGRAM_CHAT_ID;
+    const chatId = process.env.TELEGRAM_ACCOUNT_CHAT_ID;
 
     if (!botToken || !chatId) {
       console.error(
-        'Telegram environment variables are missing.'
+        'Missing TELEGRAM_BOT_TOKEN or TELEGRAM_ACCOUNT_CHAT_ID.'
       );
 
-      // Telegram failure must not break account creation.
       return json(res, 503, {
-        error: 'Telegram notification is not configured.',
+        error:
+          'Telegram account notification is not configured.',
       });
     }
 
@@ -150,11 +147,8 @@ export default async function handler(req, res) {
       '✅ <b>Status:</b> Account created successfully',
     ].join('\n');
 
-    // Send notification to Telegram.
     const telegramResponse = await fetch(
-      `${TELEGRAM_API}/bot${encodeURIComponent(
-        botToken
-      )}/sendMessage`,
+      `${TELEGRAM_API}/bot${encodeURIComponent(botToken)}/sendMessage`,
       {
         method: 'POST',
         headers: {
@@ -177,7 +171,7 @@ export default async function handler(req, res) {
       !telegramData?.ok
     ) {
       console.error(
-        'Telegram sendMessage failed:',
+        'Telegram account notification failed:',
         telegramData || telegramResponse.status
       );
 
@@ -192,7 +186,7 @@ export default async function handler(req, res) {
     });
   } catch (error) {
     console.error(
-      'Telegram account creation notification error:',
+      'Account creation Telegram notification error:',
       error
     );
 
@@ -201,3 +195,4 @@ export default async function handler(req, res) {
         error.message || 'Notification failed.',
     });
   }
+}
