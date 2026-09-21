@@ -106,6 +106,13 @@ export default async function handler(req, res) {
     const name = account.displayName || '';
     const email = account.email || '(not provided)';
 
+    const now = new Date();
+    const submittedAt = now.toLocaleString('en-US', {
+      timeZone: 'Asia/Bishkek',
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
+
     const message = [
       '🔔 <b>MED101 — New Payment Submission</b>',
       '',
@@ -116,6 +123,7 @@ export default async function handler(req, res) {
       `🧾 <b>Transaction ID:</b> ${escapeHtml(
         transactionId || '(not provided)'
       )}`,
+      `📅 <b>Submitted:</b> ${escapeHtml(submittedAt)} (Bishkek time)`,
       '',
       '⏳ <b>Status:</b> Pending admin review',
     ].join('\n');
