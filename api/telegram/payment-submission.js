@@ -2,6 +2,9 @@
 // Sends payment notifications to the Payment Notification topic
 // inside the MED101 Telegram group.
 
+const FIREBASE_LOOKUP_URL =
+  'https://identitytoolkit.googleapis.com/v1/accounts:lookup';
+
 const TELEGRAM_API = 'https://api.telegram.org';
 
 function json(res, status, body) {
@@ -14,6 +17,41 @@ function escapeHtml(value) {
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
+}
+
+// Same pattern as api/telegram/account-created.js - verifies the
+// request actually carries a valid Firebase session before sending
+// anything to the admin Telegram group, rather than trusting whatever
+// the client claims in the body. This endpoint had no verification at
+// all before; a request could POST arbitrary fake payment claims.
+async function verifyFirebaseIdToken(idToken) {
+  const apiKey = process.env.FIREBASE_WEB_API_KEY;
+
+  if (!apiKey) {
+    throw new Error('FIREBASE_WEB_API_KEY is not configured.');
+  }
+
+  const response = await fetch(
+    `${FIREBASE_LOOKUP_URL}?key=${encodeURIComponent(apiKey)}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken }),
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error('Firebase authentication failed.');
+  }
+
+  const data = await response.json();
+  const account = data.users?.[0];
+
+  if (!account?.localId) {
+    throw new Error('Firebase authentication failed.');
+  }
+
+  return account;
 }
 
 export default async function handler(req, res) {
@@ -41,42 +79,40 @@ export default async function handler(req, res) {
     });
   }
 
+  const authHeader = req.headers.authorization || '';
+  const match = authHeader.match(/^Bearer\s+(.+)$/i);
+
+  if (!match) {
+    return json(res, 401, { error: 'Missing Firebase authentication.' });
+  }
+
   try {
+    const account = await verifyFirebaseIdToken(match[1]);
     const body = req.body || {};
 
-    const name =
-      typeof body.name === 'string'
-        ? body.name.trim()
-        : '';
-
     const username =
-      typeof body.username === 'string'
-        ? body.username.trim()
-        : '';
-
-    const email =
-      typeof body.email === 'string'
-        ? body.email.trim()
-        : '';
+      typeof body.username === 'string' ? body.username.trim() : '';
 
     const amount =
-      typeof body.amount === 'string' ||
-      typeof body.amount === 'number'
+      typeof body.amount === 'string' || typeof body.amount === 'number'
         ? String(body.amount)
-        : '11';
+        : '';
 
     const transactionId =
       typeof body.transactionId === 'string'
         ? body.transactionId.trim()
         : '';
 
+    const name = account.displayName || '';
+    const email = account.email || '(not provided)';
+
     const message = [
       '🔔 <b>MED101 — New Payment Submission</b>',
       '',
       `👤 <b>Name:</b> ${escapeHtml(name || '(not provided)')}`,
       `🔹 <b>Username:</b> ${escapeHtml(username || '(not provided)')}`,
-      `📧 <b>Email:</b> ${escapeHtml(email || '(not provided)')}`,
-      `💰 <b>Amount:</b> ₹${escapeHtml(amount)}`,
+      `📧 <b>Email:</b> ${escapeHtml(email)}`,
+      `💰 <b>Amount:</b> ${escapeHtml(amount || '(not provided)')}`,
       `🧾 <b>Transaction ID:</b> ${escapeHtml(
         transactionId || '(not provided)'
       )}`,

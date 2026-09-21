@@ -81,6 +81,8 @@ export async function submitPaymentRequest({
   uid,
   email,
   displayName,
+  username,
+  amount,
   bankingName,
   phone,
   utr
@@ -121,8 +123,9 @@ export async function submitPaymentRequest({
         Authorization: `Bearer ${idToken}`,
       },
       body: JSON.stringify({
-        utr: cleanUtr,
-        displayName: displayName || '',
+        username: username || '',
+        amount: amount || '',
+        transactionId: cleanUtr,
         bankingName: bankingName || '',
         phone: phone || '',
       }),

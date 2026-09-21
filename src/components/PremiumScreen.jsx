@@ -64,7 +64,7 @@ function extractAmount(label) {
 }
 
 export default function PremiumScreen({ onBack }) {
-  const { user, isAdmin } = useAuth();
+  const { user, profile, isAdmin } = useAuth();
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
   const [premium, setPremium] = useState({ isPremium: false, premiumUntil: null });
@@ -153,6 +153,7 @@ export default function PremiumScreen({ onBack }) {
     try {
       await submitPaymentRequest({
         uid: user.uid, email: user.email, displayName: user.displayName,
+        username: profile?.username, amount: formatPrice(config?.priceLabel),
         bankingName, phone, utr,
       });
       setSubmitMsg({
