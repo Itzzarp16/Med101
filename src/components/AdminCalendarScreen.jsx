@@ -5,10 +5,10 @@ import { playTapSound } from '../lib/sounds';
 const LABELS = {
   y1s1: 'Year 1 · Semester 1',
   y1s2: 'Year 1 · Semester 2',
-  y2s1: 'Year 2 · Semester 1',
-  y2s2: 'Year 2 · Semester 2',
-  y3s1: 'Year 3 · Semester 1',
-  y3s2: 'Year 3 · Semester 2',
+  y2s1: 'Year 2 · Semester 3',
+  y2s2: 'Year 2 · Semester 4',
+  y3s1: 'Year 3 · Semester 5',
+  y3s2: 'Year 3 · Semester 6',
 };
 
 // Admin sets/adjusts when each semester "starts" - students enrolled in
