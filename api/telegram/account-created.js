@@ -127,6 +127,13 @@ export default async function handler(req, res) {
       });
     }
 
+    const now = new Date();
+    const joinedAt = now.toLocaleString('en-US', {
+      timeZone: 'Asia/Bishkek',
+      dateStyle: 'medium',
+      timeStyle: 'short',
+    });
+
     const message = [
       '🆕 <b>MED101 — New Account Created</b>',
       '',
@@ -143,6 +150,7 @@ export default async function handler(req, res) {
       `🆔 <b>UID:</b> <code>${escapeHtml(
         account.localId
       )}</code>`,
+      `📅 <b>Joined:</b> ${escapeHtml(joinedAt)} (Bishkek time)`,
       '',
       '✅ <b>Status:</b> Account created successfully',
     ].join('\n');
