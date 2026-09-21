@@ -6,7 +6,7 @@
   padding: 2px;
   border-radius: 22px;
   background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 55%, var(--pink) 100%);
-  box-shadow: 0 0 32px rgba(24, 232, 255, 0.22), 0 10px 32px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 0 32px rgba(var(--cyan-rgb), 0.22), 0 10px 32px rgba(0, 0, 0, 0.35);
   margin-top: 16px;
 }
 
@@ -130,7 +130,7 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 14.5px;
-  box-shadow: 0 0 22px rgba(24, 232, 255, 0.3), 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 22px rgba(var(--cyan-rgb), 0.3), 0 4px 16px rgba(0, 0, 0, 0.4);
   transition: transform 0.2s ease;
 }
 .pay-tap-btn:hover {

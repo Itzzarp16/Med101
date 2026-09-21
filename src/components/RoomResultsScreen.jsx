@@ -57,8 +57,8 @@ export default function RoomResultsScreen({ code, onBack }) {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 12,
-                  border: isMe ? '1px solid rgba(24,232,255,0.5)' : undefined,
-                  background: isMe ? 'rgba(24,232,255,0.06)' : undefined,
+                  border: isMe ? '1px solid rgba(var(--cyan-rgb),0.5)' : undefined,
+                  background: isMe ? 'rgba(var(--cyan-rgb),0.06)' : undefined,
                   cursor: canExpand ? 'pointer' : 'default',
                   textAlign: 'left',
                 }}

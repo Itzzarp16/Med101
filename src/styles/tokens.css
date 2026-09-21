@@ -39,23 +39,39 @@
   --chrome-bg-overlay: rgba(0, 0, 0, 0.94);
   --chrome-border: rgba(255, 255, 255, 0.15);
 
-  /* Accents */
-  --cyan: #18e8ff;      /* progress / correct / primary actions */
-  --cyan2: #00ccee;
-  --violet: #b48eff;    /* premium / subscription only */
+  /* Accents - muted navy/slate family, replacing the previous neon
+     cyan/violet/pink per the "remove all neon, even the logo"
+     direction. -rgb companions exist so the many rgba(var, alpha)
+     glow/tint effects elsewhere (buttons, badges, decorative auth-
+     screen glows) can reference the same source color instead of
+     each hardcoding their own copy of the hex-as-rgb triple, which
+     is what let them drift out of sync with these vars before. */
+  --cyan: #4a6f94;      /* progress / correct / primary actions */
+  --cyan-rgb: 74, 111, 148;
+  --cyan2: #3d5c7d;
+  --violet: #6b6f8a;    /* premium / subscription only */
+  --violet-rgb: 107, 111, 138;
   --green: #30f28a;     /* success states */
   --red: #ff3a5c;       /* wrong answers, muted-coral feel via alpha */
   --amber: #ffcc2a;     /* admin-only context */
-  --pink: #ff6eb4;
+  --pink: #8a6f7a;
+  --pink-rgb: 138, 111, 122;
 
-  /* Headings - a softer, desaturated pale cyan rather than the full-
+  /* Shared brand gradient - the Med101 wordmark and primary CTA
+     buttons all reference this one value instead of each repeating
+     the same literal gradient string, so the whole brand identity
+     changes from a single edit. Navy-to-slate, not theme-dependent
+     (the logo should look the same in light or dark mode). */
+  --brand-gradient: linear-gradient(90deg, #1e3a5f, #3d5875, #64748b);
+
+  /* Headings - a softer, desaturated pale slate rather than the full-
      saturation --cyan. Large blocks of a vivid, fully-saturated color
      (headings cover far more area than a button or progress bar) read
      as harsh/glowing against a black background and were causing eye
-     strain - this keeps the same cyan-family identity at much lower
+     strain - this keeps the same slate-family identity at much lower
      saturation/higher lightness, closer to --text but still visibly
      tinted and distinct from plain body text. */
-  --heading: #b8e8f0;
+  --heading: #b0c0d4;
 
   /* Text */
   --text: #eef4ff;
@@ -83,12 +99,16 @@ body.light-mode {
   --border: #c0d0ee;
   --border2: #aabade;
   --cyan: #0090c8;
+  --cyan-rgb: 0, 144, 200;
   --cyan2: #007aaa;
   --violet: #6633cc;
+  --violet-rgb: 102, 51, 204;
   --green: #118855;
   --red: #cc1133;
   --amber: #aa7700;
   --pink: #aa2266;
+  --pink-rgb: 170, 34, 102;
+  --brand-gradient: linear-gradient(90deg, #1e3a5f, #3d5875, #64748b);
   --heading: #0090c8;
   --text: #081428;
   --text2: #1e3a5c;
@@ -185,17 +205,17 @@ h1, h2, .display {
   font-size: 15px;
   cursor: pointer;
   transition: all 0.22s cubic-bezier(.34, 1.2, .64, 1);
-  box-shadow: 0 0 28px rgba(24, 232, 255, 0.35), 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 28px rgba(var(--cyan-rgb), 0.35), 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 .btn-glow:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 40px rgba(24, 232, 255, 0.50), 0 12px 32px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 40px rgba(var(--cyan-rgb), 0.50), 0 12px 32px rgba(0, 0, 0, 0.55);
 }
 
 .btn-ghost {
   background: transparent;
   color: var(--cyan);
-  border: 1.5px solid rgba(0, 229, 255, 0.35);
+  border: 1.5px solid rgba(var(--cyan-rgb), 0.35);
   border-radius: 12px;
   padding: 12px 28px;
   font-family: var(--font-display);
@@ -205,7 +225,7 @@ h1, h2, .display {
   transition: all 0.2s;
 }
 .btn-ghost:hover {
-  background: rgba(0, 229, 255, 0.08);
+  background: rgba(var(--cyan-rgb), 0.08);
   border-color: var(--cyan);
 }
 .btn-ghost:disabled {
@@ -225,9 +245,9 @@ h1, h2, .display {
   text-transform: uppercase;
 }
 .badge-cyan {
-  background: rgba(0, 229, 255, 0.12);
+  background: rgba(var(--cyan-rgb), 0.12);
   color: var(--cyan);
-  border: 1px solid rgba(0, 229, 255, 0.25);
+  border: 1px solid rgba(var(--cyan-rgb), 0.25);
 }
 
 .stat-card {
@@ -271,7 +291,7 @@ h1, h2, .display {
   position: absolute;
   top: 0; left: 20px; right: 20px;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(24, 232, 255, 0.60), rgba(180, 142, 255, 0.40), transparent);
+  background: linear-gradient(90deg, transparent, rgba(var(--cyan-rgb), 0.60), rgba(var(--violet-rgb), 0.40), transparent);
 }
 
 .sw-dig {
@@ -281,7 +301,7 @@ h1, h2, .display {
   color: var(--cyan);
   letter-spacing: 0.06em;
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 0 12px rgba(0, 229, 255, 0.4);
+  text-shadow: 0 0 12px rgba(var(--cyan-rgb), 0.4);
 }
 .sw-lbl {
   font-size: 9px;
@@ -340,13 +360,13 @@ h1, h2, .display {
 }
 
 .topbar-icon-btn.home {
-  border: 1px solid rgba(0, 229, 255, 0.25);
-  background: rgba(0, 229, 255, 0.08);
-  color: #00e5ff;
+  border: 1px solid rgba(var(--cyan-rgb), 0.25);
+  background: rgba(var(--cyan-rgb), 0.08);
+  color: var(--cyan);
 }
 .topbar-icon-btn.home:hover {
-  background: rgba(0, 229, 255, 0.2);
-  border-color: rgba(0, 229, 255, 0.6);
+  background: rgba(var(--cyan-rgb), 0.2);
+  border-color: rgba(var(--cyan-rgb), 0.6);
 }
 
 .topbar-icon-btn.leaderboard {
@@ -360,13 +380,13 @@ h1, h2, .display {
 }
 
 .topbar-icon-btn.settings {
-  border: 1px solid rgba(180, 142, 255, 0.30);
-  background: rgba(180, 142, 255, 0.08);
+  border: 1px solid rgba(var(--violet-rgb), 0.30);
+  background: rgba(var(--violet-rgb), 0.08);
   color: var(--violet);
 }
 .topbar-icon-btn.settings:hover {
-  background: rgba(180, 142, 255, 0.2);
-  border-color: rgba(180, 142, 255, 0.6);
+  background: rgba(var(--violet-rgb), 0.2);
+  border-color: rgba(var(--violet-rgb), 0.6);
 }
 
 .topbar-icon-btn.admin {
@@ -424,7 +444,7 @@ h1, h2, .display {
   font-family: 'Syne', sans-serif;
   font-size: 19px;
   font-weight: 800;
-  background: linear-gradient(90deg, #00e5ff, #a78bfa, #ff4f6b);
+  background: var(--brand-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -891,7 +911,7 @@ h1, h2, .display {
   font-weight: 800;
   font-size: 2.4rem;
   line-height: 1;
-  background: linear-gradient(90deg, #00e5ff, #a78bfa, #ff4f6b);
+  background: var(--brand-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -971,7 +991,7 @@ h1, h2, .display {
 .app-loading-fill {
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, #00e5ff, #a78bfa);
+  background: var(--brand-gradient);
   transition: width 0.35s ease;
 }
 
@@ -1119,7 +1139,7 @@ h1, h2, .display {
   display: inline-block;
   padding: 12px 28px;
   border-radius: 12px;
-  background: linear-gradient(90deg, #00e5ff, #a78bfa, #ff4f6b);
+  background: var(--brand-gradient);
   color: #050505;
   font-weight: 700;
   font-size: 14px;
@@ -1197,7 +1217,7 @@ h1, h2, .display {
 .onboarding-dot.active {
   width: 18px;
   border-radius: 3px;
-  background: linear-gradient(90deg, #00e5ff, #a78bfa, #ff4f6b);
+  background: var(--brand-gradient);
 }
 
 .onboarding-actions {
@@ -1212,7 +1232,7 @@ h1, h2, .display {
   padding: 12px 32px;
   border-radius: 12px;
   border: none;
-  background: linear-gradient(90deg, #00e5ff, #a78bfa, #ff4f6b);
+  background: var(--brand-gradient);
   color: #050505;
   font-weight: 700;
   font-size: 14px;

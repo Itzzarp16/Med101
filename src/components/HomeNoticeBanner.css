@@ -4,8 +4,8 @@
   box-sizing: border-box;
   margin: 12px auto 0;
   padding: 10px 16px;
-  background: rgba(24, 232, 255, 0.08);
-  border: 1px solid rgba(24, 232, 255, 0.25);
+  background: rgba(var(--cyan-rgb), 0.08);
+  border: 1px solid rgba(var(--cyan-rgb), 0.25);
   border-radius: 14px;
   overflow: hidden;
   cursor: pointer;
@@ -13,8 +13,8 @@
 }
 
 @keyframes homeNoticePulse {
-  0%, 100% { border-color: rgba(24, 232, 255, 0.25); }
-  50% { border-color: rgba(24, 232, 255, 0.5); }
+  0%, 100% { border-color: rgba(var(--cyan-rgb), 0.25); }
+  50% { border-color: rgba(var(--cyan-rgb), 0.5); }
 }
 
 .home-notice-track {

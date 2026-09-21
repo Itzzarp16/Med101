@@ -4,7 +4,7 @@ import './SubjectCard.css';
 // text stacked, chevron right). The animated pulse-trace line is only
 // shown on the Dashboard's "Choose a Subject" grid (trace=true there),
 // not on the Subtopic screen, which reuses this same component.
-const TRACE_COLORS = ['#18e8ff', '#30f28a', '#ffcc2a', '#ff3a5c', '#b48eff', '#ff6eb4'];
+const TRACE_COLORS = ['#4a6f94', '#30f28a', '#ffcc2a', '#ff3a5c', '#6b6f8a', '#8a6f7a'];
 function traceColorFor(name) {
   let hash = 0;
   for (let i = 0; i < name.length; i++) hash = (hash * 31 + name.charCodeAt(i)) >>> 0;

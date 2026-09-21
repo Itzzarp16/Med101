@@ -23,7 +23,7 @@
   padding: 2px;
   border-radius: 22px;
   background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 55%, var(--pink) 100%);
-  box-shadow: 0 0 40px rgba(24, 232, 255, 0.28), 0 12px 36px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 40px rgba(var(--cyan-rgb), 0.28), 0 12px 36px rgba(0, 0, 0, 0.4);
   animation: thanks-pop-in 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
 

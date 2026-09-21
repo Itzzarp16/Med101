@@ -10,7 +10,7 @@ function highlight(text, term) {
   return (
     <>
       {text.slice(0, idx)}
-      <mark style={{ background: 'rgba(24,232,255,0.25)', color: 'var(--cyan)', borderRadius: 3, padding: '0 2px' }}>
+      <mark style={{ background: 'rgba(var(--cyan-rgb),0.25)', color: 'var(--cyan)', borderRadius: 3, padding: '0 2px' }}>
         {text.slice(idx, idx + term.length)}
       </mark>
       {text.slice(idx + term.length)}

@@ -114,5 +114,5 @@
   font-weight: 700;
   font-size: 14.5px;
   cursor: pointer;
-  box-shadow: 0 0 22px rgba(24, 232, 255, 0.25), 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 22px rgba(var(--cyan-rgb), 0.25), 0 4px 16px rgba(0, 0, 0, 0.4);
 }

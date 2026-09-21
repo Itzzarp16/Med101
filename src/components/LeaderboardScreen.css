@@ -67,7 +67,7 @@
 }
 
 .lb-metric-btn.active {
-  background: rgba(0, 229, 255, 0.12);
+  background: rgba(var(--cyan-rgb), 0.12);
   border-color: var(--cyan);
   color: var(--cyan);
 }

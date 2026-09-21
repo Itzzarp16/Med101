@@ -24,9 +24,9 @@
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 100% 55% at 50% -5%, rgba(24, 232, 255, 0.28) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 45% at 85% 90%, rgba(180, 142, 255, 0.22) 0%, transparent 60%),
-    radial-gradient(ellipse 50% 35% at 10% 70%, rgba(255, 110, 180, 0.14) 0%, transparent 55%);
+    radial-gradient(ellipse 100% 55% at 50% -5%, rgba(var(--cyan-rgb), 0.28) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 45% at 85% 90%, rgba(var(--violet-rgb), 0.22) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 35% at 10% 70%, rgba(var(--pink-rgb), 0.14) 0%, transparent 55%);
 }
 
 .auth-card {
@@ -43,8 +43,8 @@
     inset 0 -1px 0 rgba(0, 0, 0, 0.25),
     inset 1px 0 0 rgba(255, 255, 255, 0.12),
     0 40px 100px rgba(0, 0, 0, 0.60),
-    0 0 0 1px rgba(24, 232, 255, 0.10),
-    0 0 80px rgba(24, 232, 255, 0.08);
+    0 0 0 1px rgba(var(--cyan-rgb), 0.10),
+    0 0 80px rgba(var(--cyan-rgb), 0.08);
   position: relative;
   z-index: 1;
   animation: authCardIn 0.55s cubic-bezier(.34, 1.4, .64, 1) both;
@@ -59,7 +59,7 @@
   font-size: 64px;
   text-align: center;
   margin-bottom: 12px;
-  filter: drop-shadow(0 0 24px rgba(0, 229, 255, 0.5));
+  filter: drop-shadow(0 0 24px rgba(var(--cyan-rgb), 0.5));
 }
 
 .auth-title {
@@ -111,7 +111,7 @@
   background: rgba(255, 255, 255, 0.18);
   color: var(--text);
   border: 1px solid rgba(255, 255, 255, 0.30);
-  box-shadow: 0 2px 20px rgba(24, 232, 255, 0.15), inset 0 1.5px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 2px 20px rgba(var(--cyan-rgb), 0.15), inset 0 1.5px 0 rgba(255, 255, 255, 0.25);
 }
 
 .auth-label {
@@ -141,9 +141,9 @@
 }
 
 .auth-input:focus {
-  border-color: rgba(24, 232, 255, 0.60);
+  border-color: rgba(var(--cyan-rgb), 0.60);
   background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 3px rgba(24, 232, 255, 0.14), 0 0 24px rgba(24, 232, 255, 0.08), inset 0 1.5px 0 rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(var(--cyan-rgb), 0.14), 0 0 24px rgba(var(--cyan-rgb), 0.08), inset 0 1.5px 0 rgba(255, 255, 255, 0.25);
 }
 
 .auth-input::placeholder {
@@ -205,13 +205,13 @@
   transition: all 0.22s cubic-bezier(.34, 1.2, .64, 1);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 28px rgba(24, 232, 255, 0.35), 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1.5px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: 0 0 28px rgba(var(--cyan-rgb), 0.35), 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1.5px 0 rgba(255, 255, 255, 0.28);
   letter-spacing: 0.02em;
 }
 
 .auth-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 0 45px rgba(24, 232, 255, 0.50), 0 12px 32px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 0 45px rgba(var(--cyan-rgb), 0.50), 0 12px 32px rgba(0, 0, 0, 0.55);
 }
 
 .auth-btn:active {

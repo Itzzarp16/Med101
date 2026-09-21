@@ -17,7 +17,7 @@
 
 .subj-icon {
   font-size: 60px;
-  filter: drop-shadow(0 0 28px rgba(24, 232, 255, 0.60));
+  filter: drop-shadow(0 0 28px rgba(var(--cyan-rgb), 0.60));
   margin-bottom: 14px;
 }
 

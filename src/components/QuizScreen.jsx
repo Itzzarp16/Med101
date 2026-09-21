@@ -417,7 +417,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           </div>
 
           <div className="results-summary-grid">
-            <div className="results-summary-card" style={{ borderColor: 'rgba(0,229,255,0.35)' }}>
+            <div className="results-summary-card" style={{ borderColor: 'rgba(var(--cyan-rgb),0.35)' }}>
               <div className="results-summary-val" style={{ color: 'var(--cyan)' }}>{correctCount}/{total}</div>
               <div className="results-summary-label">Score</div>
             </div>
