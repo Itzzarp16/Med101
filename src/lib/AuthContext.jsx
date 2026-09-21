@@ -43,11 +43,11 @@ async function verifyDevice(uid) {
     const snap = await getDoc(doc(db, 'users', uid));
     const active = snap.exists() ? snap.data().activeDeviceId : null;
     if (!active) {
-      await claimDevice(uid); // pre-feature account - adopt it, don't kick
+      await claimDevice(uid);
       return true;
     }
     if (active === getDeviceId()) return true;
-    return false; // another device claimed it - caller signs out
+    return false;
   } catch (e) {
     console.warn('verifyDevice failed, allowing access:', e);
     return true;
@@ -62,7 +62,10 @@ async function sendWelcomeEmail(user) {
     const idToken = await user.getIdToken();
     await fetch('/api/send-welcome-email', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
       body: '{}',
     });
   } catch (e) {
@@ -70,300 +73,453 @@ async function sendWelcomeEmail(user) {
   }
 }
 
+// Fire-and-forget account creation Telegram notification.
+// Telegram credentials remain safely on the Vercel server.
+async function sendAccountCreatedTelegram(
+  user,
+  name,
+  yearSemester,
+  username
+) {
+  try {
+    const idToken = await user.getIdToken();
+
+    await fetch('/api/telegram/account-created', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({
+        name,
+        yearSemester,
+        username,
+      }),
+    });
+  } catch (e) {
+    // Telegram failure must never break account creation.
+    console.warn(
+      'Account creation Telegram notification failed:',
+      e
+    );
+  }
+}
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [profile, setProfile] = useState(null); // users/{uid} doc data
+  const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+
   // updateProfile() mutates auth.currentUser in place rather than
   // replacing it, so setUser(auth.currentUser) after a photo/name
   // change would be setting state to the exact same reference React
-  // already has - a same-reference setState is a no-op bail-out, so
-  // nothing would re-render. This tick exists purely to force
-  // AuthProvider to re-render (and thus hand consumers a fresh
-  // {user, ...} context value) after such a mutation; it's not read
-  // anywhere itself.
+  // already has - a same-reference setState is a no-op bail-out.
   const [, bumpUserTick] = useState(0);
+
   const [kickedMessage, setKickedMessage] = useState(null);
-  // Surfaced when signup succeeds but the username claim didn't. This is
-  // a persistent, dismissible top-level banner (not just a message
-  // returned to the caller) because AuthScreen may already be on its
-  // way out by the time this resolves - see signUp()'s signupGateRef
-  // comment below. A banner rendered from AuthContext itself survives
-  // the AuthScreen -> Dashboard transition; a message living only in
-  // AuthScreen's own local state would not.
+
+  // Surfaced when signup succeeds but the username claim didn't.
   const [signupNotice, setSignupNotice] = useState(null);
-  // Shown once right after a successful sign-in or signup (not on a
-  // resumed/persisted session from a page reload, since this is set
-  // explicitly inside signIn()/signUp() rather than derived from
-  // onAuthStateChanged). Same "survives the AuthScreen -> Dashboard
-  // transition" reasoning as signupNotice above.
+
+  // Shown once right after a successful sign-in or signup.
   const [showWhatsAppPrompt, setShowWhatsAppPrompt] = useState(false);
-  // Only set on signUp() (new accounts), never signIn() - existing
-  // users go straight to the WhatsApp prompt. Finishing/skipping the
-  // tour is what triggers showWhatsAppPrompt for new users, so the
-  // two never stack as two overlapping modals - see finishOnboarding().
+
+  // Only set on signUp() (new accounts), never signIn().
   const [showOnboardingTour, setShowOnboardingTour] = useState(false);
+
   const deviceUnsubRef = useRef(null);
-  const deviceClaimPendingRef = useRef(null); // uid just claimed via explicit login
-  const signupGateRef = useRef(null); // { uid, promise } - see signUp() below
+  const deviceClaimPendingRef = useRef(null);
+  const signupGateRef = useRef(null);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       if (u) {
         // If this uid just came from signUp(), wait for it to fully
-        // finish (profile write, username claim + retries, device
-        // claim) before doing anything else - otherwise this handler
-        // races signUp() and can swap AuthScreen out for the
-        // dashboard while the username claim is still in flight,
-        // which is exactly what was happening before.
-        if (signupGateRef.current && signupGateRef.current.uid === u.uid) {
+        // finish before doing anything else.
+        if (
+          signupGateRef.current &&
+          signupGateRef.current.uid === u.uid
+        ) {
           await signupGateRef.current.promise;
-          // signUp()'s own promise resolves a tick after the gate does,
-          // so give AuthScreen a moment to receive that result and
-          // render its message before we swap the screen out from
-          // under it.
+
+          // Give AuthScreen a moment to receive the signup result.
           await new Promise((r) => setTimeout(r, 1200));
         }
+
         if (!ADMIN_EMAILS.includes(u.email)) {
           if (deviceClaimPendingRef.current === u.uid) {
             deviceClaimPendingRef.current = null;
           } else {
             const ok = await verifyDevice(u.uid);
+
             if (!ok) {
               setKickedMessage(
                 "You've been signed out because this account was signed in on another device."
               );
+
               await signOut(auth);
-              return; // onAuthStateChanged fires again with u=null
+              return;
             }
           }
-          if (deviceUnsubRef.current) deviceUnsubRef.current();
+
+          if (deviceUnsubRef.current) {
+            deviceUnsubRef.current();
+          }
+
           deviceUnsubRef.current = onSnapshot(
             doc(db, 'users', u.uid),
             (snap) => {
               const data = snap.exists() ? snap.data() : {};
+
               setProfile(data);
+
               if (data.disabled) {
                 setKickedMessage(
                   'This account has been disabled. Contact an admin if you think this is a mistake.'
                 );
+
                 signOut(auth);
                 return;
               }
+
               const active = data.activeDeviceId || null;
-              if (active && active !== getDeviceId()) {
+
+              if (
+                active &&
+                active !== getDeviceId()
+              ) {
                 setKickedMessage(
                   "You've been signed out because this account was signed in on another device."
                 );
+
                 signOut(auth);
               }
             },
             (err) => {
-              // A permissions error or dropped connection here used to
-              // leave `profile` stuck at null forever, which in turn
-              // hung the whole app on "Loading questions...". Falling
-              // back to an empty profile at least lets the student in;
-              // App.jsx's own timeout is the second safety net.
-              console.warn('Profile listener failed:', err);
+              console.warn(
+                'Profile listener failed:',
+                err
+              );
+
               setProfile({});
             }
           );
         } else {
-          if (deviceUnsubRef.current) deviceUnsubRef.current();
+          if (deviceUnsubRef.current) {
+            deviceUnsubRef.current();
+          }
+
           deviceUnsubRef.current = onSnapshot(
             doc(db, 'users', u.uid),
             (snap) => {
-              setProfile(snap.exists() ? snap.data() : {});
+              setProfile(
+                snap.exists()
+                  ? snap.data()
+                  : {}
+              );
             },
             (err) => {
-              console.warn('Admin profile listener failed:', err);
+              console.warn(
+                'Admin profile listener failed:',
+                err
+              );
+
               setProfile({});
             }
           );
         }
+
         setUser(u);
       } else {
         if (deviceUnsubRef.current) {
           deviceUnsubRef.current();
           deviceUnsubRef.current = null;
         }
+
         deviceClaimPendingRef.current = null;
+
         setUser(null);
         setProfile(null);
       }
+
       setLoading(false);
     });
+
     return () => unsub();
   }, []);
 
   // ── Close the offline bypass window ────────────────────────────
-  // The device-lock above relies on an onSnapshot listener to push
-  // "someone else claimed this account" to every other open device -
-  // but a listener can't deliver anything to a device with no network
-  // connection. That leaves a real gap: go offline, sign in elsewhere,
-  // and the offline device keeps working (and never gets kicked)
-  // until the moment it happens to reconnect, if ever. Since the app's
-  // question bank is static/bundled, an offline device can keep
-  // studying with a stale session indefinitely.
-  //
-  // This can't be closed to zero purely client-side (nothing can reach
-  // a device with literally no connection), but it can be shrunk to
-  // "must still be fully offline right now" instead of "was offline at
-  // some point and never happened to reconnect while the tab was
-  // open": the instant the browser reports connectivity again, or the
-  // tab is foregrounded (covers mobile Chrome being backgrounded while
-  // offline, then reopened once back online), force an uncached
-  // server read of activeDeviceId and sign out immediately on a
-  // mismatch, rather than waiting on the realtime listener to
-  // reconcile on its own schedule.
+
   useEffect(() => {
-    if (!user || ADMIN_EMAILS.includes(user.email)) return;
+    if (!user || ADMIN_EMAILS.includes(user.email)) {
+      return;
+    }
 
     async function recheck() {
       try {
-        const snap = await getDocFromServer(doc(db, 'users', user.uid));
-        const active = snap.exists() ? snap.data().activeDeviceId : null;
-        if (active && active !== getDeviceId()) {
+        const snap = await getDocFromServer(
+          doc(db, 'users', user.uid)
+        );
+
+        const active = snap.exists()
+          ? snap.data().activeDeviceId
+          : null;
+
+        if (
+          active &&
+          active !== getDeviceId()
+        ) {
           setKickedMessage(
             "You've been signed out because this account was signed in on another device."
           );
+
           await signOut(auth);
         }
       } catch (e) {
-        // Still offline, or a transient error - the next 'online'/
-        // visibility event (or the realtime listener, once it
-        // reconnects) will catch it.
-        console.warn('Device re-check failed (likely offline):', e);
+        console.warn(
+          'Device re-check failed (likely offline):',
+          e
+        );
       }
     }
 
     function onVisible() {
-      if (document.visibilityState === 'visible') recheck();
+      if (
+        document.visibilityState === 'visible'
+      ) {
+        recheck();
+      }
     }
 
-    window.addEventListener('online', recheck);
-    document.addEventListener('visibilitychange', onVisible);
+    window.addEventListener(
+      'online',
+      recheck
+    );
+
+    document.addEventListener(
+      'visibilitychange',
+      onVisible
+    );
+
     return () => {
-      window.removeEventListener('online', recheck);
-      document.removeEventListener('visibilitychange', onVisible);
+      window.removeEventListener(
+        'online',
+        recheck
+      );
+
+      document.removeEventListener(
+        'visibilitychange',
+        onVisible
+      );
     };
   }, [user]);
 
-  // Tracks how long this student has the app open in the foreground -
-  // see timeTracking.js. Runs for the whole signed-in session and
-  // restarts cleanly if the user changes (sign-out then a different
-  // sign-in), since it's keyed on user?.uid.
+  // Tracks how long this student has the app open in the foreground.
   useEffect(() => {
     if (!user?.uid) return;
+
     return startTimeTracking(user.uid);
   }, [user?.uid]);
 
   async function signIn(email, password) {
-    const cred = await signInWithEmailAndPassword(auth, email, password);
+    const cred =
+      await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
     if (!ADMIN_EMAILS.includes(cred.user.email)) {
-      const snap = await getDoc(doc(db, 'users', cred.user.uid));
-      if (snap.exists() && snap.data().disabled) {
+      const snap = await getDoc(
+        doc(db, 'users', cred.user.uid)
+      );
+
+      if (
+        snap.exists() &&
+        snap.data().disabled
+      ) {
         await signOut(auth);
-        throw new Error('This account has been disabled. Contact an admin if you think this is a mistake.');
+
+        throw new Error(
+          'This account has been disabled. Contact an admin if you think this is a mistake.'
+        );
       }
-      // Fires as soon as we know the account isn't disabled - the
-      // disabled-check has to stay ahead of this (can't show the
-      // prompt to someone about to get signed back out), but
-      // claimDevice() below is unrelated to whether the prompt should
-      // show and shouldn't delay it.
+
       setShowWhatsAppPrompt(true);
-      deviceClaimPendingRef.current = cred.user.uid;
-      await claimDevice(cred.user.uid);
+
+      deviceClaimPendingRef.current =
+        cred.user.uid;
+
+      await claimDevice(
+        cred.user.uid
+      );
     }
+
     return cred.user;
   }
 
-  // yearSemester: e.g. "y1s1", "y1s2" - the dropdown value from signup.
-  // username is claimed here (not left to the caller) because
-  // onAuthStateChanged fires independently of this function and can
-  // swap the whole screen away as soon as the account exists - doing
-  // the claim as part of signUp guarantees it actually runs to
-  // completion as part of account creation, not as a race against
-  // whatever the UI does once `user` becomes truthy.
-  //
-  // signupGateRef blocks onAuthStateChanged's handling of this same
-  // uid (see the effect above) until this whole function - profile
-  // write, username claim + retries, device claim - has finished, so
-  // the account is fully set up before the app ever treats the student
-  // as signed in.
-  async function signUp(name, email, password, yearSemester, username) {
-    const cred = await createUserWithEmailAndPassword(auth, email, password);
+  // yearSemester: e.g. "y1s1", "y1s2".
+  // username is claimed here rather than left to the caller because
+  // onAuthStateChanged fires independently of this function.
 
-    // Fires the instant the Firebase Auth account itself exists - the
-    // rest of this function (profile doc write, username-claim retry
-    // loop, device claim) can take several seconds on a slow
-    // connection, but none of that gates the tour showing up.
+  async function signUp(
+    name,
+    email,
+    password,
+    yearSemester,
+    username
+  ) {
+    const cred =
+      await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+    // Show onboarding immediately after Firebase account creation.
     if (!ADMIN_EMAILS.includes(cred.user.email)) {
       setShowOnboardingTour(true);
     }
 
     let releaseGate;
-    const gate = new Promise((resolve) => { releaseGate = resolve; });
-    signupGateRef.current = { uid: cred.user.uid, promise: gate };
+
+    const gate = new Promise((resolve) => {
+      releaseGate = resolve;
+    });
+
+    signupGateRef.current = {
+      uid: cred.user.uid,
+      promise: gate,
+    };
 
     try {
-      if (cred.user) await updateProfile(cred.user, { displayName: name });
+      if (cred.user) {
+        await updateProfile(
+          cred.user,
+          {
+            displayName: name,
+          }
+        );
+      }
+
       await setDoc(
-        doc(db, 'users', cred.user.uid),
+        doc(
+          db,
+          'users',
+          cred.user.uid
+        ),
         {
           displayName: name,
           email,
-          enrolledYearSemester: yearSemester,
-          enrolledAt: serverTimestamp(),
+          enrolledYearSemester:
+            yearSemester,
+          enrolledAt:
+            serverTimestamp(),
         },
-        { merge: true }
+        {
+          merge: true,
+        }
       );
+
       let usernameClaimError = null;
+
       if (username) {
         try {
-          // A Firestore write immediately after account creation can be
-          // rejected with "permission-denied" - not because the write is
-          // wrong, but because Firestore's own internal auth-credential
-          // listener (separate from onAuthStateChanged, and not always
-          // caught up by a single getIdToken(true)) can lag a few
-          // hundred ms behind the account actually existing. Retry a
-          // few times with backoff before giving up - this is a known
-          // Firebase quirk, not a rules problem (the same call from
-          // Settings, well after sign-in has settled, works fine).
           await cred.user.getIdToken(true);
+
           let attempt = 0;
+
           for (;;) {
             try {
-              await claimUsername(cred.user, username);
+              await claimUsername(
+                cred.user,
+                username
+              );
+
               break;
             } catch (e) {
-              const isPermissionIssue = e.code === 'permission-denied' || /permission/i.test(e.message || '');
+              const isPermissionIssue =
+                e.code ===
+                  'permission-denied' ||
+                /permission/i.test(
+                  e.message || ''
+                );
+
               attempt += 1;
-              if (!isPermissionIssue || attempt >= 4) throw e;
-              await new Promise((r) => setTimeout(r, 300 * attempt));
-              await cred.user.getIdToken(true);
+
+              if (
+                !isPermissionIssue ||
+                attempt >= 4
+              ) {
+                throw e;
+              }
+
+              await new Promise(
+                (r) =>
+                  setTimeout(
+                    r,
+                    300 * attempt
+                  )
+              );
+
+              await cred.user.getIdToken(
+                true
+              );
             }
           }
         } catch (e) {
-          // Don't fail the whole signup over a username collision/glitch
-          // - the account is real either way. Set as a persistent
-          // top-level notice (see signupNotice above) so it's still
-          // visible even after AuthScreen hands off to the Dashboard.
-          usernameClaimError = e.message || String(e);
+          usernameClaimError =
+            e.message ||
+            String(e);
+
           setSignupNotice(
             `Account created, but the username "${username}" couldn't be set (${usernameClaimError}). You can set one from Settings.`
           );
         }
       }
-      if (!ADMIN_EMAILS.includes(cred.user.email)) {
-        deviceClaimPendingRef.current = cred.user.uid;
-        await claimDevice(cred.user.uid);
+
+      if (
+        !ADMIN_EMAILS.includes(
+          cred.user.email
+        )
+      ) {
+        deviceClaimPendingRef.current =
+          cred.user.uid;
+
+        await claimDevice(
+          cred.user.uid
+        );
       }
-      sendWelcomeEmail(cred.user); // fire-and-forget - never blocks or fails signup
-      return { user: cred.user, usernameClaimError };
+
+      // Existing welcome email.
+      // Fire-and-forget - never blocks signup.
+      sendWelcomeEmail(
+        cred.user
+      );
+
+      // NEW:
+      // Telegram notification for successful account creation.
+      // Fire-and-forget - never blocks signup.
+      sendAccountCreatedTelegram(
+        cred.user,
+        name,
+        yearSemester,
+        username
+      );
+
+      return {
+        user: cred.user,
+        usernameClaimError,
+      };
     } finally {
       releaseGate();
-      if (signupGateRef.current?.uid === cred.user.uid) signupGateRef.current = null;
+
+      if (
+        signupGateRef.current?.uid ===
+        cred.user.uid
+      ) {
+        signupGateRef.current = null;
+      }
     }
   }
 
@@ -371,28 +527,49 @@ export function AuthProvider({ children }) {
     await signOut(auth);
   }
 
-  // Called when the onboarding tour finishes or is skipped - chains
-  // straight into the WhatsApp prompt so the two never appear at once.
+  // Called when the onboarding tour finishes or is skipped.
   function finishOnboardingTour() {
     setShowOnboardingTour(false);
     setShowWhatsAppPrompt(true);
   }
 
-  // Call after anything that mutates auth.currentUser directly
-  // (updateProfile for displayName/photoURL) so the new value actually
-  // shows up in components reading `user` from context - see the
-  // bumpUserTick comment above for why a plain setUser() wouldn't do it.
+  // Call after anything that mutates auth.currentUser directly.
   async function refreshUser() {
     if (!auth.currentUser) return;
+
     await auth.currentUser.reload();
-    bumpUserTick((n) => n + 1);
+
+    bumpUserTick(
+      (n) => n + 1
+    );
   }
 
-  const isAdmin = !!user && ADMIN_EMAILS.includes(user.email);
+  const isAdmin =
+    !!user &&
+    ADMIN_EMAILS.includes(
+      user.email
+    );
 
   return (
     <AuthContext.Provider
-      value={{ user, profile, loading, isAdmin, signIn, signUp, logOut, refreshUser, kickedMessage, setKickedMessage, signupNotice, setSignupNotice, showWhatsAppPrompt, setShowWhatsAppPrompt, showOnboardingTour, finishOnboardingTour }}
+      value={{
+        user,
+        profile,
+        loading,
+        isAdmin,
+        signIn,
+        signUp,
+        logOut,
+        refreshUser,
+        kickedMessage,
+        setKickedMessage,
+        signupNotice,
+        setSignupNotice,
+        showWhatsAppPrompt,
+        setShowWhatsAppPrompt,
+        showOnboardingTour,
+        finishOnboardingTour,
+      }}
     >
       {children}
     </AuthContext.Provider>
@@ -400,7 +577,15 @@ export function AuthProvider({ children }) {
 }
 
 export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) throw new Error('useAuth must be used inside AuthProvider');
+  const ctx = useContext(
+    AuthContext
+  );
+
+  if (!ctx) {
+    throw new Error(
+      'useAuth must be used inside AuthProvider'
+    );
+  }
+
   return ctx;
-}
+                }
