@@ -12,6 +12,14 @@ export default function AboutUs() {
           This website is currently managed by <strong>Vijay Yadav</strong>.
         </p>
 
+        <div style={{ margin: '20px 0', textAlign: 'center' }}>
+          <img
+            src="/about-vijay.jpg"
+            alt="Vijay Yadav"
+            style={{ maxWidth: 240, width: '100%', borderRadius: 16 }}
+          />
+        </div>
+
         <p>
           Instagram:{' '}
           <a
