@@ -12,6 +12,14 @@ export default function AboutUs() {
           This website is currently managed by <strong>Vijay Yadav</strong>.
         </p>
 
+        <div style={{ margin: '20px 0', textAlign: 'center' }}>
+          <img
+            src="/about-vijay.jpg"
+            alt="Vijay Yadav"
+            style={{ maxWidth: 240, width: '100%', borderRadius: 16 }}
+          />
+        </div>
+
         <p>
           Instagram:{' '}
           <a
@@ -24,7 +32,49 @@ export default function AboutUs() {
         </p>
 
         <p>
-          This site has no association with abhishekmed101.space.
+          The website is supervised by <strong>OmBabu Gupta</strong>.
+        </p>
+
+        <div style={{ margin: '20px 0', textAlign: 'center' }}>
+          <img
+            src="/about-babu.jpg"
+            alt="Babu Gupta"
+            style={{ maxWidth: 240, width: '100%', borderRadius: 16 }}
+          />
+        </div>
+
+        <p>
+          Instagram:{' '}
+          <a
+            href="https://www.instagram.com/omgupta_diaries"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @omgupta_diaries
+          </a>
+        </p>
+
+        <p>
+          Our <strong>Quality Assurance Lead</strong> hunts down bugs on the site so you don't have to.
+        </p>
+
+        <div style={{ margin: '20px 0', textAlign: 'center' }}>
+          <img
+            src="/about-friend.jpg"
+            alt="Quality Assurance Lead"
+            style={{ maxWidth: 240, width: '100%', borderRadius: 16 }}
+          />
+        </div>
+
+        <p>
+          Instagram:{' '}
+          <a
+            href="https://www.instagram.com/walker101z"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @walker101z
+          </a>
         </p>
 
         <h2>Our Journey</h2>

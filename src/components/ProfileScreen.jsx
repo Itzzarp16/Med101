@@ -287,12 +287,11 @@ export default function ProfileScreen({ onBack }) {
             ) : (
               <div className="profile-row-edit-form">
                 <input className="auth-input" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} placeholder="Current password" autoComplete="current-password" autoFocus />
-                <input className="auth-input profile-pw-gap" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder="New password" autoComplete="new-password" />
-                <input className="auth-input profile-pw-gap" type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} placeholder="Confirm new password" />
-
                 <div className="profile-forgot-row">
                   <button type="button" className="auth-forgot" onClick={handleForgotPassword}>Forgot password?</button>
                 </div>
+                <input className="auth-input profile-pw-gap" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder="New password" autoComplete="new-password" />
+                <input className="auth-input profile-pw-gap" type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} placeholder="Confirm new password" />
 
                 {pwMsg && <div className={`auth-msg ${pwMsg.type}`} style={{ display: 'block' }}>{pwMsg.text}</div>}
                 <div className="profile-row-edit-actions">

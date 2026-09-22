@@ -1,8 +1,11 @@
 import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
+  GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   updateProfile,
 } from 'firebase/auth';
@@ -14,6 +17,9 @@ import { getDeviceId } from './deviceId';
 
 // Must exactly match the emails your Firestore isAdmin() security rule checks.
 const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
+
+const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({ prompt: 'select_account' });
 
 const AuthContext = createContext(null);
 
@@ -127,6 +133,10 @@ export function AuthProvider({ children }) {
   // Only set on signUp() (new accounts), never signIn().
   const [showOnboardingTour, setShowOnboardingTour] = useState(false);
 
+  // Message shown on the login screen for Google redirect errors or
+  // Google accounts that do not have a MED101 profile yet.
+  const [authMessage, setAuthMessage] = useState(null);
+
   const deviceUnsubRef = useRef(null);
   const deviceClaimPendingRef = useRef(null);
   const signupGateRef = useRef(null);
@@ -134,6 +144,30 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       if (u) {
+        setAuthMessage(null);
+
+        // Google is a LOGIN method only. A Google account must already
+        // have a MED101 Firestore profile created through Create Account.
+        // This prevents an accidental/orphan Google Auth account from
+        // entering MED101 without the normal profile information.
+        const isGoogleUser = u.providerData?.some(
+          (provider) => provider.providerId === 'google.com'
+        );
+
+        if (isGoogleUser) {
+          const googleProfileSnap = await getDoc(
+            doc(db, 'users', u.uid)
+          );
+
+          if (!googleProfileSnap.exists()) {
+            await signOut(auth);
+            setAuthMessage(
+              'No MED101 account was found for this Google account. Please create your MED101 account first, then use Continue with Google to sign in.'
+            );
+            return;
+          }
+        }
+
         // If this uid just came from signUp(), wait for it to fully
         // finish before doing anything else.
         if (
@@ -248,6 +282,32 @@ export function AuthProvider({ children }) {
     return () => unsub();
   }, []);
 
+  // Google sign-in uses Firebase's redirect flow instead of a popup.
+  // This is much more reliable on mobile browsers. After Google returns,
+  // onAuthStateChanged above performs the normal MED101 profile/device checks.
+  useEffect(() => {
+    let active = true;
+
+    getRedirectResult(auth).catch((err) => {
+      if (!active) return;
+
+      const messages = {
+        'auth/network-request-failed': 'Network error. Check your connection.',
+        'auth/unauthorized-domain': 'This domain is not authorized for Google sign-in in Firebase.',
+      };
+
+      setAuthMessage(
+        messages[err.code] ||
+          err.message ||
+          'Google sign-in failed. Please try again.'
+      );
+    });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   // ── Close the offline bypass window ────────────────────────────
 
   useEffect(() => {
@@ -356,6 +416,13 @@ export function AuthProvider({ children }) {
     }
 
     return cred.user;
+  }
+
+  // Google is intentionally LOGIN ONLY. We use redirect instead of popup
+  // because popup flows can be reported as "cancelled" by mobile browsers.
+  async function signInWithGoogle() {
+    setAuthMessage(null);
+    await signInWithRedirect(auth, googleProvider);
   }
 
   // yearSemester: e.g. "y1s1", "y1s2".
@@ -558,6 +625,7 @@ export function AuthProvider({ children }) {
         loading,
         isAdmin,
         signIn,
+        signInWithGoogle,
         signUp,
         logOut,
         refreshUser,
@@ -569,6 +637,8 @@ export function AuthProvider({ children }) {
         setShowWhatsAppPrompt,
         showOnboardingTour,
         finishOnboardingTour,
+        authMessage,
+        setAuthMessage,
       }}
     >
       {children}

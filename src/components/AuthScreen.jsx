@@ -16,7 +16,7 @@ const YEAR_SEMESTER_OPTIONS = [
 ];
 
 export default function AuthScreen() {
-  const { signIn, signUp } = useAuth();
+  const { signIn, signInWithGoogle, signUp, authMessage, setAuthMessage } = useAuth();
 
   const [mode, setMode] = useState('signin');
   const [signupStep, setSignupStep] = useState(1);
@@ -252,6 +252,29 @@ export default function AuthScreen() {
     }
   }
 
+  async function handleGoogleSignIn() {
+    setMsg(null);
+    setAuthMessage(null);
+    setBusy(true);
+
+    try {
+      // Firebase redirect is used instead of a popup so Google sign-in
+      // works reliably on mobile browsers.
+      await signInWithGoogle();
+    } catch (err) {
+      const googleErrors = {
+        'auth/network-request-failed': 'Network error. Check your connection.',
+        'auth/unauthorized-domain': 'This domain is not authorized for Google sign-in in Firebase.',
+      };
+
+      setMsg({
+        text: googleErrors[err.code] || err.message || 'Google sign-in failed. Please try again.',
+        type: 'error',
+      });
+      setBusy(false);
+    }
+  }
+
   async function handleForgotPassword() {
     setMsg(null);
 
@@ -333,6 +356,15 @@ export default function AuthScreen() {
               Create Account
             </button>
           </div>
+
+          {authMessage && mode === 'signin' && (
+            <div
+              className="auth-msg error"
+              style={{ display: 'block', marginBottom: 14 }}
+            >
+              {authMessage}
+            </div>
+          )}
 
           {mode === 'signup' && signupStep === 1 && (
             <form onSubmit={handleNext}>
@@ -452,6 +484,45 @@ export default function AuthScreen() {
                 </div>
               )}
             </form>
+          )}
+
+          {mode === 'signin' && (
+            <>
+              <button
+                type="button"
+                className="auth-btn"
+                onClick={handleGoogleSignIn}
+                disabled={busy}
+                style={{
+                  background: '#fff',
+                  color: '#202124',
+                  border: '1px solid var(--border2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                  marginBottom: 16,
+                }}
+              >
+                <span style={{ fontSize: 18, fontWeight: 700 }}>G</span>
+                {busy ? 'Connecting to Google…' : 'Continue with Google'}
+              </button>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  margin: '4px 0 16px',
+                  color: 'var(--text3)',
+                  fontSize: 12,
+                }}
+              >
+                <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
+                <span>OR</span>
+                <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
+              </div>
+            </>
           )}
 
           {(mode === 'signin' || showingSignupStep2) && (
