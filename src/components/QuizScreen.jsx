@@ -182,7 +182,12 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     // answered question automatically - that was burning through the
     // daily generation limit even for questions nobody wanted explained.
 
-    if (autoAdvance) {
+    // Auto-advance only applies to correct answers - a wrong answer
+    // (or a timeout, handled separately below) always waits for the
+    // student to hit Next themselves, so they actually see the
+    // correct answer and have a chance to tap "Explain with AI"
+    // instead of the screen moving on without them.
+    if (autoAdvance && idx === q.c) {
       advanceTimeoutRef.current = setTimeout(() => nav(1), 550);
     }
   }
@@ -233,7 +238,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       setAnswers(next);
       playWrongSound();
       if (user) recordWrongQuestion(user.uid, mainSubject, q);
-      if (autoAdvance) advanceTimeoutRef.current = setTimeout(() => nav(1), 550);
+      // Timed out = always wrong - same reasoning as answerQ() above,
+      // this never auto-advances regardless of the autoAdvance setting.
       return;
     }
     const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
