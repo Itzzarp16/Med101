@@ -33,9 +33,9 @@ export default function PrivacyPolicy() {
           <li>Basic technical data such as browser type, generated as part of normal website operation</li>
         </ul>
 
-        <h3>c) Payment information (Premium)</h3>
+        <h3>c) Payment information (Max)</h3>
         <p>
-          Med101's Premium subscription is handled manually, not through a
+          Med101's Max subscription is handled manually, not through a
           payment gateway. If you choose to subscribe, you pay us
           directly via UPI (outside the app), then submit the following
           to us so we can verify and approve your payment:
@@ -60,7 +60,7 @@ export default function PrivacyPolicy() {
         <ul>
           <li>To create and maintain your account</li>
           <li>To provide quiz content, track your progress, and show leaderboards</li>
-          <li>To verify manually-submitted payments and activate Premium subscriptions</li>
+          <li>To verify manually-submitted payments and activate Max subscriptions</li>
           <li>To enforce one active device/session per account</li>
           <li>To communicate with you about your account, a payment, or support requests</li>
           <li>To maintain the security and integrity of the platform</li>

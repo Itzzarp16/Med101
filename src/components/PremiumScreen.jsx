@@ -176,7 +176,7 @@ export default function PremiumScreen({ onBack }) {
     setRedeeming(true);
     try {
       await redeemActivationCode(user.uid, rawCode);
-      setRedeemMsg({ text: 'Premium activated! Enjoy full access.', type: 'success' });
+      setRedeemMsg({ text: 'Max activated! Enjoy full access.', type: 'success' });
       setCode('');
       setShowThankYou(true);
     } catch (e) {
@@ -206,7 +206,7 @@ export default function PremiumScreen({ onBack }) {
       <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
 
       <div className="std-header">
-        <h1 className="std-title">⭐ Premium</h1>
+        <h1 className="std-title">⭐ Max</h1>
         <p className="std-sub">Unlock every question, in every subject.</p>
       </div>
 
@@ -224,7 +224,7 @@ export default function PremiumScreen({ onBack }) {
           <div className="glass std-card" style={{ borderColor: premium.isPremium ? 'var(--green)' : config?.premiumPaused ? 'var(--cyan)' : hasPendingRequest ? 'var(--amber)' : undefined }}>
             {premium.isPremium ? (
               <>
-                <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Premium Active</div>
+                <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Max Active</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
                   Valid until <strong>{premium.premiumUntil.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</strong>
                 </div>
@@ -233,7 +233,7 @@ export default function PremiumScreen({ onBack }) {
               <>
                 <div className="auth-label" style={{ margin: 0, color: 'var(--cyan)' }}>🎉 Free For Everyone Right Now</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  All Premium features are unlocked for every student at the moment - nothing to pay, nothing to do.
+                  All Max features are unlocked for every student at the moment - nothing to pay, nothing to do.
                 </div>
               </>
             ) : hasPendingRequest ? (
@@ -247,7 +247,7 @@ export default function PremiumScreen({ onBack }) {
               <>
                 <div className="auth-label" style={{ margin: 0 }}>Free Preview</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  You can try the first 25 questions of any subject. Get Premium for full access to everything.
+                  You can try the first 25 questions of any subject. Get Max for full access to everything.
                 </div>
               </>
             )}

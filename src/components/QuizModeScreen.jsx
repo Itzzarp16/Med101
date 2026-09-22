@@ -140,14 +140,14 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
               <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>🔒 Free Preview</div>
               <p style={{ fontSize: 13, color: 'var(--text2)', lineHeight: 1.6 }}>
                 You can try the first {Math.min(25, pool.length)} questions of {subjectName} for free.
-                Get Premium to unlock all {pool.length} questions, every mode, and every subject.
+                Get Max to unlock all {pool.length} questions, every mode, and every subject.
               </p>
             </div>
             <button className="btn-glow qmode-start-btn" onClick={handleStart}>
               Start Free Preview (Q1–{Math.min(25, pool.length)}) →
             </button>
             <button className="btn-ghost" style={{ width: '100%', marginTop: 10 }} onClick={() => { playTapSound(); onGetPremium?.(); }}>
-              ⭐ Get Premium for Full Access
+              ⭐ Get Max for Full Access
             </button>
           </>
         ) : (

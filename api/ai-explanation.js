@@ -187,7 +187,7 @@ export default async function handler(req, res) {
     }
 
     const allowed = await isPremiumOrPaused(db, uid);
-    if (!allowed) return json(res, 403, { error: 'AI explanations are a Premium feature.' });
+    if (!allowed) return json(res, 403, { error: 'AI explanations are a Max feature.' });
 
     const validQuestion = await questionExistsInBank(req, { subtopic, question, options, correctIndex });
     if (!validQuestion.found) {
