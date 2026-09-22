@@ -16,10 +16,18 @@ const YEAR_SEMESTER_OPTIONS = [
 ];
 
 export default function AuthScreen() {
-  const { signIn, signUp } = useAuth();
+  const {
+    signIn,
+    signInWithGoogle,
+    completeGoogleSignUp,
+    signUp,
+
+    setGoogleSignupPending,
+  } = useAuth();
 
   const [mode, setMode] = useState('signin');
   const [signupStep, setSignupStep] = useState(1);
+  const [googleSignupMode, setGoogleSignupMode] = useState(false);
 
   const [name, setName] = useState('');
   const [username, setUsername] = useState('');
@@ -69,6 +77,48 @@ export default function AuthScreen() {
     setSignupStep(1);
     setTermsAccepted(false);
     setMsg(null);
+    setGoogleSignupMode(false);
+    setGoogleSignupPending(null);
+  }
+
+  async function handleGoogleSignIn() {
+    setMsg(null);
+    setBusy(true);
+
+    try {
+      const result = await signInWithGoogle();
+
+      if (result?.newUser && result.pending) {
+        setGoogleSignupMode(true);
+        setMode('signup');
+        setSignupStep(1);
+        setName(result.pending.name || '');
+        setEmail(result.pending.email || '');
+        setUsername('');
+        setYearSemester(YEAR_SEMESTER_OPTIONS[0].value);
+        setTermsAccepted(false);
+        setMsg({
+          text: 'Welcome! Complete your MED101 profile to continue.',
+          type: 'success',
+        });
+      }
+    } catch (err) {
+      const googleErrors = {
+        'auth/popup-closed-by-user': 'Google sign-in was cancelled.',
+        'auth/popup-blocked': 'Your browser blocked the Google sign-in window. Please allow popups and try again.',
+        'auth/cancelled-popup-request': 'Google sign-in was cancelled.',
+        'auth/network-request-failed': 'Network error. Check your connection.',
+        'auth/account-exists-with-different-credential':
+          'An account already exists with this email using another sign-in method.',
+      };
+
+      setMsg({
+        text: googleErrors[err.code] || err.message || 'Google sign-in failed. Please try again.',
+        type: 'error',
+      });
+    } finally {
+      setBusy(false);
+    }
   }
 
   useEffect(() => {
@@ -166,7 +216,7 @@ export default function AuthScreen() {
     e.preventDefault();
     setMsg(null);
 
-    if (!email.trim() || !password) {
+    if (!email.trim() || (!googleSignupMode && !password)) {
       setMsg({
         text: 'Please fill in all fields.',
         type: 'error',
@@ -174,7 +224,7 @@ export default function AuthScreen() {
       return;
     }
 
-    if (mode === 'signup' && password !== confirm) {
+    if (mode === 'signup' && !googleSignupMode && password !== confirm) {
       setMsg({
         text: 'Passwords do not match.',
         type: 'error',
@@ -182,7 +232,7 @@ export default function AuthScreen() {
       return;
     }
 
-    if (mode === 'signup' && password.length < 6) {
+    if (mode === 'signup' && !googleSignupMode && password.length < 6) {
       setMsg({
         text: 'Password must be at least 6 characters.',
         type: 'error',
@@ -204,6 +254,26 @@ export default function AuthScreen() {
     try {
       if (mode === 'signin') {
         await signIn(email.trim(), password);
+      } else if (googleSignupMode) {
+        const { usernameClaimError } = await completeGoogleSignUp(
+          name.trim(),
+          yearSemester,
+          username.trim()
+        );
+
+        if (usernameClaimError) {
+          setMsg({
+            text: `Account created, but the username couldn't be set: ${usernameClaimError}. You can set one from Settings.`,
+            type: 'error',
+          });
+        } else {
+          setMsg({
+            text: 'Account created! Welcome to MED101!',
+            type: 'success',
+          });
+        }
+
+        setGoogleSignupMode(false);
       } else {
         const { usernameClaimError } = await signUp(
           name.trim(),
@@ -217,7 +287,7 @@ export default function AuthScreen() {
         // failed photo upload shouldn't block account creation or
         // even change the success message - they can just add one
         // later from Profile, same as anyone who skipped this.
-        if (photoFile && auth.currentUser) {
+        if (!googleSignupMode && photoFile && auth.currentUser) {
           try {
             await uploadProfilePhoto(auth.currentUser, photoFile);
           } catch (photoErr) {
@@ -304,7 +374,9 @@ export default function AuthScreen() {
             {mode === 'signin'
               ? 'Enter your email and password to continue'
               : showingSignupStep2
-                ? 'Almost done - set your email and password'
+                ? googleSignupMode
+                  ? 'Almost done - complete your MED101 profile'
+                  : 'Almost done - set your email and password'
                 : 'Sign up to start your medical MCQ journey'}
           </div>
 
@@ -333,6 +405,45 @@ export default function AuthScreen() {
               Create Account
             </button>
           </div>
+
+          {mode === 'signin' && (
+            <>
+              <button
+                type="button"
+                className="auth-btn"
+                onClick={handleGoogleSignIn}
+                disabled={busy}
+                style={{
+                  background: '#fff',
+                  color: '#202124',
+                  border: '1px solid var(--border2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                  marginBottom: 16,
+                }}
+              >
+                <span style={{ fontSize: 18, fontWeight: 700 }}>G</span>
+                {busy ? 'Signing in…' : 'Continue with Google'}
+              </button>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  margin: '4px 0 16px',
+                  color: 'var(--text3)',
+                  fontSize: 12,
+                }}
+              >
+                <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
+                <span>OR</span>
+                <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
+              </div>
+            </>
+          )}
 
           {mode === 'signup' && signupStep === 1 && (
             <form onSubmit={handleNext}>
@@ -484,15 +595,18 @@ export default function AuthScreen() {
                   placeholder="yourname@email.com"
                   autoComplete="email"
                   autoFocus={showingSignupStep2}
+                  readOnly={googleSignupMode}
+                  style={googleSignupMode ? { opacity: 0.75 } : undefined}
                 />
               </div>
 
-              <div>
-                <label className="auth-label">
-                  {mode === 'signin'
-                    ? 'Password'
-                    : 'Create Password'}
-                </label>
+              {!googleSignupMode && (
+                <div>
+                  <label className="auth-label">
+                    {mode === 'signin'
+                      ? 'Password'
+                      : 'Create Password'}
+                  </label>
 
                 <div className="auth-input-wrap">
                   <input
@@ -521,31 +635,30 @@ export default function AuthScreen() {
                   >
                     {showPw ? '🙈' : '👁'}
                   </button>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {showingSignupStep2 && (
                 <>
-                  <div style={{ marginTop: 14 }}>
-                    <label className="auth-label">
-                      Confirm Password
-                    </label>
+                  {!googleSignupMode && (
+                    <div style={{ marginTop: 14 }}>
+                      <label className="auth-label">
+                        Confirm Password
+                      </label>
 
-                    <div className="auth-input-wrap">
-                      <input
-                        className="auth-input"
-                        type={
-                          showPw ? 'text' : 'password'
-                        }
-                        value={confirm}
-                        onChange={(e) =>
-                          setConfirm(e.target.value)
-                        }
-                        placeholder="••••••••"
-                        style={{ paddingRight: 44 }}
-                      />
+                      <div className="auth-input-wrap">
+                        <input
+                          className="auth-input"
+                          type={showPw ? 'text' : 'password'}
+                          value={confirm}
+                          onChange={(e) => setConfirm(e.target.value)}
+                          placeholder="••••••••"
+                          style={{ paddingRight: 44 }}
+                        />
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
                     <button
@@ -653,7 +766,9 @@ export default function AuthScreen() {
                     : 'Creating account…'
                   : mode === 'signin'
                     ? 'Sign In →'
-                    : 'Create Account →'}
+                    : googleSignupMode
+                      ? 'Complete Account →'
+                      : 'Create Account →'}
               </button>
 
               {msg && (
