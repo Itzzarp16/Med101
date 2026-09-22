@@ -1,18 +1,18 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
-import { usernameFormatError, checkUsernameAvailable, normalize } from '../lib/profile';
+import { usernameFormatError, checkUsernameAvailable, normalize, uploadProfilePhoto } from '../lib/profile';
 import LegalFooter from './LegalFooter';
 import './AuthScreen.css';
 
 const YEAR_SEMESTER_OPTIONS = [
-  { value: 'y1s1', label: 'Year 1 · Semester 1' },
-  { value: 'y1s2', label: 'Year 1 · Semester 2' },
-  { value: 'y2s1', label: 'Year 2 · Semester 3' },
-  { value: 'y2s2', label: 'Year 2 · Semester 4' },
-  { value: 'y3s1', label: 'Year 3 · Semester 5' },
-  { value: 'y3s2', label: 'Year 3 · Semester 6' },
+  { value: 'y1s1', label: 'Semester 1' },
+  { value: 'y1s2', label: 'Semester 2' },
+  { value: 'y2s1', label: 'Semester 3' },
+  { value: 'y2s2', label: 'Semester 4' },
+  { value: 'y3s1', label: 'Semester 5' },
+  { value: 'y3s2', label: 'Semester 6' },
 ];
 
 export default function AuthScreen() {
@@ -33,6 +33,25 @@ export default function AuthScreen() {
   const [showPw, setShowPw] = useState(false);
   const [msg, setMsg] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [photoFile, setPhotoFile] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const photoInputRef = useRef(null);
+
+  // Just stages the file + a local preview - actually uploaded after
+  // the account exists (uploadProfilePhoto needs a real uid to write
+  // to), inside handleSubmit's signup branch below. Picking a photo is
+  // optional; skipping it just means no photo yet, same as any
+  // existing student who hasn't set one from Profile.
+  function handlePhotoPicked(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith('image/')) {
+      setMsg({ text: 'Please choose an image file.', type: 'error' });
+      return;
+    }
+    setPhotoFile(file);
+    setPhotoPreview(URL.createObjectURL(file));
+  }
 
   const ERROR_MESSAGES = {
     'auth/user-not-found': 'No account found with this email.',
@@ -193,6 +212,18 @@ export default function AuthScreen() {
           yearSemester,
           username.trim()
         );
+
+        // Best-effort, same spirit as the username claim above: a
+        // failed photo upload shouldn't block account creation or
+        // even change the success message - they can just add one
+        // later from Profile, same as anyone who skipped this.
+        if (photoFile && auth.currentUser) {
+          try {
+            await uploadProfilePhoto(auth.currentUser, photoFile);
+          } catch (photoErr) {
+            console.warn('Profile photo upload failed post-signup:', photoErr);
+          }
+        }
 
         if (usernameClaimError) {
           console.warn(
@@ -513,6 +544,41 @@ export default function AuthScreen() {
                         placeholder="••••••••"
                         style={{ paddingRight: 44 }}
                       />
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <button
+                      type="button"
+                      onClick={() => photoInputRef.current?.click()}
+                      title="Add profile photo"
+                      style={{
+                        width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
+                        border: '1px solid var(--border2)', cursor: 'pointer',
+                        background: photoPreview ? `center/cover url(${photoPreview})` : 'var(--bg2)',
+                        color: 'var(--text2)', fontSize: 22, fontWeight: 700,
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}
+                    >
+                      {!photoPreview && (name.trim()[0] || '+').toUpperCase()}
+                    </button>
+                    <input
+                      ref={photoInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handlePhotoPicked}
+                      style={{ display: 'none' }}
+                    />
+                    <div>
+                      <button
+                        type="button"
+                        className="btn-ghost"
+                        style={{ fontSize: 13 }}
+                        onClick={() => photoInputRef.current?.click()}
+                      >
+                        {photoPreview ? 'Change Photo' : 'Add Profile Photo'}
+                      </button>
+                      <div style={{ fontSize: 11.5, color: 'var(--text3)', marginTop: 4 }}>Optional - you can add this later too</div>
                     </div>
                   </div>
 
