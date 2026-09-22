@@ -27,6 +27,25 @@ export default function AboutUs() {
           This site has no association with abhishekmed101.space.
         </p>
 
+        <div style={{ margin: '24px 0', textAlign: 'center' }}>
+          <img
+            src="/about-friend.jpg"
+            alt="Site co-owner"
+            style={{ maxWidth: 280, width: '100%', borderRadius: 16 }}
+          />
+          <p style={{ marginTop: 10, fontStyle: 'italic' }}>
+            This person paid ₹21 to have his photo put up here.
+            {' '}Instagram:{' '}
+            <a
+              href="https://www.instagram.com/walker101z"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @walker101z
+            </a>
+          </p>
+        </div>
+
         <h2>Our Journey</h2>
         <p>
           It all started with a simple thought: <strong>why not create a
