@@ -31,6 +31,21 @@ export default function ContactUs() {
         </p>
 
         <p>
+          You can also join our WhatsApp group for updates and quick
+          questions:
+        </p>
+
+        <p>
+          <a
+            href="https://chat.whatsapp.com/Kn2NDwg7Wij5VQbs35hYMx?s=cl&p=a&mlu=4&ilr=4"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Join the Med101 WhatsApp Group
+          </a>
+        </p>
+
+        <p>
           We are always happy to hear from you and work together to make
           Med101 better for everyone.
         </p>
