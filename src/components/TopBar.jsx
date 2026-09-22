@@ -168,7 +168,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onChallenge,
             <button className="menu-item" onClick={() => go(onWrongFlagged)}>📌 Wrong &amp; Flagged Questions</button>
             <button className="menu-item" onClick={() => go(onSearch)}>🔍 Search Questions</button>
             <button className="menu-item" onClick={() => go(onHistory)}>🕘 History</button>
-            <button className="menu-item" onClick={() => go(onPremium)}>⭐ Get Maxx</button>
+            <button className="menu-item" onClick={() => go(onPremium)}>⭐ Get Med101 Maxx</button>
 
             {isAdmin && (
               <>

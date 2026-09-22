@@ -47,7 +47,7 @@ export default function AdminSubscribersScreen() {
         <h1 className="std-title">✅ Subscribers</h1>
       </div>
       <p style={{ color: 'var(--text3)', fontSize: 13.5, marginTop: -8, marginBottom: 18 }}>
-        Students with an active Maxx subscription right now.
+        Students with an active Med101 Maxx subscription right now.
       </p>
 
       {revokeError && <div className="auth-msg error" style={{ display: 'block', marginBottom: 10 }}>{revokeError}</div>}

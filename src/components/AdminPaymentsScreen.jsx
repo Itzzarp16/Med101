@@ -121,7 +121,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
         <div className="glass std-card" style={{ borderColor: 'var(--green)' }}>
           {issuedCode.autoActivate ? (
             <>
-              <div className="auth-label" style={{ margin: 0 }}>✅ Maxx activated for {issuedCode.email}</div>
+              <div className="auth-label" style={{ margin: 0 }}>✅ Med101 Maxx activated for {issuedCode.email}</div>
               <div style={{ fontSize: 12.5, color: 'var(--text3)', marginTop: 6 }}>Valid for {issuedCode.days} days, effective now - nothing for them to enter.</div>
             </>
           ) : (
@@ -194,7 +194,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                 <label className="qmode-toggle-row" style={{ cursor: 'pointer', marginTop: 10 }}>
                   <div>
                     <div className="qmode-toggle-title" style={{ color: config.premiumPaused ? 'var(--amber)' : undefined }}>
-                      ⏸️ Pause Maxx (make everything free)
+                      ⏸️ Pause Med101 Maxx (make everything free)
                     </div>
                     <div className="qmode-toggle-desc">
                       {config.premiumPaused

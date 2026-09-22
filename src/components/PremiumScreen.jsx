@@ -180,7 +180,7 @@ export default function PremiumScreen({ onBack }) {
     setRedeeming(true);
     try {
       await redeemActivationCode(user.uid, rawCode);
-      setRedeemMsg({ text: 'Maxx activated! Enjoy full access.', type: 'success' });
+      setRedeemMsg({ text: 'Med101 Maxx activated! Enjoy full access.', type: 'success' });
       setCode('');
       setShowThankYou(true);
     } catch (e) {
@@ -210,7 +210,7 @@ export default function PremiumScreen({ onBack }) {
       <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
 
       <div className="std-header">
-        <h1 className="std-title">⭐ Maxx</h1>
+        <h1 className="std-title">⭐ Med101 Maxx</h1>
         <p className="std-sub">Unlock every question, in every subject.</p>
       </div>
 
@@ -228,7 +228,7 @@ export default function PremiumScreen({ onBack }) {
           <div className="glass std-card" style={{ borderColor: premium.isPremium ? 'var(--green)' : config?.premiumPaused ? 'var(--cyan)' : hasPendingRequest ? 'var(--amber)' : undefined }}>
             {premium.isPremium ? (
               <>
-                <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Maxx Active</div>
+                <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Med101 Maxx Active</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
                   Valid until <strong>{premium.premiumUntil.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</strong>
                 </div>
@@ -237,7 +237,7 @@ export default function PremiumScreen({ onBack }) {
               <>
                 <div className="auth-label" style={{ margin: 0, color: 'var(--cyan)' }}>🎉 Free For Everyone Right Now</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  All Maxx features are unlocked for every student at the moment - nothing to pay, nothing to do.
+                  All Med101 Maxx features are unlocked for every student at the moment - nothing to pay, nothing to do.
                 </div>
               </>
             ) : hasPendingRequest ? (
@@ -251,7 +251,7 @@ export default function PremiumScreen({ onBack }) {
               <>
                 <div className="auth-label" style={{ margin: 0 }}>Free Preview</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  You can try the first 25 questions of any subject. Get Maxx for full access to everything.
+                  You can try the first 25 questions of any subject. Get Med101 Maxx for full access to everything.
                 </div>
               </>
             )}

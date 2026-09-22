@@ -39,19 +39,19 @@ export default function TermsAndConditions() {
           <li>You're responsible for all activity that happens under your account.</li>
         </ul>
 
-        <h2>4. Maxx Subscriptions &amp; Payments</h2>
-        <p>Maxx content/features are activated through a manual process, not an automatic payment gateway:</p>
+        <h2>4. Med101 Maxx Subscriptions &amp; Payments</h2>
+        <p>Med101 Maxx content/features are activated through a manual process, not an automatic payment gateway:</p>
         <ul>
           <li>You pay us directly via UPI, using the UPI ID/QR code shown in the app.</li>
           <li>You then submit the transaction ID (UTR), the name on the account you paid from, the amount, and a phone number, so we can verify the payment.</li>
           <li>Our admin team manually checks this against our own bank/UPI records. This isn't instant - please allow a reasonable time for review.</li>
-          <li>Once approved, you'll receive a one-time activation code to redeem in the app, unlocking Maxx for the duration you paid for.</li>
+          <li>Once approved, you'll receive a one-time activation code to redeem in the app, unlocking Med101 Maxx for the duration you paid for.</li>
           <li>Submitting inaccurate payment details, or a transaction ID that doesn't correspond to an actual payment to us, may result in rejection and, for repeated or deliberate attempts, account suspension.</li>
         </ul>
 
         <h2>5. Cancellations &amp; Refunds</h2>
         <ul>
-          <li>Maxx is a one-time payment for a fixed duration, not an auto-renewing subscription - there's nothing to "cancel" in that sense.</li>
+          <li>Med101 Maxx is a one-time payment for a fixed duration, not an auto-renewing subscription - there's nothing to "cancel" in that sense.</li>
           <li>If you've submitted a payment that hasn't been approved yet and change your mind, contact us before approval and we'll refund it.</li>
           <li>Once a payment is approved and an activation code is issued, it's non-refundable, except where required by law.</li>
           <li>If you believe a payment was verified incorrectly, or you were charged in error, contact us at the email below and we'll look into it.</li>
