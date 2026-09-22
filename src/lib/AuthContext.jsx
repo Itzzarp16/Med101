@@ -4,7 +4,8 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   updateProfile,
 } from 'firebase/auth';
@@ -132,10 +133,9 @@ export function AuthProvider({ children }) {
   // Only set on signUp() (new accounts), never signIn().
   const [showOnboardingTour, setShowOnboardingTour] = useState(false);
 
-  // Temporary Google profile data for a first-time Google user.
-  // The Firebase Auth account is created by Google, but MED101 access/profile
-  // setup is completed only after the student finishes our onboarding form.
-  const [googleSignupPending, setGoogleSignupPending] = useState(null);
+  // Message shown on the login screen for Google redirect errors or
+  // Google accounts that do not have a MED101 profile yet.
+  const [authMessage, setAuthMessage] = useState(null);
 
   const deviceUnsubRef = useRef(null);
   const deviceClaimPendingRef = useRef(null);
@@ -144,6 +144,30 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       if (u) {
+        setAuthMessage(null);
+
+        // Google is a LOGIN method only. A Google account must already
+        // have a MED101 Firestore profile created through Create Account.
+        // This prevents an accidental/orphan Google Auth account from
+        // entering MED101 without the normal profile information.
+        const isGoogleUser = u.providerData?.some(
+          (provider) => provider.providerId === 'google.com'
+        );
+
+        if (isGoogleUser) {
+          const googleProfileSnap = await getDoc(
+            doc(db, 'users', u.uid)
+          );
+
+          if (!googleProfileSnap.exists()) {
+            await signOut(auth);
+            setAuthMessage(
+              'No MED101 account was found for this Google account. Please create your MED101 account first, then use Continue with Google to sign in.'
+            );
+            return;
+          }
+        }
+
         // If this uid just came from signUp(), wait for it to fully
         // finish before doing anything else.
         if (
@@ -258,6 +282,32 @@ export function AuthProvider({ children }) {
     return () => unsub();
   }, []);
 
+  // Google sign-in uses Firebase's redirect flow instead of a popup.
+  // This is much more reliable on mobile browsers. After Google returns,
+  // onAuthStateChanged above performs the normal MED101 profile/device checks.
+  useEffect(() => {
+    let active = true;
+
+    getRedirectResult(auth).catch((err) => {
+      if (!active) return;
+
+      const messages = {
+        'auth/network-request-failed': 'Network error. Check your connection.',
+        'auth/unauthorized-domain': 'This domain is not authorized for Google sign-in in Firebase.',
+      };
+
+      setAuthMessage(
+        messages[err.code] ||
+          err.message ||
+          'Google sign-in failed. Please try again.'
+      );
+    });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
   // ── Close the offline bypass window ────────────────────────────
 
   useEffect(() => {
@@ -368,130 +418,11 @@ export function AuthProvider({ children }) {
     return cred.user;
   }
 
+  // Google is intentionally LOGIN ONLY. We use redirect instead of popup
+  // because popup flows can be reported as "cancelled" by mobile browsers.
   async function signInWithGoogle() {
-    const result = await signInWithPopup(auth, googleProvider);
-    const googleUser = result.user;
-
-    if (!googleUser) throw new Error('Google sign-in failed.');
-
-    // Check whether this Google account already has a MED101 profile.
-    const snap = await getDoc(doc(db, 'users', googleUser.uid));
-
-    if (!snap.exists()) {
-      // A first-time Google user needs MED101-specific information such as
-      // username and semester. Keep the account out of the normal app flow
-      // until that onboarding is completed.
-      const pending = {
-        uid: googleUser.uid,
-        email: googleUser.email || '',
-        name: googleUser.displayName || '',
-        photoURL: googleUser.photoURL || '',
-      };
-
-      setGoogleSignupPending(pending);
-      await signOut(auth);
-      return { newUser: true, pending };
-    }
-
-    if (!ADMIN_EMAILS.includes(googleUser.email)) {
-      if (snap.data().disabled) {
-        await signOut(auth);
-        throw new Error(
-          'This account has been disabled. Contact an admin if you think this is a mistake.'
-        );
-      }
-
-      setShowWhatsAppPrompt(true);
-      deviceClaimPendingRef.current = googleUser.uid;
-      await claimDevice(googleUser.uid);
-    }
-
-    return { newUser: false, user: googleUser };
-  }
-
-  async function completeGoogleSignUp(
-    name,
-    yearSemester,
-    username
-  ) {
-    if (!googleSignupPending) {
-      throw new Error('Google signup session expired. Please start again.');
-    }
-
-    const result = await signInWithPopup(auth, googleProvider);
-    const googleUser = result.user;
-
-    if (googleUser.uid !== googleSignupPending.uid) {
-      await signOut(auth);
-      setGoogleSignupPending(null);
-      throw new Error('The selected Google account does not match the signup you started.');
-    }
-
-    let releaseGate;
-    const gate = new Promise((resolve) => { releaseGate = resolve; });
-    signupGateRef.current = { uid: googleUser.uid, promise: gate };
-
-    try {
-      await updateProfile(googleUser, {
-        displayName: name,
-        photoURL: googleUser.photoURL || null,
-      });
-
-      await setDoc(
-        doc(db, 'users', googleUser.uid),
-        {
-          displayName: name,
-          email: googleUser.email || googleSignupPending.email,
-          enrolledYearSemester: yearSemester,
-          enrolledAt: serverTimestamp(),
-          authProvider: 'google',
-        },
-        { merge: true }
-      );
-
-      let usernameClaimError = null;
-      if (username) {
-        try {
-          await googleUser.getIdToken(true);
-          let attempt = 0;
-          for (;;) {
-            try {
-              await claimUsername(googleUser, username);
-              break;
-            } catch (e) {
-              const isPermissionIssue =
-                e.code === 'permission-denied' || /permission/i.test(e.message || '');
-              attempt += 1;
-              if (!isPermissionIssue || attempt >= 4) throw e;
-              await new Promise((r) => setTimeout(r, 300 * attempt));
-              await googleUser.getIdToken(true);
-            }
-          }
-        } catch (e) {
-          usernameClaimError = e.message || String(e);
-          setSignupNotice(
-            `Account created, but the username "${username}" couldn't be set (${usernameClaimError}). You can set one from Settings.`
-          );
-        }
-      }
-
-      if (!ADMIN_EMAILS.includes(googleUser.email)) {
-        deviceClaimPendingRef.current = googleUser.uid;
-        await claimDevice(googleUser.uid);
-        setShowOnboardingTour(true);
-      }
-
-      sendWelcomeEmail(googleUser);
-      sendAccountCreatedTelegram(googleUser, name, yearSemester, username);
-      setGoogleSignupPending(null);
-
-      return { user: googleUser, usernameClaimError };
-    } finally {
-      releaseGate();
-      if (signupGateRef.current?.uid === googleUser.uid) {
-        signupGateRef.current = null;
-      }
-    }
+    setAuthMessage(null);
+    await signInWithRedirect(auth, googleProvider);
   }
 
   // yearSemester: e.g. "y1s1", "y1s2".
@@ -695,7 +626,6 @@ export function AuthProvider({ children }) {
         isAdmin,
         signIn,
         signInWithGoogle,
-        completeGoogleSignUp,
         signUp,
         logOut,
         refreshUser,
@@ -707,8 +637,8 @@ export function AuthProvider({ children }) {
         setShowWhatsAppPrompt,
         showOnboardingTour,
         finishOnboardingTour,
-        googleSignupPending,
-        setGoogleSignupPending,
+        authMessage,
+        setAuthMessage,
       }}
     >
       {children}
