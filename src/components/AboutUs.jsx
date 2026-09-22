@@ -32,7 +32,18 @@ export default function AboutUs() {
         </p>
 
         <p>
-          
+          The website is supervised by <strong>Babu Gupta</strong>.
+        </p>
+
+        <p>
+          Instagram:{' '}
+          <a
+            href="https://www.instagram.com/omgupta_diaries"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @omgupta_diaries
+          </a>
         </p>
 
         <div style={{ margin: '24px 0', textAlign: 'center' }}>
