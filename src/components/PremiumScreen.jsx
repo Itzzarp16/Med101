@@ -149,6 +149,10 @@ export default function PremiumScreen({ onBack }) {
       setSubmitMsg({ text: 'Enter the transaction ID (UTR) from your payment.', type: 'error' });
       return;
     }
+    if (phone.replace(/\D/g, '').length !== 10) {
+      setSubmitMsg({ text: 'Enter a 10-digit contact number.', type: 'error' });
+      return;
+    }
     setSubmitting(true);
     try {
       await submitPaymentRequest({
@@ -300,7 +304,14 @@ export default function PremiumScreen({ onBack }) {
               <label className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
               <input className="auth-input" value={bankingName} onChange={(e) => setBankingName(e.target.value)} placeholder="Name on the account you paid from" />
               <label className="auth-label" style={{ marginTop: 10 }}>Your Contact Number</label>
-              <input className="auth-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="e.g. 9876543210" inputMode="tel" />
+              <input
+                className="auth-input"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
+                placeholder="e.g. 9876543210"
+                inputMode="tel"
+                maxLength={10}
+              />
               <label className="auth-label" style={{ marginTop: 10 }}>Transaction ID (UTR)</label>
               <input className="auth-input" value={utr} onChange={(e) => setUtr(e.target.value)} placeholder="From your UPI app's payment history" style={{ fontFamily: 'var(--font-mono)' }} />
               <button className="btn-glow std-save-btn" type="submit" disabled={submitting}>
