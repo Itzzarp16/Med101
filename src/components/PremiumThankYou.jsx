@@ -30,7 +30,7 @@ export default function PremiumThankYou({ onClose }) {
           </button>
 
           <div className="thanks-icon">🎉</div>
-          <h2 className="thanks-title">You're Max!</h2>
+          <h2 className="thanks-title">You're Maxx!</h2>
           <p className="thanks-sub">Your subscription is active - full access unlocked.</p>
 
           <p className="thanks-note">

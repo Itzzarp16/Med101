@@ -196,7 +196,7 @@ export default async function handler(req, res) {
 
     const isAdmin = decoded.email && ADMIN_EMAILS.has(decoded.email);
     const allowed = isAdmin || (await isPremiumOrPaused(db, uid));
-    if (!allowed) return json(res, 403, { error: 'AI explanations are a Max feature.' });
+    if (!allowed) return json(res, 403, { error: 'AI explanations are a Maxx feature.' });
 
     const validQuestion = await questionExistsInBank(req, { subtopic, question, options, correctIndex });
     if (!validQuestion.found) {

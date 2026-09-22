@@ -11,7 +11,7 @@ import { buildUpiUri } from '../lib/upi';
 // whatever background color the scanning app's screenshot happened
 // to have. Colors are kept true black-on-white regardless of theme -
 // that's what gives QR scanners reliable contrast to lock onto.
-export default function LiveQrCode({ upiId, amount, payeeName = 'Med101', note = 'Med101 Max' }) {
+export default function LiveQrCode({ upiId, amount, payeeName = 'Med101', note = 'Med101 Maxx' }) {
   const [svg, setSvg] = useState(null);
   const [failed, setFailed] = useState(false);
 
