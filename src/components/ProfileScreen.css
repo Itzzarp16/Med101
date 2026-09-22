@@ -1,0 +1,75 @@
+.profile-avatar-card {
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-avatar-btn {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  border: 2px solid var(--violet);
+  background-color: var(--bg2);
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--violet);
+  cursor: pointer;
+  padding: 0;
+}
+
+.profile-avatar-btn:disabled {
+  opacity: 0.6;
+}
+
+.profile-avatar-change-btn {
+  font-size: 13px;
+}
+
+.profile-stats-grid {
+  margin-bottom: 14px;
+}
+
+.profile-stat-streak .stat-value {
+  color: #ffb84d;
+}
+
+.profile-stat-longest .stat-value {
+  color: var(--violet);
+}
+
+.profile-card {
+  margin-top: 14px;
+}
+
+.profile-current-username {
+  font-size: 12.5px;
+  color: var(--text3);
+}
+
+.profile-current-username strong {
+  color: var(--cyan);
+}
+
+.profile-username-input {
+  font-family: var(--font-mono);
+}
+
+.profile-pw-toggle-btn {
+  margin-top: 10px;
+}
+
+.profile-pw-label {
+  margin-top: 10px;
+}
+
+.profile-forgot-row {
+  margin-top: 6px;
+  text-align: right;
+}

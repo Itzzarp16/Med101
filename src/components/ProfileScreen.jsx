@@ -4,6 +4,7 @@ import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import { changePassword, claimUsername, fetchMyUsername, updateDisplayName, uploadProfilePhoto } from '../lib/profile';
 import { playTapSound } from '../lib/sounds';
+import './ProfileScreen.css';
 
 export default function ProfileScreen({ onBack }) {
   const { user, profile } = useAuth();
@@ -144,19 +145,14 @@ export default function ProfileScreen({ onBack }) {
         <p className="std-sub">{user.email}</p>
       </div>
 
-      <div className="glass std-card" style={{ marginBottom: 14, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
+      <div className="glass std-card profile-avatar-card">
         <button
           type="button"
           onClick={() => { playTapSound(); fileInputRef.current?.click(); }}
           disabled={photoUploading}
           title="Change profile photo"
-          style={{
-            width: 88, height: 88, borderRadius: '50%', border: '2px solid var(--violet)',
-            background: profile?.photoURL ? `center/cover url(${profile.photoURL})` : 'var(--bg2)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 32, fontWeight: 700, color: 'var(--violet)', cursor: 'pointer',
-            opacity: photoUploading ? 0.6 : 1, padding: 0,
-          }}
+          className="profile-avatar-btn"
+          style={profile?.photoURL ? { backgroundImage: `url(${profile.photoURL})` } : undefined}
         >
           {!profile?.photoURL && (user.displayName?.[0] || user.email?.[0] || '?').toUpperCase()}
         </button>
@@ -167,20 +163,20 @@ export default function ProfileScreen({ onBack }) {
           onChange={handlePhotoPicked}
           style={{ display: 'none' }}
         />
-        <button className="btn-ghost" style={{ fontSize: 13 }} onClick={() => { playTapSound(); fileInputRef.current?.click(); }} disabled={photoUploading}>
+        <button className="btn-ghost profile-avatar-change-btn" onClick={() => { playTapSound(); fileInputRef.current?.click(); }} disabled={photoUploading}>
           {photoUploading ? 'Uploading…' : (profile?.photoURL ? 'Change Photo' : 'Add Profile Photo')}
         </button>
         {photoMsg && <div className={`auth-msg ${photoMsg.type}`} style={{ display: 'block' }}>{photoMsg.text}</div>}
       </div>
 
-      <div className="quiz-stats-grid" style={{ marginBottom: 14 }}>
-        <div className="stat-card" style={{ '--accent': '#ffb84d' }}>
+      <div className="quiz-stats-grid profile-stats-grid">
+        <div className="stat-card profile-stat-streak">
           <div className="stat-label">🔥 Current Streak</div>
-          <div className="stat-value" style={{ color: '#ffb84d' }}>{profile?.streakCount || 0}</div>
+          <div className="stat-value">{profile?.streakCount || 0}</div>
         </div>
-        <div className="stat-card" style={{ '--accent': 'var(--violet)' }}>
+        <div className="stat-card profile-stat-longest">
           <div className="stat-label">Longest Streak</div>
-          <div className="stat-value" style={{ color: 'var(--violet)' }}>{profile?.longestStreak || 0}</div>
+          <div className="stat-value">{profile?.longestStreak || 0}</div>
         </div>
       </div>
 
@@ -195,17 +191,16 @@ export default function ProfileScreen({ onBack }) {
       </div>
 
       {/* Username */}
-      <div className="glass std-card" style={{ marginTop: 14 }}>
+      <div className="glass std-card profile-card">
         <label className="auth-label">Unique Username</label>
         {currentUsername && (
-          <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>Currently: <strong style={{ color: 'var(--cyan)' }}>@{currentUsername}</strong></div>
+          <div className="profile-current-username">Currently: <strong>@{currentUsername}</strong></div>
         )}
         <input
-          className="auth-input"
+          className="auth-input profile-username-input"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="e.g. sanjana_2027"
-          style={{ fontFamily: 'var(--font-mono)' }}
         />
         <p className="std-note">3–20 characters: letters, numbers, or underscore. No one else can have the same one.</p>
         {usernameMsg && <div className={`auth-msg ${usernameMsg.type}`} style={{ display: 'block' }}>{usernameMsg.text}</div>}
@@ -215,29 +210,28 @@ export default function ProfileScreen({ onBack }) {
       </div>
 
       {/* Password */}
-      <div className="glass std-card" style={{ marginTop: 14 }}>
+      <div className="glass std-card profile-card">
         <div className="auth-label" style={{ margin: 0 }}>Change Password</div>
 
         {!showPwForm ? (
           <button
-            className="btn-ghost std-save-btn"
-            style={{ marginTop: 10 }}
+            className="btn-ghost std-save-btn profile-pw-toggle-btn"
             onClick={() => { playTapSound(); setShowPwForm(true); }}
           >
             Change Your Password
           </button>
         ) : (
           <>
-            <label className="auth-label" style={{ marginTop: 10 }}>Current Password</label>
+            <label className="auth-label profile-pw-label">Current Password</label>
             <input className="auth-input" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} placeholder="••••••••" autoComplete="current-password" />
 
-            <label className="auth-label" style={{ marginTop: 10 }}>New Password</label>
+            <label className="auth-label profile-pw-label">New Password</label>
             <input className="auth-input" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder="••••••••" autoComplete="new-password" />
 
-            <label className="auth-label" style={{ marginTop: 10 }}>Confirm New Password</label>
+            <label className="auth-label profile-pw-label">Confirm New Password</label>
             <input className="auth-input" type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} placeholder="••••••••" />
 
-            <div style={{ marginTop: 6, textAlign: 'right' }}>
+            <div className="profile-forgot-row">
               <button type="button" className="auth-forgot" onClick={handleForgotPassword}>Forgot password?</button>
             </div>
 
