@@ -5,6 +5,7 @@ import { lookupUsername } from '../lib/invites';
 import { playTapSound } from '../lib/sounds';
 import { formatDuration } from '../lib/timeTracking';
 import { setAccountDisabled, deleteAccount } from '../lib/adminAccountActions';
+import { buildUserDataExport } from '../lib/dataExport';
 
 function formatJoinDate(ts) {
   if (!ts) return null;
@@ -37,6 +38,8 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
   const [actionBusy, setActionBusy] = useState(false);
   const [actionError, setActionError] = useState(null);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const [exportBusy, setExportBusy] = useState(false);
+  const [exportError, setExportError] = useState(null);
 
   // "View All Users" - a separate flow from the single-username search
   // above. Fetched on demand (not on screen open) since it's one read
@@ -73,6 +76,29 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
     setConfirmingDelete(false);
     setActionError(null);
     setResult(buildResult(u.uid, u.username || null, u));
+  }
+
+  async function handleExportData() {
+    playTapSound();
+    setExportError(null);
+    setExportBusy(true);
+    try {
+      const text = await buildUserDataExport(result.uid);
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const safeName = (result.username || result.email || result.uid).replace(/[^a-zA-Z0-9._-]/g, '_');
+      a.href = url;
+      a.download = `med101-data-export-${safeName}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      setExportError(e.message || String(e));
+    } finally {
+      setExportBusy(false);
+    }
   }
 
   async function handleToggleDisabled() {
@@ -328,6 +354,10 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
             {actionError && <div className="auth-msg error" style={{ display: 'block' }}>{actionError}</div>}
+            {exportError && <div className="auth-msg error" style={{ display: 'block' }}>{exportError}</div>}
+            <button className="btn-ghost" style={{ width: '100%' }} onClick={handleExportData} disabled={exportBusy}>
+              {exportBusy ? 'Gathering data…' : '📤 Export Data (for a data request)'}
+            </button>
             <button className="btn-ghost" style={{ width: '100%' }} onClick={handleToggleDisabled} disabled={actionBusy}>
               {actionBusy ? '…' : result.disabled ? '✅ Enable Account' : '🚫 Disable Account'}
             </button>
