@@ -32,7 +32,7 @@ export default function AboutUs() {
         </p>
 
         <p>
-          The website is supervised by <strong>Babu Gupta</strong>.
+          The website is supervised by <strong>OmBabu Gupta</strong>.
         </p>
 
         <div style={{ margin: '20px 0', textAlign: 'center' }}>
