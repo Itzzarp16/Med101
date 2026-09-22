@@ -49,6 +49,7 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
   const [loadingAll, setLoadingAll] = useState(false);
   const [allUsersError, setAllUsersError] = useState(null);
   const [listFilter, setListFilter] = useState('');
+  const [listSort, setListSort] = useState('name');
 
   async function handleViewAllUsers() {
     playTapSound();
@@ -203,13 +204,26 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="auth-label" style={{ margin: 0 }}>{allUsers.length} students signed up</div>
           </div>
-          <input
-            className="auth-input"
-            value={listFilter}
-            onChange={(e) => setListFilter(e.target.value)}
-            placeholder="Filter by name, username, or email…"
-            style={{ marginTop: 8 }}
-          />
+          <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+            <input
+              className="auth-input"
+              value={listFilter}
+              onChange={(e) => setListFilter(e.target.value)}
+              placeholder="Filter by name, username, or email…"
+              style={{ flex: 1 }}
+            />
+            <select
+              className="auth-input"
+              value={listSort}
+              onChange={(e) => setListSort(e.target.value)}
+              style={{ width: 'auto', flexShrink: 0 }}
+            >
+              <option value="name">Name (A-Z)</option>
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+              <option value="email">Email (A-Z)</option>
+            </select>
+          </div>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4, marginTop: 10, maxHeight: 420, overflowY: 'auto' }}>
             {allUsers
               .filter((u) => {
@@ -218,6 +232,25 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
                 return (u.username || '').toLowerCase().includes(q)
                   || (u.displayName || '').toLowerCase().includes(q)
                   || (u.email || '').toLowerCase().includes(q);
+              })
+              .sort((a, b) => {
+                if (listSort === 'email') {
+                  return (a.email || '').localeCompare(b.email || '');
+                }
+                if (listSort === 'newest' || listSort === 'oldest') {
+                  // enrolledAt is a Firestore Timestamp on accounts
+                  // created after that field was added - older
+                  // accounts without it sort to the end regardless of
+                  // direction, rather than clumping at whichever end
+                  // a missing-value-as-0 comparison would put them.
+                  const aMs = a.enrolledAt?.toMillis ? a.enrolledAt.toMillis() : null;
+                  const bMs = b.enrolledAt?.toMillis ? b.enrolledAt.toMillis() : null;
+                  if (aMs == null && bMs == null) return 0;
+                  if (aMs == null) return 1;
+                  if (bMs == null) return -1;
+                  return listSort === 'newest' ? bMs - aMs : aMs - bMs;
+                }
+                return (a.username || a.displayName || '').localeCompare(b.username || b.displayName || '');
               })
               .map((u) => (
                 <button
@@ -235,6 +268,11 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
                     )}
                   </span>
                   <span style={{ fontSize: 11.5, color: 'var(--text3)' }}>{u.username ? `@${u.username} · ` : ''}{u.email || 'no email'}</span>
+                  {u.enrolledAt?.toDate && (
+                    <span style={{ fontSize: 10.5, color: 'var(--text3)', opacity: 0.75 }}>
+                      Joined {u.enrolledAt.toDate().toLocaleDateString('en-US', { dateStyle: 'medium' })}
+                    </span>
+                  )}
                 </button>
               ))}
           </div>
