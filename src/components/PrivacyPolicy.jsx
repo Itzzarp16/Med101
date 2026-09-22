@@ -131,8 +131,6 @@ export default function PrivacyPolicy() {
           Questions about this policy or your data can be sent to:{' '}
           <a href="mailto:admin.med101@gmail.com">admin.med101@gmail.com</a>
         </p>
-
-        <p className="legal-governing">This policy is governed by the laws of India.</p>
       </div>
     </div>
   );
