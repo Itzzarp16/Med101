@@ -10,12 +10,12 @@ import LegalFooter from './LegalFooter';
 // Same options as the signup dropdown - kept in sync there manually
 // since there are only a handful of semesters right now.
 const YEAR_SEMESTER_OPTIONS = [
-  { value: 'y1s1', label: 'Year 1 · Semester 1' },
-  { value: 'y1s2', label: 'Year 1 · Semester 2' },
-  { value: 'y2s1', label: 'Year 2 · Semester 3' },
-  { value: 'y2s2', label: 'Year 2 · Semester 4' },
-  { value: 'y3s1', label: 'Year 3 · Semester 5' },
-  { value: 'y3s2', label: 'Year 3 · Semester 6' },
+  { value: 'y1s1', label: 'Semester 1' },
+  { value: 'y1s2', label: 'Semester 2' },
+  { value: 'y2s1', label: 'Semester 3' },
+  { value: 'y2s2', label: 'Semester 4' },
+  { value: 'y3s1', label: 'Semester 5' },
+  { value: 'y3s2', label: 'Semester 6' },
 ];
 
 // Styled with the same shared classes as the rest of the app (auth

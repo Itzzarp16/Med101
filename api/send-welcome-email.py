@@ -41,12 +41,12 @@ WHATSAPP_GROUP_URL = 'https://chat.whatsapp.com/Kn2NDwg7Wij5VQbs35hYMx?s=cl&p=a&
 
 # Must exactly match YEAR_SEMESTER_OPTIONS in AuthScreen.jsx/SettingsScreen.jsx.
 YEAR_SEMESTER_LABELS = {
-    'y1s1': 'Year 1 · Semester 1',
-    'y1s2': 'Year 1 · Semester 2',
-    'y2s1': 'Year 2 · Semester 3',
-    'y2s2': 'Year 2 · Semester 4',
-    'y3s1': 'Year 3 · Semester 5',
-    'y3s2': 'Year 3 · Semester 6',
+    'y1s1': 'Semester 1',
+    'y1s2': 'Semester 2',
+    'y2s1': 'Semester 3',
+    'y2s2': 'Semester 4',
+    'y3s1': 'Semester 5',
+    'y3s2': 'Semester 6',
 }
 
 _TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), 'templates', 'welcome-email.html')
