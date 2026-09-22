@@ -22,6 +22,14 @@ function initAdmin() {
   });
 }
 
+// Must exactly match ADMIN_EMAILS in src/lib/AuthContext.jsx and
+// isAdmin() in firestore.rules - keep all in sync by hand.
+const ADMIN_EMAILS = new Set([
+  'admin.med101@gmail.com',
+  'admin1.med101@gmail.com',
+  'admin2.med101@gmail.com',
+]);
+
 function json(res, status, body) {
   return res.status(status).json(body);
 }
@@ -186,7 +194,8 @@ export default async function handler(req, res) {
       return json(res, 400, { error: 'Missing or invalid question data.' });
     }
 
-    const allowed = await isPremiumOrPaused(db, uid);
+    const isAdmin = decoded.email && ADMIN_EMAILS.has(decoded.email);
+    const allowed = isAdmin || (await isPremiumOrPaused(db, uid));
     if (!allowed) return json(res, 403, { error: 'AI explanations are a Max feature.' });
 
     const validQuestion = await questionExistsInBank(req, { subtopic, question, options, correctIndex });
