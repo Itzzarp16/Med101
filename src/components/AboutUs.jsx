@@ -24,7 +24,7 @@ export default function AboutUs() {
         </p>
 
         <p>
-          This site has no association with abhishekmed101.space.
+          
         </p>
 
         <div style={{ margin: '24px 0', textAlign: 'center' }}>
