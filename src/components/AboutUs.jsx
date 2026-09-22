@@ -35,6 +35,14 @@ export default function AboutUs() {
           The website is supervised by <strong>Babu Gupta</strong>.
         </p>
 
+        <div style={{ margin: '20px 0', textAlign: 'center' }}>
+          <img
+            src="/about-babu.jpg"
+            alt="Babu Gupta"
+            style={{ maxWidth: 240, width: '100%', borderRadius: 16 }}
+          />
+        </div>
+
         <p>
           Instagram:{' '}
           <a
