@@ -8,6 +8,25 @@ export default function AboutUs() {
       <div className="legal-card">
         <h1>About Us</h1>
 
+        <p>
+          This website is currently managed by <strong>Vijay Yadav</strong>.
+        </p>
+
+        <p>
+          Instagram:{' '}
+          <a
+            href="https://www.instagram.com/vijay.isdope?stkn=MXFreWFmb2t5bTkzeA=="
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @vijay.isdope
+          </a>
+        </p>
+
+        <p>
+          This site has no association with abhishekmed101.space.
+        </p>
+
         <h2>Our Journey</h2>
         <p>
           It all started with a simple thought: <strong>why not create a
