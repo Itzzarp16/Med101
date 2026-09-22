@@ -7,7 +7,7 @@ export default function PrivacyPolicy() {
     <div className="legal-page">
       <div className="legal-card">
         <h1>Privacy Policy</h1>
-        <p className="legal-updated">Last updated: 10 September 2026</p>
+        <p className="legal-updated">Last updated: 22 September 2026</p>
 
         <p>
           Med101 ("we", "us", "our") operates the Med101 website and app

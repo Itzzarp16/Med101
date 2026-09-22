@@ -7,7 +7,7 @@ export default function TermsAndConditions() {
     <div className="legal-page">
       <div className="legal-card">
         <h1>Terms &amp; Conditions</h1>
-        <p className="legal-updated">Last updated: 12 September 2026</p>
+        <p className="legal-updated">Last updated: 22 September 2026</p>
 
         <p>
           These Terms &amp; Conditions ("Terms") govern your use of Med101
