@@ -54,24 +54,28 @@ export default function AboutUs() {
           </a>
         </p>
 
-        <div style={{ margin: '24px 0', textAlign: 'center' }}>
+        <p>
+          Our <strong>Quality Assurance Lead</strong> hunts down bugs on the site so you don't have to.
+        </p>
+
+        <div style={{ margin: '20px 0', textAlign: 'center' }}>
           <img
             src="/about-friend.jpg"
             alt="Quality Assurance Lead"
-            style={{ maxWidth: 280, width: '100%', borderRadius: 16 }}
+            style={{ maxWidth: 240, width: '100%', borderRadius: 16 }}
           />
-          <p style={{ marginTop: 10 }}>
-            Our <strong>Quality Assurance Lead</strong> - he hunts down bugs on the site so you don't have to.
-            {' '}Instagram:{' '}
-            <a
-              href="https://www.instagram.com/walker101z"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              @walker101z
-            </a>
-          </p>
         </div>
+
+        <p>
+          Instagram:{' '}
+          <a
+            href="https://www.instagram.com/walker101z"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            @walker101z
+          </a>
+        </p>
 
         <h2>Our Journey</h2>
         <p>
