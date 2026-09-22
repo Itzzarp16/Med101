@@ -224,16 +224,15 @@ export default function ProfileScreen({ onBack }) {
           <>
             <label className="auth-label profile-pw-label">Current Password</label>
             <input className="auth-input" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} placeholder="••••••••" autoComplete="current-password" />
+            <div className="profile-forgot-row">
+              <button type="button" className="auth-forgot" onClick={handleForgotPassword}>Forgot password?</button>
+            </div>
 
             <label className="auth-label profile-pw-label">New Password</label>
             <input className="auth-input" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder="••••••••" autoComplete="new-password" />
 
             <label className="auth-label profile-pw-label">Confirm New Password</label>
             <input className="auth-input" type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} placeholder="••••••••" />
-
-            <div className="profile-forgot-row">
-              <button type="button" className="auth-forgot" onClick={handleForgotPassword}>Forgot password?</button>
-            </div>
 
             {pwMsg && <div className={`auth-msg ${pwMsg.type}`} style={{ display: 'block' }}>{pwMsg.text}</div>}
             <button className="btn-glow std-save-btn" onClick={handleChangePassword} disabled={pwSaving}>
