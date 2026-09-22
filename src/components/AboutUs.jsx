@@ -57,11 +57,11 @@ export default function AboutUs() {
         <div style={{ margin: '24px 0', textAlign: 'center' }}>
           <img
             src="/about-friend.jpg"
-            alt="Site co-owner"
+            alt="Quality Assurance Lead"
             style={{ maxWidth: 280, width: '100%', borderRadius: 16 }}
           />
-          <p style={{ marginTop: 10, fontStyle: 'italic' }}>
-            This person paid ₹21 to have his photo put up here.
+          <p style={{ marginTop: 10 }}>
+            Our <strong>Quality Assurance Lead</strong> - he hunts down bugs on the site so you don't have to.
             {' '}Instagram:{' '}
             <a
               href="https://www.instagram.com/walker101z"
