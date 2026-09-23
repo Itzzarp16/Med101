@@ -7,12 +7,11 @@ import './LeaderboardScreen.css';
 
 const MEDALS = ['🥇', '🥈', '🥉'];
 
-// Matches the old site's #screen-leaderboard exactly: gradient trophy
-// title, scope dropdown (Global + per-subject), metric toggle
-// (Accuracy % / Total Correct), a persistent "Your Rank" card, and rows
-// with medal/rank, name, ✅/❌/⏱ stats, and a gold value badge. Plus a
-// "Friends Only" toggle that scopes the same view to just your added
-// friends (+ yourself) instead of the whole platform.
+// Redesigned for clarity: every control lives inside one compact panel
+// (Everyone/Friends segmented toggle, subject picker, Accuracy/Correct
+// segmented toggle) instead of being scattered down the page, so the
+// actual rankings show up sooner and the screen reads as one coherent
+// card rather than a stack of separate rows.
 export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack }) {
   const { user } = useAuth();
   const [scope, setScope] = useState(''); // '' = global, or a subject name
@@ -83,6 +82,10 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
     setMetric(m);
   }
 
+  const noteText = friendsOnly && friendUids.length === 0
+    ? "You haven't added any friends yet — add some from the hamburger menu."
+    : (metric === 'accuracyPct' && !friendsOnly ? 'Requires 100+ questions answered in this scope' : null);
+
   return (
     <div className="screen-leaderboard">
       <div className="lb-wrap">
@@ -94,54 +97,55 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
           <button className="btn-ghost lb-home-btn" onClick={() => { playTapSound(); onBack(); }}>← Home</button>
         </div>
 
-        <div className="lb-metric-row" style={{ marginBottom: 10 }}>
-          <button
-            className={!friendsOnly ? 'btn-ghost lb-metric-btn active' : 'btn-ghost lb-metric-btn'}
-            onClick={() => { playTapSound(); setFriendsOnly(false); }}
-          >
-            🌐 Everyone
-          </button>
-          <button
-            className={friendsOnly ? 'btn-ghost lb-metric-btn active' : 'btn-ghost lb-metric-btn'}
-            onClick={() => { playTapSound(); setFriendsOnly(true); }}
-          >
-            👥 Friends Only
-          </button>
+        <div className="lb-panel glass">
+          <div className="lb-segment">
+            <button
+              className={!friendsOnly ? 'lb-segment-btn active' : 'lb-segment-btn'}
+              onClick={() => { playTapSound(); setFriendsOnly(false); }}
+            >
+              🌐 Everyone
+            </button>
+            <button
+              className={friendsOnly ? 'lb-segment-btn active' : 'lb-segment-btn'}
+              onClick={() => { playTapSound(); setFriendsOnly(true); }}
+            >
+              👥 Friends
+            </button>
+          </div>
+
+          <select className="lb-scope-select" value={scope} onChange={(e) => { playTapSound(); setScope(e.target.value); }}>
+            <option value="">🌐 Global (all subjects)</option>
+            {Object.keys(mainSubjectMeta || {}).map((name) => (
+              <option key={name} value={name}>{mainSubjectMeta[name]?.emoji} {name}</option>
+            ))}
+          </select>
+
+          <div className="lb-segment">
+            <button
+              className={metric === 'accuracyPct' ? 'lb-segment-btn active' : 'lb-segment-btn'}
+              onClick={() => switchMetric('accuracyPct')}
+            >
+              🎯 Accuracy
+            </button>
+            <button
+              className={metric === 'totalCorrect' ? 'lb-segment-btn active' : 'lb-segment-btn'}
+              onClick={() => switchMetric('totalCorrect')}
+            >
+              ✅ Total Correct
+            </button>
+          </div>
+
+          {noteText && <div className="lb-note">{noteText}</div>}
         </div>
-
-        <select className="lb-scope-select" value={scope} onChange={(e) => { playTapSound(); setScope(e.target.value); }}>
-          <option value="">🌐 Global (all subjects)</option>
-          {Object.keys(mainSubjectMeta || {}).map((name) => (
-            <option key={name} value={name}>{mainSubjectMeta[name]?.emoji} {name}</option>
-          ))}
-        </select>
-
-        <div className="lb-metric-row">
-          <button
-            className={metric === 'accuracyPct' ? 'btn-ghost lb-metric-btn active' : 'btn-ghost lb-metric-btn'}
-            onClick={() => switchMetric('accuracyPct')}
-          >
-            🎯 Accuracy %
-          </button>
-          <button
-            className={metric === 'totalCorrect' ? 'btn-ghost lb-metric-btn active' : 'btn-ghost lb-metric-btn'}
-            onClick={() => switchMetric('totalCorrect')}
-          >
-            ✅ Total Correct
-          </button>
-        </div>
-        {metric === 'accuracyPct' && !friendsOnly && (
-          <div className="lb-accuracy-note">Requires 100+ questions answered in this scope</div>
-        )}
-
-        {friendsOnly && friendUids.length === 0 && (
-          <div className="lb-accuracy-note">You haven't added any friends yet. Add some from the hamburger menu.</div>
-        )}
 
         {myRank && (
           <div className="lb-my-rank">
-            <div className="lb-my-rank-label">📍 Your Rank</div>
-            <div className="lb-my-rank-value">#{myRank.rank} of {myRank.total} · {myRank.value}{unit}</div>
+            <div className="lb-my-rank-rank">#{myRank.rank}</div>
+            <div className="lb-my-rank-body">
+              <div className="lb-my-rank-label">Your Rank</div>
+              <div className="lb-my-rank-sub">out of {myRank.total} students</div>
+            </div>
+            <div className="lb-my-rank-value">{myRank.value}{unit}</div>
           </div>
         )}
 
@@ -167,13 +171,25 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
           <div className="lb-list">
             {rows.map((row, i) => {
               const isMe = user && row.uid === user.uid;
-              const timeStr = row.avgTimeSec != null ? `⏱ ${row.avgTimeSec.toFixed(1)}s/question` : '⏱ -';
+              const timeStr = row.avgTimeSec != null ? `⏱ ${row.avgTimeSec.toFixed(1)}s/q` : null;
+              const isTop3 = i < 3;
+              const initial = (row.displayName || '?').trim().charAt(0).toUpperCase();
               return (
-                <div key={row.uid} className={isMe ? 'lb-row glass lb-row-me' : 'lb-row glass'}>
-                  <div className="lb-rank">{MEDALS[i] || `#${i + 1}`}</div>
+                <div
+                  key={row.uid}
+                  className={[
+                    'lb-row glass',
+                    isMe ? 'lb-row-me' : '',
+                    isTop3 ? `lb-row-top lb-row-top-${i + 1}` : '',
+                  ].filter(Boolean).join(' ')}
+                >
+                  <div className="lb-rank">
+                    {isTop3 ? <span className="lb-medal">{MEDALS[i]}</span> : <span className="lb-rank-num">#{i + 1}</span>}
+                  </div>
+                  <div className="lb-avatar">{initial}</div>
                   <div className="lb-row-body">
                     <div className="lb-name">{row.displayName}{isMe ? ' (You)' : ''}</div>
-                    <div className="lb-row-stats">✅ {row.correct} · ❌ {row.incorrect} · {timeStr}</div>
+                    <div className="lb-row-stats">✅ {row.correct} · ❌ {row.incorrect}{timeStr ? ` · ${timeStr}` : ''}</div>
                   </div>
                   <div className="lb-value">{row.value}{unit}</div>
                 </div>

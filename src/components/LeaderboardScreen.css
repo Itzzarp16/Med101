@@ -1,4 +1,6 @@
-/* Ported 1:1 from the old site's #screen-leaderboard inline styles */
+/* Redesigned for a cleaner, less cluttered look: controls consolidated
+   into one panel, a richer "your rank" banner, and avatar-initial rows
+   with a subtle podium treatment for the top 3. */
 .screen-leaderboard {
   min-height: calc(100vh - 52px);
   padding-top: 14px;
@@ -15,17 +17,14 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .lb-title {
-  font-size: clamp(1.6rem, 4.5vw, 2.2rem);
+  font-size: clamp(1.5rem, 4.5vw, 2rem);
   font-weight: 800;
   line-height: 1.1;
-  background: linear-gradient(135deg, #fff 0%, #facc15 60%, var(--violet) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--heading);
   margin: 0;
 }
 
@@ -41,66 +40,103 @@
   flex-shrink: 0;
 }
 
+/* Single consolidated control panel */
+.lb-panel {
+  padding: 14px;
+  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.lb-segment {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.lb-segment-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: var(--text2);
+  padding: 9px 6px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.lb-segment-btn.active {
+  background: rgba(var(--cyan-rgb), 0.16);
+  color: var(--cyan);
+}
+
 .lb-scope-select {
   width: 100%;
   padding: 11px 14px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   color: var(--text);
   font-size: 14px;
   font-weight: 600;
-  margin-bottom: 10px;
 }
 
-.lb-metric-row {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 6px;
-}
-
-.lb-metric-btn {
-  flex: 1;
-  padding: 10px !important;
-  font-size: 13px !important;
-  font-weight: 700 !important;
-}
-
-.lb-metric-btn.active {
-  background: rgba(var(--cyan-rgb), 0.12);
-  border-color: var(--cyan);
-  color: var(--cyan);
-}
-
-.lb-accuracy-note {
-  font-size: 11px;
-  color: var(--text2);
+.lb-note {
+  font-size: 11.5px;
+  color: var(--text3);
   text-align: center;
-  margin-bottom: 14px;
 }
 
+/* "Your rank" banner - gradient hero strip instead of a plain outlined box */
 .lb-my-rank {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px 16px;
+  gap: 14px;
+  padding: 14px 16px;
   border-radius: 16px;
-  margin-bottom: 20px;
-  border: 1px solid rgba(56, 189, 248, 0.4);
-  background: rgba(56, 189, 248, 0.08);
+  margin-bottom: 18px;
+  background: var(--brand-gradient);
+  box-shadow: 0 6px 20px rgba(var(--cyan-rgb), 0.25);
+}
+
+.lb-my-rank-rank {
+  font-size: 22px;
+  font-weight: 900;
+  color: #fff;
+  flex-shrink: 0;
+  min-width: 44px;
+  text-align: center;
+}
+
+.lb-my-rank-body {
+  flex: 1;
+  min-width: 0;
 }
 
 .lb-my-rank-label {
   font-size: 13px;
-  font-weight: 700;
-  color: var(--text);
+  font-weight: 800;
+  color: #fff;
+}
+
+.lb-my-rank-sub {
+  font-size: 11.5px;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 1px;
 }
 
 .lb-my-rank-value {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
-  color: #38bdf8;
+  color: #fff;
+  flex-shrink: 0;
 }
 
 .lb-loading {
@@ -139,25 +175,64 @@
 }
 
 .lb-row {
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-radius: 16px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   margin-bottom: 8px;
 }
 
 .lb-row-me {
-  border: 1px solid rgba(250, 204, 21, 0.6) !important;
+  border: 1px solid rgba(var(--cyan-rgb), 0.5) !important;
+  background: rgba(var(--cyan-rgb), 0.08) !important;
+}
+
+/* Subtle podium tint for the top 3 - no longer just a bare emoji on an
+   otherwise identical row, so the top of the list reads at a glance */
+.lb-row-top-1 {
   background: rgba(250, 204, 21, 0.08) !important;
+  border: 1px solid rgba(250, 204, 21, 0.35) !important;
+}
+
+.lb-row-top-2 {
+  background: rgba(203, 213, 225, 0.08) !important;
+  border: 1px solid rgba(203, 213, 225, 0.30) !important;
+}
+
+.lb-row-top-3 {
+  background: rgba(217, 119, 6, 0.08) !important;
+  border: 1px solid rgba(217, 119, 6, 0.30) !important;
 }
 
 .lb-rank {
-  font-size: 16px;
-  font-weight: 800;
-  width: 34px;
+  width: 30px;
   text-align: center;
   flex-shrink: 0;
+}
+
+.lb-medal {
+  font-size: 18px;
+}
+
+.lb-rank-num {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text3);
+}
+
+.lb-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+  background: var(--brand-gradient);
 }
 
 .lb-row-body {
@@ -166,7 +241,7 @@
 }
 
 .lb-name {
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 700;
   color: var(--text);
   overflow: hidden;
@@ -175,17 +250,20 @@
 }
 
 .lb-row-stats {
-  font-size: 11px;
-  color: var(--text2);
-  margin-top: 3px;
+  font-size: 10.5px;
+  color: var(--text3);
+  margin-top: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .lb-value {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 800;
-  color: #facc15;
+  color: var(--cyan);
   flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(var(--cyan-rgb), 0.12);
 }
