@@ -285,23 +285,48 @@ export function AuthProvider({ children }) {
   // Google sign-in uses Firebase's redirect flow instead of a popup.
   // This is much more reliable on mobile browsers. After Google returns,
   // onAuthStateChanged above performs the normal MED101 profile/device checks.
+  //
+  // getRedirectResult() resolves to a real UserCredential only on the
+  // page load that's the direct return from signInWithRedirect() - a
+  // normal page load with an already-signed-in persisted session
+  // resolves to null. That's what makes this (not onAuthStateChanged)
+  // the right place to fire the WhatsApp prompt: it's the only signal
+  // that distinguishes "just finished a fresh Google sign-in" from
+  // "resumed an existing session", same distinction signIn()/signUp()
+  // get for free by only running on an actual button click.
   useEffect(() => {
     let active = true;
 
-    getRedirectResult(auth).catch((err) => {
-      if (!active) return;
+    getRedirectResult(auth)
+      .then(async (result) => {
+        if (!active || !result?.user) return;
+        if (ADMIN_EMAILS.includes(result.user.email)) return;
 
-      const messages = {
-        'auth/network-request-failed': 'Network error. Check your connection.',
-        'auth/unauthorized-domain': 'This domain is not authorized for Google sign-in in Firebase.',
-      };
+        // Re-check profile existence/disabled status here rather than
+        // trusting onAuthStateChanged already did - that check runs in
+        // a separate effect and may not have resolved yet, and this
+        // must never show the prompt to an account that's about to be
+        // signed back out (no MED101 profile, or disabled).
+        const snap = await getDoc(doc(db, 'users', result.user.uid));
+        if (!active) return;
+        if (snap.exists() && !snap.data().disabled) {
+          setShowWhatsAppPrompt(true);
+        }
+      })
+      .catch((err) => {
+        if (!active) return;
 
-      setAuthMessage(
-        messages[err.code] ||
-          err.message ||
-          'Google sign-in failed. Please try again.'
-      );
-    });
+        const messages = {
+          'auth/network-request-failed': 'Network error. Check your connection.',
+          'auth/unauthorized-domain': 'This domain is not authorized for Google sign-in in Firebase.',
+        };
+
+        setAuthMessage(
+          messages[err.code] ||
+            err.message ||
+            'Google sign-in failed. Please try again.'
+        );
+      });
 
     return () => {
       active = false;
