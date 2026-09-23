@@ -16,7 +16,7 @@ import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_iSCYOkHdH1DS46dTgBjUnHVJijQa0qs',
-  authDomain: 'med101-1.firebaseapp.com',
+  authDomain: 'auth.med101.space',
   projectId: 'med101-1',
   storageBucket: 'med101-1.firebasestorage.app',
   messagingSenderId: '667349814997',
