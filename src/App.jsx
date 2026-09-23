@@ -42,7 +42,7 @@ import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence'
 // popstate listener keeps `screen` in sync with whichever entry the
 // user lands on.
 export default function App() {
-  const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, signupNotice, setSignupNotice, showWhatsAppPrompt, setShowWhatsAppPrompt, showOnboardingTour, finishOnboardingTour } = useAuth();
+  const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, signupNotice, setSignupNotice, showWhatsAppPrompt, setShowWhatsAppPrompt, showOnboardingTour, finishOnboardingTour, needsGoogleProfileSetup } = useAuth();
   const semesterData = useSemesterData();
   // A hard page refresh loses all in-memory React state, but the
   // student should land back on whatever screen they were on (e.g. a
@@ -267,7 +267,7 @@ export default function App() {
     );
   }
 
-  if (!user) {
+  if (!user || needsGoogleProfileSetup) {
     return (
       <>
         {kickedMessage && (

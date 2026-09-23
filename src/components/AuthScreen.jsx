@@ -16,7 +16,17 @@ const YEAR_SEMESTER_OPTIONS = [
 ];
 
 export default function AuthScreen() {
-  const { signIn, signInWithGoogle, signUp, authMessage, setAuthMessage } = useAuth();
+  const {
+    signIn,
+    signInWithGoogle,
+    signUp,
+    authMessage,
+    setAuthMessage,
+    needsGoogleProfileSetup,
+    completeGoogleProfileSetup,
+    cancelGoogleProfileSetup,
+    user,
+  } = useAuth();
 
   const [mode, setMode] = useState('signin');
   const [signupStep, setSignupStep] = useState(1);
@@ -113,16 +123,123 @@ export default function AuthScreen() {
     };
   }, [username, mode, signupStep]);
 
-  function handleNext(e) {
-    e.preventDefault();
-    setMsg(null);
+  // ── "Finish setting up your account" (post-Google-signup) state ────
+  // Only username + year/semester are collected here - name and email
+  // already came from the Google account.
+  const [gUsername, setGUsername] = useState('');
+  const [gUsernameStatus, setGUsernameStatus] = useState('idle');
+  const [gUsernameCheckError, setGUsernameCheckError] = useState(null);
+  const [gYearSemester, setGYearSemester] = useState(YEAR_SEMESTER_OPTIONS[0].value);
+  const [gMsg, setGMsg] = useState(null);
+  const [gBusy, setGBusy] = useState(false);
 
+  useEffect(() => {
+    if (!needsGoogleProfileSetup) return;
+
+    if (usernameFormatError(gUsername)) {
+      setGUsernameStatus('idle');
+      return;
+    }
+
+    let active = true;
+    setGUsernameStatus('checking');
+    setGUsernameCheckError(null);
+
+    const timer = setTimeout(async () => {
+      try {
+        const timeout = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('timed-out')), 8000)
+        );
+
+        const available = await Promise.race([
+          checkUsernameAvailable(gUsername),
+          timeout,
+        ]);
+
+        if (active) {
+          setGUsernameStatus(available ? 'available' : 'taken');
+        }
+      } catch (e) {
+        console.warn('Username availability check failed:', e);
+
+        if (active) {
+          setGUsernameStatus('error');
+          setGUsernameCheckError(e.code || e.message || String(e));
+        }
+      }
+    }, 450);
+
+    return () => {
+      active = false;
+      clearTimeout(timer);
+    };
+  }, [gUsername, needsGoogleProfileSetup]);
+
+  async function handleGoogleProfileSetupSubmit(e) {
+    e.preventDefault();
+    setGMsg(null);
+
+    if (!gUsername.trim()) {
+      setGMsg({ text: 'Please choose a username.', type: 'error' });
+      return;
+    }
+
+    const formatError = usernameFormatError(gUsername);
+
+    if (formatError) {
+      setGMsg({ text: formatError, type: 'error' });
+      return;
+    }
+
+    if (gUsernameStatus === 'taken') {
+      setGMsg({
+        text: `"${normalize(gUsername)}" is already taken - please choose another.`,
+        type: 'error',
+      });
+      return;
+    }
+
+    if (gUsernameStatus === 'checking') {
+      setGMsg({ text: 'Still checking that username - one moment and try again.', type: 'error' });
+      return;
+    }
+
+    setGBusy(true);
+
+    try {
+      const { usernameClaimError } = await completeGoogleProfileSetup(
+        gUsername.trim(),
+        gYearSemester
+      );
+
+      if (usernameClaimError) {
+        console.warn('Username claim failed post-signup:', usernameClaimError);
+      }
+      // On success needsGoogleProfileSetup flips to false and App.jsx
+      // moves on to the main app - no local success message needed.
+    } catch (err) {
+      setGMsg({ text: err.message || 'Something went wrong. Please try again.', type: 'error' });
+      setGBusy(false);
+    }
+  }
+
+  async function handleCancelGoogleProfileSetup() {
+    setGBusy(true);
+    try {
+      await cancelGoogleProfileSetup();
+    } finally {
+      setGBusy(false);
+    }
+  }
+
+  // Shared validation for the "Next" button (continue to email/password).
+  function validateStep1() {
     if (!name.trim()) {
       setMsg({
         text: 'Please enter your name.',
         type: 'error',
       });
-      return;
+      return false;
     }
 
     if (!username.trim()) {
@@ -130,7 +247,7 @@ export default function AuthScreen() {
         text: 'Please choose a username.',
         type: 'error',
       });
-      return;
+      return false;
     }
 
     const formatError = usernameFormatError(username);
@@ -140,7 +257,7 @@ export default function AuthScreen() {
         text: formatError,
         type: 'error',
       });
-      return;
+      return false;
     }
 
     if (usernameStatus === 'taken') {
@@ -148,7 +265,7 @@ export default function AuthScreen() {
         text: `"${normalize(username)}" is already taken - please choose another.`,
         type: 'error',
       });
-      return;
+      return false;
     }
 
     if (usernameStatus === 'checking') {
@@ -156,10 +273,43 @@ export default function AuthScreen() {
         text: 'Still checking that username - one moment and try again.',
         type: 'error',
       });
-      return;
+      return false;
     }
 
+    return true;
+  }
+
+  function handleNext(e) {
+    e.preventDefault();
+    setMsg(null);
+
+    if (!validateStep1()) return;
+
     setSignupStep(2);
+  }
+
+  // Google account creation: no name/username/year form first - Google
+  // supplies name + email once signed in, and AuthScreen's "finish
+  // setting up" form (see needsGoogleProfileSetup below) collects just
+  // the username + year/semester afterward.
+  async function handleGoogleSignUp() {
+    setMsg(null);
+    setBusy(true);
+
+    try {
+      await signInWithGoogle('signup');
+    } catch (err) {
+      const googleErrors = {
+        'auth/network-request-failed': 'Network error. Check your connection.',
+        'auth/unauthorized-domain': 'This domain is not authorized for Google sign-in in Firebase.',
+      };
+
+      setMsg({
+        text: googleErrors[err.code] || err.message || 'Google sign-in failed. Please try again.',
+        type: 'error',
+      });
+      setBusy(false);
+    }
   }
 
   async function handleSubmit(e) {
@@ -313,6 +463,113 @@ export default function AuthScreen() {
 
   const showingSignupStep2 = mode === 'signup' && signupStep === 2;
 
+  // Signed in with Google, but MED101 still needs a username and
+  // year/semester before the account is usable - name/email already
+  // came from the Google account itself.
+  if (needsGoogleProfileSetup) {
+    return (
+      <div id="auth-screen">
+        <div className="auth-center">
+          <div className="auth-card">
+            <div className="auth-icon">👨‍⚕️</div>
+
+            <div className="auth-title">Almost there</div>
+
+            <div className="auth-sub">
+              {user?.email
+                ? `Signed in as ${user.email}. Just pick a username and your year/semester to finish.`
+                : 'Just pick a username and your year/semester to finish.'}
+            </div>
+
+            <form onSubmit={handleGoogleProfileSetupSubmit}>
+              <div style={{ marginBottom: 14 }}>
+                <label className="auth-label">Create Username</label>
+
+                <input
+                  className="auth-input"
+                  value={gUsername}
+                  onChange={(e) => setGUsername(e.target.value)}
+                  placeholder="e.g. dr_vijay"
+                  autoComplete="username"
+                  autoFocus
+                />
+
+                {gUsernameStatus === 'checking' && (
+                  <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>
+                    Checking availability…
+                  </div>
+                )}
+
+                {gUsernameStatus === 'available' && (
+                  <div style={{ fontSize: 12, color: 'var(--green)', marginTop: 4 }}>
+                    ✓ Available
+                  </div>
+                )}
+
+                {gUsernameStatus === 'taken' && (
+                  <div style={{ fontSize: 12, color: 'var(--red)', marginTop: 4 }}>
+                    ✗ Already taken - try another
+                  </div>
+                )}
+
+                {gUsernameStatus === 'error' && (
+                  <div style={{ fontSize: 12, color: 'var(--amber)', marginTop: 4 }}>
+                    Couldn't verify right now
+                    {gUsernameCheckError ? ` (${gUsernameCheckError})` : ''}{' '}
+                    - we'll confirm it right after you finish.
+                  </div>
+                )}
+              </div>
+
+              <div>
+                <label className="auth-label">Choose Your Year and Semester</label>
+
+                <select
+                  className="auth-input"
+                  value={gYearSemester}
+                  onChange={(e) => setGYearSemester(e.target.value)}
+                >
+                  {YEAR_SEMESTER_OPTIONS.map((opt) => (
+                    <option key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <button
+                type="submit"
+                className="auth-btn"
+                disabled={gBusy}
+                style={{ marginTop: 16 }}
+              >
+                {gBusy ? 'Finishing…' : 'Finish Creating Account →'}
+              </button>
+
+              <button
+                type="button"
+                className="auth-forgot"
+                style={{ display: 'block', marginTop: 12, textAlign: 'center', width: '100%' }}
+                onClick={handleCancelGoogleProfileSetup}
+                disabled={gBusy}
+              >
+                Not you? Sign out and use a different account
+              </button>
+
+              {gMsg && (
+                <div className={`auth-msg ${gMsg.type}`} style={{ display: 'block' }}>
+                  {gMsg.text}
+                </div>
+              )}
+            </form>
+          </div>
+        </div>
+
+        <LegalFooter />
+      </div>
+    );
+  }
+
   return (
     <div id="auth-screen">
       <div className="auth-center">
@@ -367,123 +624,160 @@ export default function AuthScreen() {
           )}
 
           {mode === 'signup' && signupStep === 1 && (
-            <form onSubmit={handleNext}>
-              <div style={{ marginBottom: 14 }}>
-                <label className="auth-label">Your Name</label>
-
-                <input
-                  className="auth-input"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Your name"
-                  autoComplete="name"
-                  autoFocus
-                />
-              </div>
-
-              <div style={{ marginBottom: 14 }}>
-                <label className="auth-label">Create Username</label>
-
-                <input
-                  className="auth-input"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="e.g. dr_vijay"
-                  autoComplete="username"
-                />
-
-                {usernameStatus === 'checking' && (
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: 'var(--text3)',
-                      marginTop: 4,
-                    }}
-                  >
-                    Checking availability…
-                  </div>
-                )}
-
-                {usernameStatus === 'available' && (
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: 'var(--green)',
-                      marginTop: 4,
-                    }}
-                  >
-                    ✓ Available
-                  </div>
-                )}
-
-                {usernameStatus === 'taken' && (
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: 'var(--red)',
-                      marginTop: 4,
-                    }}
-                  >
-                    ✗ Already taken - try another
-                  </div>
-                )}
-
-                {usernameStatus === 'error' && (
-                  <div
-                    style={{
-                      fontSize: 12,
-                      color: 'var(--amber)',
-                      marginTop: 4,
-                    }}
-                  >
-                    Couldn't verify right now
-                    {usernameCheckError
-                      ? ` (${usernameCheckError})`
-                      : ''}{' '}
-                    - we'll confirm it right after you sign up.
-                  </div>
-                )}
-              </div>
-
-              <div>
-                <label className="auth-label">
-                  Choose Your Year and Semester
-                </label>
-
-                <select
-                  className="auth-input"
-                  value={yearSemester}
-                  onChange={(e) =>
-                    setYearSemester(e.target.value)
-                  }
-                >
-                  {YEAR_SEMESTER_OPTIONS.map((opt) => (
-                    <option
-                      key={opt.value}
-                      value={opt.value}
-                    >
-                      {opt.label}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
+            <>
               <button
-                type="submit"
+                type="button"
                 className="auth-btn"
+                onClick={handleGoogleSignUp}
+                disabled={busy}
+                style={{
+                  background: '#fff',
+                  color: '#202124',
+                  border: '1px solid var(--border2)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 10,
+                  marginBottom: 16,
+                }}
               >
-                Next →
+                <span style={{ fontSize: 18, fontWeight: 700 }}>G</span>
+                {busy ? 'Connecting to Google…' : 'Continue with Google'}
               </button>
 
-              {msg && (
-                <div
-                  className={`auth-msg ${msg.type}`}
-                  style={{ display: 'block' }}
-                >
-                  {msg.text}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  margin: '4px 0 16px',
+                  color: 'var(--text3)',
+                  fontSize: 12,
+                }}
+              >
+                <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
+                <span>OR</span>
+                <div style={{ flex: 1, height: 1, background: 'var(--border2)' }} />
+              </div>
+
+              <form onSubmit={handleNext}>
+                <div style={{ marginBottom: 14 }}>
+                  <label className="auth-label">Your Name</label>
+
+                  <input
+                    className="auth-input"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Your name"
+                    autoComplete="name"
+                  />
                 </div>
-              )}
-            </form>
+
+                <div style={{ marginBottom: 14 }}>
+                  <label className="auth-label">Create Username</label>
+
+                  <input
+                    className="auth-input"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="e.g. dr_vijay"
+                    autoComplete="username"
+                  />
+
+                  {usernameStatus === 'checking' && (
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: 'var(--text3)',
+                        marginTop: 4,
+                      }}
+                    >
+                      Checking availability…
+                    </div>
+                  )}
+
+                  {usernameStatus === 'available' && (
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: 'var(--green)',
+                        marginTop: 4,
+                      }}
+                    >
+                      ✓ Available
+                    </div>
+                  )}
+
+                  {usernameStatus === 'taken' && (
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: 'var(--red)',
+                        marginTop: 4,
+                      }}
+                    >
+                      ✗ Already taken - try another
+                    </div>
+                  )}
+
+                  {usernameStatus === 'error' && (
+                    <div
+                      style={{
+                        fontSize: 12,
+                        color: 'var(--amber)',
+                        marginTop: 4,
+                      }}
+                    >
+                      Couldn't verify right now
+                      {usernameCheckError
+                        ? ` (${usernameCheckError})`
+                        : ''}{' '}
+                      - we'll confirm it right after you sign up.
+                    </div>
+                  )}
+                </div>
+
+                <div>
+                  <label className="auth-label">
+                    Choose Your Year and Semester
+                  </label>
+
+                  <select
+                    className="auth-input"
+                    value={yearSemester}
+                    onChange={(e) =>
+                      setYearSemester(e.target.value)
+                    }
+                  >
+                    {YEAR_SEMESTER_OPTIONS.map((opt) => (
+                      <option
+                        key={opt.value}
+                        value={opt.value}
+                      >
+                        {opt.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <button
+                  type="submit"
+                  className="auth-btn"
+                  disabled={busy}
+                >
+                  Next →
+                </button>
+
+                {msg && (
+                  <div
+                    className={`auth-msg ${msg.type}`}
+                    style={{ display: 'block' }}
+                  >
+                    {msg.text}
+                  </div>
+                )}
+              </form>
+            </>
           )}
 
           {mode === 'signin' && (

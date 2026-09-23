@@ -137,19 +137,176 @@ export function AuthProvider({ children }) {
   // Google accounts that do not have a MED101 profile yet.
   const [authMessage, setAuthMessage] = useState(null);
 
+  // True while a Google account is signed in to Firebase Auth but still
+  // needs its MED101 Firestore profile finished (username + year/semester -
+  // name and email already came from the Google account). App.jsx keeps
+  // showing AuthScreen while this is true, and AuthScreen renders the
+  // short "finish setting up" form instead of the normal login/signup UI.
+  const [needsGoogleProfileSetup, setNeedsGoogleProfileSetup] = useState(false);
+
   const deviceUnsubRef = useRef(null);
   const deviceClaimPendingRef = useRef(null);
   const signupGateRef = useRef(null);
+
+  // Builds the MED101 Firestore profile for a Google account - either
+  // right after Google sign-in (see the onAuthStateChanged effect below,
+  // which is only reachable this way for a first-time Google user with a
+  // pending signup intent) or once completeGoogleProfileSetup below has
+  // collected the username/year+semester. name/email come straight off
+  // the Google account, never asked for again.
+  async function completeGoogleSignup(user, yearSemester, username) {
+    if (!ADMIN_EMAILS.includes(user.email)) {
+      setShowOnboardingTour(true);
+    }
+
+    const name = user.displayName || '';
+
+    await setDoc(
+      doc(db, 'users', user.uid),
+      {
+        displayName: name,
+        email: user.email,
+        enrolledYearSemester: yearSemester,
+        enrolledAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+
+    let usernameClaimError = null;
+
+    if (username) {
+      try {
+        await user.getIdToken(true);
+
+        let attempt = 0;
+
+        for (;;) {
+          try {
+            await claimUsername(user, username);
+            break;
+          } catch (e) {
+            const isPermissionIssue =
+              e.code === 'permission-denied' ||
+              /permission/i.test(e.message || '');
+
+            attempt += 1;
+
+            if (!isPermissionIssue || attempt >= 4) {
+              throw e;
+            }
+
+            await new Promise((r) => setTimeout(r, 300 * attempt));
+            await user.getIdToken(true);
+          }
+        }
+      } catch (e) {
+        usernameClaimError = e.message || String(e);
+
+        setSignupNotice(
+          `Account created, but the username "${username}" couldn't be set (${usernameClaimError}). You can set one from Settings.`
+        );
+      }
+    }
+
+    // Fire-and-forget, same as email/password signup - never block on these.
+    sendWelcomeEmail(user);
+    sendAccountCreatedTelegram(user, name, yearSemester, username);
+
+    return { usernameClaimError };
+  }
+
+  // Runs the same device-claim + live profile listener that a normal
+  // sign-in gets, for a uid whose Firestore profile is known to exist
+  // (or was just created). Shared by onAuthStateChanged below and by
+  // completeGoogleProfileSetup, which needs to attach this manually
+  // since Firebase auth state itself doesn't change again just because
+  // the Firestore doc was created after the fact.
+  // Returns false if the device check signed the user out.
+  async function attachProfileSession(u) {
+    if (!ADMIN_EMAILS.includes(u.email)) {
+      if (deviceClaimPendingRef.current === u.uid) {
+        deviceClaimPendingRef.current = null;
+      } else {
+        const ok = await verifyDevice(u.uid);
+
+        if (!ok) {
+          setKickedMessage(
+            "You've been signed out because this account was signed in on another device."
+          );
+
+          await signOut(auth);
+          return false;
+        }
+      }
+
+      if (deviceUnsubRef.current) {
+        deviceUnsubRef.current();
+      }
+
+      deviceUnsubRef.current = onSnapshot(
+        doc(db, 'users', u.uid),
+        (snap) => {
+          const data = snap.exists() ? snap.data() : {};
+
+          setProfile(data);
+
+          if (data.disabled) {
+            setKickedMessage(
+              'This account has been disabled. Contact an admin if you think this is a mistake.'
+            );
+
+            signOut(auth);
+            return;
+          }
+
+          const active = data.activeDeviceId || null;
+
+          if (active && active !== getDeviceId()) {
+            setKickedMessage(
+              "You've been signed out because this account was signed in on another device."
+            );
+
+            signOut(auth);
+          }
+        },
+        (err) => {
+          console.warn('Profile listener failed:', err);
+          setProfile({});
+        }
+      );
+    } else {
+      if (deviceUnsubRef.current) {
+        deviceUnsubRef.current();
+      }
+
+      deviceUnsubRef.current = onSnapshot(
+        doc(db, 'users', u.uid),
+        (snap) => {
+          setProfile(snap.exists() ? snap.data() : {});
+        },
+        (err) => {
+          console.warn('Admin profile listener failed:', err);
+          setProfile({});
+        }
+      );
+    }
+
+    return true;
+  }
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (u) => {
       if (u) {
         setAuthMessage(null);
 
-        // Google is a LOGIN method only. A Google account must already
-        // have a MED101 Firestore profile created through Create Account.
-        // This prevents an accidental/orphan Google Auth account from
-        // entering MED101 without the normal profile information.
+        // Google can now also be used to CREATE a MED101 account. A
+        // Google account with no MED101 profile yet is either (a) an
+        // in-progress Google signup - the "Continue with Google" button
+        // on Create Account sets med101GoogleIntent = 'signup' before
+        // the redirect - in which case we keep them signed in and let
+        // AuthScreen collect username + year/semester, or (b) a plain
+        // login attempt on a Google account that never created a MED101
+        // account, which still gets signed back out as before.
         const isGoogleUser = u.providerData?.some(
           (provider) => provider.providerId === 'google.com'
         );
@@ -160,12 +317,28 @@ export function AuthProvider({ children }) {
           );
 
           if (!googleProfileSnap.exists()) {
+            const intent = sessionStorage.getItem('med101GoogleIntent');
+
+            if (intent === 'signup') {
+              // Deliberately NOT cleared yet - if the page reloads while
+              // they're on the "finish setting up" form, this lets that
+              // form reappear instead of silently signing them out.
+              setNeedsGoogleProfileSetup(true);
+              setUser(u);
+              setLoading(false);
+              return;
+            }
+
+            sessionStorage.removeItem('med101GoogleIntent');
             await signOut(auth);
             setAuthMessage(
               'No MED101 account was found for this Google account. Please create your MED101 account first, then use Continue with Google to sign in.'
             );
             return;
           }
+
+          sessionStorage.removeItem('med101GoogleIntent');
+          setNeedsGoogleProfileSetup(false);
         }
 
         // If this uid just came from signUp(), wait for it to fully
@@ -180,88 +353,8 @@ export function AuthProvider({ children }) {
           await new Promise((r) => setTimeout(r, 1200));
         }
 
-        if (!ADMIN_EMAILS.includes(u.email)) {
-          if (deviceClaimPendingRef.current === u.uid) {
-            deviceClaimPendingRef.current = null;
-          } else {
-            const ok = await verifyDevice(u.uid);
-
-            if (!ok) {
-              setKickedMessage(
-                "You've been signed out because this account was signed in on another device."
-              );
-
-              await signOut(auth);
-              return;
-            }
-          }
-
-          if (deviceUnsubRef.current) {
-            deviceUnsubRef.current();
-          }
-
-          deviceUnsubRef.current = onSnapshot(
-            doc(db, 'users', u.uid),
-            (snap) => {
-              const data = snap.exists() ? snap.data() : {};
-
-              setProfile(data);
-
-              if (data.disabled) {
-                setKickedMessage(
-                  'This account has been disabled. Contact an admin if you think this is a mistake.'
-                );
-
-                signOut(auth);
-                return;
-              }
-
-              const active = data.activeDeviceId || null;
-
-              if (
-                active &&
-                active !== getDeviceId()
-              ) {
-                setKickedMessage(
-                  "You've been signed out because this account was signed in on another device."
-                );
-
-                signOut(auth);
-              }
-            },
-            (err) => {
-              console.warn(
-                'Profile listener failed:',
-                err
-              );
-
-              setProfile({});
-            }
-          );
-        } else {
-          if (deviceUnsubRef.current) {
-            deviceUnsubRef.current();
-          }
-
-          deviceUnsubRef.current = onSnapshot(
-            doc(db, 'users', u.uid),
-            (snap) => {
-              setProfile(
-                snap.exists()
-                  ? snap.data()
-                  : {}
-              );
-            },
-            (err) => {
-              console.warn(
-                'Admin profile listener failed:',
-                err
-              );
-
-              setProfile({});
-            }
-          );
-        }
+        const ok = await attachProfileSession(u);
+        if (!ok) return;
 
         setUser(u);
       } else {
@@ -309,6 +402,7 @@ export function AuthProvider({ children }) {
           // not a normal page load, an actual silent failure (usually
           // the browser blocking Firebase's cross-site storage read).
           if (wasPending) {
+            sessionStorage.removeItem('med101GoogleIntent');
             setAuthMessage(
               "Google sign-in didn't complete. This can happen because of your browser's privacy settings. Please try again, or sign in with your email and password instead."
             );
@@ -322,7 +416,8 @@ export function AuthProvider({ children }) {
         // trusting onAuthStateChanged already did - that check runs in
         // a separate effect and may not have resolved yet, and this
         // must never show the prompt to an account that's about to be
-        // signed back out (no MED101 profile, or disabled).
+        // signed back out (no MED101 profile, or disabled) or that
+        // still needs to finish the username/year+semester step.
         const snap = await getDoc(doc(db, 'users', result.user.uid));
         if (!active) return;
         if (snap.exists() && !snap.data().disabled) {
@@ -331,6 +426,7 @@ export function AuthProvider({ children }) {
       })
       .catch((err) => {
         sessionStorage.removeItem('med101PendingGoogleRedirect');
+        sessionStorage.removeItem('med101GoogleIntent');
 
         if (!active) return;
 
@@ -463,9 +559,16 @@ export function AuthProvider({ children }) {
     return cred.user;
   }
 
-  // Google is intentionally LOGIN ONLY. We use redirect instead of popup
-  // because popup flows can be reported as "cancelled" by mobile browsers.
-  async function signInWithGoogle() {
+  // Google is used for BOTH login and account creation. We use redirect
+  // instead of popup because popup flows can be reported as "cancelled"
+  // by mobile browsers.
+  //
+  // intent: pass 'signup' from the Create Account tab so, if this Google
+  // account turns out to have no MED101 profile yet, onAuthStateChanged
+  // above treats it as a new signup (asks for username/year+semester)
+  // instead of signing the user back out. Login's "Continue with Google"
+  // button omits it.
+  async function signInWithGoogle(intent) {
     setAuthMessage(null);
 
     // Firebase reads the pending redirect state back via a hidden iframe
@@ -478,10 +581,56 @@ export function AuthProvider({ children }) {
     // and show a real message instead of failing silently.
     sessionStorage.setItem('med101PendingGoogleRedirect', '1');
 
+    if (intent === 'signup') {
+      sessionStorage.setItem('med101GoogleIntent', 'signup');
+    } else {
+      // Plain login - clear out any stale signup attempt that never
+      // made it back (e.g. the user abandoned Create Account mid-redirect).
+      sessionStorage.removeItem('med101GoogleIntent');
+    }
+
     await signInWithRedirect(auth, googleProvider);
   }
 
-  // yearSemester: e.g. "y1s1", "y1s2".
+  // Called from AuthScreen's "finish setting up your account" form once
+  // the Google account is signed in but still needs a MED101 profile.
+  // Only username + year/semester are asked for here - name and email
+  // already came from the Google account via completeGoogleSignup.
+  async function completeGoogleProfileSetup(username, yearSemester) {
+    const u = auth.currentUser;
+
+    if (!u) {
+      throw new Error('You were signed out. Please try Continue with Google again.');
+    }
+
+    const { usernameClaimError } = await completeGoogleSignup(u, yearSemester, username);
+
+    sessionStorage.removeItem('med101GoogleIntent');
+    setNeedsGoogleProfileSetup(false);
+
+    if (!ADMIN_EMAILS.includes(u.email)) {
+      deviceClaimPendingRef.current = u.uid;
+      await claimDevice(u.uid);
+    }
+
+    // onAuthStateChanged already ran (and returned early) for this uid
+    // back when Google sign-in first completed, so it won't fire again
+    // just because the Firestore doc now exists - attach the device
+    // claim/profile listener ourselves, same as signUp() effectively
+    // gets from onAuthStateChanged running a second time.
+    await attachProfileSession(u);
+
+    return { usernameClaimError };
+  }
+
+  // Backs out of an in-progress Google signup (e.g. they picked the
+  // wrong Google account, or want to go back and use email/password
+  // instead) - signs out of the half-finished Google session entirely.
+  async function cancelGoogleProfileSetup() {
+    sessionStorage.removeItem('med101GoogleIntent');
+    setNeedsGoogleProfileSetup(false);
+    await signOut(auth);
+  }
   // username is claimed here rather than left to the caller because
   // onAuthStateChanged fires independently of this function.
 
@@ -683,6 +832,9 @@ export function AuthProvider({ children }) {
         signIn,
         signInWithGoogle,
         signUp,
+        needsGoogleProfileSetup,
+        completeGoogleProfileSetup,
+        cancelGoogleProfileSetup,
         logOut,
         refreshUser,
         kickedMessage,
