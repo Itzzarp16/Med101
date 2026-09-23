@@ -299,7 +299,23 @@ export function AuthProvider({ children }) {
 
     getRedirectResult(auth)
       .then(async (result) => {
-        if (!active || !result?.user) return;
+        if (!active) return;
+
+        const wasPending = sessionStorage.getItem('med101PendingGoogleRedirect') === '1';
+        sessionStorage.removeItem('med101PendingGoogleRedirect');
+
+        if (!result?.user) {
+          // We started a Google redirect and came back with nothing -
+          // not a normal page load, an actual silent failure (usually
+          // the browser blocking Firebase's cross-site storage read).
+          if (wasPending) {
+            setAuthMessage(
+              "Google sign-in didn't complete. This can happen because of your browser's privacy settings. Please try again, or sign in with your email and password instead."
+            );
+          }
+          return;
+        }
+
         if (ADMIN_EMAILS.includes(result.user.email)) return;
 
         // Re-check profile existence/disabled status here rather than
@@ -314,11 +330,15 @@ export function AuthProvider({ children }) {
         }
       })
       .catch((err) => {
+        sessionStorage.removeItem('med101PendingGoogleRedirect');
+
         if (!active) return;
 
         const messages = {
           'auth/network-request-failed': 'Network error. Check your connection.',
           'auth/unauthorized-domain': 'This domain is not authorized for Google sign-in in Firebase.',
+          'auth/account-exists-with-different-credential':
+            'An account already exists with this email using a different sign-in method. Please sign in with your email and password.',
         };
 
         setAuthMessage(
@@ -447,6 +467,17 @@ export function AuthProvider({ children }) {
   // because popup flows can be reported as "cancelled" by mobile browsers.
   async function signInWithGoogle() {
     setAuthMessage(null);
+
+    // Firebase reads the pending redirect state back via a hidden iframe
+    // on authDomain (med101-1.firebaseapp.com), which is third-party
+    // relative to our custom domain. Some browsers (Chrome's storage
+    // partitioning, Safari ITP, in-app browsers) block that read, and
+    // getRedirectResult() then just resolves to null with no error at
+    // all - the user silently lands back on a blank login screen. This
+    // flag lets us tell that case apart from "no redirect was pending"
+    // and show a real message instead of failing silently.
+    sessionStorage.setItem('med101PendingGoogleRedirect', '1');
+
     await signInWithRedirect(auth, googleProvider);
   }
 
