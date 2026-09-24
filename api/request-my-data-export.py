@@ -1,43 +1,40 @@
 """
-Vercel Python serverless function: emails a student's data export
-(the same PDF report the admin can already download from
-AdminUserDetailScreen's "Export Data" button) directly to that
-student's own registered email address, as a PDF attachment.
+Vercel Python serverless function: self-service version of
+api/admin/email-data-export.py. Any signed-in student can call this
+directly (Settings -> "Email My Data") to have their own PDF export
+sent to their own registered email within seconds - no admin has to
+do anything.
 
-Sent via Resend (same as api/send-welcome-email.py) from a
-med101.space address, NOT via raw Gmail SMTP - a personal Gmail
-account sending automated mail with attachments to varying addresses
-triggers Google's own spam heuristics and lands in the recipient's
-spam folder (this endpoint used to do exactly that; see git history).
-Resend sends through a properly domain-authenticated (SPF/DKIM)
-sending path instead, which is far more reliable.
+Same Resend-from-med101.space-with-Gmail-Reply-To delivery as the
+admin endpoint (see that file's docstring for why - raw Gmail SMTP
+was tried first and landed in spam).
 
-To still keep the "feels like it's from the admin" intent,
-Reply-To is set to admin.med101@gmail.com - the visible From address
-is a med101.space one, but hitting Reply in an email client goes
-straight to that Gmail inbox.
+The PDF is rendered client-side (buildUserDataExportPdf in
+src/lib/dataExport.js - same function and layout the admin's
+download/email buttons use) and its base64 output is sent up in the
+request body, same as the admin endpoint.
 
-The PDF itself is rendered client-side (buildUserDataExportPdf in
-src/lib/dataExport.js, same jsPDF layout the download button already
-uses) and its base64 output is sent up in the request body - this
-endpoint doesn't re-derive or re-render anything, just attaches
-whatever bytes the admin's browser produced. That keeps the export
-layout in exactly one place instead of duplicating it in Python.
+CRITICAL difference from the admin endpoint: there is no uid in the
+request body at all, and no admin check. The target uid is taken
+ONLY from the verified Firebase ID token's own `uid` claim, and the
+recipient email is looked up server-side from that same uid's
+users/{uid}.email. This is what makes it safe to let ANY signed-in
+user call this: nothing in the request can make it email anyone
+other than the caller themselves.
 
-Admin-gated: only accepts a request carrying a valid Firebase ID
-token whose email is in ADMIN_EMAILS. The recipient address is looked
-up server-side from users/{targetUid}.email - never taken from the
-request body - so a compromised/buggy client can't be used to spam
-an arbitrary address; it can only ever email a real Med101 account's
-own registered email.
+A per-user cooldown (via the admin SDK, so it can't be bypassed by a
+client simply not reporting it) blocks re-sending for a few minutes,
+mainly to avoid a student accidentally spamming their own inbox by
+mashing the button.
 
-Required env vars: same as api/send-welcome-email.py -
+Required env vars: same as api/admin/email-data-export.py -
   FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
   RESEND_API_KEY
   FROM_EMAIL (optional, defaults to 'Med101 Admin <admin@med101.space>')
   REPLY_TO_EMAIL (optional, defaults to 'admin.med101@gmail.com')
 """
 
+import datetime
 import json
 import os
 import re
@@ -48,15 +45,6 @@ import requests
 import firebase_admin
 from firebase_admin import credentials, auth as fb_auth, firestore
 
-# Must exactly match ADMIN_EMAILS in src/lib/AuthContext.jsx,
-# api/upload-questions.py, and isAdmin() in firestore.rules - keep all
-# four in sync by hand.
-ADMIN_EMAILS = {
-    'admin.med101@gmail.com',
-    'admin1.med101@gmail.com',
-    'admin2.med101@gmail.com',
-}
-
 ALLOWED_ORIGINS = {'https://med101.space', 'https://www.med101.space'}
 
 FROM_EMAIL = os.environ.get('FROM_EMAIL', 'Med101 Admin <admin@med101.space>')
@@ -65,6 +53,12 @@ REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'admin.med101@gmail.com')
 # A base64-encoded PDF stays well under Vercel's 4.5MB serverless
 # request body limit even for a very active student's full history.
 MAX_BASE64_CHARS = 6_000_000
+
+# Blocks a second request for this long after a successful send -
+# generous enough that a genuine re-request (e.g. "I didn't get it,
+# let me try again") still works within a reasonable wait, tight
+# enough to stop accidental button-mashing.
+COOLDOWN_SECONDS = 120
 
 _app = None
 
@@ -95,12 +89,13 @@ def _email_body_html(student_name):
       <h2 style="margin: 0 0 12px;">Your Med101 data export</h2>
       <p style="line-height: 1.5;">Hi {safe_name},</p>
       <p style="line-height: 1.5;">
-        Attached is a full export of the data Med101 stores about your
-        account (as a PDF), sent to you by a Med101 admin.
+        As requested, attached is a full export of the data Med101
+        stores about your account (as a PDF).
       </p>
       <p style="line-height: 1.5; color: #666; font-size: 13px;">
-        Didn't request this? You can safely ignore this email, or
-        reply if you have any questions.
+        Didn't request this? Someone may have access to your account -
+        consider changing your password, and reply to this email if
+        you have any concerns.
       </p>
     </div>
     """
@@ -110,10 +105,11 @@ def _email_body_text(student_name):
     safe_name = (student_name or 'there').split('<')[0].strip() or 'there'
     return (
         f"Hi {safe_name},\n\n"
-        "Attached is a full export of the data Med101 stores about your "
-        "account (as a PDF), sent to you by a Med101 admin.\n\n"
-        "Didn't request this? You can safely ignore this email, or reply "
-        "if you have any questions.\n"
+        "As requested, attached is a full export of the data Med101 "
+        "stores about your account (as a PDF).\n\n"
+        "Didn't request this? Someone may have access to your account - "
+        "consider changing your password, and reply to this email if "
+        "you have any concerns.\n"
     )
 
 
@@ -153,8 +149,12 @@ class handler(BaseHTTPRequestHandler):
         except Exception as e:
             return self._send(401, {'error': f'Invalid or expired session: {e}'})
 
-        if decoded.get('email') not in ADMIN_EMAILS:
-            return self._send(403, {'error': 'Admin access required.'})
+        # The uid comes ONLY from the verified token - never from the
+        # request body - so this can only ever act on the caller's own
+        # account.
+        uid = decoded.get('uid')
+        if not uid:
+            return self._send(401, {'error': 'Invalid session.'})
 
         try:
             length = int(self.headers.get('Content-Length', 0))
@@ -163,29 +163,40 @@ class handler(BaseHTTPRequestHandler):
         except Exception as e:
             return self._send(400, {'error': f'Invalid request body: {e}'})
 
-        target_uid = (payload.get('uid') or '').strip()
         export_pdf_base64 = payload.get('exportPdfBase64') or ''
-        if not target_uid:
-            return self._send(400, {'error': 'Missing uid.'})
         if not export_pdf_base64.strip():
             return self._send(400, {'error': 'Missing exportPdfBase64.'})
         if len(export_pdf_base64) > MAX_BASE64_CHARS:
             return self._send(400, {'error': 'Export file too large.'})
 
         db = firestore.client()
+        user_ref = db.collection('users').document(uid)
+
         try:
-            target_snap = db.collection('users').document(target_uid).get()
+            snap = user_ref.get()
         except Exception as e:
-            return self._send(500, {'error': f'Could not look up user: {e}'})
+            return self._send(500, {'error': f'Could not look up your account: {e}'})
 
-        if not target_snap.exists:
-            return self._send(404, {'error': 'User not found.'})
+        if not snap.exists:
+            return self._send(404, {'error': 'Account profile not found.'})
 
-        target = target_snap.to_dict() or {}
-        target_email = target.get('email')
-        target_name = target.get('displayName')
+        data = snap.to_dict() or {}
+        target_email = data.get('email')
+        target_name = data.get('displayName')
         if not target_email:
-            return self._send(400, {'error': 'This account has no email on file.'})
+            return self._send(400, {'error': 'Your account has no email on file.'})
+
+        # Server-enforced cooldown via the admin SDK (bypasses Firestore
+        # rules entirely, so it can't be skipped by a client that just
+        # doesn't send/update the field itself).
+        last_sent = data.get('lastDataExportEmailAt')
+        if last_sent is not None:
+            last_dt = last_sent if isinstance(last_sent, datetime.datetime) else None
+            if last_dt is not None:
+                elapsed = (datetime.datetime.now(datetime.timezone.utc) - last_dt).total_seconds()
+                if elapsed < COOLDOWN_SECONDS:
+                    wait = int(COOLDOWN_SECONDS - elapsed)
+                    return self._send(429, {'error': f'Please wait {wait}s before requesting another export.'})
 
         resend_key = os.environ.get('RESEND_API_KEY')
         if not resend_key:
@@ -214,5 +225,10 @@ class handler(BaseHTTPRequestHandler):
 
         if resp.status_code >= 300:
             return self._send(502, {'error': f'Resend API error: {resp.status_code} {resp.text[:300]}'})
+
+        try:
+            user_ref.set({'lastDataExportEmailAt': firestore.SERVER_TIMESTAMP}, merge=True)
+        except Exception:
+            pass  # Best-effort - a failed cooldown-stamp write shouldn't fail a send that already succeeded.
 
         return self._send(200, {'sent': True, 'to': target_email})

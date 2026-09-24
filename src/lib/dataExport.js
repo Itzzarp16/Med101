@@ -516,3 +516,34 @@ export async function emailDataExportToUser(adminUser, uid, exportPdfBase64) {
 
   return data;
 }
+
+// Self-service version of emailDataExportToUser above - any signed-in
+// student can call this on themselves (Settings -> "Email My Data")
+// to get their own export within seconds, no admin involved. Calls
+// api/request-my-data-export.py, which takes the target uid ONLY from
+// the verified ID token (never from the request body), so this can
+// only ever email the caller their own data.
+export async function emailMyDataExport(currentUser) {
+  const exportPdfBase64 = (
+    await buildUserDataExportPdf(currentUser.uid)
+  ).output('datauristring').split(',').slice(1).join(',');
+
+  const idToken = await currentUser.getIdToken();
+
+  const res = await fetch('/api/request-my-data-export', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+    },
+    body: JSON.stringify({ exportPdfBase64 }),
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.error || `Failed to send (${res.status}).`);
+  }
+
+  return data;
+}
