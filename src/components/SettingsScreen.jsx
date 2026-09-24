@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { doc, setDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
-import { playTapSound, isMuted, setMuted } from '../lib/sounds';
-import { isLightMode, setTheme } from '../lib/theme';
+import { playTapSound } from '../lib/sounds';
 import { isInstallable, isStandalone, isIOS, onInstallabilityChange, promptInstall } from '../lib/installPrompt';
 import LegalFooter from './LegalFooter';
 
@@ -26,8 +25,6 @@ export default function SettingsScreen({ onBack }) {
   const [yearSemester, setYearSemester] = useState(profile?.enrolledYearSemester || 'y1s1');
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [lightMode, setLightMode] = useState(isLightMode());
-  const [soundMuted, setSoundMuted] = useState(isMuted());
   const [installable, setInstallable] = useState(isInstallable());
   const [installMsg, setInstallMsg] = useState(null);
   const standalone = isStandalone();
@@ -40,20 +37,6 @@ export default function SettingsScreen({ onBack }) {
     const outcome = await promptInstall();
     if (outcome === 'accepted') setInstallMsg('Installed! Check your home screen.');
     else if (outcome === 'dismissed') setInstallMsg(null);
-  }
-
-  function toggleLightMode() {
-    const next = !lightMode;
-    playTapSound(); // fires before the state flips, so a mute-toggle-off still gets an audible confirmation
-    setLightMode(next);
-    setTheme(next ? 'light' : 'dark');
-  }
-
-  function toggleSound() {
-    const next = !soundMuted;
-    setMuted(next);
-    setSoundMuted(next);
-    if (!next) playTapSound(); // only chime when turning sound back ON
   }
 
   async function handleSave() {
@@ -80,59 +63,6 @@ export default function SettingsScreen({ onBack }) {
       </div>
 
       <div className="glass std-card" style={{ marginBottom: 14 }}>
-        <div className="toggle-row">
-          <div>
-            <div className="toggle-row-label">🌗 Dark / Light Mode</div>
-            <div className="toggle-row-sub">{lightMode ? 'Light mode is on' : 'Dark mode is on'}</div>
-          </div>
-          <button
-            type="button"
-            className={lightMode ? 'toggle-switch on' : 'toggle-switch'}
-            role="switch"
-            aria-checked={lightMode}
-            onClick={toggleLightMode}
-          >
-            <span className="toggle-knob" />
-          </button>
-        </div>
-
-        <div className="toggle-row">
-          <div>
-            <div className="toggle-row-label">🔊 Sound</div>
-            <div className="toggle-row-sub">{soundMuted ? 'Sound effects are off' : 'Sound effects are on'}</div>
-          </div>
-          <button
-            type="button"
-            className={!soundMuted ? 'toggle-switch on' : 'toggle-switch'}
-            role="switch"
-            aria-checked={!soundMuted}
-            onClick={toggleSound}
-          >
-            <span className="toggle-knob" />
-          </button>
-        </div>
-      </div>
-
-      {!standalone && (installable || ios) && (
-        <div className="glass std-card" style={{ marginBottom: 14 }}>
-          <label className="auth-label">📲 Install Med101</label>
-          {installable ? (
-            <>
-              <p className="std-note">
-                Add Med101 to your home screen for quick access, its own app icon, and a full-screen experience with no browser bar.
-              </p>
-              <button className="btn-glow std-save-btn" onClick={handleInstall}>Install App</button>
-              {installMsg && <div className="auth-msg success" style={{ display: 'block' }}>{installMsg}</div>}
-            </>
-          ) : (
-            <p className="std-note">
-              Tap the Share button in Safari, then "Add to Home Screen", to install Med101 with its own icon and full-screen view.
-            </p>
-          )}
-        </div>
-      )}
-
-      <div className="glass std-card">
         <label className="auth-label">Year &amp; Semester</label>
         <select className="auth-input" value={yearSemester} onChange={(e) => setYearSemester(e.target.value)}>
           {YEAR_SEMESTER_OPTIONS.map((opt) => (
@@ -149,6 +79,25 @@ export default function SettingsScreen({ onBack }) {
 
         {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Your dashboard will update shortly.</div>}
       </div>
+
+      {!standalone && (installable || ios) && (
+        <div className="glass std-card">
+          <label className="auth-label">📲 Install Med101</label>
+          {installable ? (
+            <>
+              <p className="std-note">
+                Add Med101 to your home screen for quick access, its own app icon, and a full-screen experience with no browser bar.
+              </p>
+              <button className="btn-glow std-save-btn" onClick={handleInstall}>Install App</button>
+              {installMsg && <div className="auth-msg success" style={{ display: 'block' }}>{installMsg}</div>}
+            </>
+          ) : (
+            <p className="std-note">
+              Tap the Share button in Safari, then "Add to Home Screen", to install Med101 with its own icon and full-screen view.
+            </p>
+          )}
+        </div>
+      )}
     </div>
       <LegalFooter />
     </>
