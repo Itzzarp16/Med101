@@ -282,23 +282,45 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
                 <button
                   key={u.uid}
                   className="btn-ghost"
-                  style={{ textAlign: 'left', display: 'flex', flexDirection: 'column', alignItems: 'flex-start', padding: '8px 12px' }}
+                  style={{ textAlign: 'left', display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10, padding: '8px 12px' }}
                   onClick={() => openUserFromList(u)}
                 >
-                  <span style={{ fontWeight: 700, fontSize: 13.5, display: 'flex', alignItems: 'center', gap: 6 }}>
-                    {u.displayName || '(no name)'}
-                    {u.disabled && (
-                      <span style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--red)', border: '1px solid var(--red)', borderRadius: 5, padding: '1px 5px' }}>
-                        DISABLED
+                  <div
+                    style={{
+                      width: 34,
+                      height: 34,
+                      borderRadius: '50%',
+                      flexShrink: 0,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      fontSize: 13,
+                      fontWeight: 800,
+                      color: '#fff',
+                      background: u.photoURL ? undefined : 'var(--brand-gradient)',
+                      backgroundImage: u.photoURL ? `url(${u.photoURL})` : undefined,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                    }}
+                  >
+                    {!u.photoURL && (u.displayName || u.username || '?').trim().charAt(0).toUpperCase()}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', minWidth: 0 }}>
+                    <span style={{ fontWeight: 700, fontSize: 13.5, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {u.displayName || '(no name)'}
+                      {u.disabled && (
+                        <span style={{ fontSize: 9.5, fontWeight: 700, color: 'var(--red)', border: '1px solid var(--red)', borderRadius: 5, padding: '1px 5px' }}>
+                          DISABLED
+                        </span>
+                      )}
+                    </span>
+                    <span style={{ fontSize: 11.5, color: 'var(--text3)' }}>{u.username ? `@${u.username} · ` : ''}{u.email || 'no email'}</span>
+                    {u.enrolledAt?.toDate && (
+                      <span style={{ fontSize: 10.5, color: 'var(--text3)', opacity: 0.75 }}>
+                        Joined {u.enrolledAt.toDate().toLocaleDateString('en-US', { dateStyle: 'medium' })}
                       </span>
                     )}
-                  </span>
-                  <span style={{ fontSize: 11.5, color: 'var(--text3)' }}>{u.username ? `@${u.username} · ` : ''}{u.email || 'no email'}</span>
-                  {u.enrolledAt?.toDate && (
-                    <span style={{ fontSize: 10.5, color: 'var(--text3)', opacity: 0.75 }}>
-                      Joined {u.enrolledAt.toDate().toLocaleDateString('en-US', { dateStyle: 'medium' })}
-                    </span>
-                  )}
+                  </div>
                 </button>
               ))}
           </div>
