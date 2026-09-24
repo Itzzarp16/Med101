@@ -19,9 +19,10 @@ const TIMER_PRESETS = [20, 30, 45, 60];
 // between the subject dashboard and the quiz itself - there's no
 // separate topic-list step in the old design. A hero banner shows the
 // subject + live question/topic counts, then mode cards (Random 25/50,
-// All Sequential/Random, Custom Range), then multi-select topic chips
-// (picking any chip switches mode to "topic" and filters the pool to
-// just those topics), then Auto-advance/Timer settings.
+// All Sequential/Random, Custom Range), then Auto-advance/Timer
+// settings and the Start Quiz button, then multi-select topic chips
+// at the very bottom (picking any chip switches mode to "topic" and
+// filters the pool to just those topics).
 export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, isPremium, onGetPremium, onStart, onBack }) {
   const { profile } = useAuth();
   const [mode, setMode] = useState('rand25');
@@ -187,19 +188,6 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           </div>
         )}
 
-        <div className="qmode-section-label">Or Pick Specific Topics</div>
-        <div className="qmode-chips">
-          {topics.map((name) => (
-            <button
-              key={name}
-              className={selectedTopics.has(name) ? 'topic-chip active' : 'topic-chip'}
-              onClick={() => toggleTopicChip(name)}
-            >
-              {subjectMeta?.[name]?.emoji ? `${subjectMeta[name].emoji} ` : ''}{name}
-            </button>
-          ))}
-        </div>
-
         <div className="qmode-section-label">Settings</div>
         <div className="qmode-settings-card glass">
           <ToggleRow title="Auto-advance" desc="Move to next question after answering" on={autoAdvance} onToggle={() => setAutoAdvance((v) => !v)} />
@@ -228,6 +216,19 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
         </div>
 
         <button className="btn-glow qmode-start-btn" onClick={handleStart}>Start Quiz →</button>
+
+        <div className="qmode-section-label">Or Pick Specific Topics</div>
+        <div className="qmode-chips">
+          {topics.map((name) => (
+            <button
+              key={name}
+              className={selectedTopics.has(name) ? 'topic-chip active' : 'topic-chip'}
+              onClick={() => toggleTopicChip(name)}
+            >
+              {subjectMeta?.[name]?.emoji ? `${subjectMeta[name].emoji} ` : ''}{name}
+            </button>
+          ))}
+        </div>
           </>
         )}
       </div>
