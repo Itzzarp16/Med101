@@ -186,7 +186,12 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
                   <div className="lb-rank">
                     {isTop3 ? <span className="lb-medal">{MEDALS[i]}</span> : <span className="lb-rank-num">#{i + 1}</span>}
                   </div>
-                  <div className="lb-avatar">{initial}</div>
+                  <div
+                    className="lb-avatar"
+                    style={row.photoURL ? { backgroundImage: `url(${row.photoURL})`, backgroundSize: 'cover', backgroundPosition: 'center' } : undefined}
+                  >
+                    {!row.photoURL && initial}
+                  </div>
                   <div className="lb-row-body">
                     <div className="lb-name">{row.displayName}{isMe ? ' (You)' : ''}</div>
                     <div className="lb-row-stats">✅ {row.correct} · ❌ {row.incorrect}{timeStr ? ` · ${timeStr}` : ''}</div>

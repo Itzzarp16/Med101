@@ -65,6 +65,17 @@ export async function uploadProfilePhoto(user, file) {
 
   await setDoc(doc(db, 'users', user.uid), { photoURL: dataUri }, { merge: true });
 
+  // Keep the leaderboard's denormalized photo in sync right away too,
+  // rather than waiting for their next quiz submission - but only if
+  // they already have a leaderboard doc, so someone who has never
+  // taken a quiz doesn't get a phantom zero-score entry created just
+  // by uploading a photo.
+  const lbRef = doc(db, 'leaderboard', user.uid);
+  const lbSnap = await getDoc(lbRef);
+  if (lbSnap.exists()) {
+    await setDoc(lbRef, { photoURL: dataUri }, { merge: true });
+  }
+
   return dataUri;
 }
 

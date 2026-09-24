@@ -34,7 +34,7 @@ function resolveScope(scopeKey) {
 
 // subjTotals: { [mainSubjectName]: { correct, answered, timeMs } } - this quiz only
 // semTotals:  { [semesterId]: { correct, answered, timeMs } } - this quiz only
-export async function submitLeaderboardResult(user, subjTotals, semTotals, overall) {
+export async function submitLeaderboardResult(user, subjTotals, semTotals, overall, photoURL) {
   if (!user) return false;
   try {
     const ref = doc(db, 'leaderboard', user.uid);
@@ -58,6 +58,7 @@ export async function submitLeaderboardResult(user, subjTotals, semTotals, overa
 
     const payload = {
       displayName: user.displayName || (user.email ? user.email.split('@')[0] : 'Anonymous'),
+      photoURL: photoURL || null,
       totalCorrect: newGlobalCorrect,
       totalAnswered: newGlobalAnswered,
       accuracyPct: globalAcc,
@@ -85,6 +86,7 @@ function mapRow(docId, data, scopeKey, metric) {
   return {
     uid: docId,
     displayName: data.displayName || 'Anonymous',
+    photoURL: data.photoURL || null,
     value: s[metric] || 0,
     correct,
     incorrect: Math.max(0, answered - correct),

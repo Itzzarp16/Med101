@@ -53,7 +53,7 @@ function shuffleOptions(q) {
 // a whole-quiz countdown (not per-question) that auto-finishes when it
 // hits zero, and reports the result to the room's shared leaderboard.
 export default function QuizScreen({ mainSubject, topic, semesterId, questions, isPremium, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
   const quizQuestions = useState(() => questions.map(shuffleOptions))[0];
 
   // Restore in-progress position/answers from a prior page load if it
@@ -290,7 +290,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       correct: correctCount,
       answered: answeredCount,
       timeMs,
-    });
+    }, profile?.photoURL);
 
     if (roomCode) {
       submitRoomResult(roomCode, user.uid, { correct: correctCount, answered: answeredCount, total, pct, timeMs, answers });
