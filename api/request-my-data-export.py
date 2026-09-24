@@ -103,13 +103,29 @@ def _email_body_html(student_name):
     """
 
 
+def _email_body_text(student_name):
+    safe_name = (student_name or 'there').split('<')[0].strip() or 'there'
+    return (
+        f"Hi {safe_name},\n\n"
+        "As requested, attached is a full export of the data Med101 "
+        "stores about your account (as a PDF).\n\n"
+        "Didn't request this? Someone may have access to your account - "
+        "consider changing your password, and reply to this email if "
+        "you have any concerns.\n"
+    )
+
+
 def _send_via_gmail(app_password, to_email, student_name, pdf_bytes):
     msg = MIMEMultipart('mixed')
     msg['Subject'] = 'Your Med101 data export'
     msg['From'] = f'Med101 Admin <{GMAIL_SENDER_EMAIL}>'
     msg['To'] = to_email
 
+    # A plain-text part alongside the HTML one isn't just a fallback for
+    # text-only clients - most spam filters specifically penalize
+    # HTML-only mail, so this is also a meaningful deliverability signal.
     alt = MIMEMultipart('alternative')
+    alt.attach(MIMEText(_email_body_text(student_name), 'plain'))
     alt.attach(MIMEText(_email_body_html(student_name), 'html'))
     msg.attach(alt)
 
