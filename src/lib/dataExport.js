@@ -238,21 +238,37 @@ export async function buildUserDataExportPdf(uid) {
   };
 
   // --- Header banner (page 1 only) ---
-  const bannerHeight = 78;
+  const bannerHeight = 86;
   doc.setFillColor(...NAVY);
   doc.rect(0, 0, pageWidth, bannerHeight, 'F');
   doc.setTextColor(255, 255, 255);
+
+  // Embed the actual app logo (same image used for the Google OAuth
+  // branding) rather than just styling text to look logo-like -
+  // falls back to text-only if it can't be fetched for any reason,
+  // so a network hiccup never breaks the whole export.
+  let textStartX = marginX;
+  try {
+    const logoRes = await fetch('/icon-512.png');
+    const logoBytes = new Uint8Array(await logoRes.arrayBuffer());
+    const logoSize = 52;
+    doc.addImage(logoBytes, 'PNG', marginX, (bannerHeight - logoSize) / 2, logoSize, logoSize);
+    textStartX = marginX + logoSize + 14;
+  } catch {
+    // no logo available - text-only header below still works fine
+  }
+
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(22);
-  doc.text('MED101', marginX, 36);
+  doc.text('MED101', textStartX, bannerHeight / 2 - 6);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(11);
-  doc.text('Personal Data Export', marginX, 56);
+  doc.text('Personal Data Export', textStartX, bannerHeight / 2 + 16);
 
   doc.setFontSize(8.5);
   const genLabel = `Generated ${data.generatedAt.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}`;
-  doc.text(genLabel, pageWidth - marginX, 34, { align: 'right' });
-  doc.text(`Account UID: ${uid}`, pageWidth - marginX, 48, { align: 'right' });
+  doc.text(genLabel, pageWidth - marginX, 38, { align: 'right' });
+  doc.text(`Account UID: ${uid}`, pageWidth - marginX, 52, { align: 'right' });
 
   let y = bannerHeight + 22;
 
