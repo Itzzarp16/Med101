@@ -6,7 +6,7 @@ import { lookupUsername } from '../lib/invites';
 import { playTapSound } from '../lib/sounds';
 import { formatDuration } from '../lib/timeTracking';
 import { setAccountDisabled, deleteAccount } from '../lib/adminAccountActions';
-import { buildUserDataExport, emailDataExportToUser } from '../lib/dataExport';
+import { buildUserDataExportPdf, emailDataExportToUser } from '../lib/dataExport';
 
 function formatJoinDate(ts) {
   if (!ts) return null;
@@ -90,43 +90,7 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
     setExportError(null);
     setExportBusy(true);
     try {
-      const text = await buildUserDataExport(result.uid);
-      const { jsPDF } = await import('jspdf');
-      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-
-      const marginX = 40;
-      const marginTop = 50;
-      const marginBottom = 50;
-      const pageWidth = doc.internal.pageSize.getWidth();
-      const pageHeight = doc.internal.pageSize.getHeight();
-      const usableWidth = pageWidth - marginX * 2;
-      const lineHeight = 14;
-      let y = marginTop;
-
-      function newPageIfNeeded() {
-        if (y > pageHeight - marginBottom) {
-          doc.addPage();
-          y = marginTop;
-        }
-      }
-
-      const rawLines = text.split('\n');
-      for (const raw of rawLines) {
-        const isHeading = raw.startsWith('==');
-        doc.setFont('helvetica', isHeading ? 'bold' : 'normal');
-        doc.setFontSize(isHeading ? 11 : 9.5);
-
-        // Wrap long lines to the page width rather than clipping/
-        // overflowing off the right edge.
-        const wrapped = raw.length ? doc.splitTextToSize(raw, usableWidth) : [''];
-        for (const wline of wrapped) {
-          newPageIfNeeded();
-          doc.text(wline, marginX, y);
-          y += lineHeight;
-        }
-        if (isHeading) y += 2; // a little breathing room under section headings
-      }
-
+      const doc = await buildUserDataExportPdf(result.uid);
       const safeName = (result.username || result.email || result.uid).replace(/[^a-zA-Z0-9._-]/g, '_');
       doc.save(`med101-data-export-${safeName}.pdf`);
     } catch (e) {
@@ -142,8 +106,11 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
     setEmailExportSentTo(null);
     setEmailExportBusy(true);
     try {
-      const text = await buildUserDataExport(result.uid);
-      const { to } = await emailDataExportToUser(adminUser, result.uid, text);
+      const doc = await buildUserDataExportPdf(result.uid);
+      // jsPDF's datauristring is "data:application/pdf;filename=...;base64,<data>" -
+      // split on the first comma to keep just the base64 payload.
+      const base64 = doc.output('datauristring').split(',').slice(1).join(',');
+      const { to } = await emailDataExportToUser(adminUser, result.uid, base64);
       setEmailExportSentTo(to);
     } catch (e) {
       setEmailExportError(e.message || String(e));

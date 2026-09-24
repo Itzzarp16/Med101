@@ -143,13 +143,62 @@ export async function buildUserDataExport(uid) {
   return lines.join('\n');
 }
 
-// Admin-only: emails an already-built export (see buildUserDataExport
-// above - build it first, then pass the text here) to that account's
-// own registered email address via api/admin/email-data-export.py.
-// The server looks up the recipient address itself from
-// users/{uid}.email rather than trusting anything passed in here, so
-// this can only ever land in the real account holder's inbox.
-export async function emailDataExportToUser(adminUser, uid, exportText) {
+// Renders buildUserDataExport's text into a paginated PDF (jsPDF),
+// returning the jsPDF document object itself so callers can choose
+// what to do with it - handleExportData calls doc.save(...) to
+// download it, handleEmailExportToUser instead reads its base64 via
+// doc.output('datauristring') to attach to an email. Keeping the
+// layout logic here in one place (rather than duplicated per caller)
+// means the download and the emailed copy always look identical.
+export async function buildUserDataExportPdf(uid) {
+  const text = await buildUserDataExport(uid);
+  const { jsPDF } = await import('jspdf');
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+
+  const marginX = 40;
+  const marginTop = 50;
+  const marginBottom = 50;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const usableWidth = pageWidth - marginX * 2;
+  const lineHeight = 14;
+  let y = marginTop;
+
+  function newPageIfNeeded() {
+    if (y > pageHeight - marginBottom) {
+      doc.addPage();
+      y = marginTop;
+    }
+  }
+
+  const rawLines = text.split('\n');
+  for (const raw of rawLines) {
+    const isHeading = raw.startsWith('==');
+    doc.setFont('helvetica', isHeading ? 'bold' : 'normal');
+    doc.setFontSize(isHeading ? 11 : 9.5);
+
+    // Wrap long lines to the page width rather than clipping/
+    // overflowing off the right edge.
+    const wrapped = raw.length ? doc.splitTextToSize(raw, usableWidth) : [''];
+    for (const wline of wrapped) {
+      newPageIfNeeded();
+      doc.text(wline, marginX, y);
+      y += lineHeight;
+    }
+    if (isHeading) y += 2; // a little breathing room under section headings
+  }
+
+  return doc;
+}
+
+// Admin-only: emails an already-built PDF export (see
+// buildUserDataExportPdf above - build it first, base64-encode its
+// output, then pass that here) to that account's own registered
+// email address via api/admin/email-data-export.py. The server looks
+// up the recipient address itself from users/{uid}.email rather than
+// trusting anything passed in here, so this can only ever land in the
+// real account holder's inbox.
+export async function emailDataExportToUser(adminUser, uid, exportPdfBase64) {
   const idToken = await adminUser.getIdToken();
 
   const res = await fetch('/api/admin/email-data-export', {
@@ -158,7 +207,7 @@ export async function emailDataExportToUser(adminUser, uid, exportText) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${idToken}`,
     },
-    body: JSON.stringify({ uid, exportText }),
+    body: JSON.stringify({ uid, exportPdfBase64 }),
   });
 
   const data = await res.json().catch(() => ({}));

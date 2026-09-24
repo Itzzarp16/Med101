@@ -1,15 +1,15 @@
 """
 Vercel Python serverless function: emails a student's data export
-(the same report the admin can already download from
+(the same PDF report the admin can already download from
 AdminUserDetailScreen's "Export Data" button) directly to that
-student's own registered email address, as a .txt attachment.
+student's own registered email address, as a PDF attachment.
 
-The export text itself is built client-side (buildUserDataExport in
-src/lib/dataExport.js, same function the download button already
-uses) and sent up in the request body - this endpoint doesn't
-re-derive it, just emails whatever text the admin's browser built.
-That keeps the export format in exactly one place instead of
-duplicating Firestore-reading logic in Python.
+The PDF itself is rendered client-side (buildUserDataExportPdf in
+src/lib/dataExport.js, same jsPDF layout the download button already
+uses) and its base64 output is sent up in the request body - this
+endpoint doesn't re-derive or re-render anything, just attaches
+whatever bytes the admin's browser produced. That keeps the export
+layout in exactly one place instead of duplicating it in Python.
 
 Admin-gated: only accepts a request carrying a valid Firebase ID
 token whose email is in ADMIN_EMAILS. The recipient address is looked
@@ -24,7 +24,6 @@ Required env vars: same as api/send-welcome-email.py -
   FROM_EMAIL (optional, defaults to 'Med101 <welcome@med101.space>')
 """
 
-import base64
 import json
 import os
 import re
@@ -48,10 +47,9 @@ ALLOWED_ORIGINS = {'https://med101.space', 'https://www.med101.space'}
 
 FROM_EMAIL = os.environ.get('FROM_EMAIL', 'Med101 <welcome@med101.space>')
 
-# A request body of raw export text + a uid stays small even for a
-# very active student (a few hundred KB at most) - well under
-# Vercel's 4.5MB serverless request body limit.
-MAX_EXPORT_CHARS = 2_000_000
+# A base64-encoded PDF stays well under Vercel's 4.5MB serverless
+# request body limit even for a very active student's full history.
+MAX_BASE64_CHARS = 6_000_000
 
 _app = None
 
@@ -83,8 +81,7 @@ def _email_body_html(student_name):
       <p style="line-height: 1.5;">Hi {safe_name},</p>
       <p style="line-height: 1.5;">
         Attached is a full export of the data Med101 stores about your
-        account, sent to you by a Med101 admin. It's a plain text file
-        you can open with any text editor.
+        account (as a PDF), sent to you by a Med101 admin.
       </p>
       <p style="line-height: 1.5; color: #666; font-size: 13px;">
         Didn't request this? You can safely ignore this email, or
@@ -141,13 +138,13 @@ class handler(BaseHTTPRequestHandler):
             return self._send(400, {'error': f'Invalid request body: {e}'})
 
         target_uid = (payload.get('uid') or '').strip()
-        export_text = payload.get('exportText') or ''
+        export_pdf_base64 = payload.get('exportPdfBase64') or ''
         if not target_uid:
             return self._send(400, {'error': 'Missing uid.'})
-        if not export_text.strip():
-            return self._send(400, {'error': 'Missing exportText.'})
-        if len(export_text) > MAX_EXPORT_CHARS:
-            return self._send(400, {'error': 'Export text too large.'})
+        if not export_pdf_base64.strip():
+            return self._send(400, {'error': 'Missing exportPdfBase64.'})
+        if len(export_pdf_base64) > MAX_BASE64_CHARS:
+            return self._send(400, {'error': 'Export file too large.'})
 
         db = firestore.client()
         try:
@@ -168,8 +165,6 @@ class handler(BaseHTTPRequestHandler):
         if not resend_key:
             return self._send(500, {'error': 'RESEND_API_KEY is not configured.'})
 
-        attachment_b64 = base64.b64encode(export_text.encode('utf-8')).decode('ascii')
-
         try:
             resp = requests.post(
                 'https://api.resend.com/emails',
@@ -180,8 +175,8 @@ class handler(BaseHTTPRequestHandler):
                     'subject': 'Your Med101 data export',
                     'html': _email_body_html(target_name),
                     'attachments': [{
-                        'filename': 'med101-data-export.txt',
-                        'content': attachment_b64,
+                        'filename': 'med101-data-export.pdf',
+                        'content': export_pdf_base64,
                     }],
                 },
                 timeout=15,
