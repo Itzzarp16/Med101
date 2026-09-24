@@ -26,6 +26,43 @@ function formatValue(v) {
 // fingerprint ID, not "data about them" in any useful sense).
 const PROFILE_SKIP_FIELDS = new Set(['activeDeviceId']);
 
+// These two fields exist on every profile but are unreadable if
+// dumped through formatValue() like everything else: topicStats is a
+// nested per-subtopic stats object that renders as one giant wall of
+// raw JSON, and seenQuestions is a list of hundreds of internal
+// question IDs with no meaning to a student reading this export.
+// Both get pulled out of the generic key/value dump and rendered
+// properly instead (topicStats as its own TOPIC PERFORMANCE table,
+// seenQuestions as a simple count).
+const PROFILE_SPECIAL_FIELDS = new Set(['topicStats', 'seenQuestions']);
+
+function topicPerformanceRows(topicStats) {
+  if (!topicStats || typeof topicStats !== 'object') return [];
+  return Object.entries(topicStats)
+    .map(([subtopic, s]) => ({
+      subject: s?.mainSubject || '?',
+      subtopic,
+      answered: s?.answered || 0,
+      correct: s?.correct || 0,
+    }))
+    .sort((a, b) => a.subject.localeCompare(b.subject) || a.subtopic.localeCompare(b.subtopic));
+}
+
+// Every profile field EXCEPT the two special-cased ones above,
+// formatted as plain [key, value] pairs - plus a friendly
+// "questionsSeen: <count>" row standing in for the raw ID list.
+function profileDisplayRows(profile) {
+  const rows = [];
+  for (const [key, value] of Object.entries(profile)) {
+    if (PROFILE_SKIP_FIELDS.has(key) || PROFILE_SPECIAL_FIELDS.has(key)) continue;
+    rows.push([key, formatValue(value)]);
+  }
+  if (Array.isArray(profile.seenQuestions)) {
+    rows.push(['questionsSeen', String(profile.seenQuestions.length)]);
+  }
+  return rows;
+}
+
 // Does every Firestore read the export needs exactly once, and
 // returns a structured description of it - both the plain-text
 // export and the designed PDF are just two different renderers over
@@ -81,12 +118,23 @@ export async function buildUserDataExport(uid) {
 
   push('== PROFILE ==');
   if (data.profile) {
-    for (const [key, value] of Object.entries(data.profile)) {
-      if (PROFILE_SKIP_FIELDS.has(key)) continue;
-      push(`${key}: ${formatValue(value)}`);
+    for (const [key, value] of profileDisplayRows(data.profile)) {
+      push(`${key}: ${value}`);
     }
   } else {
     push('(no profile document found)');
+  }
+  push('');
+
+  const topicRows = topicPerformanceRows(data.profile?.topicStats);
+  push(`== TOPIC PERFORMANCE (${topicRows.length}) ==`);
+  if (topicRows.length) {
+    for (const t of topicRows) {
+      const pct = t.answered ? Math.round((t.correct / t.answered) * 100) : 0;
+      push(`- [${t.subject}] ${t.subtopic}: ${t.correct}/${t.answered} correct (${pct}%)`);
+    }
+  } else {
+    push('(none)');
   }
   push('');
 
@@ -289,19 +337,39 @@ export async function buildUserDataExportPdf(uid) {
   // --- Profile (2-column key/value table) ---
   y = sectionBar(doc, marginX, y, usableWidth, 'PROFILE');
   if (data.profile) {
-    const rows = Object.entries(data.profile)
-      .filter(([key]) => !PROFILE_SKIP_FIELDS.has(key))
-      .map(([key, value]) => [key, formatValue(value)]);
     autoTable(doc, {
       ...tableTheme,
       startY: y,
       head: [['Field', 'Value']],
-      body: rows,
+      body: profileDisplayRows(data.profile),
       columnStyles: { 0: { fontStyle: 'bold', cellWidth: 150 } },
     });
     y = doc.lastAutoTable.finalY + 20;
   } else {
     y = emptyNote(doc, marginX, y, '(no profile document found)') + 6;
+  }
+
+  // --- Topic performance (readable table instead of the raw
+  // topicStats JSON blob that used to be dumped in the Profile table) ---
+  const topicRows = topicPerformanceRows(data.profile?.topicStats);
+  y = sectionBar(doc, marginX, y, usableWidth, 'TOPIC PERFORMANCE', topicRows.length);
+  if (topicRows.length) {
+    autoTable(doc, {
+      ...tableTheme,
+      startY: y,
+      head: [['Subject', 'Subtopic', 'Answered', 'Correct', 'Accuracy']],
+      body: topicRows.map((t) => [
+        t.subject,
+        t.subtopic,
+        String(t.answered),
+        String(t.correct),
+        t.answered ? `${Math.round((t.correct / t.answered) * 100)}%` : '-',
+      ]),
+      columnStyles: { 2: { halign: 'right', cellWidth: 65 }, 3: { halign: 'right', cellWidth: 55 }, 4: { halign: 'right', cellWidth: 65 } },
+    });
+    y = doc.lastAutoTable.finalY + 20;
+  } else {
+    y = emptyNote(doc, marginX, y, '(none)') + 6;
   }
 
   // --- Quiz history ---
