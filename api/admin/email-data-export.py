@@ -4,11 +4,18 @@ Vercel Python serverless function: emails a student's data export
 AdminUserDetailScreen's "Export Data" button) directly to that
 student's own registered email address, as a PDF attachment.
 
-Sent via Gmail SMTP (not Resend, unlike the other emails this app
-sends) so the "From" address is a real admin.med101@gmail.com rather
-than a med101.space address - Gmail's own servers are the ones
-actually sending it, so there's no SPF/DKIM mismatch to worry about,
-just an App Password.
+Sent via Resend (same as api/send-welcome-email.py) from a
+med101.space address, NOT via raw Gmail SMTP - a personal Gmail
+account sending automated mail with attachments to varying addresses
+triggers Google's own spam heuristics and lands in the recipient's
+spam folder (this endpoint used to do exactly that; see git history).
+Resend sends through a properly domain-authenticated (SPF/DKIM)
+sending path instead, which is far more reliable.
+
+To still keep the "feels like it's from the admin" intent,
+Reply-To is set to admin.med101@gmail.com - the visible From address
+is a med101.space one, but hitting Reply in an email client goes
+straight to that Gmail inbox.
 
 The PDF itself is rendered client-side (buildUserDataExportPdf in
 src/lib/dataExport.js, same jsPDF layout the download button already
@@ -24,31 +31,20 @@ request body - so a compromised/buggy client can't be used to spam
 an arbitrary address; it can only ever email a real Med101 account's
 own registered email.
 
-Required env vars:
-  Firebase service account - same as api/send-welcome-email.py:
-    FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
-  GMAIL_APP_PASSWORD - a 16-character Gmail App Password for
-    admin.med101@gmail.com (Google Account -> Security -> 2-Step
-    Verification must be ON first, then App Passwords -> generate
-    one for "Mail"). A normal Gmail login password will NOT work
-    here - Google blocks plain-password SMTP logins from apps.
-  GMAIL_SENDER_EMAIL - optional, defaults to 'admin.med101@gmail.com'.
-    Must be the same mailbox the App Password above belongs to.
+Required env vars: same as api/send-welcome-email.py -
+  FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
+  RESEND_API_KEY
+  FROM_EMAIL (optional, defaults to 'Med101 Admin <admin@med101.space>')
+  REPLY_TO_EMAIL (optional, defaults to 'admin.med101@gmail.com')
 """
 
-import base64
 import json
 import os
 import re
-import smtplib
-import ssl
 
-from email import encoders
-from email.mime.base import MIMEBase
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from http.server import BaseHTTPRequestHandler
 
+import requests
 import firebase_admin
 from firebase_admin import credentials, auth as fb_auth, firestore
 
@@ -63,7 +59,8 @@ ADMIN_EMAILS = {
 
 ALLOWED_ORIGINS = {'https://med101.space', 'https://www.med101.space'}
 
-GMAIL_SENDER_EMAIL = os.environ.get('GMAIL_SENDER_EMAIL', 'admin.med101@gmail.com')
+FROM_EMAIL = os.environ.get('FROM_EMAIL', 'Med101 Admin <admin@med101.space>')
+REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'admin.med101@gmail.com')
 
 # A base64-encoded PDF stays well under Vercel's 4.5MB serverless
 # request body limit even for a very active student's full history.
@@ -118,33 +115,6 @@ def _email_body_text(student_name):
         "Didn't request this? You can safely ignore this email, or reply "
         "if you have any questions.\n"
     )
-
-
-def _send_via_gmail(app_password, to_email, student_name, pdf_bytes):
-    msg = MIMEMultipart('mixed')
-    msg['Subject'] = 'Your Med101 data export'
-    msg['From'] = f'Med101 Admin <{GMAIL_SENDER_EMAIL}>'
-    msg['To'] = to_email
-
-    # A plain-text part alongside the HTML one isn't just a fallback for
-    # text-only clients - most spam filters specifically penalize
-    # HTML-only mail, so this is also a meaningful deliverability signal.
-    alt = MIMEMultipart('alternative')
-    alt.attach(MIMEText(_email_body_text(student_name), 'plain'))
-    alt.attach(MIMEText(_email_body_html(student_name), 'html'))
-    msg.attach(alt)
-
-    part = MIMEBase('application', 'pdf')
-    part.set_payload(pdf_bytes)
-    encoders.encode_base64(part)
-    part.add_header('Content-Disposition', 'attachment', filename='med101-data-export.pdf')
-    msg.attach(part)
-
-    context = ssl.create_default_context()
-    with smtplib.SMTP('smtp.gmail.com', 587, timeout=20) as server:
-        server.starttls(context=context)
-        server.login(GMAIL_SENDER_EMAIL, app_password)
-        server.sendmail(GMAIL_SENDER_EMAIL, [to_email], msg.as_string())
 
 
 class handler(BaseHTTPRequestHandler):
@@ -202,11 +172,6 @@ class handler(BaseHTTPRequestHandler):
         if len(export_pdf_base64) > MAX_BASE64_CHARS:
             return self._send(400, {'error': 'Export file too large.'})
 
-        try:
-            pdf_bytes = base64.b64decode(export_pdf_base64)
-        except Exception:
-            return self._send(400, {'error': 'exportPdfBase64 is not valid base64.'})
-
         db = firestore.client()
         try:
             target_snap = db.collection('users').document(target_uid).get()
@@ -222,16 +187,32 @@ class handler(BaseHTTPRequestHandler):
         if not target_email:
             return self._send(400, {'error': 'This account has no email on file.'})
 
-        app_password = os.environ.get('GMAIL_APP_PASSWORD')
-        if not app_password:
-            return self._send(500, {'error': 'GMAIL_APP_PASSWORD is not configured.'})
+        resend_key = os.environ.get('RESEND_API_KEY')
+        if not resend_key:
+            return self._send(500, {'error': 'RESEND_API_KEY is not configured.'})
 
         try:
-            _send_via_gmail(app_password, target_email, target_name, pdf_bytes)
-        except smtplib.SMTPAuthenticationError as e:
-            return self._send(502, {'error': f'Gmail rejected the login - check GMAIL_APP_PASSWORD: {e}'})
+            resp = requests.post(
+                'https://api.resend.com/emails',
+                headers={'Authorization': f'Bearer {resend_key}', 'Content-Type': 'application/json'},
+                json={
+                    'from': FROM_EMAIL,
+                    'to': [target_email],
+                    'reply_to': REPLY_TO_EMAIL,
+                    'subject': 'Your Med101 data export',
+                    'html': _email_body_html(target_name),
+                    'text': _email_body_text(target_name),
+                    'attachments': [{
+                        'filename': 'med101-data-export.pdf',
+                        'content': export_pdf_base64,
+                    }],
+                },
+                timeout=15,
+            )
         except Exception as e:
-            return self._send(502, {'error': f'Failed to send via Gmail: {e}'})
+            return self._send(502, {'error': f'Resend request failed: {e}'})
+
+        if resp.status_code >= 300:
+            return self._send(502, {'error': f'Resend API error: {resp.status_code} {resp.text[:300]}'})
 
         return self._send(200, {'sent': True, 'to': target_email})
-
