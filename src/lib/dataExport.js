@@ -142,3 +142,30 @@ export async function buildUserDataExport(uid) {
 
   return lines.join('\n');
 }
+
+// Admin-only: emails an already-built export (see buildUserDataExport
+// above - build it first, then pass the text here) to that account's
+// own registered email address via api/admin/email-data-export.py.
+// The server looks up the recipient address itself from
+// users/{uid}.email rather than trusting anything passed in here, so
+// this can only ever land in the real account holder's inbox.
+export async function emailDataExportToUser(adminUser, uid, exportText) {
+  const idToken = await adminUser.getIdToken();
+
+  const res = await fetch('/api/admin/email-data-export', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${idToken}`,
+    },
+    body: JSON.stringify({ uid, exportText }),
+  });
+
+  const data = await res.json().catch(() => ({}));
+
+  if (!res.ok) {
+    throw new Error(data.error || `Failed to send (${res.status}).`);
+  }
+
+  return data;
+}

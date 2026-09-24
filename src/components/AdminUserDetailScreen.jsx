@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { doc, getDoc, collection, getDocs, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { useAuth } from '../lib/AuthContext';
 import { lookupUsername } from '../lib/invites';
 import { playTapSound } from '../lib/sounds';
 import { formatDuration } from '../lib/timeTracking';
 import { setAccountDisabled, deleteAccount } from '../lib/adminAccountActions';
-import { buildUserDataExport } from '../lib/dataExport';
+import { buildUserDataExport, emailDataExportToUser } from '../lib/dataExport';
 
 function formatJoinDate(ts) {
   if (!ts) return null;
@@ -31,6 +32,7 @@ function buildResult(uid, username, data) {
 // student - e.g. tapping their name in the admin "who's online" list -
 // skipping the username search entirely.
 export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = false }) {
+  const { user: adminUser } = useAuth();
   const [username, setUsername] = useState('');
   const [busy, setBusy] = useState(!!initialUid);
   const [error, setError] = useState(null);
@@ -40,6 +42,9 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
   const [confirmingDelete, setConfirmingDelete] = useState(false);
   const [exportBusy, setExportBusy] = useState(false);
   const [exportError, setExportError] = useState(null);
+  const [emailExportBusy, setEmailExportBusy] = useState(false);
+  const [emailExportError, setEmailExportError] = useState(null);
+  const [emailExportSentTo, setEmailExportSentTo] = useState(null);
 
   // "View All Users" - a separate flow from the single-username search
   // above. Fetched on demand (not on screen open) since it's one read
@@ -75,6 +80,8 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
     playTapSound();
     setConfirmingDelete(false);
     setActionError(null);
+    setEmailExportSentTo(null);
+    setEmailExportError(null);
     setResult(buildResult(u.uid, u.username || null, u));
   }
 
@@ -126,6 +133,22 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
       setExportError(e.message || String(e));
     } finally {
       setExportBusy(false);
+    }
+  }
+
+  async function handleEmailExportToUser() {
+    playTapSound();
+    setEmailExportError(null);
+    setEmailExportSentTo(null);
+    setEmailExportBusy(true);
+    try {
+      const text = await buildUserDataExport(result.uid);
+      const { to } = await emailDataExportToUser(adminUser, result.uid, text);
+      setEmailExportSentTo(to);
+    } catch (e) {
+      setEmailExportError(e.message || String(e));
+    } finally {
+      setEmailExportBusy(false);
     }
   }
 
@@ -193,6 +216,8 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
     setResult(null);
     setConfirmingDelete(false);
     setActionError(null);
+    setEmailExportSentTo(null);
+    setEmailExportError(null);
     if (!username.trim()) return;
     setBusy(true);
     try {
@@ -430,8 +455,13 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
             {actionError && <div className="auth-msg error" style={{ display: 'block' }}>{actionError}</div>}
             {exportError && <div className="auth-msg error" style={{ display: 'block' }}>{exportError}</div>}
+            {emailExportError && <div className="auth-msg error" style={{ display: 'block' }}>{emailExportError}</div>}
+            {emailExportSentTo && <div className="auth-msg success" style={{ display: 'block' }}>Sent to {emailExportSentTo}</div>}
             <button className="btn-ghost" style={{ width: '100%' }} onClick={handleExportData} disabled={exportBusy}>
               {exportBusy ? 'Gathering data…' : '📤 Export Data (for a data request)'}
+            </button>
+            <button className="btn-ghost" style={{ width: '100%' }} onClick={handleEmailExportToUser} disabled={emailExportBusy}>
+              {emailExportBusy ? 'Sending…' : `✉️ Email Export to ${result.email || 'User'}`}
             </button>
             <button className="btn-ghost" style={{ width: '100%' }} onClick={handleToggleDisabled} disabled={actionBusy}>
               {actionBusy ? '…' : result.disabled ? '✅ Enable Account' : '🚫 Disable Account'}
