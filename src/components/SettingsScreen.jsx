@@ -113,26 +113,7 @@ export default function SettingsScreen({ onBack }) {
         </div>
       </div>
 
-      {!standalone && (installable || ios) && (
-        <div className="glass std-card" style={{ marginBottom: 14 }}>
-          <label className="auth-label">📲 Install Med101</label>
-          {installable ? (
-            <>
-              <p className="std-note">
-                Add Med101 to your home screen for quick access, its own app icon, and a full-screen experience with no browser bar.
-              </p>
-              <button className="btn-glow std-save-btn" onClick={handleInstall}>Install App</button>
-              {installMsg && <div className="auth-msg success" style={{ display: 'block' }}>{installMsg}</div>}
-            </>
-          ) : (
-            <p className="std-note">
-              Tap the Share button in Safari, then "Add to Home Screen", to install Med101 with its own icon and full-screen view.
-            </p>
-          )}
-        </div>
-      )}
-
-      <div className="glass std-card">
+      <div className="glass std-card" style={{ marginBottom: 14 }}>
         <label className="auth-label">Year &amp; Semester</label>
         <select className="auth-input" value={yearSemester} onChange={(e) => setYearSemester(e.target.value)}>
           {YEAR_SEMESTER_OPTIONS.map((opt) => (
@@ -149,6 +130,25 @@ export default function SettingsScreen({ onBack }) {
 
         {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Your dashboard will update shortly.</div>}
       </div>
+
+      {!standalone && (installable || ios) && (
+        <div className="glass std-card">
+          <label className="auth-label">📲 Install Med101</label>
+          {installable ? (
+            <>
+              <p className="std-note">
+                Add Med101 to your home screen for quick access, its own app icon, and a full-screen experience with no browser bar.
+              </p>
+              <button className="btn-glow std-save-btn" onClick={handleInstall}>Install App</button>
+              {installMsg && <div className="auth-msg success" style={{ display: 'block' }}>{installMsg}</div>}
+            </>
+          ) : (
+            <p className="std-note">
+              Tap the Share button in Safari, then "Add to Home Screen", to install Med101 with its own icon and full-screen view.
+            </p>
+          )}
+        </div>
+      )}
     </div>
       <LegalFooter />
     </>
