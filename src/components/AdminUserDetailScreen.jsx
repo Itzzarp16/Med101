@@ -319,16 +319,40 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
               ← {allUsers ? 'Back to list' : 'Back to search'}
             </button>
           )}
-          <div style={{ fontWeight: 800, fontSize: 16, color: 'var(--text)', display: 'flex', alignItems: 'center', gap: 8 }}>
-            {result.displayName || '(no name)'}
-            {result.disabled && (
-              <span style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--red)', border: '1px solid var(--red)', borderRadius: 6, padding: '2px 6px' }}>
-                DISABLED
-              </span>
-            )}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div
+              style={{
+                width: 52,
+                height: 52,
+                borderRadius: '50%',
+                flexShrink: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 18,
+                fontWeight: 800,
+                color: '#fff',
+                background: result.photoURL ? undefined : 'var(--brand-gradient)',
+                backgroundImage: result.photoURL ? `url(${result.photoURL})` : undefined,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
+              {!result.photoURL && (result.displayName || result.username || '?').trim().charAt(0).toUpperCase()}
+            </div>
+            <div>
+              <div style={{ fontWeight: 800, fontSize: 16, color: 'var(--text)', display: 'flex', alignItems: 'center', gap: 8 }}>
+                {result.displayName || '(no name)'}
+                {result.disabled && (
+                  <span style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--red)', border: '1px solid var(--red)', borderRadius: 6, padding: '2px 6px' }}>
+                    DISABLED
+                  </span>
+                )}
+              </div>
+              <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{result.username ? `@${result.username} · ` : ''}{result.email}</div>
+            </div>
           </div>
-          <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{result.username ? `@${result.username} · ` : ''}{result.email}</div>
-          <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6 }}>
+          <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 10 }}>
             Enrolled: <strong>{result.enrolledYearSemester || '-'}</strong>
           </div>
           <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 2 }}>
@@ -337,6 +361,7 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
           <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 2 }}>
             Time spent on site: <strong>{formatDuration(result.totalTimeMs)}</strong>
           </div>
+
 
           {result.weakest.length > 0 && (
             <>
