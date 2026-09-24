@@ -19,13 +19,15 @@ const TIMER_PRESETS = [20, 30, 45, 60];
 // between the subject dashboard and the quiz itself - there's no
 // separate topic-list step in the old design. A hero banner shows the
 // subject + live question/topic counts, then mode cards (Random 25/50,
-// All Sequential/Random, Custom Range), then Auto-advance/Timer
-// settings and the Start Quiz button, then multi-select topic chips
-// at the very bottom (picking any chip switches mode to "topic" and
-// filters the pool to just those topics).
+// All Sequential/Random, Custom Range), then an Unseen Only toggle
+// that layers onto whichever mode is picked (not a mode of its own),
+// then Auto-advance/Timer settings and the Start Quiz button, then
+// multi-select topic chips at the very bottom (picking any chip
+// switches mode to "topic" and filters the pool to just those topics).
 export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, isPremium, onGetPremium, onStart, onBack }) {
   const { profile } = useAuth();
   const [mode, setMode] = useState('rand25');
+  const [unseenOnly, setUnseenOnly] = useState(false);
   const [selectedTopics, setSelectedTopics] = useState(() => new Set());
   const [rangeStart, setRangeStart] = useState(1);
   const [rangeEnd, setRangeEnd] = useState(Math.min(50, pool.length));
@@ -48,6 +50,12 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
   function selectMode(m) {
     playTapSound();
     setMode(m);
+  }
+
+  function toggleUnseenOnly() {
+    if (unseenPool.length === 0) return;
+    playTapSound();
+    setUnseenOnly((v) => !v);
   }
 
   function toggleTopicChip(name) {
@@ -76,26 +84,36 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
       return;
     }
 
+    // Unseen Only is a filter layered on top of whichever mode is picked
+    // above, not a mode of its own - e.g. "Random 25" + Unseen Only gives
+    // 25 random questions drawn only from the ones not yet seen (when
+    // that many exist). For every mode except Custom Range, that means
+    // drawing from unseenPool instead of the full pool from the start,
+    // so a count like "25" still means 25 wherever possible. Custom
+    // Range is the one exception - its Q# numbers refer to positions in
+    // the FULL pool, so it slices the full pool first and only then
+    // drops any seen questions from within that slice.
+    const sourcePool = unseenOnly ? unseenPool : pool;
+
     let quizQ;
-    if (mode === 'unseen') {
-      quizQ = shuffled(unseenPool);
-    } else if (mode === 'topic' && selectedTopics.size > 0) {
-      quizQ = shuffled(pool.filter((q) => selectedTopics.has(q.s)));
+    if (mode === 'topic' && selectedTopics.size > 0) {
+      quizQ = shuffled(sourcePool.filter((q) => selectedTopics.has(q.s)));
     } else if (mode === 'rand25') {
-      quizQ = shuffled(pool).slice(0, Math.min(25, pool.length));
+      quizQ = shuffled(sourcePool).slice(0, Math.min(25, sourcePool.length));
     } else if (mode === 'rand50') {
-      quizQ = shuffled(pool).slice(0, Math.min(50, pool.length));
+      quizQ = shuffled(sourcePool).slice(0, Math.min(50, sourcePool.length));
     } else if (mode === 'all-seq') {
-      quizQ = [...pool];
+      quizQ = [...sourcePool];
     } else if (mode === 'all-rand') {
-      quizQ = shuffled(pool);
+      quizQ = shuffled(sourcePool);
     } else if (mode === 'custom') {
       const s = Math.max(1, rangeStart || 1);
       const e = Math.min(pool.length, rangeEnd || 50);
-      const sliced = pool.slice(s - 1, e);
+      let sliced = pool.slice(s - 1, e);
+      if (unseenOnly) sliced = filterUnseen(sliced, subjectName, profile?.seenQuestions);
       quizQ = customShuffle ? shuffled(sliced) : sliced;
     } else {
-      quizQ = shuffled(pool);
+      quizQ = shuffled(sourcePool);
     }
 
     if (!quizQ.length) {
@@ -160,13 +178,18 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           <ModeCard emoji="📚" title={`All ${pool.length} - Sequential`} desc="Questions in order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
           <ModeCard emoji="🔀" title={`All ${pool.length} - Random`} desc="Fully shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
           <ModeCard emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
-          <ModeCard
-            emoji="🆕"
-            title="Unseen Only"
-            desc={`${unseenPool.length} questions you haven't tried yet`}
-            selected={mode === 'unseen'}
-            onClick={() => unseenPool.length > 0 && selectMode('unseen')}
-            wide
+        </div>
+
+        <div className="qmode-settings-card glass" style={unseenPool.length === 0 ? { opacity: 0.5 } : undefined}>
+          <ToggleRow
+            title="🆕 Unseen Only"
+            desc={
+              unseenPool.length > 0
+                ? `Only include questions you haven't tried yet (${unseenPool.length} available) - combine with any mode above`
+                : "You've seen every question in this subject - nothing left to filter to"
+            }
+            on={unseenOnly}
+            onToggle={toggleUnseenOnly}
             disabled={unseenPool.length === 0}
           />
         </div>
@@ -253,14 +276,18 @@ export function ModeCard({ emoji, title, desc, selected, onClick, wide, disabled
   );
 }
 
-export function ToggleRow({ title, desc, on, onToggle }) {
+export function ToggleRow({ title, desc, on, onToggle, disabled }) {
   return (
     <div className="qmode-toggle-row">
       <div>
         <div className="qmode-toggle-title">{title}</div>
         <div className="qmode-toggle-desc">{desc}</div>
       </div>
-      <div className={on ? 'toggle-track on' : 'toggle-track'} onClick={onToggle}>
+      <div
+        className={on ? 'toggle-track on' : 'toggle-track'}
+        onClick={disabled ? undefined : onToggle}
+        style={disabled ? { cursor: 'not-allowed' } : undefined}
+      >
         <div className="toggle-thumb" />
       </div>
     </div>
