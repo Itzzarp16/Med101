@@ -84,16 +84,44 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
     setExportBusy(true);
     try {
       const text = await buildUserDataExport(result.uid);
-      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const { jsPDF } = await import('jspdf');
+      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+
+      const marginX = 40;
+      const marginTop = 50;
+      const marginBottom = 50;
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+      const usableWidth = pageWidth - marginX * 2;
+      const lineHeight = 14;
+      let y = marginTop;
+
+      function newPageIfNeeded() {
+        if (y > pageHeight - marginBottom) {
+          doc.addPage();
+          y = marginTop;
+        }
+      }
+
+      const rawLines = text.split('\n');
+      for (const raw of rawLines) {
+        const isHeading = raw.startsWith('==');
+        doc.setFont('helvetica', isHeading ? 'bold' : 'normal');
+        doc.setFontSize(isHeading ? 11 : 9.5);
+
+        // Wrap long lines to the page width rather than clipping/
+        // overflowing off the right edge.
+        const wrapped = raw.length ? doc.splitTextToSize(raw, usableWidth) : [''];
+        for (const wline of wrapped) {
+          newPageIfNeeded();
+          doc.text(wline, marginX, y);
+          y += lineHeight;
+        }
+        if (isHeading) y += 2; // a little breathing room under section headings
+      }
+
       const safeName = (result.username || result.email || result.uid).replace(/[^a-zA-Z0-9._-]/g, '_');
-      a.href = url;
-      a.download = `med101-data-export-${safeName}.txt`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      doc.save(`med101-data-export-${safeName}.pdf`);
     } catch (e) {
       setExportError(e.message || String(e));
     } finally {
