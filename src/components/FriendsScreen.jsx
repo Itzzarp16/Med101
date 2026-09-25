@@ -3,7 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import { addFriendByUsername, removeFriend, subscribeToFriends } from '../lib/friends';
 import { playTapSound } from '../lib/sounds';
 
-export default function FriendsScreen({ onBack }) {
+export default function FriendsScreen({ onBack, onChallenge }) {
   const { user } = useAuth();
   const [friends, setFriends] = useState([]);
   const [username, setUsername] = useState('');
@@ -35,6 +35,11 @@ export default function FriendsScreen({ onBack }) {
     await removeFriend(user.uid, friendUid);
   }
 
+  function handleChallenge(friend) {
+    playTapSound();
+    onChallenge?.(friend);
+  }
+
   return (
     <div className="std-screen">
       <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
@@ -62,6 +67,9 @@ export default function FriendsScreen({ onBack }) {
 
       <div className="std-header" style={{ marginTop: 20 }}>
         <h2 className="auth-label" style={{ fontSize: 12 }}>Your Friends ({friends.length})</h2>
+        {friends.length > 0 && (
+          <p className="std-sub" style={{ marginTop: 2 }}>Tap a friend to challenge them.</p>
+        )}
       </div>
 
       {friends.length === 0 ? (
@@ -71,9 +79,19 @@ export default function FriendsScreen({ onBack }) {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
           {friends.map((f) => (
-            <div key={f.uid} className="glass" style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div
+              key={f.uid}
+              className="glass"
+              onClick={() => handleChallenge(f)}
+              style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}
+            >
               <span style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--text)' }}>@{f.username}</span>
-              <button onClick={() => handleRemove(f.uid)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 13 }}>✕</button>
+              <button
+                onClick={(e) => { e.stopPropagation(); handleRemove(f.uid); }}
+                style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 13 }}
+              >
+                ✕
+              </button>
             </div>
           ))}
         </div>

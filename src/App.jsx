@@ -87,6 +87,10 @@ export default function App() {
   const [activeRoomCode, setActiveRoomCode] = useState(savedNavRef?.activeRoomCode ?? null);
   const [activeRoomIsHost, setActiveRoomIsHost] = useState(savedNavRef?.activeRoomIsHost ?? false);
   const [viewUserUid, setViewUserUid] = useState(savedNavRef?.viewUserUid ?? null);
+  // Set when a friend is tapped in FriendsScreen - carries {uid, username}
+  // through the Challenge -> Room Lobby flow so the lobby can auto-invite
+  // them once the room exists. Cleared once the invite is sent (or on back).
+  const [challengeFriend, setChallengeFriend] = useState(null);
 
   // Seed a base history entry on mount (matching whatever screen was
   // restored above, so the back gesture stays consistent), then listen
@@ -672,23 +676,29 @@ export default function App() {
           mainSubjectMeta={scopedMainSubjectMeta}
           scopedQuestions={scopedQuestions}
           subjectGroup={subjectGroup}
+          challengeTarget={challengeFriend}
           onEnterRoom={(code, isHost) => {
             setActiveRoomCode(code);
             setActiveRoomIsHost(isHost);
             goTo('room-lobby');
           }}
-          onBack={goBack}
+          onBack={() => { setChallengeFriend(null); goBack(); }}
         />
       )}
 
       {screen === 'friends' && (
-        <FriendsScreen onBack={goBack} />
+        <FriendsScreen
+          onBack={goBack}
+          onChallenge={(friend) => { setChallengeFriend(friend); goTo('challenge'); }}
+        />
       )}
 
       {screen === 'room-lobby' && activeRoomCode && (
         <RoomLobbyScreen
           code={activeRoomCode}
           isHost={activeRoomIsHost}
+          autoInviteFriend={challengeFriend}
+          onAutoInviteSent={() => setChallengeFriend(null)}
           onStart={(room) => {
             setFinalQuiz({
               questions: room.questions,
