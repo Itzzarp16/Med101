@@ -7,7 +7,7 @@ import { playTapSound } from '../lib/sounds';
 import './ProfileScreen.css';
 
 export default function ProfileScreen({ onBack }) {
-  const { user, profile } = useAuth();
+  const { user, profile, logOut } = useAuth();
 
   const [name, setName] = useState(user?.displayName || '');
   const [nameSaving, setNameSaving] = useState(false);
@@ -302,6 +302,19 @@ export default function ProfileScreen({ onBack }) {
                 </div>
               </div>
             )}
+          </div>
+        </div>
+      </div>
+
+      <div className="profile-section">
+        <div className="profile-list">
+          <div className="profile-row">
+            <button
+              className="btn-ghost profile-signout-btn"
+              onClick={() => { playTapSound(); logOut(); }}
+            >
+              Sign out
+            </button>
           </div>
         </div>
       </div>

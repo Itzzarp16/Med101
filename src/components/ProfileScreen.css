@@ -163,6 +163,14 @@
   margin: 0 4px 8px;
 }
 
+.profile-signout-btn {
+  width: 100%;
+  text-align: center;
+  padding: 14px 16px;
+  color: #ff5c5c;
+  font-weight: 600;
+}
+
 .profile-list {
   border-radius: 16px;
   border: 1px solid var(--border);
