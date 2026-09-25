@@ -143,7 +143,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
             <button className="menu-item" onClick={() => go(onHome)}>🏠 Home</button>
             <button className="menu-item" onClick={() => go(onLeaderboard)}>🏆 Leaderboard</button>
             <button className="menu-item" onClick={() => go(onProfile)}>🙍 Your Profile</button>
-            <button className="menu-item" onClick={() => go(onSettings)}>🎓 Change Year &amp; Semester</button>
+            <button className="menu-item" onClick={() => go(onSettings)}>🎓 Change Semester</button>
             <button className="menu-item" onClick={() => go(onYourData)}>📄 Your Data</button>
             <button className="menu-item" onClick={() => go(onChallenge)}>👥 Challenge a Friend</button>
             <button className="menu-item" onClick={() => go(onFriends)}>🧑‍🤝‍🧑 Friends</button>
