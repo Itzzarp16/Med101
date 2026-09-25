@@ -234,6 +234,36 @@ const TEXT_DARK = [30, 41, 59];
 const TEXT_MUTED = [100, 116, 139];
 const ROW_STRIPE = [241, 245, 249];
 const BORDER = [226, 232, 240];
+const TAGLINE_COLOR = [176, 200, 224]; // close to --heading on dark backgrounds
+
+function arrayBufferToBase64(buffer) {
+  let binary = '';
+  const bytes = new Uint8Array(buffer);
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode(...bytes.subarray(i, i + chunkSize));
+  }
+  return btoa(binary);
+}
+
+// Fetches the same Syne ExtraBold font the site's own "Med101"
+// wordmark uses (tokens.css: .topbar-logo, font-family 'Syne',
+// weight 800) and registers it with jsPDF, so the PDF header can use
+// the real wordmark font instead of approximating it with Helvetica.
+// Returns true/false rather than throwing, so a failed font fetch
+// just falls back to Helvetica instead of breaking the export.
+async function loadSyneFont(doc) {
+  try {
+    const res = await fetch('/fonts/Syne-ExtraBold.ttf');
+    if (!res.ok) return false;
+    const base64 = arrayBufferToBase64(await res.arrayBuffer());
+    doc.addFileToVFS('Syne-ExtraBold.ttf', base64);
+    doc.addFont('Syne-ExtraBold.ttf', 'Syne', 'bold');
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 function sectionBar(doc, x, y, width, title, count) {
   const barHeight = 22;
@@ -306,17 +336,30 @@ export async function buildUserDataExportPdf(uid) {
     // no logo available - text-only header below still works fine
   }
 
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(22);
-  doc.text('MED101', textStartX, bannerHeight / 2 - 6);
-  doc.setFont('helvetica', 'normal');
-  doc.setFontSize(11);
-  doc.text('Personal Data Export', textStartX, bannerHeight / 2 + 16);
+  // Match the site's actual wordmark (tokens.css .topbar-logo: 'Syne'
+  // at weight 800) rather than approximating it with bold Helvetica -
+  // falls back to Helvetica Bold if the font can't be fetched.
+  const hasSyne = await loadSyneFont(doc);
+  doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
+  doc.setFontSize(hasSyne ? 24 : 22);
+  doc.text('Med101', textStartX, bannerHeight / 2 - 6);
 
+  // Tagline directly under the wordmark, matching .topbar-tagline:
+  // small, letter-spaced, uppercase, muted.
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(...TAGLINE_COLOR);
+  doc.text('LEARN. PRACTICE. IMPROVE.', textStartX, bannerHeight / 2 + 12, { charSpace: 1.1 });
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9.5);
+  doc.text('Personal Data Export', pageWidth - marginX, 30, { align: 'right' });
+  doc.setFont('helvetica', 'normal');
   doc.setFontSize(8.5);
   const genLabel = `Generated ${data.generatedAt.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}`;
-  doc.text(genLabel, pageWidth - marginX, 38, { align: 'right' });
-  doc.text(`Account UID: ${uid}`, pageWidth - marginX, 52, { align: 'right' });
+  doc.text(genLabel, pageWidth - marginX, 46, { align: 'right' });
+  doc.text(`Account UID: ${uid}`, pageWidth - marginX, 60, { align: 'right' });
 
   let y = bannerHeight + 22;
 
