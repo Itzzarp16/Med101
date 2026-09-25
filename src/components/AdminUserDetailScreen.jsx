@@ -7,6 +7,14 @@ import { playTapSound } from '../lib/sounds';
 import { formatDuration } from '../lib/timeTracking';
 import { setAccountDisabled, deleteAccount } from '../lib/adminAccountActions';
 import { buildUserDataExportPdf, emailDataExportToUser } from '../lib/dataExport';
+import { subscribeToMyPremiumStatus, grantPremiumDirectly } from '../lib/subscription';
+
+const MAXX_DURATION_PRESETS = [
+  { label: '1 Month', days: 30 },
+  { label: '3 Months', days: 90 },
+  { label: '6 Months', days: 180 },
+  { label: '1 Year', days: 365 },
+];
 
 function formatJoinDate(ts) {
   if (!ts) return null;
@@ -45,6 +53,12 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
   const [emailExportBusy, setEmailExportBusy] = useState(false);
   const [emailExportError, setEmailExportError] = useState(null);
   const [emailExportSentTo, setEmailExportSentTo] = useState(null);
+  const [premiumStatus, setPremiumStatus] = useState(null);
+  const [maxxDuration, setMaxxDuration] = useState(30);
+  const [maxxCustomDays, setMaxxCustomDays] = useState('');
+  const [maxxBusy, setMaxxBusy] = useState(false);
+  const [maxxError, setMaxxError] = useState(null);
+  const [maxxGrantedCode, setMaxxGrantedCode] = useState(null);
 
   // "View All Users" - a separate flow from the single-username search
   // above. Fetched on demand (not on screen open) since it's one read
@@ -116,6 +130,37 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
       setEmailExportError(e.message || String(e));
     } finally {
       setEmailExportBusy(false);
+    }
+  }
+
+  useEffect(() => {
+    if (!result?.uid) {
+      setPremiumStatus(null);
+      return;
+    }
+    setMaxxGrantedCode(null);
+    setMaxxError(null);
+    return subscribeToMyPremiumStatus(result.uid, setPremiumStatus);
+  }, [result?.uid]);
+
+  async function handleGrantMaxx() {
+    if (!result) return;
+    playTapSound();
+    setMaxxError(null);
+    setMaxxGrantedCode(null);
+    const days = maxxDuration === 'custom' ? parseInt(maxxCustomDays, 10) : maxxDuration;
+    if (!days || days <= 0) {
+      setMaxxError('Enter a valid number of days.');
+      return;
+    }
+    setMaxxBusy(true);
+    try {
+      const { code } = await grantPremiumDirectly(result.uid, days);
+      setMaxxGrantedCode({ code, days });
+    } catch (e) {
+      setMaxxError(e.message || String(e));
+    } finally {
+      setMaxxBusy(false);
     }
   }
 
@@ -404,6 +449,60 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
             Time spent on site: <strong>{formatDuration(result.totalTimeMs)}</strong>
           </div>
 
+          <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+            <div className="auth-label" style={{ marginBottom: 0 }}>⭐ Med101 Maxx</div>
+            <div style={{ fontSize: 12.5, marginTop: 4 }}>
+              {premiumStatus === null ? (
+                <span style={{ color: 'var(--text3)' }}>Checking status…</span>
+              ) : premiumStatus.isPremium ? (
+                <span style={{ color: 'var(--green)', fontWeight: 700 }}>
+                  Active until {premiumStatus.premiumUntil.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                </span>
+              ) : (
+                <span style={{ color: 'var(--text3)' }}>Not active</span>
+              )}
+            </div>
+
+            <div style={{ display: 'flex', gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
+              {MAXX_DURATION_PRESETS.map((p) => (
+                <button
+                  key={p.days}
+                  className={maxxDuration === p.days ? 'tpreset sel' : 'tpreset'}
+                  onClick={() => { playTapSound(); setMaxxDuration(p.days); }}
+                >
+                  {p.label}
+                </button>
+              ))}
+              <button
+                className={maxxDuration === 'custom' ? 'tpreset sel' : 'tpreset'}
+                onClick={() => { playTapSound(); setMaxxDuration('custom'); }}
+              >
+                Custom
+              </button>
+            </div>
+            {maxxDuration === 'custom' && (
+              <input
+                className="auth-input"
+                style={{ marginTop: 8 }}
+                type="number"
+                min="1"
+                value={maxxCustomDays}
+                onChange={(e) => setMaxxCustomDays(e.target.value)}
+                placeholder="Number of days"
+              />
+            )}
+
+            <button className="btn-glow" style={{ width: '100%', marginTop: 10 }} onClick={handleGrantMaxx} disabled={maxxBusy}>
+              {maxxBusy ? 'Granting…' : '⭐ Grant Med101 Maxx'}
+            </button>
+
+            {maxxError && <div className="auth-msg error" style={{ display: 'block' }}>{maxxError}</div>}
+            {maxxGrantedCode && (
+              <div className="auth-msg success" style={{ display: 'block' }}>
+                Granted {maxxGrantedCode.days} days of Med101 Maxx, effective now (code {maxxGrantedCode.code}).
+              </div>
+            )}
+          </div>
 
           {result.weakest.length > 0 && (
             <>

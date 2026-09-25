@@ -467,6 +467,43 @@ function computePremiumFromCodeDocs(docs) {
   };
 }
 
+export async function grantPremiumDirectly(uid, durationDays) {
+  let code;
+
+  for (let attempt = 0; attempt < 3; attempt++) {
+    code = generateCode();
+
+    const codeRef = doc(db, 'activationCodes', code);
+    const clash = await getDoc(codeRef);
+
+    if (!clash.exists()) break;
+
+    if (attempt === 2) {
+      throw new Error(
+        'Could not generate a unique code - try again.'
+      );
+    }
+  }
+
+  const now = serverTimestamp();
+
+  // Same shape as an auto-activated code from approvePaymentRequest,
+  // minus the utr/paymentRequest link - there is no underlying payment
+  // for an admin-granted code, so grantedByAdmin marks it as such for
+  // anyone reading activationCodes later (e.g. the admin payments list).
+  await setDoc(doc(db, 'activationCodes', code), {
+    uid,
+    durationDays,
+    used: true,
+    usedBy: uid,
+    usedAt: now,
+    createdAt: now,
+    grantedByAdmin: true,
+  });
+
+  return { code };
+}
+
 export async function getMyPremiumStatus(uid) {
   const q = query(
     collection(db, 'activationCodes'),
