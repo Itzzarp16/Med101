@@ -15,6 +15,7 @@ import AdminCalendarScreen from './components/AdminCalendarScreen';
 import AdminUploadQuestionsScreen from './components/AdminUploadQuestionsScreen';
 import AdminNoticeScreen from './components/AdminNoticeScreen';
 import SettingsScreen from './components/SettingsScreen';
+import YourDataScreen from './components/YourDataScreen';
 import ProfileScreen from './components/ProfileScreen';
 import WeakTopicsScreen from './components/WeakTopicsScreen';
 import WrongFlaggedScreen from './components/WrongFlaggedScreen';
@@ -286,6 +287,7 @@ export default function App() {
     onChallenge: () => goTo('challenge'),
     onFriends: () => goTo('friends'),
     onSettings: () => goTo('settings'),
+    onYourData: () => goTo('your-data'),
     onProfile: () => goTo('profile'),
     onWeakTopics: () => goTo('weak-topics'),
     onWrongFlagged: () => goTo('wrong-flagged'),
@@ -311,6 +313,17 @@ export default function App() {
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
           <SettingsScreen onBack={goBack} />
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'your-data') {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <div className="screen-fade" key={screen}>
+          <YourDataScreen onBack={goBack} />
         </div>
       </div>
     );

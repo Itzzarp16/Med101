@@ -4,7 +4,6 @@ import { db } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import { isInstallable, isStandalone, isIOS, onInstallabilityChange, promptInstall } from '../lib/installPrompt';
-import { emailMyDataExport } from '../lib/dataExport';
 import LegalFooter from './LegalFooter';
 
 // Same options as the signup dropdown - kept in sync there manually
@@ -28,9 +27,6 @@ export default function SettingsScreen({ onBack }) {
   const [saved, setSaved] = useState(false);
   const [installable, setInstallable] = useState(isInstallable());
   const [installMsg, setInstallMsg] = useState(null);
-  const [dataExportBusy, setDataExportBusy] = useState(false);
-  const [dataExportError, setDataExportError] = useState(null);
-  const [dataExportSentTo, setDataExportSentTo] = useState(null);
   const standalone = isStandalone();
   const ios = isIOS();
 
@@ -41,21 +37,6 @@ export default function SettingsScreen({ onBack }) {
     const outcome = await promptInstall();
     if (outcome === 'accepted') setInstallMsg('Installed! Check your home screen.');
     else if (outcome === 'dismissed') setInstallMsg(null);
-  }
-
-  async function handleEmailMyData() {
-    playTapSound();
-    setDataExportError(null);
-    setDataExportSentTo(null);
-    setDataExportBusy(true);
-    try {
-      const { to } = await emailMyDataExport(user);
-      setDataExportSentTo(to);
-    } catch (e) {
-      setDataExportError(e.message || String(e));
-    } finally {
-      setDataExportBusy(false);
-    }
   }
 
   async function handleSave() {
@@ -97,18 +78,6 @@ export default function SettingsScreen({ onBack }) {
         </button>
 
         {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Your dashboard will update shortly.</div>}
-      </div>
-
-      <div className="glass std-card" style={{ marginBottom: 14 }}>
-        <label className="auth-label">📄 Your Data</label>
-        <p className="std-note">
-          Get a full copy of everything Med101 stores about your account (profile, quiz history, flagged/wrong questions, payments, etc.) emailed to you as a PDF - usually within a few seconds.
-        </p>
-        <button className="btn-ghost std-save-btn" onClick={handleEmailMyData} disabled={dataExportBusy}>
-          {dataExportBusy ? 'Preparing your export…' : '✉️ Email My Data Export'}
-        </button>
-        {dataExportError && <div className="auth-msg error" style={{ display: 'block' }}>{dataExportError}</div>}
-        {dataExportSentTo && <div className="auth-msg success" style={{ display: 'block' }}>Sent to {dataExportSentTo} - check your inbox in a moment.</div>}
       </div>
 
       {!standalone && (installable || ios) && (
