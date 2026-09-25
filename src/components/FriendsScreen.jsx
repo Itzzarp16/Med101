@@ -50,7 +50,7 @@ export default function FriendsScreen({ onBack }) {
             className="auth-input"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="e.g. priya_2027"
+            placeholder="e.g. sanjana_2027"
             style={{ fontFamily: 'var(--font-mono)' }}
           />
           <button className="tpreset sel" style={{ flexShrink: 0, padding: '0 16px' }} onClick={handleAdd} disabled={busy}>
