@@ -1,5 +1,7 @@
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from './firebase';
+import { formatDuration } from './timeTracking';
+import { SEMESTER_ORDER } from './academicCalendar';
 
 // Same list adminAccountActions.js uses for account deletion - kept
 // in sync by hand since Firestore has no way to enumerate a user's
@@ -24,7 +26,7 @@ function formatValue(v) {
 // the export under a clearer heading, or pure internal bookkeeping
 // with no meaningful content for the student reading this (a device
 // fingerprint ID, not "data about them" in any useful sense).
-const PROFILE_SKIP_FIELDS = new Set(['activeDeviceId']);
+const PROFILE_SKIP_FIELDS = new Set(['activeDeviceId', 'usernameNormalized', 'photoURL']);
 
 // These two fields exist on every profile but are unreadable if
 // dumped through formatValue() like everything else: topicStats is a
@@ -35,6 +37,58 @@ const PROFILE_SKIP_FIELDS = new Set(['activeDeviceId']);
 // properly instead (topicStats as its own TOPIC PERFORMANCE table,
 // seenQuestions as a simple count).
 const PROFILE_SPECIAL_FIELDS = new Set(['topicStats', 'seenQuestions']);
+
+// Raw Firestore field names (camelCase) mean nothing to a student
+// reading their own data export - every one shown in a Field/Value
+// table gets translated through here first. Anything not listed
+// falls back to prettifyFieldName's generic camelCase -> Title Case
+// conversion, so a field added later never regresses to being
+// unreadable again.
+const FIELD_LABELS = {
+  displayName: 'Display Name',
+  email: 'Email',
+  username: 'Username',
+  enrolledYearSemester: 'Year & Semester',
+  enrolledAt: 'Enrolled On',
+  lastActiveAt: 'Last Active At',
+  lastActiveDate: 'Last Active Date',
+  activeDeviceAt: 'Device Last Verified',
+  streakCount: 'Current Streak',
+  longestStreak: 'Longest Streak',
+  totalTimeMs: 'Time Spent on Site',
+  topicStatsUpdatedAt: 'Topic Stats Last Updated',
+  questionsSeen: 'Questions Seen',
+  totalCorrect: 'Total Correct Answers',
+  totalAnswered: 'Total Questions Answered',
+  accuracyPct: 'Overall Accuracy',
+  qualifiedAccuracyPct: 'Overall Accuracy',
+  timeMs: 'Total Time Answering',
+  updatedAt: 'Last Updated',
+};
+
+const SEMESTER_LABELS = {
+  y1s1: 'Year 1 · Sem 1',
+  y1s2: 'Year 1 · Sem 2',
+  y2s1: 'Year 2 · Sem 1',
+  y2s2: 'Year 2 · Sem 2',
+  y3s1: 'Year 3 · Sem 1',
+  y3s2: 'Year 3 · Sem 2',
+};
+
+function prettifyFieldName(key) {
+  if (FIELD_LABELS[key]) return FIELD_LABELS[key];
+  return key.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/^./, (c) => c.toUpperCase());
+}
+
+// A few fields have technically-correct but unreadable raw values -
+// milliseconds instead of a duration, a percentage with no % sign, a
+// semester code like "y1s2" instead of "Year 1 · Sem 2".
+function formatFieldValue(key, value) {
+  if (key === 'totalTimeMs' || key === 'timeMs') return formatDuration(value || 0);
+  if (key === 'accuracyPct' || key === 'qualifiedAccuracyPct') return value != null ? `${value}%` : '(none)';
+  if (key === 'enrolledYearSemester') return SEMESTER_LABELS[value] || formatValue(value);
+  return formatValue(value);
+}
 
 function topicPerformanceRows(topicStats) {
   if (!topicStats || typeof topicStats !== 'object') return [];
@@ -48,20 +102,64 @@ function topicPerformanceRows(topicStats) {
     .sort((a, b) => a.subject.localeCompare(b.subject) || a.subtopic.localeCompare(b.subtopic));
 }
 
-// Every profile field EXCEPT the two special-cased ones above,
-// formatted as plain [key, value] pairs - plus a friendly
-// "questionsSeen: <count>" row standing in for the raw ID list.
+// Every profile field EXCEPT the two special-cased ones above, with
+// a human label and a readable value - plus a friendly "Questions
+// Seen: <count>" row standing in for the raw ID list.
 function profileDisplayRows(profile) {
   const rows = [];
   for (const [key, value] of Object.entries(profile)) {
     if (PROFILE_SKIP_FIELDS.has(key) || PROFILE_SPECIAL_FIELDS.has(key)) continue;
-    rows.push([key, formatValue(value)]);
+    rows.push([prettifyFieldName(key), formatFieldValue(key, value)]);
   }
   if (Array.isArray(profile.seenQuestions)) {
-    rows.push(['questionsSeen', String(profile.seenQuestions.length)]);
+    rows.push([prettifyFieldName('questionsSeen'), String(profile.seenQuestions.length)]);
   }
   return rows;
 }
+
+// leaderboard/{uid} has the same problem as topicStats did: semesters
+// and subjects are nested per-scope breakdown objects that would
+// otherwise dump as raw JSON. Pulled out into their own readable
+// tables instead, same treatment as Topic Performance above.
+const LEADERBOARD_SKIP_FIELDS = new Set(['photoURL']);
+const LEADERBOARD_SPECIAL_FIELDS = new Set(['semesters', 'subjects']);
+
+function leaderboardDisplayRows(lb) {
+  const rows = [];
+  for (const [key, value] of Object.entries(lb)) {
+    if (LEADERBOARD_SKIP_FIELDS.has(key) || LEADERBOARD_SPECIAL_FIELDS.has(key)) continue;
+    rows.push([prettifyFieldName(key), formatFieldValue(key, value)]);
+  }
+  return rows;
+}
+
+function semesterBreakdownRows(semesters) {
+  if (!semesters || typeof semesters !== 'object') return [];
+  return Object.entries(semesters)
+    .map(([id, s]) => ({
+      id,
+      label: SEMESTER_LABELS[id] || id,
+      answered: s?.totalAnswered || 0,
+      correct: s?.totalCorrect || 0,
+      accuracyPct: s?.accuracyPct ?? 0,
+      timeMs: s?.timeMs || 0,
+    }))
+    .sort((a, b) => SEMESTER_ORDER.indexOf(a.id) - SEMESTER_ORDER.indexOf(b.id));
+}
+
+function subjectBreakdownRows(subjects) {
+  if (!subjects || typeof subjects !== 'object') return [];
+  return Object.entries(subjects)
+    .map(([name, s]) => ({
+      label: name,
+      answered: s?.totalAnswered || 0,
+      correct: s?.totalCorrect || 0,
+      accuracyPct: s?.accuracyPct ?? 0,
+      timeMs: s?.timeMs || 0,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label));
+}
+
 
 // Does every Firestore read the export needs exactly once, and
 // returns a structured description of it - both the plain-text
@@ -180,8 +278,22 @@ export async function buildUserDataExport(uid) {
 
   push('== LEADERBOARD STATS ==');
   if (data.leaderboard) {
-    for (const [key, value] of Object.entries(data.leaderboard)) {
-      push(`${key}: ${formatValue(value)}`);
+    for (const [label, value] of leaderboardDisplayRows(data.leaderboard)) {
+      push(`${label}: ${value}`);
+    }
+    const semRows = semesterBreakdownRows(data.leaderboard.semesters);
+    if (semRows.length) {
+      push('-- By Semester --');
+      for (const r of semRows) {
+        push(`- ${r.label}: ${r.correct}/${r.answered} correct (${r.accuracyPct}%), ${formatDuration(r.timeMs)}`);
+      }
+    }
+    const subjRows = subjectBreakdownRows(data.leaderboard.subjects);
+    if (subjRows.length) {
+      push('-- By Subject --');
+      for (const r of subjRows) {
+        push(`- ${r.label}: ${r.correct}/${r.answered} correct (${r.accuracyPct}%), ${formatDuration(r.timeMs)}`);
+      }
     }
   } else {
     push('(no leaderboard entry)');
@@ -470,10 +582,28 @@ export async function buildUserDataExportPdf(uid) {
       ...tableTheme,
       startY: y,
       head: [['Field', 'Value']],
-      body: Object.entries(data.leaderboard).map(([key, value]) => [key, formatValue(value)]),
+      body: leaderboardDisplayRows(data.leaderboard),
       columnStyles: { 0: { fontStyle: 'bold', cellWidth: 150 } },
     });
     y = doc.lastAutoTable.finalY + 20;
+
+    function breakdownTable(title, rows, firstColLabel) {
+      y = sectionBar(doc, marginX, y, usableWidth, title, rows.length);
+      if (rows.length) {
+        autoTable(doc, {
+          ...tableTheme,
+          startY: y,
+          head: [[firstColLabel, 'Answered', 'Correct', 'Accuracy', 'Time Spent']],
+          body: rows.map((r) => [r.label, String(r.answered), String(r.correct), `${r.accuracyPct}%`, formatDuration(r.timeMs)]),
+          columnStyles: { 1: { halign: 'right', cellWidth: 65 }, 2: { halign: 'right', cellWidth: 55 }, 3: { halign: 'right', cellWidth: 60 }, 4: { halign: 'right', cellWidth: 70 } },
+        });
+        y = doc.lastAutoTable.finalY + 20;
+      } else {
+        y = emptyNote(doc, marginX, y, '(none)') + 6;
+      }
+    }
+    breakdownTable('LEADERBOARD — BY SEMESTER', semesterBreakdownRows(data.leaderboard.semesters), 'Semester');
+    breakdownTable('LEADERBOARD — BY SUBJECT', subjectBreakdownRows(data.leaderboard.subjects), 'Subject');
   } else {
     y = emptyNote(doc, marginX, y, '(no leaderboard entry)') + 6;
   }
