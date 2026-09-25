@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { fetchRoom, subscribeToParticipants } from '../lib/rooms';
 import { lookupUsername, sendInvite } from '../lib/invites';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 
-export default function RoomLobbyScreen({ code, isHost, onStart, onViewResults, onBack }) {
+export default function RoomLobbyScreen({ code, isHost, autoInviteFriend, onAutoInviteSent, onStart, onViewResults, onBack }) {
   const { user } = useAuth();
   const [room, setRoom] = useState(null);
   const [participants, setParticipants] = useState([]);
@@ -12,6 +12,7 @@ export default function RoomLobbyScreen({ code, isHost, onStart, onViewResults, 
   const [inviteUsername, setInviteUsername] = useState('');
   const [inviteBusy, setInviteBusy] = useState(false);
   const [inviteMsg, setInviteMsg] = useState(null);
+  const autoInviteSentRef = useRef(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -19,6 +20,24 @@ export default function RoomLobbyScreen({ code, isHost, onStart, onViewResults, 
     const unsub = subscribeToParticipants(code, setParticipants);
     return () => { cancelled = true; unsub(); };
   }, [code]);
+
+  // Coming from FriendsScreen's "tap to challenge" - fire the invite
+  // once the room exists, then hand back to the parent to clear its
+  // pending-friend state so this never re-fires (e.g. on remount).
+  useEffect(() => {
+    if (!isHost || !autoInviteFriend || !room || autoInviteSentRef.current) return;
+    autoInviteSentRef.current = true;
+    sendInvite({
+      fromUid: user.uid,
+      fromName: user.displayName || user.email,
+      toUid: autoInviteFriend.uid,
+      roomCode: code,
+      mainSubject: room.mainSubject,
+    })
+      .then(() => setInviteMsg({ type: 'success', text: `Invite sent to @${autoInviteFriend.username}!` }))
+      .catch((e) => setInviteMsg({ type: 'error', text: e.message || String(e) }))
+      .finally(() => onAutoInviteSent?.());
+  }, [isHost, autoInviteFriend, room, code, user, onAutoInviteSent]);
 
   const me = participants.find((p) => p.uid === user.uid);
   const alreadyFinished = me?.finished;

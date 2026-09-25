@@ -29,7 +29,7 @@ function shuffled(arr) {
 // the exact frozen question set at creation time, same as a normal
 // quiz; Auto-advance/Timer are stored on the room itself (not chosen
 // per-participant) so every participant gets an identical experience.
-export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subjectGroup, onEnterRoom, onBack }) {
+export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subjectGroup, challengeTarget, onEnterRoom, onBack }) {
   const { user, profile } = useAuth();
   const [tab, setTab] = useState('create');
   const [subject, setSubject] = useState(Object.keys(mainSubjectMeta || {})[0] || '');
@@ -159,8 +159,19 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
 
       <div className="std-header">
         <h1 className="std-title">👥 Challenge a Friend</h1>
-        <p className="std-sub">Practice the exact same questions together and compare scores.</p>
+        <p className="std-sub">
+          {challengeTarget
+            ? `Set up a room and @${challengeTarget.username} will be invited automatically.`
+            : 'Practice the exact same questions together and compare scores.'}
+        </p>
       </div>
+
+      {challengeTarget && (
+        <div className="glass std-card" style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', marginBottom: 16 }}>
+          <span style={{ fontSize: 13.5 }}>🎯 Challenging</span>
+          <span style={{ fontSize: 13.5, fontWeight: 700, color: 'var(--text)' }}>@{challengeTarget.username}</span>
+        </div>
+      )}
 
       <div className="auth-tabs" style={{ marginBottom: 16 }}>
         <button type="button" className={tab === 'create' ? 'auth-tab active' : 'auth-tab'} onClick={() => { setTab('create'); setError(null); }}>Create Room</button>
