@@ -694,16 +694,11 @@ export async function buildUserDataExportPdf(uid) {
   doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
   doc.setTextColor(...NAVY);
   doc.setFontSize(hasSyne ? 17 : 15);
-  doc.text('Med101', pageWidth - marginX, y, { align: 'right' });
+  doc.text('Med101', marginX, y);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.5);
   doc.setTextColor(...TEXT_MUTED);
-  {
-    const tagline = 'LEARN. PRACTICE. IMPROVE.';
-    const charSpaceVal = 1.1;
-    const taglineWidth = doc.getTextWidth(tagline) + charSpaceVal * (tagline.length - 1);
-    doc.text(tagline, pageWidth - marginX - taglineWidth, y + 12, { charSpace: charSpaceVal });
-  }
+  doc.text('LEARN. PRACTICE. IMPROVE.', marginX, y + 12, { charSpace: 1.1 });
 
   // --- Footer on every page: page numbers + confidentiality note ---
   const pageCount = doc.internal.getNumberOfPages();
