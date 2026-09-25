@@ -341,12 +341,10 @@ export async function buildUserDataExport(uid) {
 // different product from the site itself.
 
 const NAVY = [30, 58, 95];       // --brand-gradient's darkest stop
-const CYAN = [0, 144, 200];      // --cyan (light theme)
 const TEXT_DARK = [30, 41, 59];
 const TEXT_MUTED = [100, 116, 139];
-const ROW_STRIPE = [241, 245, 249];
-const BORDER = [226, 232, 240];
-const TAGLINE_COLOR = [176, 200, 224]; // close to --heading on dark backgrounds
+const RULE_LIGHT = [203, 213, 225];
+const HEADER_FILL = [241, 245, 249];
 
 function arrayBufferToBase64(buffer) {
   let binary = '';
@@ -377,20 +375,19 @@ async function loadSyneFont(doc) {
   }
 }
 
+// A formal ruled heading instead of a colored pill: bold small-caps-
+// style text with a thin rule underneath, the way a printed report
+// or legal document sets off its sections - not a filled colored bar.
 function sectionBar(doc, x, y, width, title, count) {
-  const barHeight = 22;
-  doc.setFillColor(...CYAN);
-  doc.roundedRect(x, y, width, barHeight, 4, 4, 'F');
-  doc.setTextColor(255, 255, 255);
+  doc.setTextColor(...NAVY);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(11);
-  doc.text(title, x + 10, y + barHeight / 2 + 4);
-  if (count != null) {
-    const countText = String(count);
-    doc.setFontSize(9.5);
-    doc.text(countText, x + width - 10, y + barHeight / 2 + 3.5, { align: 'right' });
-  }
-  return y + barHeight + 10;
+  const label = count != null ? `${title} (${count})` : title;
+  doc.text(label, x, y + 10);
+  doc.setDrawColor(...NAVY);
+  doc.setLineWidth(1);
+  doc.line(x, y + 16, x + width, y + 16);
+  return y + 28;
 }
 
 function emptyNote(doc, x, y, text) {
@@ -420,18 +417,17 @@ export async function buildUserDataExportPdf(uid) {
   const usableWidth = pageWidth - marginX * 2;
 
   const tableTheme = {
-    theme: 'plain',
-    styles: { fontSize: 9, cellPadding: { top: 4, bottom: 4, left: 8, right: 8 }, textColor: TEXT_DARK, lineColor: BORDER },
-    headStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: false, lineWidth: { bottom: 1 }, lineColor: NAVY },
-    alternateRowStyles: { fillColor: ROW_STRIPE },
+    theme: 'grid',
+    styles: { fontSize: 9, cellPadding: { top: 4, bottom: 4, left: 8, right: 8 }, textColor: TEXT_DARK, lineColor: RULE_LIGHT, lineWidth: 0.5 },
+    headStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: HEADER_FILL, lineColor: RULE_LIGHT, lineWidth: 0.5 },
     margin: { left: marginX, right: marginX },
   };
 
-  // --- Header banner (page 1 only) ---
+  // --- Letterhead (page 1 only): plain white background, not a
+  // filled color banner - a printed report doesn't have a solid
+  // color block across the top, just a logo/wordmark and a rule. ---
   const bannerHeight = 86;
-  doc.setFillColor(...NAVY);
-  doc.rect(0, 0, pageWidth, bannerHeight, 'F');
-  doc.setTextColor(255, 255, 255);
+  doc.setTextColor(...NAVY);
 
   // Embed the actual app logo (same image used for the Google OAuth
   // branding) rather than just styling text to look logo-like -
@@ -441,8 +437,8 @@ export async function buildUserDataExportPdf(uid) {
   try {
     const logoRes = await fetch('/icon-512.png');
     const logoBytes = new Uint8Array(await logoRes.arrayBuffer());
-    const logoSize = 52;
-    doc.addImage(logoBytes, 'PNG', marginX, (bannerHeight - logoSize) / 2, logoSize, logoSize);
+    const logoSize = 46;
+    doc.addImage(logoBytes, 'PNG', marginX, 14, logoSize, logoSize);
     textStartX = marginX + logoSize + 14;
   } catch {
     // no logo available - text-only header below still works fine
@@ -453,41 +449,50 @@ export async function buildUserDataExportPdf(uid) {
   // falls back to Helvetica Bold if the font can't be fetched.
   const hasSyne = await loadSyneFont(doc);
   doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
-  doc.setFontSize(hasSyne ? 24 : 22);
-  doc.text('Med101', textStartX, bannerHeight / 2 - 6);
+  doc.setFontSize(hasSyne ? 22 : 20);
+  doc.text('Med101', textStartX, 34);
 
   // Tagline directly under the wordmark, matching .topbar-tagline:
   // small, letter-spaced, uppercase, muted.
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
-  doc.setTextColor(...TAGLINE_COLOR);
-  doc.text('LEARN. PRACTICE. IMPROVE.', textStartX, bannerHeight / 2 + 12, { charSpace: 1.1 });
+  doc.setFontSize(7.5);
+  doc.setTextColor(...TEXT_MUTED);
+  doc.text('LEARN. PRACTICE. IMPROVE.', textStartX, 48, { charSpace: 1.1 });
 
-  doc.setTextColor(255, 255, 255);
+  doc.setTextColor(...NAVY);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(9.5);
-  doc.text('Personal Data Export', pageWidth - marginX, 30, { align: 'right' });
+  doc.setFontSize(10);
+  doc.text('PERSONAL DATA EXPORT', pageWidth - marginX, 22, { align: 'right', charSpace: 0.5 });
   doc.setFont('helvetica', 'normal');
+  doc.setTextColor(...TEXT_MUTED);
   doc.setFontSize(8.5);
-  const genLabel = `Generated ${data.generatedAt.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}`;
-  doc.text(genLabel, pageWidth - marginX, 46, { align: 'right' });
-  doc.text(`Account UID: ${uid}`, pageWidth - marginX, 60, { align: 'right' });
+  const genLabel = `Generated: ${data.generatedAt.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}`;
+  doc.text(genLabel, pageWidth - marginX, 38, { align: 'right' });
+  doc.text(`Account UID: ${uid}`, pageWidth - marginX, 52, { align: 'right' });
+
+  // A double rule under the letterhead - a thicker navy line with a
+  // thin gray hairline just beneath it - the way a formal letterhead
+  // or report cover separates its header block from the body.
+  doc.setDrawColor(...NAVY);
+  doc.setLineWidth(1.5);
+  doc.line(marginX, bannerHeight, pageWidth - marginX, bannerHeight);
+  doc.setDrawColor(...RULE_LIGHT);
+  doc.setLineWidth(0.5);
+  doc.line(marginX, bannerHeight + 3, pageWidth - marginX, bannerHeight + 3);
 
   let y = bannerHeight + 22;
 
-  // --- Explanatory note ---
-  doc.setFillColor(...ROW_STRIPE);
-  doc.roundedRect(marginX, y, usableWidth, 30, 4, 4, 'F');
+  // --- Explanatory note (plain text, no colored box) ---
   doc.setTextColor(...TEXT_MUTED);
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('helvetica', 'italic');
   doc.setFontSize(8.5);
   doc.text(
     'This is everything Med101 stores about this account, compiled in response to a data access request (see Section 6 of the Privacy Policy).',
-    marginX + 10,
-    y + 18,
-    { maxWidth: usableWidth - 20 }
+    marginX,
+    y,
+    { maxWidth: usableWidth }
   );
-  y += 44;
+  y += 26;
 
   // --- Profile (2-column key/value table) ---
   y = sectionBar(doc, marginX, y, usableWidth, 'PROFILE');
@@ -649,13 +654,13 @@ export async function buildUserDataExportPdf(uid) {
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     const pageHeight = doc.internal.pageSize.getHeight();
-    doc.setDrawColor(...BORDER);
+    doc.setDrawColor(...RULE_LIGHT);
     doc.setLineWidth(0.5);
     doc.line(marginX, pageHeight - 30, pageWidth - marginX, pageHeight - 30);
     doc.setFont('helvetica', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(...TEXT_MUTED);
-    doc.text('Med101 — Confidential data export', marginX, pageHeight - 18);
+    doc.text('Med101 - Confidential data export', marginX, pageHeight - 18);
     doc.text(`Page ${i} of ${pageCount}`, pageWidth - marginX, pageHeight - 18, { align: 'right' });
   }
 
