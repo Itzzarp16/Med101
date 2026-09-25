@@ -657,38 +657,52 @@ export async function buildUserDataExportPdf(uid) {
   doc.setFontSize(9.5);
   doc.text(`Rooms created: ${data.myRoomsCount}`, marginX, y);
   doc.text(`Pending invites: ${data.invitesCount}`, marginX, y + 14);
+  y += 40;
 
-  // --- Closing page: a thank-you note with the site's own wordmark
-  // on the right, the way a report's back cover carries the brand
-  // mark rather than ending abruptly on a data table. ---
-  doc.addPage();
-  const pageHeight = doc.internal.pageSize.getHeight();
-  const closingY = pageHeight / 2 - 30;
+  // --- Closing note: flows right after the last section like any
+  // other block, rather than being stranded alone on its own mostly-
+  // empty page - only breaks to a fresh page if there genuinely isn't
+  // room left, the same rule a real report would follow. ---
+  const closingBlockHeight = 60;
+  const pageHeightNow = doc.internal.pageSize.getHeight();
+  if (y + closingBlockHeight > pageHeightNow - 50) {
+    doc.addPage();
+    y = 50;
+  }
+
+  doc.setDrawColor(...RULE_LIGHT);
+  doc.setLineWidth(0.5);
+  doc.line(marginX, y, pageWidth - marginX, y);
+  y += 22;
 
   doc.setTextColor(...NAVY);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(20);
-  doc.text('Thank You', marginX, closingY);
+  doc.setFontSize(13);
+  doc.text('Thank You', marginX, y);
 
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(10.5);
+  doc.setFontSize(9);
   doc.setTextColor(...TEXT_MUTED);
   doc.text(
     'Thank you for being part of the Med101 community and trusting us with your learning journey.',
     marginX,
-    closingY + 24,
-    { maxWidth: usableWidth * 0.55 }
+    y + 15,
+    { maxWidth: usableWidth * 0.6 }
   );
 
   doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
   doc.setTextColor(...NAVY);
-  doc.setFontSize(hasSyne ? 30 : 26);
-  doc.text('Med101', pageWidth - marginX, closingY, { align: 'right' });
-  const wordmarkWidth = doc.getTextWidth('Med101');
+  doc.setFontSize(hasSyne ? 17 : 15);
+  doc.text('Med101', pageWidth - marginX, y - 2, { align: 'right' });
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
+  doc.setFontSize(6.5);
   doc.setTextColor(...TEXT_MUTED);
-  doc.text('LEARN. PRACTICE. IMPROVE.', pageWidth - marginX - wordmarkWidth, closingY + 14, { charSpace: 1.1 });
+  {
+    const tagline = 'LEARN. PRACTICE. IMPROVE.';
+    const charSpaceVal = 1.1;
+    const taglineWidth = doc.getTextWidth(tagline) + charSpaceVal * (tagline.length - 1);
+    doc.text(tagline, pageWidth - marginX - taglineWidth, y + 10, { charSpace: charSpaceVal });
+  }
 
   // --- Footer on every page: page numbers + confidentiality note ---
   const pageCount = doc.internal.getNumberOfPages();
