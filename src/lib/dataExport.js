@@ -462,7 +462,16 @@ export async function buildUserDataExportPdf(uid) {
   doc.setTextColor(...NAVY);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(10);
-  doc.text('PERSONAL DATA EXPORT', pageWidth - marginX, 22, { align: 'right', charSpace: 0.5 });
+  {
+    // jsPDF's align:'right' doesn't account for charSpace when
+    // measuring text width, so combining them overflows past the
+    // intended right margin - approximate the letter-spaced width by
+    // hand instead and left-align at the resulting position.
+    const label = 'PERSONAL DATA EXPORT';
+    const charSpaceVal = 0.5;
+    const approxWidth = doc.getTextWidth(label) + charSpaceVal * (label.length - 1);
+    doc.text(label, pageWidth - marginX - approxWidth, 22, { charSpace: charSpaceVal });
+  }
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...TEXT_MUTED);
   doc.setFontSize(8.5);
@@ -648,6 +657,38 @@ export async function buildUserDataExportPdf(uid) {
   doc.setFontSize(9.5);
   doc.text(`Rooms created: ${data.myRoomsCount}`, marginX, y);
   doc.text(`Pending invites: ${data.invitesCount}`, marginX, y + 14);
+
+  // --- Closing page: a thank-you note with the site's own wordmark
+  // on the right, the way a report's back cover carries the brand
+  // mark rather than ending abruptly on a data table. ---
+  doc.addPage();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const closingY = pageHeight / 2 - 30;
+
+  doc.setTextColor(...NAVY);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(20);
+  doc.text('Thank You', marginX, closingY);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(10.5);
+  doc.setTextColor(...TEXT_MUTED);
+  doc.text(
+    'Thank you for being part of the Med101 community and trusting us with your learning journey.',
+    marginX,
+    closingY + 24,
+    { maxWidth: usableWidth * 0.55 }
+  );
+
+  doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
+  doc.setTextColor(...NAVY);
+  doc.setFontSize(hasSyne ? 30 : 26);
+  doc.text('Med101', pageWidth - marginX, closingY, { align: 'right' });
+  const wordmarkWidth = doc.getTextWidth('Med101');
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(...TEXT_MUTED);
+  doc.text('LEARN. PRACTICE. IMPROVE.', pageWidth - marginX - wordmarkWidth, closingY + 14, { charSpace: 1.1 });
 
   // --- Footer on every page: page numbers + confidentiality note ---
   const pageCount = doc.internal.getNumberOfPages();
