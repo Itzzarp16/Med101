@@ -663,7 +663,7 @@ export async function buildUserDataExportPdf(uid) {
   // other block, rather than being stranded alone on its own mostly-
   // empty page - only breaks to a fresh page if there genuinely isn't
   // room left, the same rule a real report would follow. ---
-  const closingBlockHeight = 60;
+  const closingBlockHeight = 110;
   const pageHeightNow = doc.internal.pageSize.getHeight();
   if (y + closingBlockHeight > pageHeightNow - 50) {
     doc.addPage();
@@ -687,13 +687,14 @@ export async function buildUserDataExportPdf(uid) {
     'Thank you for being part of the Med101 community and trusting us with your learning journey.',
     marginX,
     y + 15,
-    { maxWidth: usableWidth * 0.6 }
+    { maxWidth: usableWidth }
   );
+  y += 46;
 
   doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
   doc.setTextColor(...NAVY);
   doc.setFontSize(hasSyne ? 17 : 15);
-  doc.text('Med101', pageWidth - marginX, y - 2, { align: 'right' });
+  doc.text('Med101', pageWidth - marginX, y, { align: 'right' });
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.5);
   doc.setTextColor(...TEXT_MUTED);
@@ -701,7 +702,7 @@ export async function buildUserDataExportPdf(uid) {
     const tagline = 'LEARN. PRACTICE. IMPROVE.';
     const charSpaceVal = 1.1;
     const taglineWidth = doc.getTextWidth(tagline) + charSpaceVal * (tagline.length - 1);
-    doc.text(tagline, pageWidth - marginX - taglineWidth, y + 10, { charSpace: charSpaceVal });
+    doc.text(tagline, pageWidth - marginX - taglineWidth, y + 12, { charSpace: charSpaceVal });
   }
 
   // --- Footer on every page: page numbers + confidentiality note ---
