@@ -87,7 +87,8 @@ export async function submitPaymentRequest({
   amount,
   bankingName,
   phone,
-  utr
+  utr,
+  yearSemester
 }) {
   const cleanUtr = utr.trim();
 
@@ -108,6 +109,11 @@ export async function submitPaymentRequest({
     uid,
     email,
     displayName: displayName || '',
+    // The semester the student was enrolled in at the moment they
+    // paid - carried onto the activationCode on approval so premium
+    // access stays scoped to this semester even if they later switch
+    // their enrolled semester in Settings (see computePremiumFromCodeDocs).
+    yearSemester: yearSemester || null,
     bankingName: bankingName || '',
     phone: phone || '',
     status: 'pending',
@@ -361,7 +367,8 @@ export async function approvePaymentRequest(
   utr,
   uid,
   durationDays,
-  method = 'auto'
+  method = 'auto',
+  yearSemester = null
 ) {
   let code;
 
@@ -387,6 +394,7 @@ export async function approvePaymentRequest(
     uid,
     utr,
     durationDays,
+    yearSemester: yearSemester || null,
     used: autoActivate,
     ...(autoActivate ? { usedBy: uid, usedAt: now } : {}),
     createdAt: now,
@@ -444,6 +452,7 @@ export async function redeemActivationCode(uid, rawCode) {
 
 function computePremiumFromCodeDocs(docs) {
   let latest = null;
+  let latestSemester = null;
 
   docs.forEach((data) => {
     if (!data.usedAt || !data.durationDays) return;
@@ -457,6 +466,11 @@ function computePremiumFromCodeDocs(docs) {
 
     if (!latest || untilMs > latest) {
       latest = untilMs;
+      // No yearSemester on the code (admin-granted via
+      // grantPremiumDirectly, or a code issued before per-semester
+      // pricing existed) means unrestricted - full access regardless
+      // of which semester the student is currently viewing.
+      latestSemester = data.yearSemester || null;
     }
   });
 
@@ -465,7 +479,14 @@ function computePremiumFromCodeDocs(docs) {
   return {
     isPremium:
       !!premiumUntil && premiumUntil.getTime() > Date.now(),
-    premiumUntil
+    premiumUntil,
+    // Which semester this premium is scoped to - null means
+    // unrestricted (applies to every semester). A student who paid
+    // for Semester 1 shouldn't get full access to Semester 6 just by
+    // switching their enrolled semester in Settings; the caller (see
+    // App.jsx) is expected to compare this against the semester
+    // they're currently viewing before treating them as premium.
+    premiumSemester: latestSemester,
   };
 }
 

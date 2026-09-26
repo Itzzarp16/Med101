@@ -64,10 +64,26 @@ export default function App() {
   // (not premium) until the first snapshot arrives, so the paywall
   // fails closed rather than briefly over-granting access.
   const [isPremium, setIsPremium] = useState(false);
+  // Which semester the active premium subscription is scoped to (null
+  // = unrestricted, e.g. admin-granted or a pre-per-semester-pricing
+  // code). Combined with isPremium below so a student who paid for
+  // Semester 1 only gets full access while actually viewing Semester
+  // 1 - switching their enrolled semester in Settings drops them back
+  // to the free preview for whatever semester they switch to.
+  const [premiumSemester, setPremiumSemester] = useState(null);
   useEffect(() => {
-    if (!user?.uid) { setIsPremium(false); return; }
-    return subscribeToMyPremiumStatus(user.uid, (status) => setIsPremium(status.isPremium));
+    if (!user?.uid) { setIsPremium(false); setPremiumSemester(null); return; }
+    return subscribeToMyPremiumStatus(user.uid, (status) => {
+      setIsPremium(status.isPremium);
+      setPremiumSemester(status.premiumSemester);
+    });
   }, [user?.uid]);
+
+  // The actual gate used everywhere content is unlocked: premium only
+  // counts here if it's unrestricted (premiumSemester === null) or
+  // matches the semester currently being viewed.
+  const isPremiumForCurrentSemester =
+    isPremium && (premiumSemester === null || premiumSemester === profile?.enrolledYearSemester);
 
   // Admin can temporarily make Premium free for everyone (e.g. a
   // promo, or just pausing monetization for a while) without touching
@@ -586,7 +602,7 @@ export default function App() {
               subjectMeta={subjectMeta}
               subjectName={selectedSubject}
               emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
-              isPremium={isPremium || isAdmin || premiumPaused}
+              isPremium={isPremiumForCurrentSemester || isAdmin || premiumPaused}
               onGetPremium={() => goTo('premium')}
               onStart={(quizQuestions, settings) => {
                 setFinalQuiz({ questions: quizQuestions, ...settings });
@@ -602,7 +618,7 @@ export default function App() {
               topic={selectedTopic}
               semesterId={activeSemesterId}
               questions={finalQuiz.questions}
-              isPremium={isPremium || isAdmin || premiumPaused}
+              isPremium={isPremiumForCurrentSemester || isAdmin || premiumPaused}
               autoAdvance={finalQuiz.autoAdvance}
               timerSeconds={finalQuiz.timerSeconds}
               roomCode={finalQuiz.roomCode}

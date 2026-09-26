@@ -95,7 +95,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     }
     setBusyUtr(req.utr);
     try {
-      const { code, autoActivate } = await approvePaymentRequest(req.utr, req.uid, days, config.activationMethod);
+      const { code, autoActivate } = await approvePaymentRequest(req.utr, req.uid, days, config.activationMethod, req.yearSemester);
       setIssuedCode({ utr: req.utr, code, days, email: req.email, autoActivate });
     } catch (e) {
       alert('Failed to approve: ' + (e.message || e));
@@ -312,6 +312,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
               <span>Banking name: <strong>{req.bankingName || '-'}</strong></span>
               <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{req.utr}</strong></span>
               <span>Phone: <strong>{req.phone || '-'}</strong></span>
+              {req.yearSemester && <span>Semester: <strong>{YEAR_SEMESTER_OPTIONS.find((o) => o.value === req.yearSemester)?.label || req.yearSemester}</strong></span>}
             </div>
 
             {rejectingUtr === req.utr ? (

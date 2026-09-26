@@ -9,6 +9,16 @@ import { setAccountDisabled, deleteAccount } from '../lib/adminAccountActions';
 import { buildUserDataExportPdf, emailDataExportToUser } from '../lib/dataExport';
 import { subscribeToMyPremiumStatus, grantPremiumDirectly } from '../lib/subscription';
 
+// Just for the "· Semester N only" note next to an active subscription
+// below - same 6 values AuthScreen/SettingsScreen use for
+// enrolledYearSemester, as a plain lookup map rather than the full
+// {value,label} array those files use, since that's all this needs.
+const SEMESTER_LABELS = {
+  y1s1: 'Semester 1', y1s2: 'Semester 2',
+  y2s1: 'Semester 3', y2s2: 'Semester 4',
+  y3s1: 'Semester 5', y3s2: 'Semester 6',
+};
+
 const MAXX_DURATION_PRESETS = [
   { label: '1 Month', days: 30 },
   { label: '3 Months', days: 90 },
@@ -457,6 +467,9 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
               ) : premiumStatus.isPremium ? (
                 <span style={{ color: 'var(--green)', fontWeight: 700 }}>
                   Active until {premiumStatus.premiumUntil.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                  {premiumStatus.premiumSemester && (
+                    <span style={{ color: 'var(--text3)', fontWeight: 400 }}> · {SEMESTER_LABELS[premiumStatus.premiumSemester] || premiumStatus.premiumSemester} only</span>
+                  )}
                 </span>
               ) : (
                 <span style={{ color: 'var(--text3)' }}>Not active</span>

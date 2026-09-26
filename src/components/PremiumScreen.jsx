@@ -163,7 +163,7 @@ export default function PremiumScreen({ onBack }) {
       await submitPaymentRequest({
         uid: user.uid, email: user.email, displayName: user.displayName,
         username: profile?.username, amount: formatPrice(effectivePriceLabel),
-        bankingName, phone, utr,
+        bankingName, phone, utr, yearSemester: profile?.enrolledYearSemester,
       });
       setSubmitMsg({
         text: config?.activationMethod === 'code'
