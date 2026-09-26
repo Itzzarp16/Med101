@@ -258,6 +258,32 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     playAppreciationSound(pct);
   }, [finished, pct]);
 
+  // Animates the accuracy ring (and the % it shows) sweeping up from 0
+  // to the actual score over ~700ms, rather than just appearing at its
+  // final value - driven frame-by-frame here rather than a plain CSS
+  // transition so the number and the ring stay perfectly in sync.
+  const [ringAnimPct, setRingAnimPct] = useState(0);
+  useEffect(() => {
+    if (!finished) { setRingAnimPct(0); return; }
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setRingAnimPct(pct);
+      return;
+    }
+    let raf;
+    const duration = 700;
+    const start = performance.now() + 150; // small pause before it starts, so it reads as a reveal
+    function tick(now) {
+      const elapsed = now - start;
+      if (elapsed < 0) { raf = requestAnimationFrame(tick); return; }
+      const t = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+      setRingAnimPct(Math.round(eased * pct));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [finished, pct]);
+
   // Save history + leaderboard once, the moment the results screen appears.
   useEffect(() => {
     if (!finished || savedRef.current || !user) return;
@@ -342,10 +368,12 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       .map(({ qq }) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c }));
 
     // Circular accuracy ring - SVG stroke-dashoffset trick, matches the
-    // thin rounded-cap ring look rather than a filled pie.
+    // thin rounded-cap ring look rather than a filled pie. Driven by
+    // ringAnimPct (see the effect above) so it sweeps up from 0 rather
+    // than appearing at its final position.
     const ringR = 54;
     const ringC = 2 * Math.PI * ringR;
-    const ringOffset = ringC - (pct / 100) * ringC;
+    const ringOffset = ringC - (ringAnimPct / 100) * ringC;
 
     function handleRestartSame() {
       playTapSound();
@@ -363,6 +391,13 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     return (
       <div className="quiz-results">
         <div className="quiz-results-card">
+          {pct > 70 && (
+            <div className="results-confetti" aria-hidden="true">
+              {['🎉', '✨', '⭐', '🎊', '💫', '✨', '🎉', '⭐'].map((emoji, i) => (
+                <span key={i} className="confetti-piece" style={{ '--i': i }}>{emoji}</span>
+              ))}
+            </div>
+          )}
           <div className="results-hero-emoji">{pct > 70 ? '💪' : pct >= 40 ? '📚' : '🔁'}</div>
           <h2 className="results-hero-title">Quiz Complete!</h2>
           <div className="results-hero-sub">{answeredCount} of {total} answered</div>
@@ -378,7 +413,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
               />
             </svg>
             <div className="results-ring-center">
-              <div className="results-ring-pct">{pct}%</div>
+              <div className="results-ring-pct">{ringAnimPct}%</div>
               <div className="results-ring-label">ACCURACY</div>
             </div>
           </div>
@@ -423,15 +458,15 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           </div>
 
           <div className="results-summary-grid">
-            <div className="results-summary-card" style={{ borderColor: 'rgba(var(--cyan-rgb),0.35)' }}>
+            <div className="results-summary-card stagger-in" style={{ '--stagger-i': 0, borderColor: 'rgba(var(--cyan-rgb),0.35)' }}>
               <div className="results-summary-val" style={{ color: 'var(--cyan)' }}>{correctCount}/{total}</div>
               <div className="results-summary-label">Score</div>
             </div>
-            <div className="results-summary-card" style={{ borderColor: 'rgba(48,242,138,0.35)' }}>
+            <div className="results-summary-card stagger-in" style={{ '--stagger-i': 1, borderColor: 'rgba(48,242,138,0.35)' }}>
               <div className="results-summary-val" style={{ color: 'var(--green)' }}>{pct}%</div>
               <div className="results-summary-label">Accuracy</div>
             </div>
-            <div className="results-summary-card" style={{ borderColor: 'rgba(255,204,42,0.35)' }}>
+            <div className="results-summary-card stagger-in" style={{ '--stagger-i': 2, borderColor: 'rgba(255,204,42,0.35)' }}>
               <div className="results-summary-val" style={{ color: grade.color }}>{grade.letter}</div>
               <div className="results-summary-label">Grade</div>
             </div>
