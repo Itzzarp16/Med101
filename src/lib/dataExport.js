@@ -341,10 +341,29 @@ export async function buildUserDataExport(uid) {
 // different product from the site itself.
 
 const NAVY = [30, 58, 95];       // --brand-gradient's darkest stop
+const NAVY_SHADOW = [12, 28, 48]; // --brand-wordmark-shadow, same tone as the CSS wordmark's embossed shadow
 const TEXT_DARK = [30, 41, 59];
 const TEXT_MUTED = [100, 116, 139];
 const RULE_LIGHT = [203, 213, 225];
 const HEADER_FILL = [241, 245, 249];
+
+// Same embossed/extruded look as the site's CSS wordmark
+// (.topbar-logo / .app-loading-logo's text-shadow stack), replicated
+// for jsPDF's vector text: a few same-direction offset copies in a
+// darker navy behind the real text read as depth, then the actual
+// text is drawn on top in its normal color. Only used for the
+// "Med101" wordmark itself, not the tagline - at 6.5-7.5pt the
+// tagline is too small for the offsets to read as anything but
+// blur.
+function draw3DText(doc, text, x, y, { align = 'left' } = {}) {
+  const mainColor = doc.getTextColor();
+  doc.setTextColor(...NAVY_SHADOW);
+  doc.text(text, x + 0.5, y + 0.5, { align });
+  doc.text(text, x + 1, y + 1, { align });
+  doc.text(text, x + 1.5, y + 1.5, { align });
+  doc.setTextColor(mainColor);
+  doc.text(text, x, y, { align });
+}
 
 function arrayBufferToBase64(buffer) {
   let binary = '';
@@ -398,7 +417,7 @@ function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBy
 
   doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
   doc.setFontSize(hasSyne ? 22 : 20);
-  doc.text('Med101', textStartX, 34);
+  draw3DText(doc, 'Med101', textStartX, 34);
 
   // Tight gap to the tagline, matching the site's own topbar lockup
   // (.topbar-logo-stack: line-height 1, 1px margin) rather than the
@@ -760,7 +779,7 @@ export async function buildUserDataExportPdf(uid) {
   doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
   doc.setTextColor(...NAVY);
   doc.setFontSize(hasSyne ? 17 : 15);
-  doc.text('Med101', pageWidth - marginX, y, { align: 'right' });
+  draw3DText(doc, 'Med101', pageWidth - marginX, y, { align: 'right' });
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(6.5);
   doc.setTextColor(...TEXT_MUTED);

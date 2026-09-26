@@ -63,6 +63,11 @@
      changes from a single edit. Navy-to-slate, not theme-dependent
      (the logo should look the same in light or dark mode). */
   --brand-gradient: linear-gradient(90deg, #1e3a5f, #3d5875, #64748b);
+  /* Darker navy used only for the wordmark's 3D/embossed shadow layers
+     below (.topbar-logo, .app-loading-logo) - same fixed value in
+     light or dark mode, for the same reason as --brand-gradient
+     itself. */
+  --brand-wordmark-shadow: #0c1c30;
 
   /* Headings - a softer, desaturated pale slate rather than the full-
      saturation --cyan. Large blocks of a vivid, fully-saturated color
@@ -449,6 +454,12 @@ h1, h2, .display {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.01em;
+  /* Extruded/embossed look: a stepped stack of same-direction offsets
+     in a darker navy reads as depth behind the gradient face, plus a
+     soft blurred shadow underneath for lift. Kept subtle at this
+     small size - see .app-loading-logo for the larger version. */
+  text-shadow: 0.5px 0.5px 0 var(--brand-wordmark-shadow), 1px 1px 0 var(--brand-wordmark-shadow),
+    1.5px 1.5px 2px rgba(0, 0, 0, 0.3);
 }
 
 .topbar-tagline {
@@ -915,6 +926,10 @@ h1, h2, .display {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  /* Same embossed technique as .topbar-logo, scaled up for the bigger
+     type here. */
+  text-shadow: 1px 1px 0 var(--brand-wordmark-shadow), 2px 2px 0 var(--brand-wordmark-shadow),
+    3px 3px 0 var(--brand-wordmark-shadow), 4px 4px 6px rgba(0, 0, 0, 0.35);
 }
 
 .app-loading-signature {
