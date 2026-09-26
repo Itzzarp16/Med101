@@ -3,6 +3,7 @@ import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import { changePassword, claimUsername, fetchMyUsername, updateDisplayName, uploadProfilePhoto } from '../lib/profile';
+import { buildUserDataExportPdf } from '../lib/dataExport';
 import { playTapSound } from '../lib/sounds';
 import './ProfileScreen.css';
 
@@ -30,6 +31,10 @@ export default function ProfileScreen({ onBack }) {
   const [showPwForm, setShowPwForm] = useState(false);
   const [pwSaving, setPwSaving] = useState(false);
   const [pwMsg, setPwMsg] = useState(null);
+
+  const [showDataExport, setShowDataExport] = useState(false);
+  const [downloadBusy, setDownloadBusy] = useState(false);
+  const [downloadError, setDownloadError] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -137,6 +142,21 @@ export default function ProfileScreen({ onBack }) {
       setPwMsg({ type: 'success', text: `Password reset email sent to ${user.email}. Check your inbox.` });
     } catch (e) {
       setPwMsg({ type: 'error', text: e.message || String(e) });
+    }
+  }
+
+  async function handleDownloadData() {
+    playTapSound();
+    setDownloadError(null);
+    setDownloadBusy(true);
+    try {
+      const doc = await buildUserDataExportPdf(user.uid);
+      const safeName = (user.displayName || user.email || user.uid).replace(/[^a-zA-Z0-9._-]/g, '_');
+      doc.save(`med101-data-export-${safeName}.pdf`);
+    } catch (e) {
+      setDownloadError(e.message || String(e));
+    } finally {
+      setDownloadBusy(false);
     }
   }
 
@@ -298,6 +318,36 @@ export default function ProfileScreen({ onBack }) {
                   <button className="btn-ghost" onClick={() => { playTapSound(); setShowPwForm(false); setPwMsg(null); setCurrentPw(''); setNewPw(''); setConfirmPw(''); }} disabled={pwSaving}>Cancel</button>
                   <button className="btn-glow" onClick={handleChangePassword} disabled={pwSaving}>
                     {pwSaving ? 'Changing…' : 'Change Password'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="profile-section">
+        <div className="profile-section-title">My Data</div>
+        <div className="profile-list">
+          <div className="profile-row">
+            {!showDataExport ? (
+              <div className="profile-row-summary">
+                <div className="profile-row-main">
+                  <div className="profile-row-label">Data Export</div>
+                  <div className="profile-row-value">Download a copy of your account data</div>
+                </div>
+                <button className="profile-row-edit" onClick={() => { playTapSound(); setShowDataExport(true); }}>View</button>
+              </div>
+            ) : (
+              <div className="profile-row-edit-form">
+                <p className="std-note">
+                  Get a full copy of everything Med101 stores about your account (profile, quiz history, flagged/wrong questions, payments, etc.) as a PDF, saved straight to this device.
+                </p>
+                {downloadError && <div className="auth-msg error" style={{ display: 'block' }}>{downloadError}</div>}
+                <div className="profile-row-edit-actions">
+                  <button className="btn-ghost" onClick={() => { playTapSound(); setShowDataExport(false); setDownloadError(null); }} disabled={downloadBusy}>Close</button>
+                  <button className="btn-glow" onClick={handleDownloadData} disabled={downloadBusy}>
+                    {downloadBusy ? 'Preparing…' : '📥 Download'}
                   </button>
                 </div>
               </div>

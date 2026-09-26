@@ -415,62 +415,26 @@ function emptyNote(doc, x, y, text) {
   return y + 18;
 }
 
-// Renders buildUserDataExport's underlying data as a designed,
-// paginated PDF (jsPDF + jspdf-autotable), returning the jsPDF
-// document object itself so callers can choose what to do with it -
-// handleExportData calls doc.save(...) to download it,
-// handleEmailExportToUser instead reads its base64 via
-// doc.output('datauristring') to attach to an email. Keeping the
-// layout logic here in one place (rather than duplicated per caller)
-// means the download and the emailed copy always look identical.
-export async function buildUserDataExportPdf(uid) {
-  const data = await fetchExportData(uid);
-  const { jsPDF } = await import('jspdf');
-  const { autoTable } = await import('jspdf-autotable');
-  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-
-  const marginX = 40;
-  const pageWidth = doc.internal.pageSize.getWidth();
-  const usableWidth = pageWidth - marginX * 2;
-
-  const tableTheme = {
-    theme: 'grid',
-    styles: { fontSize: 9, cellPadding: { top: 4, bottom: 4, left: 8, right: 8 }, textColor: TEXT_DARK, lineColor: RULE_LIGHT, lineWidth: 0.5 },
-    headStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: HEADER_FILL, lineColor: RULE_LIGHT, lineWidth: 0.5 },
-    margin: { left: marginX, right: marginX },
-  };
-
-  // --- Letterhead (page 1 only): plain white background, not a
-  // filled color banner - a printed report doesn't have a solid
-  // color block across the top, just a logo/wordmark and a rule. ---
-  const bannerHeight = 86;
+// Draws the full letterhead (logo, wordmark, tagline, title, meta,
+// double rule) at the top of whatever page is currently active.
+// Called once for page 1 up front, then again via autoTable's
+// didDrawPage hook for every page a table spills onto, and once more
+// after the manual addPage() before the closing block - so every
+// page in the export carries the same header, not just the first.
+function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBytes, genLabel, uid }) {
   doc.setTextColor(...NAVY);
 
-  // Embed the actual app logo (same image used for the Google OAuth
-  // branding) rather than just styling text to look logo-like -
-  // falls back to text-only if it can't be fetched for any reason,
-  // so a network hiccup never breaks the whole export.
   let textStartX = marginX;
-  try {
-    const logoRes = await fetch('/icon-512.png');
-    const logoBytes = new Uint8Array(await logoRes.arrayBuffer());
+  if (logoBytes) {
     const logoSize = 46;
     doc.addImage(logoBytes, 'PNG', marginX, 14, logoSize, logoSize);
     textStartX = marginX + logoSize + 14;
-  } catch {
-    // no logo available - text-only header below still works fine
   }
 
-  // Match the site's actual wordmark (tokens.css .topbar-logo: 'Syne'
-  // at weight 800) rather than approximating it with bold Helvetica -
-  // falls back to Helvetica Bold if the font can't be fetched.
-  const hasSyne = await loadSyneFont(doc);
   doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
   doc.setFontSize(hasSyne ? 22 : 20);
   doc.text('Med101', textStartX, 34);
 
-  // Tagline directly under the wordmark, matching .topbar-tagline:
-  // small, letter-spaced, uppercase, muted.
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(...TEXT_MUTED);
@@ -492,7 +456,6 @@ export async function buildUserDataExportPdf(uid) {
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(...TEXT_MUTED);
   doc.setFontSize(8.5);
-  const genLabel = `Generated: ${data.generatedAt.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}`;
   doc.text(genLabel, pageWidth - marginX, 38, { align: 'right' });
   doc.text(`Account UID: ${uid}`, pageWidth - marginX, 52, { align: 'right' });
 
@@ -505,6 +468,60 @@ export async function buildUserDataExportPdf(uid) {
   doc.setDrawColor(...RULE_LIGHT);
   doc.setLineWidth(0.5);
   doc.line(marginX, bannerHeight + 3, pageWidth - marginX, bannerHeight + 3);
+}
+
+// Renders buildUserDataExport's underlying data as a designed,
+// paginated PDF (jsPDF + jspdf-autotable), returning the jsPDF
+// document object itself so callers can choose what to do with it -
+// handleExportData calls doc.save(...) to download it,
+// handleEmailExportToUser instead reads its base64 via
+// doc.output('datauristring') to attach to an email. Keeping the
+// layout logic here in one place (rather than duplicated per caller)
+// means the download and the emailed copy always look identical.
+export async function buildUserDataExportPdf(uid) {
+  const data = await fetchExportData(uid);
+  const { jsPDF } = await import('jspdf');
+  const { autoTable } = await import('jspdf-autotable');
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+
+  const marginX = 40;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const usableWidth = pageWidth - marginX * 2;
+
+  // --- Letterhead: drawn on page 1 now, and again on every later
+  // page (via tableTheme's didDrawPage hook, plus explicitly after
+  // the one manual addPage() below) so it's not just a cover page. ---
+  const bannerHeight = 86;
+  doc.setTextColor(...NAVY);
+
+  // Embed the actual app logo (same image used for the Google OAuth
+  // branding) rather than just styling text to look logo-like -
+  // falls back to text-only if it can't be fetched for any reason,
+  // so a network hiccup never breaks the whole export.
+  let logoBytes = null;
+  try {
+    const logoRes = await fetch('/icon-512.png');
+    logoBytes = new Uint8Array(await logoRes.arrayBuffer());
+  } catch {
+    // no logo available - text-only header below still works fine
+  }
+
+  // Match the site's actual wordmark (tokens.css .topbar-logo: 'Syne'
+  // at weight 800) rather than approximating it with bold Helvetica -
+  // falls back to Helvetica Bold if the font can't be fetched.
+  const hasSyne = await loadSyneFont(doc);
+  const genLabel = `Generated: ${data.generatedAt.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}`;
+  const letterheadArgs = { marginX, pageWidth, bannerHeight, hasSyne, logoBytes, genLabel, uid };
+
+  const tableTheme = {
+    theme: 'grid',
+    styles: { fontSize: 9, cellPadding: { top: 4, bottom: 4, left: 8, right: 8 }, textColor: TEXT_DARK, lineColor: RULE_LIGHT, lineWidth: 0.5 },
+    headStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: HEADER_FILL, lineColor: RULE_LIGHT, lineWidth: 0.5 },
+    margin: { top: bannerHeight + 22, left: marginX, right: marginX },
+    didDrawPage: () => drawLetterhead(doc, letterheadArgs),
+  };
+
+  drawLetterhead(doc, letterheadArgs);
 
   let y = bannerHeight + 22;
 
@@ -684,7 +701,8 @@ export async function buildUserDataExportPdf(uid) {
   const pageHeightNow = doc.internal.pageSize.getHeight();
   if (y + closingBlockHeight > pageHeightNow - 50) {
     doc.addPage();
-    y = 50;
+    drawLetterhead(doc, letterheadArgs);
+    y = bannerHeight + 22;
   }
 
   doc.setDrawColor(...RULE_LIGHT);
@@ -692,19 +710,25 @@ export async function buildUserDataExportPdf(uid) {
   doc.line(marginX, y, pageWidth - marginX, y);
   y += 22;
 
+  // Closing block, right-aligned so it reads as its own signed-off
+  // block distinct from the left-aligned body content above - Thank
+  // You heading and note stacked directly above the Med101 branding,
+  // both anchored to the same right edge.
+  const closingColWidth = usableWidth * 0.55;
+
   doc.setTextColor(...NAVY);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(13);
-  doc.text('Thank You', marginX, y);
+  doc.text('Thank You', pageWidth - marginX, y, { align: 'right' });
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(...TEXT_MUTED);
   doc.text(
     'Thank you for being part of the Med101 community and trusting us with your learning journey.',
-    marginX,
+    pageWidth - marginX,
     y + 15,
-    { maxWidth: usableWidth }
+    { maxWidth: closingColWidth, align: 'right' }
   );
   y += 46;
 
@@ -716,6 +740,9 @@ export async function buildUserDataExportPdf(uid) {
   doc.setFontSize(6.5);
   doc.setTextColor(...TEXT_MUTED);
   {
+    // Same jsPDF align+charSpace width-measurement bug noted above -
+    // compute the letter-spaced width by hand and left-align there
+    // instead of trusting align:'right' to account for it.
     const tagline = 'LEARN. PRACTICE. IMPROVE.';
     const charSpaceVal = 1.1;
     const taglineWidth = doc.getTextWidth(tagline) + charSpaceVal * (tagline.length - 1);
