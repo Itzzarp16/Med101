@@ -740,17 +740,20 @@ export async function buildUserDataExportPdf(uid) {
 
   doc.setTextColor(...NAVY);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(13);
+  doc.setFontSize(16);
   doc.text('Thank You', pageWidth - marginX, y, { align: 'right' });
 
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(...TEXT_MUTED);
+  // Two explicit lines (not maxWidth auto-wrap) so the break always
+  // falls after "community" rather than wherever the pixel width
+  // happens to force it - keeps both lines close in length.
   doc.text(
-    'Thank you for being part of the Med101 community and trusting us with your learning journey.',
+    ['Thank you for being part of the Med101 community', 'and trusting us with your learning journey.'],
     pageWidth - marginX,
     y + 15,
-    { maxWidth: closingColWidth, align: 'right' }
+    { align: 'right' }
   );
   y += 46;
 
