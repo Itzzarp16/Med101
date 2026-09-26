@@ -9,6 +9,18 @@ const DURATION_PRESETS = [
   { label: '1 Year', days: 365 },
 ];
 
+// Same list AuthScreen/SettingsScreen use for enrolledYearSemester -
+// duplicated locally rather than pulled into a shared module, matching
+// how those two already each keep their own copy.
+const YEAR_SEMESTER_OPTIONS = [
+  { value: 'y1s1', label: 'Semester 1' },
+  { value: 'y1s2', label: 'Semester 2' },
+  { value: 'y2s1', label: 'Semester 3' },
+  { value: 'y2s2', label: 'Semester 4' },
+  { value: 'y3s1', label: 'Semester 5' },
+  { value: 'y3s2', label: 'Semester 6' },
+];
+
 export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [requests, setRequests] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +37,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
 
   // Subscription config (UPI ID / price / instructions) - editable
   // right here since it's the same admin who deals with both.
-  const [config, setConfig] = useState({ upiId: '', priceLabel: '', instructions: '', activationMethod: 'auto', premiumPaused: false });
+  const [config, setConfig] = useState({ upiId: '', priceLabel: '', priceLabelsBySemester: {}, instructions: '', activationMethod: 'auto', premiumPaused: false });
   const [configLoading, setConfigLoading] = useState(true);
   const [configSaving, setConfigSaving] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
@@ -49,7 +61,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
       setCodesLoading(false);
     });
     getSubscriptionConfig().then((c) => {
-      if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', instructions: c.instructions || '', activationMethod: c.activationMethod === 'code' ? 'code' : 'auto', premiumPaused: !!c.premiumPaused });
+      if (c) setConfig({ upiId: c.upiId || '', priceLabel: c.priceLabel || '', priceLabelsBySemester: c.priceLabelsBySemester || {}, instructions: c.instructions || '', activationMethod: c.activationMethod === 'code' ? 'code' : 'auto', premiumPaused: !!c.premiumPaused });
       setConfigLoading(false);
     });
     return () => {
@@ -219,7 +231,31 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
 
                 <label className="auth-label" style={{ marginTop: 18 }}>Price Label</label>
                 <input className="auth-input" value={config.priceLabel} onChange={(e) => setConfig((c) => ({ ...c, priceLabel: e.target.value }))} placeholder="e.g. ₹299 / 3 months" />
-                <label className="auth-label" style={{ marginTop: 10 }}>UPI ID</label>
+                <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>Default price shown to any semester without its own override below.</div>
+
+                <label className="auth-label" style={{ marginTop: 18 }}>Per-Semester Pricing (optional)</label>
+                <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 2, marginBottom: 8 }}>
+                  Leave a semester blank to use the default Price Label above.
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {YEAR_SEMESTER_OPTIONS.map((opt) => (
+                    <div key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                      <div style={{ fontSize: 12.5, color: 'var(--text2)', width: 90, flexShrink: 0 }}>{opt.label}</div>
+                      <input
+                        className="auth-input"
+                        style={{ margin: 0 }}
+                        value={config.priceLabelsBySemester[opt.value] || ''}
+                        onChange={(e) => setConfig((c) => ({
+                          ...c,
+                          priceLabelsBySemester: { ...c.priceLabelsBySemester, [opt.value]: e.target.value },
+                        }))}
+                        placeholder={config.priceLabel || 'Same as default'}
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                <label className="auth-label" style={{ marginTop: 18 }}>UPI ID</label>
                 <input className="auth-input" value={config.upiId} onChange={(e) => setConfig((c) => ({ ...c, upiId: e.target.value }))} placeholder="yourname@upi" style={{ fontFamily: 'var(--font-mono)' }} />
                 <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>The QR code and payment link are generated automatically from this UPI ID - no image to upload.</div>
                 <label className="auth-label" style={{ marginTop: 10 }}>Instructions (optional)</label>

@@ -56,6 +56,7 @@ export function subscribeToSubscriptionConfig(callback) {
 export async function saveSubscriptionConfig({
   upiId,
   priceLabel,
+  priceLabelsBySemester,
   qrImageUrl,
   instructions,
   activationMethod,
@@ -66,6 +67,7 @@ export async function saveSubscriptionConfig({
     {
       upiId,
       priceLabel,
+      priceLabelsBySemester: priceLabelsBySemester || {},
       qrImageUrl: qrImageUrl || null,
       instructions: instructions || '',
       activationMethod: activationMethod === 'code' ? 'code' : 'auto',

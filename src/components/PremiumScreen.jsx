@@ -69,6 +69,11 @@ export default function PremiumScreen({ onBack }) {
   const [loading, setLoading] = useState(true);
   const [premium, setPremium] = useState({ isPremium: false, premiumUntil: null });
   const [myRequests, setMyRequests] = useState([]);
+  // The admin can set a different price per semester (Payment Settings
+  // -> Per-Semester Pricing); this is what actually gets shown/charged,
+  // falling back to the single default priceLabel when that semester
+  // has no override set.
+  const effectivePriceLabel = config?.priceLabelsBySemester?.[profile?.enrolledYearSemester] || config?.priceLabel;
   // Once a payment's been submitted, the whole "pay now" flow should
   // step out of the way - either they're waiting on a decision, or
   // they already have a code to enter. Only a rejection reopens it
@@ -157,7 +162,7 @@ export default function PremiumScreen({ onBack }) {
     try {
       await submitPaymentRequest({
         uid: user.uid, email: user.email, displayName: user.displayName,
-        username: profile?.username, amount: formatPrice(config?.priceLabel),
+        username: profile?.username, amount: formatPrice(effectivePriceLabel),
         bankingName, phone, utr,
       });
       setSubmitMsg({
@@ -261,11 +266,11 @@ export default function PremiumScreen({ onBack }) {
             <div className="pay-card">
               <div className="pay-card-inner">
                 <div className="pay-card-eyebrow">Scan to Pay</div>
-                {config.priceLabel && <div className="pay-card-price">{formatPrice(config.priceLabel)}</div>}
+                {effectivePriceLabel && <div className="pay-card-price">{formatPrice(effectivePriceLabel)}</div>}
 
                 {config.upiId && (
                   <div className="pay-qr-frame">
-                    <LiveQrCode upiId={config.upiId} amount={extractAmount(config.priceLabel)} />
+                    <LiveQrCode upiId={config.upiId} amount={extractAmount(effectivePriceLabel)} />
                   </div>
                 )}
 
