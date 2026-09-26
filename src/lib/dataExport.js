@@ -705,16 +705,18 @@ export async function buildUserDataExportPdf(uid) {
     y = bannerHeight + 22;
   }
 
-  doc.setDrawColor(...RULE_LIGHT);
-  doc.setLineWidth(0.5);
-  doc.line(marginX, y, pageWidth - marginX, y);
-  y += 22;
-
   // Closing block, right-aligned so it reads as its own signed-off
   // block distinct from the left-aligned body content above - Thank
   // You heading and note stacked directly above the Med101 branding,
-  // both anchored to the same right edge.
+  // both anchored to the same right edge. The rule above it is scoped
+  // to just this column's width, not the full page, so it doesn't
+  // read as a full section-width divider anymore.
   const closingColWidth = usableWidth * 0.55;
+
+  doc.setDrawColor(...RULE_LIGHT);
+  doc.setLineWidth(0.5);
+  doc.line(pageWidth - marginX - closingColWidth, y, pageWidth - marginX, y);
+  y += 22;
 
   doc.setTextColor(...NAVY);
   doc.setFont('helvetica', 'bold');
