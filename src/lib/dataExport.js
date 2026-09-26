@@ -435,10 +435,13 @@ function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBy
   doc.setFontSize(hasSyne ? 22 : 20);
   doc.text('Med101', textStartX, 34);
 
+  // Tight gap to the tagline, matching the site's own topbar lockup
+  // (.topbar-logo-stack: line-height 1, 1px margin) rather than the
+  // looser spacing a plain two-line text block defaults to.
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7.5);
   doc.setTextColor(...TEXT_MUTED);
-  doc.text('LEARN. PRACTICE. IMPROVE.', textStartX, 48, { charSpace: 1.1 });
+  doc.text('LEARN. PRACTICE. IMPROVE.', textStartX, 44, { charSpace: 1.1 });
 
   doc.setTextColor(...NAVY);
   doc.setFont('helvetica', 'bold');
@@ -744,11 +747,13 @@ export async function buildUserDataExportPdf(uid) {
   {
     // Same jsPDF align+charSpace width-measurement bug noted above -
     // compute the letter-spaced width by hand and left-align there
-    // instead of trusting align:'right' to account for it.
+    // instead of trusting align:'right' to account for it. Gap to the
+    // wordmark above kept tight (matching .topbar-logo-stack) rather
+    // than the looser spacing plain two-line text defaults to.
     const tagline = 'LEARN. PRACTICE. IMPROVE.';
     const charSpaceVal = 1.1;
     const taglineWidth = doc.getTextWidth(tagline) + charSpaceVal * (tagline.length - 1);
-    doc.text(tagline, pageWidth - marginX - taglineWidth, y + 12, { charSpace: charSpaceVal });
+    doc.text(tagline, pageWidth - marginX - taglineWidth, y + 8, { charSpace: charSpaceVal });
   }
 
   // --- Footer on every page: page numbers + confidentiality note ---
