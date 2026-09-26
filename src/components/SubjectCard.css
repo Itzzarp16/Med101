@@ -56,6 +56,14 @@
   line-height: 1.4;
   white-space: normal;
   word-break: break-word;
+  /* Same embossed/extruded technique as the Med101 wordmark
+     (.topbar-logo) - a stepped offset stack plus a soft blurred
+     shadow underneath. Uses a plain black shadow rather than a fixed
+     hex like the wordmark's, since --text itself flips between pale
+     (dark mode) and navy (light mode) - black reads as depth against
+     either. */
+  text-shadow: 0.5px 0.5px 0 rgba(0, 0, 0, 0.35), 1px 1px 0 rgba(0, 0, 0, 0.35),
+    1.5px 1.5px 2px rgba(0, 0, 0, 0.25);
 }
 
 .subj-count {
