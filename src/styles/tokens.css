@@ -892,6 +892,36 @@ h1, h2, .display {
   .std-loading::before { animation: none; }
 }
 
+/* Shared empty-state layout: an icon that gently bobs up and down,
+   above the muted message - used inside an existing .glass.std-card
+   wrapper (Friends, History, Wrong/Flagged, Leaderboard, Challenge
+   rooms) rather than the plain centered text block those used to be. */
+.empty-state {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--text3);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.empty-state-icon {
+  font-size: 32px;
+  line-height: 1;
+  animation: empty-state-float 2.6s ease-in-out infinite;
+}
+
+@keyframes empty-state-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .empty-state-icon { animation: none; }
+}
+
 /* Toggle switch - used by Settings (Dark/Light Mode, Sound On/Off) */
 .toggle-row {
   display: flex;

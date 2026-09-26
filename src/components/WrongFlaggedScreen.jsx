@@ -59,8 +59,9 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
       {loading ? (
         <div className="std-loading">Loading…</div>
       ) : list.length === 0 ? (
-        <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>
-          {tab === 'wrong' ? "You haven't missed anything here yet." : "Star a question during a quiz to save it here."}
+        <div className="glass std-card empty-state">
+          <div className="empty-state-icon">{tab === 'wrong' ? '✅' : '🔖'}</div>
+          <div>{tab === 'wrong' ? "You haven't missed anything here yet." : "Star a question during a quiz to save it here."}</div>
         </div>
       ) : (
         <>

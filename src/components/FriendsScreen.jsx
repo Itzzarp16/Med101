@@ -73,8 +73,9 @@ export default function FriendsScreen({ onBack, onChallenge }) {
       </div>
 
       {friends.length === 0 ? (
-        <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>
-          No friends added yet.
+        <div className="glass std-card empty-state">
+          <div className="empty-state-icon">👥</div>
+          <div>No friends added yet.</div>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

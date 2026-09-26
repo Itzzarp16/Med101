@@ -300,8 +300,9 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
         myRoomsLoading ? (
           <div className="std-loading">Loading…</div>
         ) : myRooms.length === 0 ? (
-          <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>
-            No rooms yet. Create or join one to see it here.
+          <div className="glass std-card empty-state">
+            <div className="empty-state-icon">🎮</div>
+            <div>No rooms yet. Create or join one to see it here.</div>
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
