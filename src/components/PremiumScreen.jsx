@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import {
   subscribeToSubscriptionConfig, submitPaymentRequest, subscribeToMyPaymentRequests,
-  redeemActivationCode, subscribeToMyPremiumStatus,
+  redeemActivationCode, subscribeToMyPremiumStatus, activateFreeSemester,
 } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 import LiveQrCode from './LiveQrCode';
@@ -74,6 +74,19 @@ export default function PremiumScreen({ onBack }) {
   // falling back to the single default priceLabel when that semester
   // has no override set.
   const effectivePriceLabel = config?.priceLabelsBySemester?.[profile?.enrolledYearSemester] || config?.priceLabel;
+  // A bare "0"/"00"/"₹0" (not a fuller label that merely contains a
+  // zero somewhere) means the admin has made this semester free -
+  // see the auto-activation effect below.
+  const freeAmount = extractAmount(effectivePriceLabel);
+  const isFreeSemester = freeAmount !== null && parseFloat(freeAmount) === 0;
+  // Whether the student's ACTIVE subscription actually covers the
+  // semester they're currently viewing (see App.jsx's identical
+  // check) - premium.isPremium alone isn't enough once premium can be
+  // scoped to one semester, or this screen would tell a Semester-1
+  // subscriber they're "already Maxx" while they're actually viewing
+  // (and locked out of) Semester 2.
+  const premiumForThisSemester = premium.isPremium
+    && (premium.premiumSemester == null || premium.premiumSemester === profile?.enrolledYearSemester);
   // Once a payment's been submitted, the whole "pay now" flow should
   // step out of the way - either they're waiting on a decision, or
   // they already have a code to enter. Only a rejection reopens it
@@ -94,6 +107,38 @@ export default function PremiumScreen({ onBack }) {
   const [redeeming, setRedeeming] = useState(false);
   const [redeemMsg, setRedeemMsg] = useState(null);
   const [showThankYou, setShowThankYou] = useState(false);
+
+  const [activatingFree, setActivatingFree] = useState(false);
+  const [freeActivateError, setFreeActivateError] = useState(null);
+
+  async function handleActivateFree() {
+    setActivatingFree(true);
+    setFreeActivateError(null);
+    try {
+      await activateFreeSemester();
+      // No need to touch `premium` here - subscribeToMyPremiumStatus
+      // is a live listener and will flip premiumForThisSemester to
+      // true as soon as the new activationCode doc lands.
+    } catch (e) {
+      setFreeActivateError(e.message || String(e));
+    } finally {
+      setActivatingFree(false);
+    }
+  }
+
+  // Auto-activate as soon as we know this semester is free and the
+  // student doesn't already have it - no button for the normal case,
+  // per "if I enter amount 0 it should be automatically free". Only
+  // runs once config/premium have actually loaded (loading === false)
+  // so it doesn't fire on a stale/default premium value, and skips
+  // entirely if a manual free-everyone pause is already covering
+  // everyone anyway.
+  useEffect(() => {
+    if (loading || !isFreeSemester || premiumForThisSemester || config?.premiumPaused) return;
+    if (activatingFree) return;
+    handleActivateFree();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, isFreeSemester, premiumForThisSemester, config?.premiumPaused]);
 
   function handleCopyUpi() {
     if (!config?.upiId) return;
@@ -230,8 +275,8 @@ export default function PremiumScreen({ onBack }) {
         <div className="std-loading">Loading…</div>
       ) : (
         <>
-          <div className="glass std-card" style={{ borderColor: premium.isPremium ? 'var(--green)' : config?.premiumPaused ? 'var(--cyan)' : hasPendingRequest ? 'var(--amber)' : undefined }}>
-            {premium.isPremium ? (
+          <div className="glass std-card" style={{ borderColor: premiumForThisSemester ? 'var(--green)' : config?.premiumPaused ? 'var(--cyan)' : isFreeSemester ? 'var(--cyan)' : hasPendingRequest ? 'var(--amber)' : undefined }}>
+            {premiumForThisSemester ? (
               <>
                 <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Med101 Maxx Active</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
@@ -244,6 +289,22 @@ export default function PremiumScreen({ onBack }) {
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
                   All Med101 Maxx features are unlocked for every student at the moment - nothing to pay, nothing to do.
                 </div>
+              </>
+            ) : isFreeSemester ? (
+              <>
+                <div className="auth-label" style={{ margin: 0, color: 'var(--cyan)' }}>🎉 Free For Your Semester</div>
+                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
+                  {activatingFree
+                    ? 'Activating your full access…'
+                    : freeActivateError
+                      ? freeActivateError
+                      : 'Med101 Maxx is free for your semester right now - full access, nothing to pay.'}
+                </div>
+                {freeActivateError && (
+                  <button className="btn-ghost" style={{ marginTop: 8 }} onClick={handleActivateFree} disabled={activatingFree}>
+                    Try Again
+                  </button>
+                )}
               </>
             ) : hasPendingRequest ? (
               <>
@@ -262,7 +323,7 @@ export default function PremiumScreen({ onBack }) {
             )}
           </div>
 
-          {!premium.isPremium && !config?.premiumPaused && !hidePaymentFlow && config && (
+          {!premiumForThisSemester && !config?.premiumPaused && !isFreeSemester && !hidePaymentFlow && config && (
             <div className="pay-card">
               <div className="pay-card-inner">
                 <div className="pay-card-eyebrow">Scan to Pay</div>
@@ -303,7 +364,7 @@ export default function PremiumScreen({ onBack }) {
             </div>
           )}
 
-          {!premium.isPremium && !config?.premiumPaused && !hidePaymentFlow && (
+          {!premiumForThisSemester && !config?.premiumPaused && !isFreeSemester && !hidePaymentFlow && (
             <form className="glass std-card" onSubmit={handleSubmit}>
               <div className="auth-label" style={{ margin: 0 }}>Submit Your Payment</div>
               <label className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
@@ -326,7 +387,7 @@ export default function PremiumScreen({ onBack }) {
             </form>
           )}
 
-          {!premium.isPremium && !config?.premiumPaused && !hasPendingRequest && config?.activationMethod === 'code' && (
+          {!premiumForThisSemester && !config?.premiumPaused && !isFreeSemester && !hasPendingRequest && config?.activationMethod === 'code' && (
             <form className="glass std-card" onSubmit={handleRedeem}>
               <div className="auth-label" style={{ margin: 0 }}>Have an Activation Code?</div>
               <input
@@ -343,7 +404,7 @@ export default function PremiumScreen({ onBack }) {
             </form>
           )}
 
-          {!premium.isPremium && !config?.premiumPaused && myRequests.length > 0 && (
+          {!premiumForThisSemester && !config?.premiumPaused && myRequests.length > 0 && (
             <div className="glass std-card">
               <div className="auth-label" style={{ margin: 0 }}>Your Submissions</div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>

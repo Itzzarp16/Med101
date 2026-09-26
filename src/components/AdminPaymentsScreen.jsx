@@ -235,7 +235,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
 
                 <label className="auth-label" style={{ marginTop: 18 }}>Per-Semester Pricing (optional)</label>
                 <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 2, marginBottom: 8 }}>
-                  Leave a semester blank to use the default Price Label above.
+                  Leave a semester blank to use the default Price Label above. Enter 0 (or ₹0) to make that semester free - students in it get Med101 Maxx automatically, no payment needed.
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {YEAR_SEMESTER_OPTIONS.map((opt) => (

@@ -554,3 +554,27 @@ export function subscribeToMyPremiumStatus(uid, callback) {
     console.warn('Premium status listener failed:', err);
   });
 }
+
+// Auto-activation for a semester the admin has priced at a bare zero
+// (see AdminPaymentsScreen's Per-Semester Pricing). Students can't
+// write activationCodes themselves (firestore.rules restricts create
+// to admin), so this goes through api/activate-free-semester.py,
+// which re-derives the effective price server-side rather than
+// trusting the client, then issues the code via the Admin SDK.
+// Idempotent - safe to call every time PremiumScreen notices the
+// current semester's price is 0, even if already activated.
+export async function activateFreeSemester() {
+  const idToken = await auth.currentUser?.getIdToken();
+  if (!idToken) {
+    throw new Error('You need to be signed in.');
+  }
+  const response = await fetch('/api/activate-free-semester', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+  });
+  const body = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(body.error || 'Could not activate free access.');
+  }
+  return body;
+}
