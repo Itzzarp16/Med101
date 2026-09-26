@@ -375,45 +375,10 @@ async function loadSyneFont(doc) {
   }
 }
 
-// Neither sectionBar nor emptyNote previously checked how close to
-// the bottom of the page they were about to draw, so a section
-// heading (or its "(none)" line) landing near the end of a page would
-// get drawn straight through the footer's fixed position instead of
-// moving to a fresh page first - this is what was causing headings
-// like "FRIENDS (0)" to visibly overlap the footer text.
-function ensurePageSpace(doc, y, needed) {
-  const pageHeight = doc.internal.pageSize.getHeight();
-  if (y + needed > pageHeight - 50) {
-    doc.addPage();
-    return 50;
-  }
-  return y;
-}
-
-// A formal ruled heading instead of a colored pill: bold small-caps-
-// style text with a thin rule underneath, the way a printed report
-// or legal document sets off its sections - not a filled colored bar.
-function sectionBar(doc, x, y, width, title, count) {
-  y = ensurePageSpace(doc, y, 40);
-  doc.setTextColor(...NAVY);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
-  const label = count != null ? `${title} (${count})` : title;
-  doc.text(label, x, y + 10);
-  doc.setDrawColor(...NAVY);
-  doc.setLineWidth(1);
-  doc.line(x, y + 16, x + width, y + 16);
-  return y + 28;
-}
-
-function emptyNote(doc, x, y, text) {
-  y = ensurePageSpace(doc, y, 20);
-  doc.setFont('helvetica', 'italic');
-  doc.setFontSize(9.5);
-  doc.setTextColor(...TEXT_MUTED);
-  doc.text(text, x, y);
-  return y + 18;
-}
+// sectionBar/emptyNote/ensurePageSpace are defined further down, as
+// closures inside buildUserDataExportPdf itself (once letterheadArgs
+// exists) rather than as standalone functions here - see the comment
+// by their definition for why.
 
 // Draws the full letterhead (logo, wordmark, tagline, title, meta,
 // double rule) at the top of whatever page is currently active.
@@ -515,6 +480,58 @@ export async function buildUserDataExportPdf(uid) {
   const hasSyne = await loadSyneFont(doc);
   const genLabel = `Generated: ${data.generatedAt.toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })}`;
   const letterheadArgs = { marginX, pageWidth, bannerHeight, hasSyne, logoBytes, genLabel, uid };
+
+  // ensurePageSpace/sectionBar/emptyNote are closures (not top-level
+  // functions) specifically so they can see letterheadArgs: the
+  // previous top-level ensurePageSpace called doc.addPage() but had
+  // no way to redraw the letterhead on that fresh page, and returned
+  // a bare y=50 that assumed one anyway. Any section heading, table,
+  // or closing block that landed on such a page therefore started
+  // drawing at y=50 - right where the logo/wordmark/tagline live -
+  // instead of below them. If an autoTable happened to run right
+  // after (its own didDrawPage hook draws the letterhead for any
+  // page IT touches, including this one), that letterhead got drawn
+  // on top of the already-placed heading/table-head a beat later,
+  // producing the garbled overlap this replaces. If nothing
+  // autoTable-driven followed on that page (e.g. the plain-text
+  // "ROOMS HOSTED / INVITES" block, or the closing note), the page
+  // got no letterhead at all. Redrawing it here and returning
+  // bannerHeight + 22 - the same starting y every other fresh page in
+  // this document uses - fixes both cases.
+  function ensurePageSpace(doc, y, needed) {
+    const pageHeight = doc.internal.pageSize.getHeight();
+    if (y + needed > pageHeight - 50) {
+      doc.addPage();
+      drawLetterhead(doc, letterheadArgs);
+      return bannerHeight + 22;
+    }
+    return y;
+  }
+
+  // A formal ruled heading instead of a colored pill: bold small-caps-
+  // style text with a thin rule underneath, the way a printed report
+  // or legal document sets off its sections - not a filled colored bar.
+  function sectionBar(doc, x, y, width, title, count) {
+    y = ensurePageSpace(doc, y, 40);
+    doc.setTextColor(...NAVY);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    const label = count != null ? `${title} (${count})` : title;
+    doc.text(label, x, y + 10);
+    doc.setDrawColor(...NAVY);
+    doc.setLineWidth(1);
+    doc.line(x, y + 16, x + width, y + 16);
+    return y + 28;
+  }
+
+  function emptyNote(doc, x, y, text) {
+    y = ensurePageSpace(doc, y, 20);
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(9.5);
+    doc.setTextColor(...TEXT_MUTED);
+    doc.text(text, x, y);
+    return y + 18;
+  }
 
   const tableTheme = {
     theme: 'grid',
