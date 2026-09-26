@@ -774,7 +774,29 @@ body.light-mode .opt-btn.correct .opt-label {
   white-space: pre-wrap;
 }
 
-.ai-explanation-loading,
+.ai-explanation-loading {
+  color: var(--text2);
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ai-explanation-loading::before {
+  content: '';
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--cyan-rgb), 0.25);
+  border-top-color: var(--cyan);
+  animation: std-loading-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-explanation-loading::before { animation: none; }
+}
+
 .ai-explanation-error {
   color: var(--text2);
   line-height: 1.5;

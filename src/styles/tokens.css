@@ -864,9 +864,32 @@ h1, h2, .display {
 }
 
 .std-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   text-align: center;
   padding: 40px;
   color: var(--text2);
+}
+
+.std-loading::before {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--cyan-rgb), 0.25);
+  border-top-color: var(--cyan);
+  animation: std-loading-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes std-loading-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .std-loading::before { animation: none; }
 }
 
 /* Toggle switch - used by Settings (Dark/Light Mode, Sound On/Off) */
