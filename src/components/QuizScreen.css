@@ -200,11 +200,17 @@
   transform: translateY(-2px);
 }
 
+.opt-btn:active:not(:disabled) {
+  transform: scale(0.98);
+  background: rgba(255, 255, 255, 0.18);
+}
+
 .opt-btn.correct {
   border-color: rgba(48, 242, 138, 0.50) !important;
   background: rgba(48, 242, 138, 0.14) !important;
   color: var(--green);
   box-shadow: inset 0 1.5px 0 rgba(48, 242, 138, 0.30), 0 6px 24px rgba(48, 242, 138, 0.14) !important;
+  animation: opt-correct-pop 0.35s cubic-bezier(.34, 1.4, .64, 1);
 }
 
 .opt-btn.wrong {
@@ -212,6 +218,32 @@
   background: rgba(255, 58, 92, 0.12) !important;
   color: var(--red);
   box-shadow: inset 0 1.5px 0 rgba(255, 58, 92, 0.20), 0 4px 18px rgba(255, 58, 92, 0.10) !important;
+  animation: opt-wrong-shake 0.4s ease;
+}
+
+/* A quick scale-up-then-settle "pop" when the right answer is
+   revealed - just enough motion to draw the eye without feeling
+   showy, since this fires on every single question. */
+@keyframes opt-correct-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.03); }
+  100% { transform: scale(1); }
+}
+
+/* A short side-to-side shake on whichever wrong option the student
+   picked - reads as an immediate "nope" without being punishing. */
+@keyframes opt-wrong-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-4px); }
+  40% { transform: translateX(4px); }
+  60% { transform: translateX(-3px); }
+  80% { transform: translateX(3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opt-btn.correct, .opt-btn.wrong {
+    animation: none;
+  }
 }
 
 .opt-btn:disabled {

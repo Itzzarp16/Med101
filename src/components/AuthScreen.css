@@ -231,6 +231,16 @@
   font-size: 13px;
   font-weight: 600;
   text-align: center;
+  animation: auth-msg-in 0.25s cubic-bezier(.34, 1.2, .64, 1);
+}
+
+@keyframes auth-msg-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-msg { animation: none; }
 }
 
 .auth-msg.error {

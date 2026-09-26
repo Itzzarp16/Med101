@@ -185,6 +185,26 @@ h1, h2, .display {
     0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
+/* Generic staggered-list entrance: apply the class and set an inline
+   --stagger-i (item index) so each row fades/slides in a beat after
+   the one before it. Used for short lists (friends, subjects) where
+   a per-item cascade reads as polish rather than something the user
+   has to wait through - cap the delay in JS (e.g. min(i, 8)) on long
+   lists so item 40 doesn't wait 1.6s to appear. */
+.stagger-in {
+  animation: stagger-in 0.32s cubic-bezier(.34, 1.2, .64, 1) backwards;
+  animation-delay: calc(var(--stagger-i, 0) * 0.05s);
+}
+
+@keyframes stagger-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger-in { animation: none; }
+}
+
 .glass-hi {
   background: rgba(255, 255, 255, 0.16);
   border: 1px solid rgba(255, 255, 255, 0.36);
@@ -216,6 +236,10 @@ h1, h2, .display {
   transform: translateY(-3px);
   box-shadow: 0 0 40px rgba(var(--cyan-rgb), 0.50), 0 12px 32px rgba(0, 0, 0, 0.55);
 }
+.btn-glow:active {
+  transform: scale(0.96);
+  box-shadow: 0 0 20px rgba(var(--cyan-rgb), 0.35), 0 4px 14px rgba(0, 0, 0, 0.4);
+}
 
 .btn-ghost {
   background: transparent;
@@ -232,6 +256,10 @@ h1, h2, .display {
 .btn-ghost:hover {
   background: rgba(var(--cyan-rgb), 0.08);
   border-color: var(--cyan);
+}
+.btn-ghost:active:not(:disabled) {
+  transform: scale(0.96);
+  background: rgba(var(--cyan-rgb), 0.14);
 }
 .btn-ghost:disabled {
   opacity: 0.35;

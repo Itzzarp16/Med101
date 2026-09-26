@@ -138,6 +138,17 @@
   font-size: 17px;
   font-weight: 700;
   color: var(--text);
+  display: inline-block;
+  animation: profile-stat-pop 0.4s cubic-bezier(.34, 1.4, .64, 1) 0.1s backwards;
+}
+
+@keyframes profile-stat-pop {
+  from { opacity: 0; transform: scale(0.6); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .profile-stat-value { animation: none; }
 }
 
 .profile-stat-label {

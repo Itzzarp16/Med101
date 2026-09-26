@@ -173,11 +173,11 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           <>
         <div className="qmode-section-label">Quiz Mode</div>
         <div className="qmode-grid">
-          <ModeCard emoji="🎲" title="Random 25" desc="Quick 5-min practice" selected={mode === 'rand25'} onClick={() => selectMode('rand25')} />
-          <ModeCard emoji="⚡" title="Random 50" desc="Medium 10-min session" selected={mode === 'rand50'} onClick={() => selectMode('rand50')} />
-          <ModeCard emoji="📚" title={`All ${pool.length} - Sequential`} desc="Questions in order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
-          <ModeCard emoji="🔀" title={`All ${pool.length} - Random`} desc="Fully shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
-          <ModeCard emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
+          <ModeCard index={0} emoji="🎲" title="Random 25" desc="Quick 5-min practice" selected={mode === 'rand25'} onClick={() => selectMode('rand25')} />
+          <ModeCard index={1} emoji="⚡" title="Random 50" desc="Medium 10-min session" selected={mode === 'rand50'} onClick={() => selectMode('rand50')} />
+          <ModeCard index={2} emoji="📚" title={`All ${pool.length} - Sequential`} desc="Questions in order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
+          <ModeCard index={3} emoji="🔀" title={`All ${pool.length} - Random`} desc="Fully shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
+          <ModeCard index={4} emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
         </div>
 
         <div className="qmode-settings-card glass" style={unseenPool.length === 0 ? { opacity: 0.5 } : undefined}>
@@ -259,13 +259,13 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
   );
 }
 
-export function ModeCard({ emoji, title, desc, selected, onClick, wide, disabled }) {
+export function ModeCard({ emoji, title, desc, selected, onClick, wide, disabled, index }) {
   return (
     <button
-      className={`mode-card${selected ? ' selected' : ''}${wide ? ' wide' : ''}`}
+      className={`mode-card stagger-in${selected ? ' selected' : ''}${wide ? ' wide' : ''}`}
       onClick={onClick}
       disabled={disabled}
-      style={disabled ? { opacity: 0.4, cursor: 'not-allowed' } : undefined}
+      style={{ '--stagger-i': index ?? 0, ...(disabled ? { opacity: 0.4, cursor: 'not-allowed' } : null) }}
     >
       <span className="mode-card-emoji">{emoji}</span>
       <span className="mode-card-body">
