@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
@@ -11,9 +11,6 @@ import ChallengeScreen from './components/ChallengeScreen';
 import FriendsScreen from './components/FriendsScreen';
 import RoomLobbyScreen from './components/RoomLobbyScreen';
 import RoomResultsScreen from './components/RoomResultsScreen';
-import AdminCalendarScreen from './components/AdminCalendarScreen';
-import AdminUploadQuestionsScreen from './components/AdminUploadQuestionsScreen';
-import AdminNoticeScreen from './components/AdminNoticeScreen';
 import SettingsScreen from './components/SettingsScreen';
 import YourDataScreen from './components/YourDataScreen';
 import ProfileScreen from './components/ProfileScreen';
@@ -21,9 +18,6 @@ import WeakTopicsScreen from './components/WeakTopicsScreen';
 import WrongFlaggedScreen from './components/WrongFlaggedScreen';
 import SearchScreen from './components/SearchScreen';
 import HistoryScreen from './components/HistoryScreen';
-import AdminUserDetailScreen from './components/AdminUserDetailScreen';
-import AdminAnalyticsScreen from './components/AdminAnalyticsScreen';
-import AdminPaymentsScreen from './components/AdminPaymentsScreen';
 import PremiumScreen from './components/PremiumScreen';
 import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig } from './lib/subscription';
 import AuthScreen from './components/AuthScreen';
@@ -35,6 +29,24 @@ import { useSemesterData } from './lib/useSemesterData';
 import { subscribeToAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 import { startPresenceHeartbeat } from './lib/presence';
 import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence';
+
+// Only ever rendered for isAdmin accounts - a handful of people, not
+// the student body this app is actually sized for - so these are
+// lazy-loaded instead of shipped in the main bundle every visitor
+// downloads and parses on first load. React.lazy + the Suspense
+// fallback below means the first time an admin opens one of these,
+// there's a brief loading state while its chunk fetches; every other
+// visitor never pays for that code at all.
+const AdminCalendarScreen = lazy(() => import('./components/AdminCalendarScreen'));
+const AdminUploadQuestionsScreen = lazy(() => import('./components/AdminUploadQuestionsScreen'));
+const AdminNoticeScreen = lazy(() => import('./components/AdminNoticeScreen'));
+const AdminUserDetailScreen = lazy(() => import('./components/AdminUserDetailScreen'));
+const AdminAnalyticsScreen = lazy(() => import('./components/AdminAnalyticsScreen'));
+const AdminPaymentsScreen = lazy(() => import('./components/AdminPaymentsScreen'));
+
+function AdminScreenFallback() {
+  return <div className="std-loading">Loading…</div>;
+}
 
 // Navigation is backed by real browser history (pushState/popstate) so
 // the phone's back gesture moves one screen back instead of closing the
@@ -365,7 +377,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <AdminCalendarScreen onBack={goBack} />
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminCalendarScreen onBack={goBack} />
+          </Suspense>
         </div>
       </div>
     );
@@ -376,7 +390,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <AdminNoticeScreen onBack={goBack} semesters={semesterData.semesters} />
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminNoticeScreen onBack={goBack} semesters={semesterData.semesters} />
+          </Suspense>
         </div>
       </div>
     );
@@ -387,7 +403,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <AdminUserDetailScreen onBack={goBack} initialUid={viewUserUid} />
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminUserDetailScreen onBack={goBack} initialUid={viewUserUid} />
+          </Suspense>
         </div>
       </div>
     );
@@ -398,7 +416,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <AdminAnalyticsScreen onBack={goBack} />
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminAnalyticsScreen onBack={goBack} />
+          </Suspense>
         </div>
       </div>
     );
@@ -409,7 +429,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <AdminPaymentsScreen onBack={goBack} />
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminPaymentsScreen onBack={goBack} />
+          </Suspense>
         </div>
       </div>
     );
@@ -465,7 +487,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <AdminUploadQuestionsScreen onBack={goBack} semesters={semesters} semesterMainSubjects={semesterMainSubjects} />
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminUploadQuestionsScreen onBack={goBack} semesters={semesters} semesterMainSubjects={semesterMainSubjects} />
+          </Suspense>
         </div>
       </div>
     );

@@ -1,18 +1,27 @@
-import { StrictMode } from 'react'
+import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/tokens.css'
 import App from './App.jsx'
-import AdminPortal from './components/AdminPortal.jsx'
-import PrivacyPolicy from './components/PrivacyPolicy.jsx'
-import TermsAndConditions from './components/TermsAndConditions.jsx'
-import AboutUs from './components/AboutUs.jsx'
-import ContactUs from './components/ContactUs.jsx'
-import ResetPassword from './components/ResetPassword.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
 import { startVersionWatcher } from './lib/versionCheck'
 import OfflineGuard from './components/OfflineGuard.jsx'
 import ErrorBoundary from './components/ErrorBoundary'
+
+// App.jsx is what ~99% of visitors land on ("/"), so it stays a
+// normal static import - no reason to add a network round trip to
+// the common case. Everything below is a route only a handful of
+// people ever hit (admin, or a handful of static legal pages), so
+// each is its own lazy chunk instead of being bundled into the one
+// entry file every single visitor downloads and parses - AdminPortal
+// alone statically pulls in all six Admin* screens, which is most of
+// what was making the main bundle so large.
+const AdminPortal = lazy(() => import('./components/AdminPortal.jsx'))
+const PrivacyPolicy = lazy(() => import('./components/PrivacyPolicy.jsx'))
+const TermsAndConditions = lazy(() => import('./components/TermsAndConditions.jsx'))
+const AboutUs = lazy(() => import('./components/AboutUs.jsx'))
+const ContactUs = lazy(() => import('./components/ContactUs.jsx'))
+const ResetPassword = lazy(() => import('./components/ResetPassword.jsx'))
 
 // App.jsx's own navigation (screen state + pushState) never changes
 // the URL path - the whole student SPA lives at "/". So a real path
@@ -69,18 +78,20 @@ createRoot(document.getElementById('root')).render(
     <ErrorBoundary>
       <OfflineGuard />
       {isPrivacyRoute ? (
-        <PrivacyPolicy />
+        <Suspense fallback={<div className="std-loading">Loading…</div>}><PrivacyPolicy /></Suspense>
       ) : isTermsRoute ? (
-        <TermsAndConditions />
+        <Suspense fallback={<div className="std-loading">Loading…</div>}><TermsAndConditions /></Suspense>
       ) : isAboutRoute ? (
-        <AboutUs />
+        <Suspense fallback={<div className="std-loading">Loading…</div>}><AboutUs /></Suspense>
       ) : isContactRoute ? (
-        <ContactUs />
+        <Suspense fallback={<div className="std-loading">Loading…</div>}><ContactUs /></Suspense>
       ) : isResetPasswordRoute ? (
-        <ResetPassword />
+        <Suspense fallback={<div className="std-loading">Loading…</div>}><ResetPassword /></Suspense>
       ) : (
         <AuthProvider>
-          {isAdminRoute ? <AdminPortal /> : <App />}
+          {isAdminRoute ? (
+            <Suspense fallback={<div className="std-loading">Loading…</div>}><AdminPortal /></Suspense>
+          ) : <App />}
         </AuthProvider>
       )}
     </ErrorBoundary>
