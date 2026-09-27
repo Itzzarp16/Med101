@@ -629,6 +629,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             <button
               onClick={toggleFlag}
               title="Flag for review"
+              aria-label={flaggedKeys.has(`${cur}`) ? 'Remove flag from this question' : 'Flag this question for review'}
               style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: flaggedKeys.has(`${cur}`) ? 'var(--amber)' : 'var(--text3)' }}
             >
               {flaggedKeys.has(`${cur}`) ? '⭐' : '☆'}

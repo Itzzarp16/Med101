@@ -90,6 +90,7 @@ export default function FriendsScreen({ onBack, onChallenge }) {
               <button
                 onClick={(e) => { e.stopPropagation(); handleRemove(f.uid); }}
                 style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 13 }}
+                aria-label={`Remove @${f.username} from friends`}
               >
                 ✕
               </button>

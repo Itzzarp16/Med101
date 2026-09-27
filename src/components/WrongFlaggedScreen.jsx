@@ -74,7 +74,7 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
               <div key={item.id} className="glass" style={{ padding: 14 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
                   <span className="badge badge-cyan">{item.s}</span>
-                  <button onClick={() => handleRemove(item)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 13 }}>✕</button>
+                  <button onClick={() => handleRemove(item)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 13 }} aria-label={tab === 'wrong' ? 'Remove from wrong questions' : 'Unflag this question'}>✕</button>
                 </div>
                 <p style={{ fontSize: 13.5, color: 'var(--text)', margin: '0 0 8px' }}>{item.q}</p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>

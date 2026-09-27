@@ -30,7 +30,7 @@ export default function PendingInvites({ onAccept }) {
             >
               Join
             </button>
-            <button className="tpreset" onClick={() => { playTapSound(); dismissInvite(user.uid, inv.id); }}>✕</button>
+            <button className="tpreset" onClick={() => { playTapSound(); dismissInvite(user.uid, inv.id); }} aria-label={`Dismiss invite from ${inv.fromName}`}>✕</button>
           </div>
         </div>
       ))}

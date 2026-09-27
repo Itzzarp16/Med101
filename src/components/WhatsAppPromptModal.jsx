@@ -16,7 +16,7 @@ export default function WhatsAppPromptModal({ onClose }) {
   return (
     <div className="whatsapp-modal-overlay" onClick={close}>
       <div className="glass whatsapp-modal-card" onClick={(e) => e.stopPropagation()}>
-        <button className="whatsapp-modal-close" onClick={close} title="Close">✕</button>
+        <button className="whatsapp-modal-close" onClick={close} title="Close" aria-label="Close">✕</button>
 
         <img src="/whatsapp-icon.png" width="48" height="48" alt="" style={{ marginBottom: 14 }} />
 

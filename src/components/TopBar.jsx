@@ -57,7 +57,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
     <>
     <div className="topbar">
       <div className="topbar-left">
-        <button className="topbar-icon-btn home" title="Menu" onClick={() => { playTapSound(); setMenuOpen(true); }}>
+        <button className="topbar-icon-btn home" title="Menu" aria-label="Open menu" onClick={() => { playTapSound(); setMenuOpen(true); }}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="4" y1="7" x2="20" y2="7" />
             <line x1="4" y1="12" x2="20" y2="12" />
@@ -68,6 +68,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
         <button
           className="topbar-logo-stack topbar-logo-stack-btn"
           title="Go to Home"
+          aria-label="Go to Home"
           onClick={() => { playTapSound(); onHome?.(); }}
         >
           <span className="topbar-logo">Med101</span>
@@ -81,6 +82,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
             <button
               className="topbar-online topbar-online-btn"
               title="Tap to see who's online"
+              aria-label={`${onlineCount} students online - tap to see who`}
               onClick={() => { playTapSound(); setShowOnlineList((v) => !v); }}
             >
               <span className="topbar-online-dot" /> {onlineCount} online
@@ -109,7 +111,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
           <div className="online-list-popover" onClick={(e) => e.stopPropagation()}>
             <div className="online-list-header">
               <span>🟢 Online Now ({onlineNames?.length ?? 0})</span>
-              <button className="menu-close" onClick={() => setShowOnlineList(false)}>✕</button>
+              <button className="menu-close" onClick={() => setShowOnlineList(false)} aria-label="Close online users list">✕</button>
             </div>
             {(onlineNames || []).length === 0 ? (
               <div className="online-list-empty">No one online right now.</div>
@@ -135,7 +137,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
           <div className="menu-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="menu-drawer-header">
               <span className="topbar-logo">Med101</span>
-              <button className="menu-close" onClick={() => setMenuOpen(false)}>✕</button>
+              <button className="menu-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">✕</button>
             </div>
 
             <div className="menu-user">{user?.displayName || user?.email}</div>
@@ -194,6 +196,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
         <button
           className="topbar-icon-btn theme"
           title={lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+          aria-label={lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
           onClick={toggleLightMode}
         >
           {lightMode ? '☀️' : '🌙'}
@@ -201,6 +204,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
         <button
           className={soundMuted ? 'topbar-icon-btn sound muted' : 'topbar-icon-btn sound'}
           title={soundMuted ? 'Unmute sound' : 'Mute sound'}
+          aria-label={soundMuted ? 'Unmute sound' : 'Mute sound'}
           onClick={toggleSound}
         >
           {soundMuted ? '🔇' : '🔊'}
