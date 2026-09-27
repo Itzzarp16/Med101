@@ -755,6 +755,28 @@ body.light-mode .topbar-logo {
   transform: translateY(0);
 }
 
+/* The dark-mode fill/border above (white-tinted translucent) only
+   reads as a "card" against a dark drawer background. In light mode
+   --chrome-bg-menu is nearly opaque white, so that same white-on-white
+   tint was invisible - no visible card boundary at all (reported: the
+   cards "aren't there" in light mode, only in dark). Dark-tinted
+   translucency here instead, which reads the same way against the
+   light drawer background. */
+body.light-mode .menu-item {
+  background: rgba(8, 20, 40, 0.05);
+  border-color: rgba(8, 20, 40, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+body.light-mode .menu-item:hover {
+  background: rgba(8, 20, 40, 0.09);
+  border-color: rgba(8, 20, 40, 0.20);
+}
+
+body.light-mode .menu-item:active {
+  background: rgba(8, 20, 40, 0.13);
+}
+
 .menu-item.admin {
   color: var(--amber);
 }
