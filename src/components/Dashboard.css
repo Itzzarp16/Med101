@@ -50,6 +50,20 @@
   font-family: var(--font-mono);
 }
 
+.dashboard-greeting {
+  text-align: center;
+  margin-bottom: 18px;
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard-greeting-text {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  font-weight: 700;
+  color: var(--heading);
+}
+
 .subj-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
