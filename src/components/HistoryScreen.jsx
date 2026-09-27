@@ -115,9 +115,35 @@ function QuizResultDetail({ entry, onBack, onRetry }) {
   const grade = gradeFor(pct);
   const hasSet = (entry.questions || []).length > 0;
 
+  // Same sweep-up-from-0 ring animation as QuizScreen's live results
+  // (see its ringAnimPct effect) - ~700ms ease-out, driven frame by
+  // frame so the number and the ring stay in sync, rather than a
+  // plain CSS transition.
+  const [ringAnimPct, setRingAnimPct] = useState(0);
+  useEffect(() => {
+    setRingAnimPct(0);
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+      setRingAnimPct(pct);
+      return;
+    }
+    let raf;
+    const duration = 700;
+    const start = performance.now() + 150;
+    function tick(now) {
+      const elapsed = now - start;
+      if (elapsed < 0) { raf = requestAnimationFrame(tick); return; }
+      const t = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 3);
+      setRingAnimPct(Math.round(eased * pct));
+      if (t < 1) raf = requestAnimationFrame(tick);
+    }
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [pct, entry.id]);
+
   const ringR = 54;
   const ringC = 2 * Math.PI * ringR;
-  const ringOffset = ringC - (pct / 100) * ringC;
+  const ringOffset = ringC - (ringAnimPct / 100) * ringC;
 
   const wrongCount = hasSet ? wrongQuestions(entry).length : 0;
   const skipCount = hasSet ? skippedQuestions(entry).length : 0;
@@ -147,7 +173,7 @@ function QuizResultDetail({ entry, onBack, onRetry }) {
               />
             </svg>
             <div className="results-ring-center">
-              <div className="results-ring-pct">{pct}%</div>
+              <div className="results-ring-pct">{ringAnimPct}%</div>
               <div className="results-ring-label">ACCURACY</div>
             </div>
           </div>
