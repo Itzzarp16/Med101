@@ -75,9 +75,13 @@
   color: var(--cyan);
   text-decoration: none;
   font-weight: 600;
+  transition: opacity 0.15s;
 }
 .admin-portal-link:hover {
   text-decoration: underline;
+}
+.admin-portal-link:active {
+  opacity: 0.7;
 }
 
 .admin-portal-header {
@@ -126,10 +130,14 @@
   cursor: pointer;
   font-family: var(--font-body);
   font-size: 13px;
+  transition: all 0.15s;
 }
 .admin-portal-logout:hover {
   border-color: var(--red);
   color: var(--red);
+}
+.admin-portal-logout:active {
+  transform: scale(0.95);
 }
 
 .admin-portal-tabs {
@@ -151,6 +159,7 @@
   white-space: nowrap;
   cursor: pointer;
   border-bottom: 2px solid transparent;
+  transition: color 0.15s, opacity 0.15s;
 }
 
 .admin-portal-tab.active {
@@ -161,6 +170,10 @@
 
 .admin-portal-tab:hover:not(.active) {
   color: var(--text);
+}
+
+.admin-portal-tab:active:not(.active) {
+  opacity: 0.65;
 }
 
 .admin-portal-content {

@@ -55,10 +55,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.15s;
 }
 .rejected-close:hover {
   border-color: var(--red);
   color: var(--red);
+}
+.rejected-close:active {
+  transform: scale(0.88);
 }
 
 .rejected-icon {

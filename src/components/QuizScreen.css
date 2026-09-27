@@ -596,9 +596,13 @@ body.light-mode .opt-btn.correct .opt-label {
   font-size: 13.5px;
   cursor: pointer;
   margin-bottom: 6px;
+  transition: all 0.15s;
 }
 .results-retry-wrong-btn:hover {
   background: rgba(255, 90, 122, 0.16);
+}
+.results-retry-wrong-btn:active {
+  transform: scale(0.97);
 }
 
 .results-review-toggle {

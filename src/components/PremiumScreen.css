@@ -116,6 +116,10 @@
   color: var(--cyan);
 }
 
+.pay-upi-copy:active {
+  transform: scale(0.93);
+}
+
 .pay-tap-btn {
   display: block;
   width: 100%;
@@ -135,6 +139,10 @@
 }
 .pay-tap-btn:hover {
   transform: translateY(-2px);
+}
+
+.pay-tap-btn:active {
+  transform: translateY(0) scale(0.97);
 }
 
 .pay-steps {

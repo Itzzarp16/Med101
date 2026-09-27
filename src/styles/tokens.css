@@ -540,10 +540,15 @@ h1, h2, .display {
   cursor: pointer;
   padding: 2px 4px;
   border-radius: 6px;
+  transition: background 0.15s, transform 0.15s;
 }
 
 .topbar-online-btn:hover {
   background: rgba(255, 255, 255, 0.08);
+}
+
+.topbar-online-btn:active {
+  transform: scale(0.92);
 }
 
 .online-list-popover {
@@ -592,6 +597,15 @@ h1, h2, .display {
   color: var(--text2);
   padding: 6px 8px;
   border-radius: 8px;
+  transition: background 0.15s;
+}
+
+.online-list-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.online-list-item:active {
+  background: rgba(255, 255, 255, 0.10);
 }
 
 .online-list-item-btn {
@@ -602,10 +616,6 @@ h1, h2, .display {
   border: none;
   cursor: pointer;
   font-family: var(--font-body);
-}
-
-.online-list-item:hover {
-  background: rgba(255, 255, 255, 0.06);
 }
 
 .topbar-user {
@@ -620,12 +630,16 @@ h1, h2, .display {
   border-radius: 8px;
   cursor: pointer;
   font-family: var(--font-body);
-  transition: background 0.15s, color 0.15s;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
 }
 
 .topbar-user:hover {
   background: rgba(255, 255, 255, 0.08);
   color: var(--text);
+}
+
+.topbar-user:active {
+  transform: scale(0.95);
 }
 
 .signout-btn {
@@ -714,6 +728,10 @@ h1, h2, .display {
 
 .menu-item:hover {
   background: rgba(255, 255, 255, 0.08);
+}
+
+.menu-item:active {
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .menu-item.admin {
