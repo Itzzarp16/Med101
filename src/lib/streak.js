@@ -1,7 +1,7 @@
 import { doc, runTransaction, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
 
-function todayStr() {
+export function todayStr() {
   return new Date().toISOString().slice(0, 10); // 'YYYY-MM-DD'
 }
 
@@ -13,9 +13,13 @@ function isYesterday(dateStr, today) {
 }
 
 // Called once per finished quiz. Same-day repeats are cheap no-ops
-// (the transaction still runs, but streakCount/lastActiveDate end up
+// for the streak fields (streakCount/lastActiveDate end up
 // unchanged) - simpler than trying to dedupe client-side across tabs.
-export async function updateStreakOnActivity(uid) {
+// questionsToday resets to 0 the first time this runs on a new day
+// (tracked via questionsTodayDate, same day-boundary as
+// lastActiveDate) and otherwise accumulates answeredCount across
+// every quiz finished that day.
+export async function updateStreakOnActivity(uid, answeredCount = 0) {
   const today = todayStr();
   const ref = doc(db, 'users', uid);
 
@@ -25,6 +29,7 @@ export async function updateStreakOnActivity(uid) {
     const lastActiveDate = data.lastActiveDate || null;
     const prevStreak = data.streakCount || 0;
     const prevLongest = data.longestStreak || 0;
+    const prevQuestionsToday = data.questionsTodayDate === today ? (data.questionsToday || 0) : 0;
 
     let nextStreak;
     if (lastActiveDate === today) {
@@ -36,6 +41,7 @@ export async function updateStreakOnActivity(uid) {
     }
 
     const nextLongest = Math.max(prevLongest, nextStreak);
+    const nextQuestionsToday = prevQuestionsToday + answeredCount;
 
     tx.set(
       ref,
@@ -44,10 +50,12 @@ export async function updateStreakOnActivity(uid) {
         longestStreak: nextLongest,
         lastActiveDate: today,
         lastActiveAt: serverTimestamp(),
+        questionsToday: nextQuestionsToday,
+        questionsTodayDate: today,
       },
       { merge: true }
     );
 
-    return { streakCount: nextStreak, longestStreak: nextLongest, isNewDay: lastActiveDate !== today };
+    return { streakCount: nextStreak, longestStreak: nextLongest, isNewDay: lastActiveDate !== today, questionsToday: nextQuestionsToday };
   });
 }

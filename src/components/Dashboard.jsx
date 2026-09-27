@@ -4,6 +4,7 @@ import HomeNoticeBanner from './HomeNoticeBanner';
 import PendingInvites from './PendingInvites';
 import LegalFooter from './LegalFooter';
 import { useAuth } from '../lib/AuthContext';
+import { todayStr } from '../lib/streak';
 import './Dashboard.css';
 
 // Osh/Bishkek is a fixed UTC+6 year-round (Kyrgyzstan doesn't observe
@@ -25,7 +26,11 @@ function kyrgyzstanGreeting() {
 export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, semesterId }) {
   const { user, profile } = useAuth();
   const firstName = (profile?.displayName || user?.displayName || user?.email?.split('@')[0] || 'there').split(' ')[0];
-  const streakCount = profile?.streakCount || 0;
+  // questionsToday is only meaningful if it was actually written today -
+  // same stale-until-next-quiz-finishes gap as streak.js's own
+  // questionsTodayDate check, so a fresh calendar day starts back at 0
+  // here rather than showing yesterday's leftover count.
+  const questionsToday = profile?.questionsTodayDate === todayStr() ? (profile?.questionsToday || 0) : 0;
 
   const subjectStats = useMemo(() => {
     const topicsBySubject = {};
@@ -52,8 +57,8 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
       <div className="screen-subject">
         <div className="dashboard-greeting">
           <div className="dashboard-greeting-text">{kyrgyzstanGreeting()}, {firstName} 👋</div>
-          {streakCount > 0 && (
-            <span className="streak-badge">🔥 {streakCount}-day streak</span>
+          {questionsToday > 0 && (
+            <span className="dashboard-badge">📝 {questionsToday} question{questionsToday === 1 ? '' : 's'} today</span>
           )}
         </div>
         <HomeNoticeBanner semesterId={semesterId} />

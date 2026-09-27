@@ -35,16 +35,16 @@
   font-size: 0.88rem;
 }
 
-.streak-badge {
+.dashboard-badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   margin-top: 10px;
   padding: 5px 14px;
   border-radius: 100px;
-  background: rgba(255, 138, 0, 0.14);
-  border: 1px solid rgba(255, 138, 0, 0.35);
-  color: #ffb84d;
+  background: rgba(var(--cyan-rgb), 0.14);
+  border: 1px solid rgba(var(--cyan-rgb), 0.35);
+  color: var(--cyan);
   font-size: 12.5px;
   font-weight: 700;
   font-family: var(--font-mono);

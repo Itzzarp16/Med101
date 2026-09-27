@@ -334,7 +334,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       breakdown[question.s] = entry;
     });
     updateTopicStats(user.uid, mainSubject, breakdown);
-    updateStreakOnActivity(user.uid);
+    updateStreakOnActivity(user.uid, answeredCount);
     markQuestionsSeen(user.uid, mainSubject, quizQuestions);
     clearQuizProgress();
   }, [finished, user, mainSubject, topic, semesterId, total, answeredCount, correctCount, pct, roomCode]);
