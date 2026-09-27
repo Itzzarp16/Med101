@@ -65,8 +65,9 @@
      shadow underneath. Uses a plain black shadow rather than a fixed
      hex like the wordmark's, since --text itself flips between pale
      (dark mode) and navy (light mode) - black reads as depth against
-     either. */
-  text-shadow: 0.5px 0.5px 0 rgba(0, 0, 0, 0.35), 1px 1px 0 rgba(0, 0, 0, 0.35),
+     either. A touch of blur on each stepped layer (rather than 0)
+     keeps curved letters smooth instead of stair-stepping. */
+  text-shadow: 0.5px 0.5px 0.35px rgba(0, 0, 0, 0.35), 1px 1px 0.35px rgba(0, 0, 0, 0.35),
     1.5px 1.5px 2px rgba(0, 0, 0, 0.25);
 }
 

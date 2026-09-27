@@ -488,15 +488,17 @@ h1, h2, .display {
      (light mode's override below) went illegible here: both the
      gradient face and that shadow are dark navy, so on a near-black
      background they merged into an unreadable blur instead of
-     reading as depth. */
-  text-shadow: -0.5px -0.5px 0 rgba(255, 255, 255, 0.3), 0.5px 0.5px 0 rgba(0, 0, 0, 0.7),
-    1px 1px 0 rgba(0, 0, 0, 0.7), 1.5px 1.5px 2px rgba(0, 0, 0, 0.4);
+     reading as depth. A touch of blur on each stepped layer (rather
+     than 0) keeps curved letters like the 'e' smooth instead of
+     stair-stepping. */
+  text-shadow: -0.5px -0.5px 0.35px rgba(255, 255, 255, 0.3), 0.5px 0.5px 0.35px rgba(0, 0, 0, 0.7),
+    1px 1px 0.35px rgba(0, 0, 0, 0.7), 1.5px 1.5px 2px rgba(0, 0, 0, 0.4);
 }
 
 body.light-mode .topbar-logo {
   /* On the light background this contrast problem doesn't exist -
      back to the darker navy stack, which reads as proper depth here. */
-  text-shadow: 0.5px 0.5px 0 var(--brand-wordmark-shadow), 1px 1px 0 var(--brand-wordmark-shadow),
+  text-shadow: 0.5px 0.5px 0.35px var(--brand-wordmark-shadow), 1px 1px 0.35px var(--brand-wordmark-shadow),
     1.5px 1.5px 2px rgba(0, 0, 0, 0.3);
 }
 
@@ -1043,14 +1045,16 @@ body.light-mode .topbar-logo {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   /* Same dark-mode-safe rim technique as .topbar-logo (see its
-     comment), scaled up for the bigger type here. */
-  text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.3), 1px 1px 0 rgba(0, 0, 0, 0.7),
-    2px 2px 0 rgba(0, 0, 0, 0.7), 3px 3px 6px rgba(0, 0, 0, 0.4);
+     comment), scaled up for the bigger type here. A touch of blur on
+     each stepped layer keeps curved letters like the 'e' smooth
+     instead of stair-stepping. */
+  text-shadow: -1px -1px 0.5px rgba(255, 255, 255, 0.3), 1px 1px 0.5px rgba(0, 0, 0, 0.7),
+    2px 2px 0.5px rgba(0, 0, 0, 0.7), 3px 3px 6px rgba(0, 0, 0, 0.4);
 }
 
 body.light-mode .app-loading-logo {
-  text-shadow: 1px 1px 0 var(--brand-wordmark-shadow), 2px 2px 0 var(--brand-wordmark-shadow),
-    3px 3px 0 var(--brand-wordmark-shadow), 4px 4px 6px rgba(0, 0, 0, 0.35);
+  text-shadow: 1px 1px 0.6px var(--brand-wordmark-shadow), 2px 2px 0.6px var(--brand-wordmark-shadow),
+    3px 3px 0.6px var(--brand-wordmark-shadow), 4px 4px 6px rgba(0, 0, 0, 0.35);
 }
 
 .app-loading-signature {
