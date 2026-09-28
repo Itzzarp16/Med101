@@ -100,9 +100,9 @@ export default function RoomLobbyScreen({ code, isHost, autoInviteFriend, onAuto
       </div>
 
       <div className="glass std-card" style={{ marginTop: 14 }}>
-        <label className="auth-label">Or Invite by Username</label>
+        <label htmlFor="room-or-invite-by-username" className="auth-label">Or Invite by Username</label>
         <div style={{ display: 'flex', gap: 8 }}>
-          <input
+          <input id="room-or-invite-by-username"
             className="auth-input"
             value={inviteUsername}
             onChange={(e) => setInviteUsername(e.target.value)}

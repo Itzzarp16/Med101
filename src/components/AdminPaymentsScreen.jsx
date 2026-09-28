@@ -194,6 +194,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
               <button
                 className="btn-ghost"
                 style={{ width: 32, height: 32, padding: 0, borderRadius: '50%', fontSize: 16, lineHeight: 1 }}
+                aria-label="Close payment settings"
                 onClick={() => { playTapSound(); setShowSettings(false); }}
               >
                 ✕
@@ -396,6 +397,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                 <button
                   className="btn-ghost"
                   style={{ width: 32, height: 32, padding: 0, borderRadius: '50%', fontSize: 16, lineHeight: 1 }}
+                  aria-label="Close rejected requests"
                   onClick={() => { playTapSound(); setShowRejected(false); }}
                 >
                   ✕

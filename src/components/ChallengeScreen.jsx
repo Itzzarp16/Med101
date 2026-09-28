@@ -182,8 +182,8 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
       {tab === 'create' && (
         <>
           <div className="glass std-card">
-            <label className="auth-label">Subject</label>
-            <select className="auth-input" value={subject} onChange={(e) => setSubject(e.target.value)}>
+            <label htmlFor="challenge-subject" className="auth-label">Subject</label>
+            <select id="challenge-subject" className="auth-input" value={subject} onChange={(e) => setSubject(e.target.value)}>
               {Object.keys(mainSubjectMeta || {}).map((name) => (
                 <option key={name} value={name}>{mainSubjectMeta[name]?.emoji} {name}</option>
               ))}
@@ -212,12 +212,12 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
             <div className="qmode-custom glass">
               <div className="qmode-custom-row">
                 <div className="qmode-field">
-                  <label>From Q#</label>
-                  <input type="number" min={1} max={pool.length} value={rangeStart} onChange={(e) => setRangeStart(Number(e.target.value))} />
+                  <label htmlFor="challenge-from-q">From Q#</label>
+                  <input id="challenge-from-q" type="number" min={1} max={pool.length} value={rangeStart} onChange={(e) => setRangeStart(Number(e.target.value))} />
                 </div>
                 <div className="qmode-field">
-                  <label>To Q#</label>
-                  <input type="number" min={1} max={pool.length} value={rangeEnd} onChange={(e) => setRangeEnd(Number(e.target.value))} />
+                  <label htmlFor="challenge-to-q">To Q#</label>
+                  <input id="challenge-to-q" type="number" min={1} max={pool.length} value={rangeEnd} onChange={(e) => setRangeEnd(Number(e.target.value))} />
                 </div>
                 <div className="qmode-range-hint">(1 – {pool.length})</div>
               </div>
@@ -243,7 +243,7 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
                   ))}
                   <div className="qmode-timer-custom">
                     <span>Custom:</span>
-                    <input type="number" min={5} max={300} value={timerSeconds} onChange={(e) => setTimerSeconds(Number(e.target.value))} />
+                    <input type="number" min={5} max={300} aria-label="Custom seconds per question" value={timerSeconds} onChange={(e) => setTimerSeconds(Number(e.target.value))} />
                     <span>sec</span>
                   </div>
                 </div>
@@ -278,8 +278,8 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
 
       {tab === 'join' && (
         <div className="glass std-card">
-          <label className="auth-label">8-Digit Room Code</label>
-          <input
+          <label htmlFor="challenge-8-digit-room-code" className="auth-label">8-Digit Room Code</label>
+          <input id="challenge-8-digit-room-code"
             className="auth-input"
             value={joinCode}
             onChange={(e) => setJoinCode(e.target.value.replace(/\D/g, '').slice(0, 8))}

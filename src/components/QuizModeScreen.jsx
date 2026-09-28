@@ -198,12 +198,12 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           <div className="qmode-custom glass">
             <div className="qmode-custom-row">
               <div className="qmode-field">
-                <label>From Q#</label>
-                <input type="number" min={1} max={pool.length} value={rangeStart} onChange={(e) => setRangeStart(Number(e.target.value))} />
+                <label htmlFor="qmode-from-q">From Q#</label>
+                <input id="qmode-from-q" type="number" min={1} max={pool.length} value={rangeStart} onChange={(e) => setRangeStart(Number(e.target.value))} />
               </div>
               <div className="qmode-field">
-                <label>To Q#</label>
-                <input type="number" min={1} max={pool.length} value={rangeEnd} onChange={(e) => setRangeEnd(Number(e.target.value))} />
+                <label htmlFor="qmode-to-q">To Q#</label>
+                <input id="qmode-to-q" type="number" min={1} max={pool.length} value={rangeEnd} onChange={(e) => setRangeEnd(Number(e.target.value))} />
               </div>
               <div className="qmode-range-hint">(1 – {pool.length})</div>
             </div>
@@ -229,7 +229,7 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
                 ))}
                 <div className="qmode-timer-custom">
                   <span>Custom:</span>
-                  <input type="number" min={5} max={300} value={timerSeconds} onChange={(e) => setTimerSeconds(Number(e.target.value))} />
+                  <input type="number" min={5} max={300} aria-label="Custom seconds per question" value={timerSeconds} onChange={(e) => setTimerSeconds(Number(e.target.value))} />
                   <span>sec</span>
                 </div>
               </div>

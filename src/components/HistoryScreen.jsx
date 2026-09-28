@@ -354,6 +354,7 @@ export default function HistoryScreen({ onRetry, onBack }) {
                     {entry.topic && <span className="badge" style={{ marginLeft: 6 }}>{entry.topic}</span>}
                   </div>
                   <button
+                    aria-label="Delete this attempt"
                     onClick={(e) => { e.stopPropagation(); handleDelete(entry.id); }}
                     style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 13 }}
                   >

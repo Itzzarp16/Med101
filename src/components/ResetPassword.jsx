@@ -97,9 +97,9 @@ export default function ResetPassword() {
               <div className="auth-sub">Setting a new password for {email}</div>
 
               <div style={{ marginTop: 14 }}>
-                <label className="auth-label">New Password</label>
+                <label htmlFor="reset-new-password" className="auth-label">New Password</label>
                 <div className="auth-input-wrap">
-                  <input
+                  <input id="reset-new-password"
                     className="auth-input"
                     type={showPw ? 'text' : 'password'}
                     value={password}
@@ -109,15 +109,15 @@ export default function ResetPassword() {
                     autoComplete="new-password"
                     autoFocus
                   />
-                  <button type="button" className="auth-eye" onClick={() => setShowPw((s) => !s)} title="Show/hide password">
+                  <button type="button" className="auth-eye" onClick={() => setShowPw((s) => !s)} title="Show/hide password" aria-label={showPw ? 'Hide password' : 'Show password'}>
                     {showPw ? '🙈' : '👁'}
                   </button>
                 </div>
               </div>
 
               <div style={{ marginTop: 14 }}>
-                <label className="auth-label">Confirm New Password</label>
-                <input
+                <label htmlFor="reset-confirm-new-password" className="auth-label">Confirm New Password</label>
+                <input id="reset-confirm-new-password"
                   className="auth-input"
                   type={showPw ? 'text' : 'password'}
                   value={confirm}

@@ -367,10 +367,10 @@ export default function PremiumScreen({ onBack }) {
           {!premiumForThisSemester && !config?.premiumPaused && !isFreeSemester && !hidePaymentFlow && (
             <form className="glass std-card" onSubmit={handleSubmit}>
               <div className="auth-label" style={{ margin: 0 }}>Submit Your Payment</div>
-              <label className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
-              <input className="auth-input" value={bankingName} onChange={(e) => setBankingName(e.target.value)} placeholder="Name on the account you paid from" />
-              <label className="auth-label" style={{ marginTop: 10 }}>Your Contact Number</label>
-              <input
+              <label htmlFor="premium-your-banking-name" className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
+              <input id="premium-your-banking-name" className="auth-input" value={bankingName} onChange={(e) => setBankingName(e.target.value)} placeholder="Name on the account you paid from" />
+              <label htmlFor="premium-your-contact-number" className="auth-label" style={{ marginTop: 10 }}>Your Contact Number</label>
+              <input id="premium-your-contact-number"
                 className="auth-input"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
@@ -378,8 +378,8 @@ export default function PremiumScreen({ onBack }) {
                 inputMode="tel"
                 maxLength={10}
               />
-              <label className="auth-label" style={{ marginTop: 10 }}>Transaction ID (UTR)</label>
-              <input className="auth-input" value={utr} onChange={(e) => setUtr(e.target.value)} placeholder="From your UPI app's payment history" style={{ fontFamily: 'var(--font-mono)' }} />
+              <label htmlFor="premium-transaction-id-utr" className="auth-label" style={{ marginTop: 10 }}>Transaction ID (UTR)</label>
+              <input id="premium-transaction-id-utr" className="auth-input" value={utr} onChange={(e) => setUtr(e.target.value)} placeholder="From your UPI app's payment history" style={{ fontFamily: 'var(--font-mono)' }} />
               <button className="btn-glow std-save-btn" type="submit" disabled={submitting}>
                 {submitting ? 'Submitting…' : 'Submit for Review'}
               </button>
@@ -395,7 +395,7 @@ export default function PremiumScreen({ onBack }) {
                 style={{ marginTop: 10, fontFamily: 'var(--font-mono)', textTransform: 'uppercase' }}
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
-                placeholder="MED-XXXXXXXX"
+                placeholder="MED-XXXXXXXX" aria-label="Activation code"
               />
               <button className="btn-glow std-save-btn" type="submit" disabled={redeeming}>
                 {redeeming ? 'Activating…' : 'Activate'}

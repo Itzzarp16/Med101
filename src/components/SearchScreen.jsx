@@ -55,7 +55,7 @@ export default function SearchScreen({ scopedQuestions, subjectGroup, mainSubjec
           className="auth-input"
           value={term}
           onChange={(e) => setTerm(e.target.value)}
-          placeholder="e.g. cardiac output, glomerulus, enzyme..."
+          placeholder="e.g. cardiac output, glomerulus, enzyme..." aria-label="Search questions"
           autoFocus
         />
         {term.trim().length >= 2 && (

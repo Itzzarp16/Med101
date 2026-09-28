@@ -890,6 +890,7 @@ export default function AuthScreen() {
                       setShowPw((s) => !s)
                     }
                     title="Show/hide password"
+                    aria-label={showPw ? 'Hide password' : 'Show password'}
                   >
                     {showPw ? '🙈' : '👁'}
                   </button>

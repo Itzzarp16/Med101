@@ -173,6 +173,7 @@ export default function ProfileScreen({ onBack }) {
             onClick={() => { playTapSound(); fileInputRef.current?.click(); }}
             disabled={photoUploading}
             title="Change profile photo"
+            aria-label="Change profile photo"
             className="profile-avatar-btn"
             style={profile?.photoURL ? { backgroundImage: `url(${profile.photoURL})` } : undefined}
           >
@@ -184,6 +185,7 @@ export default function ProfileScreen({ onBack }) {
             onClick={() => { playTapSound(); fileInputRef.current?.click(); }}
             disabled={photoUploading}
             title="Change profile photo"
+            aria-label="Change profile photo"
           >
             {photoUploading ? (
               <span className="profile-avatar-spinner" />
@@ -243,6 +245,7 @@ export default function ProfileScreen({ onBack }) {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
+                  aria-label="Display name"
                   autoFocus
                 />
                 {nameMsg && <div className={`auth-msg ${nameMsg.type}`} style={{ display: 'block' }}>{nameMsg.text}</div>}
@@ -275,6 +278,7 @@ export default function ProfileScreen({ onBack }) {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="e.g. sanjana_2027"
+                  aria-label="Username"
                   autoFocus
                 />
                 <p className="std-note">3–20 characters: letters, numbers, or underscore. No one else can have the same one.</p>
@@ -306,12 +310,12 @@ export default function ProfileScreen({ onBack }) {
               </div>
             ) : (
               <div className="profile-row-edit-form">
-                <input className="auth-input" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} placeholder="Current password" autoComplete="current-password" autoFocus />
+                <input className="auth-input" type="password" value={currentPw} onChange={(e) => setCurrentPw(e.target.value)} placeholder="Current password" aria-label="Current password" autoComplete="current-password" autoFocus />
                 <div className="profile-forgot-row">
                   <button type="button" className="auth-forgot" onClick={handleForgotPassword}>Forgot password?</button>
                 </div>
-                <input className="auth-input profile-pw-gap" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder="New password" autoComplete="new-password" />
-                <input className="auth-input profile-pw-gap" type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} placeholder="Confirm new password" />
+                <input className="auth-input profile-pw-gap" type="password" value={newPw} onChange={(e) => setNewPw(e.target.value)} placeholder="New password" aria-label="New password" autoComplete="new-password" />
+                <input className="auth-input profile-pw-gap" type="password" value={confirmPw} onChange={(e) => setConfirmPw(e.target.value)} placeholder="Confirm new password" aria-label="Confirm new password" />
 
                 {pwMsg && <div className={`auth-msg ${pwMsg.type}`} style={{ display: 'block' }}>{pwMsg.text}</div>}
                 <div className="profile-row-edit-actions">
