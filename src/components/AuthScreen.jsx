@@ -483,9 +483,10 @@ export default function AuthScreen() {
 
             <form onSubmit={handleGoogleProfileSetupSubmit}>
               <div style={{ marginBottom: 14 }}>
-                <label className="auth-label">Create Username</label>
+                <label className="auth-label" htmlFor="auth-google-username">Create Username</label>
 
                 <input
+                  id="auth-google-username"
                   className="auth-input"
                   value={gUsername}
                   onChange={(e) => setGUsername(e.target.value)}
@@ -522,9 +523,10 @@ export default function AuthScreen() {
               </div>
 
               <div>
-                <label className="auth-label">Choose Your Year and Semester</label>
+                <label className="auth-label" htmlFor="auth-google-semester">Choose Your Year and Semester</label>
 
                 <select
+                  id="auth-google-semester"
                   className="auth-input"
                   value={gYearSemester}
                   onChange={(e) => setGYearSemester(e.target.value)}
@@ -662,9 +664,10 @@ export default function AuthScreen() {
 
               <form onSubmit={handleNext}>
                 <div style={{ marginBottom: 14 }}>
-                  <label className="auth-label">Your Name</label>
+                  <label className="auth-label" htmlFor="auth-name">Your Name</label>
 
                   <input
+                    id="auth-name"
                     className="auth-input"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
@@ -674,9 +677,10 @@ export default function AuthScreen() {
                 </div>
 
                 <div style={{ marginBottom: 14 }}>
-                  <label className="auth-label">Create Username</label>
+                  <label className="auth-label" htmlFor="auth-signup-username">Create Username</label>
 
                   <input
+                    id="auth-signup-username"
                     className="auth-input"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
@@ -738,11 +742,12 @@ export default function AuthScreen() {
                 </div>
 
                 <div>
-                  <label className="auth-label">
+                  <label className="auth-label" htmlFor="auth-signup-semester">
                     Choose Your Year and Semester
                   </label>
 
                   <select
+                    id="auth-signup-semester"
                     className="auth-input"
                     value={yearSemester}
                     onChange={(e) =>
@@ -839,9 +844,10 @@ export default function AuthScreen() {
               )}
 
               <div style={{ marginBottom: 14 }}>
-                <label className="auth-label">Email</label>
+                <label className="auth-label" htmlFor="auth-email">Email</label>
 
                 <input
+                  id="auth-email"
                   className="auth-input"
                   type="email"
                   value={email}
@@ -853,7 +859,7 @@ export default function AuthScreen() {
               </div>
 
               <div>
-                <label className="auth-label">
+                <label className="auth-label" htmlFor="auth-password">
                   {mode === 'signin'
                     ? 'Password'
                     : 'Create Password'}
@@ -861,6 +867,7 @@ export default function AuthScreen() {
 
                 <div className="auth-input-wrap">
                   <input
+                    id="auth-password"
                     className="auth-input"
                     type={showPw ? 'text' : 'password'}
                     value={password}
@@ -892,12 +899,13 @@ export default function AuthScreen() {
               {showingSignupStep2 && (
                 <>
                   <div style={{ marginTop: 14 }}>
-                    <label className="auth-label">
+                    <label className="auth-label" htmlFor="auth-confirm-password">
                       Confirm Password
                     </label>
 
                     <div className="auth-input-wrap">
                       <input
+                        id="auth-confirm-password"
                         className="auth-input"
                         type={
                           showPw ? 'text' : 'password'
@@ -917,6 +925,7 @@ export default function AuthScreen() {
                       type="button"
                       onClick={() => photoInputRef.current?.click()}
                       title="Add profile photo"
+                      aria-label="Add profile photo"
                       style={{
                         width: 56, height: 56, borderRadius: '50%', flexShrink: 0,
                         border: '1px solid var(--border2)', cursor: 'pointer',
