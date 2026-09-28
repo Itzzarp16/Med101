@@ -41,6 +41,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [configLoading, setConfigLoading] = useState(true);
   const [configSaving, setConfigSaving] = useState(false);
   const [configSaved, setConfigSaved] = useState(false);
+  const [revokedFree, setRevokedFree] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const [showRejected, setShowRejected] = useState(false);
 
@@ -76,7 +77,8 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     setConfigSaving(true);
     setConfigSaved(false);
     try {
-      await saveSubscriptionConfig(config);
+      const { revoked } = await saveSubscriptionConfig(config);
+      setRevokedFree(revoked || 0);
       setConfigSaved(true);
     } catch (e) {
       alert('Failed to save: ' + (e.message || e));
@@ -236,7 +238,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
 
                 <label className="auth-label" style={{ marginTop: 18 }}>Per-Semester Pricing (optional)</label>
                 <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 2, marginBottom: 8 }}>
-                  Leave a semester blank to use the default Price Label above. Enter 0 (or ₹0) to make that semester free - students in it get Med101 Maxx automatically, no payment needed.
+                  Leave a semester blank to use the default Price Label above. Enter 0 (or ₹0) to make that semester free - students in it get Med101 Maxx automatically, no payment needed. Changing it back to a price later revokes that free access.
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                   {YEAR_SEMESTER_OPTIONS.map((opt) => (
@@ -289,7 +291,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                 <button className="btn-glow std-save-btn" onClick={handleSaveConfig} disabled={configSaving}>
                   {configSaving ? 'Saving…' : 'Save Settings'}
                 </button>
-                {configSaved && <div className="auth-msg success" style={{ display: 'block' }}>Saved.</div>}
+                {configSaved && <div className="auth-msg success" style={{ display: 'block' }}>Saved.{revokedFree > 0 && ` Revoked ${revokedFree} free-access grant${revokedFree === 1 ? '' : 's'} for semesters that are no longer free.`}</div>}
               </>
             )}
           </div>

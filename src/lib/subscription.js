@@ -1,6 +1,6 @@
 import {
   doc, getDoc, setDoc, updateDoc, deleteDoc, runTransaction,
-  collection, query, where, getDocs, onSnapshot, serverTimestamp,
+  collection, query, where, getDocs, onSnapshot, serverTimestamp, writeBatch,
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
@@ -53,6 +53,37 @@ export function subscribeToSubscriptionConfig(callback) {
   });
 }
 
+const ALL_YEAR_SEMESTERS = ['y1s1', 'y1s2', 'y2s1', 'y2s2', 'y3s1', 'y3s2'];
+
+// Same "bare number only" rule as api/activate-free-semester.py: only
+// "0", "00", "₹0", "0.00" count as free; a fuller label never does.
+function isFreeLabel(label) {
+  const m = String(label || '').trim().match(/^₹?(\d+(\.\d+)?)$/);
+  return !!m && parseFloat(m[1]) === 0;
+}
+
+async function revokeStaleFreeGrants(priceLabel, priceLabelsBySemester) {
+  const perSemester = priceLabelsBySemester || {};
+  let revoked = 0;
+  for (const sem of ALL_YEAR_SEMESTERS) {
+    if (isFreeLabel(perSemester[sem] || priceLabel)) continue;
+    const snap = await getDocs(
+      query(
+        collection(db, 'activationCodes'),
+        where('yearSemester', '==', sem),
+        where('grantedFree', '==', true)
+      )
+    );
+    for (let i = 0; i < snap.docs.length; i += 400) {
+      const batch = writeBatch(db);
+      snap.docs.slice(i, i + 400).forEach((d) => batch.delete(d.ref));
+      await batch.commit();
+    }
+    revoked += snap.size;
+  }
+  return revoked;
+}
+
 export async function saveSubscriptionConfig({
   upiId,
   priceLabel,
@@ -62,6 +93,17 @@ export async function saveSubscriptionConfig({
   activationMethod,
   premiumPaused
 }) {
+  // Free access is only ever meant to last while a semester's price
+  // is still a bare 0. Once it's saved as anything else, the free
+  // codes students auto-activated during the free window (each one is
+  // a 10-year grantedFree code, see api/activate-free-semester.py)
+  // must stop working - so delete them here, for every semester whose
+  // NEW effective price isn't free. Paid and admin-granted codes are
+  // untouched (they don't carry grantedFree). Doing it for every
+  // non-free semester, not just ones that just flipped from 0, also
+  // sweeps up any leftovers from earlier price changes.
+  const revoked = await revokeStaleFreeGrants(priceLabel, priceLabelsBySemester);
+
   await setDoc(
     doc(db, 'config', 'subscription'),
     {
@@ -76,6 +118,8 @@ export async function saveSubscriptionConfig({
     },
     { merge: true }
   );
+
+  return { revoked };
 }
 
 // ── Student: submit a payment for admin review ──────────────────────

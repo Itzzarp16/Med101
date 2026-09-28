@@ -28,9 +28,10 @@ new codes.
 The granted code uses a long (10-year) duration rather than a real
 subscription length, since there's no natural "expiry" for a
 free semester - if the admin later sets a real price for this
-semester, NEW enrollments no longer qualify, but a code already
-granted while it was free is not retroactively revoked (matching how
-a real one-time free promo would normally be honored).
+semester, NEW enrollments no longer qualify AND every grantedFree code
+already issued for that semester is deleted - saveSubscriptionConfig()
+in src/lib/subscription.js does that at the moment the admin saves the
+new price, so free access lasts only while the price is 0.
 
 Required env vars: same as api/request-my-data-export.py -
   FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
