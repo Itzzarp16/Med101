@@ -2,6 +2,12 @@
   "functions": {
     "api/send-welcome-email.py": {
       "includeFiles": "api/templates/**"
+    },
+    "api/request-my-data-export.py": {
+      "includeFiles": "api/templates/**"
+    },
+    "api/admin/email-data-export.py": {
+      "includeFiles": "api/templates/**"
     }
   },
   "rewrites": [

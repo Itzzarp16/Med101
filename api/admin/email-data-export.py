@@ -38,6 +38,7 @@ Required env vars: same as api/send-welcome-email.py -
   REPLY_TO_EMAIL (optional, defaults to 'admin.med101@gmail.com')
 """
 
+import html
 import json
 import os
 import re
@@ -66,6 +67,12 @@ REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'admin.med101@gmail.com')
 # request body limit even for a very active student's full history.
 MAX_BASE64_CHARS = 6_000_000
 
+_TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), '..', 'templates', 'data-export-email.html')
+with open(_TEMPLATE_PATH, 'r', encoding='utf-8') as f:
+    # Drop the developer-notes HTML comment at the top of the file so it
+    # isn't shipped inside every email (with real values substituted in).
+    _TEMPLATE = re.sub(r'<!--.*?-->\s*', '', f.read(), flags=re.S)
+
 _app = None
 
 
@@ -90,20 +97,12 @@ def _init_admin():
 
 def _email_body_html(student_name):
     safe_name = (student_name or 'there').split('<')[0].strip() or 'there'
-    return f"""
-    <div style="font-family: -apple-system, Segoe UI, Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 24px; color: #1a1a2e;">
-      <h2 style="margin: 0 0 12px;">Your Med101 data export</h2>
-      <p style="line-height: 1.5;">Hi {safe_name},</p>
-      <p style="line-height: 1.5;">
-        Attached is a full export of the data Med101 stores about your
-        account (as a PDF), sent to you by a Med101 admin.
-      </p>
-      <p style="line-height: 1.5; color: #666; font-size: 13px;">
-        Didn't request this? You can safely ignore this email, or
-        reply if you have any questions.
-      </p>
-    </div>
-    """
+    return (
+        _TEMPLATE
+        .replace('{{NAME}}', html.escape(safe_name))
+        .replace('{{BODY}}', html.escape('Attached is a full export of the data Med101 stores about your account (as a PDF), sent to you by a Med101 admin.'))
+        .replace('{{NOTE}}', html.escape("Didn't request this? You can safely ignore this email, or reply if you have any questions."))
+    )
 
 
 def _email_body_text(student_name):

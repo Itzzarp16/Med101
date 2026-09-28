@@ -51,7 +51,9 @@ YEAR_SEMESTER_LABELS = {
 
 _TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), 'templates', 'welcome-email.html')
 with open(_TEMPLATE_PATH, 'r', encoding='utf-8') as f:
-    _TEMPLATE = f.read()
+    # Drop the developer-notes HTML comment at the top of the file so it
+    # isn't shipped inside every email (with real values substituted in).
+    _TEMPLATE = re.sub(r'<!--.*?-->\s*', '', f.read(), flags=re.S)
 
 _app = None
 
