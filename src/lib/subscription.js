@@ -450,9 +450,21 @@ export async function redeemActivationCode(uid, rawCode) {
   });
 }
 
+// Display labels for yearSemester keys - must match
+// YEAR_SEMESTER_OPTIONS in AuthScreen.jsx / SettingsScreen.jsx.
+export const SEMESTER_LABELS = {
+  y1s1: 'Semester 1',
+  y1s2: 'Semester 2',
+  y2s1: 'Semester 3',
+  y2s2: 'Semester 4',
+  y3s1: 'Semester 5',
+  y3s2: 'Semester 6',
+};
+
 function computePremiumFromCodeDocs(docs) {
   let latest = null;
   let latestSemester = null;
+  const subscriptions = [];
 
   docs.forEach((data) => {
     if (!data.usedAt || !data.durationDays) return;
@@ -464,6 +476,20 @@ function computePremiumFromCodeDocs(docs) {
     const untilMs =
       usedAtMs + data.durationDays * 24 * 60 * 60 * 1000;
 
+    // Every activated code, not just the latest-expiring one - this
+    // is what the student-facing "Your Subscriptions" list shows, and
+    // what premiumCoversSemester() checks, so paying for two
+    // semesters means both are recognized.
+    subscriptions.push({
+      // null = unrestricted (admin-granted, or issued before
+      // per-semester pricing existed): covers every semester.
+      semester: data.yearSemester || null,
+      activatedAt: new Date(usedAtMs),
+      expiresAt: new Date(untilMs),
+      active: untilMs > Date.now(),
+      source: data.grantedByAdmin ? 'admin' : data.grantedFree ? 'free' : 'paid',
+    });
+
     if (!latest || untilMs > latest) {
       latest = untilMs;
       // No yearSemester on the code (admin-granted via
@@ -474,20 +500,40 @@ function computePremiumFromCodeDocs(docs) {
     }
   });
 
+  // Active first (soonest to expire first), then expired (most recent first).
+  subscriptions.sort((a, b) => (
+    a.active !== b.active
+      ? (a.active ? -1 : 1)
+      : a.active
+        ? a.expiresAt - b.expiresAt
+        : b.expiresAt - a.expiresAt
+  ));
+
   const premiumUntil = latest ? new Date(latest) : null;
 
   return {
     isPremium:
       !!premiumUntil && premiumUntil.getTime() > Date.now(),
     premiumUntil,
-    // Which semester this premium is scoped to - null means
-    // unrestricted (applies to every semester). A student who paid
-    // for Semester 1 shouldn't get full access to Semester 6 just by
-    // switching their enrolled semester in Settings; the caller (see
-    // App.jsx) is expected to compare this against the semester
-    // they're currently viewing before treating them as premium.
+    // Which semester the latest-expiring premium is scoped to - null
+    // means unrestricted. Kept for existing callers (e.g. the admin
+    // user-detail screen); access checks should use
+    // premiumCoversSemester() below instead, since a student can hold
+    // active subscriptions for more than one semester at once.
     premiumSemester: latestSemester,
+    subscriptions,
   };
+}
+
+// Whether ANY currently-active subscription covers the given
+// semester. A student who paid for Semester 1 and later Semester 2
+// has two active codes; only checking the single latest-expiring one
+// (premiumSemester) would lock them out of whichever expires sooner
+// even though they paid for it.
+export function premiumCoversSemester(status, semester) {
+  return !!status?.subscriptions?.some(
+    (sub) => sub.active && (sub.semester === null || sub.semester === semester)
+  );
 }
 
 export async function grantPremiumDirectly(uid, durationDays) {

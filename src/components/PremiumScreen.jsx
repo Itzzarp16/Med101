@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import {
   subscribeToSubscriptionConfig, submitPaymentRequest, subscribeToMyPaymentRequests,
   redeemActivationCode, subscribeToMyPremiumStatus, activateFreeSemester,
+  premiumCoversSemester, SEMESTER_LABELS,
 } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
 import LiveQrCode from './LiveQrCode';
@@ -63,11 +64,53 @@ function extractAmount(label) {
   return m ? m[1] : null;
 }
 
+const SOURCE_NOTE = {
+  admin: 'Granted by an admin',
+  free: 'Free access',
+  paid: null,
+};
+
+function fmtDay(d) {
+  return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+function semesterName(semester) {
+  return semester ? (SEMESTER_LABELS[semester] || semester) : 'All semesters';
+}
+
+// One row of the "Your Subscriptions" list - which semester it covers,
+// whether it's still running, and the dates, so a student can see at a
+// glance exactly what they've paid for and when it ends.
+function SubscriptionRow({ sub, isCurrent }) {
+  const daysLeft = Math.ceil((sub.expiresAt.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
+  const color = !sub.active ? 'var(--red)' : daysLeft <= 7 ? 'var(--amber)' : 'var(--green)';
+  const note = SOURCE_NOTE[sub.source];
+  return (
+    <div style={{ borderTop: '1px solid var(--border)', paddingTop: 10 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+        <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)' }}>
+          {semesterName(sub.semester)}
+          {isCurrent && sub.active && (
+            <span className="badge badge-cyan" style={{ marginLeft: 8, fontSize: 10 }}>Your current semester</span>
+          )}
+        </span>
+        <span style={{ color, fontWeight: 700, fontSize: 12.5 }}>
+          {sub.active ? (daysLeft === 1 ? 'Active · 1 day left' : `Active · ${daysLeft} days left`) : 'Expired'}
+        </span>
+      </div>
+      <div style={{ marginTop: 4, fontSize: 12.5, color: 'var(--text3)', lineHeight: 1.6 }}>
+        Started {fmtDay(sub.activatedAt)} · {sub.active ? 'Valid until' : 'Ended'} {fmtDay(sub.expiresAt)}
+        {note && <> · {note}</>}
+      </div>
+    </div>
+  );
+}
+
 export default function PremiumScreen({ onBack }) {
   const { user, profile, isAdmin } = useAuth();
   const [config, setConfig] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [premium, setPremium] = useState({ isPremium: false, premiumUntil: null });
+  const [premium, setPremium] = useState({ isPremium: false, premiumUntil: null, subscriptions: [] });
   const [myRequests, setMyRequests] = useState([]);
   // The admin can set a different price per semester (Payment Settings
   // -> Per-Semester Pricing); this is what actually gets shown/charged,
@@ -85,8 +128,15 @@ export default function PremiumScreen({ onBack }) {
   // scoped to one semester, or this screen would tell a Semester-1
   // subscriber they're "already Maxx" while they're actually viewing
   // (and locked out of) Semester 2.
-  const premiumForThisSemester = premium.isPremium
-    && (premium.premiumSemester == null || premium.premiumSemester === profile?.enrolledYearSemester);
+  const premiumForThisSemester = premiumCoversSemester(premium, profile?.enrolledYearSemester);
+  // The active subscription that actually covers the current
+  // semester (latest-expiring if more than one does) - its expiry is
+  // what the "Active" card should show, not premium.premiumUntil,
+  // which is the latest expiry across every semester.
+  const coveringSub = (premium.subscriptions || [])
+    .filter((sub) => sub.active && (sub.semester === null || sub.semester === profile?.enrolledYearSemester))
+    .sort((a, b) => b.expiresAt - a.expiresAt)[0] || null;
+  const hasOtherActiveSub = !premiumForThisSemester && (premium.subscriptions || []).some((sub) => sub.active);
   // Once a payment's been submitted, the whole "pay now" flow should
   // step out of the way - either they're waiting on a decision, or
   // they already have a code to enter. Only a rejection reopens it
@@ -280,7 +330,8 @@ export default function PremiumScreen({ onBack }) {
               <>
                 <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Med101 Maxx Active</div>
                 <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  Valid until <strong>{premium.premiumUntil.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}</strong>
+                  {coveringSub && <><strong>{semesterName(coveringSub.semester)}</strong> · </>}
+                  Valid until <strong>{fmtDay(coveringSub?.expiresAt || premium.premiumUntil)}</strong>
                 </div>
               </>
             ) : config?.premiumPaused ? (
@@ -322,6 +373,26 @@ export default function PremiumScreen({ onBack }) {
               </>
             )}
           </div>
+
+          {(premium.subscriptions || []).length > 0 && (
+            <div className="glass std-card">
+              <div className="auth-label" style={{ margin: 0 }}>Your Subscriptions</div>
+              {hasOtherActiveSub && (
+                <div style={{ fontSize: 12.5, color: 'var(--amber)', marginTop: 6, lineHeight: 1.5 }}>
+                  You're viewing {semesterName(profile?.enrolledYearSemester)}, which isn't covered by an active subscription. Your active subscriptions below apply to the semesters listed.
+                </div>
+              )}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
+                {premium.subscriptions.map((sub, i) => (
+                  <SubscriptionRow
+                    key={`${sub.semester}-${sub.activatedAt.getTime()}-${i}`}
+                    sub={sub}
+                    isCurrent={sub.semester === null || sub.semester === profile?.enrolledYearSemester}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
 
           {!premiumForThisSemester && !config?.premiumPaused && !isFreeSemester && !hidePaymentFlow && config && (
             <div className="pay-card">
