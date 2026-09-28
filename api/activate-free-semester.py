@@ -25,9 +25,7 @@ another one - so a student re-opening the Premium screen (which calls
 this automatically whenever the effective price is 0) never spams
 new codes.
 
-The granted code uses a long (10-year) duration rather than a real
-subscription length, since there's no natural "expiry" for a
-free semester - if the admin later sets a real price for this
+The granted code lasts 30 days; if the admin later sets a real price for this
 semester, NEW enrollments no longer qualify AND every grantedFree code
 already issued for that semester is deleted - saveSubscriptionConfig()
 in src/lib/subscription.js does that at the moment the admin saves the
@@ -48,10 +46,14 @@ from firebase_admin import credentials, auth as fb_auth, firestore
 
 ALLOWED_ORIGINS = {'https://med101.space', 'https://www.med101.space'}
 
-# Free-grant codes don't expire on any meaningful subscription
-# schedule - see docstring above for why 10 years is used as an
-# effectively-permanent duration instead.
-FREE_GRANT_DURATION_DAYS = 3650
+# Free grants last 30 days. While the semester is still priced at 0 the
+# student is simply re-granted another 30 days the next time they open
+# the Premium screen (see the idempotency check below); once the admin
+# sets a real price, no new grant is issued and the old one lapses (and
+# is also deleted/ignored immediately - see saveSubscriptionConfig and
+# computePremiumFromCodeDocs in src/lib/subscription.js). Keep
+# FREE_GRANT_MAX_DAYS in src/lib/subscription.js in sync with this.
+FREE_GRANT_DURATION_DAYS = 30
 
 # Matches the same "is this label a bare number" check PremiumScreen.jsx
 # uses client-side (extractAmount/formatPrice) - only a plain number or
@@ -188,7 +190,7 @@ class handler(BaseHTTPRequestHandler):
             if used_at is not None and duration_days:
                 import datetime as _dt
                 now = _dt.datetime.now(_dt.timezone.utc)
-                until = used_at + _dt.timedelta(days=duration_days)
+                until = used_at + _dt.timedelta(days=min(duration_days, FREE_GRANT_DURATION_DAYS))
                 if until > now:
                     return self._send(200, {'activated': True, 'alreadyActive': True})
 

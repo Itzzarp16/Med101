@@ -505,6 +505,11 @@ export const SEMESTER_LABELS = {
   y3s2: 'Semester 6',
 };
 
+// Free grants are 30 days (api/activate-free-semester.py). Older ones
+// were issued for 10 years, so cap by this on read instead of trusting
+// the stored durationDays - that shortens existing grants too.
+const FREE_GRANT_MAX_DAYS = 30;
+
 function computePremiumFromCodeDocs(allDocs, config) {
   // A free-access code only counts while its semester is STILL free.
   // Enforced here at read time, on top of the delete-on-save cleanup in
@@ -533,8 +538,12 @@ function computePremiumFromCodeDocs(allDocs, config) {
       ? data.usedAt.toMillis()
       : data.usedAt.seconds * 1000;
 
+    const durationDays = data.grantedFree
+      ? Math.min(data.durationDays, FREE_GRANT_MAX_DAYS)
+      : data.durationDays;
+
     const untilMs =
-      usedAtMs + data.durationDays * 24 * 60 * 60 * 1000;
+      usedAtMs + durationDays * 24 * 60 * 60 * 1000;
 
     // Every activated code, not just the latest-expiring one - this
     // is what the student-facing "Your Subscriptions" list shows, and
