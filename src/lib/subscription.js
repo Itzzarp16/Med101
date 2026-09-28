@@ -505,7 +505,23 @@ export const SEMESTER_LABELS = {
   y3s2: 'Semester 6',
 };
 
-function computePremiumFromCodeDocs(docs) {
+function computePremiumFromCodeDocs(allDocs, config) {
+  // A free-access code only counts while its semester is STILL free.
+  // Enforced here at read time, on top of the delete-on-save cleanup in
+  // saveSubscriptionConfig, so a price change takes effect for every
+  // student the moment they load the app (or immediately if they have
+  // it open, since the config is live) - it doesn't depend on the
+  // cleanup having run or succeeded. config === null means "couldn't
+  // read pricing", in which case nothing is filtered rather than
+  // locking everyone out.
+  const docs = config === null || config === undefined
+    ? allDocs
+    : allDocs.filter((data) => {
+        if (!data.grantedFree) return true;
+        const label = (config.priceLabelsBySemester || {})[data.yearSemester] || config.priceLabel;
+        return isFreeLabel(label);
+      });
+
   let latest = null;
   let latestSemester = null;
   const subscriptions = [];
@@ -628,8 +644,8 @@ export async function getMyPremiumStatus(uid) {
     where('used', '==', true)
   );
 
-  const snap = await getDocs(q);
-  return computePremiumFromCodeDocs(snap.docs.map((d) => d.data()));
+  const [snap, config] = await Promise.all([getDocs(q), getSubscriptionConfig().catch(() => null)]);
+  return computePremiumFromCodeDocs(snap.docs.map((d) => d.data()), config);
 }
 
 // Live version - so approving a payment (whether instant-activate or
@@ -642,11 +658,29 @@ export function subscribeToMyPremiumStatus(uid, callback) {
     where('uid', '==', uid),
     where('used', '==', true)
   );
-  return onSnapshot(q, (snap) => {
-    callback(computePremiumFromCodeDocs(snap.docs.map((d) => d.data())));
+  let codeDocs = null;
+  let config;            // undefined = not loaded yet; null = unreadable
+  const emit = () => {
+    if (codeDocs === null || config === undefined) return;
+    callback(computePremiumFromCodeDocs(codeDocs, config));
+  };
+  const unsubCodes = onSnapshot(q, (snap) => {
+    codeDocs = snap.docs.map((d) => d.data());
+    emit();
   }, (err) => {
     console.warn('Premium status listener failed:', err);
   });
+  // Live, so flipping a semester from free to paid locks it for
+  // students who already have the app open, without a refresh.
+  const unsubConfig = onSnapshot(doc(db, 'config', 'subscription'), (snap) => {
+    config = snap.exists() ? snap.data() : {};
+    emit();
+  }, (err) => {
+    console.warn('Subscription config listener failed:', err);
+    config = null; // unreadable - don't filter, don't block status
+    emit();
+  });
+  return () => { unsubCodes(); unsubConfig(); };
 }
 
 // Auto-activation for a semester the admin has priced at a bare zero
