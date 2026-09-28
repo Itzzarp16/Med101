@@ -1,0 +1,382 @@
+/* Admin -> View User Detail. Everything here uses the shared theme
+   variables (--surface / --bg2 / --border flip between light and dark)
+   rather than hardcoded white-tinted rgba() values, which only show up
+   against a dark background and vanish in light mode. */
+
+.aud {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+.aud-back {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  color: var(--text3);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.15s, transform 0.15s;
+}
+.aud-back:hover { color: var(--cyan); }
+.aud-back:active { transform: scale(0.96); }
+
+.aud-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px;
+}
+
+/* ── Profile header ─────────────────────────────────────────── */
+.aud-hero {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.aud-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-body);
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+  background-color: #1e3a5f;
+  background-image: linear-gradient(135deg, #1e3a5f, #64748b);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 4px var(--border);
+}
+
+.aud-hero-text { min-width: 0; }
+
+.aud-name {
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--text);
+  word-break: break-word;
+}
+
+.aud-username {
+  margin-top: 2px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--text2);
+}
+
+.aud-email {
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: var(--text3);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.aud-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.aud-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: var(--text2);
+}
+.aud-chip.ok { color: var(--green); border-color: var(--green); background: transparent; }
+.aud-chip.bad { color: var(--red); border-color: var(--red); background: transparent; }
+
+/* ── Stat tiles ─────────────────────────────────────────────── */
+.aud-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.aud-stat {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  min-width: 0;
+}
+
+.aud-stat-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+.aud-stat-value {
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.aud-stat-sub {
+  margin-top: 1px;
+  font-size: 11.5px;
+  color: var(--text3);
+}
+
+/* ── Section cards (Maxx, topics, actions) ──────────────────── */
+.aud-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.aud-section-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: var(--text);
+}
+.aud-section-title.danger { color: var(--red); }
+
+.aud-badge {
+  font-size: 11px;
+  font-weight: 800;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border2);
+  color: var(--text3);
+  white-space: nowrap;
+}
+.aud-badge.on { color: var(--green); border-color: var(--green); }
+
+.aud-hint {
+  margin-top: 6px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text2);
+}
+
+.aud-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 14px 0;
+}
+
+.aud-field-label {
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* Segmented duration picker */
+.aud-seg {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.aud-seg-btn {
+  padding: 10px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: var(--text2);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.aud-seg-btn:hover { border-color: var(--cyan); color: var(--text); }
+.aud-seg-btn:active { transform: scale(0.96); }
+.aud-seg-btn.sel {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: #fff;
+}
+
+.aud-input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 8px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--bg2);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 14px;
+}
+.aud-input:focus { outline: none; border-color: var(--cyan); }
+
+.aud-primary {
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--cyan), var(--violet));
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+}
+.aud-primary:hover { transform: translateY(-1px); }
+.aud-primary:active { transform: scale(0.98); }
+.aud-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* ── Weakest topics ─────────────────────────────────────────── */
+.aud-topic {
+  padding: 11px 0;
+  border-top: 1px solid var(--border);
+}
+.aud-topic:first-of-type { border-top: none; padding-top: 4px; }
+
+.aud-topic-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.aud-topic-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.aud-topic-sub {
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: var(--text3);
+}
+
+.aud-topic-pct {
+  font-size: 13.5px;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.aud-bar {
+  height: 6px;
+  margin-top: 8px;
+  border-radius: 999px;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.aud-bar > span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+}
+
+/* ── Action rows ────────────────────────────────────────────── */
+.aud-actions { display: flex; flex-direction: column; }
+
+.aud-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 13px 2px;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font-body);
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.aud-actions > .aud-action:first-child { border-top: none; }
+.aud-action:active { background: var(--bg2); }
+.aud-action:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.aud-action-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg2);
+  font-size: 17px;
+}
+
+.aud-action-body { min-width: 0; }
+
+.aud-action-title {
+  font-size: 14px;
+  font-weight: 700;
+}
+.aud-action.warn .aud-action-title { color: var(--amber); }
+.aud-action.danger .aud-action-title { color: var(--red); }
+
+.aud-action-sub {
+  margin-top: 1px;
+  font-size: 12px;
+  color: var(--text3);
+  word-break: break-word;
+}
+
+/* Delete confirmation panel */
+.aud-confirm {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--red);
+}
+.aud-confirm p {
+  margin: 0 0 10px;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text2);
+}
+.aud-confirm-actions { display: flex; gap: 8px; }
+
+.aud-btn {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border2);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+}
+.aud-btn:active { transform: scale(0.97); }
+.aud-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.aud-btn.danger {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}

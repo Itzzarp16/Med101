@@ -8,6 +8,7 @@ import { formatDuration } from '../lib/timeTracking';
 import { setAccountDisabled, deleteAccount } from '../lib/adminAccountActions';
 import { buildUserDataExportPdf, emailDataExportToUser } from '../lib/dataExport';
 import { subscribeToMyPremiumStatus, grantPremiumDirectly } from '../lib/subscription';
+import './AdminUserDetailScreen.css';
 
 // Just for the "· Semester N only" note next to an active subscription
 // below - same 6 values AuthScreen/SettingsScreen use for
@@ -261,16 +262,25 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
     }
   }
 
+  // Display values for the detail view (only meaningful once `result` is set).
+  const semesterLabel = SEMESTER_LABELS[result?.enrolledYearSemester] || result?.enrolledYearSemester || 'Not set';
+  const maxxDays = maxxDuration === 'custom' ? parseInt(maxxCustomDays, 10) : maxxDuration;
+  const maxxDurationLabel = maxxDuration === 'custom'
+    ? (maxxDays > 0 ? `${maxxDays} day${maxxDays === 1 ? '' : 's'}` : 'custom')
+    : (MAXX_DURATION_PRESETS.find((p) => p.days === maxxDuration)?.label || '').toLowerCase();
+
   return (
     <div className="std-screen">
       {!hideBack && (
         <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
       )}
 
-      <div className="std-header">
-        <h1 className="std-title">🔍 View User Detail</h1>
-        <p className="std-sub">Look up a student by their unique username.</p>
-      </div>
+      {!result && !initialUid && (
+        <div className="std-header">
+          <h1 className="std-title">🔍 View User Detail</h1>
+          <p className="std-sub">Look up a student by their unique username.</p>
+        </div>
+      )}
 
       {!initialUid && !result && (
         <div className="glass std-card">
@@ -406,88 +416,93 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
       {initialUid && error && <div className="auth-msg error" style={{ display: 'block' }}>{error}</div>}
 
       {result && (
-        <div className="glass std-card" style={{ marginTop: 14 }}>
+        <div className="aud">
           {!initialUid && (
-            <button
-              className="btn-ghost"
-              style={{ marginBottom: 12, padding: '6px 12px', fontSize: 12.5 }}
-              onClick={() => { playTapSound(); setResult(null); }}
-            >
+            <button className="aud-back" onClick={() => { playTapSound(); setResult(null); }}>
               ← {allUsers ? 'Back to list' : 'Back to search'}
             </button>
           )}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <div
-              style={{
-                width: 52,
-                height: 52,
-                borderRadius: '50%',
-                flexShrink: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: 18,
-                fontWeight: 800,
-                color: '#fff',
-                background: result.photoURL ? undefined : 'var(--brand-gradient)',
-                backgroundImage: result.photoURL ? `url(${result.photoURL})` : undefined,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            >
-              {!result.photoURL && (result.displayName || result.username || '?').trim().charAt(0).toUpperCase()}
-            </div>
-            <div>
-              <div style={{ fontWeight: 800, fontSize: 16, color: 'var(--text)', display: 'flex', alignItems: 'center', gap: 8 }}>
-                {result.displayName || '(no name)'}
-                {result.disabled && (
-                  <span style={{ fontSize: 10.5, fontWeight: 700, color: 'var(--red)', border: '1px solid var(--red)', borderRadius: 6, padding: '2px 6px' }}>
-                    DISABLED
-                  </span>
-                )}
+
+          {/* Who is this? */}
+          <div className="aud-card stagger-in" style={{ '--stagger-i': 0 }}>
+            <div className="aud-hero">
+              <div
+                className="aud-avatar"
+                aria-hidden="true"
+                style={result.photoURL ? { backgroundImage: `url(${result.photoURL})` } : undefined}
+              >
+                {!result.photoURL && (result.displayName || result.username || '?').trim().charAt(0).toUpperCase()}
               </div>
-              <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{result.username ? `@${result.username} · ` : ''}{result.email}</div>
+              <div className="aud-hero-text">
+                <div className="aud-name">{result.displayName || '(no name)'}</div>
+                {result.username && <div className="aud-username">@{result.username}</div>}
+                <div className="aud-email">{result.email || 'no email'}</div>
+              </div>
+            </div>
+            <div className="aud-chips">
+              {premiumStatus?.isPremium
+                ? <span className="aud-chip ok">⭐ Maxx active</span>
+                : <span className="aud-chip">Free plan</span>}
+              {result.disabled && <span className="aud-chip bad">Account disabled</span>}
             </div>
           </div>
-          <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 10 }}>
-            Enrolled: <strong>{result.enrolledYearSemester || '-'}</strong>
-          </div>
-          <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 2 }}>
-            Joined: <strong>{formatJoinDate(result.enrolledAt) || 'Unknown'}</strong>
-          </div>
-          <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 2 }}>
-            Time spent on site: <strong>{formatDuration(result.totalTimeMs)}</strong>
+
+          {/* Quick facts */}
+          <div className="aud-stats stagger-in" style={{ '--stagger-i': 1 }}>
+            <div className="aud-stat">
+              <div className="aud-stat-label">Semester</div>
+              <div className="aud-stat-value">{semesterLabel}</div>
+            </div>
+            <div className="aud-stat">
+              <div className="aud-stat-label">Joined</div>
+              <div className="aud-stat-value">{formatJoinDate(result.enrolledAt) || 'Unknown'}</div>
+            </div>
+            <div className="aud-stat">
+              <div className="aud-stat-label">Time on site</div>
+              <div className="aud-stat-value">{formatDuration(result.totalTimeMs)}</div>
+            </div>
+            <div className="aud-stat">
+              <div className="aud-stat-label">Streak</div>
+              <div className="aud-stat-value">🔥 {result.streakCount || 0}</div>
+              <div className="aud-stat-sub">Best: {result.longestStreak || 0}</div>
+            </div>
           </div>
 
-          <div style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-            <div className="auth-label" style={{ marginBottom: 0 }}>⭐ Med101 Maxx</div>
-            <div style={{ fontSize: 12.5, marginTop: 4 }}>
-              {premiumStatus === null ? (
-                <span style={{ color: 'var(--text3)' }}>Checking status…</span>
-              ) : premiumStatus.isPremium ? (
-                <span style={{ color: 'var(--green)', fontWeight: 700 }}>
-                  Active until {premiumStatus.premiumUntil.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
-                  {premiumStatus.premiumSemester && (
-                    <span style={{ color: 'var(--text3)', fontWeight: 400 }}> · {SEMESTER_LABELS[premiumStatus.premiumSemester] || premiumStatus.premiumSemester} only</span>
-                  )}
-                </span>
-              ) : (
-                <span style={{ color: 'var(--text3)' }}>Not active</span>
-              )}
+          {/* Med101 Maxx */}
+          <div className="aud-card stagger-in" style={{ '--stagger-i': 2 }}>
+            <div className="aud-section-head">
+              <div className="aud-section-title">⭐ Med101 Maxx</div>
+              {premiumStatus === null
+                ? <span className="aud-badge">Checking…</span>
+                : premiumStatus.isPremium
+                  ? <span className="aud-badge on">Active</span>
+                  : <span className="aud-badge">Not active</span>}
+            </div>
+            <div className="aud-hint">
+              {premiumStatus === null
+                ? 'Checking subscription status…'
+                : premiumStatus.isPremium
+                  ? `Until ${premiumStatus.premiumUntil.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })} · ${premiumStatus.premiumSemester ? `${SEMESTER_LABELS[premiumStatus.premiumSemester] || premiumStatus.premiumSemester} only` : 'all semesters'}`
+                  : 'No active subscription.'}
             </div>
 
-            <div style={{ display: 'flex', gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
+            <div className="aud-divider" />
+
+            <div className="aud-field-label">Grant access for</div>
+            <div className="aud-seg" role="group" aria-label="Grant duration">
               {MAXX_DURATION_PRESETS.map((p) => (
                 <button
                   key={p.days}
-                  className={maxxDuration === p.days ? 'tpreset sel' : 'tpreset'}
+                  className={maxxDuration === p.days ? 'aud-seg-btn sel' : 'aud-seg-btn'}
+                  aria-pressed={maxxDuration === p.days}
                   onClick={() => { playTapSound(); setMaxxDuration(p.days); }}
                 >
                   {p.label}
                 </button>
               ))}
               <button
-                className={maxxDuration === 'custom' ? 'tpreset sel' : 'tpreset'}
+                className={maxxDuration === 'custom' ? 'aud-seg-btn sel' : 'aud-seg-btn'}
+                aria-pressed={maxxDuration === 'custom'}
                 onClick={() => { playTapSound(); setMaxxDuration('custom'); }}
               >
                 Custom
@@ -495,18 +510,18 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
             </div>
             {maxxDuration === 'custom' && (
               <input
-                className="auth-input"
-                style={{ marginTop: 8 }}
+                className="aud-input"
                 type="number"
                 min="1"
                 value={maxxCustomDays}
                 onChange={(e) => setMaxxCustomDays(e.target.value)}
                 placeholder="Number of days"
+                aria-label="Number of days"
               />
             )}
 
-            <button className="btn-glow" style={{ width: '100%', marginTop: 10 }} onClick={handleGrantMaxx} disabled={maxxBusy}>
-              {maxxBusy ? 'Granting…' : '⭐ Grant Med101 Maxx'}
+            <button className="aud-primary" onClick={handleGrantMaxx} disabled={maxxBusy}>
+              {maxxBusy ? 'Granting…' : `⭐ Grant Maxx · ${maxxDurationLabel}`}
             </button>
 
             {maxxError && <div className="auth-msg error" style={{ display: 'block' }}>{maxxError}</div>}
@@ -517,46 +532,90 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
             )}
           </div>
 
+          {/* Weakest topics */}
           {result.weakest.length > 0 && (
-            <>
-              <div className="auth-label" style={{ marginTop: 14 }}>Weakest Topics</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                {result.weakest.map((t) => (
-                  <div key={t.subtopic} style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5 }}>
-                    <span style={{ color: 'var(--text2)' }}>{t.subtopic}</span>
-                    <span style={{ color: t.accuracyPct < 50 ? 'var(--red)' : 'var(--amber)', fontWeight: 700 }}>{t.accuracyPct}%</span>
+            <div className="aud-card stagger-in" style={{ '--stagger-i': 3 }}>
+              <div className="aud-section-title">Weakest topics</div>
+              <div className="aud-hint" style={{ marginBottom: 6 }}>Lowest accuracy, topics with 5+ answers only.</div>
+              {result.weakest.map((t) => {
+                const color = t.accuracyPct < 50 ? 'var(--red)' : 'var(--amber)';
+                return (
+                  <div key={t.subtopic} className="aud-topic">
+                    <div className="aud-topic-row">
+                      <div>
+                        <div className="aud-topic-name">{t.subtopic}</div>
+                        {t.mainSubject && <div className="aud-topic-sub">{t.mainSubject} · {t.answered} answered</div>}
+                      </div>
+                      <div className="aud-topic-pct" style={{ color }}>{t.accuracyPct}%</div>
+                    </div>
+                    <div className="aud-bar" aria-hidden="true">
+                      <span style={{ width: `${Math.max(t.accuracyPct, 3)}%`, background: color }} />
+                    </div>
                   </div>
-                ))}
-              </div>
-            </>
+                );
+              })}
+            </div>
           )}
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 18, paddingTop: 14, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
-            {actionError && <div className="auth-msg error" style={{ display: 'block' }}>{actionError}</div>}
+          {/* Data */}
+          <div className="aud-card stagger-in" style={{ '--stagger-i': 4 }}>
+            <div className="aud-section-title" style={{ marginBottom: 4 }}>Data</div>
             {exportError && <div className="auth-msg error" style={{ display: 'block' }}>{exportError}</div>}
             {emailExportError && <div className="auth-msg error" style={{ display: 'block' }}>{emailExportError}</div>}
             {emailExportSentTo && <div className="auth-msg success" style={{ display: 'block' }}>Sent to {emailExportSentTo}</div>}
-            <button className="btn-ghost" style={{ width: '100%' }} onClick={handleExportData} disabled={exportBusy}>
-              {exportBusy ? 'Gathering data…' : '📤 Export Data (for a data request)'}
-            </button>
-            <button className="btn-ghost" style={{ width: '100%' }} onClick={handleEmailExportToUser} disabled={emailExportBusy}>
-              {emailExportBusy ? 'Sending…' : `✉️ Email Export to ${result.email || 'User'}`}
-            </button>
-            <button className="btn-ghost" style={{ width: '100%' }} onClick={handleToggleDisabled} disabled={actionBusy}>
-              {actionBusy ? '…' : result.disabled ? '✅ Enable Account' : '🚫 Disable Account'}
-            </button>
-            <button
-              className="btn-ghost"
-              style={{ width: '100%', color: 'var(--red)', borderColor: confirmingDelete ? 'var(--red)' : undefined }}
-              onClick={handleDeleteAccount}
-              disabled={actionBusy}
-            >
-              {actionBusy ? '…' : confirmingDelete ? '⚠️ Tap again to permanently delete' : '🗑️ Delete Account'}
-            </button>
-            {confirmingDelete && (
-              <button className="btn-ghost" style={{ width: '100%', fontSize: 12 }} onClick={() => setConfirmingDelete(false)}>
-                Cancel
+            <div className="aud-actions">
+              <button className="aud-action" onClick={handleExportData} disabled={exportBusy}>
+                <span className="aud-action-icon" aria-hidden="true">📥</span>
+                <span className="aud-action-body">
+                  <div className="aud-action-title">{exportBusy ? 'Gathering data…' : 'Download data export'}</div>
+                  <div className="aud-action-sub">PDF of everything stored, for a data request</div>
+                </span>
               </button>
+              <button className="aud-action" onClick={handleEmailExportToUser} disabled={emailExportBusy}>
+                <span className="aud-action-icon" aria-hidden="true">✉️</span>
+                <span className="aud-action-body">
+                  <div className="aud-action-title">{emailExportBusy ? 'Sending…' : 'Email export to student'}</div>
+                  <div className="aud-action-sub">Sends the PDF to {result.email || 'their account email'}</div>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          {/* Account */}
+          <div className="aud-card stagger-in" style={{ '--stagger-i': 5 }}>
+            <div className="aud-section-title danger" style={{ marginBottom: 4 }}>Danger zone</div>
+            {actionError && <div className="auth-msg error" style={{ display: 'block' }}>{actionError}</div>}
+            <div className="aud-actions">
+              <button className="aud-action warn" onClick={handleToggleDisabled} disabled={actionBusy}>
+                <span className="aud-action-icon" aria-hidden="true">{result.disabled ? '✅' : '🚫'}</span>
+                <span className="aud-action-body">
+                  <div className="aud-action-title">{actionBusy ? '…' : result.disabled ? 'Enable account' : 'Disable account'}</div>
+                  <div className="aud-action-sub">{result.disabled ? 'Let them sign in again' : 'Blocks sign-in; data is kept'}</div>
+                </span>
+              </button>
+              {!confirmingDelete && (
+                <button className="aud-action danger" onClick={handleDeleteAccount} disabled={actionBusy}>
+                  <span className="aud-action-icon" aria-hidden="true">🗑️</span>
+                  <span className="aud-action-body">
+                    <div className="aud-action-title">Delete account</div>
+                    <div className="aud-action-sub">Permanently removes the account and its data</div>
+                  </span>
+                </button>
+              )}
+            </div>
+            {confirmingDelete && (
+              <div className="aud-confirm" role="alertdialog" aria-label="Confirm account deletion">
+                <p>
+                  Permanently delete <strong>{result.displayName || result.email || 'this account'}</strong>? This removes the
+                  account and all its data and can't be undone.
+                </p>
+                <div className="aud-confirm-actions">
+                  <button className="aud-btn" onClick={() => setConfirmingDelete(false)} disabled={actionBusy}>Cancel</button>
+                  <button className="aud-btn danger" onClick={handleDeleteAccount} disabled={actionBusy}>
+                    {actionBusy ? 'Deleting…' : 'Yes, delete'}
+                  </button>
+                </div>
+              </div>
             )}
           </div>
         </div>
