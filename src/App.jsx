@@ -6,19 +6,6 @@ import SubtopicScreen from './components/SubtopicScreen';
 import SlideStack from './components/SlideStack';
 import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
-import LeaderboardScreen from './components/LeaderboardScreen';
-import ChallengeScreen from './components/ChallengeScreen';
-import FriendsScreen from './components/FriendsScreen';
-import RoomLobbyScreen from './components/RoomLobbyScreen';
-import RoomResultsScreen from './components/RoomResultsScreen';
-import SettingsScreen from './components/SettingsScreen';
-import YourDataScreen from './components/YourDataScreen';
-import ProfileScreen from './components/ProfileScreen';
-import WeakTopicsScreen from './components/WeakTopicsScreen';
-import WrongFlaggedScreen from './components/WrongFlaggedScreen';
-import SearchScreen from './components/SearchScreen';
-import HistoryScreen from './components/HistoryScreen';
-import PremiumScreen from './components/PremiumScreen';
 import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig } from './lib/subscription';
 import AuthScreen from './components/AuthScreen';
 import WhatsAppPromptModal from './components/WhatsAppPromptModal';
@@ -29,6 +16,32 @@ import { useSemesterData } from './lib/useSemesterData';
 import { subscribeToAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 import { startPresenceHeartbeat } from './lib/presence';
 import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence';
+
+// Dashboard/SubtopicScreen/QuizModeScreen/QuizScreen above stay
+// normal static imports - together they're the one back-to-back path
+// every student takes on every single visit (land on Dashboard, pick
+// a subtopic, pick a mode, take the quiz), so there's no good spot to
+// add a chunk-fetch pause without it being felt on the app's single
+// most common interaction.
+//
+// Everything below is reached via an explicit, occasional navigation
+// (a hamburger-menu item, a topbar button, a challenge link) rather
+// than being part of that default flow, so each is its own lazy
+// chunk instead of dead weight on every visitor's first load - same
+// reasoning as the Admin*/legal-page split in main.jsx.
+const LeaderboardScreen = lazy(() => import('./components/LeaderboardScreen'));
+const ChallengeScreen = lazy(() => import('./components/ChallengeScreen'));
+const FriendsScreen = lazy(() => import('./components/FriendsScreen'));
+const RoomLobbyScreen = lazy(() => import('./components/RoomLobbyScreen'));
+const RoomResultsScreen = lazy(() => import('./components/RoomResultsScreen'));
+const SettingsScreen = lazy(() => import('./components/SettingsScreen'));
+const YourDataScreen = lazy(() => import('./components/YourDataScreen'));
+const ProfileScreen = lazy(() => import('./components/ProfileScreen'));
+const WeakTopicsScreen = lazy(() => import('./components/WeakTopicsScreen'));
+const WrongFlaggedScreen = lazy(() => import('./components/WrongFlaggedScreen'));
+const SearchScreen = lazy(() => import('./components/SearchScreen'));
+const HistoryScreen = lazy(() => import('./components/HistoryScreen'));
+const PremiumScreen = lazy(() => import('./components/PremiumScreen'));
 
 // Only ever rendered for isAdmin accounts - a handful of people, not
 // the student body this app is actually sized for - so these are
@@ -47,6 +60,10 @@ const AdminPaymentsScreen = lazy(() => import('./components/AdminPaymentsScreen'
 function AdminScreenFallback() {
   return <div className="std-loading">Loading…</div>;
 }
+
+// Same fallback, generic name for the non-admin lazy screens below.
+const ScreenFallback = AdminScreenFallback;
+
 
 // Navigation is backed by real browser history (pushState/popstate) so
 // the phone's back gesture moves one screen back instead of closing the
@@ -344,7 +361,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <SettingsScreen onBack={goBack} />
+          <Suspense fallback={<ScreenFallback />}>
+            <SettingsScreen onBack={goBack} />
+          </Suspense>
         </div>
       </div>
     );
@@ -355,7 +374,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <YourDataScreen onBack={goBack} />
+          <Suspense fallback={<ScreenFallback />}>
+            <YourDataScreen onBack={goBack} />
+          </Suspense>
         </div>
       </div>
     );
@@ -366,7 +387,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <ProfileScreen onBack={goBack} />
+          <Suspense fallback={<ScreenFallback />}>
+            <ProfileScreen onBack={goBack} />
+          </Suspense>
         </div>
       </div>
     );
@@ -442,7 +465,9 @@ export default function App() {
       <div>
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
-          <PremiumScreen onBack={goBack} />
+          <Suspense fallback={<ScreenFallback />}>
+            <PremiumScreen onBack={goBack} />
+          </Suspense>
         </div>
       </div>
     );
@@ -660,111 +685,129 @@ export default function App() {
       ) : (
       <div className="screen-fade" key={screen}>
       {screen === 'weak-topics' && (
-        <WeakTopicsScreen
-          onPracticeTopic={(subject, subtopic) => {
-            const pool = scopedQuestions.filter((q) => q.s === subtopic);
-            const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
-            setFinalQuiz({ questions: shuffledPool, autoAdvance: true, timerSeconds: null });
-            goTo('quiz', { selectedSubject: subject, selectedTopic: subtopic });
-          }}
-          onBack={goBack}
-        />
+        <Suspense fallback={<ScreenFallback />}>
+          <WeakTopicsScreen
+            onPracticeTopic={(subject, subtopic) => {
+              const pool = scopedQuestions.filter((q) => q.s === subtopic);
+              const shuffledPool = [...pool].sort(() => Math.random() - 0.5).slice(0, Math.min(25, pool.length));
+              setFinalQuiz({ questions: shuffledPool, autoAdvance: true, timerSeconds: null });
+              goTo('quiz', { selectedSubject: subject, selectedTopic: subtopic });
+            }}
+            onBack={goBack}
+          />
+        </Suspense>
       )}
 
       {screen === 'wrong-flagged' && (
-        <WrongFlaggedScreen
-          onPracticeSet={(items) => {
-            const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
-            setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
-            setSelectedSubject(items[0]?.mainSubject || null);
-            setSelectedTopic(null);
-            goTo('quiz');
-          }}
-          onBack={goBack}
-        />
+        <Suspense fallback={<ScreenFallback />}>
+          <WrongFlaggedScreen
+            onPracticeSet={(items) => {
+              const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
+              setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
+              setSelectedSubject(items[0]?.mainSubject || null);
+              setSelectedTopic(null);
+              goTo('quiz');
+            }}
+            onBack={goBack}
+          />
+        </Suspense>
       )}
 
       {screen === 'search' && (
-        <SearchScreen
-          scopedQuestions={scopedQuestions}
-          subjectGroup={subjectGroup}
-          mainSubjectMeta={scopedMainSubjectMeta}
-          onPracticeSet={(items) => {
-            setFinalQuiz({ questions: items, autoAdvance: true, timerSeconds: null });
-            setSelectedSubject(subjectGroup[items[0]?.s] || null);
-            setSelectedTopic(null);
-            goTo('quiz');
-          }}
-          onBack={goBack}
-        />
+        <Suspense fallback={<ScreenFallback />}>
+          <SearchScreen
+            scopedQuestions={scopedQuestions}
+            subjectGroup={subjectGroup}
+            mainSubjectMeta={scopedMainSubjectMeta}
+            onPracticeSet={(items) => {
+              setFinalQuiz({ questions: items, autoAdvance: true, timerSeconds: null });
+              setSelectedSubject(subjectGroup[items[0]?.s] || null);
+              setSelectedTopic(null);
+              goTo('quiz');
+            }}
+            onBack={goBack}
+          />
+        </Suspense>
       )}
 
       {screen === 'history' && (
-        <HistoryScreen
-          onRetry={(quizQuestions, mainSubject, topic) => {
-            setFinalQuiz({ questions: quizQuestions, autoAdvance: true, timerSeconds: null });
-            setSelectedSubject(mainSubject || null);
-            setSelectedTopic(topic || null);
-            goTo('quiz');
-          }}
-          onBack={goBack}
-        />
+        <Suspense fallback={<ScreenFallback />}>
+          <HistoryScreen
+            onRetry={(quizQuestions, mainSubject, topic) => {
+              setFinalQuiz({ questions: quizQuestions, autoAdvance: true, timerSeconds: null });
+              setSelectedSubject(mainSubject || null);
+              setSelectedTopic(topic || null);
+              goTo('quiz');
+            }}
+            onBack={goBack}
+          />
+        </Suspense>
       )}
 
       {screen === 'challenge' && (
-        <ChallengeScreen
-          mainSubjectMeta={scopedMainSubjectMeta}
-          scopedQuestions={scopedQuestions}
-          subjectGroup={subjectGroup}
-          challengeTarget={challengeFriend}
-          onEnterRoom={(code, isHost) => {
-            setActiveRoomCode(code);
-            setActiveRoomIsHost(isHost);
-            goTo('room-lobby');
-          }}
-          onBack={() => { setChallengeFriend(null); goBack(); }}
-        />
+        <Suspense fallback={<ScreenFallback />}>
+          <ChallengeScreen
+            mainSubjectMeta={scopedMainSubjectMeta}
+            scopedQuestions={scopedQuestions}
+            subjectGroup={subjectGroup}
+            challengeTarget={challengeFriend}
+            onEnterRoom={(code, isHost) => {
+              setActiveRoomCode(code);
+              setActiveRoomIsHost(isHost);
+              goTo('room-lobby');
+            }}
+            onBack={() => { setChallengeFriend(null); goBack(); }}
+          />
+        </Suspense>
       )}
 
       {screen === 'friends' && (
-        <FriendsScreen
-          onBack={goBack}
-          onChallenge={(friend) => { setChallengeFriend(friend); goTo('challenge'); }}
-        />
+        <Suspense fallback={<ScreenFallback />}>
+          <FriendsScreen
+            onBack={goBack}
+            onChallenge={(friend) => { setChallengeFriend(friend); goTo('challenge'); }}
+          />
+        </Suspense>
       )}
 
       {screen === 'room-lobby' && activeRoomCode && (
-        <RoomLobbyScreen
-          code={activeRoomCode}
-          isHost={activeRoomIsHost}
-          autoInviteFriend={challengeFriend}
-          onAutoInviteSent={() => setChallengeFriend(null)}
-          onStart={(room) => {
-            setFinalQuiz({
-              questions: room.questions,
-              autoAdvance: room.autoAdvance !== false, // default true for older rooms with no stored value
-              timerSeconds: room.timerSeconds ?? null,
-              roomCode: activeRoomCode,
-              roomMainSubject: room.mainSubject,
-              totalTimeLimitMs: room.timeLimitMinutes * 60000,
-            });
-            goTo('quiz');
-          }}
-          onViewResults={() => goTo('room-results')}
-          onBack={goBack}
-        />
+        <Suspense fallback={<ScreenFallback />}>
+          <RoomLobbyScreen
+            code={activeRoomCode}
+            isHost={activeRoomIsHost}
+            autoInviteFriend={challengeFriend}
+            onAutoInviteSent={() => setChallengeFriend(null)}
+            onStart={(room) => {
+              setFinalQuiz({
+                questions: room.questions,
+                autoAdvance: room.autoAdvance !== false, // default true for older rooms with no stored value
+                timerSeconds: room.timerSeconds ?? null,
+                roomCode: activeRoomCode,
+                roomMainSubject: room.mainSubject,
+                totalTimeLimitMs: room.timeLimitMinutes * 60000,
+              });
+              goTo('quiz');
+            }}
+            onViewResults={() => goTo('room-results')}
+            onBack={goBack}
+          />
+        </Suspense>
       )}
 
       {screen === 'room-results' && activeRoomCode && (
-        <RoomResultsScreen code={activeRoomCode} onBack={goBack} />
+        <Suspense fallback={<ScreenFallback />}>
+          <RoomResultsScreen code={activeRoomCode} onBack={goBack} />
+        </Suspense>
       )}
 
       {screen === 'leaderboard' && (
-        <LeaderboardScreen
-          semesterId={activeSemesterId}
-          mainSubjectMeta={scopedMainSubjectMeta}
-          onBack={goBack}
-        />
+        <Suspense fallback={<ScreenFallback />}>
+          <LeaderboardScreen
+            semesterId={activeSemesterId}
+            mainSubjectMeta={scopedMainSubjectMeta}
+            onBack={goBack}
+          />
+        </Suspense>
       )}
       </div>
       )}
