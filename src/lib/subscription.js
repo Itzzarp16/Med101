@@ -536,7 +536,10 @@ export function premiumCoversSemester(status, semester) {
   );
 }
 
-export async function grantPremiumDirectly(uid, durationDays) {
+// yearSemester (optional, e.g. 'y2s1'): scope the grant to that one
+// semester, exactly like a paid per-semester code. Omitted/null keeps
+// the original behavior - unrestricted, covers every semester.
+export async function grantPremiumDirectly(uid, durationDays, yearSemester = null) {
   let code;
 
   for (let attempt = 0; attempt < 3; attempt++) {
@@ -568,6 +571,7 @@ export async function grantPremiumDirectly(uid, durationDays) {
     usedAt: now,
     createdAt: now,
     grantedByAdmin: true,
+    ...(yearSemester ? { yearSemester } : {}),
   });
 
   return { code };

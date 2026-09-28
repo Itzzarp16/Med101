@@ -67,6 +67,8 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
   const [premiumStatus, setPremiumStatus] = useState(null);
   const [maxxDuration, setMaxxDuration] = useState(30);
   const [maxxCustomDays, setMaxxCustomDays] = useState('');
+  // null = all semesters (original behavior), otherwise e.g. 'y2s1'
+  const [maxxSemester, setMaxxSemester] = useState(null);
   const [maxxBusy, setMaxxBusy] = useState(false);
   const [maxxError, setMaxxError] = useState(null);
   const [maxxGrantedCode, setMaxxGrantedCode] = useState(null);
@@ -166,8 +168,8 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
     }
     setMaxxBusy(true);
     try {
-      const { code } = await grantPremiumDirectly(result.uid, days);
-      setMaxxGrantedCode({ code, days });
+      const { code } = await grantPremiumDirectly(result.uid, days, maxxSemester);
+      setMaxxGrantedCode({ code, days, semester: maxxSemester });
     } catch (e) {
       setMaxxError(e.message || String(e));
     } finally {
@@ -520,14 +522,35 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
               />
             )}
 
+            <div className="aud-field-label" style={{ marginTop: 14 }}>Semester</div>
+            <div className="aud-seg" role="group" aria-label="Grant semester">
+              <button
+                className={maxxSemester === null ? 'aud-seg-btn sel' : 'aud-seg-btn'}
+                aria-pressed={maxxSemester === null}
+                onClick={() => { playTapSound(); setMaxxSemester(null); }}
+              >
+                All semesters
+              </button>
+              {Object.entries(SEMESTER_LABELS).map(([value, label]) => (
+                <button
+                  key={value}
+                  className={maxxSemester === value ? 'aud-seg-btn sel' : 'aud-seg-btn'}
+                  aria-pressed={maxxSemester === value}
+                  onClick={() => { playTapSound(); setMaxxSemester(value); }}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+
             <button className="aud-primary" onClick={handleGrantMaxx} disabled={maxxBusy}>
-              {maxxBusy ? 'Granting…' : `⭐ Grant Maxx · ${maxxDurationLabel}`}
+              {maxxBusy ? 'Granting…' : `⭐ Grant Maxx · ${maxxDurationLabel} · ${maxxSemester ? SEMESTER_LABELS[maxxSemester] : 'all semesters'}`}
             </button>
 
             {maxxError && <div className="auth-msg error" style={{ display: 'block' }}>{maxxError}</div>}
             {maxxGrantedCode && (
               <div className="auth-msg success" style={{ display: 'block' }}>
-                Granted {maxxGrantedCode.days} days of Med101 Maxx, effective now (code {maxxGrantedCode.code}).
+                Granted {maxxGrantedCode.days} days of Med101 Maxx for {maxxGrantedCode.semester ? `${SEMESTER_LABELS[maxxGrantedCode.semester]} only` : 'all semesters'}, effective now (code {maxxGrantedCode.code}).
               </div>
             )}
           </div>
