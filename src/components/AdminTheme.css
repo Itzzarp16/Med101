@@ -1,0 +1,125 @@
+/* Modern skin for every admin section. Scoped to .admin-portal so the
+   student app's glass look is untouched; it restyles the shared
+   classes (std-card, auth-input, btn-*, stat-card) the Admin*Screen
+   components already use, so no screen markup needed to change. */
+
+.admin-portal .std-screen {
+  max-width: none;
+  padding: 16px 16px 48px;
+}
+.admin-portal .std-header { margin-bottom: 14px; }
+.admin-portal .std-header .std-title { display: none; } /* page title bar already names the section */
+.admin-portal .std-sub {
+  margin: 0;
+  color: var(--text3);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+/* Solid cards - the translucent glass let the page behind bleed through
+   modals and made text hard to read. */
+.admin-portal .glass.std-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.10);
+}
+.admin-portal .std-card { padding: 18px; }
+
+/* Modals: opaque scrim, card can't be seen through. */
+.admin-portal div[style*="position: fixed"] {
+  background: rgba(0, 0, 0, 0.6) !important;
+  backdrop-filter: blur(2px) !important;
+}
+.admin-portal div[style*="position: fixed"] .glass.std-card {
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+}
+
+/* Labels + inputs */
+.admin-portal .auth-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.admin-portal .auth-input {
+  background: var(--bg2);
+  color: var(--text);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  box-shadow: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.admin-portal .auth-input::placeholder { color: var(--text3); opacity: 0.7; }
+.admin-portal .auth-input:focus {
+  outline: none;
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(255, 204, 42, 0.18);
+}
+
+/* Buttons */
+.admin-portal .btn-glow {
+  background: var(--amber);
+  color: #0a0f22;
+  border: none;
+  border-radius: 10px;
+  font-weight: 700;
+  box-shadow: none;
+  text-shadow: none;
+}
+body.light-mode .admin-portal .btn-glow { color: #fff; }
+.admin-portal .btn-glow:hover { filter: brightness(1.08); }
+.admin-portal .btn-ghost {
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: 10px;
+  box-shadow: none;
+}
+.admin-portal .btn-ghost:hover:not(:disabled) {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+/* Stats */
+.admin-portal .quiz-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+.admin-portal .stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: none;
+}
+.admin-portal .stat-value {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  color: var(--text);
+}
+.admin-portal .stat-label {
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* Toggle rows + messages */
+.admin-portal .qmode-toggle-row {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.admin-portal .qmode-toggle-title { font-weight: 600; color: var(--text); }
+.admin-portal .qmode-toggle-desc { color: var(--text3); font-size: 12.5px; }
+.admin-portal .auth-msg { border-radius: 10px; }
+.admin-portal .std-loading { color: var(--text3); }
+
+@media (min-width: 1100px) {
+  .admin-portal .std-screen { padding: 24px 24px 64px; }
+}

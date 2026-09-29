@@ -10,6 +10,7 @@ import AdminPaymentsScreen from './AdminPaymentsScreen';
 import AdminSubscribersScreen from './AdminSubscribersScreen';
 import AdminUploadQuestionsScreen from './AdminUploadQuestionsScreen';
 import './AdminPortal.css';
+import './AdminTheme.css';
 
 // Standalone admin-only surface, served at /admin. Separate from the
 // main app's screen-state navigation (App.jsx) on purpose - this is a
