@@ -615,18 +615,6 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           <div className="quiz-pct">{pct}%</div>
         </div>
 
-        {timerSeconds != null && (
-          <div className="tbar">
-            <div className="tbar-fill" style={{ width: `${(timeLeft / timerSeconds) * 100}%`, background: timeLeft <= 5 ? 'var(--red)' : 'var(--cyan)' }} />
-          </div>
-        )}
-
-        {totalTimeLimitMs != null && (
-          <div className="tbar">
-            <div className="tbar-fill" style={{ width: `${(totalTimeLeftMs / totalTimeLimitMs) * 100}%`, background: totalTimeLeftMs <= 30000 ? 'var(--red)' : 'var(--cyan)' }} />
-          </div>
-        )}
-
         {/* Stats */}
         <div className="quiz-stats-grid">
           <div className="stat-card" style={{ '--accent': 'var(--cyan)' }}>
@@ -690,6 +678,19 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             </div>
           </div>
         </div>
+
+        {/* Timer bars - sit right under the stats cards */}
+        {timerSeconds != null && (
+          <div className="tbar">
+            <div className="tbar-fill" style={{ width: `${(timeLeft / timerSeconds) * 100}%`, background: timeLeft <= 5 ? 'var(--red)' : 'var(--cyan)' }} />
+          </div>
+        )}
+
+        {totalTimeLimitMs != null && (
+          <div className="tbar">
+            <div className="tbar-fill" style={{ width: `${(totalTimeLeftMs / totalTimeLimitMs) * 100}%`, background: totalTimeLeftMs <= 30000 ? 'var(--red)' : 'var(--cyan)' }} />
+          </div>
+        )}
 
         {/* Question card */}
         <div className="q-card">
