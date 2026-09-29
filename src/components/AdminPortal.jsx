@@ -16,15 +16,26 @@ import './AdminPortal.css';
 // reuses the same Admin*Screen components the TopBar dropdown already
 // links to on the main site, so there's exactly one implementation of
 // each admin feature; this file just gives them their own home.
-const TABS = [
-  { id: 'payments', label: '💳 Payments' },
-  { id: 'subscribers', label: '✅ Subscribers' },
-  { id: 'notice', label: '📢 Home Notice' },
-  { id: 'calendar', label: '⚙️ Academic Calendar' },
-  { id: 'upload', label: '📤 Upload Questions' },
-  { id: 'users', label: '🔍 User Detail' },
-  { id: 'analytics', label: '📊 Usage Analytics' },
+const NAV_GROUPS = [
+  { title: 'Money', tabs: [
+    { id: 'payments', icon: '💳', label: 'Payments' },
+    { id: 'subscribers', icon: '✅', label: 'Subscribers' },
+  ] },
+  { title: 'Content', tabs: [
+    { id: 'notice', icon: '📢', label: 'Home Notice' },
+    { id: 'calendar', icon: '⚙️', label: 'Academic Calendar' },
+    { id: 'upload', icon: '📤', label: 'Upload Questions' },
+  ] },
+  { title: 'Students', tabs: [
+    { id: 'users', icon: '🔍', label: 'User Detail' },
+    { id: 'analytics', icon: '📊', label: 'Usage Analytics' },
+  ] },
 ];
+const ALL_TABS = NAV_GROUPS.flatMap((g) => g.tabs);
+const tabFromHash = () => {
+  const id = window.location.hash.replace('#', '');
+  return ALL_TABS.some((t) => t.id === id) ? id : 'payments';
+};
 
 function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
   // Each screen still takes an onBack, since they're written as
@@ -106,7 +117,11 @@ function AdminLogin() {
 
 export default function AdminPortal() {
   const { user, profile, loading, isAdmin, logOut } = useAuth();
-  const [tab, setTab] = useState('payments');
+  const [tab, setTabState] = useState(tabFromHash);
+  const setTab = (id) => {
+    setTabState(id);
+    window.history.replaceState(null, '', `#${id}`);
+  };
   const { semesters, semesterMainSubjects } = useSemesterData();
 
   if (loading) {
@@ -119,8 +134,12 @@ export default function AdminPortal() {
     // password, submit. No sign-up tab, no site branding.
     return (
       <div className="admin-portal-authwrap">
-        <div className="admin-portal-authnote">Med101 Admin</div>
-        <AdminLogin />
+        <div className="admin-login-card">
+          <span className="admin-portal-badge">ADMIN</span>
+          <div className="admin-portal-authnote">Med101 Portal</div>
+          <p className="admin-login-sub">Sign in with your admin account.</p>
+          <AdminLogin />
+        </div>
       </div>
     );
   }
@@ -128,41 +147,65 @@ export default function AdminPortal() {
   if (!isAdmin) {
     return (
       <div className="admin-portal-denied">
+        <div className="admin-login-card">
         <h1>🚫 Admins only</h1>
         <p>{profile?.name || user.email} isn't on the admin list for Med101.</p>
         <a href="/" className="admin-portal-link">← Back to Med101</a>
+        </div>
       </div>
     );
   }
 
+  const current = ALL_TABS.find((t) => t.id === tab);
+
   return (
     <div className="admin-portal">
-      <header className="admin-portal-header">
-        <div className="admin-portal-title">
+      <aside className="admin-side">
+        <div className="admin-side-brand">
           <span className="admin-portal-badge">ADMIN</span>
-          Med101 Portal
+          <span className="admin-side-name">Med101</span>
         </div>
-        <div className="admin-portal-headeractions">
-          <a href="/" className="admin-portal-link">Main site</a>
-          <button className="admin-portal-logout" onClick={logOut}>Log out</button>
+
+        <nav className="admin-side-nav" aria-label="Admin sections">
+          {NAV_GROUPS.map((g) => (
+            <div key={g.title} className="admin-nav-group">
+              <div className="admin-nav-grouptitle">{g.title}</div>
+              <div className="admin-nav-items">
+                {g.tabs.map((t) => (
+                  <button
+                    key={t.id}
+                    className={t.id === tab ? 'admin-nav-item active' : 'admin-nav-item'}
+                    onClick={() => setTab(t.id)}
+                    aria-current={t.id === tab ? 'page' : undefined}
+                  >
+                    <span className="admin-nav-icon" aria-hidden="true">{t.icon}</span>
+                    <span>{t.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </nav>
+
+        <div className="admin-side-foot">
+          <div className="admin-side-user" title={user.email}>{profile?.name || user.email}</div>
+          <div className="admin-side-footlinks">
+            <a href="/" className="admin-portal-link">Main site</a>
+            <button className="admin-portal-logout" onClick={logOut}>Log out</button>
+          </div>
         </div>
-      </header>
+      </aside>
 
-      <nav className="admin-portal-tabs">
-        {TABS.map((t) => (
-          <button
-            key={t.id}
-            className={t.id === tab ? 'admin-portal-tab active' : 'admin-portal-tab'}
-            onClick={() => setTab(t.id)}
-          >
-            {t.label}
-          </button>
-        ))}
-      </nav>
-
-      <main className="admin-portal-content">
-        <AdminScreenFor tab={tab} semesters={semesters} semesterMainSubjects={semesterMainSubjects} />
-      </main>
+      <div className="admin-main">
+        <header className="admin-portal-header">
+          <h1 className="admin-page-title">
+            <span aria-hidden="true">{current?.icon}</span> {current?.label}
+          </h1>
+        </header>
+        <main className="admin-portal-content">
+          <AdminScreenFor tab={tab} semesters={semesters} semesterMainSubjects={semesterMainSubjects} />
+        </main>
+      </div>
     </div>
   );
 }
