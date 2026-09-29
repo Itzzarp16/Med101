@@ -187,7 +187,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
           onClick={() => setShowSettings(false)}
         >
           <div
-            className="glass std-card"
+            className="glass std-card pay-modal"
             style={{ maxWidth: 480, width: '100%', margin: 0 }}
             onClick={(e) => e.stopPropagation()}
           >
@@ -206,6 +206,8 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
               <div className="std-loading">Loading…</div>
             ) : (
               <>
+                <div className="pay-cols">
+                  <div className="pay-col">
                 <label className="qmode-toggle-row" style={{ cursor: 'pointer', marginTop: 10 }}>
                   <div>
                     <div className="qmode-toggle-title" style={{ color: config.premiumPaused ? 'var(--amber)' : undefined }}>
@@ -236,11 +238,19 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                 <input className="auth-input" value={config.priceLabel} onChange={(e) => setConfig((c) => ({ ...c, priceLabel: e.target.value }))} placeholder="e.g. ₹299 / 3 months" />
                 <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>Default price shown to any semester without its own override below.</div>
 
+                <label className="auth-label" style={{ marginTop: 18 }}>UPI ID</label>
+                <input className="auth-input" value={config.upiId} onChange={(e) => setConfig((c) => ({ ...c, upiId: e.target.value }))} placeholder="yourname@upi" style={{ fontFamily: 'var(--font-mono)' }} />
+                <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>The QR code and payment link are generated automatically from this UPI ID - no image to upload.</div>
+                <label className="auth-label" style={{ marginTop: 10 }}>Instructions (optional)</label>
+                <textarea className="auth-input" rows={3} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={config.instructions} onChange={(e) => setConfig((c) => ({ ...c, instructions: e.target.value }))} placeholder="Any extra notes shown to students on the payment page" />
+
+                  </div>
+                  <div className="pay-col">
                 <label className="auth-label" style={{ marginTop: 18 }}>Per-Semester Pricing (optional)</label>
                 <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 2, marginBottom: 8 }}>
                   Leave a semester blank to use the default Price Label above. Enter 0 (or ₹0) to make that semester free - students in it get Med101 Maxx automatically, no payment needed. Changing it back to a price later revokes that free access.
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div className="pay-sem-grid">
                   {YEAR_SEMESTER_OPTIONS.map((opt) => (
                     <div key={opt.value} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                       <div style={{ fontSize: 12.5, color: 'var(--text2)', width: 90, flexShrink: 0 }}>{opt.label}</div>
@@ -257,12 +267,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                     </div>
                   ))}
                 </div>
-
-                <label className="auth-label" style={{ marginTop: 18 }}>UPI ID</label>
-                <input className="auth-input" value={config.upiId} onChange={(e) => setConfig((c) => ({ ...c, upiId: e.target.value }))} placeholder="yourname@upi" style={{ fontFamily: 'var(--font-mono)' }} />
-                <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 4 }}>The QR code and payment link are generated automatically from this UPI ID - no image to upload.</div>
-                <label className="auth-label" style={{ marginTop: 10 }}>Instructions (optional)</label>
-                <textarea className="auth-input" rows={3} style={{ resize: 'vertical', fontFamily: 'inherit' }} value={config.instructions} onChange={(e) => setConfig((c) => ({ ...c, instructions: e.target.value }))} placeholder="Any extra notes shown to students on the payment page" />
 
                 <label className="auth-label" style={{ marginTop: 10 }}>When You Approve a Payment</label>
                 <div style={{ display: 'flex', gap: 6, marginTop: 4 }}>
@@ -286,6 +290,9 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                     ? 'Approving generates a code shown once to you - the student enters it themselves to activate.'
                     : 'Approving turns on premium for that student right away - nothing for them to enter.'}
                   {' '}You can switch this anytime; it only affects approvals from now on.
+                </div>
+
+                  </div>
                 </div>
 
                 <button className="btn-glow std-save-btn" onClick={handleSaveConfig} disabled={configSaving}>

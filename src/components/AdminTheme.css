@@ -213,3 +213,27 @@ body.light-mode .admin-portal .btn-glow { color: #fff; }
   .sub-top { flex-wrap: wrap; }
   .sub-pill { order: 3; }
 }
+
+/* Payment Settings modal: single column on mobile, wide two-column
+   layout on desktop so it fits without scrolling. */
+.pay-cols { display: flex; flex-direction: column; }
+.pay-col { display: flex; flex-direction: column; min-width: 0; }
+.pay-sem-grid { display: flex; flex-direction: column; gap: 8px; }
+.admin-portal .pay-modal { max-height: calc(100vh - 32px); overflow-y: auto; }
+
+@media (min-width: 900px) {
+  .admin-portal div[style*="position: fixed"] {
+    align-items: center !important;
+    padding: 16px !important;
+  }
+  .admin-portal .pay-modal { max-width: 980px !important; padding: 26px 30px; }
+  .pay-cols {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 36px;
+    align-items: start;
+  }
+  .pay-sem-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; }
+  .pay-sem-grid > div > div:first-child { width: 72px !important; }
+  .admin-portal .pay-modal .std-save-btn { align-self: flex-end; min-width: 200px; }
+}
