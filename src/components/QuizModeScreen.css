@@ -406,3 +406,54 @@
   gap: 6px;
 }
 .room-time-row .tpreset { padding: 9px 0; text-align: center; }
+
+
+/* ═════════ Compact mode screen (scoped - Challenge screen shares the base classes) ═════════ */
+.qmode-v2 .qm-head {
+  max-width: 700px; margin: 0 auto; padding: 12px 16px 0;
+  display: flex; align-items: center; gap: 12px;
+}
+.qmode-v2 .qm-back {
+  width: 40px; height: 40px; flex-shrink: 0; border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.28); background: rgba(255, 255, 255, 0.12);
+  color: var(--text); font-size: 18px; font-weight: 700; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.qmode-v2 .qm-head-emoji { font-size: 34px; line-height: 1; filter: drop-shadow(0 0 16px rgba(var(--cyan-rgb), 0.45)); }
+.qmode-v2 .qm-head-text { min-width: 0; }
+.qmode-v2 .qm-head-title {
+  font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; line-height: 1.1;
+  color: var(--heading); margin: 0;
+}
+.qmode-v2 .qm-head-sub { font-size: 13px; color: var(--text2); margin-top: 3px; }
+.qmode-v2 .qm-head-sub b { color: var(--cyan); font-weight: 800; }
+
+.qmode-v2 .qmode-body { padding-top: 6px; padding-bottom: 24px; }
+.qmode-v2 .qmode-section-label { margin: 18px 0 8px; }
+.qmode-v2 .qmode-grid { gap: 8px; }
+.qmode-v2 .mode-card { padding: 11px 13px; border-radius: 18px; gap: 10px; }
+.qmode-v2 .mode-card-emoji { font-size: 22px; }
+.qmode-v2 .mode-card-desc { font-size: 11px; line-height: 1.25; }
+
+.qmode-v2 .qmode-settings-card { padding: 12px 16px; margin-top: 8px; }
+.qmode-v2 .qm-settings { margin-top: 0; }
+.qmode-v2 .qm-divider { height: 1px; background: var(--border2); margin: 12px 0; opacity: 0.7; }
+.qmode-v2 .qmode-timer-custom input {
+  width: 58px; padding: 5px 8px; border-radius: 10px; text-align: center;
+  font: inherit; font-size: 13px; color: var(--text);
+  background: rgba(255, 255, 255, 0.10); border: 1px solid rgba(255, 255, 255, 0.28);
+}
+.qmode-v2 .qmode-chips { gap: 8px; }
+
+/* sticky start bar */
+.qmode-v2 .qm-start-bar {
+  position: sticky; bottom: 0; z-index: 5;
+  margin: 16px -16px 0; padding: 10px 16px calc(12px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, var(--bg2) 72%, transparent);
+}
+.qmode-v2 .qm-start-btn {
+  width: 100%; display: flex; flex-direction: column; align-items: center; gap: 2px;
+  padding: 12px 16px; margin: 0;
+}
+.qmode-v2 .qm-start-main { font-size: 16px; font-weight: 800; }
+.qmode-v2 .qm-start-sub { font-size: 11.5px; font-weight: 600; opacity: 0.85; }

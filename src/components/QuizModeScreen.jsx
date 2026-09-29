@@ -143,35 +143,30 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
     onStart(quizQ, { autoAdvance, timerSeconds: timerOn ? timerSeconds : null });
   }
 
+  const modeLabel = (() => {
+    if (mode === 'topic' && selectedTopics.size > 0) return `${selectedTopics.size} topic${selectedTopics.size === 1 ? '' : 's'}`;
+    if (mode === 'rand25') return 'Random 25';
+    if (mode === 'rand50') return 'Random 50';
+    if (mode === 'all-seq') return `All ${pool.length} in order`;
+    if (mode === 'all-rand') return `All ${pool.length} shuffled`;
+    if (mode === 'custom') return `Q${Math.max(1, rangeStart || 1)}–${Math.min(pool.length, rangeEnd || 50)}`;
+    return 'Quiz';
+  })();
+  const startSummary = [modeLabel, unseenOnly ? 'Unseen only' : null, timerOn ? `${timerSeconds}s timer` : null].filter(Boolean).join(' · ');
+
   return (
-    <div className="screen-home">
-      {/* Hero banner */}
-      <div className="hero qmode-hero">
-        <div className="hero-glow" />
-        <div className="qmode-hero-inner">
-          <div className="qmode-hero-emoji">{emoji || '🧬'}</div>
-          <h1 className="qmode-hero-title">{subjectName}</h1>
-          <div className="qmode-hero-pill">{emoji} {subjectName}</div>
-          <p className="qmode-hero-sub">
-            MCQ Quiz · <span className="qmode-hero-qcount">{pool.length} Questions</span> · {topics.length} Topics
-          </p>
-          <div className="qmode-hero-stats">
-            <div className="qmode-hero-stat">
-              <div className="qmode-hero-stat-num" style={{ color: 'var(--cyan)' }}>{pool.length}</div>
-              <div className="qmode-hero-stat-label">Questions</div>
-            </div>
-            <div className="qmode-hero-divider" />
-            <div className="qmode-hero-stat">
-              <div className="qmode-hero-stat-num" style={{ color: 'var(--violet)' }}>{topics.length}</div>
-              <div className="qmode-hero-stat-label">Topics</div>
-            </div>
-          </div>
+    <div className="screen-home qmode-v2">
+      {/* Compact header: back, subject, counts */}
+      <div className="qm-head">
+        <button className="qm-back" onClick={() => { playTapSound(); onBack(); }} aria-label="Back">←</button>
+        <div className="qm-head-emoji">{emoji || '🧬'}</div>
+        <div className="qm-head-text">
+          <h1 className="qm-head-title">{subjectName}</h1>
+          <div className="qm-head-sub"><b>{pool.length}</b> questions · <b>{topics.length}</b> topics</div>
         </div>
       </div>
 
       <div className="qmode-body">
-        <button className="btn-ghost qmode-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
         {!isPremium ? (
           <>
             <div className="qmode-custom glass" style={{ textAlign: 'center' }}>
@@ -221,8 +216,8 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
             title="🆕 Unseen Only"
             desc={
               unseenPool.length > 0
-                ? `Only include questions you haven't tried yet (${unseenPool.length} available) - combine with any mode above`
-                : "You've seen every question in this subject - nothing left to filter to"
+                ? `Only questions you haven't tried (${unseenPool.length} left) - works with any mode`
+                : "You've seen every question in this subject"
             }
             on={unseenOnly}
             onToggle={toggleUnseenOnly}
@@ -231,19 +226,17 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
         </div>
 
         <div className="qmode-section-label">Settings</div>
-        <div className="qmode-settings-card glass">
+        <div className="qmode-settings-card glass qm-settings">
           <ToggleRow title="Auto-advance" desc="Move to next question after answering" on={autoAdvance} onToggle={() => setAutoAdvance((v) => !v)} />
-        </div>
-
-        <div className="qmode-settings-card glass">
+          <div className="qm-divider" />
           <ToggleRow title="⏱ Question Timer" desc="Auto-submit when time runs out" on={timerOn} onToggle={() => setTimerOn((v) => !v)} />
           {timerOn && (
             <div className="qmode-timer-presets">
               <div className="qmode-timer-label">Seconds per question</div>
               <div className="qmode-timer-row">
-                {TIMER_PRESETS.map((s) => (
-                  <button key={s} className={timerSeconds === s ? 'tpreset sel' : 'tpreset'} onClick={() => setTimerSeconds(s)}>
-                    {s}s
+                {TIMER_PRESETS.map((sec) => (
+                  <button key={sec} className={timerSeconds === sec ? 'tpreset sel' : 'tpreset'} onClick={() => setTimerSeconds(sec)}>
+                    {sec}s
                   </button>
                 ))}
                 <div className="qmode-timer-custom">
@@ -257,8 +250,6 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           )}
         </div>
 
-        <button className="btn-glow qmode-start-btn" onClick={handleStart}>Start Quiz →</button>
-
         <div className="qmode-section-label">Or Pick Specific Topics</div>
         <div className="qmode-chips">
           {topics.map((name) => (
@@ -270,6 +261,14 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
               {subjectMeta?.[name]?.emoji ? `${subjectMeta[name].emoji} ` : ''}{name}
             </button>
           ))}
+        </div>
+
+        {/* Sticky start bar - always reachable, says what you're about to start */}
+        <div className="qm-start-bar">
+          <button className="btn-glow qm-start-btn" onClick={handleStart}>
+            <span className="qm-start-main">Start Quiz →</span>
+            <span className="qm-start-sub">{startSummary}</span>
+          </button>
         </div>
           </>
         )}
