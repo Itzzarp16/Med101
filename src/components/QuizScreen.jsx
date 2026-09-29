@@ -68,6 +68,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [answers, setAnswers] = useState(() => restoredRef?.answers ?? new Array(quizQuestions.length).fill(-1));
   const [finished, setFinished] = useState(false);
   const [timeLeft, setTimeLeft] = useState(timerSeconds || null);
+  const questionDeadlineRef = useRef(null);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
   const [showReview, setShowReview] = useState(false);
@@ -207,8 +208,11 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   }
 
   // Reset the per-question timer whenever a new question is shown.
+  // A wall-clock deadline is set at the same moment, so the countdown
+  // can't drift or get throttled when the tab/phone sleeps.
   useEffect(() => {
     if (!timerSeconds) return;
+    questionDeadlineRef.current = Date.now() + timerSeconds * 1000;
     setTimeLeft(timerSeconds);
   }, [cur, timerSeconds]);
 
@@ -229,23 +233,30 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   }
 
   // Countdown + auto-submit-as-wrong when it hits zero.
+  // Deadline-based (not a decrementing state counter): the old version
+  // read a stale timeLeft of 0 on the first render of the NEXT question
+  // and instantly timed it out too, and it could stall in background tabs.
   useEffect(() => {
     if (!timerSeconds || finished || answers[cur] !== -1) return;
-    if (timeLeft <= 0) {
+    const id = setInterval(() => {
+      const left = Math.max(0, Math.ceil((questionDeadlineRef.current - Date.now()) / 1000));
+      setTimeLeft(left);
+      if (left > 0) return;
+      clearInterval(id);
       recordQuestionTime(cur);
-      const next = [...answers];
-      next[cur] = -2; // -2 = "timed out", distinct from -1 (unanswered) and any real option index
-      setAnswers(next);
+      setAnswers((prev) => {
+        if (prev[cur] !== -1) return prev;
+        const next = [...prev];
+        next[cur] = -2; // -2 = "timed out", distinct from -1 (unanswered) and any real option index
+        return next;
+      });
       playWrongSound();
       if (user) recordWrongQuestion(user.uid, mainSubject, q);
-      // Timed out = always wrong - same reasoning as answerQ() above,
-      // this never auto-advances regardless of the autoAdvance setting.
-      return;
-    }
-    const t = setTimeout(() => setTimeLeft((s) => s - 1), 1000);
-    return () => clearTimeout(t);
+      // Timed out = always wrong - never auto-advances regardless of autoAdvance.
+    }, 250);
+    return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeLeft, timerSeconds, cur, finished]);
+  }, [cur, timerSeconds, finished, answers[cur]]);
 
   useEffect(() => () => clearTimeout(advanceTimeoutRef.current), []);
 
