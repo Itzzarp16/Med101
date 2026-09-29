@@ -11,6 +11,14 @@ function traceColorFor(name) {
   return TRACE_COLORS[hash % TRACE_COLORS.length];
 }
 
+// Each card's pulse starts at a different point in its loop so a grid of
+// them ripples instead of all beating in sync.
+function traceDelayFor(name) {
+  let hash = 7;
+  for (let i = 0; i < name.length; i++) hash = (hash * 17 + name.charCodeAt(i)) >>> 0;
+  return (hash % 26) / 10; // 0 - 2.5s
+}
+
 export default function SubjectCard({ emoji, name, desc, questionCount, topicCount, trace, progress, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
@@ -27,7 +35,7 @@ export default function SubjectCard({ emoji, name, desc, questionCount, topicCou
             {questionCount != null && <span>{questionCount} {questionCount === 1 ? 'question' : 'questions'}</span>}
           </span>
           {trace && (
-            <span className={progress ? 'subj-trace active' : 'subj-trace'} aria-hidden="true" style={{ '--trace-color': accent }}>
+            <span className="subj-trace active" aria-hidden="true" style={{ '--trace-color': accent, '--trace-delay': `${-(traceDelayFor(name))}s` }}>
               <svg viewBox="0 0 200 30" preserveAspectRatio="none">
                 <path
                   className="subj-trace-line"

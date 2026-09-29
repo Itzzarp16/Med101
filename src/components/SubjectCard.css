@@ -117,7 +117,7 @@
   height: 16px;
   width: 44px;
   flex-shrink: 0;
-  opacity: 0.35;
+  opacity: 0.9;
 }
 
 .subj-trace.active { opacity: 0.9; }
@@ -138,7 +138,7 @@
 .subj-trace.active .subj-trace-line {
   stroke-dasharray: 260;
   stroke-dashoffset: 260;
-  animation: subj-trace-draw 2.6s ease-in-out infinite;
+  animation: subj-trace-draw 2.6s ease-in-out var(--trace-delay, 0s) infinite;
 }
 
 @keyframes subj-trace-draw {
