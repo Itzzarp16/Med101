@@ -304,3 +304,16 @@ body.light-mode .an-chip.active { color: #fff; }
   .an-chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
   .an-chip { white-space: nowrap; }
 }
+
+/* Subscribers: grant-another-semester */
+.sub-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.admin-portal .sub-grant { padding: 8px 14px; font-size: 13px; }
+.sub-grantpanel {
+  display: flex; flex-direction: column; gap: 6px;
+  padding: 16px; border-radius: 12px;
+  background: var(--bg2); border: 1px solid var(--border);
+}
+.an-chip:disabled { opacity: 0.45; cursor: not-allowed; }
+.admin-portal .sub-custom { width: 130px; padding: 6px 12px; font-size: 12.5px; }
+.sub-grantrow { display: flex; gap: 10px; margin-top: 8px; }
+.sub-grantrow .btn-glow, .sub-grantrow .btn-ghost { padding: 9px 18px; font-size: 13.5px; }
