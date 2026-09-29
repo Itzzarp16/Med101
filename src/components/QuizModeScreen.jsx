@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { filterUnseen } from '../lib/seenQuestions';
 import { playTapSound } from '../lib/sounds';
@@ -47,8 +47,19 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
     return [...set];
   }, [pool]);
 
+  // Which non-custom mode was active right before Custom Range was
+  // picked, so tapping the Custom Range card again (while it's already
+  // selected) can collapse its panel by switching back to that mode,
+  // instead of doing nothing because mode was already 'custom'.
+  const prevModeRef = useRef('rand25');
+
   function selectMode(m) {
     playTapSound();
+    if (m === 'custom' && mode === 'custom') {
+      setMode(prevModeRef.current);
+      return;
+    }
+    if (m === 'custom') prevModeRef.current = mode;
     setMode(m);
   }
 
