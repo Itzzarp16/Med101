@@ -127,7 +127,7 @@ export default function RoomLobbyScreen({ code, isHost, autoInviteFriend, onAuto
               {p.displayName || (p.uid === room?.hostUid ? room?.hostName : '') || 'Student'}{p.uid === user.uid ? ' (You)' : ''}{p.uid === room?.hostUid ? ' 👑' : ''}
             </span>
             <span style={{ fontSize: 11.5, color: p.finished ? 'var(--green)' : 'var(--text3)' }}>
-              {p.finished ? `✅ ${p.pct}%` : '⏳ In progress'}
+              {p.finished ? `✅ ${p.correct}/${p.total}` : '⏳ In progress'}
             </span>
           </div>
         ))}

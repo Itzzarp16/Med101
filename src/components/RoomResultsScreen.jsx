@@ -19,12 +19,13 @@ export default function RoomResultsScreen({ code, onBack }) {
     return () => { cancelled = true; unsub(); };
   }, [code]);
 
+  const scorePct = (p) => (p.total ? Math.round(((p.correct || 0) / p.total) * 100) : (p.pct || 0));
   const nameOf = (p) => p.displayName || (p.uid === room?.hostUid ? room?.hostName : '') || 'Student';
 
   const sorted = [...participants].sort((a, b) => {
     if (!!b.finished !== !!a.finished) return (b.finished ? 1 : 0) - (a.finished ? 1 : 0);
     if (!a.finished) return 0;
-    if (b.pct !== a.pct) return b.pct - a.pct;
+    if ((b.correct || 0) !== (a.correct || 0)) return (b.correct || 0) - (a.correct || 0);
     return (a.timeMs || 0) - (b.timeMs || 0);
   });
 
@@ -71,10 +72,10 @@ export default function RoomResultsScreen({ code, onBack }) {
                     {nameOf(p)}{isMe ? ' (You)' : ''}
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: 2 }}>
-                    {p.finished ? `✅ ${p.correct} correct of ${p.answered ?? p.total} answered${(p.total - (p.answered ?? p.total)) > 0 ? ` · ${p.total - p.answered} skipped` : ''} · ⏱ ${((p.timeMs || 0) / 1000).toFixed(0)}s` : 'Still solving…'}
+                    {p.finished ? `✅ ${p.correct}/${p.total} correct · ⏱ ${((p.timeMs || 0) / 1000).toFixed(0)}s` : 'Still solving…'}
                   </div>
                 </div>
-                {p.finished && <div style={{ fontWeight: 800, fontSize: 15, color: '#facc15' }}>{p.pct}%</div>}
+                {p.finished && <div style={{ fontWeight: 800, fontSize: 15, color: '#facc15' }}>{scorePct(p)}%</div>}
                 {canExpand && (
                   <span style={{ fontSize: 12, color: 'var(--text3)' }}>{isExpanded ? '▲' : '▼'}</span>
                 )}
