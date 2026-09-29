@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import { subscribeToFriendsLeaderboard, subscribeToLeaderboardTop, fetchMyRank } from '../lib/leaderboard';
 import { subscribeToFriends } from '../lib/friends';
 import { playTapSound } from '../lib/sounds';
+import ScreenHeader from './ScreenHeader';
 import './LeaderboardScreen.css';
 
 const MEDALS = ['🥇', '🥈', '🥉'];
@@ -89,13 +90,9 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
   return (
     <div className="screen-leaderboard">
       <div className="lb-wrap">
-        <div className="lb-header-row">
-          <div>
-            <h1 className="lb-title">🏆 Leaderboard</h1>
-            <div className="lb-sub">See how you stack up</div>
-          </div>
-          <button className="btn-ghost lb-home-btn" onClick={() => { playTapSound(); onBack(); }}>← Home</button>
-        </div>
+        <ScreenHeader onBack={onBack} title={<>🏆 Leaderboard</>}>
+          See how you stack up
+        </ScreenHeader>
 
         <div className="lb-panel glass">
           <div className="lb-segment">
@@ -149,6 +146,14 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
           </div>
         )}
 
+        {!loading && !error && user && !friendsOnly && !myRank && (
+          <div className="lb-unranked">
+            {metric === 'accuracyPct'
+              ? "You're not ranked here yet. Accuracy ranking needs 100+ answered questions in this scope."
+              : "You're not on this board yet. Finish a quiz to get a score here."}
+          </div>
+        )}
+
         {loading && <div className="lb-loading">Loading leaderboard…</div>}
 
         {!loading && (error || rows.length === 0) && (
@@ -173,7 +178,8 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
               const isMe = user && row.uid === user.uid;
               const timeStr = row.avgTimeSec != null ? `⏱ ${row.avgTimeSec.toFixed(1)}s/q` : null;
               const isTop3 = i < 3;
-              const initial = (row.displayName || '?').trim().charAt(0).toUpperCase();
+              const shownName = (row.displayName || '').trim() || 'Student';
+              const initial = shownName.charAt(0).toUpperCase();
               return (
                 <div
                   key={row.uid}
@@ -193,7 +199,7 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack 
                     {!row.photoURL && initial}
                   </div>
                   <div className="lb-row-body">
-                    <div className="lb-name">{row.displayName}{isMe ? ' (You)' : ''}</div>
+                    <div className="lb-name">{shownName}{isMe ? ' (You)' : ''}</div>
                     <div className="lb-row-stats">✅ {row.correct} · ❌ {row.incorrect}{timeStr ? ` · ${timeStr}` : ''}</div>
                   </div>
                   <div className="lb-value">{row.value}{unit}</div>
