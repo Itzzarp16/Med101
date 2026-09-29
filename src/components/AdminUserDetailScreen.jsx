@@ -206,7 +206,7 @@ export default function AdminUserDetailScreen({ onBack, initialUid , hideBack = 
     setActionError(null);
     setActionBusy(true);
     try {
-      await deleteAccount(result.uid);
+      await deleteAccount(result.uid, adminUser);
       setAllUsers((list) => list && list.filter((u) => u.uid !== result.uid));
       setResult(null);
       setConfirmingDelete(false);

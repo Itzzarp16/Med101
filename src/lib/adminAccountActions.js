@@ -34,7 +34,7 @@ export async function setAccountDisabled(uid, disabled) {
 // let them back in with a blank profile. Instead we overwrite it with
 // disabled: true plus placeholder fields, so the moment they did sign
 // in they'd be kicked out the same way a disabled account always is.
-export async function deleteAccount(uid) {
+async function softDeleteAccount(uid) {
   const snap = await getDoc(doc(db, 'users', uid));
   const data = snap.exists() ? snap.data() : {};
 
@@ -66,4 +66,32 @@ export async function deleteAccount(uid) {
       'Publish the latest firestore.rules in the Firebase console, then run Delete again.'
     );
   }
+}
+
+// Permanent delete: asks api/admin/delete-account.py (Firebase Admin SDK)
+// to remove the Auth login and every Firestore doc for this student, so
+// nothing is left in the Firebase console. If that endpoint isn't
+// reachable/deployed, falls back to the older client-side wipe above,
+// which disables the account and blanks the profile instead.
+export async function deleteAccount(uid, adminUser) {
+  if (adminUser) {
+    try {
+      const idToken = await adminUser.getIdToken();
+      const res = await fetch('/api/admin/delete-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+        body: JSON.stringify({ uid }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok) return;
+      // Real refusals (admin account, bad session) shouldn't silently fall through.
+      if (res.status === 400 || res.status === 401 || res.status === 403) {
+        throw new Error(data.error || `Delete refused (${res.status}).`);
+      }
+    } catch (e) {
+      if (/refused|can't delete|Admin|session|uid/i.test(e.message || '')) throw e;
+      // network error / endpoint missing / 5xx -> fall back below
+    }
+  }
+  return softDeleteAccount(uid);
 }
