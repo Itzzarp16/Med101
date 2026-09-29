@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { fetchQuizHistory, deleteQuizHistoryEntry } from '../lib/quizHistory';
 import { playTapSound } from '../lib/sounds';
+import './HistoryScreen.css';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
 
@@ -263,12 +264,54 @@ function QuizResultDetail({ entry, onBack, onRetry }) {
   );
 }
 
+function pctColor(pct) {
+  return pct >= 70 ? 'var(--green)' : pct >= 40 ? 'var(--amber)' : 'var(--red)';
+}
+
+function dayLabel(ts) {
+  if (!ts) return 'Earlier';
+  const d = new Date(ts);
+  const now = new Date();
+  if (d.toDateString() === now.toDateString()) return 'Today';
+  const y = new Date(now);
+  y.setDate(now.getDate() - 1);
+  if (d.toDateString() === y.toDateString()) return 'Yesterday';
+  return d.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' });
+}
+
+function timeOnly(ts) {
+  return ts ? new Date(ts).toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }) : '';
+}
+
+// Small accuracy ring for each attempt card.
+function ScoreRing({ pct }) {
+  const r = 22;
+  const c = 2 * Math.PI * r;
+  const p = Math.max(0, Math.min(100, pct || 0));
+  return (
+    <div className="hist-ring" aria-label={`${p}% accuracy`}>
+      <svg viewBox="0 0 54 54">
+        <circle cx="27" cy="27" r={r} className="hist-ring-track" />
+        <circle
+          cx="27" cy="27" r={r}
+          className="hist-ring-fill"
+          style={{ stroke: pctColor(p) }}
+          strokeDasharray={c}
+          strokeDashoffset={c - (p / 100) * c}
+        />
+      </svg>
+      <span className="hist-ring-num" style={{ color: pctColor(p) }}>{p}%</span>
+    </div>
+  );
+}
+
 export default function HistoryScreen({ onRetry, onBack }) {
   const { user } = useAuth();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [expandedIds, setExpandedIds] = useState(() => new Set());
   const [detailEntry, setDetailEntry] = useState(null);
+  const [subjectFilter, setSubjectFilter] = useState('all');
 
   useEffect(() => {
     let cancelled = false;
@@ -284,6 +327,7 @@ export default function HistoryScreen({ onRetry, onBack }) {
 
   async function handleDelete(id) {
     playTapSound();
+    if (!window.confirm('Delete this attempt from your history?')) return;
     setHistory((prev) => prev.filter((h) => h.id !== id));
     await deleteQuizHistoryEntry(user.uid, id);
   }
@@ -318,13 +362,26 @@ export default function HistoryScreen({ onRetry, onBack }) {
     );
   }
 
-  return (
-    <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+  const subjects = [...new Set(history.map((h) => h.mainSubject || 'Mixed'))];
+  const shown = subjectFilter === 'all' ? history : history.filter((h) => (h.mainSubject || 'Mixed') === subjectFilter);
+  const avgPct = shown.length ? Math.round(shown.reduce((a, h) => a + (h.pct || 0), 0) / shown.length) : 0;
+  const totalAnswered = shown.reduce((a, h) => a + (h.answered || 0), 0);
+  const groups = [];
+  for (const entry of shown) {
+    const label = dayLabel(entry.ts);
+    const last = groups[groups.length - 1];
+    if (last && last.label === label) last.items.push(entry);
+    else groups.push({ label, items: [entry] });
+  }
 
-      <div className="std-header">
-        <h1 className="std-title">🕘 History</h1>
-        <p className="std-sub">Every question set you've attempted. Retry all, just the wrong ones, or the ones you skipped.</p>
+  return (
+    <div className="std-screen hist">
+      <div className="hist-head">
+        <button className="hist-back" onClick={() => { playTapSound(); onBack(); }} aria-label="Back">←</button>
+        <div>
+          <h1 className="hist-title">History</h1>
+          <div className="hist-sub">Retry everything, only the wrong ones, or the ones you skipped.</div>
+        </div>
       </div>
 
       {loading ? (
@@ -335,87 +392,107 @@ export default function HistoryScreen({ onRetry, onBack }) {
           <div>You haven't attempted any question sets yet. Finish a quiz to see it here.</div>
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-          {history.map((entry) => {
-            const wrongCount = wrongQuestions(entry).length;
-            const skippedCount = skippedQuestions(entry).length;
-            const hasSet = (entry.questions || []).length > 0;
-            const duration = formatDuration(entry.timeMs);
-            return (
-              <div
-                key={entry.id}
-                className="glass"
-                style={{ padding: 14, cursor: 'pointer' }}
-                onClick={() => { playTapSound(); setDetailEntry(entry); }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 6 }}>
-                  <div>
-                    <span className="badge badge-cyan">{entry.mainSubject || 'Mixed'}</span>
-                    {entry.topic && <span className="badge" style={{ marginLeft: 6 }}>{entry.topic}</span>}
-                  </div>
-                  <button
-                    aria-label="Delete this attempt"
-                    onClick={(e) => { e.stopPropagation(); handleDelete(entry.id); }}
-                    style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 13 }}
+        <>
+          <div className="hist-chips">
+            <span className="hist-chip"><b>{shown.length}</b> attempt{shown.length === 1 ? '' : 's'}</span>
+            <span className="hist-chip"><b style={{ color: pctColor(avgPct) }}>{avgPct}%</b> avg</span>
+            <span className="hist-chip"><b>{totalAnswered}</b> answered</span>
+          </div>
+
+          {subjects.length > 1 && (
+            <div className="hist-filters" role="tablist" aria-label="Filter by subject">
+              {['all', ...subjects].map((sub) => (
+                <button
+                  key={sub}
+                  role="tab"
+                  aria-selected={subjectFilter === sub}
+                  className={subjectFilter === sub ? 'hist-filter on' : 'hist-filter'}
+                  onClick={() => { playTapSound(); setSubjectFilter(sub); }}
+                >
+                  {sub === 'all' ? 'All' : sub}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {groups.map((g) => (
+            <div key={g.label} className="hist-group">
+              <div className="hist-day">{g.label}</div>
+              {g.items.map((entry) => {
+                const wrongCount = wrongQuestions(entry).length;
+                const skippedCount = skippedQuestions(entry).length;
+                const hasSet = (entry.questions || []).length > 0;
+                const duration = formatDuration(entry.timeMs);
+                return (
+                  <div
+                    key={entry.id}
+                    className="hist-card glass"
+                    onClick={() => { playTapSound(); setDetailEntry(entry); }}
                   >
-                    ✕
-                  </button>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
-                  <span style={{ fontSize: 20, fontWeight: 700, color: entry.pct >= 70 ? 'var(--green)' : entry.pct >= 40 ? 'var(--amber)' : 'var(--red)' }}>
-                    {entry.pct}%
-                  </span>
-                  <span style={{ fontSize: 12.5, color: 'var(--text3)' }}>
-                    {entry.correct}/{entry.answered} correct · {entry.total} question{entry.total === 1 ? '' : 's'}
-                    {duration ? ` · ${duration}` : ''}
-                  </span>
-                </div>
-                <div style={{ fontSize: 11.5, color: 'var(--text3)', marginBottom: 10 }}>{formatWhen(entry.ts)}</div>
-
-                {hasSet ? (
-                  <>
-                    <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }} onClick={(e) => e.stopPropagation()}>
-                      <button className="btn-glow" style={{ flex: '1 1 auto', fontSize: 12.5, padding: '8px 12px' }} onClick={() => handleRetry(entry, 'all')}>
-                        Retry All ({entry.questions.length})
-                      </button>
+                    <div className="hist-card-top">
+                      <ScoreRing pct={entry.pct} />
+                      <div className="hist-card-main">
+                        <div className="hist-badges">
+                          <span className="badge badge-cyan">{entry.mainSubject || 'Mixed'}</span>
+                          {entry.topic && <span className="badge">{entry.topic}</span>}
+                        </div>
+                        <div className="hist-line">
+                          <b>{entry.correct}/{entry.answered}</b> correct · {entry.total} question{entry.total === 1 ? '' : 's'}{duration ? ` · ${duration}` : ''}
+                        </div>
+                        <div className="hist-time">{timeOnly(entry.ts)}</div>
+                      </div>
                       <button
-                        className="btn-ghost"
-                        style={{ flex: '1 1 auto', fontSize: 12.5, padding: '8px 12px' }}
-                        disabled={wrongCount === 0}
-                        onClick={() => handleRetry(entry, 'wrong')}
+                        className="hist-del"
+                        aria-label="Delete this attempt"
+                        onClick={(e) => { e.stopPropagation(); handleDelete(entry.id); }}
                       >
-                        Retry Wrong ({wrongCount})
-                      </button>
-                      <button
-                        className="btn-ghost"
-                        style={{ flex: '1 1 auto', fontSize: 12.5, padding: '8px 12px' }}
-                        disabled={skippedCount === 0}
-                        onClick={() => handleRetry(entry, 'skipped')}
-                      >
-                        Retry Skipped ({skippedCount})
+                        ✕
                       </button>
                     </div>
 
-                    <button className="results-review-toggle" onClick={(e) => { e.stopPropagation(); toggleExpanded(entry.id); }}>
-                      {expandedIds.has(entry.id) ? 'Hide Questions ▲' : `View Questions (${entry.questions.length}) ▼`}
-                    </button>
+                    {hasSet ? (
+                      <>
+                        <div className="hist-actions" onClick={(e) => e.stopPropagation()}>
+                          {wrongCount > 0 ? (
+                            <button className="btn-glow hist-act-main" onClick={() => handleRetry(entry, 'wrong')}>
+                              Retry Wrong ({wrongCount})
+                            </button>
+                          ) : (
+                            <button className="btn-glow hist-act-main" onClick={() => handleRetry(entry, 'all')}>
+                              Retry All ({entry.questions.length})
+                            </button>
+                          )}
+                          {wrongCount > 0 && (
+                            <button className="btn-ghost hist-act" onClick={() => handleRetry(entry, 'all')}>
+                              All ({entry.questions.length})
+                            </button>
+                          )}
+                          {skippedCount > 0 && (
+                            <button className="btn-ghost hist-act" onClick={() => handleRetry(entry, 'skipped')}>
+                              Skipped ({skippedCount})
+                            </button>
+                          )}
+                        </div>
 
-                    {expandedIds.has(entry.id) && (
-                      <div onClick={(e) => e.stopPropagation()}>
-                        <QuestionReviewList entry={entry} />
-                      </div>
+                        <button className="hist-viewq" onClick={(e) => { e.stopPropagation(); toggleExpanded(entry.id); }}>
+                          {expandedIds.has(entry.id) ? 'Hide questions ▲' : `View questions (${entry.questions.length}) ▼`}
+                        </button>
+
+                        {expandedIds.has(entry.id) && (
+                          <div onClick={(e) => e.stopPropagation()}>
+                            <QuestionReviewList entry={entry} />
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <div className="hist-legacy">This older attempt wasn't saved with retry data.</div>
                     )}
-                  </>
-                ) : (
-                  <div style={{ fontSize: 11.5, color: 'var(--text3)', fontStyle: 'italic' }}>
-                    This older attempt wasn't saved with retry data.
                   </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
+                );
+              })}
+            </div>
+          ))}
+        </>
       )}
     </div>
   );
