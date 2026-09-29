@@ -69,13 +69,21 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
     setUnseenOnly((v) => !v);
   }
 
+  // Which mode was active right before the student picked their first
+  // topic chip (which switches mode to 'topic', a mode with no card of
+  // its own) - restored once every chip is deselected again, so
+  // clearing a topic picked by mistake doesn't leave every mode card
+  // unselected with no way back.
+  const prevModeBeforeTopicRef = useRef('rand25');
+
   function toggleTopicChip(name) {
     playTapSound();
     setSelectedTopics((prev) => {
       const next = new Set(prev);
       if (next.has(name)) next.delete(name);
       else next.add(name);
-      if (next.size > 0) setMode('topic');
+      if (next.size > 0 && mode !== 'topic') prevModeBeforeTopicRef.current = mode;
+      setMode(next.size > 0 ? 'topic' : prevModeBeforeTopicRef.current);
       return next;
     });
   }
