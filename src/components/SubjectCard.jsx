@@ -15,7 +15,7 @@ export default function SubjectCard({ emoji, name, desc, questionCount, topicCou
   const accent = trace ? traceColorFor(name) : null;
 
   return (
-    <button className="subj-card" onClick={onClick}>
+    <button className={trace ? 'subj-card subj-card--dash' : 'subj-card'} onClick={onClick}>
       <span className="subj-emoji">{emoji}</span>
       <span className="subj-card-text">
         <span className="subj-name">{name}</span>
@@ -23,8 +23,8 @@ export default function SubjectCard({ emoji, name, desc, questionCount, topicCou
 
         <span className="subj-foot">
           <span className="subj-meta">
-            {topicCount != null && <span>{topicCount} topics</span>}
-            {questionCount != null && <span>{questionCount} questions</span>}
+            {topicCount != null && <span>{topicCount} {topicCount === 1 ? 'topic' : 'topics'}</span>}
+            {questionCount != null && <span>{questionCount} {questionCount === 1 ? 'question' : 'questions'}</span>}
           </span>
           {trace && (
             <span className={progress ? 'subj-trace active' : 'subj-trace'} aria-hidden="true" style={{ '--trace-color': accent }}>
@@ -40,8 +40,10 @@ export default function SubjectCard({ emoji, name, desc, questionCount, topicCou
 
         {progress && (
           <span className="subj-progress">
-            <span>{progress.pct}% accuracy</span>
-            <span>{progress.answered} answered</span>
+            <span className="subj-progress-bar" aria-hidden="true">
+              <span style={{ width: `${questionCount ? Math.min(100, (progress.answered / questionCount) * 100) : 0}%` }} />
+            </span>
+            <span className="subj-progress-text">{progress.answered} answered · {progress.pct}% accuracy</span>
           </span>
         )}
       </span>

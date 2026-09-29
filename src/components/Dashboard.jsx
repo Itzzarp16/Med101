@@ -101,7 +101,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
                 key={name}
                 emoji={meta.emoji}
                 name={name}
-                desc={desc}
+                desc={hasQuestions ? '' : desc}
                 questionCount={subjectStats[name]?.questionCount}
                 topicCount={subjectStats[name]?.topicCount}
                 trace
