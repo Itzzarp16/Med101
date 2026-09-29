@@ -106,15 +106,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 8px;
   margin-top: 8px;
+  flex-wrap: wrap;
 }
 
 .subj-trace {
   --trace-color: var(--cyan);
   display: block;
   height: 16px;
-  width: 72px;
+  width: 44px;
   flex-shrink: 0;
   opacity: 0.35;
 }
@@ -165,8 +166,10 @@
 
 .subj-meta {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text3);
 }
+
+.subj-meta > span, .subj-progress > span { white-space: nowrap; }

@@ -100,8 +100,10 @@
   flex-direction: column;
   gap: 12px;
   margin-bottom: 16px;
-  position: relative;
-  z-index: 1;
+  /* Deliberately NO position/z-index here: the notice's popup is a
+     fixed overlay rendered inside this column, and a z-index would trap
+     it in a stacking context that the (z-index:1) subject grid below
+     then paints over. */
 }
 .dash-top .home-notice,
 .dash-top .resume-card { max-width: none; margin: 0; }
