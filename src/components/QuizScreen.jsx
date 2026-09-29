@@ -9,6 +9,7 @@ import { submitRoomResult } from '../lib/rooms';
 import { recordWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
 import { saveQuizProgress, loadResumeSnapshot, loadSessionSnapshot, getAttemptMark, detachAttemptFromTab, clearQuizProgress, questionsSig, newAttemptId } from '../lib/quizProgress';
 import { getAIExplanation } from '../lib/aiExplanation';
+import { saveCloudSnapshot, deleteCloudSnapshot } from '../lib/quizResumeCloud';
 import './QuizScreen.css';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
@@ -158,6 +159,34 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       document.removeEventListener('visibilitychange', onVis);
     };
   }, [finished]);
+
+  // Cross-device copy: debounced Firestore save once at least 3 questions are
+  // answered (so instantly-abandoned quizzes cost nothing). Solo quizzes only.
+  const cloudPendingRef = useRef(false);
+  useEffect(() => {
+    if (roomCode || !user || finished || answeredCount < 3) return;
+    cloudPendingRef.current = true;
+    const t = setTimeout(() => {
+      cloudPendingRef.current = false;
+      saveCloudSnapshot(user.uid, latestSnapshotRef.current());
+    }, 2500);
+    return () => clearTimeout(t);
+  }, [answers, finished]);
+
+  // Push any not-yet-sent save immediately when the tab is hidden or the
+  // student leaves the quiz.
+  const flushCloudRef = useRef(null);
+  flushCloudRef.current = () => {
+    if (cloudPendingRef.current && user && !roomCode && !finished) {
+      cloudPendingRef.current = false;
+      saveCloudSnapshot(user.uid, latestSnapshotRef.current());
+    }
+  };
+  useEffect(() => {
+    function onHide() { if (document.visibilityState === 'hidden') flushCloudRef.current(); }
+    document.addEventListener('visibilitychange', onHide);
+    return () => { document.removeEventListener('visibilitychange', onHide); flushCloudRef.current(); };
+  }, []);
 
   // Leaving the screen: rooms are forgotten (as before); solo attempts stay
   // saved so they can be resumed from the dashboard.
@@ -459,6 +488,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     updateStreakOnActivity(user.uid, answeredCount);
     markQuestionsSeen(user.uid, mainSubject, quizQuestions);
     clearQuizProgress();
+    if (!roomCode) deleteCloudSnapshot(user.uid);
   }, [finished, user, mainSubject, topic, semesterId, total, answeredCount, correctCount, pct, roomCode]);
 
   if (total === 0) {

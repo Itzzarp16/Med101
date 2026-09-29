@@ -55,6 +55,15 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // ── users/{uid}/quizResume/{id} ───────────────────────────
+    // One doc ("current") holding a student's unfinished solo quiz so it
+    // can be resumed from another device. Purely self-owned; admin
+    // access is only for cleaning it up when an account is deleted.
+    match /users/{uid}/quizResume/{id} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read, write: if isAdmin();
+    }
+
     // ── users/{uid}/friends/{friendUid} ──────────────────────────
     // A student's own friends/watchlist — one-directional (adding
     // someone doesn't touch their data), so purely self-owned. Admin

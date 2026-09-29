@@ -16,7 +16,8 @@ import { useSemesterData } from './lib/useSemesterData';
 import { subscribeToAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 import { startPresenceHeartbeat } from './lib/presence';
 import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence';
-import { loadResumeSnapshot, clearQuizProgress } from './lib/quizProgress';
+import { loadResumeSnapshot, clearQuizProgress, saveQuizProgress } from './lib/quizProgress';
+import { loadCloudSnapshot, deleteCloudSnapshot } from './lib/quizResumeCloud';
 import ResumeQuizCard from './components/ResumeQuizCard';
 
 // Dashboard/SubtopicScreen/QuizModeScreen/QuizScreen above stay
@@ -202,13 +203,31 @@ export default function App() {
 
   // Forward navigation: pushes a new history entry so the back gesture
   // can return to wherever the student was.
-  // Look for an unfinished quiz whenever the dashboard is showing.
+  // Look for an unfinished quiz whenever the dashboard is showing: the local
+  // copy instantly, then the Firestore copy (so a quiz started on another
+  // device shows up too). The newest usable one wins. The cloud read is
+  // skipped if it was done in the last minute and no quiz has run since.
+  const cloudCheckRef = useRef({ at: 0, snap: null });
   useEffect(() => {
-    if (screen !== 'dashboard' || !user) { setResumeSnap(null); return; }
-    const snap = loadResumeSnapshot();
-    const answered = snap ? snap.answers.filter((a) => a !== -1).length : 0;
-    const usable = snap && !snap.roomCode && (!snap.uid || snap.uid === user.uid) && answered > 0 && answered < snap.questions.length;
-    setResumeSnap(usable ? snap : null);
+    if (screen === 'quiz') cloudCheckRef.current = { at: 0, snap: null };
+    if (screen !== 'dashboard' || !user) { setResumeSnap(null); return undefined; }
+    const usableOf = (snap) => {
+      if (!snap || snap.roomCode || (snap.uid && snap.uid !== user.uid)) return null;
+      const answered = snap.answers.filter((a) => a !== -1).length;
+      return answered > 0 && answered < snap.questions.length ? snap : null;
+    };
+    const newest = (x, y) => (x && y ? (x.savedAt >= y.savedAt ? x : y) : (x || y));
+    const local = usableOf(loadResumeSnapshot());
+    setResumeSnap(newest(local, usableOf(cloudCheckRef.current.snap)));
+
+    let cancelled = false;
+    if (Date.now() - cloudCheckRef.current.at > 60000) {
+      loadCloudSnapshot(user.uid).then((cloud) => {
+        cloudCheckRef.current = { at: Date.now(), snap: cloud };
+        if (!cancelled) setResumeSnap(newest(usableOf(loadResumeSnapshot()), usableOf(cloud)));
+      });
+    }
+    return () => { cancelled = true; };
   }, [screen, user]);
 
   function goTo(screenName, extra = {}) {
@@ -654,8 +673,9 @@ export default function App() {
           {screen === 'dashboard' && resumeSnap && (
             <ResumeQuizCard
               snapshot={resumeSnap}
-              onDiscard={() => { clearQuizProgress(); setResumeSnap(null); }}
+              onDiscard={() => { clearQuizProgress(); if (user) deleteCloudSnapshot(user.uid); cloudCheckRef.current = { at: Date.now(), snap: null }; setResumeSnap(null); }}
               onResume={() => {
+                saveQuizProgress(resumeSnap); // make sure this device has the snapshot locally (it may have come from the cloud)
                 setFinalQuiz({
                   questions: resumeSnap.questions,
                   autoAdvance: resumeSnap.autoAdvance,
