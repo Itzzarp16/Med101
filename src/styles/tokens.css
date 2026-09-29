@@ -32,7 +32,7 @@
      stayed dark. Values here were navy-tinted (matching the old --bg2/
      --bg) and are now black-tinted to match, at the same alpha/blur -
      same depth relationships, recolored. */
-  --chrome-bg-topbar: rgba(5, 5, 5, 0.92);
+  --chrome-bg-topbar: #050505;
   --chrome-bg-menu: rgba(5, 5, 5, 0.92);
   --chrome-bg-popover: rgba(5, 5, 5, 0.94);
   --chrome-bg-strip: #0a0a0a;
@@ -120,7 +120,7 @@ body.light-mode {
   --text3: #3d6080;
   --spec-top: rgba(255, 255, 255, 0.60);
   --spec-side: rgba(255, 255, 255, 0.30);
-  --chrome-bg-topbar: rgba(255, 255, 255, 0.97);
+  --chrome-bg-topbar: #ffffff;
   --chrome-bg-menu: rgba(255, 255, 255, 0.96);
   --chrome-bg-popover: rgba(255, 255, 255, 0.97);
   --chrome-bg-strip: #ffffff;
