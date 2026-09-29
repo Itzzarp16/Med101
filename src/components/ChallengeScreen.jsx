@@ -173,7 +173,7 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
         </div>
       )}
 
-      <div className="auth-tabs" style={{ marginBottom: 16 }}>
+      <div className="auth-tabs auth-tabs-3" style={{ marginBottom: 16 }}>
         <button type="button" className={tab === 'create' ? 'auth-tab active' : 'auth-tab'} onClick={() => { setTab('create'); setError(null); }}>Create Room</button>
         <button type="button" className={tab === 'join' ? 'auth-tab active' : 'auth-tab'} onClick={() => { setTab('join'); setError(null); }}>Join Room</button>
         <button type="button" className={tab === 'history' ? 'auth-tab active' : 'auth-tab'} onClick={() => { setTab('history'); setError(null); }}>My Rooms</button>
@@ -194,8 +194,8 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
           <div className="qmode-grid">
             <ModeCard emoji="🎲" title="Random 25" desc="Quick 5-min practice" selected={mode === 'rand25'} onClick={() => selectMode('rand25')} />
             <ModeCard emoji="⚡" title="Random 50" desc="Medium 10-min session" selected={mode === 'rand50'} onClick={() => selectMode('rand50')} />
-            <ModeCard emoji="📚" title={`All ${pool.length} - Sequential`} desc="Questions in order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
-            <ModeCard emoji="🔀" title={`All ${pool.length} - Random`} desc="Fully shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
+            <ModeCard emoji="📚" title={`All ${pool.length}`} desc="In order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
+            <ModeCard emoji="🔀" title={`All ${pool.length}`} desc="Shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
             <ModeCard emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
             <ModeCard
               emoji="🆕"
@@ -252,9 +252,9 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
             )}
           </div>
 
-          <div className="glass std-card">
+          <div className="glass std-card room-limit-card">
             <label className="auth-label">Whole-Room Time Limit</label>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <div className="room-time-row">
               {TIME_PRESETS.map((m) => (
                 <button
                   key={m}

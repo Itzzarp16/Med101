@@ -194,8 +194,8 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
         <div className="qmode-grid">
           <ModeCard index={0} emoji="🎲" title="Random 25" desc="Quick 5-min practice" selected={mode === 'rand25'} onClick={() => selectMode('rand25')} />
           <ModeCard index={1} emoji="⚡" title="Random 50" desc="Medium 10-min session" selected={mode === 'rand50'} onClick={() => selectMode('rand50')} />
-          <ModeCard index={2} emoji="📚" title={`All ${pool.length} - Sequential`} desc="Questions in order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
-          <ModeCard index={3} emoji="🔀" title={`All ${pool.length} - Random`} desc="Fully shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
+          <ModeCard index={2} emoji="📚" title={`All ${pool.length}`} desc="In order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
+          <ModeCard index={3} emoji="🔀" title={`All ${pool.length}`} desc="Shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
           <ModeCard index={4} emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
         </div>
 

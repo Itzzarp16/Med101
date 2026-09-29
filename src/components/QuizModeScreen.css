@@ -124,6 +124,9 @@
   align-items: center;
   gap: 12px;
   text-align: left;
+  /* <button> doesn't inherit the page font, so descriptions were
+     falling back to the browser's default serif. */
+  font-family: var(--font-body);
 }
 
 .mode-card.wide {
@@ -367,9 +370,10 @@
 }
 
 .tpreset.sel {
-  background: rgba(167, 139, 250, 0.14);
-  border-color: rgba(167, 139, 250, 0.5);
-  color: var(--violet);
+  background: rgba(167, 139, 250, 0.30);
+  border-color: rgba(167, 139, 250, 0.85);
+  color: var(--text);
+  box-shadow: 0 0 0 1px rgba(167, 139, 250, 0.35);
 }
 
 .qmode-timer-custom {
@@ -390,3 +394,15 @@
   width: 100%;
   margin-top: 24px;
 }
+
+/* Challenge Rooms create screen */
+.auth-tabs.auth-tabs-3 { grid-template-columns: repeat(3, 1fr); }
+.auth-tabs.auth-tabs-3 .auth-tab { padding: 10px 4px; font-size: 13.5px; white-space: nowrap; }
+
+.room-limit-card { margin-top: 12px; }
+.room-time-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+}
+.room-time-row .tpreset { padding: 9px 0; text-align: center; }
