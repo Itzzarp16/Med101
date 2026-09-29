@@ -112,6 +112,12 @@ export default function PremiumScreen({ onBack }) {
   const [loading, setLoading] = useState(true);
   const [premium, setPremium] = useState({ isPremium: false, premiumUntil: null, subscriptions: [] });
   const [myRequests, setMyRequests] = useState([]);
+  // Which semester the payment form is for - declared early since
+  // effectivePriceLabel below needs it. Defaults to the student's own
+  // current semester once profile loads (see the sync effect further
+  // down); they can pick a different one in the form.
+  const [paySemester, setPaySemester] = useState(profile?.enrolledYearSemester || null);
+  const paySemesterTouched = useRef(false);
   // The admin can set a different price per semester (Payment Settings
   // -> Per-Semester Pricing); this is what actually gets shown/charged,
   // falling back to the single default priceLabel when that semester
@@ -154,13 +160,6 @@ export default function PremiumScreen({ onBack }) {
   const [bankingName, setBankingName] = useState('');
   const [phone, setPhone] = useState('');
   const [utr, setUtr] = useState('');
-  // Which semester this payment is for. Defaults to the student's own
-  // current semester, but they can pay for a different one instead -
-  // e.g. paying ahead for a semester they haven't switched to yet, or
-  // the QR being shown for one semester while a sibling/roommate needs
-  // another covered too.
-  const [paySemester, setPaySemester] = useState(profile?.enrolledYearSemester || null);
-  const paySemesterTouched = useRef(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitMsg, setSubmitMsg] = useState(null);
 
