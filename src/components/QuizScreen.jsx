@@ -584,61 +584,56 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   return (
     <div className="screen-quiz">
-      {/* Hero header - back, elapsed stopwatch (or room countdown), mode label, score */}
-      <div className="hero quiz-hero">
-        <div className="quiz-hero-inner">
-          <div className="quiz-hero-left">
-            <button className="btn-ghost quiz-back-btn" onClick={() => { playTapSound(); onExit(); }}>← Back</button>
-            <div className="quiz-stopwatch">
-              <div className="sw-dig" style={totalTimeLimitMs && totalTimeLeftMs <= 30000 ? { color: 'var(--red)' } : undefined}>
-                {totalTimeLimitMs != null ? formatElapsed(totalTimeLeftMs) : formatElapsed(elapsedMs)}
-              </div>
-              <div className="sw-lbl">{totalTimeLimitMs != null ? 'time left' : 'elapsed'}</div>
-            </div>
+      {/* Compact top row - back, mode label, stopwatch (or room countdown), score */}
+      <div className="qtop">
+        <div className="qtop-inner">
+          <button className="qtop-back" onClick={() => { playTapSound(); onExit(); }} aria-label="Back">←</button>
+          <div className="qtop-mode">
+            <div className="qtop-subject">{mainSubject}</div>
+            <div className="qtop-topic">{roomCode ? `👥 Room ${roomCode}` : (topic || 'All Topics')}</div>
           </div>
-          <div className="quiz-hero-center">
-            <div className="quiz-hero-label">{mainSubject}</div>
-            <div className="quiz-hero-mode">{roomCode ? `👥 Room ${roomCode}` : (topic || 'All Topics')}</div>
+          <div className="qtop-clock" style={totalTimeLimitMs && totalTimeLeftMs <= 30000 ? { color: 'var(--red)' } : undefined}>
+            <span className="qtop-clock-dig">{totalTimeLimitMs != null ? formatElapsed(totalTimeLeftMs) : formatElapsed(elapsedMs)}</span>
+            <span className="qtop-clock-lbl">{totalTimeLimitMs != null ? 'left' : 'elapsed'}</span>
           </div>
-          <div className="quiz-hero-right">
-            <div className="quiz-hero-score-label">Score</div>
-            <div className="quiz-hero-score">{correctCount}/{answeredCount}</div>
+          <div className="qtop-score">
+            <span className="qtop-score-num">{correctCount}<span className="qtop-score-of">/{answeredCount}</span></span>
+            <span className="qtop-clock-lbl">score</span>
           </div>
         </div>
       </div>
 
       <div className="quiz-body">
-        {/* Progress */}
-        <div className="quiz-progress-row">
-          <div className="quiz-counter">{cur + 1}/{total}</div>
-          <div className="prog-track"><div className="prog-fill" style={{ width: `${((cur + 1) / total) * 100}%` }} /></div>
-          <div className="quiz-pct">{pct}%</div>
-        </div>
+        {/* Progress strip - one segment per question (small sets), plain bar otherwise */}
+        {total <= 40 ? (
+          <div className="qseg" role="progressbar" aria-valuemin={1} aria-valuemax={total} aria-valuenow={cur + 1}>
+            {quizQuestions.map((qq, i) => {
+              const a = answers[i];
+              let cls = 'qseg-bit';
+              if (a === -1) cls += ' todo';
+              else if (a === qq.c) cls += ' ok';
+              else cls += ' bad';
+              if (i === cur) cls += ' cur';
+              return <span key={i} className={cls} />;
+            })}
+          </div>
+        ) : (
+          <div className="prog-track qprog-plain"><div className="prog-fill" style={{ width: `${((cur + 1) / total) * 100}%` }} /></div>
+        )}
 
-        {/* Stats */}
-        <div className="quiz-stats-grid">
-          <div className="stat-card" style={{ '--accent': 'var(--cyan)' }}>
-            <div className="stat-label">Question</div>
-            <div className="stat-value">{cur + 1}</div>
-          </div>
-          <div className="stat-card" style={{ '--accent': 'var(--green)' }}>
-            <div className="stat-label">Correct</div>
-            <div className="stat-value" style={{ color: 'var(--green)' }}>{correctCount}</div>
-          </div>
-          <div className="stat-card" style={{ '--accent': 'var(--violet)' }}>
-            <div className="stat-label">Accuracy</div>
-            <div className="stat-value" style={{ color: 'var(--violet)' }}>{answeredCount ? `${pct}%` : '-'}</div>
-          </div>
+        {/* Stat chips + question-grid toggle */}
+        <div className="qchips">
+          <span className="qchip"><b>{cur + 1}</b>/{total}</span>
+          <span className="qchip ok">✓ <b>{correctCount}</b></span>
+          <span className="qchip acc"><b>{answeredCount ? `${pct}%` : '-'}</b> acc</span>
           <button
             type="button"
-            className={navOpen ? 'stat-card qnav-toggle open' : 'stat-card qnav-toggle'}
-            style={{ '--accent': 'var(--amber)' }}
+            className={navOpen ? 'qchip qchip-btn open' : 'qchip qchip-btn'}
             onClick={() => { playTapSound(); setNavOpen((v) => !v); }}
             aria-expanded={navOpen}
             aria-controls="qnav-panel"
           >
-            <div className="stat-label">Questions</div>
-            <div className="stat-value qnav-toggle-val">▦<span className="qnav-chev" aria-hidden="true">▾</span></div>
+            ▦ Grid <span className="qnav-chev" aria-hidden="true">▾</span>
           </button>
         </div>
 
@@ -681,8 +676,11 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
         {/* Timer bars - sit right under the stats cards */}
         {timerSeconds != null && (
-          <div className="tbar">
-            <div className="tbar-fill" style={{ width: `${(timeLeft / timerSeconds) * 100}%`, background: timeLeft <= 5 ? 'var(--red)' : 'var(--cyan)' }} />
+          <div className="tbar-row">
+            <div className="tbar">
+              <div className="tbar-fill" style={{ width: `${(timeLeft / timerSeconds) * 100}%`, background: timeLeft <= 5 ? 'var(--red)' : 'var(--cyan)' }} />
+            </div>
+            <span className="tbar-sec" style={timeLeft <= 5 ? { color: 'var(--red)' } : undefined}>{answered ? '' : `${timeLeft}s`}</span>
           </div>
         )}
 
@@ -731,21 +729,23 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         </div>
 
         {answered && isPremium && (
-          <div className="ai-explanation-card">
-            <div className="ai-explanation-title">✨ Gemini Explanation</div>
-            {aiLoading[q.q] ? (
-              <div className="ai-explanation-loading">Generating explanation…</div>
-            ) : aiExplanations[q.q] ? (
-              <div className="ai-explanation-text">{aiExplanations[q.q]}</div>
-            ) : (
-              <>
-                <div className="ai-explanation-error">{aiErrors[q.q] || 'Want to know why this is the answer?'}</div>
-                <button className="btn-ghost ai-explanation-btn" onClick={() => loadAIExplanation(q)}>
-                  {aiErrors[q.q] ? 'Try Again' : '✨ Explain with AI'}
-                </button>
-              </>
-            )}
-          </div>
+          aiExplanations[q.q] || aiLoading[q.q] || aiErrors[q.q] ? (
+            <div className="ai-explanation-card">
+              <div className="ai-explanation-title">✨ Gemini Explanation</div>
+              {aiLoading[q.q] ? (
+                <div className="ai-explanation-loading">Generating explanation…</div>
+              ) : aiExplanations[q.q] ? (
+                <div className="ai-explanation-text">{aiExplanations[q.q]}</div>
+              ) : (
+                <>
+                  <div className="ai-explanation-error">{aiErrors[q.q]}</div>
+                  <button className="btn-ghost ai-explanation-btn" onClick={() => loadAIExplanation(q)}>Try Again</button>
+                </>
+              )}
+            </div>
+          ) : (
+            <button type="button" className="ai-chip-btn" onClick={() => loadAIExplanation(q)}>✨ Explain with AI</button>
+          )
         )}
 
         {/* Nav */}
