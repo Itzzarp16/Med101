@@ -675,14 +675,26 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         </div>
 
         {/* Timer bars - sit right under the stats cards */}
-        {timerSeconds != null && (
-          <div className="tbar-row">
-            <div className="tbar">
-              <div className="tbar-fill" style={{ width: `${(timeLeft / timerSeconds) * 100}%`, background: timeLeft <= 5 ? 'var(--red)' : 'var(--cyan)' }} />
+        {timerSeconds != null && (() => {
+          const tookMs = questionTimesMs[cur];
+          const timedOut = ua === -2;
+          const usedFrac = tookMs >= 0 ? Math.min(1, tookMs / (timerSeconds * 1000)) : 1;
+          return (
+            <div className="tbar-row">
+              <div className="tbar">
+                <div
+                  className="tbar-fill"
+                  style={answered
+                    ? { width: `${(timedOut ? 1 : usedFrac) * 100}%`, background: timedOut ? 'var(--red)' : 'var(--green)', opacity: 0.55 }
+                    : { width: `${(timeLeft / timerSeconds) * 100}%`, background: timeLeft <= 5 ? 'var(--red)' : 'var(--cyan)' }}
+                />
+              </div>
+              <span className="tbar-sec" style={answered ? { color: timedOut ? 'var(--red)' : 'var(--text2)' } : (timeLeft <= 5 ? { color: 'var(--red)' } : undefined)}>
+                {answered ? (timedOut ? "Time's up" : (tookMs >= 0 ? `${Math.max(1, Math.round(tookMs / 1000))}s taken` : '')) : `${timeLeft}s`}
+              </span>
             </div>
-            <span className="tbar-sec" style={timeLeft <= 5 ? { color: 'var(--red)' } : undefined}>{answered ? '' : `${timeLeft}s`}</span>
-          </div>
-        )}
+          );
+        })()}
 
         {totalTimeLimitMs != null && (
           <div className="tbar">
