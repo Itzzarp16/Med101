@@ -278,16 +278,23 @@ export function ModeCard({ emoji, title, desc, selected, onClick, wide, disabled
 
 export function ToggleRow({ title, desc, on, onToggle, disabled }) {
   return (
-    <div className="qmode-toggle-row">
+    <div
+      className="qmode-toggle-row"
+      onClick={disabled ? undefined : onToggle}
+      role="switch"
+      aria-checked={on}
+      aria-disabled={disabled || undefined}
+      tabIndex={disabled ? -1 : 0}
+      onKeyDown={disabled ? undefined : (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onToggle(); }
+      }}
+      style={disabled ? { cursor: 'not-allowed' } : { cursor: 'pointer' }}
+    >
       <div>
         <div className="qmode-toggle-title">{title}</div>
         <div className="qmode-toggle-desc">{desc}</div>
       </div>
-      <div
-        className={on ? 'toggle-track on' : 'toggle-track'}
-        onClick={disabled ? undefined : onToggle}
-        style={disabled ? { cursor: 'not-allowed' } : undefined}
-      >
+      <div className={on ? 'toggle-track on' : 'toggle-track'}>
         <div className="toggle-thumb" />
       </div>
     </div>
