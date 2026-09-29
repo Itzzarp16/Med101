@@ -69,6 +69,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [finished, setFinished] = useState(false);
   const [timeLeft, setTimeLeft] = useState(timerSeconds || null);
   const questionDeadlineRef = useRef(null);
+  const [navOpen, setNavOpen] = useState(false); // question-grid panel
   const [elapsedMs, setElapsedMs] = useState(0);
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
   const [showReview, setShowReview] = useState(false);
@@ -139,6 +140,15 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     }
     if (nx < 0) return;
     setCur(nx);
+  }
+
+  // Jump straight to a question from the question grid.
+  function goTo(i) {
+    if (i === cur || i < 0 || i >= total) return;
+    playTapSound();
+    clearTimeout(advanceTimeoutRef.current);
+    if (answers[cur] === -1) recordQuestionTime(cur);
+    setCur(i);
   }
 
   async function loadAIExplanation(question) {
@@ -630,6 +640,54 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           <div className="stat-card" style={{ '--accent': 'var(--violet)' }}>
             <div className="stat-label">Accuracy</div>
             <div className="stat-value" style={{ color: 'var(--violet)' }}>{answeredCount ? `${pct}%` : '-'}</div>
+          </div>
+          <button
+            type="button"
+            className={navOpen ? 'stat-card qnav-toggle open' : 'stat-card qnav-toggle'}
+            style={{ '--accent': 'var(--amber)' }}
+            onClick={() => { playTapSound(); setNavOpen((v) => !v); }}
+            aria-expanded={navOpen}
+            aria-controls="qnav-panel"
+          >
+            <div className="stat-label">Questions</div>
+            <div className="stat-value qnav-toggle-val">▦<span className="qnav-chev" aria-hidden="true">▾</span></div>
+          </button>
+        </div>
+
+        {/* Collapsible question grid */}
+        <div className={navOpen ? 'qnav-wrap open' : 'qnav-wrap'} id="qnav-panel">
+          <div className="qnav-inner">
+            <div className="qnav-panel">
+              <div className="qnav-grid">
+                {quizQuestions.map((_, i) => {
+                  const a = answers[i];
+                  let cls = 'qnav-tile';
+                  if (a === -1) cls += ' todo';
+                  else if (a === quizQuestions[i].c) cls += ' ok';
+                  else cls += ' bad';
+                  if (i === cur) cls += ' cur';
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      className={cls}
+                      onClick={() => goTo(i)}
+                      tabIndex={navOpen ? 0 : -1}
+                      aria-label={`Question ${i + 1}${a === -1 ? ', unanswered' : a === quizQuestions[i].c ? ', correct' : ', wrong'}${flaggedKeys.has(`${i}`) ? ', flagged' : ''}`}
+                      aria-current={i === cur ? 'true' : undefined}
+                    >
+                      {i + 1}
+                      {flaggedKeys.has(`${i}`) && <span className="qnav-flag" aria-hidden="true" />}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="qnav-legend">
+                <span><i className="lg ok" />Correct</span>
+                <span><i className="lg bad" />Wrong</span>
+                <span><i className="lg todo" />Unanswered</span>
+              </div>
+            </div>
           </div>
         </div>
 
