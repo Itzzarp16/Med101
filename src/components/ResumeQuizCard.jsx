@@ -24,7 +24,7 @@ export default function ResumeQuizCard({ snapshot, onResume, onDiscard }) {
       </div>
       <div className="resume-card-actions">
         <button type="button" className="btn-glow resume-card-go" onClick={onResume}>Resume →</button>
-        <button type="button" className="resume-card-discard" onClick={onDiscard}>Discard</button>
+        <button type="button" className="resume-card-discard" onClick={onDiscard} aria-label="Discard unfinished quiz" title="Discard">✕</button>
       </div>
     </div>
   );

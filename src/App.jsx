@@ -670,24 +670,24 @@ export default function App() {
               </button>
             </div>
           )}
-          {screen === 'dashboard' && resumeSnap && (
-            <ResumeQuizCard
-              snapshot={resumeSnap}
-              onDiscard={() => { clearQuizProgress(); if (user) deleteCloudSnapshot(user.uid); cloudCheckRef.current = { at: Date.now(), snap: null }; setResumeSnap(null); }}
-              onResume={() => {
-                saveQuizProgress(resumeSnap); // make sure this device has the snapshot locally (it may have come from the cloud)
-                setFinalQuiz({
-                  questions: resumeSnap.questions,
-                  autoAdvance: resumeSnap.autoAdvance,
-                  timerSeconds: resumeSnap.timerSeconds,
-                  resumeAttemptId: resumeSnap.attemptId,
-                });
-                goTo('quiz', { selectedSubject: resumeSnap.mainSubject, selectedTopic: resumeSnap.topic });
-              }}
-            />
-          )}
           {screen === 'dashboard' && (
             <Dashboard
+              resumeCard={resumeSnap ? (
+              <ResumeQuizCard
+                snapshot={resumeSnap}
+                onDiscard={() => { clearQuizProgress(); if (user) deleteCloudSnapshot(user.uid); cloudCheckRef.current = { at: Date.now(), snap: null }; setResumeSnap(null); }}
+                onResume={() => {
+                  saveQuizProgress(resumeSnap); // make sure this device has the snapshot locally (it may have come from the cloud)
+                  setFinalQuiz({
+                    questions: resumeSnap.questions,
+                    autoAdvance: resumeSnap.autoAdvance,
+                    timerSeconds: resumeSnap.timerSeconds,
+                    resumeAttemptId: resumeSnap.attemptId,
+                  });
+                  goTo('quiz', { selectedSubject: resumeSnap.mainSubject, selectedTopic: resumeSnap.topic });
+                }}
+              />
+              ) : null}
               mainSubjectMeta={scopedMainSubjectMeta}
               subjectGroup={subjectGroup}
               questions={scopedQuestions}

@@ -23,7 +23,7 @@ function kyrgyzstanGreeting() {
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
 // header, then the scrolling notice, then a centered max-width subj-grid.
-export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, semesterId }) {
+export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, semesterId }) {
   const { user, profile } = useAuth();
   const firstName = (profile?.displayName || user?.displayName || user?.email?.split('@')[0] || 'there').split(' ')[0];
   // questionsToday is only meaningful if it was actually written today -
@@ -52,6 +52,19 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
     return result;
   }, [questions, subjectGroup, mainSubjectMeta]);
 
+  // Per-subject practice summary from the same topicStats the Weak
+  // Topics screen reads ({ [subtopic]: { mainSubject, answered, correct } }).
+  const subjectProgress = useMemo(() => {
+    const out = {};
+    for (const s of Object.values(profile?.topicStats || {})) {
+      if (!s?.mainSubject) continue;
+      const p = out[s.mainSubject] || (out[s.mainSubject] = { answered: 0, correct: 0 });
+      p.answered += s.answered || 0;
+      p.correct += s.correct || 0;
+    }
+    return out;
+  }, [profile]);
+
   return (
     <>
       <div className="screen-subject">
@@ -61,8 +74,11 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
             <span className="dashboard-badge">📝 {questionsToday} question{questionsToday === 1 ? '' : 's'} today</span>
           )}
         </div>
-        <HomeNoticeBanner semesterId={semesterId} />
-        <PendingInvites onAccept={onAcceptInvite} />
+        <div className="dash-top">
+          {resumeCard}
+          <HomeNoticeBanner semesterId={semesterId} />
+          <PendingInvites onAccept={onAcceptInvite} />
+        </div>
 
         <div className="subj-grid">
           {Object.entries(mainSubjectMeta).map(([name, meta]) => {
@@ -73,7 +89,13 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
             // it here rather than requiring a JSON edit + redeploy just to
             // clear it. The real topic/question counts already render
             // below regardless.
-            const desc = hasQuestions && meta.desc === 'Content coming soon' ? '' : meta.desc;
+            const rawDesc = hasQuestions && meta.desc === 'Content coming soon' ? '' : meta.desc;
+            // The semester JSON bakes "– N topics, M questions" into the
+            // desc, and the card's meta line shows the same counts, so
+            // strip it here. Also hide a desc that just repeats the name.
+            const stripped = (rawDesc || '').replace(/\s*[–—·-]\s*\d+\s+topics?\s*[,·]\s*\d+\s+questions?\s*$/i, '').trim();
+            const desc = stripped.toLowerCase() === name.toLowerCase() ? '' : stripped;
+            const prog = subjectProgress[name];
             return (
               <SubjectCard
                 key={name}
@@ -83,6 +105,7 @@ export default function Dashboard({ mainSubjectMeta, subjectGroup, questions, on
                 questionCount={subjectStats[name]?.questionCount}
                 topicCount={subjectStats[name]?.topicCount}
                 trace
+                progress={prog && prog.answered > 0 ? { answered: prog.answered, pct: Math.round((prog.correct / prog.answered) * 100) } : null}
                 onClick={() => (hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
               />
             );

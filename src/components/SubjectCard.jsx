@@ -11,7 +11,7 @@ function traceColorFor(name) {
   return TRACE_COLORS[hash % TRACE_COLORS.length];
 }
 
-export default function SubjectCard({ emoji, name, desc, questionCount, topicCount, trace, onClick }) {
+export default function SubjectCard({ emoji, name, desc, questionCount, topicCount, trace, progress, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
   return (
@@ -19,23 +19,31 @@ export default function SubjectCard({ emoji, name, desc, questionCount, topicCou
       <span className="subj-emoji">{emoji}</span>
       <span className="subj-card-text">
         <span className="subj-name">{name}</span>
-        <span className="subj-count">{desc}</span>
+        {desc && <span className="subj-count">{desc}</span>}
 
-        {trace && (
-          <span className="subj-trace" aria-hidden="true" style={{ '--trace-color': accent }}>
-            <svg viewBox="0 0 200 30" preserveAspectRatio="none">
-              <path
-                className="subj-trace-line"
-                d="M0,15 L28,15 L36,4 L44,26 L52,15 L68,15 L76,7 L84,23 L92,15 L200,15"
-              />
-            </svg>
+        <span className="subj-foot">
+          <span className="subj-meta">
+            {topicCount != null && <span>{topicCount} topics</span>}
+            {questionCount != null && <span>{questionCount} questions</span>}
+          </span>
+          {trace && (
+            <span className={progress ? 'subj-trace active' : 'subj-trace'} aria-hidden="true" style={{ '--trace-color': accent }}>
+              <svg viewBox="0 0 200 30" preserveAspectRatio="none">
+                <path
+                  className="subj-trace-line"
+                  d="M0,15 L28,15 L36,4 L44,26 L52,15 L68,15 L76,7 L84,23 L92,15 L200,15"
+                />
+              </svg>
+            </span>
+          )}
+        </span>
+
+        {progress && (
+          <span className="subj-progress">
+            <span>{progress.pct}% accuracy</span>
+            <span>{progress.answered} answered</span>
           </span>
         )}
-
-        <span className="subj-meta">
-          {topicCount != null && <span>{topicCount} topics</span>}
-          {questionCount != null && <span>{questionCount} questions</span>}
-        </span>
       </span>
       <span className="subj-arrow">›</span>
     </button>

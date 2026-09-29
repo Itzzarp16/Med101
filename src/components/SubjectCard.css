@@ -4,13 +4,13 @@
   background: rgba(255, 255, 255, 0.11);
   border: 1px solid rgba(255, 255, 255, 0.25);
   border-radius: 20px;
-  padding: 18px;
+  padding: 14px 16px;
   cursor: pointer;
   transition: all 0.22s cubic-bezier(.34, 1.2, .64, 1);
   position: relative;
   overflow: hidden;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 14px;
   min-height: 72px;
   backdrop-filter: blur(40px) saturate(180%);
@@ -83,7 +83,6 @@
 .subj-emoji {
   font-size: 30px;
   flex-shrink: 0;
-  margin-top: 2px;
 }
 
 .subj-arrow {
@@ -100,15 +99,27 @@
   transform: translateX(4px);
 }
 
-/* ── Pulse trace flourish, kept from the earlier design ── */
+/* ── Pulse trace flourish: small, inline beside the counts. Only
+   animates on subjects the student has actually practiced; the rest
+   sit as a flat, dim line so the grid isn't 8 things moving at once. ── */
+.subj-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
+}
+
 .subj-trace {
   --trace-color: var(--cyan);
   display: block;
-  height: 26px;
-  width: 100%;
-  margin-top: 10px;
-  opacity: 0.85;
+  height: 16px;
+  width: 72px;
+  flex-shrink: 0;
+  opacity: 0.35;
 }
+
+.subj-trace.active { opacity: 0.9; }
 
 .subj-trace svg {
   width: 100%;
@@ -121,6 +132,9 @@
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.subj-trace.active .subj-trace-line {
   stroke-dasharray: 260;
   stroke-dashoffset: 260;
   animation: subj-trace-draw 2.6s ease-in-out infinite;
@@ -134,17 +148,24 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .subj-trace-line {
+  .subj-trace.active .subj-trace-line {
     animation: none;
     stroke-dashoffset: 0;
-    opacity: 0.6;
   }
+}
+
+.subj-progress {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--green);
 }
 
 .subj-meta {
   display: flex;
   gap: 12px;
-  margin-top: 6px;
   font-family: var(--font-mono);
   font-size: 11px;
   color: var(--text3);

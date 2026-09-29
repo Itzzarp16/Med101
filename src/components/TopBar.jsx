@@ -148,6 +148,12 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
             <button className="menu-item" onClick={() => go(onSettings)}>🎓 Change Semester</button>
             <button className="menu-item" onClick={() => go(onYourData)}>📄 Your Data</button>
             <button className="menu-item" onClick={() => go(onChallenge)}>👥 Challenge a Friend</button>
+            <button className="menu-item" onClick={() => { playTapSound(); toggleLightMode(); }}>
+              {lightMode ? '🌙 Switch to Dark Mode' : '☀️ Switch to Light Mode'}
+            </button>
+            <button className="menu-item" onClick={toggleSound}>
+              {soundMuted ? '🔊 Unmute Sound' : '🔇 Mute Sound'}
+            </button>
             <button className="menu-item" onClick={() => go(onFriends)}>🧑‍🤝‍🧑 Friends</button>
             <a
               className="menu-item"
@@ -191,26 +197,6 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onYourData, 
       )}
     </div>
 
-    {screen === 'dashboard' && (
-      <div className="topbar-subrow">
-        <button
-          className="topbar-icon-btn theme"
-          title={lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-          aria-label={lightMode ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-          onClick={toggleLightMode}
-        >
-          {lightMode ? '☀️' : '🌙'}
-        </button>
-        <button
-          className={soundMuted ? 'topbar-icon-btn sound muted' : 'topbar-icon-btn sound'}
-          title={soundMuted ? 'Unmute sound' : 'Mute sound'}
-          aria-label={soundMuted ? 'Unmute sound' : 'Mute sound'}
-          onClick={toggleSound}
-        >
-          {soundMuted ? '🔇' : '🔊'}
-        </button>
-      </div>
-    )}
     </>
   );
 }
