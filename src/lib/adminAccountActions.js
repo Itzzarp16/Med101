@@ -38,7 +38,12 @@ export async function deleteAccount(uid) {
   const snap = await getDoc(doc(db, 'users', uid));
   const data = snap.exists() ? snap.data() : {};
 
-  await Promise.all(SUBCOLLECTIONS.map((name) => deleteCollection(uid, name)));
+  // Run every wipe even if one is rejected, so a single collection the
+  // published Firestore rules don't cover yet (e.g. quizResume before
+  // the latest firestore.rules is deployed) can't leave the rest of the
+  // account's data behind - then report exactly which ones failed.
+  const results = await Promise.allSettled(SUBCOLLECTIONS.map((name) => deleteCollection(uid, name)));
+  const failed = SUBCOLLECTIONS.filter((_, i) => results[i].status === 'rejected');
   await deleteDoc(doc(db, 'leaderboard', uid)).catch(() => {}); // fine if they never had one
   if (data.username) {
     await deleteDoc(doc(db, 'usernames', data.username)).catch(() => {});
@@ -54,4 +59,11 @@ export async function deleteAccount(uid) {
     },
     { merge: false } // wipe everything else - topicStats, enrolledYearSemester, activeDeviceId, totalTimeMs, etc.
   );
+
+  if (failed.length) {
+    throw new Error(
+      `Account disabled and profile wiped, but couldn't clear: ${failed.join(', ')}. ` +
+      'Publish the latest firestore.rules in the Firebase console, then run Delete again.'
+    );
+  }
 }
