@@ -3,6 +3,7 @@ import { fetchRoom, subscribeToParticipants } from '../lib/rooms';
 import { lookupUsername, sendInvite } from '../lib/invites';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
+import ScreenHeader from './ScreenHeader';
 
 export default function RoomLobbyScreen({ code, isHost, autoInviteFriend, onAutoInviteSent, onStart, onViewResults, onBack }) {
   const { user } = useAuth();
@@ -79,14 +80,9 @@ export default function RoomLobbyScreen({ code, isHost, autoInviteFriend, onAuto
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">👥 {room?.mainSubject || 'Challenge Room'}</h1>
-        <p className="std-sub">
-          {room ? `${room.questions.length} questions · ${room.timeLimitMinutes} min limit` : 'Loading…'}
-        </p>
-      </div>
+      <ScreenHeader onBack={onBack} title={<>👥 {room?.mainSubject || 'Challenge Room'}</>}>
+        {room ? `${room.questions.length} questions · ${room.timeLimitMinutes} min limit` : 'Loading…'}
+      </ScreenHeader>
 
       <div className="glass std-card" style={{ alignItems: 'center', textAlign: 'center' }}>
         <div style={{ fontSize: 11, color: 'var(--text3)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Room Code</div>

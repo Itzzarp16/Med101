@@ -4,6 +4,7 @@ import { createRoom, joinRoom, fetchMyRooms } from '../lib/rooms';
 import { filterUnseen } from '../lib/seenQuestions';
 import { playTapSound } from '../lib/sounds';
 import { ModeCard, ToggleRow } from './QuizModeScreen';
+import ScreenHeader from './ScreenHeader';
 
 const TIME_PRESETS = [5, 10, 15, 20, 30];
 const TIMER_PRESETS = [20, 30, 45, 60];
@@ -155,16 +156,11 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">👥 Challenge a Friend</h1>
-        <p className="std-sub">
-          {challengeTarget
+      <ScreenHeader onBack={onBack} title={<>👥 Challenge a Friend</>}>
+        {challengeTarget
             ? `Set up a room and @${challengeTarget.username} will be invited automatically.`
             : 'Practice the exact same questions together and compare scores.'}
-        </p>
-      </div>
+      </ScreenHeader>
 
       {challengeTarget && (
         <div className="glass std-card" style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 14px', marginBottom: 16 }}>

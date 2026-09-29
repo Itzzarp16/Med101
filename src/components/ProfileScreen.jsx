@@ -6,6 +6,8 @@ import { changePassword, claimUsername, fetchMyUsername, updateDisplayName, uplo
 import { buildUserDataExportPdf } from '../lib/dataExport';
 import { playTapSound } from '../lib/sounds';
 import './ProfileScreen.css';
+import { BackButton } from './ScreenHeader';
+import './ScreenHeader.css';
 
 export default function ProfileScreen({ onBack }) {
   const { user, profile, logOut } = useAuth();
@@ -164,7 +166,7 @@ export default function ProfileScreen({ onBack }) {
 
   return (
     <div className="std-screen profile-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      <div className="sh-bar"><BackButton onBack={onBack} /></div>
 
       <div className="profile-hero">
         <div className="profile-avatar-wrap">

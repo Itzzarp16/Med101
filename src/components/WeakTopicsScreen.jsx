@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
+import ScreenHeader from './ScreenHeader';
 
 const MIN_ANSWERED = 5; // lower bar than the dashboard card since this is an intentional deep-dive
 
@@ -23,12 +24,9 @@ export default function WeakTopicsScreen({ onPracticeTopic, onBack }) {
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">🎯 Your Weak Topics</h1>
-        <p className="std-sub">Every topic you've practiced, ranked by accuracy, lowest first.</p>
-      </div>
+      <ScreenHeader onBack={onBack} title={<>🎯 Your Weak Topics</>}>
+        Every topic you've practiced, ranked by accuracy, lowest first.
+      </ScreenHeader>
 
       {topics.length === 0 ? (
         <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>

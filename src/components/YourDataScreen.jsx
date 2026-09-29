@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import { buildUserDataExportPdf } from '../lib/dataExport';
 import LegalFooter from './LegalFooter';
+import ScreenHeader from './ScreenHeader';
 
 // Split out of SettingsScreen into its own hamburger-menu item - same
 // self-service export, just no longer buried inside Settings.
@@ -29,11 +30,7 @@ export default function YourDataScreen({ onBack }) {
   return (
     <>
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">📄 Your Data</h1>
-      </div>
+      <ScreenHeader onBack={onBack} title={<>📄 Your Data</>} />
 
       <div className="glass std-card">
         <label className="auth-label">Download My Data Export</label>

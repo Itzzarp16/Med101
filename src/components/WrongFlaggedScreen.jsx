@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { fetchWrongQuestions, fetchFlaggedQuestions, removeWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
 import { playTapSound } from '../lib/sounds';
+import ScreenHeader from './ScreenHeader';
 
 export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
   const { user } = useAuth();
@@ -40,12 +41,9 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">📌 Wrong &amp; Flagged</h1>
-        <p className="std-sub">Questions you've missed or starred for extra review.</p>
-      </div>
+      <ScreenHeader onBack={onBack} title={<>📌 Wrong &amp; Flagged</>}>
+        Questions you've missed or starred for extra review.
+      </ScreenHeader>
 
       <div className="auth-tabs" style={{ marginBottom: 16 }}>
         <button type="button" className={tab === 'wrong' ? 'auth-tab active' : 'auth-tab'} onClick={() => { playTapSound(); setTab('wrong'); }}>

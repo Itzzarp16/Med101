@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { addFriendByUsername, removeFriend, subscribeToFriends } from '../lib/friends';
 import { playTapSound } from '../lib/sounds';
+import ScreenHeader from './ScreenHeader';
 
 export default function FriendsScreen({ onBack, onChallenge }) {
   const { user } = useAuth();
@@ -42,12 +43,9 @@ export default function FriendsScreen({ onBack, onChallenge }) {
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">👥 Friends</h1>
-        <p className="std-sub">Add friends by username to compare on a friends-only leaderboard.</p>
-      </div>
+      <ScreenHeader onBack={onBack} title={<>👥 Friends</>}>
+        Add friends by username to compare on a friends-only leaderboard.
+      </ScreenHeader>
 
       <div className="glass std-card">
         <div style={{ display: 'flex', gap: 8 }}>

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { playTapSound } from '../lib/sounds';
+import ScreenHeader from './ScreenHeader';
 
 const MAX_RESULTS = 60;
 
@@ -43,12 +44,9 @@ export default function SearchScreen({ scopedQuestions, subjectGroup, mainSubjec
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">🔍 Search Questions</h1>
-        <p className="std-sub">Search across every subject in your current semester.</p>
-      </div>
+      <ScreenHeader onBack={onBack} title={<>🔍 Search Questions</>}>
+        Search across every subject in your current semester.
+      </ScreenHeader>
 
       <div className="glass std-card">
         <input

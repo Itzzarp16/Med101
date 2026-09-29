@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchRoom, subscribeToParticipants } from '../lib/rooms';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
+import ScreenHeader from './ScreenHeader';
 
 const MEDALS = ['🥇', '🥈', '🥉'];
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
@@ -36,12 +37,9 @@ export default function RoomResultsScreen({ code, onBack }) {
 
   return (
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">🏁 Room Results</h1>
-        <p className="std-sub">{room ? `${room.mainSubject} · ${room.questions.length} questions · tap anyone for a full breakdown` : 'Loading…'}</p>
-      </div>
+      <ScreenHeader onBack={onBack} title={<>🏁 Room Results</>}>
+        {room ? `${room.mainSubject} · ${room.questions.length} questions · tap anyone for a full breakdown` : 'Loading…'}
+      </ScreenHeader>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {sorted.map((p, i) => {
