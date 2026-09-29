@@ -205,6 +205,19 @@
 .admin-portal-logout:hover { border-color: var(--red); color: var(--red); }
 .admin-portal-logout:active { transform: scale(0.95); }
 
+.admin-theme-btn {
+  background: transparent;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  padding: 5px 9px;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+.admin-theme-btn:active { transform: scale(0.92); }
+.admin-side-footlinks { gap: 8px; }
+
 /* ── Main column ─────────────────────────────────── */
 .admin-main { flex: 1; min-width: 0; }
 .admin-portal-header {

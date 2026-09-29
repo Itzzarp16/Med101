@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
+import { isLightMode, setTheme } from '../lib/theme';
 import { useSemesterData } from '../lib/useSemesterData';
 import AdminNoticeScreen from './AdminNoticeScreen';
 import AdminCalendarScreen from './AdminCalendarScreen';
@@ -118,6 +119,12 @@ function AdminLogin() {
 export default function AdminPortal() {
   const { user, profile, loading, isAdmin, logOut } = useAuth();
   const [tab, setTabState] = useState(tabFromHash);
+  const [light, setLight] = useState(isLightMode());
+  const toggleTheme = () => {
+    const next = !light;
+    setTheme(next ? 'light' : 'dark');
+    setLight(next);
+  };
   const setTab = (id) => {
     setTabState(id);
     window.history.replaceState(null, '', `#${id}`);
@@ -190,6 +197,14 @@ export default function AdminPortal() {
         <div className="admin-side-foot">
           <div className="admin-side-user" title={user.email}>{profile?.name || user.email}</div>
           <div className="admin-side-footlinks">
+            <button
+              className="admin-theme-btn"
+              onClick={toggleTheme}
+              aria-label={light ? 'Switch to dark mode' : 'Switch to light mode'}
+              title={light ? 'Switch to dark mode' : 'Switch to light mode'}
+            >
+              {light ? '🌙' : '☀️'}
+            </button>
             <a href="/" className="admin-portal-link">Main site</a>
             <button className="admin-portal-logout" onClick={logOut}>Log out</button>
           </div>
