@@ -6,7 +6,7 @@ import SubtopicScreen from './components/SubtopicScreen';
 import SlideStack from './components/SlideStack';
 import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
-import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig, premiumCoversSemester } from './lib/subscription';
+import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig, premiumCoversSemester, isFreeLabel, activateFreeSemester } from './lib/subscription';
 import AuthScreen from './components/AuthScreen';
 import WhatsAppPromptModal from './components/WhatsAppPromptModal';
 import OnboardingTour from './components/OnboardingTour';
@@ -118,9 +118,41 @@ export default function App() {
   // Live subscription so flipping it takes effect for every open tab
   // immediately, same as everything else in this app.
   const [premiumPaused, setPremiumPaused] = useState(false);
+  // Full subscription config (not just the premiumPaused flag) so the
+  // auto-free-activation effect below can read pricing without waiting
+  // for the student to open the Premium screen - previously a free
+  // semester only got auto-granted there, so a student who never
+  // opened Premium stayed locked out even though their semester is $0.
+  const [subscriptionConfig, setSubscriptionConfig] = useState(null);
   useEffect(() => {
-    return subscribeToSubscriptionConfig((config) => setPremiumPaused(!!config?.premiumPaused));
+    return subscribeToSubscriptionConfig((config) => {
+      setSubscriptionConfig(config || null);
+      setPremiumPaused(!!config?.premiumPaused);
+    });
   }, []);
+
+  // Auto-activate free access app-wide the moment we know the
+  // student's current semester is priced 0, without requiring a visit
+  // to the Premium screen (mirrors the same auto-activation effect
+  // there, which still covers a student paying for/viewing a
+  // different semester via the picker). Guarded by a ref so a slow
+  // network doesn't fire it twice while the first call is in flight.
+  const autoActivatingFreeRef = useRef(false);
+  useEffect(() => {
+    if (!user?.uid || !profile?.enrolledYearSemester) return;
+    if (premiumStatus === null || subscriptionConfig === null) return; // not loaded yet
+    if (premiumPaused || isPremiumForCurrentSemester) return;
+    const label = subscriptionConfig.priceLabelsBySemester?.[profile.enrolledYearSemester] || subscriptionConfig.priceLabel;
+    if (!isFreeLabel(label)) return;
+    if (autoActivatingFreeRef.current) return;
+    autoActivatingFreeRef.current = true;
+    activateFreeSemester()
+      .catch((e) => console.warn('Auto free-semester activation failed:', e))
+      .finally(() => { autoActivatingFreeRef.current = false; });
+    // isPremiumForCurrentSemester flips true on its own once the new
+    // activationCode doc lands (subscribeToMyPremiumStatus is live) -
+    // no need to set any local state here.
+  }, [user?.uid, profile?.enrolledYearSemester, premiumStatus, subscriptionConfig, premiumPaused, isPremiumForCurrentSemester]);
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation

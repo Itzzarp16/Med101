@@ -57,7 +57,9 @@ const ALL_YEAR_SEMESTERS = ['y1s1', 'y1s2', 'y2s1', 'y2s2', 'y3s1', 'y3s2'];
 
 // Same "bare number only" rule as api/activate-free-semester.py: only
 // "0", "00", "₹0", "0.00" count as free; a fuller label never does.
-function isFreeLabel(label) {
+// Exported so App.jsx can auto-activate free semesters app-wide, not
+// just when the student happens to open the Premium screen.
+export function isFreeLabel(label) {
   const m = String(label || '').trim().match(/^₹?(\d+(\.\d+)?)$/);
   return !!m && parseFloat(m[1]) === 0;
 }
