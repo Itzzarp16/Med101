@@ -5,6 +5,7 @@ import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import { isInstallable, isStandalone, isIOS, onInstallabilityChange, promptInstall } from '../lib/installPrompt';
 import LegalFooter from './LegalFooter';
+import './SettingsScreen.css';
 
 // Same options as the signup dropdown - kept in sync there manually
 // since there are only a handful of semesters right now.
@@ -23,8 +24,7 @@ const YEAR_SEMESTER_OPTIONS = [
 export default function SettingsScreen({ onBack }) {
   const { user, profile } = useAuth();
   const [yearSemester, setYearSemester] = useState(profile?.enrolledYearSemester || 'y1s1');
-  const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
+  const [status, setStatus] = useState(null); // { type: 'saving' | 'ok' | 'err', text }
   const [installable, setInstallable] = useState(isInstallable());
   const [installMsg, setInstallMsg] = useState(null);
   const standalone = isStandalone();
@@ -39,64 +39,79 @@ export default function SettingsScreen({ onBack }) {
     else if (outcome === 'dismissed') setInstallMsg(null);
   }
 
-  async function handleSave() {
+  // Tap a semester to switch: saves straight away (no separate Save button)
+  // and rolls back if the write fails.
+  async function handlePick(value) {
+    if (value === yearSemester || status?.type === 'saving') return;
     playTapSound();
-    setSaving(true);
-    setSaved(false);
+    const previous = yearSemester;
+    setYearSemester(value);
+    setStatus({ type: 'saving', text: 'Saving…' });
     try {
-      await setDoc(doc(db, 'users', user.uid), { enrolledYearSemester: yearSemester }, { merge: true });
-      setSaved(true);
+      await setDoc(doc(db, 'users', user.uid), { enrolledYearSemester: value }, { merge: true });
+      setStatus({ type: 'ok', text: 'Saved. Your dashboard will update shortly.' });
     } catch (e) {
-      alert('Failed to save: ' + (e.message || e));
-    } finally {
-      setSaving(false);
+      setYearSemester(previous);
+      setStatus({ type: 'err', text: 'Could not save: ' + (e.message || e) });
     }
   }
 
   return (
     <>
     <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">⚙️ Settings</h1>
+      <div className="set-head">
+        <button className="set-back" onClick={() => { playTapSound(); onBack(); }} aria-label="Back">←</button>
+        <div>
+          <h1 className="set-title">Settings</h1>
+          <div className="set-sub">Choose your semester and install the app.</div>
+        </div>
       </div>
 
-      <div className="glass std-card" style={{ marginBottom: 14 }}>
-        <label className="auth-label">Year &amp; Semester</label>
-        <select className="auth-input" value={yearSemester} onChange={(e) => setYearSemester(e.target.value)}>
+      <div className="set-section-label">Study</div>
+      <div className="glass set-card">
+        <div className="set-card-title">Year &amp; Semester</div>
+        <p className="set-card-note">Changes which subjects you see. If you've moved to a new semester, update it here.</p>
+        <div className="set-sem-grid" role="radiogroup" aria-label="Year and semester">
           {YEAR_SEMESTER_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
+            <button
+              key={opt.value}
+              type="button"
+              role="radio"
+              aria-checked={yearSemester === opt.value}
+              className={yearSemester === opt.value ? 'set-sem on' : 'set-sem'}
+              disabled={status?.type === 'saving'}
+              onClick={() => handlePick(opt.value)}
+            >
+              <span className="set-sem-year">Semester</span>
+              <span className="set-sem-num">{opt.label.replace('Semester ', '')}</span>
+            </button>
           ))}
-        </select>
-        <p className="std-note">
-          Changes which subjects you see. If you've moved to a new semester, update it here.
-        </p>
-
-        <button className="btn-glow std-save-btn" onClick={handleSave} disabled={saving}>
-          {saving ? 'Saving…' : 'Save'}
-        </button>
-
-        {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Your dashboard will update shortly.</div>}
+        </div>
+        <div className={`set-status${status?.type === 'ok' ? ' ok' : status?.type === 'err' ? ' err' : ''}`} role="status" aria-live="polite">
+          {status?.text}
+        </div>
       </div>
 
       {!standalone && (installable || ios) && (
-        <div className="glass std-card">
-          <label className="auth-label">📲 Install Med101</label>
-          {installable ? (
-            <>
-              <p className="std-note">
-                Add Med101 to your home screen for quick access, its own app icon, and a full-screen experience with no browser bar.
+        <>
+          <div className="set-section-label">App</div>
+          <div className="glass set-card">
+            <div className="set-card-title">📲 Install Med101</div>
+            {installable ? (
+              <>
+                <p className="set-card-note">
+                  Add Med101 to your home screen for quick access, its own app icon, and a full-screen experience with no browser bar.
+                </p>
+                <button className="btn-glow set-install-btn" onClick={handleInstall}>Install App</button>
+                {installMsg && <div className="set-status ok">{installMsg}</div>}
+              </>
+            ) : (
+              <p className="set-card-note">
+                Tap the Share button in Safari, then "Add to Home Screen", to install Med101 with its own icon and full-screen view.
               </p>
-              <button className="btn-glow std-save-btn" onClick={handleInstall}>Install App</button>
-              {installMsg && <div className="auth-msg success" style={{ display: 'block' }}>{installMsg}</div>}
-            </>
-          ) : (
-            <p className="std-note">
-              Tap the Share button in Safari, then "Add to Home Screen", to install Med101 with its own icon and full-screen view.
-            </p>
-          )}
-        </div>
+            )}
+          </div>
+        </>
       )}
     </div>
       <LegalFooter />
