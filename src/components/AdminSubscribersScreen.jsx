@@ -61,19 +61,29 @@ export default function AdminSubscribersScreen() {
           const expiry = expiryLabel(c);
           const revoking = revokingCode === c.code;
           return (
-            <div key={c.code} className="glass std-card" style={{ marginTop: 10 }}>
-              <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
-              <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{c.studentEmail}</div>
-              <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                {c.bankingName && <span>Paid as: <strong>{c.bankingName}</strong></span>}
-                {c.phone && <span>Phone: <strong>{c.phone}</strong></span>}
-                {c.utr && <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.utr}</strong></span>}
-                <span>Code: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.code}</strong></span>
-                <span>Duration: <strong>{c.durationDays} days</strong></span>
-                <span>Issued: <strong>{fmtDate(c.createdAt)}</strong></span>
-                <span>Activated: <strong>{fmtDate(c.usedAt)}</strong></span>
+            <div key={c.code} className="glass std-card sub-card">
+              <div className="sub-top">
+                <div className="sub-avatar" aria-hidden="true">{(c.studentName || '?').trim().charAt(0).toUpperCase()}</div>
+                <div className="sub-id">
+                  <div className="sub-name">{c.studentName}</div>
+                  <div className="sub-email">{c.studentEmail}</div>
+                </div>
+                <div
+                  className="sub-pill"
+                  style={{ color: expiry.color, background: `color-mix(in srgb, ${expiry.color} 14%, transparent)` }}
+                >
+                  {expiry.text}
+                </div>
               </div>
-              <div style={{ marginTop: 8, fontSize: 13, fontWeight: 700, color: expiry.color }}>{expiry.text}</div>
+              <dl className="sub-grid">
+                {c.bankingName && <div><dt>Paid as</dt><dd>{c.bankingName}</dd></div>}
+                {c.phone && <div><dt>Phone</dt><dd>{c.phone}</dd></div>}
+                {c.utr && <div><dt>UTR</dt><dd className="mono">{c.utr}</dd></div>}
+                <div><dt>Code</dt><dd className="mono">{c.code}</dd></div>
+                <div><dt>Duration</dt><dd>{c.durationDays} days</dd></div>
+                <div><dt>Issued</dt><dd>{fmtDate(c.createdAt)}</dd></div>
+                <div><dt>Activated</dt><dd>{fmtDate(c.usedAt)}</dd></div>
+              </dl>
 
               {revoking ? (
                 <div style={{ marginTop: 10 }}>
@@ -103,8 +113,8 @@ export default function AdminSubscribersScreen() {
                 </div>
               ) : (
                 <button
-                  className="btn-ghost"
-                  style={{ width: '100%', marginTop: 12, color: 'var(--red)', fontSize: 13 }}
+                  className="btn-ghost sub-revoke"
+                  style={{ color: 'var(--red)', fontSize: 13 }}
                   onClick={() => { playTapSound(); setRevokeError(null); setRevokingCode(c.code); }}
                 >
                   🗑️ Revoke Subscription

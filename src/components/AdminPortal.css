@@ -166,10 +166,19 @@
 }
 .admin-nav-item:hover:not(.active) { background: var(--surface); color: var(--text); }
 .admin-nav-item:active:not(.active) { opacity: 0.65; }
+.admin-nav-item { position: relative; }
 .admin-nav-item.active {
-  background: rgba(255, 204, 42, 0.12);
-  color: var(--amber);
+  background: var(--surface);
+  color: var(--text);
   font-weight: 600;
+}
+.admin-nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: -12px; top: 8px; bottom: 8px;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: var(--amber);
 }
 .admin-nav-icon { width: 20px; text-align: center; }
 .admin-side-foot {
@@ -224,7 +233,7 @@
   position: sticky;
   top: 0;
   z-index: 10;
-  padding: 16px 24px;
+  padding: 20px 24px 16px;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
@@ -235,9 +244,9 @@
   font-weight: 600;
 }
 .admin-portal-content {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 12px 8px 48px;
+  max-width: 1080px;
+  margin: 0;
+  padding: 8px 24px 56px;
 }
 
 /* ── Mobile: sidebar becomes a scrolling top strip ── */

@@ -3,9 +3,36 @@
    classes (std-card, auth-input, btn-*, stat-card) the Admin*Screen
    components already use, so no screen markup needed to change. */
 
+/* Refined admin palette: warm neutrals, hairline borders, one gold accent.
+   Scoped here so the student app keeps its own tokens. */
+.admin-portal {
+  --bg: #0c0c0e;
+  --bg2: #101013;
+  --surface: #151518;
+  --surface2: #1c1c20;
+  --border: rgba(255, 255, 255, 0.07);
+  --border2: rgba(255, 255, 255, 0.13);
+  --amber: #e6b93a;
+  --text: #ececee;
+  --text2: #b4b4bb;
+  --text3: #86868f;
+}
+body.light-mode .admin-portal {
+  --bg: #f6f5f1;
+  --bg2: #efede7;
+  --surface: #ffffff;
+  --surface2: #f3f1ec;
+  --border: #e6e3da;
+  --border2: #d6d2c6;
+  --amber: #a8730a;
+  --text: #1b1b1f;
+  --text2: #45454d;
+  --text3: #74747d;
+}
+
 .admin-portal .std-screen {
   max-width: none;
-  padding: 16px 16px 48px;
+  padding: 8px 0 0;
 }
 .admin-portal .std-header { margin-bottom: 14px; }
 .admin-portal .std-header .std-title { display: none; } /* page title bar already names the section */
@@ -21,12 +48,13 @@
 .admin-portal .glass.std-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 16px;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12), 0 8px 24px rgba(0, 0, 0, 0.10);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 6px 20px rgba(0, 0, 0, 0.14);
 }
-.admin-portal .std-card { padding: 18px; }
+.admin-portal .std-card { padding: 20px; gap: 14px; }
+.admin-portal .std-card + .std-card { margin-top: 12px; }
 
 /* Modals: opaque scrim, card can't be seen through. */
 .admin-portal div[style*="position: fixed"] {
@@ -122,4 +150,66 @@ body.light-mode .admin-portal .btn-glow { color: #fff; }
 
 @media (min-width: 1100px) {
   .admin-portal .std-screen { padding: 24px 24px 64px; }
+}
+
+/* Section headings inside screens */
+.admin-portal .std-screen > .auth-label,
+.admin-portal .std-screen > div > .auth-label:first-child { color: var(--text2); }
+
+/* Subscribers */
+.admin-portal .sub-card { margin-top: 12px; gap: 16px; }
+.sub-top { display: flex; align-items: center; gap: 14px; }
+.sub-avatar {
+  width: 42px; height: 42px; flex-shrink: 0;
+  display: grid; place-items: center;
+  border-radius: 50%;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  font-family: var(--font-heading);
+  font-size: 16px;
+  color: var(--amber);
+}
+.sub-id { flex: 1; min-width: 0; }
+.sub-name { font-weight: 700; font-size: 15px; color: var(--text); }
+.sub-email {
+  font-size: 12.5px; color: var(--text3);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.sub-pill {
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.sub-grid {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px 20px;
+  padding: 14px 0 2px;
+  border-top: 1px solid var(--border);
+}
+.sub-grid dt {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 3px;
+}
+.sub-grid dd { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--text); }
+.sub-grid dd.mono { font-family: var(--font-mono); font-weight: 600; }
+.admin-portal .sub-revoke {
+  align-self: flex-start;
+  width: auto;
+  padding: 8px 14px;
+  border-color: color-mix(in srgb, var(--red) 35%, transparent);
+}
+.admin-portal .sub-revoke:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--red) 10%, transparent);
+}
+@media (max-width: 860px) {
+  .sub-top { flex-wrap: wrap; }
+  .sub-pill { order: 3; }
 }
