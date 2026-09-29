@@ -49,7 +49,7 @@ function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
     case 'calendar': return <AdminCalendarScreen onBack={noop} hideBack />;
     case 'upload': return <AdminUploadQuestionsScreen onBack={noop} hideBack semesters={semesters} semesterMainSubjects={semesterMainSubjects} />;
     case 'users': return <AdminUserDetailScreen onBack={noop} initialUid={null} hideBack />;
-    case 'analytics': return <AdminAnalyticsScreen onBack={noop} hideBack />;
+    case 'analytics': return <AdminAnalyticsScreen onBack={noop} hideBack semesterMainSubjects={semesterMainSubjects} />;
     case 'payments': return <AdminPaymentsScreen onBack={noop} hideBack />;
     case 'subscribers': return <AdminSubscribersScreen onBack={noop} hideBack />;
     default: return null;

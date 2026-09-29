@@ -289,3 +289,18 @@ body.light-mode .admin-portal .btn-glow { color: #fff; }
   .an-bar-row { grid-template-columns: 96px 1fr 30px; gap: 10px; }
   .an-kpi-value { font-size: 28px; }
 }
+
+.an-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
+.an-chip {
+  padding: 6px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border2); background: transparent;
+  color: var(--text2); font-family: var(--font-body); font-size: 12.5px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.an-chip:hover:not(.active) { background: var(--surface2); color: var(--text); }
+.an-chip.active { background: var(--amber); border-color: var(--amber); color: #0a0f22; font-weight: 700; }
+body.light-mode .an-chip.active { color: #fff; }
+@media (max-width: 860px) {
+  .an-chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+  .an-chip { white-space: nowrap; }
+}

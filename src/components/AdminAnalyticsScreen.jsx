@@ -39,7 +39,8 @@ function Ring({ pct }) {
   );
 }
 
-export default function AdminAnalyticsScreen({ onBack , hideBack = false }) {
+export default function AdminAnalyticsScreen({ onBack , hideBack = false, semesterMainSubjects = {} }) {
+  const [semFilter, setSemFilter] = useState('all');
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [fatalError, setFatalError] = useState(null);
@@ -123,31 +124,51 @@ export default function AdminAnalyticsScreen({ onBack , hideBack = false }) {
 
           <div className="glass std-card an-subjects">
             <div className="auth-label">Most-practiced subjects</div>
-            {data.subjectPopularity.length === 0 ? (
-              <div className="std-sub">No quiz activity recorded yet.</div>
-            ) : (
-              (() => {
-                const max = Math.max(1, ...data.subjectPopularity.map((x) => x.answered));
-                return data.subjectPopularity.map((sj, i) => (
-                  <div key={sj.name} className="an-subj">
-                    <span className="an-subj-rank">{i + 1}</span>
-                    <div className="an-subj-main">
-                      <div className="an-subj-top">
-                        <span className="an-subj-name">{sj.name}</span>
-                        <span className="an-subj-meta">{sj.answered.toLocaleString()} answered</span>
-                      </div>
-                      <span className="an-bar-track"><span className="an-bar-fill" style={{ width: `${(sj.answered / max) * 100}%` }} /></span>
+            {(() => {
+              const semIds = Object.keys(SEMESTER_LABELS).filter((id) => (semesterMainSubjects[id] || []).length > 0);
+              const allowed = semFilter === 'all' ? null : new Set(semesterMainSubjects[semFilter] || []);
+              const list = data.subjectPopularity.filter((sj) => !allowed || allowed.has(sj.name));
+              const max = Math.max(1, ...list.map((x) => x.answered));
+              return (
+                <>
+                  {semIds.length > 0 && (
+                    <div className="an-chips">
+                      {['all', ...semIds].map((id) => (
+                        <button
+                          key={id}
+                          className={id === semFilter ? 'an-chip active' : 'an-chip'}
+                          onClick={() => setSemFilter(id)}
+                        >
+                          {id === 'all' ? 'All' : SEMESTER_LABELS[id]}
+                        </button>
+                      ))}
                     </div>
-                    <span
-                      className="an-subj-pill"
-                      style={{ color: accColor(sj.accuracyPct), background: `color-mix(in srgb, ${accColor(sj.accuracyPct)} 14%, transparent)` }}
-                    >
-                      {sj.accuracyPct}%
-                    </span>
-                  </div>
-                ));
-              })()
-            )}
+                  )}
+                  {list.length === 0 ? (
+                    <div className="std-sub">No quiz activity recorded for this selection yet.</div>
+                  ) : (
+                    list.map((sj, i) => (
+                      <div key={sj.name} className="an-subj">
+                        <span className="an-subj-rank">{i + 1}</span>
+                        <div className="an-subj-main">
+                          <div className="an-subj-top">
+                            <span className="an-subj-name">{sj.name}</span>
+                            <span className="an-subj-meta">{sj.answered.toLocaleString()} answered</span>
+                          </div>
+                          <span className="an-bar-track"><span className="an-bar-fill" style={{ width: `${(sj.answered / max) * 100}%` }} /></span>
+                        </div>
+                        <span
+                          className="an-subj-pill"
+                          style={{ color: accColor(sj.accuracyPct), background: `color-mix(in srgb, ${accColor(sj.accuracyPct)} 14%, transparent)` }}
+                        >
+                          {sj.accuracyPct}%
+                        </span>
+                      </div>
+                    ))
+                  )}
+                </>
+              );
+            })()}
           </div>
         </>
       )}
