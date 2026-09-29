@@ -120,11 +120,11 @@ export default function RoomLobbyScreen({ code, isHost, autoInviteFriend, onAuto
         <h2 className="auth-label" style={{ fontSize: 12 }}>Who's here ({participants.length})</h2>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
         {participants.map((p) => (
           <div key={p.uid} className="glass" style={{ padding: '10px 14px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <span style={{ fontSize: 13.5, fontWeight: 600, color: 'var(--text)' }}>
-              {p.displayName}{p.uid === user.uid ? ' (You)' : ''}{p.uid === room?.hostUid ? ' 👑' : ''}
+              {p.displayName || (p.uid === room?.hostUid ? room?.hostName : '') || 'Student'}{p.uid === user.uid ? ' (You)' : ''}{p.uid === room?.hostUid ? ' 👑' : ''}
             </span>
             <span style={{ fontSize: 11.5, color: p.finished ? 'var(--green)' : 'var(--text3)' }}>
               {p.finished ? `✅ ${p.pct}%` : '⏳ In progress'}

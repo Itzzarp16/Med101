@@ -132,6 +132,10 @@ body.light-mode {
   box-sizing: border-box;
 }
 
+/* <button> doesn't inherit the page font by default - anything that
+   doesn't set its own family was rendering in the browser's serif. */
+button { font-family: inherit; }
+
 body {
   margin: 0;
   font-family: var(--font-body);

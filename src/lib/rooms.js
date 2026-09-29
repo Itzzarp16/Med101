@@ -44,6 +44,15 @@ export async function createRoom({ hostUid, hostName, mainSubject, questions, ti
       timerSeconds,
       createdAt: serverTimestamp(),
     });
+    // The host needs a participant doc with a name too - otherwise the
+    // only doc they ever get is the one submitRoomResult() merges into,
+    // which used to carry no displayName (blank name in the lobby and
+    // on the results leaderboard).
+    await setDoc(doc(db, 'rooms', code, 'participants', hostUid), {
+      displayName: hostName,
+      joinedAt: serverTimestamp(),
+      finished: false,
+    });
     await recordMyRoom(hostUid, { roomCode: code, mainSubject, role: 'host' });
     return code;
   }
@@ -88,10 +97,10 @@ export function subscribeToParticipants(code, callback) {
   });
 }
 
-export async function submitRoomResult(code, uid, { correct, answered, total, pct, timeMs, answers }) {
+export async function submitRoomResult(code, uid, { correct, answered, total, pct, timeMs, answers, displayName }) {
   await setDoc(
     doc(db, 'rooms', code, 'participants', uid),
-    { finished: true, correct, answered, total, pct, timeMs, answers: answers || [], finishedAt: serverTimestamp() },
+    { finished: true, correct, answered, total, pct, timeMs, answers: answers || [], finishedAt: serverTimestamp(), ...(displayName ? { displayName } : {}) },
     { merge: true }
   );
 }

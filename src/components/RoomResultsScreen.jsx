@@ -19,6 +19,8 @@ export default function RoomResultsScreen({ code, onBack }) {
     return () => { cancelled = true; unsub(); };
   }, [code]);
 
+  const nameOf = (p) => p.displayName || (p.uid === room?.hostUid ? room?.hostName : '') || 'Student';
+
   const sorted = [...participants].sort((a, b) => {
     if (!!b.finished !== !!a.finished) return (b.finished ? 1 : 0) - (a.finished ? 1 : 0);
     if (!a.finished) return 0;
@@ -66,10 +68,10 @@ export default function RoomResultsScreen({ code, onBack }) {
                 <span style={{ width: 30, fontWeight: 800, fontSize: 15 }}>{p.finished ? (MEDALS[i] || `#${i + 1}`) : '⏳'}</span>
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)' }}>
-                    {p.displayName}{isMe ? ' (You)' : ''}
+                    {nameOf(p)}{isMe ? ' (You)' : ''}
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: 2 }}>
-                    {p.finished ? `✅ ${p.correct}/${p.total} · ⏱ ${((p.timeMs || 0) / 1000).toFixed(0)}s` : 'Still solving…'}
+                    {p.finished ? `✅ ${p.correct} correct of ${p.answered ?? p.total} answered${(p.total - (p.answered ?? p.total)) > 0 ? ` · ${p.total - p.answered} skipped` : ''} · ⏱ ${((p.timeMs || 0) / 1000).toFixed(0)}s` : 'Still solving…'}
                   </div>
                 </div>
                 {p.finished && <div style={{ fontWeight: 800, fontSize: 15, color: '#facc15' }}>{p.pct}%</div>}
@@ -79,7 +81,7 @@ export default function RoomResultsScreen({ code, onBack }) {
               </button>
 
               {isExpanded && (
-                <div className="results-review-list">
+                <div className="results-review-list" style={{ marginTop: 8, maxWidth: 'none' }}>
                   {room.questions.map((qq, qi) => {
                     const ua = p.answers?.[qi];
                     const isSkipped = ua === -1;
@@ -110,7 +112,7 @@ export default function RoomResultsScreen({ code, onBack }) {
                               >
                                 <span className="results-review-opt-label">{LABELS[oi]}.</span> {opt}
                                 {isCorrectOpt && <span className="results-review-opt-tag correct-tag"> ✓</span>}
-                                {isUserPick && !isCorrectOpt && <span className="results-review-opt-tag wrong-tag"> ← {isMe ? 'Your' : `${p.displayName}'s`} answer</span>}
+                                {isUserPick && !isCorrectOpt && <span className="results-review-opt-tag wrong-tag"> ← {isMe ? 'Your' : `${nameOf(p)}'s`} answer</span>}
                               </div>
                             );
                           })}
