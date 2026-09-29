@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import {
   subscribeToSubscriptionConfig, submitPaymentRequest, subscribeToMyPaymentRequests,
@@ -116,7 +116,7 @@ export default function PremiumScreen({ onBack }) {
   // -> Per-Semester Pricing); this is what actually gets shown/charged,
   // falling back to the single default priceLabel when that semester
   // has no override set.
-  const effectivePriceLabel = config?.priceLabelsBySemester?.[profile?.enrolledYearSemester] || config?.priceLabel;
+  const effectivePriceLabel = config?.priceLabelsBySemester?.[paySemester] || config?.priceLabel;
   // A bare "0"/"00"/"₹0" (not a fuller label that merely contains a
   // zero somewhere) means the admin has made this semester free -
   // see the auto-activation effect below.
@@ -145,9 +145,22 @@ export default function PremiumScreen({ onBack }) {
   const hasApprovedUnredeemed = myRequests.some((r) => r.status === 'approved');
   const hidePaymentFlow = hasPendingRequest || hasApprovedUnredeemed;
 
+  useEffect(() => {
+    if (profile?.enrolledYearSemester && !paySemesterTouched.current) {
+      setPaySemester(profile.enrolledYearSemester);
+    }
+  }, [profile?.enrolledYearSemester]);
+
   const [bankingName, setBankingName] = useState('');
   const [phone, setPhone] = useState('');
   const [utr, setUtr] = useState('');
+  // Which semester this payment is for. Defaults to the student's own
+  // current semester, but they can pay for a different one instead -
+  // e.g. paying ahead for a semester they haven't switched to yet, or
+  // the QR being shown for one semester while a sibling/roommate needs
+  // another covered too.
+  const [paySemester, setPaySemester] = useState(profile?.enrolledYearSemester || null);
+  const paySemesterTouched = useRef(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitMsg, setSubmitMsg] = useState(null);
 
@@ -258,7 +271,7 @@ export default function PremiumScreen({ onBack }) {
       await submitPaymentRequest({
         uid: user.uid, email: user.email, displayName: user.displayName,
         username: profile?.username, amount: formatPrice(effectivePriceLabel),
-        bankingName, phone, utr, yearSemester: profile?.enrolledYearSemester,
+        bankingName, phone, utr, yearSemester: paySemester,
       });
       setSubmitMsg({
         text: config?.activationMethod === 'code'
@@ -438,6 +451,17 @@ export default function PremiumScreen({ onBack }) {
           {!premiumForThisSemester && !config?.premiumPaused && !isFreeSemester && !hidePaymentFlow && (
             <form className="glass std-card" onSubmit={handleSubmit}>
               <div className="auth-label" style={{ margin: 0 }}>Submit Your Payment</div>
+              <label htmlFor="premium-pay-semester" className="auth-label" style={{ marginTop: 10 }}>Which Semester Is This For?</label>
+              <select
+                id="premium-pay-semester"
+                className="auth-input"
+                value={paySemester || ''}
+                onChange={(e) => { paySemesterTouched.current = true; setPaySemester(e.target.value); }}
+              >
+                {Object.entries(SEMESTER_LABELS).map(([value, label]) => (
+                  <option key={value} value={value}>{label}</option>
+                ))}
+              </select>
               <label htmlFor="premium-your-banking-name" className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
               <input id="premium-your-banking-name" className="auth-input" value={bankingName} onChange={(e) => setBankingName(e.target.value)} placeholder="Name on the account you paid from" />
               <label htmlFor="premium-your-contact-number" className="auth-label" style={{ marginTop: 10 }}>Your Contact Number</label>
