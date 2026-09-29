@@ -11,12 +11,13 @@ const GRANT_PRESETS = [
   { days: 365, label: '1 year' },
 ];
 import { playTapSound } from '../lib/sounds';
+import './AdminTheme.css';
 
 // Split out of AdminPaymentsScreen's "Issued Codes" list into its own
 // tab, showing only students whose subscription is currently active
 // (redeemed and not yet expired) - a quick roster of who's actually
 // subscribed right now, separate from the payment-review workflow.
-export default function AdminSubscribersScreen() {
+export default function AdminSubscribersScreen({ onBack, hideBack = false }) {
   const [codes, setCodes] = useState(null);
   const [loading, setLoading] = useState(true);
   const [revokingCode, setRevokingCode] = useState(null); // code with the reason box open
@@ -89,6 +90,9 @@ export default function AdminSubscribersScreen() {
 
   return (
     <div className="std-screen">
+      {!hideBack && (
+        <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
+      )}
       <div className="std-header">
         <h1 className="std-title">✅ Subscribers</h1>
       </div>

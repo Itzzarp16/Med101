@@ -59,6 +59,7 @@ const AdminNoticeScreen = lazy(() => import('./components/AdminNoticeScreen'));
 const AdminUserDetailScreen = lazy(() => import('./components/AdminUserDetailScreen'));
 const AdminAnalyticsScreen = lazy(() => import('./components/AdminAnalyticsScreen'));
 const AdminPaymentsScreen = lazy(() => import('./components/AdminPaymentsScreen'));
+const AdminSubscribersScreen = lazy(() => import('./components/AdminSubscribersScreen'));
 
 function AdminScreenFallback() {
   return <div className="std-loading">Loading…</div>;
@@ -410,6 +411,7 @@ export default function App() {
     onAdminCalendar: () => goTo('admin-calendar'),
     onAdminUploadQuestions: () => goTo('admin-upload-questions'),
     onAdminPayments: () => goTo('admin-payments'),
+    onAdminSubscribers: () => goTo('admin-subscribers'),
     screen,
   };
 
@@ -514,6 +516,19 @@ export default function App() {
         <div className="screen-fade" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminPaymentsScreen onBack={goBack} />
+          </Suspense>
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'admin-subscribers' && isAdmin) {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <div className="screen-fade" key={screen}>
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminSubscribersScreen onBack={goBack} />
           </Suspense>
         </div>
       </div>
