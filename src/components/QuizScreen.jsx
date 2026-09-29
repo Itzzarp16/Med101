@@ -70,6 +70,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [timeLeft, setTimeLeft] = useState(timerSeconds || null);
   const questionDeadlineRef = useRef(null);
   const [navOpen, setNavOpen] = useState(false); // question-grid panel
+  const pausedRemainingRef = useRef(null); // { cur, ms } - per-question timer paused while the grid is open
+  const swipeRef = useRef(null);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
   const [showReview, setShowReview] = useState(false);
@@ -140,6 +142,49 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     }
     if (nx < 0) return;
     setCur(nx);
+  }
+
+  // Opening the question grid pauses the per-question timer; closing resumes
+  // it with the time that was left. Not offered in rooms (would be a free
+  // pause in a competitive quiz) - the timer keeps running there.
+  function toggleNav() {
+    playTapSound();
+    const opening = !navOpen;
+    if (timerSeconds && !roomCode && answers[cur] === -1 && !finished) {
+      if (opening) {
+        pausedRemainingRef.current = { cur, ms: Math.max(0, questionDeadlineRef.current - Date.now()) };
+      } else {
+        const p = pausedRemainingRef.current;
+        const ms = p && p.cur === cur ? p.ms : timerSeconds * 1000;
+        questionDeadlineRef.current = Date.now() + ms;
+        pausedRemainingRef.current = null;
+      }
+    } else if (!opening && timerSeconds) {
+      // Closed after jumping to a different question - it starts fresh.
+      questionDeadlineRef.current = Date.now() + timerSeconds * 1000;
+      pausedRemainingRef.current = null;
+      setTimeLeft(timerSeconds);
+    }
+    setNavOpen(opening);
+  }
+
+  // Horizontal swipe between questions (never past the ends, so a stray
+  // swipe can't finish the quiz).
+  function onSwipeStart(e) {
+    if (e.target.closest && e.target.closest('.qchips, .qnav-wrap, .ai-explanation-card')) { swipeRef.current = null; return; }
+    const t = e.touches[0];
+    swipeRef.current = { x: t.clientX, y: t.clientY };
+  }
+  function onSwipeEnd(e) {
+    const st = swipeRef.current;
+    swipeRef.current = null;
+    if (!st) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - st.x;
+    const dy = t.clientY - st.y;
+    if (Math.abs(dx) < 70 || Math.abs(dx) < Math.abs(dy) * 1.6) return;
+    if (dx < 0 && cur < total - 1) nav(1);
+    else if (dx > 0 && cur > 0) nav(-1);
   }
 
   // Jump straight to a question from the question grid.
@@ -248,6 +293,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   // and instantly timed it out too, and it could stall in background tabs.
   useEffect(() => {
     if (!timerSeconds || finished || answers[cur] !== -1) return;
+    if (navOpen && !roomCode) return; // paused while the question grid is open
     const id = setInterval(() => {
       const left = Math.max(0, Math.ceil((questionDeadlineRef.current - Date.now()) / 1000));
       setTimeLeft(left);
@@ -266,7 +312,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     }, 250);
     return () => clearInterval(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cur, timerSeconds, finished, answers[cur]]);
+  }, [cur, timerSeconds, finished, answers[cur], navOpen]);
 
   useEffect(() => () => clearTimeout(advanceTimeoutRef.current), []);
 
@@ -583,7 +629,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const answered = ua !== -1;
 
   return (
-    <div className="screen-quiz">
+    <div className="screen-quiz" onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
       {/* Compact top row - back, mode label, stopwatch (or room countdown), score */}
       <div className="qtop">
         <div className="qtop-inner">
@@ -629,7 +675,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           <button
             type="button"
             className={navOpen ? 'qchip qchip-btn open' : 'qchip qchip-btn'}
-            onClick={() => { playTapSound(); setNavOpen((v) => !v); }}
+            onClick={toggleNav}
             aria-expanded={navOpen}
             aria-controls="qnav-panel"
           >
