@@ -180,20 +180,6 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           <ModeCard index={4} emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
         </div>
 
-        <div className="qmode-settings-card glass" style={unseenPool.length === 0 ? { opacity: 0.5 } : undefined}>
-          <ToggleRow
-            title="🆕 Unseen Only"
-            desc={
-              unseenPool.length > 0
-                ? `Only include questions you haven't tried yet (${unseenPool.length} available) - combine with any mode above`
-                : "You've seen every question in this subject - nothing left to filter to"
-            }
-            on={unseenOnly}
-            onToggle={toggleUnseenOnly}
-            disabled={unseenPool.length === 0}
-          />
-        </div>
-
         {mode === 'custom' && (
           <div className="qmode-custom glass">
             <div className="qmode-custom-row">
@@ -210,6 +196,20 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
             <ToggleRow title="🔀 Shuffle Questions" desc="Randomise order within the range" on={customShuffle} onToggle={() => setCustomShuffle((v) => !v)} />
           </div>
         )}
+
+        <div className="qmode-settings-card glass" style={unseenPool.length === 0 ? { opacity: 0.5 } : undefined}>
+          <ToggleRow
+            title="🆕 Unseen Only"
+            desc={
+              unseenPool.length > 0
+                ? `Only include questions you haven't tried yet (${unseenPool.length} available) - combine with any mode above`
+                : "You've seen every question in this subject - nothing left to filter to"
+            }
+            on={unseenOnly}
+            onToggle={toggleUnseenOnly}
+            disabled={unseenPool.length === 0}
+          />
+        </div>
 
         <div className="qmode-section-label">Settings</div>
         <div className="qmode-settings-card glass">
