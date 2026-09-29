@@ -222,12 +222,31 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
           )}
 
           <div className="qmode-section-label">Settings</div>
+          <div className="glass std-card room-limit-card">
+            <label className="auth-label">Room Time Limit</label>
+            <div style={{ fontSize: 12.5, color: 'var(--text3)', margin: '-4px 0 10px' }}>
+              Everyone's quiz ends when this runs out.
+            </div>
+            <div className="room-time-row">
+              {TIME_PRESETS.map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  className={timeLimit === m ? 'tpreset sel' : 'tpreset'}
+                  onClick={() => { playTapSound(); setTimeLimit(m); }}
+                >
+                  {m} min
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="qmode-settings-card glass">
             <ToggleRow title="Auto-advance" desc="Move to next question after answering" on={autoAdvance} onToggle={() => setAutoAdvance((v) => !v)} />
           </div>
 
           <div className="qmode-settings-card glass">
-            <ToggleRow title="⏱ Question Timer" desc="Auto-submit when time runs out" on={timerOn} onToggle={() => setTimerOn((v) => !v)} />
+            <ToggleRow title="⏱ Per-question timer (optional)" desc="Also auto-submit each question when its own timer runs out" on={timerOn} onToggle={() => setTimerOn((v) => !v)} />
             {timerOn && (
               <div className="qmode-timer-presets">
                 <div className="qmode-timer-label">Seconds per question</div>
@@ -248,23 +267,8 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
             )}
           </div>
 
-          <div className="glass std-card room-limit-card">
-            <label className="auth-label">Whole-Room Time Limit</label>
-            <div className="room-time-row">
-              {TIME_PRESETS.map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  className={timeLimit === m ? 'tpreset sel' : 'tpreset'}
-                  onClick={() => { playTapSound(); setTimeLimit(m); }}
-                >
-                  {m} min
-                </button>
-              ))}
-            </div>
-
+          <div style={{ marginTop: 16 }}>
             {error && <div className="auth-msg error" style={{ display: 'block' }}>{error}</div>}
-
             <button className="btn-glow std-save-btn" onClick={handleCreate} disabled={busy}>
               {busy ? 'Creating…' : 'Create Room →'}
             </button>
