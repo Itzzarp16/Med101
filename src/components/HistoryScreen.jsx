@@ -97,169 +97,188 @@ function QuestionReviewList({ entry }) {
   );
 }
 
-// Full breakdown for one past attempt - same visual language as
-// QuizScreen's post-quiz results (hero, accuracy ring, time card, pie
-// chart, score/accuracy/grade cards) rebuilt from what's saved in the
-// history entry rather than live quiz state. Per-question timing
-// (fastest/slowest) isn't stored per attempt, only the total, so that
-// row is Avg + Pace instead of Avg/Fastest/Slowest.
+// One row of the detail review: collapsed to a single line (number, question,
+// status) and expands to show the options on tap - a 25-question attempt is
+// scannable instead of a wall of cards.
+function ReviewItem({ qq, i, ua }) {
+  const [open, setOpen] = useState(false);
+  const isSkipped = ua === -1;
+  const isTimedOut = ua === -2;
+  const isCorrect = ua === qq.c;
+  const state = isCorrect ? 'ok' : (isSkipped || isTimedOut) ? 'skip' : 'bad';
+  const icon = isCorrect ? '✓' : isTimedOut ? '⏰' : isSkipped ? '–' : '✕';
+  return (
+    <div className={`hd-item ${state}${open ? ' open' : ''}`}>
+      <button className="hd-item-head" onClick={() => { playTapSound(); setOpen((v) => !v); }} aria-expanded={open}>
+        <span className="hd-item-num">{i + 1}</span>
+        <span className="hd-item-q">{qq.q}</span>
+        <span className="hd-item-status" aria-label={isCorrect ? 'Correct' : isTimedOut ? 'Timed out' : isSkipped ? 'Skipped' : 'Wrong'}>{icon}</span>
+      </button>
+      {open && (
+        <div className="hd-item-body">
+          <div className="hd-item-topic">{qq.s}</div>
+          {qq.o.map((opt, oi) => {
+            const isCorrectOpt = oi === qq.c;
+            const isUserPick = oi === ua;
+            return (
+              <div key={oi} className={isCorrectOpt ? 'hd-opt correct' : (isUserPick ? 'hd-opt wrong' : 'hd-opt')}>
+                <span className="hd-opt-label">{LABELS[oi]}</span>
+                <span className="hd-opt-text">{opt}</span>
+                {isCorrectOpt && <span className="hd-opt-tag">Correct</span>}
+                {isUserPick && !isCorrectOpt && <span className="hd-opt-tag">Your answer</span>}
+              </div>
+            );
+          })}
+          {isTimedOut && <div className="hd-opt-note">⏰ Timed out - no answer selected</div>}
+          {isSkipped && <div className="hd-opt-note">Skipped</div>}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Full breakdown for one past attempt, rebuilt from what's saved in the
+// history entry (not live quiz state). Per-question timing isn't stored per
+// attempt, only the total, so the time card shows Total / Avg / Pace.
 function QuizResultDetail({ entry, onBack, onRetry }) {
-  const [showReview, setShowReview] = useState(false);
+  const [tab, setTab] = useState('all');
   const total = entry.total || 0;
   const correctCount = entry.correct || 0;
-  const skippedCount = total - (entry.answered || 0);
-  const incorrectCount = Math.max(0, (entry.answered || 0) - correctCount);
+  const answeredCount = entry.answered || 0;
+  const skippedCount = Math.max(0, total - answeredCount);
+  const incorrectCount = Math.max(0, answeredCount - correctCount);
   const pct = entry.pct || 0;
   const timeMs = entry.timeMs || 0;
   const avgMsPerQ = total ? timeMs / total : 0;
   const paceQPerMin = timeMs > 0 ? total / (timeMs / 60000) : 0;
   const grade = gradeFor(pct);
-  const hasSet = (entry.questions || []).length > 0;
-
-  // Same sweep-up-from-0 ring animation as QuizScreen's live results
-  // (see its ringAnimPct effect) - ~700ms ease-out, driven frame by
-  // frame so the number and the ring stay in sync, rather than a
-  // plain CSS transition.
-  const [ringAnimPct, setRingAnimPct] = useState(0);
-  useEffect(() => {
-    setRingAnimPct(0);
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
-      setRingAnimPct(pct);
-      return;
-    }
-    let raf;
-    const duration = 700;
-    const start = performance.now() + 150;
-    function tick(now) {
-      const elapsed = now - start;
-      if (elapsed < 0) { raf = requestAnimationFrame(tick); return; }
-      const t = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - t, 3);
-      setRingAnimPct(Math.round(eased * pct));
-      if (t < 1) raf = requestAnimationFrame(tick);
-    }
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [pct, entry.id]);
-
-  const ringR = 54;
-  const ringC = 2 * Math.PI * ringR;
-  const ringOffset = ringC - (ringAnimPct / 100) * ringC;
-
+  const questions = entry.questions || [];
+  const answers = entry.answers || [];
+  const hasSet = questions.length > 0;
   const wrongCount = hasSet ? wrongQuestions(entry).length : 0;
   const skipCount = hasSet ? skippedQuestions(entry).length : 0;
 
+  // Ring sweeps up from 0 (CSS transition, disabled for reduced motion).
+  const [ringPct, setRingPct] = useState(0);
+  useEffect(() => {
+    setRingPct(0);
+    const t = setTimeout(() => setRingPct(pct), 80);
+    return () => clearTimeout(t);
+  }, [pct, entry.id]);
+  const ringR = 44;
+  const ringC = 2 * Math.PI * ringR;
+
+  const items = questions.map((qq, i) => ({ qq, i, ua: answers[i] }));
+  const counts = {
+    all: items.length,
+    wrong: items.filter((x) => x.ua !== -1 && x.ua !== x.qq.c).length,
+    skipped: items.filter((x) => x.ua === -1).length,
+    correct: items.filter((x) => x.ua === x.qq.c).length,
+  };
+  const shownItems = items.filter((x) => (
+    tab === 'wrong' ? (x.ua !== -1 && x.ua !== x.qq.c) :
+    tab === 'skipped' ? x.ua === -1 :
+    tab === 'correct' ? x.ua === x.qq.c : true
+  ));
+  const seg = (n) => (total ? `${(n / total) * 100}%` : '0%');
+
   return (
-    <div className="std-screen">
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back to History</button>
+    <div className="std-screen hd">
+      <div className="hist-head">
+        <button className="hist-back" onClick={() => { playTapSound(); onBack(); }} aria-label="Back to History">←</button>
+        <div>
+          <h1 className="hist-title">Attempt review</h1>
+          <div className="hist-sub">{formatWhen(entry.ts)}</div>
+        </div>
+      </div>
 
-      <div className="quiz-results" style={{ minHeight: 0, padding: 0 }}>
-        <div className="quiz-results-card">
-          <div className="results-hero-emoji">{pct > 70 ? '💪' : pct >= 40 ? '📚' : '🔁'}</div>
-          <h2 className="results-hero-title">Quiz Review</h2>
-          <div className="results-hero-sub">
-            <span className="badge badge-cyan">{entry.mainSubject || 'Mixed'}</span>
-            {entry.topic && <span className="badge" style={{ marginLeft: 6 }}>{entry.topic}</span>}
-            <div style={{ marginTop: 6 }}>{formatWhen(entry.ts)} · {entry.answered || 0} of {total} answered</div>
-          </div>
-
-          <div className="results-ring-wrap">
-            <svg viewBox="0 0 120 120" className="results-ring-svg">
-              <circle cx="60" cy="60" r={ringR} className="results-ring-track" />
+      <div className="hd-summary glass">
+        <div className="hd-sum-top">
+          <div className="hd-ring" aria-label={`${pct}% accuracy`}>
+            <svg viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r={ringR} className="hd-ring-track" />
               <circle
-                cx="60" cy="60" r={ringR}
-                className="results-ring-progress"
+                cx="50" cy="50" r={ringR}
+                className="hd-ring-fill"
+                style={{ stroke: pctColor(pct) }}
                 strokeDasharray={ringC}
-                strokeDashoffset={ringOffset}
+                strokeDashoffset={ringC - (ringPct / 100) * ringC}
               />
             </svg>
-            <div className="results-ring-center">
-              <div className="results-ring-pct">{ringAnimPct}%</div>
-              <div className="results-ring-label">ACCURACY</div>
+            <div className="hd-ring-center">
+              <span className="hd-ring-pct" style={{ color: pctColor(pct) }}>{pct}%</span>
+              <span className="hd-ring-label">accuracy</span>
             </div>
           </div>
-
-          {timeMs > 0 && (
-            <div className="results-time-card">
-              <div className="results-time-label">⏱ TOTAL TIME</div>
-              <div className="results-time-big">{formatDuration(timeMs)}</div>
-              <div className="results-time-subgrid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
-                <div className="results-time-sub">
-                  <div className="results-time-sub-val" style={{ color: 'var(--cyan)' }}>{(avgMsPerQ / 1000).toFixed(1)}s</div>
-                  <div className="results-time-sub-label">Avg / Question</div>
-                </div>
-                <div className="results-time-sub">
-                  <div className="results-time-sub-val" style={{ color: 'var(--green)' }}>{paceQPerMin.toFixed(1)}</div>
-                  <div className="results-time-sub-label">Q / Minute</div>
-                </div>
-              </div>
+          <div className="hd-sum-main">
+            <div className="hist-badges">
+              <span className="badge badge-cyan">{entry.mainSubject || 'Mixed'}</span>
+              {entry.topic && <span className="badge">{entry.topic}</span>}
             </div>
-          )}
-
-          <div className="results-breakdown-card">
-            <div className="results-time-label">🥧 BREAKDOWN</div>
-            <div className="results-pie-row">
-              <div
-                className="results-pie"
-                style={{
-                  background: total
-                    ? `conic-gradient(var(--green) 0deg ${(correctCount / total) * 360}deg, var(--red) ${(correctCount / total) * 360}deg ${((correctCount + incorrectCount) / total) * 360}deg, var(--pink) ${((correctCount + incorrectCount) / total) * 360}deg 360deg)`
-                    : 'var(--surface2)',
-                }}
-              />
-              <div className="results-legend">
-                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--green)' }} />Correct: {correctCount}</div>
-                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--red)' }} />Incorrect: {incorrectCount}</div>
-                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--pink)' }} />Skipped: {skippedCount}</div>
-              </div>
+            <div className="hd-score"><b>{correctCount}</b><span>/{total} correct</span></div>
+            <div className="hd-sub">
+              {answeredCount} answered{skippedCount > 0 ? ` · ${skippedCount} skipped` : ''}
             </div>
+            <span className="hd-grade" style={{ color: grade.color, borderColor: grade.color }}>Grade {grade.letter}</span>
           </div>
-
-          <div className="results-summary-grid">
-            <div className="results-summary-card" style={{ borderColor: 'rgba(var(--cyan-rgb),0.35)' }}>
-              <div className="results-summary-val" style={{ color: 'var(--cyan)' }}>{correctCount}/{total}</div>
-              <div className="results-summary-label">Score</div>
-            </div>
-            <div className="results-summary-card" style={{ borderColor: 'rgba(48,242,138,0.35)' }}>
-              <div className="results-summary-val" style={{ color: 'var(--green)' }}>{pct}%</div>
-              <div className="results-summary-label">Accuracy</div>
-            </div>
-            <div className="results-summary-card" style={{ borderColor: 'rgba(255,204,42,0.35)' }}>
-              <div className="results-summary-val" style={{ color: grade.color }}>{grade.letter}</div>
-              <div className="results-summary-label">Grade</div>
-            </div>
-          </div>
-
-          {hasSet && (
-            <div className="results-action-row">
-              <button className="btn-glow" disabled={entry.questions.length === 0} onClick={() => onRetry(entry, 'all')}>
-                Retry All ({entry.questions.length})
-              </button>
-              <button className="btn-ghost results-newquiz-btn" disabled={wrongCount === 0} onClick={() => onRetry(entry, 'wrong')}>
-                Retry Wrong ({wrongCount})
-              </button>
-            </div>
-          )}
-          {hasSet && skipCount > 0 && (
-            <button className="results-retry-wrong-btn" onClick={() => onRetry(entry, 'skipped')}>
-              Retry Skipped ({skipCount})
-            </button>
-          )}
-
-          {hasSet && (
-            <button className="results-review-toggle" onClick={() => { playTapSound(); setShowReview((v) => !v); }}>
-              {showReview ? 'Hide Detailed Review ▲' : 'Show Detailed Review ▼'}
-            </button>
-          )}
         </div>
 
-        {showReview && hasSet && (
-          <div style={{ width: '100%', maxWidth: 440 }}>
-            <div className="results-review-heading">DETAILED REVIEW</div>
-            <QuestionReviewList entry={entry} />
+        <div className="hd-bar" aria-hidden="true">
+          <span style={{ width: seg(correctCount), background: 'var(--green)' }} />
+          <span style={{ width: seg(incorrectCount), background: 'var(--red)' }} />
+          <span style={{ width: seg(skippedCount), background: 'var(--pink)' }} />
+        </div>
+        <div className="hd-legend">
+          <span><i style={{ background: 'var(--green)' }} />Correct {correctCount}</span>
+          <span><i style={{ background: 'var(--red)' }} />Wrong {incorrectCount}</span>
+          <span><i style={{ background: 'var(--pink)' }} />Skipped {skippedCount}</span>
+        </div>
+
+        {timeMs > 0 && (
+          <div className="hd-stats">
+            <div className="hd-stat"><div className="hd-stat-val">{formatDuration(timeMs)}</div><div className="hd-stat-label">Total time</div></div>
+            <div className="hd-stat"><div className="hd-stat-val" style={{ color: 'var(--cyan)' }}>{(avgMsPerQ / 1000).toFixed(1)}s</div><div className="hd-stat-label">Avg / question</div></div>
+            <div className="hd-stat"><div className="hd-stat-val" style={{ color: 'var(--green)' }}>{paceQPerMin.toFixed(1)}</div><div className="hd-stat-label">Questions / min</div></div>
           </div>
         )}
       </div>
+
+      {hasSet && (
+        <div className="hist-actions hd-actions">
+          <button className="btn-glow hist-act-main" disabled={wrongCount === 0 && questions.length === 0} onClick={() => onRetry(entry, wrongCount > 0 ? 'wrong' : 'all')}>
+            {wrongCount > 0 ? `Retry Wrong (${wrongCount})` : `Retry All (${questions.length})`}
+          </button>
+          {wrongCount > 0 && (
+            <button className="btn-ghost hist-act" onClick={() => onRetry(entry, 'all')}>All ({questions.length})</button>
+          )}
+          {skipCount > 0 && (
+            <button className="btn-ghost hist-act" onClick={() => onRetry(entry, 'skipped')}>Skipped ({skipCount})</button>
+          )}
+        </div>
+      )}
+
+      {hasSet && (
+        <>
+          <div className="hd-tabs" role="tablist" aria-label="Filter questions">
+            {[['all', 'All'], ['wrong', 'Wrong'], ['skipped', 'Skipped'], ['correct', 'Correct']].map(([key, label]) => (
+              <button
+                key={key}
+                role="tab"
+                aria-selected={tab === key}
+                className={tab === key ? 'hist-filter on' : 'hist-filter'}
+                onClick={() => { playTapSound(); setTab(key); }}
+              >
+                {label} <span className="hd-tab-n">{counts[key]}</span>
+              </button>
+            ))}
+          </div>
+          <div className="hd-list">
+            {shownItems.length === 0 ? (
+              <div className="hd-empty">Nothing here.</div>
+            ) : shownItems.map((x) => <ReviewItem key={x.i} qq={x.qq} i={x.i} ua={x.ua} />)}
+          </div>
+        </>
+      )}
     </div>
   );
 }
