@@ -79,28 +79,44 @@ function semesterName(semester) {
 }
 
 // One row of the "Your Subscriptions" list - which semester it covers,
-// whether it's still running, and the dates, so a student can see at a
-// glance exactly what they've paid for and when it ends.
+// whether it's still running, and the dates, with a bar showing how much
+// of the period is left, so a student can see at a glance what they've
+// paid for and when it ends.
 function SubscriptionRow({ sub, isCurrent }) {
-  const daysLeft = Math.ceil((sub.expiresAt.getTime() - Date.now()) / (24 * 60 * 60 * 1000));
-  const color = !sub.active ? 'var(--red)' : daysLeft <= 7 ? 'var(--amber)' : 'var(--green)';
+  const dayMs = 24 * 60 * 60 * 1000;
+  const daysLeft = Math.ceil((sub.expiresAt.getTime() - Date.now()) / dayMs);
+  const tone = !sub.active ? 'red' : daysLeft <= 7 ? 'amber' : 'green';
   const note = SOURCE_NOTE[sub.source];
+  const span = sub.expiresAt.getTime() - sub.activatedAt.getTime();
+  const leftFrac = sub.active && span > 0 ? Math.max(0, Math.min(1, (sub.expiresAt.getTime() - Date.now()) / span)) : 0;
   return (
-    <div style={{ borderTop: '1px solid var(--border)', paddingTop: 10 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-        <span style={{ fontWeight: 700, fontSize: 14, color: 'var(--text)' }}>
+    <div className="pm-sub-row">
+      <div className="pm-sub-top">
+        <span className="pm-sub-name">
           {semesterName(sub.semester)}
-          {isCurrent && sub.active && (
-            <span className="badge badge-cyan" style={{ marginLeft: 8, fontSize: 10 }}>Your current semester</span>
-          )}
+          {isCurrent && sub.active && <span className="badge badge-cyan pm-sub-badge">Current</span>}
         </span>
-        <span style={{ color, fontWeight: 700, fontSize: 12.5 }}>
-          {sub.active ? (daysLeft === 1 ? 'Active · 1 day left' : `Active · ${daysLeft} days left`) : 'Expired'}
+        <span className={`pm-pill ${tone}`}>
+          {sub.active ? (daysLeft === 1 ? '1 day left' : `${daysLeft} days left`) : 'Expired'}
         </span>
       </div>
-      <div style={{ marginTop: 4, fontSize: 12.5, color: 'var(--text3)', lineHeight: 1.6 }}>
+      <div className={`pm-sub-bar ${tone}`} aria-hidden="true"><span style={{ width: `${leftFrac * 100}%` }} /></div>
+      <div className="pm-sub-dates">
         Started {fmtDay(sub.activatedAt)} · {sub.active ? 'Valid until' : 'Ended'} {fmtDay(sub.expiresAt)}
         {note && <> · {note}</>}
+      </div>
+    </div>
+  );
+}
+
+// Status banner at the top: icon + title + one line of detail, coloured by tone.
+function Banner({ tone, icon, title, children }) {
+  return (
+    <div className={`pm-banner ${tone || 'neutral'}`}>
+      <div className="pm-banner-icon" aria-hidden="true">{icon}</div>
+      <div className="pm-banner-text">
+        <div className="pm-banner-title">{title}</div>
+        {children && <div className="pm-banner-body">{children}</div>}
       </div>
     </div>
   );
@@ -308,8 +324,10 @@ export default function PremiumScreen({ onBack }) {
     redeemCode(code);
   }
 
+  const payFlowVisible = !premiumForThisSemester && !config?.premiumPaused && !isFreeSemester;
+
   return (
-    <div className="std-screen">
+    <div className="std-screen pm">
       {showThankYou && <PremiumThankYou onClose={() => setShowThankYou(false)} />}
       {rejectedOverlay && (
         <PremiumRejected
@@ -319,82 +337,61 @@ export default function PremiumScreen({ onBack }) {
         />
       )}
 
-      <button className="btn-ghost std-back" onClick={() => { playTapSound(); onBack(); }}>← Back</button>
-
-      <div className="std-header">
-        <h1 className="std-title">⭐ Med101 Maxx</h1>
-        <p className="std-sub">Unlock every question, in every subject.</p>
+      <div className="pm-head">
+        <button className="pm-back" onClick={() => { playTapSound(); onBack(); }} aria-label="Back">←</button>
+        <div>
+          <h1 className="pm-title">⭐ Med101 Maxx</h1>
+          <div className="pm-sub">Unlock every question, in every subject.</div>
+        </div>
       </div>
 
       {isAdmin ? (
-        <div className="glass std-card" style={{ borderColor: 'var(--green)' }}>
-          <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Full Access (Admin)</div>
-          <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-            Admin accounts always have complete access to every subject and question - no subscription needed.
-          </div>
-        </div>
+        <Banner tone="green" icon="✅" title="Full Access (Admin)">
+          Admin accounts always have complete access to every subject and question - no subscription needed.
+        </Banner>
       ) : loading ? (
         <div className="std-loading">Loading…</div>
       ) : (
         <>
-          <div className="glass std-card" style={{ borderColor: premiumForThisSemester ? 'var(--green)' : config?.premiumPaused ? 'var(--cyan)' : isFreeSemester ? 'var(--cyan)' : hasPendingRequest ? 'var(--amber)' : undefined }}>
-            {premiumForThisSemester ? (
-              <>
-                <div className="auth-label" style={{ margin: 0, color: 'var(--green)' }}>✅ Med101 Maxx Active</div>
-                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  {coveringSub && <><strong>{semesterName(coveringSub.semester)}</strong> · </>}
-                  Valid until <strong>{fmtDay(coveringSub?.expiresAt || premium.premiumUntil)}</strong>
-                </div>
-              </>
-            ) : config?.premiumPaused ? (
-              <>
-                <div className="auth-label" style={{ margin: 0, color: 'var(--cyan)' }}>🎉 Free For Everyone Right Now</div>
-                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  All Med101 Maxx features are unlocked for every student at the moment - nothing to pay, nothing to do.
-                </div>
-              </>
-            ) : isFreeSemester ? (
-              <>
-                <div className="auth-label" style={{ margin: 0, color: 'var(--cyan)' }}>🎉 Free For Your Semester</div>
-                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  {activatingFree
-                    ? 'Activating your full access…'
-                    : freeActivateError
-                      ? freeActivateError
-                      : 'Med101 Maxx is free for your semester right now - full access, nothing to pay.'}
-                </div>
-                {freeActivateError && (
-                  <button className="btn-ghost" style={{ marginTop: 8 }} onClick={handleActivateFree} disabled={activatingFree}>
-                    Try Again
-                  </button>
-                )}
-              </>
-            ) : hasPendingRequest ? (
-              <>
-                <div className="auth-label" style={{ margin: 0, color: 'var(--amber)' }}>⏳ Waiting for Approval</div>
-                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  We've got your payment details - check below for the current status.
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="auth-label" style={{ margin: 0 }}>Free Preview</div>
-                <div style={{ fontSize: 13, color: 'var(--text2)', marginTop: 4 }}>
-                  You can try the first 25 questions of any subject. Get Med101 Maxx for full access to everything.
-                </div>
-              </>
-            )}
-          </div>
+          {premiumForThisSemester ? (
+            <Banner tone="green" icon="✅" title="Med101 Maxx active">
+              {coveringSub && <><strong>{semesterName(coveringSub.semester)}</strong> · </>}
+              Valid until <strong>{fmtDay(coveringSub?.expiresAt || premium.premiumUntil)}</strong>
+            </Banner>
+          ) : config?.premiumPaused ? (
+            <Banner tone="cyan" icon="🎉" title="Free for everyone right now">
+              All Med101 Maxx features are unlocked for every student at the moment - nothing to pay, nothing to do.
+            </Banner>
+          ) : isFreeSemester ? (
+            <Banner tone="cyan" icon="🎉" title="Free for your semester">
+              {activatingFree
+                ? 'Activating your full access…'
+                : freeActivateError
+                  ? freeActivateError
+                  : 'Med101 Maxx is free for your semester right now - full access, nothing to pay.'}
+              {freeActivateError && (
+                <div><button className="btn-ghost pm-retry" onClick={handleActivateFree} disabled={activatingFree}>Try Again</button></div>
+              )}
+            </Banner>
+          ) : hasPendingRequest ? (
+            <Banner tone="amber" icon="⏳" title="Waiting for approval">
+              We've got your payment details - check below for the current status.
+            </Banner>
+          ) : (
+            <Banner tone="neutral" icon="🔓" title="Free preview">
+              You can try the first 25 questions of any subject. Get Med101 Maxx for full access to everything.
+            </Banner>
+          )}
 
           {(premium.subscriptions || []).length > 0 && (
-            <div className="glass std-card">
-              <div className="auth-label" style={{ margin: 0 }}>Your Subscriptions</div>
+            <div className="glass pm-card">
+              <div className="pm-card-title">Your subscriptions</div>
               {hasOtherActiveSub && (
-                <div style={{ fontSize: 12.5, color: 'var(--amber)', marginTop: 6, lineHeight: 1.5 }}>
+                <div className="pm-warn">
                   You're viewing {semesterName(profile?.enrolledYearSemester)}, which isn't covered by an active subscription. Your active subscriptions below apply to the semesters listed.
                 </div>
               )}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 10 }}>
+              <div className="pm-sub-list">
                 {premium.subscriptions.map((sub, i) => (
                   <SubscriptionRow
                     key={`${sub.semester}-${sub.activatedAt.getTime()}-${i}`}
@@ -406,10 +403,10 @@ export default function PremiumScreen({ onBack }) {
             </div>
           )}
 
-          {!premiumForThisSemester && !config?.premiumPaused && !isFreeSemester && !hidePaymentFlow && config && (
+          {payFlowVisible && !hidePaymentFlow && config && (
             <div className="pay-card">
               <div className="pay-card-inner">
-                <div className="pay-card-eyebrow">Scan to Pay</div>
+                <div className="pay-card-eyebrow">Step 1 · Scan to pay</div>
                 {effectivePriceLabel && <div className="pay-card-price">{formatPrice(effectivePriceLabel)}</div>}
 
                 {config.upiId && (
@@ -427,16 +424,20 @@ export default function PremiumScreen({ onBack }) {
                   </div>
                 )}
 
-                <ol className="pay-steps">
-                  <li>Scan the QR with any UPI app</li>
+                <p className="pm-phone-tip">
+                  Paying from this phone? Copy the UPI ID above and pay it in your UPI app, or screenshot the QR and scan it from your gallery.
+                </p>
+
+                <ol className="pm-steps">
+                  <li>Pay using any UPI app</li>
                   <li>Submit the transaction ID (UTR) below</li>
                   {config.activationMethod === 'code' ? (
                     <>
-                      <li>We'll verify and send you an activation code</li>
+                      <li>We verify and send you an activation code</li>
                       <li>Enter the code to unlock full access</li>
                     </>
                   ) : (
-                    <li>We'll verify and activate your account - nothing else to do</li>
+                    <li>We verify and activate your account - nothing else to do</li>
                   )}
                 </ol>
 
@@ -447,10 +448,11 @@ export default function PremiumScreen({ onBack }) {
             </div>
           )}
 
-          {!premiumForThisSemester && !config?.premiumPaused && !isFreeSemester && !hidePaymentFlow && (
-            <form className="glass std-card" onSubmit={handleSubmit}>
-              <div className="auth-label" style={{ margin: 0 }}>Submit Your Payment</div>
-              <label htmlFor="premium-pay-semester" className="auth-label" style={{ marginTop: 10 }}>Which Semester Is This For?</label>
+          {payFlowVisible && !hidePaymentFlow && (
+            <form className="glass pm-card pm-form" onSubmit={handleSubmit}>
+              <div className="pm-card-title">Step 2 · Submit your payment</div>
+
+              <label htmlFor="premium-pay-semester" className="auth-label">Which semester is this for?</label>
               <select
                 id="premium-pay-semester"
                 className="auth-input"
@@ -461,9 +463,11 @@ export default function PremiumScreen({ onBack }) {
                   <option key={value} value={value}>{label}</option>
                 ))}
               </select>
-              <label htmlFor="premium-your-banking-name" className="auth-label" style={{ marginTop: 10 }}>Your Banking Name</label>
+
+              <label htmlFor="premium-your-banking-name" className="auth-label">Your banking name</label>
               <input id="premium-your-banking-name" className="auth-input" value={bankingName} onChange={(e) => setBankingName(e.target.value)} placeholder="Name on the account you paid from" />
-              <label htmlFor="premium-your-contact-number" className="auth-label" style={{ marginTop: 10 }}>Your Contact Number</label>
+
+              <label htmlFor="premium-your-contact-number" className="auth-label">Your contact number</label>
               <input id="premium-your-contact-number"
                 className="auth-input"
                 value={phone}
@@ -472,21 +476,23 @@ export default function PremiumScreen({ onBack }) {
                 inputMode="tel"
                 maxLength={10}
               />
-              <label htmlFor="premium-transaction-id-utr" className="auth-label" style={{ marginTop: 10 }}>Transaction ID (UTR)</label>
-              <input id="premium-transaction-id-utr" className="auth-input" value={utr} onChange={(e) => setUtr(e.target.value)} placeholder="From your UPI app's payment history" style={{ fontFamily: 'var(--font-mono)' }} />
+
+              <label htmlFor="premium-transaction-id-utr" className="auth-label">Transaction ID (UTR)</label>
+              <input id="premium-transaction-id-utr" className="auth-input pm-mono" value={utr} onChange={(e) => setUtr(e.target.value)} placeholder="From your UPI app's payment history" />
+              <p className="pm-hint">The UTR / reference number (usually 12 digits) shown on the payment success screen or in your UPI app's history.</p>
+
               <button className="btn-glow std-save-btn" type="submit" disabled={submitting}>
-                {submitting ? 'Submitting…' : 'Submit for Review'}
+                {submitting ? 'Submitting…' : 'Submit for review'}
               </button>
               {submitMsg && <div className={`auth-msg ${submitMsg.type}`} style={{ display: 'block' }}>{submitMsg.text}</div>}
             </form>
           )}
 
-          {!premiumForThisSemester && !config?.premiumPaused && !isFreeSemester && !hasPendingRequest && config?.activationMethod === 'code' && (
-            <form className="glass std-card" onSubmit={handleRedeem}>
-              <div className="auth-label" style={{ margin: 0 }}>Have an Activation Code?</div>
+          {payFlowVisible && !hasPendingRequest && config?.activationMethod === 'code' && (
+            <form className="glass pm-card pm-form" onSubmit={handleRedeem}>
+              <div className="pm-card-title">Have an activation code?</div>
               <input
-                className="auth-input"
-                style={{ marginTop: 10, fontFamily: 'var(--font-mono)', textTransform: 'uppercase' }}
+                className="auth-input pm-mono pm-upper"
                 value={code}
                 onChange={(e) => setCode(e.target.value)}
                 placeholder="MED-XXXXXXXX" aria-label="Activation code"
@@ -499,51 +505,48 @@ export default function PremiumScreen({ onBack }) {
           )}
 
           {!premiumForThisSemester && !config?.premiumPaused && myRequests.length > 0 && (
-            <div className="glass std-card">
-              <div className="auth-label" style={{ margin: 0 }}>Your Submissions</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 8 }}>
-                {myRequests.map((r) => (
-                  <div key={r.utr} style={{ borderTop: '1px solid var(--border)', paddingTop: 8 }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12.5 }}>
-                      <span style={{ color: 'var(--text3)', fontFamily: 'var(--font-mono)' }}>{r.utr}</span>
-                      <span style={{ color: STATUS_LABEL[r.status]?.color, fontWeight: 700 }}>{STATUS_LABEL[r.status]?.text || r.status}</span>
+            <div className="glass pm-card">
+              <div className="pm-card-title">Your submissions</div>
+              <div className="pm-req-list">
+                {myRequests.map((r) => {
+                  const st = STATUS_LABEL[r.status];
+                  const tone = r.status === 'approved' ? 'green' : r.status === 'pending' ? 'amber' : 'red';
+                  return (
+                    <div key={r.utr} className="pm-req">
+                      <div className="pm-req-top">
+                        <span className="pm-req-utr">{r.utr}</span>
+                        <span className={`pm-pill ${tone}`}>{st?.text || r.status}</span>
+                      </div>
+
+                      {r.status === 'rejected' && r.rejectionReason && (
+                        <div className="pm-req-note">Reason: {r.rejectionReason}</div>
+                      )}
+
+                      {r.status === 'revoked' && (
+                        <div className="pm-req-note">
+                          Your access was ended early by an admin{r.revokedReason ? `: ${r.revokedReason}` : '.'} Subscribe again below if you'd like to continue.
+                        </div>
+                      )}
+
+                      {r.status === 'approved' && r.code && (
+                        <div className="pm-req-code">
+                          <span className="pay-upi-id">{r.code}</span>
+                          <button type="button" className="pay-upi-copy" onClick={() => { playTapSound(); navigator.clipboard?.writeText(r.code); }}>
+                            Copy
+                          </button>
+                          <button
+                            type="button"
+                            className="pay-upi-copy pm-activate"
+                            onClick={() => { playTapSound(); redeemCode(r.code); }}
+                            disabled={redeeming}
+                          >
+                            {redeeming ? 'Activating…' : '✓ Activate now'}
+                          </button>
+                        </div>
+                      )}
                     </div>
-
-                    {r.status === 'rejected' && r.rejectionReason && (
-                      <div style={{ marginTop: 6, fontSize: 12.5, color: 'var(--text2)' }}>
-                        Reason: {r.rejectionReason}
-                      </div>
-                    )}
-
-                    {r.status === 'revoked' && (
-                      <div style={{ marginTop: 6, fontSize: 12.5, color: 'var(--text2)' }}>
-                        Your access was ended early by an admin{r.revokedReason ? `: ${r.revokedReason}` : '.'} Subscribe again below if you'd like to continue.
-                      </div>
-                    )}
-
-                    {r.status === 'approved' && r.code && (
-                      <div style={{ marginTop: 8, display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-                        <span className="pay-upi-id" style={{ fontSize: 13 }}>{r.code}</span>
-                        <button
-                          type="button"
-                          className="pay-upi-copy"
-                          onClick={() => { playTapSound(); navigator.clipboard?.writeText(r.code); }}
-                        >
-                          Copy
-                        </button>
-                        <button
-                          type="button"
-                          className="pay-upi-copy"
-                          style={{ borderColor: 'var(--green)', color: 'var(--green)' }}
-                          onClick={() => { playTapSound(); redeemCode(r.code); }}
-                          disabled={redeeming}
-                        >
-                          {redeeming ? 'Activating…' : '✓ Activate Now'}
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}

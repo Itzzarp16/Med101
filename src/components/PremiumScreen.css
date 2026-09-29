@@ -159,3 +159,81 @@
   color: var(--text3);
   margin-top: 10px;
 }
+
+/* ═════════ Premium screen chrome (header, banner, cards, steps) ═════════ */
+.pm-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.pm-back {
+  width: 40px; height: 40px; flex-shrink: 0; border-radius: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.28); background: rgba(255, 255, 255, 0.12);
+  color: var(--text); font-size: 18px; font-weight: 700; cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.pm-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--heading); margin: 0; line-height: 1.1; }
+.pm-sub { font-size: 12.5px; color: var(--text2); margin-top: 3px; }
+
+.pm-banner {
+  --tone: var(--text3);
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 16px; border-radius: 20px; margin-bottom: 12px;
+  background: color-mix(in srgb, var(--tone) 12%, rgba(255, 255, 255, 0.06));
+  border: 1px solid color-mix(in srgb, var(--tone) 55%, transparent);
+}
+.pm-banner.green { --tone: var(--green); }
+.pm-banner.cyan { --tone: var(--cyan); }
+.pm-banner.amber { --tone: var(--amber); }
+.pm-banner.neutral { --tone: rgba(255, 255, 255, 0.5); }
+.pm-banner-icon { font-size: 22px; line-height: 1.2; }
+.pm-banner-title { font-size: 15px; font-weight: 800; color: var(--text); }
+.pm-banner.green .pm-banner-title { color: var(--green); }
+.pm-banner.cyan .pm-banner-title { color: var(--cyan); }
+.pm-banner.amber .pm-banner-title { color: var(--amber); }
+.pm-banner-body { font-size: 13px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
+.pm-retry { margin-top: 8px; }
+
+.pm-card { padding: 14px 16px; margin-bottom: 12px; }
+.pm-card-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+.pm-warn { font-size: 12.5px; color: var(--amber); line-height: 1.5; margin-bottom: 10px; }
+
+.pm-pill {
+  --tone: var(--text2);
+  flex-shrink: 0; padding: 3px 10px; border-radius: 999px; font-size: 11.5px; font-weight: 800;
+  color: var(--tone); background: color-mix(in srgb, var(--tone) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tone) 45%, transparent);
+}
+.pm-pill.green, .pm-sub-bar.green { --tone: var(--green); }
+.pm-pill.amber, .pm-sub-bar.amber { --tone: var(--amber); }
+.pm-pill.red, .pm-sub-bar.red { --tone: var(--red); }
+
+.pm-sub-list { display: flex; flex-direction: column; gap: 14px; }
+.pm-sub-row + .pm-sub-row { border-top: 1px solid var(--border); padding-top: 12px; }
+.pm-sub-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.pm-sub-name { font-weight: 700; font-size: 14px; color: var(--text); }
+.pm-sub-badge { margin-left: 8px; font-size: 10px; }
+.pm-sub-bar { --tone: var(--green); height: 5px; border-radius: 3px; background: var(--border2); margin-top: 8px; overflow: hidden; }
+.pm-sub-bar > span { display: block; height: 100%; border-radius: 3px; background: var(--tone); }
+.pm-sub-dates { margin-top: 6px; font-size: 12px; color: var(--text3); line-height: 1.6; }
+
+.pm-phone-tip { font-size: 12px; color: var(--text2); line-height: 1.5; margin: 12px 0 0; }
+.pm-steps { list-style: none; counter-reset: pm; text-align: left; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.pm-steps li { counter-increment: pm; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text2); }
+.pm-steps li::before {
+  content: counter(pm); flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11.5px; font-weight: 800; color: var(--cyan);
+  background: rgba(var(--cyan-rgb), 0.14); border: 1px solid rgba(var(--cyan-rgb), 0.4);
+}
+
+.pm-form .auth-label { margin-top: 10px; }
+.pm-form .auth-label:first-of-type { margin-top: 0; }
+.pm-mono { font-family: var(--font-mono); }
+.pm-upper { text-transform: uppercase; }
+.pm-hint { font-size: 11.5px; color: var(--text3); line-height: 1.5; margin: 6px 0 0; }
+
+.pm-req-list { display: flex; flex-direction: column; gap: 12px; }
+.pm-req + .pm-req { border-top: 1px solid var(--border); padding-top: 12px; }
+.pm-req-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.pm-req-utr { font-family: var(--font-mono); font-size: 12.5px; color: var(--text2); overflow: hidden; text-overflow: ellipsis; }
+.pm-req-note { margin-top: 6px; font-size: 12.5px; color: var(--text2); line-height: 1.5; }
+.pm-req-code { margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.pm-req-code .pay-upi-id { font-size: 13px; }
+.pm-activate { border-color: var(--green); color: var(--green); }
