@@ -7,7 +7,7 @@ import { markQuestionsSeen } from '../lib/seenQuestions';
 import { submitLeaderboardResult } from '../lib/leaderboard';
 import { submitRoomResult } from '../lib/rooms';
 import { recordWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
-import { saveQuizProgress, loadQuizProgress, clearQuizProgress } from '../lib/quizProgress';
+import { saveQuizProgress, loadResumeSnapshot, loadSessionSnapshot, getAttemptMark, detachAttemptFromTab, clearQuizProgress, questionsSig, newAttemptId } from '../lib/quizProgress';
 import { getAIExplanation } from '../lib/aiExplanation';
 import './QuizScreen.css';
 
@@ -52,17 +52,25 @@ function shuffleOptions(q) {
 // roomCode/totalTimeLimitMs are set only for Challenge Room quizzes -
 // a whole-quiz countdown (not per-question) that auto-finishes when it
 // hits zero, and reports the result to the room's shared leaderboard.
-export default function QuizScreen({ mainSubject, topic, semesterId, questions, isPremium, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
+export default function QuizScreen({ mainSubject, topic, semesterId, questions, isPremium, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, resumeAttemptId, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
   const { user, profile } = useAuth();
-  const quizQuestions = useState(() => questions.map(shuffleOptions))[0];
-
-  // Restore in-progress position/answers from a prior page load if it
-  // looks like the same attempt (same question count) - this is what
-  // lets a refresh resume on question 12 instead of restarting at 1.
-  const restoredRef = useState(() => {
-    const saved = loadQuizProgress();
-    return saved && saved.answers?.length === quizQuestions.length ? saved : null;
+  // Work out once, on mount, whether this is a fresh attempt or a continuation
+  // of a saved one: either the student tapped "Resume" on the dashboard
+  // (resumeAttemptId), or this same tab was already inside that attempt and
+  // just got refreshed. Only then is the saved snapshot adopted - and it
+  // brings its own already-shuffled options, so saved answers still line up.
+  const initRef = useState(() => {
+    const snap = roomCode ? loadSessionSnapshot() : loadResumeSnapshot();
+    const sameQuiz = !!snap && snap.sig === questionsSig(questions) && snap.answers.length === questions.length;
+    const continues = sameQuiz && ((resumeAttemptId && snap.attemptId === resumeAttemptId) || getAttemptMark() === snap.attemptId);
+    if (continues && Array.isArray(snap.questions) && snap.questions.length === questions.length) {
+      return { restored: snap, attemptId: snap.attemptId, quizQuestions: snap.questions };
+    }
+    return { restored: null, attemptId: newAttemptId(), quizQuestions: questions.map(shuffleOptions) };
   })[0];
+  const restoredRef = initRef.restored; // saved snapshot being continued, or null
+  const quizQuestions = initRef.quizQuestions;
+  const attemptIdRef = useRef(initRef.attemptId);
 
   const [cur, setCur] = useState(restoredRef?.cur ?? 0);
   const [answers, setAnswers] = useState(() => restoredRef?.answers ?? new Array(quizQuestions.length).fill(-1));
@@ -83,7 +91,14 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   // so it reflects actual time-on-question, not just a global average.
   const [questionTimesMs, setQuestionTimesMs] = useState(() => restoredRef?.questionTimesMs ?? new Array(quizQuestions.length).fill(-1));
   const questionShownAtRef = useRef(Date.now());
-  const startedAtRef = useRef(restoredRef?.startedAt ?? Date.now());
+  // Solo resumes continue the stopwatch from the time already spent (not from
+  // the original wall-clock start, which would count the time away). Rooms
+  // keep the absolute start since their clock keeps running.
+  const startedAtRef = useRef(
+    restoredRef
+      ? (roomCode ? (restoredRef.startedAt ?? Date.now()) : Date.now() - (restoredRef.elapsedMs ?? 0))
+      : Date.now()
+  );
   // Absolute deadline (not a decrementing counter) so the countdown
   // reflects real wall-clock time even after a refresh gap.
   const totalDeadlineRef = useRef(
@@ -104,12 +119,52 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   // Persist position/answers on every change, and clean up entirely
   // once this attempt is over (finished, or the student navigates away).
+  const latestSnapshotRef = useRef(null);
+  latestSnapshotRef.current = () => ({
+    attemptId: attemptIdRef.current,
+    sig: questionsSig(questions),
+    savedAt: Date.now(),
+    uid: user?.uid ?? null,
+    roomCode: roomCode ?? null,
+    mainSubject,
+    topic: topic ?? null,
+    semesterId: semesterId ?? null,
+    questions: quizQuestions,
+    autoAdvance: !!autoAdvance,
+    timerSeconds: timerSeconds ?? null,
+    cur,
+    answers,
+    questionTimesMs,
+    startedAt: startedAtRef.current,
+    elapsedMs: Date.now() - startedAtRef.current,
+    totalDeadline: totalDeadlineRef.current,
+  });
+
   useEffect(() => {
     if (finished) return;
-    saveQuizProgress({ cur, answers, questionTimesMs, startedAt: startedAtRef.current, totalDeadline: totalDeadlineRef.current });
+    saveQuizProgress(latestSnapshotRef.current());
   }, [cur, answers, questionTimesMs, finished]);
 
-  useEffect(() => () => clearQuizProgress(), []);
+  // Refresh the saved elapsed time when the tab is hidden/closed.
+  useEffect(() => {
+    function flush() {
+      if (!finished && latestSnapshotRef.current) saveQuizProgress(latestSnapshotRef.current());
+    }
+    function onVis() { if (document.visibilityState === 'hidden') flush(); }
+    window.addEventListener('pagehide', flush);
+    document.addEventListener('visibilitychange', onVis);
+    return () => {
+      window.removeEventListener('pagehide', flush);
+      document.removeEventListener('visibilitychange', onVis);
+    };
+  }, [finished]);
+
+  // Leaving the screen: rooms are forgotten (as before); solo attempts stay
+  // saved so they can be resumed from the dashboard.
+  useEffect(() => () => {
+    if (roomCode) clearQuizProgress();
+    else detachAttemptFromTab();
+  }, []);
 
   // Elapsed stopwatch, ticking every second while the quiz is in progress.
   useEffect(() => {

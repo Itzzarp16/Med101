@@ -16,6 +16,8 @@ import { useSemesterData } from './lib/useSemesterData';
 import { subscribeToAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
 import { startPresenceHeartbeat } from './lib/presence';
 import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence';
+import { loadResumeSnapshot, clearQuizProgress } from './lib/quizProgress';
+import ResumeQuizCard from './components/ResumeQuizCard';
 
 // Dashboard/SubtopicScreen/QuizModeScreen/QuizScreen above stay
 // normal static imports - together they're the one back-to-back path
@@ -84,6 +86,7 @@ export default function App() {
   const [screen, setScreen] = useState(savedNavRef?.screen || 'dashboard');
   const [selectedSubject, setSelectedSubject] = useState(savedNavRef?.selectedSubject ?? null);
   const [selectedTopic, setSelectedTopic] = useState(savedNavRef?.selectedTopic ?? null); // null = "All Topics" within subject
+  const [resumeSnap, setResumeSnap] = useState(null); // unfinished solo quiz saved on this device
   const [finalQuiz, setFinalQuiz] = useState(savedNavRef?.finalQuiz ?? null); // { questions, autoAdvance, timerSeconds } once mode is chosen
   const [quizKey, setQuizKey] = useState(0); // bumped to force QuizScreen to remount fresh on Restart Same / Retry Wrong
 
@@ -199,6 +202,15 @@ export default function App() {
 
   // Forward navigation: pushes a new history entry so the back gesture
   // can return to wherever the student was.
+  // Look for an unfinished quiz whenever the dashboard is showing.
+  useEffect(() => {
+    if (screen !== 'dashboard' || !user) { setResumeSnap(null); return; }
+    const snap = loadResumeSnapshot();
+    const answered = snap ? snap.answers.filter((a) => a !== -1).length : 0;
+    const usable = snap && !snap.roomCode && (!snap.uid || snap.uid === user.uid) && answered > 0 && answered < snap.questions.length;
+    setResumeSnap(usable ? snap : null);
+  }, [screen, user]);
+
   function goTo(screenName, extra = {}) {
     const nextSubject = 'selectedSubject' in extra ? extra.selectedSubject : selectedSubject;
     const nextTopic = 'selectedTopic' in extra ? extra.selectedTopic : selectedTopic;
@@ -639,6 +651,21 @@ export default function App() {
               </button>
             </div>
           )}
+          {screen === 'dashboard' && resumeSnap && (
+            <ResumeQuizCard
+              snapshot={resumeSnap}
+              onDiscard={() => { clearQuizProgress(); setResumeSnap(null); }}
+              onResume={() => {
+                setFinalQuiz({
+                  questions: resumeSnap.questions,
+                  autoAdvance: resumeSnap.autoAdvance,
+                  timerSeconds: resumeSnap.timerSeconds,
+                  resumeAttemptId: resumeSnap.attemptId,
+                });
+                goTo('quiz', { selectedSubject: resumeSnap.mainSubject, selectedTopic: resumeSnap.topic });
+              }}
+            />
+          )}
           {screen === 'dashboard' && (
             <Dashboard
               mainSubjectMeta={scopedMainSubjectMeta}
@@ -701,6 +728,7 @@ export default function App() {
               timerSeconds={finalQuiz.timerSeconds}
               roomCode={finalQuiz.roomCode}
               totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
+              resumeAttemptId={finalQuiz.resumeAttemptId}
               onExit={goBack}
               onViewRoomResults={() => goTo('room-results')}
               onRestartSame={() => setQuizKey((k) => k + 1)}
