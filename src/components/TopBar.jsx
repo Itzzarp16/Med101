@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence';
@@ -89,7 +90,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
         </button>
       </div>
 
-      {showOnlineList && isAdmin && (
+      {showOnlineList && isAdmin && createPortal(
         <div className="menu-overlay" onClick={() => setShowOnlineList(false)}>
           <div className="online-list-popover" onClick={(e) => e.stopPropagation()}>
             <div className="online-list-header">
@@ -112,10 +113,11 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
               </div>
             )}
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
 
-      {menuOpen && (
+      {menuOpen && createPortal(
         <div className="menu-overlay" onClick={() => setMenuOpen(false)}>
           <div className="menu-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="menu-drawer-header">
@@ -158,7 +160,8 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
 
             <button className="menu-item signout" onClick={() => go(logOut)}>⏏ Sign Out</button>
           </div>
-        </div>
+        </div>,
+        document.body,
       )}
     </div>
 
