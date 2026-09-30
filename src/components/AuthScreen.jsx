@@ -572,10 +572,46 @@ export default function AuthScreen() {
     );
   }
 
+  // Swipe between Login and Create Account. Left swipe -> Login, right
+  // swipe -> Create Account. Swipes that start on a form field are ignored
+  // so selecting/dragging text in an input never switches tabs.
+  const cardRef = useRef(null);
+  const swipeRef = useRef(null);
+
+  function onCardTouchStart(e) {
+    if (e.touches.length !== 1 || e.target.closest('input, textarea, select')) {
+      swipeRef.current = null;
+      return;
+    }
+    const t = e.touches[0];
+    swipeRef.current = { x: t.clientX, y: t.clientY, at: Date.now() };
+  }
+
+  function onCardTouchEnd(e) {
+    const start = swipeRef.current;
+    swipeRef.current = null;
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    const isSwipe = Math.abs(dx) >= 70 && Math.abs(dx) >= Math.abs(dy) * 2 && Date.now() - start.at <= 800;
+    if (!isSwipe) return;
+    const target = dx < 0 ? 'signin' : 'signup';
+    if (target === mode) return;
+    switchMode(target);
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+    if (!reduce && cardRef.current?.animate) {
+      cardRef.current.animate(
+        [{ transform: `translateX(${dx < 0 ? -28 : 28}px)`, opacity: 0.5 }, { transform: 'none', opacity: 1 }],
+        { duration: 220, easing: 'ease-out' },
+      );
+    }
+  }
+
   return (
     <div id="auth-screen">
       <div className="auth-center">
-        <div className="auth-card">
+        <div className="auth-card" ref={cardRef} onTouchStart={onCardTouchStart} onTouchEnd={onCardTouchEnd}>
           <div className="auth-icon">👨‍⚕️</div>
 
           <div className="auth-title">
