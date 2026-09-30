@@ -30,7 +30,9 @@
 .set-sem.on { color: var(--cyan); border-color: var(--cyan); background: rgba(var(--cyan-rgb), 0.14); }
 .set-sem.on .set-sem-year { color: var(--cyan); }
 
-.set-status { min-height: 18px; margin-top: 10px; font-size: 12.5px; color: var(--text2); }
+.set-status { margin-top: 10px; font-size: 12.5px; color: var(--text2); }
+/* no reserved space when there's no message (it used to leave a blank strip under the chips) */
+.set-status:empty { display: none; }
 .set-status.ok { color: var(--green); }
 .set-status.err { color: var(--red); }
 
