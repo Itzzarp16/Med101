@@ -80,33 +80,15 @@ export default function SettingsScreen({ onBack, onProfile }) {
         <button className="set-back" onClick={() => { playTapSound(); onBack(); }} aria-label="Back">←</button>
         <div>
           <h1 className="set-title">Settings</h1>
-          <div className="set-sub">Semester, preferences and account.</div>
+          <div className="set-sub">Account, preferences and semester.</div>
         </div>
       </div>
 
-      <div className="set-section-label">Study</div>
-      <div className="glass set-card">
-        <div className="set-card-title">Year &amp; Semester</div>
-        <p className="set-card-note">Changes which subjects you see. If you've moved to a new semester, update it here.</p>
-        <div className="set-sem-grid" role="radiogroup" aria-label="Year and semester">
-          {YEAR_SEMESTER_OPTIONS.map((opt) => (
-            <button
-              key={opt.value}
-              type="button"
-              role="radio"
-              aria-checked={yearSemester === opt.value}
-              className={yearSemester === opt.value ? 'set-sem on' : 'set-sem'}
-              disabled={status?.type === 'saving'}
-              onClick={() => handlePick(opt.value)}
-            >
-              <span className="set-sem-year">Semester</span>
-              <span className="set-sem-num">{opt.label.replace('Semester ', '')}</span>
-            </button>
-          ))}
-        </div>
-        <div className={`set-status${status?.type === 'ok' ? ' ok' : status?.type === 'err' ? ' err' : ''}`} role="status" aria-live="polite">
-          {status?.text}
-        </div>
+      <div className="set-section-label">Account</div>
+      <div className="glass set-card set-rows">
+        <button className="set-row set-link" onClick={() => { playTapSound(); onProfile?.(); }}>
+          <span>🙍 Your Profile</span><span className="set-chev">›</span>
+        </button>
       </div>
 
       <div className="set-section-label">Preferences</div>
@@ -135,14 +117,29 @@ export default function SettingsScreen({ onBack, onProfile }) {
         </div>
       </div>
 
-      <div className="set-section-label">Account</div>
-      <div className="glass set-card set-rows">
-        <button className="set-row set-link" onClick={() => { playTapSound(); onProfile?.(); }}>
-          <span>🙍 Your Profile</span><span className="set-chev">›</span>
-        </button>
-        <button className="set-row set-link set-signout" onClick={() => { playTapSound(); logOut(); }}>
-          <span>⏏ Sign Out</span>
-        </button>
+      <div className="set-section-label">Study</div>
+      <div className="glass set-card">
+        <div className="set-card-title">Year &amp; Semester</div>
+        <p className="set-card-note">Changes which subjects you see. If you've moved to a new semester, update it here.</p>
+        <div className="set-sem-grid" role="radiogroup" aria-label="Year and semester">
+          {YEAR_SEMESTER_OPTIONS.map((opt) => (
+            <button
+              key={opt.value}
+              type="button"
+              role="radio"
+              aria-checked={yearSemester === opt.value}
+              className={yearSemester === opt.value ? 'set-sem on' : 'set-sem'}
+              disabled={status?.type === 'saving'}
+              onClick={() => handlePick(opt.value)}
+            >
+              <span className="set-sem-year">Semester</span>
+              <span className="set-sem-num">{opt.label.replace('Semester ', '')}</span>
+            </button>
+          ))}
+        </div>
+        <div className={`set-status${status?.type === 'ok' ? ' ok' : status?.type === 'err' ? ' err' : ''}`} role="status" aria-live="polite">
+          {status?.text}
+        </div>
       </div>
 
       {!standalone && (installable || ios) && (
@@ -166,6 +163,12 @@ export default function SettingsScreen({ onBack, onProfile }) {
           </div>
         </>
       )}
+
+      <div className="glass set-card set-rows" style={{ marginTop: 24 }}>
+        <button className="set-row set-link set-signout" onClick={() => { playTapSound(); logOut(); }}>
+          <span>⏏ Sign Out</span>
+        </button>
+      </div>
     </div>
       <LegalFooter />
     </>
