@@ -767,6 +767,7 @@ export default function App() {
               questions={scopedQuestions}
               onSelectTopic={(topic) => goTo('mode', { selectedSubject, selectedTopic: topic })}
               onBack={() => goTo('dashboard')}
+              semesterId={activeSemesterId}
             />
           )}
           {screen === 'mode' && (

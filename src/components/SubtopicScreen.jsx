@@ -8,7 +8,7 @@ import './Dashboard.css';
 // from Subject to Quiz Mode - a screenshot of the real old site proved
 // otherwise). Reuses SubjectCard + Dashboard's header/grid classes for
 // exact visual consistency with "Choose a Subject", one level down.
-export default function SubtopicScreen({ mainSubject, mainSubjectMeta, subjectMeta, subjectGroup, questions, onSelectTopic, onBack }) {
+export default function SubtopicScreen({ mainSubject, mainSubjectMeta, subjectMeta, subjectGroup, questions, onSelectTopic, onBack, semesterId }) {
   const topics = useMemo(() => {
     const counts = {};
     for (const q of questions) {
@@ -33,7 +33,7 @@ export default function SubtopicScreen({ mainSubject, mainSubjectMeta, subjectMe
         <div className="subj-sub">Select a topic within {mainSubject}</div>
       </div>
 
-      <HomeNoticeBanner />
+      <HomeNoticeBanner semesterId={semesterId} />
 
       <div className="subj-grid">
         <SubjectCard emoji="←" name="Back to Subjects" desc="" onClick={onBack} />
