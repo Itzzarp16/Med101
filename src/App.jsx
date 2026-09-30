@@ -422,7 +422,7 @@ export default function App() {
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
           <Suspense fallback={<ScreenFallback />}>
-            <SettingsScreen onBack={goBack} onYourData={() => goTo('your-data')} />
+            <SettingsScreen onBack={goBack} onProfile={() => goTo('profile')} />
           </Suspense>
         </div>
       </div>
