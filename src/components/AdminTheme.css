@@ -317,3 +317,31 @@ body.light-mode .an-chip.active { color: #fff; }
 .admin-portal .sub-custom { width: 130px; padding: 6px 12px; font-size: 12.5px; }
 .sub-grantrow { display: flex; gap: 10px; margin-top: 8px; }
 .sub-grantrow .btn-glow, .sub-grantrow .btn-ghost { padding: 9px 18px; font-size: 13.5px; }
+
+/* Subscribers: search + compact collapsible cards */
+.sub-search { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.sub-search .auth-input { flex: 1; min-width: 0; }
+.sub-count { font-family: var(--font-mono); font-size: 11.5px; color: var(--text3); white-space: nowrap; }
+.sub-card { padding: 0 !important; gap: 0 !important; overflow: hidden; }
+.sub-toggle {
+  width: 100%; padding: 13px 16px; border: none; background: transparent;
+  text-align: left; font: inherit; color: inherit; cursor: pointer;
+  transition: background 0.15s;
+}
+.sub-toggle:hover { background: var(--surface2); }
+.sub-card .sub-avatar { width: 36px; height: 36px; font-size: 14px; }
+.sub-chevron { color: var(--text3); font-size: 14px; transition: transform 0.2s; flex-shrink: 0; }
+.sub-card.open .sub-chevron { transform: rotate(180deg); }
+.sub-body {
+  display: flex; flex-direction: column; gap: 16px;
+  padding: 2px 16px 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+}
+.sub-body .sub-grid { border-top: none; padding-top: 0; }
+.sub-toggle .sub-pill { padding: 4px 10px; font-size: 11.5px; }
+.sub-search + .sub-card, .sub-card + .sub-card { margin-top: 10px; }
+@media (max-width: 860px) {
+  .sub-toggle { flex-wrap: nowrap !important; gap: 10px; }
+  .sub-toggle .sub-pill { order: 0; }
+}

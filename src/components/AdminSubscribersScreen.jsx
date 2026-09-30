@@ -30,6 +30,16 @@ export default function AdminSubscribersScreen({ onBack, hideBack = false }) {
   const [grantCustom, setGrantCustom] = useState('');
   const [grantBusy, setGrantBusy] = useState(false);
   const [grantMsg, setGrantMsg] = useState(null); // { ok, text }
+  const [search, setSearch] = useState('');
+  const [expanded, setExpanded] = useState(() => new Set()); // codes whose card is open
+  const toggleOpen = (code) => {
+    playTapSound();
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      if (next.has(code)) next.delete(code); else next.add(code);
+      return next;
+    });
+  };
 
   useEffect(() => {
     const unsub = subscribeToAllActivationCodes((list) => {
@@ -87,6 +97,12 @@ export default function AdminSubscribersScreen({ onBack, hideBack = false }) {
   }
 
   const active = codes ? codes.filter((c) => c.used && c.expiresAt && c.expiresAt.getTime() > Date.now()) : [];
+  const q = search.trim().toLowerCase();
+  const shown = q
+    ? active.filter((c) =>
+        [c.studentName, c.studentEmail, c.code, c.phone, c.utr, c.bankingName, SEMESTER_LABELS[c.yearSemester] || 'all semesters']
+          .some((v) => String(v || '').toLowerCase().includes(q)))
+    : active;
 
   return (
     <div className="std-screen">
@@ -110,12 +126,32 @@ export default function AdminSubscribersScreen({ onBack, hideBack = false }) {
       ) : active.length === 0 ? (
         <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No active subscriptions right now.</div>
       ) : (
-        active.map((c) => {
+        <>
+        <div className="sub-search">
+          <input
+            className="auth-input"
+            type="search"
+            placeholder="Search name, email, code, semester…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <span className="sub-count">{shown.length === active.length ? `${active.length} subscribers` : `${shown.length} of ${active.length}`}</span>
+        </div>
+        {shown.length === 0 && (
+          <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No subscribers match “{search}”.</div>
+        )}
+        {shown.map((c) => {
           const expiry = expiryLabel(c);
           const revoking = revokingCode === c.code;
+          const open = expanded.has(c.code) || grantingCode === c.code || revoking;
           return (
-            <div key={c.code} className="glass std-card sub-card">
-              <div className="sub-top">
+            <div key={c.code} className={open ? 'glass std-card sub-card open' : 'glass std-card sub-card'}>
+              <button
+                type="button"
+                className="sub-top sub-toggle"
+                aria-expanded={open}
+                onClick={() => toggleOpen(c.code)}
+              >
                 <div className="sub-avatar" aria-hidden="true">{(c.studentName || '?').trim().charAt(0).toUpperCase()}</div>
                 <div className="sub-id">
                   <div className="sub-name">{c.studentName}</div>
@@ -127,7 +163,10 @@ export default function AdminSubscribersScreen({ onBack, hideBack = false }) {
                 >
                   {expiry.text}
                 </div>
-              </div>
+                <span className="sub-chevron" aria-hidden="true">▾</span>
+              </button>
+              {open && (
+              <div className="sub-body">
               <dl className="sub-grid">
                 {c.bankingName && <div><dt>Paid as</dt><dd>{c.bankingName}</dd></div>}
                 {c.phone && <div><dt>Phone</dt><dd>{c.phone}</dd></div>}
@@ -231,9 +270,12 @@ export default function AdminSubscribersScreen({ onBack, hideBack = false }) {
                   })()}
                 </>
               )}
+              </div>
+              )}
             </div>
           );
-        })
+        })}
+        </>
       )}
     </div>
   );
