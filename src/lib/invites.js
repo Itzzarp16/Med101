@@ -2,15 +2,13 @@ import {
   addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp,
 } from 'firebase/firestore';
 import { db } from './firebase';
-
-function normalize(name) {
-  return name.trim().toLowerCase();
-}
+import { normalize, usernameDocId } from './profile';
 
 // Looks up a uid + display username from a claimed username. Returns
 // null if nobody has claimed that name.
 export async function lookupUsername(rawName) {
-  const snap = await getDoc(doc(db, 'usernames', normalize(rawName)));
+  if (!normalize(rawName)) return null;
+  const snap = await getDoc(doc(db, 'usernames', usernameDocId(rawName)));
   if (!snap.exists()) return null;
   return { uid: snap.data().uid, username: snap.data().username };
 }

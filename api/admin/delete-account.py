@@ -18,6 +18,7 @@ Required env vars (already set for the other endpoints):
 """
 
 import json
+from urllib.parse import quote
 import os
 import re
 
@@ -57,6 +58,17 @@ def _init_admin():
     })
     _app = firebase_admin.initialize_app(cred)
     return _app
+
+
+
+def username_doc_id(name):
+    """Mirror of usernameDocId() in src/lib/profile.js: the usernames/{id}
+    doc ID is the percent-encoded, normalized name (Firestore IDs can't hold
+    '/', '.', '..' or '__x__'). Plain a-z0-9_ names encode to themselves."""
+    encoded = quote(name, safe="!'()*-._~").replace('.', '%2E')
+    if re.match(r'^__.*__$', encoded):
+        encoded = '%5F' + encoded[1:]
+    return encoded
 
 
 class handler(BaseHTTPRequestHandler):
@@ -127,9 +139,9 @@ class handler(BaseHTTPRequestHandler):
             db.recursive_delete(user_ref)  # users/{uid} + every subcollection
             db.collection('leaderboard').document(uid).delete()
             db.collection('presence').document(uid).delete()
-            username = data.get('username')
+            username = data.get('usernameNormalized') or (data.get('username') or '').strip().lower()
             if username:
-                claim_ref = db.collection('usernames').document(username)
+                claim_ref = db.collection('usernames').document(username_doc_id(username))
                 claim = claim_ref.get()
                 if claim.exists and (claim.to_dict() or {}).get('uid') == uid:
                     claim_ref.delete()

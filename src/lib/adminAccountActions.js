@@ -1,5 +1,6 @@
 import { doc, getDoc, getDocs, setDoc, deleteDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from './firebase';
+import { usernameDocId } from './profile';
 
 // Subcollections under users/{uid} that need to be wiped when an
 // account is deleted. (friends/invites point at OTHER users' data by
@@ -46,7 +47,7 @@ async function softDeleteAccount(uid) {
   const failed = SUBCOLLECTIONS.filter((_, i) => results[i].status === 'rejected');
   await deleteDoc(doc(db, 'leaderboard', uid)).catch(() => {}); // fine if they never had one
   if (data.username) {
-    await deleteDoc(doc(db, 'usernames', data.username)).catch(() => {});
+    await deleteDoc(doc(db, 'usernames', usernameDocId(data.usernameNormalized || data.username))).catch(() => {});
   }
 
   await setDoc(

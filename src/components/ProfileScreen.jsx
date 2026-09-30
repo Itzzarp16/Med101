@@ -283,7 +283,7 @@ export default function ProfileScreen({ onBack }) {
                   aria-label="Username"
                   autoFocus
                 />
-                <p className="std-note">3–20 characters: letters, numbers, or underscore. No one else can have the same one.</p>
+                <p className="std-note">Pick anything you like. No one else can have the same one.</p>
                 {usernameMsg && <div className={`auth-msg ${usernameMsg.type}`} style={{ display: 'block' }}>{usernameMsg.text}</div>}
                 <div className="profile-row-edit-actions">
                   <button className="btn-ghost" onClick={() => { playTapSound(); setEditingUsername(false); setUsernameMsg(null); }} disabled={usernameSaving}>Cancel</button>

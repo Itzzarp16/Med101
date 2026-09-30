@@ -79,11 +79,31 @@ export async function uploadProfilePhoto(user, file) {
   return dataUri;
 }
 
-export function normalize(name) {
-  return name.trim().toLowerCase();
+// Usernames have no length or character limit - anything the student
+// types is allowed. Only two light clean-ups: a leading "@" is dropped
+// (the UI already shows one) and case/Unicode-form differences don't
+// count as different names, so "Sanjana" and "sanjana" can't both exist.
+export function cleanUsername(name) {
+  return String(name || '').trim().replace(/^@+/, '').trim();
 }
 
-export const USERNAME_RULES = /^[a-z0-9_]{3,20}$/;
+export function normalize(name) {
+  return cleanUsername(name).normalize('NFC').toLowerCase();
+}
+
+// Firestore document IDs can't contain "/", can't be "." or "..", and
+// can't look like "__anything__", and are capped at 1500 bytes. So the
+// name is percent-encoded into an ID that always satisfies those rules.
+// Names made only of a-z, 0-9 and "_" (every name created before the
+// limits were lifted) encode to themselves, so existing claims keep
+// working unchanged.
+const MAX_DOC_ID_LENGTH = 1400;
+
+export function usernameDocId(name) {
+  let id = encodeURIComponent(normalize(name)).replace(/\./g, '%2E');
+  if (/^__.*__$/.test(id)) id = `%5F${id.slice(1)}`;
+  return id;
+}
 
 // Checks whether a username is currently free, for live feedback on
 // the signup form (step 1) before an account even exists. Only usable
@@ -92,7 +112,7 @@ export const USERNAME_RULES = /^[a-z0-9_]{3,20}$/;
 // exist before and people only found out a name was taken after
 // their account was already created.
 export async function checkUsernameAvailable(rawName) {
-  const snap = await getDoc(doc(db, 'usernames', normalize(rawName)));
+  const snap = await getDoc(doc(db, 'usernames', usernameDocId(rawName)));
   return !snap.exists();
 }
 
@@ -101,10 +121,9 @@ export async function checkUsernameAvailable(rawName) {
 // for reads on `usernames`. Real uniqueness is still only settled by
 // claimUsername's transaction after the account exists.
 export function usernameFormatError(rawName) {
-  const normalized = normalize(rawName.trim());
-  if (!USERNAME_RULES.test(normalized)) {
-    return 'Username must be 3-20 characters: letters, numbers, or underscore only.';
-  }
+  const normalized = normalize(rawName);
+  if (!normalized) return 'Please enter a username.';
+  if (usernameDocId(rawName).length > MAX_DOC_ID_LENGTH) return 'That username is too long.';
   return null;
 }
 
@@ -127,13 +146,12 @@ export async function fetchMyUsername(uid) {
 // wins and the other gets 'already-claimed' cleanly instead of both
 // silently succeeding.
 export async function claimUsername(user, rawName) {
-  const display = rawName.trim();
+  const display = cleanUsername(rawName);
   const normalized = normalize(display);
-  if (!USERNAME_RULES.test(normalized)) {
-    throw new Error('Username must be 3-20 characters: letters, numbers, or underscore only.');
-  }
+  const formatError = usernameFormatError(display);
+  if (formatError) throw new Error(formatError);
 
-  const newRef = doc(db, 'usernames', normalized);
+  const newRef = doc(db, 'usernames', usernameDocId(display));
   const userRef = doc(db, 'users', user.uid);
 
   await runTransaction(db, async (tx) => {
@@ -146,7 +164,7 @@ export async function claimUsername(user, rawName) {
     const previousUsername = userSnap.exists() ? userSnap.data().usernameNormalized : null;
 
     if (previousUsername && previousUsername !== normalized) {
-      tx.delete(doc(db, 'usernames', previousUsername));
+      tx.delete(doc(db, 'usernames', usernameDocId(previousUsername)));
     }
 
     tx.set(newRef, { uid: user.uid, username: display }, { merge: true });
