@@ -1,7 +1,10 @@
 .legal-footer {
   width: 100%;
   box-sizing: border-box;
-  background: var(--chrome-bg-strip);
+  /* transparent so the footer is the same colour as the page above it
+     (it used to be a separate white/near-black band) */
+  background: transparent;
+  border-top: 1px solid var(--border);
   color: var(--text2);
   text-align: center;
   padding: 22px 20px 26px;

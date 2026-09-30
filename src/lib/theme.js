@@ -17,6 +17,10 @@ export function isLightMode() {
 
 function apply(theme) {
   document.body.classList.toggle('light-mode', theme === 'light');
+  // Also on <html>: the canvas takes its colour from <html> (index.html
+  // sets it dark for the loader), so without this a light-mode page shows
+  // a black strip wherever the body doesn't fill the viewport.
+  document.documentElement.classList.toggle('light-mode', theme === 'light');
 }
 
 export function setTheme(theme) {
