@@ -3,6 +3,8 @@ import { useAuth } from '../lib/AuthContext';
 import { fetchWrongQuestions, fetchFlaggedQuestions, removeWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
 import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
+import QuestionListCard from './QuestionListCard';
+import './ListScreens.css';
 
 export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
   const { user } = useAuth();
@@ -45,11 +47,11 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
         Questions you've missed or starred for extra review.
       </ScreenHeader>
 
-      <div className="auth-tabs" style={{ marginBottom: 16 }}>
-        <button type="button" className={tab === 'wrong' ? 'auth-tab active' : 'auth-tab'} onClick={() => { playTapSound(); setTab('wrong'); }}>
+      <div className="lu-tabs" role="tablist" aria-label="Wrong or flagged">
+        <button type="button" role="tab" aria-selected={tab === 'wrong'} className={tab === 'wrong' ? 'lu-tab on' : 'lu-tab'} onClick={() => { playTapSound(); setTab('wrong'); }}>
           ❌ Wrong ({wrong.length})
         </button>
-        <button type="button" className={tab === 'flagged' ? 'auth-tab active' : 'auth-tab'} onClick={() => { playTapSound(); setTab('flagged'); }}>
+        <button type="button" role="tab" aria-selected={tab === 'flagged'} className={tab === 'flagged' ? 'lu-tab on' : 'lu-tab'} onClick={() => { playTapSound(); setTab('flagged'); }}>
           ⭐ Flagged ({flagged.length})
         </button>
       </div>
@@ -57,42 +59,25 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
       {loading ? (
         <div className="std-loading">Loading…</div>
       ) : list.length === 0 ? (
-        <div className="glass std-card empty-state">
+        <div className="glass lu-empty">
           <div className="empty-state-icon">{tab === 'wrong' ? '✅' : '🔖'}</div>
           <div>{tab === 'wrong' ? "You haven't missed anything here yet." : "Star a question during a quiz to save it here."}</div>
         </div>
       ) : (
         <>
-          <button className="btn-glow std-save-btn" onClick={handlePractice} style={{ marginBottom: 14 }}>
-            Practice These ({list.length}) →
-          </button>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div className="lu-list">
             {list.map((item) => (
-              <div key={item.id} className="glass" style={{ padding: 14 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 8 }}>
-                  <span className="badge badge-cyan">{item.s}</span>
-                  <button onClick={() => handleRemove(item)} style={{ background: 'none', border: 'none', color: 'var(--text3)', cursor: 'pointer', fontSize: 13 }} aria-label={tab === 'wrong' ? 'Remove from wrong questions' : 'Unflag this question'}>✕</button>
-                </div>
-                <p style={{ fontSize: 13.5, color: 'var(--text)', margin: '0 0 8px' }}>{item.q}</p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                  {item.o.map((opt, i) => (
-                    <span
-                      key={i}
-                      style={{
-                        fontSize: 12,
-                        padding: '5px 10px',
-                        borderRadius: 8,
-                        background: i === item.c ? 'rgba(48,242,138,0.12)' : 'var(--g1)',
-                        color: i === item.c ? 'var(--green)' : 'var(--text3)',
-                      }}
-                    >
-                      {opt}
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <QuestionListCard
+                key={item.id}
+                item={item}
+                badges={<span className="badge badge-cyan">{item.s}</span>}
+                onRemove={() => handleRemove(item)}
+                removeLabel={tab === 'wrong' ? 'Remove from wrong questions' : 'Unflag this question'}
+              />
             ))}
+          </div>
+          <div className="lu-bar">
+            <button className="btn-glow" onClick={handlePractice}>Practice These ({list.length}) →</button>
           </div>
         </>
       )}

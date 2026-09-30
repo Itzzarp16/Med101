@@ -1,23 +1,10 @@
 import { useMemo, useState } from 'react';
 import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
+import QuestionListCard from './QuestionListCard';
+import './ListScreens.css';
 
 const MAX_RESULTS = 60;
-
-function highlight(text, term) {
-  if (!term) return text;
-  const idx = text.toLowerCase().indexOf(term.toLowerCase());
-  if (idx === -1) return text;
-  return (
-    <>
-      {text.slice(0, idx)}
-      <mark style={{ background: 'rgba(var(--cyan-rgb),0.25)', color: 'var(--cyan)', borderRadius: 3, padding: '0 2px' }}>
-        {text.slice(idx, idx + term.length)}
-      </mark>
-      {text.slice(idx + term.length)}
-    </>
-  );
-}
 
 // scopedQuestions/subjectGroup/mainSubjectMeta all come from the
 // already-loaded active-semester data - search is purely client-side
@@ -48,7 +35,8 @@ export default function SearchScreen({ scopedQuestions, subjectGroup, mainSubjec
         Search across every subject in your current semester.
       </ScreenHeader>
 
-      <div className="glass std-card">
+      <div className="lu-search">
+        <span className="lu-search-ico" aria-hidden="true">🔍</span>
         <input
           className="auth-input"
           value={term}
@@ -56,59 +44,44 @@ export default function SearchScreen({ scopedQuestions, subjectGroup, mainSubjec
           placeholder="e.g. cardiac output, glomerulus, enzyme..." aria-label="Search questions"
           autoFocus
         />
-        {term.trim().length >= 2 && (
-          <p className="std-note">
-            {results.length}{results.length === MAX_RESULTS ? '+' : ''} match{results.length === 1 ? '' : 'es'}
-            {results.length === MAX_RESULTS && ' (showing first 60, narrow your search for more precise results)'}
-          </p>
+        {term && (
+          <button type="button" className="lu-search-clear" onClick={() => { playTapSound(); setTerm(''); }} aria-label="Clear search">✕</button>
         )}
       </div>
 
+      {term.trim().length >= 2 && (
+        <p className="lu-note">
+          {results.length}{results.length === MAX_RESULTS ? '+' : ''} match{results.length === 1 ? '' : 'es'}
+          {results.length === MAX_RESULTS && ' (showing first 60 - narrow your search for more precise results)'}
+        </p>
+      )}
+
       {term.trim().length > 0 && term.trim().length < 2 && (
-        <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>
-          Keep typing, at least 2 characters.
-        </div>
+        <div className="glass lu-empty">Keep typing, at least 2 characters.</div>
       )}
 
       {results.length > 0 && (
         <>
-          <button className="btn-glow std-save-btn" onClick={handlePractice} style={{ marginTop: 14, marginBottom: 14 }}>
-            Practice These ({results.length}) →
-          </button>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div className="lu-list">
             {results.map((q, i) => {
               const mainSubject = subjectGroup[q.s];
               return (
-                <div key={i} className="glass" style={{ padding: 14 }}>
-                  <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
-                    {mainSubject && (
-                      <span className="badge" style={{ background: 'var(--g1)', color: 'var(--text2)', border: '1px solid var(--border)' }}>
-                        {mainSubjectMeta[mainSubject]?.emoji} {mainSubject}
-                      </span>
-                    )}
-                    <span className="badge badge-cyan">{q.s}</span>
-                  </div>
-                  <p style={{ fontSize: 13.5, color: 'var(--text)', margin: '0 0 8px' }}>{highlight(q.q, term.trim())}</p>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                    {q.o.map((opt, oi) => (
-                      <span
-                        key={oi}
-                        style={{
-                          fontSize: 12,
-                          padding: '5px 10px',
-                          borderRadius: 8,
-                          background: oi === q.c ? 'rgba(48,242,138,0.12)' : 'var(--g1)',
-                          color: oi === q.c ? 'var(--green)' : 'var(--text3)',
-                        }}
-                      >
-                        {highlight(opt, term.trim())}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+                <QuestionListCard
+                  key={i}
+                  item={q}
+                  term={term.trim()}
+                  badges={(
+                    <>
+                      {mainSubject && <span className="badge">{mainSubjectMeta[mainSubject]?.emoji} {mainSubject}</span>}
+                      <span className="badge badge-cyan">{q.s}</span>
+                    </>
+                  )}
+                />
               );
             })}
+          </div>
+          <div className="lu-bar">
+            <button className="btn-glow" onClick={handlePractice}>Practice These ({results.length}) →</button>
           </div>
         </>
       )}

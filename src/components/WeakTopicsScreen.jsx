@@ -2,8 +2,11 @@ import { useMemo } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
+import './ListScreens.css';
 
 const MIN_ANSWERED = 5; // lower bar than the dashboard card since this is an intentional deep-dive
+
+const toneOf = (pct) => (pct < 50 ? 'var(--red)' : pct < 75 ? 'var(--amber)' : 'var(--green)');
 
 export default function WeakTopicsScreen({ onPracticeTopic, onBack }) {
   const { profile } = useAuth();
@@ -29,28 +32,34 @@ export default function WeakTopicsScreen({ onPracticeTopic, onBack }) {
       </ScreenHeader>
 
       {topics.length === 0 ? (
-        <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)', fontSize: 13 }}>
+        <div className="glass lu-empty">
           Answer at least {MIN_ANSWERED} questions in a topic to see it ranked here.
         </div>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {topics.map((t) => (
-            <div key={t.subtopic} className="glass" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: 12 }}>
-              <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)' }}>{t.subtopic}</div>
-                <div style={{ fontSize: 11, color: 'var(--text3)', marginTop: 2 }}>
-                  {t.mainSubject} · {t.correct}/{t.answered} correct
+        <>
+          <div className="lu-chips">
+            <span className="lu-chip"><b>{topics.length}</b> topic{topics.length === 1 ? '' : 's'}</span>
+            <span className="lu-chip"><b style={{ color: toneOf(topics[0].accuracyPct) }}>{topics[0].accuracyPct}%</b> weakest</span>
+            <span className="lu-chip"><b>{topics.filter((t) => t.accuracyPct < 50).length}</b> under 50%</span>
+          </div>
+          <div className="lu-list">
+            {topics.map((t) => (
+              <div key={t.subtopic} className="glass wk-card">
+                <div className="wk-top">
+                  <div className="wk-main">
+                    <div className="wk-name">{t.subtopic}</div>
+                    <div className="wk-meta">{t.mainSubject} · {t.correct}/{t.answered} correct</div>
+                  </div>
+                  <div className="wk-pct" style={{ color: toneOf(t.accuracyPct) }}>{t.accuracyPct}%</div>
+                  <button className="tpreset sel wk-practice" onClick={() => { playTapSound(); onPracticeTopic(t.mainSubject, t.subtopic); }}>
+                    Practice
+                  </button>
                 </div>
+                <div className="wk-bar" aria-hidden="true"><span style={{ width: `${t.accuracyPct}%`, background: toneOf(t.accuracyPct) }} /></div>
               </div>
-              <div style={{ fontWeight: 800, fontSize: 15, color: t.accuracyPct < 50 ? 'var(--red)' : t.accuracyPct < 75 ? 'var(--amber)' : 'var(--green)' }}>
-                {t.accuracyPct}%
-              </div>
-              <button className="tpreset sel" onClick={() => { playTapSound(); onPracticeTopic(t.mainSubject, t.subtopic); }}>
-                Practice
-              </button>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
