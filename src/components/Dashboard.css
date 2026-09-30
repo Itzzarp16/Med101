@@ -64,6 +64,14 @@
   color: var(--heading);
 }
 
+.dashboard-nudge {
+  margin: 6px auto 0;
+  max-width: 34ch;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text2);
+}
+
 .subj-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
