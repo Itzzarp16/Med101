@@ -1,6 +1,8 @@
 import { useMemo } from 'react';
 import SubjectCard from './SubjectCard';
 import HomeNoticeBanner from './HomeNoticeBanner';
+import { useExams } from '../lib/examSchedule';
+import { examStatus } from '../lib/examDates';
 import './Dashboard.css';
 
 // Restores the old site's "Choose a Subtopic" step (was briefly
@@ -9,6 +11,10 @@ import './Dashboard.css';
 // otherwise). Reuses SubjectCard + Dashboard's header/grid classes for
 // exact visual consistency with "Choose a Subject", one level down.
 export default function SubtopicScreen({ mainSubject, mainSubjectMeta, subjectMeta, subjectGroup, questions, onSelectTopic, onBack, semesterId }) {
+  const exams = useExams(semesterId);
+  const exam = exams.find((e) => e.subject === mainSubject);
+  const examInfo = exam ? examStatus(exam) : null;
+
   const topics = useMemo(() => {
     const counts = {};
     for (const q of questions) {
@@ -31,6 +37,7 @@ export default function SubtopicScreen({ mainSubject, mainSubjectMeta, subjectMe
         <div className="subj-icon">🩺</div>
         <div className="subj-title">Choose a Subtopic</div>
         <div className="subj-sub">Select a topic within {mainSubject}</div>
+        {examInfo && <div className="subj-sub">📅 Exam {examInfo.dateText} · {examInfo.daysText}</div>}
       </div>
 
       <div className="dash-top">

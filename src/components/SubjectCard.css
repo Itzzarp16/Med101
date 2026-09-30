@@ -206,3 +206,13 @@
 .subj-card--dash .subj-meta > span + span::before { content: '·'; margin-right: 8px; opacity: 0.6; }
 .subj-card--dash .subj-count { margin-top: 3px; font-size: 12px; }
 .subj-card--dash:hover { transform: none; }
+
+/* Exam date line on a subject card */
+.subj-exam {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cyan);
+}
+.subj-exam.soon { color: var(--red); }

@@ -1,0 +1,59 @@
+.exam-card {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid var(--g-border);
+  border-radius: 14px;
+  background: rgba(var(--cyan-rgb), 0.06);
+  overflow: hidden;
+}
+.exam-card-main {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: none;
+  border: 0;
+  color: var(--text);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.exam-card-icon { font-size: 26px; flex-shrink: 0; }
+.exam-card-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
+.exam-card-kicker { font-size: 11px; letter-spacing: 1px; text-transform: uppercase; opacity: 0.6; }
+.exam-card-name { font-weight: 700; font-size: 16px; overflow-wrap: anywhere; }
+.exam-card-date { font-size: 13px; opacity: 0.75; }
+.exam-card-days {
+  flex-shrink: 0;
+  min-width: 56px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 700;
+  background: rgba(var(--cyan-rgb), 0.18);
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.exam-card-days b { font-size: 20px; }
+.exam-card-days small { font-size: 11px; font-weight: 600; opacity: 0.8; }
+.exam-card-days.soon { background: rgba(255, 58, 92, 0.2); color: var(--red); }
+.exam-card-list {
+  list-style: none;
+  margin: 0;
+  padding: 4px 14px 12px;
+  border-top: 1px solid var(--g-border);
+}
+.exam-card-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  font-size: 14px;
+  border-bottom: 1px dashed var(--g-border);
+}
+.exam-card-list li:last-child { border-bottom: 0; }
+.exam-li-name { overflow-wrap: anywhere; }
+.exam-li-name em { opacity: 0.6; font-style: normal; font-size: 12px; }
+.exam-li-date { opacity: 0.7; white-space: nowrap; font-size: 13px; }

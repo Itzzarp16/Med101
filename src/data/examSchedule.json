@@ -1,0 +1,12 @@
+{
+  "y2s1": [
+    { "subject": "Community Medicine", "date": "2027-01-18", "time": "08:00-17:00" },
+    { "subject": "Clinical Biochemistry", "date": "2027-01-20", "time": "08:00-17:00" },
+    { "subject": "Human Physiology 2", "date": "2027-01-22", "time": "08:00-17:00" },
+    { "subject": "Topographical Anatomy and Operative Surgery", "date": "2027-01-23", "time": "08:00-17:00" },
+    { "subject": "Pathology 1", "date": "2027-01-25", "time": "08:00-17:00" },
+    { "subject": "Microbiology", "label": "Microbiology, Virology", "date": "2027-01-27", "time": "08:00-17:00" },
+    { "subject": "Medical Radiology and Radiotherapy", "date": "2027-01-29", "time": "08:00-17:00", "note": "GM2 only" },
+    { "subject": "Practice: Ward assistant and procedure nursing clinical clerkship", "date": "2027-01-30", "time": "08:00-17:00", "note": "GM1 only" }
+  ]
+}

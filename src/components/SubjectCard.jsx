@@ -19,7 +19,7 @@ function traceDelayFor(name) {
   return (hash % 26) / 10; // 0 - 2.5s
 }
 
-export default function SubjectCard({ emoji, name, desc, questionCount, topicCount, trace, progress, onClick }) {
+export default function SubjectCard({ emoji, name, desc, questionCount, topicCount, trace, progress, exam, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
   return (
@@ -28,6 +28,11 @@ export default function SubjectCard({ emoji, name, desc, questionCount, topicCou
       <span className="subj-card-text">
         <span className="subj-name">{name}</span>
         {desc && <span className="subj-count">{desc}</span>}
+        {exam && (
+          <span className={exam.days <= 7 ? 'subj-exam soon' : 'subj-exam'}>
+            📅 Exam {exam.dateText} · {exam.daysText}
+          </span>
+        )}
 
         <span className="subj-foot">
           <span className="subj-meta">

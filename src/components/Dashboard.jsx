@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import SubjectCard from './SubjectCard';
 import HomeNoticeBanner from './HomeNoticeBanner';
+import ExamCountdown from './ExamCountdown';
+import { useExams } from '../lib/examSchedule';
+import { examStatus } from '../lib/examDates';
 import PendingInvites from './PendingInvites';
 import LegalFooter from './LegalFooter';
 import { useAuth } from '../lib/AuthContext';
@@ -193,6 +196,13 @@ function getGreeting(kgNow, questionsToday) {
 // header, then the scrolling notice, then a centered max-width subj-grid.
 export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, semesterId }) {
   const { user, profile } = useAuth();
+  // Exam dates for this semester: one card at the top plus a date line on each subject.
+  const exams = useExams(semesterId);
+  const examBySubject = {};
+  for (const e of exams) {
+    const status = examStatus(e);
+    if (status && !examBySubject[e.subject]) examBySubject[e.subject] = status;
+  }
   // Re-check the clock every minute so the greeting flips at the hour
   // boundary even if the page has been left open.
   const [kgNow, setKgNow] = useState(kyrgyzstanNow);
@@ -256,6 +266,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
           {resumeCard}
           <HomeNoticeBanner semesterId={semesterId} />
           <PendingInvites onAccept={onAcceptInvite} />
+          <ExamCountdown exams={exams} />
         </div>
 
         <div className="subj-grid">
@@ -283,6 +294,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
                 questionCount={subjectStats[name]?.questionCount}
                 topicCount={subjectStats[name]?.topicCount}
                 trace
+                exam={examBySubject[name] || null}
                 progress={prog && prog.answered > 0 ? { answered: prog.answered, pct: Math.round((prog.correct / prog.answered) * 100) } : null}
                 onClick={() => (hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
               />

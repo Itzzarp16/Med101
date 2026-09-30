@@ -56,6 +56,7 @@ const PremiumScreen = lazy(() => import('./components/PremiumScreen'));
 const AdminCalendarScreen = lazy(() => import('./components/AdminCalendarScreen'));
 const AdminUploadQuestionsScreen = lazy(() => import('./components/AdminUploadQuestionsScreen'));
 const AdminNoticeScreen = lazy(() => import('./components/AdminNoticeScreen'));
+const AdminExamScheduleScreen = lazy(() => import('./components/AdminExamScheduleScreen'));
 const AdminUserDetailScreen = lazy(() => import('./components/AdminUserDetailScreen'));
 const AdminAnalyticsScreen = lazy(() => import('./components/AdminAnalyticsScreen'));
 const AdminPaymentsScreen = lazy(() => import('./components/AdminPaymentsScreen'));
@@ -441,6 +442,7 @@ export default function App() {
     onViewUser: (uid) => { setViewUserUid(uid); goTo('admin-user-detail'); },
     onAdminAnalytics: () => goTo('admin-analytics'),
     onAdminNotice: () => goTo('admin-notice'),
+    onAdminExams: () => goTo('admin-exams'),
     onAdminCalendar: () => goTo('admin-calendar'),
     onAdminUploadQuestions: () => goTo('admin-upload-questions'),
     onAdminPayments: () => goTo('admin-payments'),
@@ -497,6 +499,19 @@ export default function App() {
         <div className="screen-fade" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminCalendarScreen onBack={goBack} />
+          </Suspense>
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'admin-exams' && isAdmin) {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <div className="screen-fade" key={screen}>
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminExamScheduleScreen onBack={goBack} />
           </Suspense>
         </div>
       </div>
