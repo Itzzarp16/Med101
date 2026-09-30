@@ -572,8 +572,9 @@ export default function AuthScreen() {
     );
   }
 
-  // Swipe between Login and Create Account. Left swipe -> Login, right
-  // swipe -> Create Account. Swipes that start on a form field are ignored
+  // Swipe between Login and Create Account, following the tab order
+  // (Login is the left tab, Create Account the right one): swipe left ->
+  // Create Account, swipe right -> Login. Swipes that start on a form field are ignored
   // so selecting/dragging text in an input never switches tabs.
   const cardRef = useRef(null);
   const swipeRef = useRef(null);
@@ -596,13 +597,13 @@ export default function AuthScreen() {
     const dy = t.clientY - start.y;
     const isSwipe = Math.abs(dx) >= 70 && Math.abs(dx) >= Math.abs(dy) * 2 && Date.now() - start.at <= 800;
     if (!isSwipe) return;
-    const target = dx < 0 ? 'signin' : 'signup';
+    const target = dx < 0 ? 'signup' : 'signin';
     if (target === mode) return;
     switchMode(target);
     const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
     if (!reduce && cardRef.current?.animate) {
       cardRef.current.animate(
-        [{ transform: `translateX(${dx < 0 ? -28 : 28}px)`, opacity: 0.5 }, { transform: 'none', opacity: 1 }],
+        [{ transform: `translateX(${dx < 0 ? 28 : -28}px)`, opacity: 0.5 }, { transform: 'none', opacity: 1 }],
         { duration: 220, easing: 'ease-out' },
       );
     }
