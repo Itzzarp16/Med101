@@ -1,0 +1,62 @@
+/* Friends screen - simple numbered steps, one job per card. */
+.fr-step { display: flex; align-items: center; gap: 8px; margin: 20px 2px 8px; }
+.fr-step-num {
+  width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+  background: rgba(var(--cyan-rgb), 0.18); color: var(--cyan);
+}
+.fr-step-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.fr-note { font-size: 12.5px; line-height: 1.45; color: var(--text2); margin: 10px 0 0; }
+
+/* 1 - my username */
+.fr-me { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.fr-me-name {
+  min-width: 0; overflow-wrap: anywhere;
+  font-family: var(--font-mono); font-size: 17px; font-weight: 700; color: var(--text);
+}
+.fr-btn-row { display: flex; gap: 8px; flex-shrink: 0; }
+.fr-small-btn { padding: 9px 14px !important; font-size: 13px !important; white-space: nowrap; width: auto; }
+
+/* 2 - add */
+.fr-add-row { display: flex; gap: 8px; align-items: stretch; }
+.fr-at-wrap { position: relative; flex: 1; min-width: 0; }
+.fr-at {
+  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+  color: var(--text3); font-family: var(--font-mono); pointer-events: none;
+}
+.fr-at-wrap .auth-input { width: 100%; padding-left: 32px; font-family: var(--font-mono); margin: 0; }
+.fr-add-btn { flex-shrink: 0; padding: 0 20px !important; font-size: 14px !important; width: auto; }
+.fr-msg { margin-top: 10px; font-size: 13px; font-weight: 600; }
+.fr-msg.ok { color: var(--green); }
+.fr-msg.error { color: var(--red); }
+
+/* 3 - list */
+.fr-list { display: flex; flex-direction: column; gap: 8px; }
+.fr-row { display: flex; align-items: center; gap: 10px; padding: 10px 12px; }
+.fr-avatar {
+  width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; color: #fff;
+  background: linear-gradient(135deg, rgba(var(--cyan-rgb), 0.75), rgba(var(--violet-rgb), 0.75));
+}
+.fr-row-name {
+  flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 14.5px; font-weight: 600; color: var(--text);
+}
+.fr-remove {
+  background: none; border: none; cursor: pointer; flex-shrink: 0;
+  color: var(--text3); font-size: 13px; padding: 8px 6px; min-height: 36px; min-width: 32px;
+}
+.fr-remove.confirm { color: var(--red); font-weight: 700; }
+
+/* what to do together */
+.fr-actions { display: flex; flex-direction: column; gap: 8px; }
+.fr-action {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 14px 16px; text-align: left; cursor: pointer; color: var(--text);
+}
+.fr-action-icon { font-size: 26px; flex-shrink: 0; }
+.fr-action-title { display: block; font-size: 15px; font-weight: 700; color: var(--text); }
+.fr-action-desc { display: block; margin-top: 2px; font-size: 12.5px; line-height: 1.4; color: var(--text2); }
+.fr-action-chev { margin-left: auto; color: var(--text3); font-size: 20px; flex-shrink: 0; }

@@ -13,11 +13,11 @@ const MEDALS = ['🥇', '🥈', '🥉'];
 // segmented toggle) instead of being scattered down the page, so the
 // actual rankings show up sooner and the screen reads as one coherent
 // card rather than a stack of separate rows.
-export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack }) {
+export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack, startFriendsOnly = false }) {
   const { user } = useAuth();
   const [scope, setScope] = useState(''); // '' = global, or a subject name
   const [metric, setMetric] = useState('accuracyPct');
-  const [friendsOnly, setFriendsOnly] = useState(false);
+  const [friendsOnly, setFriendsOnly] = useState(startFriendsOnly);
   const [friendUids, setFriendUids] = useState([]);
   const [rows, setRows] = useState([]);
   const [myRank, setMyRank] = useState(null);

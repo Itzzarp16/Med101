@@ -170,6 +170,11 @@ export default function App() {
   // through the Challenge -> Room Lobby flow so the lobby can auto-invite
   // them once the room exists. Cleared once the invite is sent (or on back).
   const [challengeFriend, setChallengeFriend] = useState(null);
+  // Set when the leaderboard is opened from the Friends screen so it starts on
+  // "Friends only"; cleared whenever we're on any other screen so opening it
+  // from the menu later still starts on "Everyone".
+  const [lbFriendsOnly, setLbFriendsOnly] = useState(false);
+  useEffect(() => { if (screen !== 'leaderboard') setLbFriendsOnly(false); }, [screen]);
 
   // Seed a base history entry on mount (matching whatever screen was
   // restored above, so the back gesture stays consistent), then listen
@@ -856,6 +861,8 @@ export default function App() {
           <FriendsScreen
             onBack={goBack}
             onChallenge={(friend) => { setChallengeFriend(friend); goTo('challenge'); }}
+            onLeaderboard={() => { setLbFriendsOnly(true); goTo('leaderboard'); }}
+            onProfile={() => goTo('profile')}
           />
         </Suspense>
       )}
@@ -895,6 +902,7 @@ export default function App() {
           <LeaderboardScreen
             semesterId={activeSemesterId}
             mainSubjectMeta={scopedMainSubjectMeta}
+            startFriendsOnly={lbFriendsOnly}
             onBack={goBack}
           />
         </Suspense>
