@@ -107,26 +107,6 @@ export default function SettingsScreen({ onBack, onProfile }) {
           <h1 className="set-title">Settings</h1>
           <div className="set-sub">Account, preferences and semester.</div>
         </div>
-        {pushOk && (
-          <div className="set-row">
-            <span>{pushOn ? '🔔 Invite notifications on' : '🔕 Invite notifications off'}</span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={pushOn}
-              aria-label="Challenge invite notifications"
-              disabled={pushBusy || (pushPermission() === 'denied' && !pushOn)}
-              className={pushOn ? 'set-switch on' : 'set-switch'}
-              onClick={togglePush}
-            />
-          </div>
-        )}
-        {pushMsg && <div className="auth-msg error" style={{ display: 'block', margin: '6px 0' }}>{pushMsg}</div>}
-        {pushOk && pushPermission() === 'denied' && !pushOn && (
-          <div style={{ fontSize: 12, color: 'var(--text3)', padding: '6px 0' }}>
-            Notifications are blocked for this site. Allow them in your browser&apos;s site settings, then come back.
-          </div>
-        )}
       </div>
 
       <div className="set-section-label">Account</div>
@@ -160,7 +140,27 @@ export default function SettingsScreen({ onBack, onProfile }) {
             onClick={toggleSound}
           />
         </div>
+        {pushOk && (
+          <div className="set-row">
+            <span>{pushOn ? '🔔 Invite notifications on' : '🔕 Invite notifications off'}</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={pushOn}
+              aria-label="Challenge invite notifications"
+              disabled={pushBusy || (pushPermission() === 'denied' && !pushOn)}
+              className={pushOn ? 'set-switch on' : 'set-switch'}
+              onClick={togglePush}
+            />
+          </div>
+        )}
       </div>
+        {pushMsg && <div className="auth-msg error" style={{ display: 'block', margin: '6px 0' }}>{pushMsg}</div>}
+        {pushOk && pushPermission() === 'denied' && !pushOn && (
+          <div style={{ fontSize: 12, color: 'var(--text3)', padding: '6px 0' }}>
+            Notifications are blocked for this site. Allow them in your browser&apos;s site settings, then come back.
+          </div>
+        )}
 
       <div className="set-section-label">Study</div>
       <div className="glass set-card">
