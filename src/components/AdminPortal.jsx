@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import { isLightMode, setTheme } from '../lib/theme';
 import { useSemesterData } from '../lib/useSemesterData';
 import AdminNoticeScreen from './AdminNoticeScreen';
+import AdminBroadcastScreen from './AdminBroadcastScreen';
 import AdminCalendarScreen from './AdminCalendarScreen';
 import AdminUserDetailScreen from './AdminUserDetailScreen';
 import AdminAnalyticsScreen from './AdminAnalyticsScreen';
@@ -25,6 +26,7 @@ const NAV_GROUPS = [
   ] },
   { title: 'Content', tabs: [
     { id: 'notice', icon: '📢', label: 'Home Notice' },
+    { id: 'broadcast', icon: '🔔', label: 'Send Notification' },
     { id: 'calendar', icon: '⚙️', label: 'Academic Calendar' },
     { id: 'upload', icon: '📤', label: 'Upload Questions' },
   ] },
@@ -46,6 +48,7 @@ function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
   const noop = () => {};
   switch (tab) {
     case 'notice': return <AdminNoticeScreen onBack={noop} hideBack semesters={semesters} />;
+    case 'broadcast': return <AdminBroadcastScreen onBack={noop} hideBack />;
     case 'calendar': return <AdminCalendarScreen onBack={noop} hideBack />;
     case 'upload': return <AdminUploadQuestionsScreen onBack={noop} hideBack semesters={semesters} semesterMainSubjects={semesterMainSubjects} />;
     case 'users': return <AdminUserDetailScreen onBack={noop} initialUid={null} hideBack />;
