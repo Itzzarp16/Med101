@@ -9,7 +9,7 @@
     "api/admin/email-data-export.py": {
       "includeFiles": "api/templates/**"
     },
-    "api/cron/exam-reminders.py": {
+    "api/admin/send-broadcast.py": {
       "includeFiles": "src/data/examSchedule.json"
     }
   },
@@ -77,7 +77,7 @@
   ],
   "crons": [
     {
-      "path": "/api/cron/exam-reminders",
+      "path": "/api/admin/send-broadcast",
       "schedule": "0 3 * * *"
     }
   ]

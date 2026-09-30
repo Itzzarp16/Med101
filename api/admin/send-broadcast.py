@@ -23,15 +23,34 @@ for the app itself.
 screen: where tapping the notification opens ('home' or a whitelisted
 screen key - see SCREENS).
 
-Env vars (already set): FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
+GET (cron only): the daily exam-reminder job from vercel.json. It lives in
+this file, not its own function, because the Hobby plan allows at most 12
+serverless functions per deployment. It sends an automatic push to every
+student whose CURRENT semester has an exam in 7 days or tomorrow.
+
+  - Exam dates come from src/data/examSchedule.json (built-in defaults,
+    bundled via "includeFiles" in vercel.json) and, when an admin has edited
+    a semester in Admin -> Exam Schedule, from Firestore
+    config/examSchedule.exams[semester], which replaces that semester's
+    defaults.
+  - Auth: Vercel sends "Authorization: Bearer <CRON_SECRET>" once a
+    CRON_SECRET env var exists. If it is unset or does not match, nothing runs.
+    Add ?dry=1 (with the same header) to see what WOULD be sent.
+  - Sent reminders are remembered in adminMeta/examReminders so a retried or
+    double-fired cron never notifies anyone twice. Sends show up in the admin
+    "Recently sent" list as "Semester N - auto reminder".
+
+Env vars: FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY (already set),
+CRON_SECRET (new, for the GET exam-reminder job)
 """
 
+import hmac
 import json
 import os
 import re
 import time
-from datetime import datetime, timezone
-from urllib.parse import quote
+from datetime import date, datetime, timedelta, timezone
+from urllib.parse import parse_qs, quote, urlparse
 
 from http.server import BaseHTTPRequestHandler
 
@@ -61,6 +80,11 @@ DEFAULT_CALENDAR = {
 
 # Screen keys the app's deep-link handler (App.jsx) accepts.
 SCREENS = {'home', 'leaderboard', 'challenge', 'friends', 'weak-topics', 'history'}
+
+# Exam reminders: Kyrgyzstan has no daylight saving (always UTC+6).
+KG = timezone(timedelta(hours=6))
+REMIND_DAYS = {7: 'week', 1: 'day'}
+DEFAULTS_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data', 'examSchedule.json')
 
 _app = None
 
@@ -171,6 +195,117 @@ def _url_for(screen):
     return '/' if screen == 'home' else f'/?open={screen}'
 
 
+# ── exam reminders (daily cron, GET) ─────────────────────────
+
+def load_schedule(db):
+    """{semester: [exam, ...]} - built-in defaults, replaced per semester by
+    whatever an admin saved in Firestore."""
+    with open(DEFAULTS_PATH, encoding='utf-8') as f:
+        schedule = json.load(f)
+    snap = db.collection('config').document('examSchedule').get()
+    if snap.exists:
+        for sem, exams in ((snap.to_dict() or {}).get('exams') or {}).items():
+            if isinstance(exams, list):
+                schedule[sem] = exams
+    return schedule
+
+
+def due_reminders(schedule, today):
+    """Pure function: [(semester, exam, kind, days)] for exams exactly 7 days
+    or 1 day away from `today` (a date)."""
+    out = []
+    for sem, exams in schedule.items():
+        if sem not in SEMESTER_ORDER:
+            continue
+        for exam in exams or []:
+            try:
+                exam_day = date.fromisoformat(str(exam.get('date')))
+            except Exception:
+                continue
+            days = (exam_day - today).days
+            if days in REMIND_DAYS:
+                out.append((sem, exam, REMIND_DAYS[days], days))
+    return out
+
+
+def message_for(exam, kind):
+    name = _clean(exam.get('label') or exam.get('subject'), 55)
+    note = _clean(exam.get('note'), 30)
+    tail = f' ({note})' if note else ''
+    exam_day = date.fromisoformat(str(exam['date']))
+    pretty = f"{exam_day.day} {exam_day.strftime('%b')}"
+    if kind == 'week':
+        return (f'📅 {name} exam in 1 week',
+                f'{name} is on {pretty}{tail}. Start revising now - a quick quiz a day adds up.')
+    return (f'⏰ {name} exam tomorrow',
+            f'Last push before {name}{tail}. Try a quick quiz today. Good luck!')
+
+
+def reminder_key(sem, exam, kind):
+    slug = re.sub(r'[^a-z0-9]+', '_', str(exam.get('subject', '')).lower()).strip('_')[:40]
+    return f"{sem}__{slug}__{exam.get('date')}__{kind}"
+
+
+def run_exam_reminders(dry):
+    _init_admin()
+    db = firestore.client()
+    now = datetime.now(timezone.utc)
+    today = now.astimezone(KG).date()
+    due = due_reminders(load_schedule(db), today)
+
+    state_ref = db.collection('adminMeta').document('examReminders')
+    state = state_ref.get()
+    already = ((state.to_dict() or {}).get('sent') or {}) if state.exists else {}
+
+    all_devices, sem_of = None, {}  # loaded once, only if something is due
+    report = []
+    for sem, exam, kind, days in due:
+        key = reminder_key(sem, exam, kind)
+        title, body = message_for(exam, kind)
+        row = {'semester': sem, 'subject': exam.get('subject'), 'kind': kind, 'title': title}
+        if key in already:
+            report.append({**row, 'result': 'already-sent'})
+            continue
+        if all_devices is None:
+            all_devices = _collect_devices(db)
+            uids = sorted({u for u, _, _ in all_devices})
+            sem_of = _semester_by_uid(db, uids) if uids else {}
+        devices = [d for d in all_devices if sem_of.get(d[0]) == sem]
+        if dry:
+            report.append({**row, 'result': 'dry-run', 'devices': len(devices)})
+            continue
+        # Mark first: if the send dies half-way we'd rather skip a few
+        # students than notify everyone twice on a retry.
+        state_ref.set({'sent': {key: firestore.SERVER_TIMESTAMP}}, merge=True)
+        sent = failed = 0
+        data = {'title': title, 'body': body, 'url': '/', 'screen': 'home',
+                'kind': 'broadcast', 'tag': f'exam-{key}'[:100]}
+        for i in range(0, len(devices), BATCH):
+            chunk = devices[i:i + BATCH]
+            msgs = [messaging.Message(token=t, data=data,
+                                      webpush=messaging.WebpushConfig(headers={'Urgency': 'high', 'TTL': '43200'}))
+                    for _, t, _ in chunk]
+            result = messaging.send_each(msgs)
+            for (_, _, ref), resp in zip(chunk, result.responses):
+                if resp.success:
+                    sent += 1
+                else:
+                    failed += 1
+                    if isinstance(resp.exception, (messaging.UnregisteredError, messaging.SenderIdMismatchError)):
+                        ref.delete()  # stale device
+        num = SEMESTER_ORDER.index(sem) + 1
+        db.collection('broadcasts').add({
+            'title': title, 'body': body, 'screen': 'home',
+            'audience': {'type': 'semesters', 'semesters': [sem]},
+            'audienceLabel': f'Semester {num} \u00b7 auto reminder',
+            'sent': sent, 'failed': failed, 'devices': len(devices),
+            'students': len({u for u, _, _ in devices}),
+            'by': 'auto', 'sentAt': firestore.SERVER_TIMESTAMP,
+        })
+        report.append({**row, 'result': 'sent', 'sent': sent, 'failed': failed, 'devices': len(devices)})
+    return {'ok': True, 'today': today.isoformat(), 'dry': dry, 'reminders': report}
+
+
 class handler(BaseHTTPRequestHandler):
     def _send(self, status, body):
         payload = json.dumps(body).encode('utf-8')
@@ -190,6 +325,20 @@ class handler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
         self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
         self.end_headers()
+
+    def do_GET(self):
+        # Only the daily Vercel cron uses GET on this endpoint.
+        secret = os.environ.get('CRON_SECRET', '')
+        if not secret:
+            return self._send(503, {'error': 'CRON_SECRET is not configured.'})
+        supplied = self.headers.get('Authorization', '')
+        if not hmac.compare_digest(supplied, f'Bearer {secret}'):
+            return self._send(401, {'error': 'Unauthorized.'})
+        dry = parse_qs(urlparse(self.path).query).get('dry') == ['1']
+        try:
+            return self._send(200, run_exam_reminders(dry))
+        except Exception as e:
+            return self._send(500, {'error': f'Reminder run failed: {e}'})
 
     def do_POST(self):
         origin = self.headers.get('Origin')
