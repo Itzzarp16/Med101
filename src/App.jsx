@@ -394,10 +394,8 @@ export default function App() {
   const topBarProps = {
     onHome: goHome,
     onLeaderboard: () => goTo('leaderboard'),
-    onChallenge: () => goTo('challenge'),
     onFriends: () => goTo('friends'),
     onSettings: () => goTo('settings'),
-    onYourData: () => goTo('your-data'),
     onProfile: () => goTo('profile'),
     onWeakTopics: () => goTo('weak-topics'),
     onWrongFlagged: () => goTo('wrong-flagged'),
@@ -424,7 +422,7 @@ export default function App() {
         <TopBar {...topBarProps} />
         <div className="screen-fade" key={screen}>
           <Suspense fallback={<ScreenFallback />}>
-            <SettingsScreen onBack={goBack} />
+            <SettingsScreen onBack={goBack} onYourData={() => goTo('your-data')} />
           </Suspense>
         </div>
       </div>

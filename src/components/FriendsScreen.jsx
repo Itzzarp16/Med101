@@ -63,6 +63,14 @@ export default function FriendsScreen({ onBack, onChallenge }) {
         {error && <div className="auth-msg error" style={{ display: 'block' }}>{error}</div>}
       </div>
 
+      <button
+        className="btn-glow"
+        style={{ width: '100%', marginTop: 12 }}
+        onClick={() => { playTapSound(); onChallenge?.(null); }}
+      >
+        ⚔️ Start or join a challenge
+      </button>
+
       <div className="std-header" style={{ marginTop: 20 }}>
         <h2 className="auth-label" style={{ fontSize: 12 }}>Your Friends ({friends.length})</h2>
         {friends.length > 0 && (

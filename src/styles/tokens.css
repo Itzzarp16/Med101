@@ -1411,3 +1411,10 @@ body.light-mode .app-loading-logo {
 .onboarding-back {
   font-size: 13px;
 }
+
+/* Menu: the user's name is a tappable profile shortcut */
+.menu-user-btn {
+  display: block; width: 100%; text-align: left; background: transparent; border: none;
+  cursor: pointer; font-family: inherit;
+}
+.menu-user-btn:active { opacity: 0.6; }
