@@ -17,39 +17,39 @@ function kyrgyzstanNow() {
   return new Date(utcMs + 6 * 60 * 60 * 1000);
 }
 
-// One time-of-day slot each: a greeting, an emoji, and a pool of short
-// nudges. The nudge is picked by day-of-year so it stays put all day
-// (no flicker on re-render) but varies from one day to the next.
+// One time-of-day slot each: a few playful headings, an emoji, and a pool
+// of short nudges. Both are picked by day-of-year so they stay put all
+// day (no flicker on re-render) but vary from one day to the next.
 const SLOTS = [
-  { from: 0, to: 5, title: 'Still up', emoji: '🦉', nudges: [
+  { from: 0, to: 5, titles: ['Still up', 'Night owl mode', 'Burning the midnight oil'], emoji: '🦉', nudges: [
     'Late-night grind? A short quiz, then get some sleep.',
     'Sleep locks in what you studied - wrap up soon.',
   ] },
-  { from: 5, to: 8, title: 'Good morning', emoji: '🌅', nudges: [
+  { from: 5, to: 8, titles: ['Rise and shine', 'Early bird', 'Up before the sun'], emoji: '🌅', nudges: [
     'Early-bird practice: 10 questions before the day begins?',
     'Early mornings are prime memory time - start with a quick test.',
     'Beat the rush: a few questions now, and your day is already a win.',
   ] },
-  { from: 8, to: 12, title: 'Good morning', emoji: '☀️', nudges: [
+  { from: 8, to: 12, titles: ['Fresh start', 'Prime study time', "Let's get going"], emoji: '☀️', nudges: [
     'Fresh mind - a great time to tackle a tough topic.',
     'Warm up with a quick quiz before lectures.',
     'Pick a weak topic and knock it out this morning.',
   ] },
-  { from: 12, to: 14, title: 'Good afternoon', emoji: '🥪', nudges: [
+  { from: 12, to: 14, titles: ['Lunch break', 'Midday reset', 'Refuel time'], emoji: '🥪', nudges: [
     'Lunch break? A 10-question round fits right in.',
     'Quick midday revision keeps the morning\'s lectures fresh.',
   ] },
-  { from: 14, to: 17, title: 'Good afternoon', emoji: '👋', nudges: [
+  { from: 14, to: 17, titles: ['Afternoon push', 'Power hour', 'Stay in the zone'], emoji: '💪', nudges: [
     'Afternoon slump? A short quiz wakes the brain up.',
     'Revise today\'s lecture while it\'s still fresh.',
     'Try a timed round - a little pressure sharpens recall.',
   ] },
-  { from: 17, to: 21, title: 'Good evening', emoji: '🌆', nudges: [
+  { from: 17, to: 21, titles: ['Evening session', 'Golden hour', 'Time to revise'], emoji: '🌆', nudges: [
     'Evening revision: go over what you learned today.',
     'Review your wrong answers - that is where the marks are.',
     'A calm evening round beats a last-minute cram.',
   ] },
-  { from: 21, to: 24, title: 'Good night', emoji: '🌙', nudges: [
+  { from: 21, to: 24, titles: ['Winding down', 'One last round', 'Before bed'], emoji: '🌙', nudges: [
     'A quick revision before bed helps it stick overnight.',
     'Wind down with a few questions, then rest well.',
   ] },
@@ -62,7 +62,8 @@ function getGreeting(kgNow, questionsToday) {
   let nudge = slot.nudges[dayOfYear % slot.nudges.length];
   if (questionsToday >= 30) nudge = 'You are on fire today - keep the momentum going! 🔥';
   else if (questionsToday >= 10) nudge = 'Nice pace today - one more round?';
-  return { title: slot.title, emoji: slot.emoji, nudge };
+  const title = slot.titles[(dayOfYear + SLOTS.indexOf(slot)) % slot.titles.length];
+  return { title, emoji: slot.emoji, nudge };
 }
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
