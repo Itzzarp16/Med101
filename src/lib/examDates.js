@@ -26,10 +26,16 @@ export function daysText(days) {
   return `${days} days left`;
 }
 
-// { days, dateText, daysText } for an exam that hasn't passed yet,
-// otherwise null.
+// Students only see an exam (countdown card, date on the subject card) once
+// it is this many days away or fewer. Matches the first push reminder (7 days).
+// The admin editor and the reminder cron don't use examStatus, so they still
+// see every date.
+export const SHOW_WITHIN_DAYS = 7;
+
+// { days, dateText, daysText } for an exam that is within SHOW_WITHIN_DAYS
+// and hasn't passed yet, otherwise null (too far away, past, or bad date).
 export function examStatus(exam, now = new Date()) {
   const days = daysUntil(exam?.date, now);
-  if (days === null || days < 0) return null;
+  if (days === null || days < 0 || days > SHOW_WITHIN_DAYS) return null;
   return { days, dateText: formatExamDate(exam.date), daysText: daysText(days) };
 }
