@@ -262,6 +262,29 @@ export default function App() {
     goTo('dashboard');
   }
 
+  // Deep links from push notifications: a cold start opens /?open=<screen>,
+  // and when the app is already open the service worker posts a message.
+  // Only these screens can be opened this way.
+  useEffect(() => {
+    if (!user?.uid) return undefined;
+    const OPEN_SCREENS = ['leaderboard', 'challenge', 'friends', 'weak-topics', 'history'];
+    const params = new URLSearchParams(window.location.search);
+    const target = params.get('open');
+    if (target) {
+      params.delete('open');
+      const qs = params.toString();
+      window.history.replaceState(window.history.state, '', window.location.pathname + (qs ? `?${qs}` : '') + window.location.hash);
+      if (OPEN_SCREENS.includes(target)) goTo(target);
+    }
+    function onSwMessage(e) {
+      const t = e.data && e.data.type === 'open-screen' ? e.data.screen : null;
+      if (t && OPEN_SCREENS.includes(t)) goTo(t);
+    }
+    navigator.serviceWorker?.addEventListener('message', onSwMessage);
+    return () => navigator.serviceWorker?.removeEventListener('message', onSwMessage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.uid]);
+
   // Resolve which semester this student should actually see, the moment
   // their profile (which holds enrolledYearSemester) is available. Also
   // re-runs automatically whenever the student changes it themselves in
