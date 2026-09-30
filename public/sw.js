@@ -49,15 +49,21 @@ self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const nd = event.notification.data || {};
   const url = nd.url || '/';
+  const screen = nd.screen && nd.screen !== 'home' ? nd.screen : '';
   event.waitUntil((async () => {
     const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-    for (const w of wins) {
-      if ('focus' in w) {
-        await w.focus();
-        // App already open: tell it which screen to show.
-        if (nd.screen && nd.screen !== 'home') w.postMessage({ type: 'open-screen', screen: nd.screen });
-        return;
-      }
+    // Only the student app can open a screen - not the /admin portal or the
+    // static pages, which may well be the first tab in the list.
+    const appWins = wins.filter((w) => {
+      try { return !/^\/(admin|privacy-policy|terms|about-us|contact|reset-password)\/?$/.test(new URL(w.url).pathname); }
+      catch (e) { return true; }
+    });
+    if (appWins.length) {
+      const target = appWins.find((w) => w.focused) || appWins.find((w) => w.visibilityState === 'visible') || appWins[0];
+      if ('focus' in target) { try { await target.focus(); } catch (e) { /* ignore */ } }
+      // Tell every open app tab, so whichever one the student lands on opens it.
+      if (screen) appWins.forEach((w) => w.postMessage({ type: 'open-screen', screen }));
+      return;
     }
     await self.clients.openWindow(url);
   })());
