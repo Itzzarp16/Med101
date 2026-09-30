@@ -523,7 +523,7 @@ export default function AuthScreen() {
               </div>
 
               <div>
-                <label className="auth-label" htmlFor="auth-google-semester">Choose Your Year and Semester</label>
+                <label className="auth-label" htmlFor="auth-google-semester">Choose Your Semester</label>
 
                 <select
                   id="auth-google-semester"
@@ -584,7 +584,7 @@ export default function AuthScreen() {
 
           <div className="auth-sub">
             {mode === 'signin'
-              ? 'Enter your email and password to continue'
+              ? 'Sign in to continue'
               : showingSignupStep2
                 ? 'Almost done - set your email and password'
                 : 'Sign up to start your medical MCQ journey'}
@@ -663,6 +663,7 @@ export default function AuthScreen() {
               </div>
 
               <form onSubmit={handleNext}>
+                <div className="auth-step">Step 1 of 2</div>
                 <div style={{ marginBottom: 14 }}>
                   <label className="auth-label" htmlFor="auth-name">Your Name</label>
 
@@ -743,7 +744,7 @@ export default function AuthScreen() {
 
                 <div>
                   <label className="auth-label" htmlFor="auth-signup-semester">
-                    Choose Your Year and Semester
+                    Choose Your Semester
                   </label>
 
                   <select
@@ -827,20 +828,20 @@ export default function AuthScreen() {
           {(mode === 'signin' || showingSignupStep2) && (
             <form onSubmit={handleSubmit}>
               {showingSignupStep2 && (
-                <button
-                  type="button"
-                  className="auth-forgot"
-                  style={{
-                    textAlign: 'left',
-                    marginBottom: 14,
-                  }}
-                  onClick={() => {
-                    setSignupStep(1);
-                    setMsg(null);
-                  }}
-                >
-                  ← Back
-                </button>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                  <button
+                    type="button"
+                    className="auth-forgot"
+                    style={{ textAlign: 'left', padding: '10px 12px 10px 0', minHeight: 44 }}
+                    onClick={() => {
+                      setSignupStep(1);
+                      setMsg(null);
+                    }}
+                  >
+                    ← Back
+                  </button>
+                  <span className="auth-step" style={{ margin: 0 }}>Step 2 of 2</span>
+                </div>
               )}
 
               <div style={{ marginBottom: 14 }}>
@@ -862,7 +863,7 @@ export default function AuthScreen() {
                 <label className="auth-label" htmlFor="auth-password">
                   {mode === 'signin'
                     ? 'Password'
-                    : 'Create Password'}
+                    : <>Create Password <span className="auth-label-hint">(min. 6 characters)</span></>}
                 </label>
 
                 <div className="auth-input-wrap">

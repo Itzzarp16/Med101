@@ -56,16 +56,18 @@
 }
 
 .auth-icon {
-  font-size: 64px;
+  font-size: 52px;
   text-align: center;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   filter: drop-shadow(0 0 24px rgba(var(--cyan-rgb), 0.5));
 }
 
 .auth-title {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: 2rem;
+  /* scales down on phones so 'Welcome Back' / 'Create Account' fit
+     on one line and the form starts higher on the screen */
+  font-size: clamp(1.45rem, 6.2vw, 2rem);
   text-align: center;
   line-height: 1.15;
   background: linear-gradient(135deg, var(--cyan) 0%, var(--violet) 60%, var(--pink) 100%);
@@ -276,4 +278,20 @@
 
 .auth-powered span {
   color: var(--text2);
+}
+
+.auth-step {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.auth-label-hint {
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 500;
+  color: var(--text3);
+  font-size: 11.5px;
 }
