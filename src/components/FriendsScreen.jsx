@@ -5,10 +5,9 @@ import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
 import './FriendsScreen.css';
 
-// Laid out as three plain steps so it reads top to bottom:
-//   1. your own username (how friends find YOU)
-//   2. add a friend (how YOU find them)
-//   3. your friends, then what you can do together.
+// Layout, top to bottom: the two actions (Challenge / Leaderboard) first so
+// they're visible without scrolling, then adding friends (and sharing your
+// own username), then the friends list.
 export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onProfile }) {
   const { user, profile } = useAuth();
   const myUsername = profile?.username || '';
@@ -84,37 +83,26 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
   return (
     <div className="std-screen">
       <ScreenHeader onBack={onBack} title={<>👥 Friends</>}>
-        Add people you study with, then compete or challenge them.
+        Challenge friends and see who's ahead.
       </ScreenHeader>
 
-      {/* 1 - your username */}
-      <div className="fr-step"><span className="fr-step-num">1</span><span className="fr-step-title">Share your username</span></div>
-      <div className="glass std-card">
-        {myUsername ? (
-          <>
-            <div className="fr-me">
-              <div className="fr-me-name">@{myUsername}</div>
-              <div className="fr-btn-row">
-                <button className="btn-ghost fr-small-btn" onClick={handleCopy}>{copied ? 'Copied ✓' : 'Copy'}</button>
-                {typeof navigator !== 'undefined' && navigator.share && (
-                  <button className="btn-glow fr-small-btn" onClick={handleShare}>Share</button>
-                )}
-              </div>
-            </div>
-            <p className="fr-note">Friends type this to add you. You can change it in Your Profile.</p>
-          </>
-        ) : (
-          <>
-            <p className="fr-note" style={{ marginTop: 0 }}>You haven't picked a username yet, so friends can't find you.</p>
-            <button className="btn-glow fr-small-btn" style={{ marginTop: 10 }} onClick={() => { playTapSound(); onProfile?.(); }}>
-              Pick a username
-            </button>
-          </>
-        )}
+      {/* The two things people come here to DO sit right under the title,
+          so they're visible without scrolling. */}
+      <div className="fr-tiles">
+        <button className="glass fr-tile" onClick={() => { playTapSound(); onChallenge?.(null); }}>
+          <span className="fr-tile-icon">⚔️</span>
+          <span className="fr-tile-title">Challenge</span>
+          <span className="fr-tile-desc">Same questions, live scores. Create or join a room.</span>
+        </button>
+        <button className="glass fr-tile" onClick={() => { playTapSound(); onLeaderboard?.(); }}>
+          <span className="fr-tile-icon">🏆</span>
+          <span className="fr-tile-title">Leaderboard</span>
+          <span className="fr-tile-desc">See who's ahead, just among your friends.</span>
+        </button>
       </div>
 
-      {/* 2 - add a friend */}
-      <div className="fr-step"><span className="fr-step-num">2</span><span className="fr-step-title">Add a friend</span></div>
+      {/* add a friend + share my own username */}
+      <div className="fr-section">Add a friend</div>
       <div className="glass std-card">
         <label className="auth-label" htmlFor="friend-username">Their username</label>
         <div className="fr-add-row">
@@ -137,11 +125,33 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
           </button>
         </div>
         {msg && <div className={`fr-msg ${msg.type}`} role="status">{msg.text}</div>}
-        <p className="fr-note">Ask them to open Your Profile - their username is shown there.</p>
+
+        <div className="fr-divider" />
+        {myUsername ? (
+          <>
+            <div className="fr-me-label">Your username - friends type this to add you</div>
+            <div className="fr-me">
+              <div className="fr-me-name">@{myUsername}</div>
+              <div className="fr-btn-row">
+                <button className="btn-ghost fr-small-btn" onClick={handleCopy}>{copied ? 'Copied ✓' : 'Copy'}</button>
+                {typeof navigator !== 'undefined' && navigator.share && (
+                  <button className="btn-glow fr-small-btn" onClick={handleShare}>Share</button>
+                )}
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="fr-me-label">You haven't picked a username yet, so friends can't find you.</div>
+            <button className="btn-glow fr-small-btn" style={{ marginTop: 10 }} onClick={() => { playTapSound(); onProfile?.(); }}>
+              Pick a username
+            </button>
+          </>
+        )}
       </div>
 
-      {/* 3 - your friends */}
-      <div className="fr-step"><span className="fr-step-num">3</span><span className="fr-step-title">Your friends ({friends.length})</span></div>
+      {/* friends list */}
+      <div className="fr-section">Your friends ({friends.length})</div>
       {friends.length === 0 ? (
         <div className="glass std-card empty-state">
           <div className="empty-state-icon">👥</div>
@@ -168,27 +178,6 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
           ))}
         </div>
       )}
-
-      {/* what to do with them */}
-      <div className="fr-step" style={{ marginTop: 24 }}><span className="fr-step-title">Do something together</span></div>
-      <div className="fr-actions">
-        <button className="glass fr-action" onClick={() => { playTapSound(); onLeaderboard?.(); }}>
-          <span className="fr-action-icon">🏆</span>
-          <span>
-            <span className="fr-action-title">Friends leaderboard</span>
-            <span className="fr-action-desc">See who is ahead, just among your friends.</span>
-          </span>
-          <span className="fr-action-chev">›</span>
-        </button>
-        <button className="glass fr-action" onClick={() => { playTapSound(); onChallenge?.(null); }}>
-          <span className="fr-action-icon">⚔️</span>
-          <span>
-            <span className="fr-action-title">Challenge room</span>
-            <span className="fr-action-desc">Everyone answers the same questions. Create a room or join one with a code.</span>
-          </span>
-          <span className="fr-action-chev">›</span>
-        </button>
-      </div>
     </div>
   );
 }
