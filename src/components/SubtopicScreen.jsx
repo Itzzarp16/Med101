@@ -33,7 +33,9 @@ export default function SubtopicScreen({ mainSubject, mainSubjectMeta, subjectMe
         <div className="subj-sub">Select a topic within {mainSubject}</div>
       </div>
 
-      <HomeNoticeBanner semesterId={semesterId} />
+      <div className="dash-top">
+        <HomeNoticeBanner semesterId={semesterId} />
+      </div>
 
       <div className="subj-grid">
         <SubjectCard emoji="←" name="Back to Subjects" desc="" onClick={onBack} />
