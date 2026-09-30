@@ -22,7 +22,7 @@ const YEAR_SEMESTER_OPTIONS = [
 // Styled with the same shared classes as the rest of the app (auth
 // inputs/labels, glass cards, btn-glow) rather than bespoke CSS, since
 // this screen has no old-site equivalent to port from.
-export default function SettingsScreen({ onBack, onProfile, onYourData }) {
+export default function SettingsScreen({ onBack, onProfile }) {
   const { user, profile, logOut } = useAuth();
   const [light, setLight] = useState(isLightMode());
   const [muted, setMutedState] = useState(isMuted());
@@ -139,9 +139,6 @@ export default function SettingsScreen({ onBack, onProfile, onYourData }) {
       <div className="glass set-card set-rows">
         <button className="set-row set-link" onClick={() => { playTapSound(); onProfile?.(); }}>
           <span>🙍 Your Profile</span><span className="set-chev">›</span>
-        </button>
-        <button className="set-row set-link" onClick={() => { playTapSound(); onYourData?.(); }}>
-          <span>📄 Your Data</span><span className="set-chev">›</span>
         </button>
         <button className="set-row set-link set-signout" onClick={() => { playTapSound(); logOut(); }}>
           <span>⏏ Sign Out</span>
