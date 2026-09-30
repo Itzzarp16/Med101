@@ -11,6 +11,7 @@ import AdminAnalyticsScreen from './AdminAnalyticsScreen';
 import AdminPaymentsScreen from './AdminPaymentsScreen';
 import AdminSubscribersScreen from './AdminSubscribersScreen';
 import AdminUploadQuestionsScreen from './AdminUploadQuestionsScreen';
+import AdminSecurityScreen from './AdminSecurityScreen';
 import './AdminPortal.css';
 import './AdminTheme.css';
 
@@ -36,6 +37,9 @@ const NAV_GROUPS = [
     { id: 'users', icon: '🔍', label: 'User Detail' },
     { id: 'analytics', icon: '📊', label: 'Usage Analytics' },
   ] },
+  { title: 'Account', tabs: [
+    { id: 'security', icon: '🔐', label: 'Two-step login' },
+  ] },
 ];
 const ALL_TABS = NAV_GROUPS.flatMap((g) => g.tabs);
 const tabFromHash = () => {
@@ -58,6 +62,7 @@ function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
     case 'analytics': return <AdminAnalyticsScreen onBack={noop} hideBack semesterMainSubjects={semesterMainSubjects} />;
     case 'payments': return <AdminPaymentsScreen onBack={noop} hideBack />;
     case 'subscribers': return <AdminSubscribersScreen onBack={noop} hideBack />;
+    case 'security': return <AdminSecurityScreen />;
     default: return null;
   }
 }
@@ -87,7 +92,8 @@ function AdminLogin() {
     }
     setBusy(true);
     try {
-      await signIn(email.trim(), password);
+      const signedIn = await signIn(email.trim(), password);
+      if (!signedIn) setBusy(false); // waiting for the two-step code
     } catch (err) {
       setError(ERROR_MESSAGES[err.code] || err.message);
       setBusy(false);

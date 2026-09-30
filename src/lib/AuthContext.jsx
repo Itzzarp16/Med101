@@ -14,6 +14,8 @@ import { auth, db } from './firebase';
 import { startTimeTracking } from './timeTracking';
 import { claimUsername } from './profile';
 import { getDeviceId } from './deviceId';
+import { completeMfaChallenge, isMfaRequiredError, resolverFromError } from './mfa';
+import MfaPrompt from '../components/MfaPrompt';
 
 // Must exactly match the emails your Firestore isAdmin() security rule checks.
 const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
@@ -113,6 +115,11 @@ async function sendAccountCreatedTelegram(
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  // Two-step login: when an account (an admin) has an authenticator app
+  // enrolled, sign-in stops with auth/multi-factor-auth-required. The
+  // resolver is parked here and <MfaPrompt/> asks for the 6-digit code.
+  const [mfaChallenge, setMfaChallenge] = useState(null);
+
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -430,6 +437,12 @@ export function AuthProvider({ children }) {
 
         if (!active) return;
 
+        // Admin with two-step login: ask for the code instead of failing.
+        if (isMfaRequiredError(err)) {
+          setMfaChallenge(resolverFromError(err));
+          return;
+        }
+
         const messages = {
           'auth/network-request-failed': 'Network error. Check your connection.',
           'auth/unauthorized-domain': 'This domain is not authorized for Google sign-in in Firebase.',
@@ -522,13 +535,29 @@ export function AuthProvider({ children }) {
     return startTimeTracking(user.uid);
   }, [user?.uid]);
 
+  async function submitMfaCode(code) {
+    await completeMfaChallenge(mfaChallenge, code);
+    setMfaChallenge(null);
+    // onAuthStateChanged takes it from here, same as a normal sign-in.
+  }
+
+  // Returns the signed-in user, or null when the second step is pending.
   async function signIn(email, password) {
-    const cred =
-      await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+    let cred;
+    try {
+      cred =
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+    } catch (err) {
+      if (isMfaRequiredError(err)) {
+        setMfaChallenge(resolverFromError(err));
+        return null;
+      }
+      throw err;
+    }
 
     if (!ADMIN_EMAILS.includes(cred.user.email)) {
       const snap = await getDoc(
@@ -850,6 +879,9 @@ export function AuthProvider({ children }) {
       }}
     >
       {children}
+      {mfaChallenge && (
+        <MfaPrompt onSubmit={submitMfaCode} onCancel={() => setMfaChallenge(null)} />
+      )}
     </AuthContext.Provider>
   );
 }

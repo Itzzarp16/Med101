@@ -353,7 +353,8 @@ export default function AuthScreen() {
 
     try {
       if (mode === 'signin') {
-        await signIn(email.trim(), password);
+        const signedIn = await signIn(email.trim(), password);
+        if (!signedIn) setBusy(false); // waiting for the two-step code
       } else {
         const { usernameClaimError } = await signUp(
           name.trim(),
