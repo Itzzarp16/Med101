@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence';
+import { subscribeToMyInvites } from '../lib/invites';
 
 // Everything except the Med101 logo/signature and the user's own name
 // now lives behind a hamburger menu - matches the drawer content the
@@ -13,6 +14,14 @@ import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence'
 export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, onProfile, onWeakTopics, onWrongFlagged, onHistory, onSearch, onPremium, onAdminNotice, onAdminCalendar, onAdminUploadQuestions, onAdminUserDetail, onAdminAnalytics, onAdminPayments, onAdminSubscribers, onViewUser, screen }) {
   const { user, profile, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  // Waiting challenge invites -> red dot on the hamburger + a count on
+  // the Friends & Challenges row, so nothing is missed.
+  const [inviteCount, setInviteCount] = useState(0);
+  const inviteUid = user?.uid;
+  useEffect(() => {
+    if (!inviteUid) return undefined;
+    return subscribeToMyInvites(inviteUid, (list) => setInviteCount(list.length));
+  }, [inviteUid]);
   const [onlineCount, setOnlineCount] = useState(null);
   const [onlineNames, setOnlineNames] = useState(null);
   const [showOnlineList, setShowOnlineList] = useState(false);
@@ -42,6 +51,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
     <div className="topbar">
       <div className="topbar-left">
         <button className="topbar-icon-btn home" title="Menu" aria-label="Open menu" onClick={() => { playTapSound(); setMenuOpen(true); }}>
+          {inviteCount > 0 && <span className="notif-dot" aria-label={`${inviteCount} pending invites`} />}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="4" y1="7" x2="20" y2="7" />
             <line x1="4" y1="12" x2="20" y2="12" />
@@ -139,7 +149,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
 
             <div className="menu-section-label">Compete</div>
             <button className="menu-item" onClick={() => go(onLeaderboard)}>🏆 Leaderboard</button>
-            <button className="menu-item" onClick={() => go(onFriends)}>👥 Friends &amp; Challenges</button>
+            <button className="menu-item" onClick={() => go(onFriends)}>👥 Friends &amp; Challenges{inviteCount > 0 && <span className="notif-count">{inviteCount}</span>}</button>
 
             <div className="menu-section-label">Account</div>
             <button className="menu-item" onClick={() => go(onPremium)}>⭐ Get Med101 Maxx</button>

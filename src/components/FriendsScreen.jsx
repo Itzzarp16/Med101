@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import { addFriendByUsername, removeFriend, subscribeToFriends } from '../lib/friends';
 import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
+import PushPrompt from './PushPrompt';
 import './FriendsScreen.css';
 
 // Layout, top to bottom: the two actions (Challenge / Leaderboard) first so
@@ -85,6 +86,8 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
       <ScreenHeader onBack={onBack} title={<>👥 Friends</>}>
         Challenge friends and see who's ahead.
       </ScreenHeader>
+
+      <PushPrompt />
 
       {/* The two things people come here to DO sit right under the title,
           so they're visible without scrolling. */}

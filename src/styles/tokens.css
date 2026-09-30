@@ -1428,3 +1428,14 @@ body.light-mode .app-loading-logo {
   cursor: pointer; font-family: inherit;
 }
 .menu-user-btn:active { opacity: 0.6; }
+
+/* Pending-invite indicators (hamburger dot + menu count) */
+.topbar-icon-btn { position: relative; }
+.notif-dot {
+  position: absolute; top: 3px; right: 3px; width: 10px; height: 10px;
+  border-radius: 50%; background: var(--red, #ff3b5c); border: 2px solid var(--bg, #000);
+}
+.notif-count {
+  margin-left: 8px; min-width: 20px; padding: 1px 7px; border-radius: 999px;
+  background: var(--red, #ff3b5c); color: #fff; font-size: 12px; font-weight: 700; text-align: center;
+}

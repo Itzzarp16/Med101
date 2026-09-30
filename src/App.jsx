@@ -106,6 +106,13 @@ export default function App() {
   // whatever semester they switch to, unless they've paid for that
   // one too.
   const [premiumStatus, setPremiumStatus] = useState(null);
+  // Already allowed notifications? Quietly refresh this device's token.
+  const pushUid = user?.uid;
+  useEffect(() => {
+    if (!pushUid) return;
+    import('./lib/push').then((m) => m.syncPushToken());
+  }, [pushUid]);
+
   useEffect(() => {
     if (!user?.uid) { setPremiumStatus(null); return; }
     return subscribeToMyPremiumStatus(user.uid, setPremiumStatus);

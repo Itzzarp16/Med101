@@ -1,7 +1,7 @@
 import {
   addDoc, collection, deleteDoc, doc, getDoc, onSnapshot, orderBy, query, serverTimestamp,
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { auth, db } from './firebase';
 import { normalize, usernameDocId } from './profile';
 
 // Looks up a uid + display username from a claimed username. Returns
@@ -19,13 +19,28 @@ export async function lookupUsername(rawName) {
 // coming from someone else.
 export async function sendInvite({ fromUid, fromName, toUid, roomCode, mainSubject }) {
   if (toUid === fromUid) throw new Error("You can't invite yourself.");
-  await addDoc(collection(db, 'users', toUid, 'invites'), {
+  const ref = await addDoc(collection(db, 'users', toUid, 'invites'), {
     fromUid,
     fromName,
     roomCode,
     mainSubject,
     createdAt: serverTimestamp(),
   });
+  notifyInvite(toUid, ref.id); // fire-and-forget: the invite itself is already saved
+}
+
+// Asks the server to push a notification for this invite. Best effort -
+// if it fails (offline, notifications not set up, recipient hasn't
+// enabled them) the invite still shows up in the app as before.
+async function notifyInvite(toUid, inviteId) {
+  try {
+    const idToken = await auth.currentUser.getIdToken();
+    await fetch('/api/push/send-invite', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+      body: JSON.stringify({ toUid, inviteId }),
+    });
+  } catch { /* non-critical */ }
 }
 
 export function subscribeToMyInvites(uid, callback) {

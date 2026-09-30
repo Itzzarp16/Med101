@@ -4,6 +4,7 @@ import { db } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound, isMuted, setMuted } from '../lib/sounds';
 import { isLightMode, setTheme } from '../lib/theme';
+import { pushConfigured, pushSupported, pushPermission, pushEnabled, enablePush, disablePush } from '../lib/push';
 import { isInstallable, isStandalone, isIOS, onInstallabilityChange, promptInstall } from '../lib/installPrompt';
 import LegalFooter from './LegalFooter';
 import './SettingsScreen.css';
@@ -26,6 +27,15 @@ export default function SettingsScreen({ onBack, onProfile }) {
   const { user, profile, logOut } = useAuth();
   const [light, setLight] = useState(isLightMode());
   const [muted, setMutedState] = useState(isMuted());
+  const [pushOk, setPushOk] = useState(false);       // supported + set up on this device
+  const [pushOn, setPushOn] = useState(pushEnabled());
+  const [pushBusy, setPushBusy] = useState(false);
+  const [pushMsg, setPushMsg] = useState(null);
+  useEffect(() => {
+    let alive = true;
+    if (pushConfigured()) pushSupported().then((ok) => { if (alive) setPushOk(ok); });
+    return () => { alive = false; };
+  }, []);
   const [yearSemester, setYearSemester] = useState(profile?.enrolledYearSemester || 'y1s1');
   const [status, setStatus] = useState(null); // { type: 'saving' | 'ok' | 'err', text }
   const [installable, setInstallable] = useState(isInstallable());
@@ -40,6 +50,21 @@ export default function SettingsScreen({ onBack, onProfile }) {
     playTapSound();
     setLight(next);
     setTheme(next ? 'light' : 'dark');
+  }
+
+  async function togglePush() {
+    if (pushBusy) return;
+    playTapSound();
+    setPushBusy(true);
+    setPushMsg(null);
+    try {
+      if (pushOn) { await disablePush(); setPushOn(false); }
+      else { await enablePush(); setPushOn(true); }
+    } catch (e) {
+      setPushMsg(e.message || String(e));
+    } finally {
+      setPushBusy(false);
+    }
   }
 
   function toggleSound() {
@@ -82,6 +107,26 @@ export default function SettingsScreen({ onBack, onProfile }) {
           <h1 className="set-title">Settings</h1>
           <div className="set-sub">Account, preferences and semester.</div>
         </div>
+        {pushOk && (
+          <div className="set-row">
+            <span>{pushOn ? '🔔 Invite notifications on' : '🔕 Invite notifications off'}</span>
+            <button
+              type="button"
+              role="switch"
+              aria-checked={pushOn}
+              aria-label="Challenge invite notifications"
+              disabled={pushBusy || (pushPermission() === 'denied' && !pushOn)}
+              className={pushOn ? 'set-switch on' : 'set-switch'}
+              onClick={togglePush}
+            />
+          </div>
+        )}
+        {pushMsg && <div className="auth-msg error" style={{ display: 'block', margin: '6px 0' }}>{pushMsg}</div>}
+        {pushOk && pushPermission() === 'denied' && !pushOn && (
+          <div style={{ fontSize: 12, color: 'var(--text3)', padding: '6px 0' }}>
+            Notifications are blocked for this site. Allow them in your browser&apos;s site settings, then come back.
+          </div>
+        )}
       </div>
 
       <div className="set-section-label">Account</div>

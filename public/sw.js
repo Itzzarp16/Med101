@@ -18,3 +18,39 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(fetch(event.request));
 });
+
+// ── Push notifications (challenge invites) ───────────────────
+// The server sends data-only messages ({title, body, url, tag}) so this
+// file stays free of any Firebase code. If the app is open and in front
+// of the student, the in-app invite card already shows it, so we skip
+// the system notification then.
+self.addEventListener('push', (event) => {
+  let payload = {};
+  try { payload = event.data ? event.data.json() : {}; } catch (e) { /* non-JSON push */ }
+  const d = payload.data || payload.notification || payload;
+  const title = d.title || 'Med101';
+  const options = {
+    body: d.body || '',
+    icon: '/icon-192.png',
+    badge: '/icon-192.png',
+    tag: d.tag || 'med101',
+    data: { url: d.url || '/' },
+  };
+  event.waitUntil((async () => {
+    const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    if (wins.some((w) => w.visibilityState === 'visible' && w.focused)) return;
+    await self.registration.showNotification(title, options);
+  })());
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const url = (event.notification.data && event.notification.data.url) || '/';
+  event.waitUntil((async () => {
+    const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const w of wins) {
+      if ('focus' in w) { await w.focus(); return; }
+    }
+    await self.clients.openWindow(url);
+  })());
+});
