@@ -9,6 +9,7 @@ import { submitRoomResult } from '../lib/rooms';
 import { recordWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
 import { saveQuizProgress, loadResumeSnapshot, loadSessionSnapshot, getAttemptMark, detachAttemptFromTab, clearQuizProgress, questionsSig, newAttemptId } from '../lib/quizProgress';
 import { getAIExplanation } from '../lib/aiExplanation';
+import ReportQuestionModal from './ReportQuestionModal';
 import { saveCloudSnapshot, deleteCloudSnapshot } from '../lib/quizResumeCloud';
 import './QuizScreen.css';
 
@@ -83,6 +84,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const swipeRef = useRef(null);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
+  const [reportOpen, setReportOpen] = useState(false);
   const [showReview, setShowReview] = useState(false);
   const [aiExplanations, setAiExplanations] = useState({});
   const [aiLoading, setAiLoading] = useState({});
@@ -845,8 +847,12 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             >
               {flaggedKeys.has(`${cur}`) ? '⭐' : '☆'}
             </button>
+            {user && !roomCode && (
+              <button className="q-report-btn" onClick={() => { playTapSound(); setReportOpen(true); }} title="Report a problem with this question" aria-label="Report a problem with this question">🚩</button>
+            )}
           </div>
           <p className="q-text">{q.q}</p>
+          {reportOpen && <ReportQuestionModal mainSubject={mainSubject} question={q} onClose={() => setReportOpen(false)} />}
         </div>
 
         {/* Options */}

@@ -11,7 +11,7 @@ import { subscribeToMyInvites } from '../lib/invites';
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
-export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, onProfile, onWeakTopics, onWrongFlagged, onHistory, onSearch, onPremium, onAdminNotice, onAdminExams, onAdminCalendar, onAdminUploadQuestions, onAdminUserDetail, onAdminAnalytics, onAdminPayments, onAdminSubscribers, onViewUser, screen }) {
+export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, onProfile, onWeakTopics, onWrongFlagged, onHistory, onSearch, onPremium, onAdminNotice, onAdminExams, onAdminReports, onAdminCalendar, onAdminUploadQuestions, onAdminUserDetail, onAdminAnalytics, onAdminPayments, onAdminSubscribers, onViewUser, screen }) {
   const { user, profile, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   // Waiting challenge invites -> red dot on the hamburger + a count on
@@ -179,6 +179,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
                 <button className="menu-item admin" onClick={() => go(onAdminNotice)}>📢 Home Notice</button>
                 <button className="menu-item admin" onClick={() => go(onAdminCalendar)}>⚙️ Academic Calendar</button>
                 <button className="menu-item admin" onClick={() => go(onAdminExams)}>📅 Exam Schedule</button>
+                <button className="menu-item admin" onClick={() => go(onAdminReports)}>🚩 Question Reports</button>
                 <button className="menu-item admin" onClick={() => go(onAdminUploadQuestions)}>📤 Upload Questions</button>
                 <button className="menu-item admin" onClick={() => go(onAdminUserDetail)}>🔍 View User Detail</button>
                 <button className="menu-item admin" onClick={() => go(onAdminAnalytics)}>📊 Usage Analytics</button>

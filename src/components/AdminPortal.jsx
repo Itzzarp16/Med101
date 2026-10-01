@@ -6,6 +6,7 @@ import AdminNoticeScreen from './AdminNoticeScreen';
 import AdminBroadcastScreen from './AdminBroadcastScreen';
 import AdminCalendarScreen from './AdminCalendarScreen';
 import AdminExamScheduleScreen from './AdminExamScheduleScreen';
+import AdminQuestionReportsScreen from './AdminQuestionReportsScreen';
 import AdminUserDetailScreen from './AdminUserDetailScreen';
 import AdminAnalyticsScreen from './AdminAnalyticsScreen';
 import AdminPaymentsScreen from './AdminPaymentsScreen';
@@ -35,6 +36,7 @@ const NAV_GROUPS = [
     { id: 'calendar', icon: '⚙️', label: 'Academic Calendar' },
     { id: 'exams', icon: '📅', label: 'Exam Schedule' },
     { id: 'upload', icon: '📤', label: 'Upload Questions' },
+    { id: 'reports', icon: '🚩', label: 'Question Reports' },
   ] },
   { title: 'Students', tabs: [
     { id: 'users', icon: '🔍', label: 'User Detail' },
@@ -60,6 +62,7 @@ function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
     case 'broadcast': return <AdminBroadcastScreen onBack={noop} hideBack />;
     case 'calendar': return <AdminCalendarScreen onBack={noop} hideBack />;
     case 'exams': return <AdminExamScheduleScreen onBack={noop} hideBack />;
+    case 'reports': return <AdminQuestionReportsScreen onBack={noop} hideBack />;
     case 'upload': return <AdminUploadQuestionsScreen onBack={noop} hideBack semesters={semesters} semesterMainSubjects={semesterMainSubjects} />;
     case 'users': return <AdminUserDetailScreen onBack={noop} initialUid={null} hideBack />;
     case 'analytics': return <AdminAnalyticsScreen onBack={noop} hideBack semesterMainSubjects={semesterMainSubjects} />;

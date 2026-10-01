@@ -279,6 +279,28 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    // ── questionReports/{questionKey}_{uid} ──────────────────────
+    // A student reporting a wrong/unclear question. The doc id embeds the
+    // student's uid, so each student can report a given question only once
+    // (a second attempt is an update, which only admins may do). Students
+    // can read just their own report (to show "already reported"); admins
+    // read everything and mark reports fixed/dismissed.
+    match /questionReports/{reportId} {
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['key', 'uid', 'mainSubject', 's', 'q', 'o', 'c', 'reason', 'note', 'status', 'createdAt'])
+        && request.resource.data.uid == request.auth.uid
+        && reportId == request.resource.data.key + '_' + request.auth.uid
+        && request.resource.data.status == 'open'
+        && request.resource.data.reason in ['wrong_answer', 'typo', 'unclear', 'outdated', 'other']
+        && request.resource.data.note is string && request.resource.data.note.size() <= 300
+        && request.resource.data.q is string && request.resource.data.q.size() <= 2000
+        && request.resource.data.o is list && request.resource.data.o.size() <= 8
+        && request.resource.data.createdAt == request.time;
+      allow read: if isAdmin()
+        || (request.auth != null && (resource == null || resource.data.uid == request.auth.uid));
+      allow update, delete: if isAdmin();
+    }
+
     // Default deny for anything not explicitly matched above.
     match /{document=**} {
       allow read, write: if false;
