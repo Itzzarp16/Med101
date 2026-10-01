@@ -1,0 +1,96 @@
+/* ───────────────────────────────────────────────────────────────
+   Motion layer - the site's animation feel beyond screen changes.
+   Loaded right after tokens.css. (Screen transitions, the quiz
+   question slide, option stagger and the dashboard card cascade live
+   in tokens.css / QuizScreen.css / SubjectCard.jsx - not repeated here.)
+
+   Rules of the road:
+   - animate only opacity/transform (cheap on phones);
+   - entrance animations use fill-mode `backwards`, never `both`/
+     `forwards`: a lingering transform would trap position:fixed
+     children (modals, menus) inside their animated parent;
+   - everything is calmed for prefers-reduced-motion at the end.
+   ─────────────────────────────────────────────────────────────── */
+
+:root {
+  --ease-spring: cubic-bezier(0.34, 1.2, 0.64, 1);
+  --dur-med: 0.32s;
+}
+
+/* Taps respond instantly: no 300ms double-tap-zoom wait, no grey flash. */
+a, button, input, select, textarea, label, summary, [role='button'] {
+  touch-action: manipulation;
+}
+button, a, [role='button'] {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Cards and lists rise in one after another ───────────────
+   Direct children of these containers cascade in (first 10, then
+   the rest arrive together so long lists never wait). Cards that
+   already carry .stagger-in (dashboard subjects) are left alone. */
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in) {
+  animation: m-rise var(--dur-med) cubic-bezier(0.22, 1, 0.36, 1) backwards;
+}
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in):nth-child(2) { animation-delay: 0.04s; }
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in):nth-child(3) { animation-delay: 0.08s; }
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in):nth-child(4) { animation-delay: 0.12s; }
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in):nth-child(5) { animation-delay: 0.16s; }
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in):nth-child(6) { animation-delay: 0.2s; }
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in):nth-child(7) { animation-delay: 0.24s; }
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in):nth-child(8) { animation-delay: 0.28s; }
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in):nth-child(9) { animation-delay: 0.32s; }
+:is(.subj-grid, .qmode-chips, .qmode-body, .std-screen) > :not(.stagger-in):nth-child(n + 10) { animation-delay: 0.36s; }
+
+@keyframes m-rise {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* ── Press feedback ──────────────────────────────────────────
+   Tappable things dip slightly under the finger. :is() keeps the
+   specificity above the components' own :hover rules. */
+:is(.subj-card, .mode-card, .topic-chip, .tpreset, .opt-btn, .rq-chip, .qm-back, .std-back, .qmode-toggle-row, .q-report-btn):active:not(:disabled) {
+  transform: scale(0.975);
+}
+
+/* ── Modals and sheets ─────────────────────────────────────── */
+:is(.rq-overlay, .whatsapp-modal-overlay) {
+  animation: m-fade 0.2s ease-out backwards;
+}
+:is(.rq-card, .whatsapp-modal-card) {
+  animation: m-pop 0.34s var(--ease-spring) backwards;
+}
+@keyframes m-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes m-pop {
+  from { opacity: 0; transform: translate3d(0, 16px, 0) scale(0.97); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+
+/* ── Progress bars grow from the left when they appear ─────── */
+.subj-progress-bar > span {
+  transform-origin: left center;
+  animation: m-bar-grow 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.15s backwards;
+}
+@keyframes m-bar-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ── Reduced motion ────────────────────────────────────────── 
+   No movement. Screen changes keep their own short fade (tokens.css),
+   and the live notice marquee is left to its own handling. */
+@media (prefers-reduced-motion: reduce) {
+  *:not(.screen-fade):not([class*='marquee']):not([class*='ticker']),
+  *:not(.screen-fade)::before,
+  *:not(.screen-fade)::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

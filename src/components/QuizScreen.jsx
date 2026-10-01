@@ -85,7 +85,9 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const swipeRef = useRef(null);
   const [elapsedMs, setElapsedMs] = useState(0);
   const [flaggedKeys, setFlaggedKeys] = useState(() => new Set());
-  const [reportOpen, setReportOpen] = useState(false);
+  // The question the report sheet was opened for (a snapshot, so auto-advance
+  // can't swap the question under a half-written report).
+  const [reportQ, setReportQ] = useState(null);
   const [showReview, setShowReview] = useState(false);
   const [aiExplanations, setAiExplanations] = useState({});
   const [aiLoading, setAiLoading] = useState({});
@@ -852,13 +854,14 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
               {flaggedKeys.has(`${cur}`) ? '⭐' : '☆'}
             </button>
             {user && !roomCode && (
-              <button className="q-report-btn" onClick={() => { playTapSound(); setReportOpen(true); }} title="Report a problem with this question" aria-label="Report a problem with this question">🚩</button>
+              <button className="q-report-btn" onClick={() => { playTapSound(); setReportQ(q); }} title="Report a problem with this question" aria-label="Report a problem with this question">🚩</button>
             )}
             </span>
           </div>
           <p className="q-text">{q.q}</p>
-          {reportOpen && <ReportQuestionModal mainSubject={mainSubject} question={q} onClose={() => setReportOpen(false)} />}
         </div>
+
+        {reportQ && <ReportQuestionModal mainSubject={mainSubject} question={reportQ} onClose={() => setReportQ(null)} />}
 
         {/* Options */}
         <div className="quiz-options" key={`o-${cur}`}>
