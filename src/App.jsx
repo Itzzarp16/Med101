@@ -4,6 +4,7 @@ import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
 import SubtopicScreen from './components/SubtopicScreen';
 import SlideStack from './components/SlideStack';
+import { viewTransition } from './lib/viewTransition';
 import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
 import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig, premiumCoversSemester, isFreeLabel, activateFreeSemester } from './lib/subscription';
@@ -188,6 +189,22 @@ export default function App() {
   const [lbFriendsOnly, setLbFriendsOnly] = useState(false);
   useEffect(() => { if (screen !== 'leaderboard') setLbFriendsOnly(false); }, [screen]);
 
+  // Screens that already animate between each other with SlideStack's own
+  // swipe. Moving between two of these skips the page-level transition so
+  // the two animations never stack.
+  const SLIDE_STACK_SCREENS = ['dashboard', 'subtopic', 'mode', 'quiz', 'subject-soon'];
+  const screenRef = useRef(screen);
+  useEffect(() => { screenRef.current = screen; }, [screen]);
+
+  function changeScreen(next, apply) {
+    const prev = screenRef.current;
+    if (SLIDE_STACK_SCREENS.includes(prev) && SLIDE_STACK_SCREENS.includes(next)) {
+      apply();
+      return;
+    }
+    viewTransition(apply);
+  }
+
   // Seed a base history entry on mount (matching whatever screen was
   // restored above, so the back gesture stays consistent), then listen
   // for the back/forward gesture and sync our screen state to whatever
@@ -200,9 +217,11 @@ export default function App() {
     function onPopState(e) {
       document.documentElement.dataset.nav = 'back'; // drives the slide direction (tokens.css)
       const state = e.state || { screen: 'dashboard' };
-      setScreen(state.screen);
-      setSelectedSubject(state.selectedSubject ?? null);
-      setSelectedTopic(state.selectedTopic ?? null);
+      changeScreen(state.screen, () => {
+        setScreen(state.screen);
+        setSelectedSubject(state.selectedSubject ?? null);
+        setSelectedTopic(state.selectedTopic ?? null);
+      });
     }
     window.addEventListener('popstate', onPopState);
     return () => window.removeEventListener('popstate', onPopState);
@@ -255,9 +274,11 @@ export default function App() {
     // Slide direction: returning to the dashboard reads as "back", everything else as deeper.
     document.documentElement.dataset.nav = screenName === 'dashboard' ? 'back' : 'forward';
     window.history.pushState({ screen: screenName, selectedSubject: nextSubject, selectedTopic: nextTopic }, '');
-    if ('selectedSubject' in extra) setSelectedSubject(extra.selectedSubject);
-    if ('selectedTopic' in extra) setSelectedTopic(extra.selectedTopic);
-    setScreen(screenName);
+    changeScreen(screenName, () => {
+      if ('selectedSubject' in extra) setSelectedSubject(extra.selectedSubject);
+      if ('selectedTopic' in extra) setSelectedTopic(extra.selectedTopic);
+      setScreen(screenName);
+    });
   }
 
   // Back navigation: goes through the browser's own history stack so it

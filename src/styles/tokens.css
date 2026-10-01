@@ -1245,6 +1245,36 @@ body.light-mode .app-loading-logo {
   }
 }
 
+/* Two-screen version (View Transitions API). When <html data-vt> is set
+   (viewTransition.js: browser supports it and motion isn't reduced) the
+   whole page is snapshotted before/after a navigation: the old screen
+   drifts out while the new one slides + fades in on top of it. The old
+   snapshot stays fully opaque underneath so the fade is a clean
+   cross-dissolve with no dip. The CSS entrance above is switched off so
+   the two never stack. */
+html[data-vt] .screen-fade,
+html[data-vt][data-nav='back'] .screen-fade {
+  animation: none;
+}
+
+html[data-vt]::view-transition-old(root),
+html[data-vt]::view-transition-new(root) {
+  animation-duration: var(--screen-dur);
+  animation-timing-function: var(--ease-out-expo);
+  animation-fill-mode: both;
+  mix-blend-mode: normal;
+}
+
+html[data-vt]::view-transition-old(root) { animation-name: vt-old-fwd; }
+html[data-vt]::view-transition-new(root) { animation-name: vt-new-fwd; }
+html[data-vt][data-nav='back']::view-transition-old(root) { animation-name: vt-old-back; }
+html[data-vt][data-nav='back']::view-transition-new(root) { animation-name: vt-new-back; }
+
+@keyframes vt-old-fwd { to { transform: translate3d(calc(var(--screen-shift) * -0.6), 0, 0); } }
+@keyframes vt-new-fwd { from { opacity: 0; transform: translate3d(var(--screen-shift), 0, 0); } }
+@keyframes vt-old-back { to { transform: translate3d(calc(var(--screen-shift) * 0.6), 0, 0); } }
+@keyframes vt-new-back { from { opacity: 0; transform: translate3d(calc(var(--screen-shift) * -1), 0, 0); } }
+
 /* Synchronized swipe transition for the Subtopic -> Quiz Mode -> Quiz
    flow - see SlideStack.jsx. Both panes sit in a flex track; while
    transitioning the track is 200% wide (each pane 50% = 100% of the

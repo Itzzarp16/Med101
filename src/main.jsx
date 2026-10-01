@@ -5,6 +5,7 @@ import './styles/motion.css'
 import App from './App.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
+import { initViewTransitions } from './lib/viewTransition'
 import { startVersionWatcher } from './lib/versionCheck'
 import OfflineGuard from './components/OfflineGuard.jsx'
 import ErrorBoundary from './components/ErrorBoundary'
@@ -37,7 +38,8 @@ const isAboutRoute = path === '/about-us';
 const isContactRoute = path === '/contact';
 const isResetPasswordRoute = path === '/reset-password';
 
-initTheme();
+initTheme()
+initViewTransitions();
 startVersionWatcher();
 
 // Register the service worker so the browser will actually offer
