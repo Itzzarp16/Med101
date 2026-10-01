@@ -12,6 +12,7 @@ import AdminPaymentsScreen from './AdminPaymentsScreen';
 import AdminSubscribersScreen from './AdminSubscribersScreen';
 import AdminUploadQuestionsScreen from './AdminUploadQuestionsScreen';
 import AdminSecurityScreen from './AdminSecurityScreen';
+import AdminBackupScreen from './AdminBackupScreen';
 import { enrolledTotpFactors } from '../lib/mfa';
 import './AdminPortal.css';
 import './AdminTheme.css';
@@ -26,6 +27,7 @@ const NAV_GROUPS = [
   { title: 'Money', tabs: [
     { id: 'payments', icon: '💳', label: 'Payments' },
     { id: 'subscribers', icon: '✅', label: 'Subscribers' },
+    { id: 'backup', icon: '💾', label: 'Backups' },
   ] },
   { title: 'Content', tabs: [
     { id: 'notice', icon: '📢', label: 'Home Notice' },
@@ -63,6 +65,7 @@ function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
     case 'analytics': return <AdminAnalyticsScreen onBack={noop} hideBack semesterMainSubjects={semesterMainSubjects} />;
     case 'payments': return <AdminPaymentsScreen onBack={noop} hideBack />;
     case 'subscribers': return <AdminSubscribersScreen onBack={noop} hideBack />;
+    case 'backup': return <AdminBackupScreen />;
     case 'security': return <AdminSecurityScreen />;
     default: return null;
   }

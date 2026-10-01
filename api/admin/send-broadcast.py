@@ -40,11 +40,24 @@ student whose CURRENT semester has an exam in 7 days or tomorrow.
     double-fired cron never notifies anyone twice. Sends show up in the admin
     "Recently sent" list as "Semester N - auto reminder".
 
+GET ?job=backup (cron only, same CRON_SECRET auth): daily backup of the
+payment + subscriber data (paymentRequests, activationCodes, config/subscription)
+emailed to the admin via Resend as a JSON file (complete, used for restore)
+plus CSVs (for reading). Add &dry=1 to count without sending. Also available
+to admins as POST actions "backup-now" and "backup-status" (Admin -> Backups).
+Restore with scripts/restore_backup.py. Last run is kept in adminMeta/backup.
+
 Env vars: FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY (already set),
-CRON_SECRET (new, for the GET exam-reminder job)
+CRON_SECRET (for the GET jobs), RESEND_API_KEY (already set, used for the backup email),
+BACKUP_EMAIL_TO (optional, comma-separated, defaults to admin.med101@gmail.com),
+FROM_EMAIL / REPLY_TO_EMAIL (optional, same defaults as the other email endpoints)
 """
 
+import base64
+import csv
+import gzip
 import hmac
+import io
 import json
 import os
 import re
@@ -54,6 +67,7 @@ from urllib.parse import parse_qs, quote, urlparse
 
 from http.server import BaseHTTPRequestHandler
 
+import requests
 import firebase_admin
 from firebase_admin import credentials, auth as fb_auth, firestore, messaging
 
@@ -85,6 +99,15 @@ SCREENS = {'home', 'leaderboard', 'challenge', 'friends', 'weak-topics', 'histor
 KG = timezone(timedelta(hours=6))
 REMIND_DAYS = {7: 'week', 1: 'day'}
 DEFAULTS_PATH = os.path.join(os.path.dirname(__file__), '..', '..', 'src', 'data', 'examSchedule.json')
+
+# Backup of payment + subscriber data.
+BACKUP_COLLECTIONS = ['paymentRequests', 'activationCodes']
+BACKUP_SINGLE_DOCS = [('config', 'subscription')]
+BACKUP_TO = [a.strip() for a in os.environ.get('BACKUP_EMAIL_TO', 'admin.med101@gmail.com').split(',') if a.strip()]
+FROM_EMAIL = os.environ.get('FROM_EMAIL', 'Med101 Admin <admin@med101.space>')
+REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'admin.med101@gmail.com')
+BACKUP_COOLDOWN_S = 30
+GZIP_ABOVE_BYTES = 12 * 1024 * 1024  # Resend allows ~40 MB per email; stay well under
 
 _app = None
 
@@ -313,6 +336,161 @@ def has_second_factor(decoded):
     return (decoded.get('firebase') or {}).get('sign_in_second_factor') == 'totp'
 
 
+# ── backup of payment + subscriber data ─────────────────────
+
+def _backup_value(v):
+    """Firestore value -> JSON-safe, in a form scripts/restore_backup.py can undo."""
+    if isinstance(v, datetime):
+        if v.tzinfo is None:
+            v = v.replace(tzinfo=timezone.utc)
+        return {'__ts__': v.astimezone(timezone.utc).isoformat()}
+    if isinstance(v, (bytes, bytearray)):
+        return {'__bytes__': base64.b64encode(bytes(v)).decode('ascii')}
+    if hasattr(v, 'path') and hasattr(v, 'id') and hasattr(v, 'parent'):  # DocumentReference
+        return {'__ref__': v.path}
+    if isinstance(v, dict):
+        return {str(k): _backup_value(x) for k, x in v.items()}
+    if isinstance(v, (list, tuple)):
+        return [_backup_value(x) for x in v]
+    return v
+
+
+def collect_backup(db):
+    """{'collections': {name: {docId: data}}, 'docs': {path: data}}"""
+    out = {'collections': {}, 'docs': {}}
+    for name in BACKUP_COLLECTIONS:
+        out['collections'][name] = {d.id: _backup_value(d.to_dict() or {}) for d in db.collection(name).stream()}
+    for coll, doc_id in BACKUP_SINGLE_DOCS:
+        snap = db.collection(coll).document(doc_id).get()
+        if snap.exists:
+            out['docs'][f'{coll}/{doc_id}'] = _backup_value(snap.to_dict() or {})
+    return out
+
+
+def _csv_cell(v):
+    if isinstance(v, dict) and set(v) == {'__ts__'}:
+        v = v['__ts__']
+    elif isinstance(v, (dict, list)):
+        v = json.dumps(v, ensure_ascii=False)
+    elif v is None:
+        v = ''
+    v = str(v)
+    # Spreadsheet formula injection: student-typed text must not run as a formula.
+    return "'" + v if v[:1] in ('=', '+', '-', '@', '\t', '\r') else v
+
+
+def _csv_bytes(docs):
+    cols = sorted({k for d in docs.values() for k in d})
+    buf = io.StringIO()
+    w = csv.writer(buf)
+    w.writerow(['id'] + cols)
+    for doc_id, d in sorted(docs.items()):
+        w.writerow([_csv_cell(doc_id)] + [_csv_cell(d.get(c)) for c in cols])
+    return buf.getvalue().encode('utf-8-sig')  # BOM so Excel reads UTF-8 names correctly
+
+
+def _backup_counts(data):
+    pay = data['collections'].get('paymentRequests', {})
+    by_status = {}
+    for d in pay.values():
+        st = str(d.get('status') or 'unknown')
+        by_status[st] = by_status.get(st, 0) + 1
+    return {
+        'paymentRequests': len(pay),
+        'paymentsByStatus': by_status,
+        'activationCodes': len(data['collections'].get('activationCodes', {})),
+    }
+
+
+def run_backup(db, trigger, dry=False):
+    now = datetime.now(timezone.utc)
+    day = now.astimezone(KG).date().isoformat()
+    meta_ref = db.collection('adminMeta').document('backup')
+    prev = meta_ref.get()
+    prev_counts = ((prev.to_dict() or {}).get('counts') or {}) if prev.exists else {}
+
+    status = {'trigger': trigger, 'ok': False, 'error': None, 'counts': None, 'to': BACKUP_TO, 'bytes': 0}
+    try:
+        data = collect_backup(db)
+        counts = _backup_counts(data)
+        status['counts'] = counts
+        if dry:
+            return {'ok': True, 'dry': True, 'day': day, 'counts': counts, 'to': BACKUP_TO}
+
+        key = os.environ.get('RESEND_API_KEY')
+        if not key:
+            raise RuntimeError('RESEND_API_KEY is not configured.')
+        if not BACKUP_TO:
+            raise RuntimeError('No backup recipient (BACKUP_EMAIL_TO).')
+
+        payload = {'backupVersion': 1, 'createdAt': now.isoformat(), 'counts': counts, **data}
+        raw = json.dumps(payload, ensure_ascii=False, indent=1).encode('utf-8')
+        files = [(f'med101-backup-{day}.json', raw)]
+        if len(raw) > GZIP_ABOVE_BYTES:
+            files = [(f'med101-backup-{day}.json.gz', gzip.compress(raw))]
+        files.append((f'payments-{day}.csv', _csv_bytes(data['collections']['paymentRequests'])))
+        files.append((f'activation-codes-{day}.csv', _csv_bytes(data['collections']['activationCodes'])))
+        status['bytes'] = sum(len(b) for _, b in files)
+
+        # A sharp drop since the previous backup is the early warning for
+        # accidental deletion, so flag it right in the subject line.
+        warn = ''
+        for k in ('paymentRequests', 'activationCodes'):
+            before, after = prev_counts.get(k), counts[k]
+            if isinstance(before, int) and before >= 5 and after < before * 0.8:
+                warn = '\u26a0\ufe0f '
+        subject = f"{warn}Med101 backup {day}: {counts['paymentRequests']} payments, {counts['activationCodes']} premium codes"
+        st = ', '.join(f'{n} {k}' for k, n in sorted(counts['paymentsByStatus'].items())) or 'none'
+        text = (
+            f"Med101 payment + subscriber backup for {day}.\n\n"
+            f"Payments: {counts['paymentRequests']} ({st})\nPremium codes: {counts['activationCodes']}\n\n"
+            "The .json file is the complete copy and is what the restore script reads. "
+            "The .csv files are for reading in Excel/Sheets.\n"
+            "Keep these emails: they are your restore point if the database is ever lost or wiped."
+            + ("\n\nWARNING: the counts dropped sharply since the last backup. Check the data." if warn else '')
+        )
+        resp = requests.post(
+            'https://api.resend.com/emails',
+            headers={'Authorization': f'Bearer {key}', 'Content-Type': 'application/json'},
+            json={
+                'from': FROM_EMAIL, 'to': BACKUP_TO, 'reply_to': REPLY_TO_EMAIL,
+                'subject': subject, 'text': text,
+                'attachments': [{'filename': n, 'content': base64.b64encode(b).decode('ascii')} for n, b in files],
+            },
+            timeout=25,
+        )
+        if resp.status_code >= 300:
+            raise RuntimeError(f'Resend error {resp.status_code}: {resp.text[:200]}')
+        status['ok'] = True
+        return {'ok': True, 'day': day, 'counts': counts, 'to': BACKUP_TO, 'bytes': status['bytes'], 'warning': bool(warn)}
+    except Exception as e:
+        status['error'] = str(e)[:300]
+        raise
+    finally:
+        if not dry:
+            try:
+                meta_ref.set({**status, 'lastRunAt': firestore.SERVER_TIMESTAMP}, merge=True)
+            except Exception:
+                pass
+
+
+def backup_status(db):
+    snap = db.collection('adminMeta').document('backup').get()
+    d = (snap.to_dict() or {}) if snap.exists else {}
+    at = d.get('lastRunAt')
+    return {
+        'ok': True,
+        'lastRunAt': at.isoformat() if at else None,
+        'lastOk': d.get('ok'),
+        'error': d.get('error'),
+        'counts': d.get('counts'),
+        'to': d.get('to') or BACKUP_TO,
+        'trigger': d.get('trigger'),
+        'bytes': d.get('bytes'),
+        'lastRunMs': at.timestamp() * 1000 if at else None,
+    }
+
+
 class handler(BaseHTTPRequestHandler):
     def _send(self, status, body):
         payload = json.dumps(body).encode('utf-8')
@@ -341,11 +519,18 @@ class handler(BaseHTTPRequestHandler):
         supplied = self.headers.get('Authorization', '')
         if not hmac.compare_digest(supplied, f'Bearer {secret}'):
             return self._send(401, {'error': 'Unauthorized.'})
-        dry = parse_qs(urlparse(self.path).query).get('dry') == ['1']
+        q = parse_qs(urlparse(self.path).query)
+        dry = q.get('dry') == ['1']
+        job = (q.get('job') or ['exam'])[0]
         try:
-            return self._send(200, run_exam_reminders(dry))
+            if job == 'backup':
+                _init_admin()
+                return self._send(200, run_backup(firestore.client(), 'cron', dry))
+            if job == 'exam':
+                return self._send(200, run_exam_reminders(dry))
         except Exception as e:
-            return self._send(500, {'error': f'Reminder run failed: {e}'})
+            return self._send(500, {'error': f'{job} job failed: {e}'})
+        return self._send(400, {'error': 'Unknown job.'})
 
     def do_POST(self):
         origin = self.headers.get('Origin')
@@ -378,6 +563,13 @@ class handler(BaseHTTPRequestHandler):
                 return self._stats(db)
             if action == 'history':
                 return self._history(db)
+            if action == 'backup-status':
+                return self._send(200, backup_status(db))
+            if action == 'backup-now':
+                st = backup_status(db)
+                if st['lastRunMs'] and time.time() * 1000 - st['lastRunMs'] < BACKUP_COOLDOWN_S * 1000:
+                    return self._send(429, {'error': 'A backup just ran. Wait a moment.'})
+                return self._send(200, run_backup(db, 'manual'))
             if action in ('send', 'test'):
                 return self._deliver(db, decoded, payload, test=(action == 'test'))
         except Exception as e:
