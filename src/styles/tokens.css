@@ -1199,28 +1199,49 @@ body.light-mode .app-loading-logo {
   }
 }
 
-/* Screen transition - fades + slides the active screen in whenever
+/* Screen transition - the active screen slides + fades in whenever
    `screen` changes. Applied via key={screen} on the wrapper so React
-   remounts fresh (rather than patching in place) exactly when
-   navigation happens, which is what replays the animation. */
-.screen-fade {
-  animation: screen-fade-in 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+   remounts fresh exactly when navigation happens, which replays it.
+   Direction-aware: going deeper slides in from the right, going back
+   (device back gesture, or returning to the dashboard) from the left -
+   App.jsx sets <html data-nav="back|forward"> just before it switches.
+   Only transform + opacity animate (GPU-friendly on low-end phones).
+   Tune the feel with --screen-dur / --screen-shift. */
+:root {
+  --screen-dur: 0.36s;
+  --screen-shift: 26px;
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@keyframes screen-fade-in {
-  from {
-    opacity: 0;
-    transform: translateX(28px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.screen-fade {
+  animation: screen-in-fwd var(--screen-dur) var(--ease-out-expo) backwards;
+}
+
+[data-nav='back'] .screen-fade {
+  animation-name: screen-in-back;
+}
+
+@keyframes screen-in-fwd {
+  from { opacity: 0; transform: translate3d(var(--screen-shift), 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes screen-in-back {
+  from { opacity: 0; transform: translate3d(calc(var(--screen-shift) * -1), 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+/* Reduced motion: no sliding, just a quick fade so the change is still
+   perceptible. */
+@keyframes screen-in-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .screen-fade {
-    animation: none;
+  .screen-fade,
+  [data-nav='back'] .screen-fade {
+    animation: screen-in-fade 0.15s linear backwards;
   }
 }
 

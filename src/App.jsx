@@ -198,6 +198,7 @@ export default function App() {
       ''
     );
     function onPopState(e) {
+      document.documentElement.dataset.nav = 'back'; // drives the slide direction (tokens.css)
       const state = e.state || { screen: 'dashboard' };
       setScreen(state.screen);
       setSelectedSubject(state.selectedSubject ?? null);
@@ -251,6 +252,8 @@ export default function App() {
   function goTo(screenName, extra = {}) {
     const nextSubject = 'selectedSubject' in extra ? extra.selectedSubject : selectedSubject;
     const nextTopic = 'selectedTopic' in extra ? extra.selectedTopic : selectedTopic;
+    // Slide direction: returning to the dashboard reads as "back", everything else as deeper.
+    document.documentElement.dataset.nav = screenName === 'dashboard' ? 'back' : 'forward';
     window.history.pushState({ screen: screenName, selectedSubject: nextSubject, selectedTopic: nextTopic }, '');
     if ('selectedSubject' in extra) setSelectedSubject(extra.selectedSubject);
     if ('selectedTopic' in extra) setSelectedTopic(extra.selectedTopic);

@@ -73,6 +73,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const restoredRef = initRef.restored; // saved snapshot being continued, or null
   const quizQuestions = initRef.quizQuestions;
   const attemptIdRef = useRef(initRef.attemptId);
+  const qDirRef = useRef('next'); // which way the question card slides in (see .q-enter)
 
   const [cur, setCur] = useState(restoredRef?.cur ?? 0);
   const [answers, setAnswers] = useState(() => restoredRef?.answers ?? new Array(quizQuestions.length).fill(-1));
@@ -227,6 +228,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       return;
     }
     if (nx < 0) return;
+    qDirRef.current = dir < 0 ? 'prev' : 'next';
     setCur(nx);
   }
 
@@ -279,6 +281,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     playTapSound();
     clearTimeout(advanceTimeoutRef.current);
     if (answers[cur] === -1) recordQuestionTime(cur);
+    qDirRef.current = i < cur ? 'prev' : 'next';
     setCur(i);
   }
 
@@ -836,7 +839,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         )}
 
         {/* Question card */}
-        <div className="q-card">
+        <div className={`q-card q-enter q-enter-${qDirRef.current}`} key={`q-${cur}`}>
           <div className="q-card-top">
             <span className="badge badge-cyan">{q.s}</span>
             <span className="q-card-actions">
@@ -858,7 +861,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         </div>
 
         {/* Options */}
-        <div className="quiz-options">
+        <div className="quiz-options" key={`o-${cur}`}>
           {q.o.map((opt, i) => {
             let cls = 'opt-btn';
             if (answered) {
@@ -868,7 +871,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             return (
               <button
                 key={i}
-                className={cls}
+                className={`${cls} stagger-in`}
+                style={{ '--stagger-i': i }}
                 disabled={answered}
                 onClick={() => answerQ(i)}
               >

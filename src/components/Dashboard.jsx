@@ -270,7 +270,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
         </div>
 
         <div className="subj-grid">
-          {Object.entries(mainSubjectMeta).map(([name, meta]) => {
+          {Object.entries(mainSubjectMeta).map(([name, meta], idx) => {
             const hasQuestions = (subjectStats[name]?.questionCount || 0) > 0;
             // The static "Content coming soon" desc lives in the semester
             // JSON (see y2s1/y2s2.json) - once an upload gives this subject
@@ -288,6 +288,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
             return (
               <SubjectCard
                 key={name}
+                index={idx}
                 emoji={meta.emoji}
                 name={name}
                 desc={hasQuestions ? '' : desc}

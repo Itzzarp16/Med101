@@ -19,11 +19,15 @@ function traceDelayFor(name) {
   return (hash % 26) / 10; // 0 - 2.5s
 }
 
-export default function SubjectCard({ emoji, name, desc, questionCount, topicCount, trace, progress, exam, onClick }) {
+export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
   return (
-    <button className={trace ? 'subj-card subj-card--dash' : 'subj-card'} onClick={onClick}>
+    <button
+      className={`${trace ? 'subj-card subj-card--dash' : 'subj-card'}${index != null ? ' stagger-in' : ''}`}
+      style={index != null ? { '--stagger-i': Math.min(index, 8) } : undefined}
+      onClick={onClick}
+    >
       <span className="subj-emoji">{emoji}</span>
       <span className="subj-card-text">
         <span className="subj-name">{name}</span>
