@@ -10,7 +10,8 @@
       "includeFiles": "api/templates/**"
     },
     "api/admin/send-broadcast.py": {
-      "includeFiles": "src/data/examSchedule.json"
+      "includeFiles": "src/data/examSchedule.json",
+      "maxDuration": 60
     }
   },
   "rewrites": [
@@ -78,10 +79,6 @@
   "crons": [
     {
       "path": "/api/admin/send-broadcast",
-      "schedule": "0 3 * * *"
-    },
-    {
-      "path": "/api/admin/send-broadcast?job=backup",
       "schedule": "30 3 * * *"
     }
   ]

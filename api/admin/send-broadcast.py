@@ -23,9 +23,15 @@ for the app itself.
 screen: where tapping the notification opens ('home' or a whitelisted
 screen key - see SCREENS).
 
-GET (cron only): the daily exam-reminder job from vercel.json. It lives in
-this file, not its own function, because the Hobby plan allows at most 12
-serverless functions per deployment. It sends an automatic push to every
+GET (cron only): the ONE daily Vercel cron (vercel.json, 03:30 UTC = 09:30
+Kyrgyzstan) runs two jobs, each isolated from the other's failures:
+  1. exam reminders, 2. the payment/subscriber backup (below).
+?job=exam or ?job=backup runs just one. Vercel keys crons by path, so two
+crons on this one path would overwrite each other - hence one cron, two jobs.
+This lives in this file, not its own function, because the Hobby plan allows
+at most 12 serverless functions per deployment.
+
+Exam reminders send an automatic push to every
 student whose CURRENT semester has an exam in 7 days or tomorrow.
 
   - Exam dates come from src/data/examSchedule.json (built-in defaults,
@@ -40,7 +46,7 @@ student whose CURRENT semester has an exam in 7 days or tomorrow.
     double-fired cron never notifies anyone twice. Sends show up in the admin
     "Recently sent" list as "Semester N - auto reminder".
 
-GET ?job=backup (cron only, same CRON_SECRET auth): daily backup of the
+Backup job (runs with the cron above, or alone via GET ?job=backup): daily backup of the
 payment + subscriber data (paymentRequests, activationCodes, config/subscription)
 emailed to the admin via Resend as a JSON file (complete, used for restore)
 plus CSVs (for reading). Add &dry=1 to count without sending. Also available
@@ -521,16 +527,26 @@ class handler(BaseHTTPRequestHandler):
             return self._send(401, {'error': 'Unauthorized.'})
         q = parse_qs(urlparse(self.path).query)
         dry = q.get('dry') == ['1']
-        job = (q.get('job') or ['exam'])[0]
-        try:
-            if job == 'backup':
+        job = (q.get('job') or ['all'])[0]
+        if job not in ('all', 'exam', 'backup'):
+            return self._send(400, {'error': 'Unknown job.'})
+        # The daily cron calls this with no job and runs both. They are
+        # isolated: a failure in one never stops the other.
+        out, failed = {}, False
+        if job in ('all', 'exam'):
+            try:
+                out['exam'] = run_exam_reminders(dry)
+            except Exception as e:
+                out['exam'] = {'ok': False, 'error': str(e)[:300]}
+                failed = True
+        if job in ('all', 'backup'):
+            try:
                 _init_admin()
-                return self._send(200, run_backup(firestore.client(), 'cron', dry))
-            if job == 'exam':
-                return self._send(200, run_exam_reminders(dry))
-        except Exception as e:
-            return self._send(500, {'error': f'{job} job failed: {e}'})
-        return self._send(400, {'error': 'Unknown job.'})
+                out['backup'] = run_backup(firestore.client(), 'cron', dry)
+            except Exception as e:
+                out['backup'] = {'ok': False, 'error': str(e)[:300]}
+                failed = True
+        return self._send(500 if failed else 200, {'ok': not failed, **out})
 
     def do_POST(self):
         origin = self.headers.get('Origin')
