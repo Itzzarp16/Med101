@@ -296,7 +296,16 @@ export default function App() {
   // Only these screens can be opened this way.
   useEffect(() => {
     if (!user?.uid) return undefined;
-    const OPEN_SCREENS = ['leaderboard', 'challenge', 'friends', 'weak-topics', 'history'];
+    // Notification taps and the top bar on the public pages (About, Privacy,
+    // Terms, Contact) open the app on one of these. Admin screens guard
+    // themselves, so listing them here doesn't let anyone in.
+    const OPEN_SCREENS = [
+      'leaderboard', 'challenge', 'friends', 'weak-topics', 'history',
+      'search', 'wrong-flagged', 'premium', 'settings', 'profile',
+      'admin-payments', 'admin-subscribers', 'admin-backup', 'admin-notice', 'admin-broadcast',
+      'admin-calendar', 'admin-exams', 'admin-upload-questions', 'admin-reports',
+      'admin-user-detail', 'admin-analytics', 'admin-security',
+    ];
     const params = new URLSearchParams(window.location.search);
     const target = params.get('open');
     if (target) {

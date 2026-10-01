@@ -8,6 +8,7 @@ import { initTheme } from './lib/theme'
 import { initViewTransitions } from './lib/viewTransition'
 import { startVersionWatcher } from './lib/versionCheck'
 import OfflineGuard from './components/OfflineGuard.jsx'
+import LegalShell from './components/LegalShell'
 import ErrorBoundary from './components/ErrorBoundary'
 
 // App.jsx is what ~99% of visitors land on ("/"), so it stays a
@@ -80,14 +81,19 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <ErrorBoundary>
       <OfflineGuard />
-      {isPrivacyRoute ? (
-        <Suspense fallback={<div className="std-loading">Loading…</div>}><PrivacyPolicy /></Suspense>
-      ) : isTermsRoute ? (
-        <Suspense fallback={<div className="std-loading">Loading…</div>}><TermsAndConditions /></Suspense>
-      ) : isAboutRoute ? (
-        <Suspense fallback={<div className="std-loading">Loading…</div>}><AboutUs /></Suspense>
-      ) : isContactRoute ? (
-        <Suspense fallback={<div className="std-loading">Loading…</div>}><ContactUs /></Suspense>
+      {isPrivacyRoute || isTermsRoute || isAboutRoute || isContactRoute ? (
+        // Public pages: readable by anyone, but wrapped in the app's top bar
+        // (menu, online count, profile) when someone is signed in.
+        <AuthProvider>
+          <LegalShell>
+            <Suspense fallback={<div className="std-loading">Loading…</div>}>
+              {isPrivacyRoute ? <PrivacyPolicy />
+                : isTermsRoute ? <TermsAndConditions />
+                : isAboutRoute ? <AboutUs />
+                : <ContactUs />}
+            </Suspense>
+          </LegalShell>
+        </AuthProvider>
       ) : isResetPasswordRoute ? (
         <Suspense fallback={<div className="std-loading">Loading…</div>}><ResetPassword /></Suspense>
       ) : (
