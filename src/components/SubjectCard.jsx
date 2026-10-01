@@ -45,10 +45,11 @@ export default function SubjectCard({ index, emoji, name, desc, questionCount, t
           </span>
           {trace && (
             <span className="subj-trace active" aria-hidden="true" style={{ '--trace-color': accent, '--trace-delay': `${-(traceDelayFor(name))}s` }}>
-              <svg viewBox="0 0 200 30" preserveAspectRatio="none">
+              <svg viewBox="0 0 72 16">
                 <path
                   className="subj-trace-line"
-                  d="M0,15 L28,15 L36,4 L44,26 L52,15 L68,15 L76,7 L84,23 L92,15 L200,15"
+                  pathLength="100"
+                  d="M0,8 L12,8 L15,2 L19,14 L22,8 L32,8 L35,4 L38,12 L41,8 L72,8"
                 />
               </svg>
             </span>

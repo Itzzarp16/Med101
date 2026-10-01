@@ -115,7 +115,7 @@
   --trace-color: var(--cyan);
   display: block;
   height: 16px;
-  width: 44px;
+  width: 72px;
   flex-shrink: 0;
   opacity: 0.9;
 }
@@ -136,16 +136,18 @@
 }
 
 .subj-trace.active .subj-trace-line {
-  stroke-dasharray: 260;
-  stroke-dashoffset: 260;
+  /* pathLength=100 in the markup, so these are percentages of the line
+     no matter how wide the card (and the svg) ends up. */
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
   animation: subj-trace-draw 2.6s ease-in-out var(--trace-delay, 0s) infinite;
 }
 
 @keyframes subj-trace-draw {
-  0% { stroke-dashoffset: 260; opacity: 0.2; }
+  0% { stroke-dashoffset: 100; opacity: 0.2; }
   45% { stroke-dashoffset: 0; opacity: 1; }
   55% { stroke-dashoffset: 0; opacity: 1; }
-  100% { stroke-dashoffset: -260; opacity: 0.2; }
+  100% { stroke-dashoffset: -100; opacity: 0.2; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -201,8 +203,11 @@
   border: 1px solid rgba(255, 255, 255, 0.14);
 }
 .subj-card--dash .subj-name { font-size: 16px; line-height: 1.25; }
-.subj-card--dash .subj-foot { margin-top: 5px; flex-wrap: nowrap; }
-.subj-card--dash .subj-meta { font-size: 11.5px; color: var(--text2); gap: 8px; }
+/* The counts and the pulse line stack, so the pulse never has to squeeze
+   in beside the counts (it used to overflow past the chevron and the card
+   edge once the card got narrow, e.g. 4 columns in desktop mode). */
+.subj-card--dash .subj-foot { margin-top: 5px; flex-direction: column; align-items: flex-start; gap: 5px; }
+.subj-card--dash .subj-meta { font-size: 11.5px; color: var(--text2); gap: 4px 8px; flex-wrap: wrap; }
 .subj-card--dash .subj-meta > span + span::before { content: '·'; margin-right: 8px; opacity: 0.6; }
 .subj-card--dash .subj-count { margin-top: 3px; font-size: 12px; }
 .subj-card--dash:hover { transform: none; }
