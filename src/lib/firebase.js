@@ -8,6 +8,7 @@
 // by your Firestore Security Rules, not by hiding this object.
 
 import { initializeApp } from 'firebase/app';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
@@ -26,6 +27,35 @@ const firebaseConfig = {
 };
 
 export const app = initializeApp(firebaseConfig);
+
+// ── App Check (bot protection) ───────────────────────────────
+// Proves to Firebase that a request comes from THIS website running in a
+// real browser, not from a script calling Firebase's public API directly
+// (the usual way mass fake signups are made - the apiKey above is public).
+// Uses reCAPTCHA v3, which is invisible: students never see a challenge.
+//
+// Needs VITE_RECAPTCHA_SITE_KEY (public site key, set in Vercel). Without
+// it this does nothing, so the app works exactly as before. Once the key
+// is set AND "Enforce" is switched on for Authentication in the Firebase
+// console (App Check > APIs), unverified requests are rejected.
+//
+// Must run before the services below are used, so it sits right here.
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
+if (RECAPTCHA_SITE_KEY) {
+  try {
+    // Local dev can't pass reCAPTCHA; the SDK prints a debug token in the
+    // console that you register under App Check > Apps > Manage debug tokens.
+    if (import.meta.env.DEV) self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+    initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider(RECAPTCHA_SITE_KEY),
+      isTokenAutoRefreshEnabled: true,
+    });
+  } catch (e) {
+    // Never let App Check setup take the whole app down.
+    console.warn('App Check could not start:', e);
+  }
+}
+
 export const auth = getAuth(app);
 
 // Deliberately NOT using persistentLocalCache here - the site is meant

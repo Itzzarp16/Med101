@@ -1,8 +1,8 @@
 // Vercel serverless endpoint for MED101 account creation notifications.
 // Uses the account-specific Telegram chat.
 
-const FIREBASE_LOOKUP_URL =
-  'https://identitytoolkit.googleapis.com/v1/accounts:lookup';
+import { getApps, initializeApp, cert } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
 
 const TELEGRAM_API = 'https://api.telegram.org';
 
@@ -18,40 +18,34 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;');
 }
 
+// Verifies the request carries a valid Firebase session, via the Admin SDK.
+// (This used to call Google's accounts:lookup REST endpoint with the public
+// web API key; that kind of call is rejected once App Check enforcement is
+// switched on for Authentication, which would silently kill these alerts.)
+// Returns the same shape the callers always used: { localId, email, displayName }.
+function initAdmin() {
+  if (getApps().length) return;
+  const privateKey = (process.env.FIREBASE_PRIVATE_KEY || '').replace(/\\n/g, '\n');
+  initializeApp({
+    credential: cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey,
+    }),
+  });
+}
+
 async function verifyFirebaseIdToken(idToken) {
-  const apiKey = process.env.FIREBASE_WEB_API_KEY;
-
-  if (!apiKey) {
-    throw new Error(
-      'FIREBASE_WEB_API_KEY is not configured.'
-    );
-  }
-
-  const response = await fetch(
-    `${FIREBASE_LOOKUP_URL}?key=${encodeURIComponent(apiKey)}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        idToken,
-      }),
-    }
-  );
-
-  if (!response.ok) {
+  initAdmin();
+  let decoded;
+  try {
+    decoded = await getAuth().verifyIdToken(idToken);
+  } catch {
     throw new Error('Firebase authentication failed.');
   }
-
-  const data = await response.json();
-  const account = data.users?.[0];
-
-  if (!account?.localId) {
-    throw new Error('Firebase authentication failed.');
-  }
-
-  return account;
+  // getUser, not the token's claims: the token can lag a just-changed display name.
+  const user = await getAuth().getUser(decoded.uid);
+  return { localId: user.uid, email: user.email || '', displayName: user.displayName || '' };
 }
 
 export default async function handler(req, res) {
