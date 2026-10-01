@@ -250,6 +250,14 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           )}
         </div>
 
+        {/* Start bar - sits right under the settings (above the optional topic chips); says what you're about to start */}
+        <div className="qm-start-bar">
+          <button className="btn-glow qm-start-btn" onClick={handleStart}>
+            <span className="qm-start-main">Start Quiz →</span>
+            <span className="qm-start-sub">{startSummary}</span>
+          </button>
+        </div>
+
         <div className="qmode-section-label">Or Pick Specific Topics</div>
         <div className="qmode-chips">
           {topics.map((name) => (
@@ -263,13 +271,6 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           ))}
         </div>
 
-        {/* Sticky start bar - always reachable, says what you're about to start */}
-        <div className="qm-start-bar">
-          <button className="btn-glow qm-start-btn" onClick={handleStart}>
-            <span className="qm-start-main">Start Quiz →</span>
-            <span className="qm-start-sub">{startSummary}</span>
-          </button>
-        </div>
           </>
         )}
       </div>
