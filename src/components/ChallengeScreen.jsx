@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { createRoom, joinRoom, fetchMyRooms } from '../lib/rooms';
 import { filterUnseen } from '../lib/seenQuestions';
@@ -23,8 +23,9 @@ function shuffled(arr) {
 // whatever the host can currently see.
 //
 // The Create Room mode picker deliberately mirrors QuizModeScreen's -
-// same modes (Random 25/50, All Sequential/Random, Custom Range,
-// Unseen Only), same Auto-advance/Timer settings - EXCEPT picking
+// same modes (Random 25/50, All Sequential/Random, Custom Range), the
+// same Unseen Only toggle (a filter layered on top of whichever mode is
+// picked - not a mode of its own), same Auto-advance/Timer settings - EXCEPT picking
 // specific topics, since a Challenge Room is always for one whole
 // subject, not a topic subset. Whichever mode the host picks decides
 // the exact frozen question set at creation time, same as a normal
@@ -35,6 +36,7 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
   const [tab, setTab] = useState('create');
   const [subject, setSubject] = useState(Object.keys(mainSubjectMeta || {})[0] || '');
   const [mode, setMode] = useState('rand25');
+  const [unseenOnly, setUnseenOnly] = useState(false);
   const [rangeStart, setRangeStart] = useState(1);
   const [rangeEnd, setRangeEnd] = useState(50);
   const [customShuffle, setCustomShuffle] = useState(false);
@@ -57,9 +59,29 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
     [pool, subject, profile]
   );
 
+  // Which non-custom mode was active right before Custom Range was
+  // picked, so tapping the Custom Range card again collapses its panel
+  // (same behaviour as the main quiz mode screen).
+  const prevModeRef = useRef('rand25');
+
   function selectMode(m) {
     playTapSound();
+    if (m === 'custom' && mode === 'custom') {
+      setMode(prevModeRef.current);
+      return;
+    }
+    if (m === 'custom') prevModeRef.current = mode;
     setMode(m);
+  }
+
+  // Unseen Only only means anything while there are unseen questions in
+  // the chosen subject (switching subject can empty the pool).
+  const useUnseen = unseenOnly && unseenPool.length > 0;
+
+  function toggleUnseenOnly() {
+    if (unseenPool.length === 0) return;
+    playTapSound();
+    setUnseenOnly((v) => !v);
   }
 
   useEffect(() => {
@@ -80,24 +102,30 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
       return;
     }
 
+    // Same rules as QuizModeScreen: Unseen Only filters whichever mode is
+    // picked. Every mode draws from the unseen pool from the start (so
+    // "Random 25" still means 25 where possible); Custom Range is the one
+    // exception - its Q# numbers refer to positions in the FULL pool, so
+    // it slices the full pool first and then drops seen questions.
+    const sourcePool = useUnseen ? unseenPool : pool;
+
     let quizQ;
-    if (mode === 'unseen') {
-      quizQ = shuffled(unseenPool);
-    } else if (mode === 'rand25') {
-      quizQ = shuffled(pool).slice(0, Math.min(25, pool.length));
+    if (mode === 'rand25') {
+      quizQ = shuffled(sourcePool).slice(0, Math.min(25, sourcePool.length));
     } else if (mode === 'rand50') {
-      quizQ = shuffled(pool).slice(0, Math.min(50, pool.length));
+      quizQ = shuffled(sourcePool).slice(0, Math.min(50, sourcePool.length));
     } else if (mode === 'all-seq') {
-      quizQ = [...pool];
+      quizQ = [...sourcePool];
     } else if (mode === 'all-rand') {
-      quizQ = shuffled(pool);
+      quizQ = shuffled(sourcePool);
     } else if (mode === 'custom') {
       const s = Math.max(1, rangeStart || 1);
       const e = Math.min(pool.length, rangeEnd || 50);
-      const sliced = pool.slice(s - 1, e);
+      let sliced = pool.slice(s - 1, e);
+      if (useUnseen) sliced = filterUnseen(sliced, subject, profile?.seenQuestions);
       quizQ = customShuffle ? shuffled(sliced) : sliced;
     } else {
-      quizQ = shuffled(pool);
+      quizQ = shuffled(sourcePool);
     }
 
     if (!quizQ.length) {
@@ -193,15 +221,6 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
             <ModeCard emoji="📚" title={`All ${pool.length}`} desc="In order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
             <ModeCard emoji="🔀" title={`All ${pool.length}`} desc="Shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
             <ModeCard emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
-            <ModeCard
-              emoji="🆕"
-              title="Unseen Only"
-              desc={`${unseenPool.length} questions you haven't tried yet`}
-              selected={mode === 'unseen'}
-              onClick={() => unseenPool.length > 0 && selectMode('unseen')}
-              wide
-              disabled={unseenPool.length === 0}
-            />
           </div>
 
           {mode === 'custom' && (
@@ -220,6 +239,20 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
               <ToggleRow title="🔀 Shuffle Questions" desc="Randomise order within the range" on={customShuffle} onToggle={() => setCustomShuffle((v) => !v)} />
             </div>
           )}
+
+          <div className="qmode-settings-card glass" style={unseenPool.length === 0 ? { opacity: 0.5 } : undefined}>
+            <ToggleRow
+              title="🆕 Unseen Only"
+              desc={
+                unseenPool.length > 0
+                  ? `Only questions you haven't tried (${unseenPool.length} left) - works with any mode`
+                  : "You've seen every question in this subject"
+              }
+              on={useUnseen}
+              onToggle={toggleUnseenOnly}
+              disabled={unseenPool.length === 0}
+            />
+          </div>
 
           <div className="qmode-section-label">Settings</div>
           <div className="glass std-card room-limit-card">
