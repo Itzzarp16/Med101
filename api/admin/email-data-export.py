@@ -116,6 +116,13 @@ def _email_body_text(student_name):
     )
 
 
+
+def has_second_factor(decoded):
+    """Admin actions need a token from a sign-in that used the authenticator
+    app (two-step login). Plain password / Google-only sessions are refused."""
+    return (decoded.get('firebase') or {}).get('sign_in_second_factor') == 'totp'
+
+
 class handler(BaseHTTPRequestHandler):
     def _send(self, status, body):
         payload = json.dumps(body).encode('utf-8')
@@ -154,6 +161,8 @@ class handler(BaseHTTPRequestHandler):
 
         if decoded.get('email') not in ADMIN_EMAILS:
             return self._send(403, {'error': 'Admin access required.'})
+        if not has_second_factor(decoded):
+            return self._send(403, {'error': 'Two-step login required. Sign out, sign back in and enter your authenticator code.'})
 
         try:
             length = int(self.headers.get('Content-Length', 0))

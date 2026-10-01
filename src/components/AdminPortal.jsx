@@ -12,6 +12,7 @@ import AdminPaymentsScreen from './AdminPaymentsScreen';
 import AdminSubscribersScreen from './AdminSubscribersScreen';
 import AdminUploadQuestionsScreen from './AdminUploadQuestionsScreen';
 import AdminSecurityScreen from './AdminSecurityScreen';
+import { enrolledTotpFactors } from '../lib/mfa';
 import './AdminPortal.css';
 import './AdminTheme.css';
 
@@ -129,8 +130,43 @@ function AdminLogin() {
   );
 }
 
+// Admin accounts must sign in with the authenticator second step. A session
+// without it only gets this page: enroll (first time) or sign in again with
+// the code (already enrolled). Nothing else in the portal is reachable.
+function TwoStepGate({ user, logOut }) {
+  const enrolled = enrolledTotpFactors(user).length > 0;
+  return (
+    <div className="admin-portal-authwrap">
+      <div className="admin-login-card" style={{ maxWidth: 560 }}>
+        <span className="admin-portal-badge">ADMIN</span>
+        <div className="admin-portal-authnote">Two-step login required</div>
+        {enrolled ? (
+          <>
+            <p className="admin-login-sub">
+              Two-step login is on for {user.email}, but this session did not use it. Sign out,
+              then sign in again and enter the 6-digit code from your authenticator app.
+            </p>
+            <button className="admin-login-btn" onClick={logOut}>Sign out</button>
+          </>
+        ) : (
+          <>
+            <p className="admin-login-sub">
+              Admin tools stay locked until you turn on two-step login for {user.email}. Set it up
+              below, then sign out and sign back in with your code.
+            </p>
+            <div className="admin-portal" style={{ minHeight: 0, background: 'transparent', width: '100%', textAlign: 'left', display: 'block' }}>
+              <AdminSecurityScreen />
+            </div>
+            <button className="admin-portal-logout" style={{ marginTop: 12 }} onClick={logOut}>Sign out</button>
+          </>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function AdminPortal() {
-  const { user, profile, loading, isAdmin, logOut } = useAuth();
+  const { user, profile, loading, isAdmin, isAdminAccount, adminChecked, logOut } = useAuth();
   const [tab, setTabState] = useState(tabFromHash);
   const [light, setLight] = useState(isLightMode());
   const toggleTheme = () => {
@@ -162,6 +198,14 @@ export default function AdminPortal() {
         </div>
       </div>
     );
+  }
+
+  if (isAdminAccount && !adminChecked) {
+    return <div className="admin-portal-loading">Loading…</div>;
+  }
+
+  if (isAdminAccount && !isAdmin) {
+    return <TwoStepGate user={user} logOut={logOut} />;
   }
 
   if (!isAdmin) {

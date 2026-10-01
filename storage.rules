@@ -2,9 +2,12 @@ rules_version = '2';
 service firebase.storage {
   match /b/{bucket}/o {
 
+    // Admin = one of these emails AND signed in with the authenticator-app
+    // second step (two-step login). A password-only session is not admin.
     function isAdmin() {
       return request.auth != null &&
-             request.auth.token.email in ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
+             request.auth.token.email in ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'] &&
+             request.auth.token.firebase.get('sign_in_second_factor', null) == 'totp';
     }
 
     // ── avatars/{uid}/{fileName} ────────────────────────────────

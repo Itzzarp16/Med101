@@ -266,6 +266,13 @@ def parse_pdf_bytes(pdf_bytes):
     return questions, malformed, total_q_matches
 
 
+
+def has_second_factor(decoded):
+    """Admin actions need a token from a sign-in that used the authenticator
+    app (two-step login). Plain password / Google-only sessions are refused."""
+    return (decoded.get('firebase') or {}).get('sign_in_second_factor') == 'totp'
+
+
 class handler(BaseHTTPRequestHandler):
     def _send(self, status, body):
         payload = json.dumps(body).encode('utf-8')
@@ -312,6 +319,8 @@ class handler(BaseHTTPRequestHandler):
         email = decoded.get('email')
         if email not in ADMIN_EMAILS:
             return self._send(403, {'error': 'Admin access required.'})
+        if not has_second_factor(decoded):
+            return self._send(403, {'error': 'Two-step login required. Sign out, sign back in and enter your authenticator code.'})
 
         save_method = body.get('saveMethod') or 'firestore'
         if save_method not in ('firestore', 'github'):

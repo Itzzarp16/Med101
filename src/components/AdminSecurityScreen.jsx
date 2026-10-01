@@ -59,7 +59,7 @@ export default function AdminSecurityScreen() {
       setSetup(null);
       setCode('');
       await refreshUser();
-      setMsg({ type: 'success', text: 'Two-step login is on for this account. From the next sign-in you will be asked for a code.' });
+      setMsg({ type: 'success', text: 'Two-step login is on for this account. Now sign out and sign back in: you will be asked for a code, and admin tools unlock after that.' });
     } catch (e) {
       setMsg({ type: 'error', text: mfaErrorText(e) });
     } finally { setBusy(false); }

@@ -306,6 +306,13 @@ def run_exam_reminders(dry):
     return {'ok': True, 'today': today.isoformat(), 'dry': dry, 'reminders': report}
 
 
+
+def has_second_factor(decoded):
+    """Admin actions need a token from a sign-in that used the authenticator
+    app (two-step login). Plain password / Google-only sessions are refused."""
+    return (decoded.get('firebase') or {}).get('sign_in_second_factor') == 'totp'
+
+
 class handler(BaseHTTPRequestHandler):
     def _send(self, status, body):
         payload = json.dumps(body).encode('utf-8')
@@ -355,6 +362,8 @@ class handler(BaseHTTPRequestHandler):
             return self._send(401, {'error': f'Invalid or expired session: {e}'})
         if decoded.get('email') not in ADMIN_EMAILS or not decoded.get('email_verified', True):
             return self._send(403, {'error': 'Admins only.'})
+        if not has_second_factor(decoded):
+            return self._send(403, {'error': 'Two-step login required. Sign out, sign back in and enter your authenticator code.'})
 
         try:
             length = int(self.headers.get('Content-Length', 0))

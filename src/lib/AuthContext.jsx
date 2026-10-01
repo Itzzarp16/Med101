@@ -120,6 +120,12 @@ export function AuthProvider({ children }) {
   // resolver is parked here and <MfaPrompt/> asks for the 6-digit code.
   const [mfaChallenge, setMfaChallenge] = useState(null);
 
+  // Whether THIS session signed in with the authenticator-app second step
+  // (the ID token carries firebase.sign_in_second_factor === 'totp'). Only
+  // looked up for admin accounts. Keyed by uid so a stale answer from a
+  // previous account is never used.
+  const [secondFactor, setSecondFactor] = useState({ uid: null, ok: false });
+
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -535,6 +541,19 @@ export function AuthProvider({ children }) {
     return startTimeTracking(user.uid);
   }, [user?.uid]);
 
+  useEffect(() => {
+    if (!user?.uid || !ADMIN_EMAILS.includes(user.email)) return;
+    let active = true;
+    user.getIdTokenResult()
+      .then((r) => {
+        if (active) setSecondFactor({ uid: user.uid, ok: r.claims?.firebase?.sign_in_second_factor === 'totp' });
+      })
+      .catch(() => {
+        if (active) setSecondFactor({ uid: user.uid, ok: false });
+      });
+    return () => { active = false; };
+  }, [user]);
+
   async function submitMfaCode(code) {
     await completeMfaChallenge(mfaChallenge, code);
     setMfaChallenge(null);
@@ -845,11 +864,14 @@ export function AuthProvider({ children }) {
     );
   }
 
-  const isAdmin =
-    !!user &&
-    ADMIN_EMAILS.includes(
-      user.email
-    );
+  // isAdminAccount: the email is on the admin list.
+  // isAdmin: admin list AND this session used the authenticator second step.
+  // Everything admin-only (screens, menus, API calls, security rules) keys
+  // off isAdmin; an admin account without the second step only gets the
+  // "turn on two-step login" page (see AdminPortal).
+  const isAdminAccount = !!user && ADMIN_EMAILS.includes(user.email);
+  const adminChecked = !isAdminAccount || secondFactor.uid === user.uid;
+  const isAdmin = isAdminAccount && secondFactor.uid === user.uid && secondFactor.ok;
 
   return (
     <AuthContext.Provider
@@ -858,6 +880,8 @@ export function AuthProvider({ children }) {
         profile,
         loading,
         isAdmin,
+        isAdminAccount,
+        adminChecked,
         signIn,
         signInWithGoogle,
         signUp,
