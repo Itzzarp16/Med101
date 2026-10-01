@@ -839,6 +839,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         <div className="q-card">
           <div className="q-card-top">
             <span className="badge badge-cyan">{q.s}</span>
+            <span className="q-card-actions">
             <button
               onClick={toggleFlag}
               title="Flag for review"
@@ -850,6 +851,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             {user && !roomCode && (
               <button className="q-report-btn" onClick={() => { playTapSound(); setReportOpen(true); }} title="Report a problem with this question" aria-label="Report a problem with this question">🚩</button>
             )}
+            </span>
           </div>
           <p className="q-text">{q.q}</p>
           {reportOpen && <ReportQuestionModal mainSubject={mainSubject} question={q} onClose={() => setReportOpen(false)} />}
