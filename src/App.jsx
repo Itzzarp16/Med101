@@ -58,6 +58,9 @@ const AdminUploadQuestionsScreen = lazy(() => import('./components/AdminUploadQu
 const AdminNoticeScreen = lazy(() => import('./components/AdminNoticeScreen'));
 const AdminExamScheduleScreen = lazy(() => import('./components/AdminExamScheduleScreen'));
 const AdminQuestionReportsScreen = lazy(() => import('./components/AdminQuestionReportsScreen'));
+const AdminBroadcastScreen = lazy(() => import('./components/AdminBroadcastScreen'));
+const AdminBackupScreen = lazy(() => import('./components/AdminBackupScreen'));
+const AdminSecurityScreen = lazy(() => import('./components/AdminSecurityScreen'));
 const AdminUserDetailScreen = lazy(() => import('./components/AdminUserDetailScreen'));
 const AdminAnalyticsScreen = lazy(() => import('./components/AdminAnalyticsScreen'));
 const AdminPaymentsScreen = lazy(() => import('./components/AdminPaymentsScreen'));
@@ -445,6 +448,9 @@ export default function App() {
     onAdminNotice: () => goTo('admin-notice'),
     onAdminExams: () => goTo('admin-exams'),
     onAdminReports: () => goTo('admin-reports'),
+    onAdminBroadcast: () => goTo('admin-broadcast'),
+    onAdminBackup: () => goTo('admin-backup'),
+    onAdminSecurity: () => goTo('admin-security'),
     onAdminCalendar: () => goTo('admin-calendar'),
     onAdminUploadQuestions: () => goTo('admin-upload-questions'),
     onAdminPayments: () => goTo('admin-payments'),
@@ -501,6 +507,45 @@ export default function App() {
         <div className="screen-fade" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminCalendarScreen onBack={goBack} />
+          </Suspense>
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'admin-broadcast' && isAdmin) {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <div className="screen-fade" key={screen}>
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminBroadcastScreen onBack={goBack} />
+          </Suspense>
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'admin-backup' && isAdmin) {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <div className="screen-fade" key={screen}>
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminBackupScreen />
+          </Suspense>
+        </div>
+      </div>
+    );
+  }
+
+  if (screen === 'admin-security' && isAdmin) {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <div className="screen-fade" key={screen}>
+          <Suspense fallback={<AdminScreenFallback />}>
+            <AdminSecurityScreen />
           </Suspense>
         </div>
       </div>
