@@ -1,0 +1,15 @@
+.stuck-help {
+  margin-top: 26px;
+  text-align: center;
+  color: #8aa0b8;
+  font-size: 13px;
+  animation: stuck-help-in 0.4s ease both;
+}
+.stuck-help-actions { margin-top: 12px; display: flex; gap: 10px; justify-content: center; }
+.stuck-help-actions button {
+  padding: 9px 16px; border-radius: 10px; font-size: 13px; cursor: pointer;
+  background: rgba(255, 255, 255, 0.08); color: #dbe6f3;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.stuck-help-actions button:disabled { opacity: 0.6; cursor: default; }
+@keyframes stuck-help-in { from { opacity: 0; } to { opacity: 1; } }

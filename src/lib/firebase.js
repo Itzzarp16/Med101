@@ -39,21 +39,50 @@ export const app = initializeApp(firebaseConfig);
 // is set AND "Enforce" is switched on for Authentication in the Firebase
 // console (App Check > APIs), unverified requests are rejected.
 //
-// Must run before the services below are used, so it sits right here.
+// It starts a moment after load (see SAFETY below), so the very first
+// requests of a page load go out without a token.
+//
+// SAFETY: once App Check is on, Firebase Auth waits for an App Check token
+// before talking to Google - including just restoring a saved login. If
+// reCAPTCHA can't load (a privacy browser or ad blocker, a bad site key, a
+// blocked network) that wait could hang the whole app on the loading screen.
+// So App Check only starts if the reCAPTCHA script actually loads within a
+// few seconds; otherwise it is skipped and the app runs as if it were off.
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
+
+function recaptchaReachable(siteKey, timeoutMs = 4000) {
+  return new Promise((resolve) => {
+    let done = false;
+    const finish = (ok) => { if (!done) { done = true; resolve(ok); } };
+    const s = document.createElement('script');
+    s.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`;
+    s.async = true;
+    s.onload = () => finish(true);
+    s.onerror = () => finish(false);
+    document.head.appendChild(s);
+    setTimeout(() => finish(false), timeoutMs);
+  });
+}
+
 if (RECAPTCHA_SITE_KEY) {
-  try {
-    // Local dev can't pass reCAPTCHA; the SDK prints a debug token in the
-    // console that you register under App Check > Apps > Manage debug tokens.
-    if (import.meta.env.DEV) self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
-    initializeAppCheck(app, {
-      provider: new ReCaptchaV3Provider(RECAPTCHA_SITE_KEY),
-      isTokenAutoRefreshEnabled: true,
-    });
-  } catch (e) {
-    // Never let App Check setup take the whole app down.
-    console.warn('App Check could not start:', e);
-  }
+  recaptchaReachable(RECAPTCHA_SITE_KEY).then((ok) => {
+    if (!ok) {
+      console.warn('App Check skipped: reCAPTCHA did not load (blocked or offline).');
+      return;
+    }
+    try {
+      // Local dev can't pass reCAPTCHA; the SDK prints a debug token in the
+      // console that you register under App Check > Apps > Manage debug tokens.
+      if (import.meta.env.DEV) self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+      initializeAppCheck(app, {
+        provider: new ReCaptchaV3Provider(RECAPTCHA_SITE_KEY),
+        isTokenAutoRefreshEnabled: true,
+      });
+    } catch (e) {
+      // Never let App Check setup take the whole app down.
+      console.warn('App Check could not start:', e);
+    }
+  });
 }
 
 export const auth = getAuth(app);

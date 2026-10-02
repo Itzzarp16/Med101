@@ -127,6 +127,9 @@
       @media (prefers-reduced-motion: reduce) {
         #initial-loader .fill { animation: none; }
       }
+      /* Shown only if the app still hasn't started after a long time. */
+      #initial-loader .stuck { display: none; margin-top: 4px; text-align: center; color: #8aa0b8; font: 13px/1.4 system-ui, sans-serif; }
+      #initial-loader .stuck button { margin-top: 12px; padding: 9px 16px; border-radius: 10px; font-size: 13px; cursor: pointer; background: rgba(255,255,255,0.08); color: #dbe6f3; border: 1px solid rgba(255,255,255,0.18); }
     </style>
   </head>
   <body>
@@ -139,7 +142,21 @@
         <span class="play">▶</span>
         <div class="track"><div class="fill"></div></div>
       </div>
+      <div class="stuck" id="initial-stuck">
+        <div>The app didn't start. Check your connection.</div>
+        <button onclick="location.reload()">Reload</button>
+      </div>
     </div></div>
+    <script>
+      /* React replaces #initial-loader the moment it mounts. If it is still
+         here after 15s, the app's code failed to load or start - offer a
+         reload instead of an endless bar. */
+      setTimeout(function () {
+        var l = document.getElementById('initial-loader');
+        var s = document.getElementById('initial-stuck');
+        if (l && s) s.style.display = 'block';
+      }, 15000);
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

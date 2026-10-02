@@ -4,6 +4,7 @@ import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
 import SubtopicScreen from './components/SubtopicScreen';
 import SlideStack from './components/SlideStack';
+import StuckLoaderHelp from './components/StuckLoaderHelp';
 import { viewTransition } from './lib/viewTransition';
 import QuizModeScreen from './components/QuizModeScreen';
 import QuizScreen from './components/QuizScreen';
@@ -447,6 +448,7 @@ export default function App() {
             <div className="app-loading-fill app-loading-fill-indeterminate" />
           </div>
         </div>
+        <StuckLoaderHelp hint="signing in" />
       </div>
     );
   }
@@ -716,6 +718,9 @@ export default function App() {
             />
           </div>
         </div>
+        {loaderPhase === 'loading' && (
+          <StuckLoaderHelp hint={semesterData.loading ? 'loading questions' : 'loading your semester'} />
+        )}
       </div>
       </>
     );
