@@ -54,7 +54,11 @@ function shuffleOptions(q) {
 // roomCode/totalTimeLimitMs are set only for Challenge Room quizzes -
 // a whole-quiz countdown (not per-question) that auto-finishes when it
 // hits zero, and reports the result to the room's shared leaderboard.
-export default function QuizScreen({ mainSubject, topic, semesterId, questions, isPremium, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, resumeAttemptId, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
+// `mock` (Mock Exam) reuses that same whole-quiz countdown but behaves like a
+// real exam: nothing is revealed while it runs (no right/wrong, no running
+// score), answers can be changed until the end, "mark for review" is local to
+// this attempt, and the score is out of ALL questions (blank = wrong).
+export default function QuizScreen({ mainSubject, topic, semesterId, questions, isPremium, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, mock, resumeAttemptId, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
   const { user, profile } = useAuth();
   // Work out once, on mount, whether this is a fresh attempt or a continuation
   // of a saved one: either the student tapped "Resume" on the dashboard
@@ -89,6 +93,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   // can't swap the question under a half-written report).
   const [reportQ, setReportQ] = useState(null);
   const [showReview, setShowReview] = useState(false);
+  const [markedIdx, setMarkedIdx] = useState(() => new Set()); // mock: questions marked for review
+  const [confirmSubmit, setConfirmSubmit] = useState(false); // mock: "submit exam?" sheet
   const [aiExplanations, setAiExplanations] = useState({});
   const [aiLoading, setAiLoading] = useState({});
   const [aiErrors, setAiErrors] = useState({});
@@ -121,7 +127,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const total = quizQuestions.length;
   const answeredCount = answers.filter((a) => a !== -1).length;
   const correctCount = answers.filter((a, i) => a >= 0 && a === quizQuestions[i].c).length;
-  const pct = answeredCount ? Math.round((correctCount / answeredCount) * 100) : 0;
+  const scoreBase = mock ? total : answeredCount;
+  const pct = scoreBase ? Math.round((correctCount / scoreBase) * 100) : 0;
 
   // Persist position/answers on every change, and clean up entirely
   // once this attempt is over (finished, or the student navigates away).
@@ -144,6 +151,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     startedAt: startedAtRef.current,
     elapsedMs: Date.now() - startedAtRef.current,
     totalDeadline: totalDeadlineRef.current,
+    totalTimeLimitMs: totalTimeLimitMs ?? null,
+    mock: !!mock,
   });
 
   useEffect(() => {
@@ -226,7 +235,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     if (answers[cur] === -1) recordQuestionTime(cur); // leaving unanswered - count time-on-question up to this point
     const nx = cur + dir;
     if (nx >= total) {
-      setFinished(true);
+      if (mock) setConfirmSubmit(true);
+      else setFinished(true);
       return;
     }
     if (nx < 0) return;
@@ -311,6 +321,16 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   }
 
   function answerQ(idx) {
+    if (mock) {
+      // Exam rules: no feedback, and the answer can be changed (or cleared by
+      // tapping it again) right up until the exam is submitted.
+      recordQuestionTime(cur);
+      playTapSound();
+      const next = [...answers];
+      next[cur] = next[cur] === idx ? -1 : idx;
+      setAnswers(next);
+      return;
+    }
     if (answers[cur] !== -1) return; // already answered - locked
     recordQuestionTime(cur);
     const next = [...answers];
@@ -339,7 +359,18 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     }
   }
 
+  function toggleMarked() {
+    playTapSound();
+    setMarkedIdx((prev) => {
+      const next = new Set(prev);
+      if (next.has(cur)) next.delete(cur);
+      else next.add(cur);
+      return next;
+    });
+  }
+
   function toggleFlag() {
+    if (mock) { toggleMarked(); return; }
     if (!user) return;
     playTapSound();
     const key = `${cur}`;
@@ -462,7 +493,16 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       // live question bank still matching this exact attempt.
       questions: quizQuestions.map((qq) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c })),
       answers,
+      ...(mock ? { mock: true } : null),
     });
+
+    // A mock hides right/wrong while it runs, so wrong answers join the
+    // student's Wrong list now instead of one by one.
+    if (mock) {
+      quizQuestions.forEach((qq, i) => {
+        if (answers[i] >= 0 && answers[i] !== qq.c) recordWrongQuestion(user.uid, mainSubject, qq);
+      });
+    }
 
     const subjTotals = mainSubject
       ? { [mainSubject]: { correct: correctCount, answered: answeredCount, timeMs } }
@@ -526,6 +566,22 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       .filter(({ i }) => answers[i] !== -1 && answers[i] !== quizQuestions[i].c)
       .map(({ qq }) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c }));
 
+    // Mock exam: how each subtopic went (blank counts as wrong, like the
+    // overall score), weakest first so the study list is the top of it.
+    const mockTopicRows = mock ? (() => {
+      const by = {};
+      quizQuestions.forEach((qq, i) => {
+        const e = by[qq.s] || { s: qq.s, total: 0, correct: 0 };
+        e.total += 1;
+        if (answers[i] === qq.c) e.correct += 1;
+        by[qq.s] = e;
+      });
+      return Object.values(by)
+        .map((e) => ({ ...e, pct: Math.round((e.correct / e.total) * 100) }))
+        .sort((a, b) => a.pct - b.pct || b.total - a.total);
+    })() : [];
+    const timesUp = mock && totalTimeLimitMs != null && totalTimeLeftMs <= 0;
+
     // Circular accuracy ring - SVG stroke-dashoffset trick, matches the
     // thin rounded-cap ring look rather than a filled pie. Driven by
     // ringAnimPct (see the effect above) so it sweeps up from 0 rather
@@ -558,8 +614,11 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             </div>
           )}
           <div className="results-hero-emoji">{pct > 70 ? '💪' : pct >= 40 ? '📚' : '🔁'}</div>
-          <h2 className="results-hero-title">Quiz Complete!</h2>
-          <div className="results-hero-sub">{answeredCount} of {total} answered</div>
+          <h2 className="results-hero-title">{mock ? 'Exam Complete!' : 'Quiz Complete!'}</h2>
+          <div className="results-hero-sub">
+            {mock ? `${correctCount} correct out of ${total} · ${answeredCount} answered` : `${answeredCount} of ${total} answered`}
+          </div>
+          {timesUp && <div className="results-hero-sub" style={{ color: 'var(--red)' }}>⏰ Time ran out, so the exam was submitted automatically.</div>}
 
           <div className="results-ring-wrap">
             <svg viewBox="0 0 120 120" className="results-ring-svg">
@@ -573,7 +632,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             </svg>
             <div className="results-ring-center">
               <div className="results-ring-pct">{ringAnimPct}%</div>
-              <div className="results-ring-label">ACCURACY</div>
+              <div className="results-ring-label">{mock ? 'SCORE' : 'ACCURACY'}</div>
             </div>
           </div>
 
@@ -596,6 +655,21 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             </div>
             <div className="results-pace">📊 Pace: ~{paceQPerMin.toFixed(1)} questions per minute</div>
           </div>
+
+          {mock && (
+            <div className="mock-topic-card">
+              <div className="results-time-label">🎯 BY TOPIC (weakest first)</div>
+              {mockTopicRows.map((r) => (
+                <div className="mock-topic-row" key={r.s}>
+                  <div className="mock-topic-head">
+                    <span className="mock-topic-name">{r.s}</span>
+                    <span className="mock-topic-score">{r.correct}/{r.total} · {r.pct}%</span>
+                  </div>
+                  <div className="mock-topic-bar"><span style={{ width: `${r.pct}%`, background: r.pct >= 70 ? 'var(--green)' : r.pct >= 50 ? 'var(--amber)' : 'var(--red)' }} /></div>
+                </div>
+              ))}
+            </div>
+          )}
 
           <div className="results-breakdown-card">
             <div className="results-time-label">🥧 BREAKDOWN</div>
@@ -718,7 +792,9 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   }
 
   const ua = answers[cur];
-  const answered = ua !== -1;
+  // In a mock exam nothing is ever shown as answered-and-revealed.
+  const answered = !mock && ua !== -1;
+  const unansweredCount = total - answeredCount;
 
   return (
     <div className="screen-quiz" onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
@@ -728,15 +804,24 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           <button className="qtop-back" onClick={() => { playTapSound(); onExit(); }} aria-label="Back">←</button>
           <div className="qtop-mode">
             <div className="qtop-subject">{mainSubject}</div>
-            <div className="qtop-topic">{roomCode ? `👥 Room ${roomCode}` : (topic || 'All Topics')}</div>
+            <div className="qtop-topic">{roomCode ? `👥 Room ${roomCode}` : mock ? '🎓 Mock Exam' : (topic || 'All Topics')}</div>
           </div>
           <div className="qtop-clock" style={totalTimeLimitMs && totalTimeLeftMs <= 30000 ? { color: 'var(--red)' } : undefined}>
             <span className="qtop-clock-dig">{totalTimeLimitMs != null ? formatElapsed(totalTimeLeftMs) : formatElapsed(elapsedMs)}</span>
             <span className="qtop-clock-lbl">{totalTimeLimitMs != null ? 'left' : 'elapsed'}</span>
           </div>
           <div className="qtop-score">
-            <span className="qtop-score-num">{correctCount}<span className="qtop-score-of">/{answeredCount}</span></span>
-            <span className="qtop-clock-lbl">score</span>
+            {mock ? (
+              <>
+                <span className="qtop-score-num">{answeredCount}<span className="qtop-score-of">/{total}</span></span>
+                <span className="qtop-clock-lbl">answered</span>
+              </>
+            ) : (
+              <>
+                <span className="qtop-score-num">{correctCount}<span className="qtop-score-of">/{answeredCount}</span></span>
+                <span className="qtop-clock-lbl">score</span>
+              </>
+            )}
           </div>
         </div>
       </div>
@@ -749,6 +834,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
               const a = answers[i];
               let cls = 'qseg-bit';
               if (a === -1) cls += ' todo';
+              else if (mock) cls += ' sel';
               else if (a === qq.c) cls += ' ok';
               else cls += ' bad';
               if (i === cur) cls += ' cur';
@@ -762,8 +848,17 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         {/* Stat chips + question-grid toggle */}
         <div className="qchips">
           <span className="qchip"><b>{cur + 1}</b>/{total}</span>
-          <span className="qchip ok">✓ <b>{correctCount}</b></span>
-          <span className="qchip acc"><b>{answeredCount ? `${pct}%` : '-'}</b> acc</span>
+          {mock ? (
+            <>
+              <span className="qchip"><b>{answeredCount}</b> answered</span>
+              <span className="qchip">⭐ <b>{markedIdx.size}</b></span>
+            </>
+          ) : (
+            <>
+              <span className="qchip ok">✓ <b>{correctCount}</b></span>
+              <span className="qchip acc"><b>{answeredCount ? `${pct}%` : '-'}</b> acc</span>
+            </>
+          )}
           <button
             type="button"
             className={navOpen ? 'qchip qchip-btn open' : 'qchip qchip-btn'}
@@ -784,8 +879,10 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
                   const a = answers[i];
                   let cls = 'qnav-tile';
                   if (a === -1) cls += ' todo';
+                  else if (mock) cls += ' sel';
                   else if (a === quizQuestions[i].c) cls += ' ok';
                   else cls += ' bad';
+                  const isMarked = mock ? markedIdx.has(i) : flaggedKeys.has(`${i}`);
                   if (i === cur) cls += ' cur';
                   return (
                     <button
@@ -794,19 +891,29 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
                       className={cls}
                       onClick={() => goTo(i)}
                       tabIndex={navOpen ? 0 : -1}
-                      aria-label={`Question ${i + 1}${a === -1 ? ', unanswered' : a === quizQuestions[i].c ? ', correct' : ', wrong'}${flaggedKeys.has(`${i}`) ? ', flagged' : ''}`}
+                      aria-label={`Question ${i + 1}${a === -1 ? ', unanswered' : mock ? ', answered' : a === quizQuestions[i].c ? ', correct' : ', wrong'}${isMarked ? (mock ? ', marked for review' : ', flagged') : ''}`}
                       aria-current={i === cur ? 'true' : undefined}
                     >
                       {i + 1}
-                      {flaggedKeys.has(`${i}`) && <span className="qnav-flag" aria-hidden="true" />}
+                      {isMarked && <span className="qnav-flag" aria-hidden="true" />}
                     </button>
                   );
                 })}
               </div>
               <div className="qnav-legend">
-                <span><i className="lg ok" />Correct</span>
-                <span><i className="lg bad" />Wrong</span>
-                <span><i className="lg todo" />Unanswered</span>
+                {mock ? (
+                  <>
+                    <span><i className="lg sel" />Answered</span>
+                    <span><i className="lg todo" />Unanswered</span>
+                    <span>⭐ Marked</span>
+                  </>
+                ) : (
+                  <>
+                    <span><i className="lg ok" />Correct</span>
+                    <span><i className="lg bad" />Wrong</span>
+                    <span><i className="lg todo" />Unanswered</span>
+                  </>
+                )}
               </div>
             </div>
           </div>
@@ -847,13 +954,13 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             <span className="q-card-actions">
             <button
               onClick={toggleFlag}
-              title="Flag for review"
-              aria-label={flaggedKeys.has(`${cur}`) ? 'Remove flag from this question' : 'Flag this question for review'}
-              style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: flaggedKeys.has(`${cur}`) ? 'var(--amber)' : 'var(--text3)' }}
+              title={mock ? 'Mark for review' : 'Flag for review'}
+              aria-label={(mock ? markedIdx.has(cur) : flaggedKeys.has(`${cur}`)) ? 'Remove flag from this question' : 'Flag this question for review'}
+              style={{ background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: (mock ? markedIdx.has(cur) : flaggedKeys.has(`${cur}`)) ? 'var(--amber)' : 'var(--text3)' }}
             >
-              {flaggedKeys.has(`${cur}`) ? '⭐' : '☆'}
+              {(mock ? markedIdx.has(cur) : flaggedKeys.has(`${cur}`)) ? '⭐' : '☆'}
             </button>
-            {user && !roomCode && (
+            {user && !roomCode && !mock && (
               <button className="q-report-btn" onClick={() => { playTapSound(); setReportQ(q); }} title="Report a problem with this question" aria-label="Report a problem with this question">🚩</button>
             )}
             </span>
@@ -870,6 +977,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             if (answered) {
               if (i === q.c) cls += ' correct';
               else if (i === ua) cls += ' wrong';
+            } else if (mock && i === ua) {
+              cls += ' picked';
             }
             return (
               <button
@@ -912,10 +1021,33 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             ← Prev
           </button>
           <button className="btn-glow flex-1" onClick={() => nav(1)}>
-            {cur === total - 1 ? 'Finish' : 'Next →'}
+            {cur === total - 1 ? (mock ? 'Submit exam' : 'Finish') : 'Next →'}
           </button>
         </div>
+        {mock && (
+          <button type="button" className="btn-ghost mock-submit-link" onClick={() => { playTapSound(); setConfirmSubmit(true); }}>
+            ✔ Submit exam now
+          </button>
+        )}
       </div>
+
+      {mock && confirmSubmit && (
+        <div className="rq-overlay" onClick={() => setConfirmSubmit(false)}>
+          <div className="glass rq-card" onClick={(e) => e.stopPropagation()} role="dialog" aria-label="Submit the exam?">
+            <h3 className="rq-title">Submit the exam?</h3>
+            <p className="rq-muted">
+              {unansweredCount > 0
+                ? <>You still have <b>{unansweredCount}</b> unanswered question{unansweredCount === 1 ? '' : 's'}. They will count as wrong.</>
+                : 'You answered every question.'}
+              {markedIdx.size > 0 && <> You marked <b>{markedIdx.size}</b> for review.</>}
+            </p>
+            <div style={{ display: 'flex', gap: 10, marginTop: 14 }}>
+              <button className="btn-ghost" style={{ flex: 1 }} onClick={() => { playTapSound(); setConfirmSubmit(false); }}>Keep going</button>
+              <button className="btn-glow" style={{ flex: 1 }} onClick={() => { playTapSound(); setConfirmSubmit(false); setNavOpen(false); setFinished(true); }}>Submit</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

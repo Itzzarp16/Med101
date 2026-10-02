@@ -844,6 +844,7 @@ export default function App() {
                     autoAdvance: resumeSnap.autoAdvance,
                     timerSeconds: resumeSnap.timerSeconds,
                     resumeAttemptId: resumeSnap.attemptId,
+                    ...(resumeSnap.mock ? { mock: true, totalTimeLimitMs: resumeSnap.totalTimeLimitMs ?? undefined } : null),
                   });
                   goTo('quiz', { selectedSubject: resumeSnap.mainSubject, selectedTopic: resumeSnap.topic });
                 }}
@@ -910,6 +911,7 @@ export default function App() {
               timerSeconds={finalQuiz.timerSeconds}
               roomCode={finalQuiz.roomCode}
               totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
+              mock={finalQuiz.mock}
               resumeAttemptId={finalQuiz.resumeAttemptId}
               onExit={goBack}
               onViewRoomResults={() => goTo('room-results')}

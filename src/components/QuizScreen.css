@@ -1001,3 +1001,24 @@ body.light-mode .opt-btn.correct .opt-label {
 @media (prefers-reduced-motion: reduce) {
   .q-enter, .q-enter-prev { animation: none; }
 }
+
+
+/* ── Mock exam ─────────────────────────────────────────────── */
+/* Answered-but-not-revealed states (a mock never shows right/wrong). */
+.qseg-bit.sel { background: var(--cyan); opacity: 0.85; }
+.qnav-tile.sel { background: rgba(var(--cyan-rgb), 0.22); border-color: var(--cyan); color: var(--text); }
+.qnav-legend .lg.sel { background: rgba(var(--cyan-rgb), 0.5); border: 1px solid var(--cyan); }
+.opt-btn.picked { border-color: var(--cyan); background: rgba(var(--cyan-rgb), 0.14); }
+.opt-btn.picked .opt-label { background: var(--cyan); color: #04121c; border-color: var(--cyan); }
+.mock-submit-link { width: 100%; margin-top: 10px; }
+
+.mock-topic-card {
+  margin: 14px 0; padding: 14px; border-radius: 16px; text-align: left;
+  border: 1px solid var(--g-border); background: rgba(255, 255, 255, 0.03);
+}
+.mock-topic-row { margin-top: 12px; }
+.mock-topic-head { display: flex; justify-content: space-between; gap: 10px; font-size: 13px; }
+.mock-topic-name { font-weight: 600; overflow-wrap: anywhere; }
+.mock-topic-score { opacity: 0.75; white-space: nowrap; }
+.mock-topic-bar { height: 6px; border-radius: 99px; margin-top: 5px; background: rgba(255, 255, 255, 0.08); overflow: hidden; }
+.mock-topic-bar span { display: block; height: 100%; border-radius: 99px; transition: width 0.6s cubic-bezier(0.22, 1, 0.36, 1); }

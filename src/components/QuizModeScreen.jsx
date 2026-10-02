@@ -32,6 +32,7 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
   const [rangeStart, setRangeStart] = useState(1);
   const [rangeEnd, setRangeEnd] = useState(Math.min(50, pool.length));
   const [customShuffle, setCustomShuffle] = useState(false);
+  const [mockSize, setMockSize] = useState(50);
   const [autoAdvance, setAutoAdvance] = useState(true);
   const [timerOn, setTimerOn] = useState(false);
   const [timerSeconds, setTimerSeconds] = useState(20);
@@ -117,6 +118,8 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
     let quizQ;
     if (mode === 'topic' && selectedTopics.size > 0) {
       quizQ = shuffled(sourcePool.filter((q) => selectedTopics.has(q.s)));
+    } else if (mode === 'mock') {
+      quizQ = shuffled(sourcePool).slice(0, Math.min(mockSize, sourcePool.length));
     } else if (mode === 'rand25') {
       quizQ = shuffled(sourcePool).slice(0, Math.min(25, sourcePool.length));
     } else if (mode === 'rand50') {
@@ -140,11 +143,19 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
       return;
     }
 
+    if (mode === 'mock') {
+      // Exam rules: one clock for the whole paper (1 minute per question), no
+      // per-question timer, no auto-advance, nothing revealed until submit.
+      onStart(quizQ, { autoAdvance: false, timerSeconds: null, mock: true, totalTimeLimitMs: quizQ.length * 60000 });
+      return;
+    }
+
     onStart(quizQ, { autoAdvance, timerSeconds: timerOn ? timerSeconds : null });
   }
 
   const modeLabel = (() => {
     if (mode === 'topic' && selectedTopics.size > 0) return `${selectedTopics.size} topic${selectedTopics.size === 1 ? '' : 's'}`;
+    if (mode === 'mock') { const n = Math.min(mockSize, (unseenOnly ? unseenPool : pool).length); return `🎓 Mock Exam · ${n} q · ${n} min`; }
     if (mode === 'rand25') return 'Random 25';
     if (mode === 'rand50') return 'Random 50';
     if (mode === 'all-seq') return `All ${pool.length} in order`;
@@ -192,7 +203,25 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           <ModeCard index={2} emoji="📚" title={`All ${pool.length}`} desc="In order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
           <ModeCard index={3} emoji="🔀" title={`All ${pool.length}`} desc="Shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
           <ModeCard index={4} emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
+          <ModeCard index={5} emoji="🎓" title="Mock Exam" desc="Timed like the real thing - answers shown only at the end" selected={mode === 'mock'} onClick={() => selectMode('mock')} wide />
         </div>
+
+        {mode === 'mock' && (
+          <div className="qmode-custom glass">
+            <div className="qmode-timer-label">Number of questions</div>
+            <div className="qmode-timer-row">
+              {(() => {
+                const sizes = [25, 50, 100].filter((n) => n <= pool.length);
+                return (sizes.length ? sizes : [pool.length]).map((n) => (
+                  <button key={n} className={Math.min(mockSize, pool.length) === n ? 'tpreset sel' : 'tpreset'} onClick={() => { playTapSound(); setMockSize(n); }}>{n}</button>
+                ));
+              })()}
+            </div>
+            <p className="qmode-timer-warning" style={{ color: 'var(--text2)' }}>
+              ⏱ {Math.min(mockSize, (unseenOnly ? unseenPool : pool).length)} minutes in total (1 per question). You can skip, mark for review and change answers until you submit. Blank answers count as wrong, and leaving the screen does not pause the clock.
+            </p>
+          </div>
+        )}
 
         {mode === 'custom' && (
           <div className="qmode-custom glass">
@@ -225,8 +254,8 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           />
         </div>
 
-        <div className="qmode-section-label">Settings</div>
-        <div className="qmode-settings-card glass qm-settings">
+        {mode !== 'mock' && <div className="qmode-section-label">Settings</div>}
+        <div className="qmode-settings-card glass qm-settings" style={mode === 'mock' ? { display: 'none' } : undefined}>
           <ToggleRow title="Auto-advance" desc="Move to next question after answering" on={autoAdvance} onToggle={() => setAutoAdvance((v) => !v)} />
           <div className="qm-divider" />
           <ToggleRow title="⏱ Question Timer" desc="Auto-submit when time runs out" on={timerOn} onToggle={() => setTimerOn((v) => !v)} />
@@ -253,7 +282,7 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
         {/* Start bar - sits right under the settings (above the optional topic chips); says what you're about to start */}
         <div className="qm-start-bar">
           <button className="btn-glow qm-start-btn" onClick={handleStart}>
-            <span className="qm-start-main">Start Quiz →</span>
+            <span className="qm-start-main">{mode === 'mock' ? 'Start Mock Exam →' : 'Start Quiz →'}</span>
             <span className="qm-start-sub">{startSummary}</span>
           </button>
         </div>

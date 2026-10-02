@@ -13,7 +13,7 @@ function timeAgo(ts) {
 export default function ResumeQuizCard({ snapshot, onResume, onDiscard }) {
   const total = snapshot.questions.length;
   const answered = snapshot.answers.filter((a) => a !== -1).length;
-  const label = snapshot.topic || 'All Topics';
+  const label = snapshot.mock ? '🎓 Mock Exam' : (snapshot.topic || 'All Topics');
   return (
     <div className="resume-card">
       <div className="resume-card-text">
