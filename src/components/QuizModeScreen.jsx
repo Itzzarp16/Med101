@@ -2,6 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { filterUnseen } from '../lib/seenQuestions';
 import { playTapSound } from '../lib/sounds';
+import { MOCK_EXAM_ENABLED } from '../lib/featureFlags';
 import './QuizModeScreen.css';
 
 function shuffled(arr) {
@@ -203,7 +204,9 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
           <ModeCard index={2} emoji="📚" title={`All ${pool.length}`} desc="In order" selected={mode === 'all-seq'} onClick={() => selectMode('all-seq')} />
           <ModeCard index={3} emoji="🔀" title={`All ${pool.length}`} desc="Shuffled" selected={mode === 'all-rand'} onClick={() => selectMode('all-rand')} />
           <ModeCard index={4} emoji="✂️" title="Custom Range" desc="Pick your start & end question numbers" selected={mode === 'custom'} onClick={() => selectMode('custom')} wide />
-          <ModeCard index={5} emoji="🎓" title="Mock Exam" desc="Timed like the real thing - answers shown only at the end" selected={mode === 'mock'} onClick={() => selectMode('mock')} wide />
+          {MOCK_EXAM_ENABLED && (
+            <ModeCard index={5} emoji="🎓" title="Mock Exam" desc="Timed like the real thing - answers shown only at the end" selected={mode === 'mock'} onClick={() => selectMode('mock')} wide />
+          )}
         </div>
 
         {mode === 'mock' && (
