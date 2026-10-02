@@ -1108,9 +1108,13 @@ body.light-mode .app-loading-logo {
 .app-loading-tagline {
   margin-top: 2px;
   font-family: var(--font-body, sans-serif);
-  font-size: 13px;
+  /* Same proportions as .topbar-logo / .topbar-tagline (19px logo, 8px
+     tagline, 0.06em tracking) scaled to the 2.4rem splash wordmark, so
+     the splash stack shrinks into the top bar as one identical logo. */
+  font-size: calc(2.4rem * 8 / 19);
+  white-space: nowrap;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text3);
   text-align: left;
@@ -1121,6 +1125,15 @@ body.light-mode .app-loading-logo {
   align-items: center;
   gap: 12px;
   width: 220px;
+}
+
+/* Invisible, measure-only copy of the top bar (see App.jsx). */
+.topbar-ghost {
+  position: fixed;
+  left: 0;
+  right: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* "Flying" phase - once loading genuinely finishes, the logo shrinks
