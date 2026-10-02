@@ -176,6 +176,7 @@ export default function App() {
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
   const logoStackRef = useRef(null);
+  const topbarGhostLogoRef = useRef(null); // invisible copy of the real topbar logo, measured as the fly target
   const [logoFlyStyle, setLogoFlyStyle] = useState(null);
   const [activeRoomCode, setActiveRoomCode] = useState(savedNavRef?.activeRoomCode ?? null);
   const [activeRoomIsHost, setActiveRoomIsHost] = useState(savedNavRef?.activeRoomIsHost ?? false);
@@ -372,7 +373,7 @@ export default function App() {
     if (loaderPhase !== 'loading') return; // already completing/flying/done
     setLoaderPhase('completing');
     const t1 = setTimeout(() => setLoaderPhase('flying'), 380);
-    const t2 = setTimeout(() => setLoaderPhase('done'), 380 + 650);
+    const t2 = setTimeout(() => setLoaderPhase('done'), 380 + 700);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [semesterData.loading, calendarLoading]);
 
@@ -405,19 +406,19 @@ export default function App() {
     const el = logoStackRef.current;
     if (!el) return;
     const rect = el.getBoundingClientRect();
-    const startCenterX = rect.left + rect.width / 2;
-    const startCenterY = rect.top + rect.height / 2;
-    // Roughly where the real top-bar logo sits: topbar padding (14px)
-    // + hamburger button (30px) + gap (8px) before the logo starts,
-    // plus half the small logo's own width; vertically the topbar's
-    // center (~26px from the top).
-    const targetX = 14 + 30 + 8 + 40;
-    const targetY = 26;
-    const dx = targetX - startCenterX;
-    const dy = targetY - startCenterY;
+    // Target = the exact box the real top-bar logo will occupy, measured
+    // from an invisible ghost topbar rendered with the real topbar CSS
+    // (so it can't drift from the actual layout). The splash logo stack
+    // uses the same proportions as the top-bar stack (see tokens.css),
+    // so a single uniform scale + translate lands it pixel-on-pixel and
+    // the swap to the real TopBar is invisible - one logo, not two.
+    const ghost = topbarGhostLogoRef.current?.getBoundingClientRect();
+    const scale = ghost && rect.width ? ghost.width / rect.width : 0.5;
+    const dx = ghost ? ghost.left - rect.left : 52 - rect.left;
+    const dy = ghost ? ghost.top - rect.top : 12 - rect.top;
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
     if (reducedMotion) {
-      setLogoFlyStyle({ transform: `translate(${dx}px, ${dy}px) scale(0.5)`, transition: 'none' });
+      setLogoFlyStyle({ transform: `translate(${dx}px, ${dy}px) scale(${scale})`, transition: 'none' });
       return;
     }
     // Set the starting state with no transition first, then apply the
@@ -428,7 +429,7 @@ export default function App() {
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setLogoFlyStyle({
-          transform: `translate(${dx}px, ${dy}px) scale(0.5)`,
+          transform: `translate(${dx}px, ${dy}px) scale(${scale})`,
           transition: 'transform 0.65s cubic-bezier(0.65, 0, 0.35, 1)',
         });
       });
@@ -705,6 +706,16 @@ export default function App() {
           <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
         )}
         <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
+        {/* Invisible stand-in for the real top bar's logo, used only to measure where the splash logo should land. */}
+        <div className="topbar topbar-ghost" aria-hidden="true">
+          <div className="topbar-left">
+            <span className="topbar-icon-btn home" />
+            <div ref={topbarGhostLogoRef} className="topbar-logo-stack">
+              <span className="topbar-logo">Med101</span>
+              <span className="topbar-tagline">Learn. Practice. Improve.</span>
+            </div>
+          </div>
+        </div>
         <div ref={logoStackRef} className="app-loading-logo-stack" style={logoFlyStyle || undefined}>
           <div className="app-loading-logo">Med101</div>
           <div className="app-loading-tagline">Learn. Practice. Improve.</div>
