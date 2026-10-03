@@ -31,7 +31,7 @@ function traceDelayFor(name) {
 // and nothing else ever changes. Direction only flips after ~10px of
 // movement the other way, so momentum/bounce jitter is ignored.
 const BUILD_LINE = 0.94; // fraction of viewport height
-const ERASE_LINE = 0.66;
+const ERASE_LINE = 0.88; // a card erases as its top slips below this line
 const forgeCards = new Set();
 let forgeDir = 'down';
 let forgeLastTop = null;
@@ -63,23 +63,23 @@ function forgeTick() {
     const rect = c.el.getBoundingClientRect();
     if (forgeDir === 'down') {
       if (rect.top < viewH * BUILD_LINE && rect.bottom > 0 && c.build(built)) built += 1;
-    } else if (rect.top > viewH * ERASE_LINE) {
-      c.erase();
     }
   }
-}
-
-// Once scrolling stops, every card that is on screen must be built. Without
-// this, scrolling up (or hitting the very top) leaves the cards below the
-// erase line erased with nothing to ever rebuild them -> big blank gaps.
-function forgeSettle() {
-  forgeSettleT = 0;
-  const viewH = window.innerHeight;
-  let built = 0;
-  for (const c of forgeCards) {
-    if (!c.el.isConnected) continue;
-    const rect = c.el.getBoundingClientRect();
-    if (rect.top < viewH && rect.bottom > 0 && c.build(built)) built += 1;
+  if (forgeDir === 'up') {
+    // One card at a time: only the single card that is just now sliding off
+    // the bottom edge plays its erase animation. Cards already fully below
+    // the screen are reset silently (nobody can see them).
+    let next = null;
+    let nextTop = Infinity;
+    let busy = false;
+    for (const c of forgeCards) {
+      if (!c.el.isConnected) continue;
+      const top = c.el.getBoundingClientRect().top;
+      if (c.isErasing()) busy = true;
+      if (top >= viewH) c.erase(true);
+      else if (top > viewH * ERASE_LINE && top < nextTop && c.isBuilt()) { next = c; nextTop = top; }
+    }
+    if (next && !busy) next.erase(false);
   }
 }
 
@@ -147,8 +147,12 @@ export default function SubjectCard({ index, emoji, name, desc, questionCount, t
         setBuildPhase('building');
         return true;
       },
-      erase: () => {
-        if (phaseRef.current === 'building') setBuildPhase('unbuilding');
+      isBuilt: () => phaseRef.current === 'building',
+      isErasing: () => phaseRef.current === 'unbuilding',
+      erase: (silent) => {
+        if (silent) {
+          if (phaseRef.current === 'building' || phaseRef.current === 'unbuilding') setBuildPhase('pending');
+        } else if (phaseRef.current === 'building') setBuildPhase('unbuilding');
       },
     });
   }, [build, index]);
