@@ -152,6 +152,8 @@ export default function AdminBroadcastScreen({ onBack, hideBack = false }) {
         <p className="std-sub">Push a message to students who have notifications turned on.</p>
       </div>
 
+      <div className="bc-grid">
+      <div className="bc-aud">
       {/* 1. Audience */}
       <div className="glass std-card">
         <label className="auth-label" style={{ marginTop: 0 }}>Send to</label>
@@ -194,6 +196,9 @@ export default function AdminBroadcastScreen({ onBack, hideBack = false }) {
         )}
       </div>
 
+      </div>
+
+      <div className="bc-msg">
       {/* 2. Message */}
       <div className="glass std-card" style={{ marginTop: 14 }}>
         <label className="auth-label" style={{ marginTop: 0 }}>Quick start</label>
@@ -218,6 +223,9 @@ export default function AdminBroadcastScreen({ onBack, hideBack = false }) {
         </select>
       </div>
 
+      </div>
+
+      <div className="bc-prev">
       {/* 3. Preview */}
       <div style={{ margin: '14px 4px 0', fontSize: 12, opacity: 0.6, letterSpacing: 1 }}>PREVIEW</div>
       <div className="glass std-card" style={{ marginTop: 6, display: 'flex', gap: 12, alignItems: 'flex-start' }}>
@@ -229,6 +237,9 @@ export default function AdminBroadcastScreen({ onBack, hideBack = false }) {
         </div>
       </div>
 
+      </div>
+
+      <div className="bc-act">
       {/* 4. Actions */}
       <div style={{ display: 'flex', gap: 10, marginTop: 14 }}>
         <button className="btn-ghost" style={{ flex: 1 }} disabled={!!busy || !title.trim() || !message.trim()} onClick={() => run('test')}>
@@ -242,6 +253,9 @@ export default function AdminBroadcastScreen({ onBack, hideBack = false }) {
         <div className={`auth-msg ${result.type}`} style={{ display: 'block', marginTop: 12 }}>{result.text}</div>
       )}
 
+      </div>
+
+      <div className="bc-hist">
       {/* 5. History */}
       <div style={{ margin: '22px 4px 6px', fontSize: 12, opacity: 0.6, letterSpacing: 1 }}>RECENTLY SENT</div>
       <div className="glass std-card">
@@ -260,6 +274,8 @@ export default function AdminBroadcastScreen({ onBack, hideBack = false }) {
             </button>
           </div>
         ))}
+      </div>
+      </div>
       </div>
     </div>
   );

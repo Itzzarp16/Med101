@@ -140,6 +140,7 @@ export default function AdminSubscribersScreen({ onBack, hideBack = false }) {
         {shown.length === 0 && (
           <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No subscribers match “{search}”.</div>
         )}
+        <div className="sub-cards">
         {shown.map((c) => {
           const expiry = expiryLabel(c);
           const revoking = revokingCode === c.code;
@@ -275,6 +276,7 @@ export default function AdminSubscribersScreen({ onBack, hideBack = false }) {
             </div>
           );
         })}
+        </div>
         </>
       )}
     </div>

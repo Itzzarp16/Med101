@@ -540,7 +540,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminCalendarScreen onBack={goBack} />
           </Suspense>
@@ -553,7 +553,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminBroadcastScreen onBack={goBack} />
           </Suspense>
@@ -566,7 +566,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminBackupScreen />
           </Suspense>
@@ -579,7 +579,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminSecurityScreen />
           </Suspense>
@@ -592,7 +592,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminQuestionReportsScreen onBack={goBack} />
           </Suspense>
@@ -605,7 +605,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminExamScheduleScreen onBack={goBack} />
           </Suspense>
@@ -618,7 +618,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminNoticeScreen onBack={goBack} semesters={semesterData.semesters} />
           </Suspense>
@@ -631,7 +631,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminUserDetailScreen onBack={goBack} initialUid={viewUserUid} />
           </Suspense>
@@ -644,7 +644,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminAnalyticsScreen onBack={goBack} />
           </Suspense>
@@ -657,7 +657,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminPaymentsScreen onBack={goBack} />
           </Suspense>
@@ -670,7 +670,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminSubscribersScreen onBack={goBack} />
           </Suspense>
@@ -743,7 +743,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade" key={screen}>
+        <div className="screen-fade admin-wide" key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminUploadQuestionsScreen onBack={goBack} semesters={semesters} semesterMainSubjects={semesterMainSubjects} />
           </Suspense>
