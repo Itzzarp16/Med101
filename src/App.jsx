@@ -373,7 +373,7 @@ export default function App() {
     if (loaderPhase !== 'loading') return; // already completing/flying/done
     setLoaderPhase('completing');
     const t1 = setTimeout(() => setLoaderPhase('flying'), 380);
-    const t2 = setTimeout(() => setLoaderPhase('done'), 380 + 700);
+    const t2 = setTimeout(() => setLoaderPhase('done'), 380 + 1350);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [semesterData.loading, calendarLoading]);
 
@@ -399,6 +399,16 @@ export default function App() {
   // (Dashboard, still-loading), which is exactly what triggered
   // "Minified React error #310 - rendered fewer hooks than expected".
   useEffect(() => {
+    if (loaderPhase === 'completing' || loaderPhase === 'flying') {
+      // Centre of where the logo lands: the circular boot reveal (see
+      // motion.css) expands outward from exactly this point.
+      const g = topbarGhostLogoRef.current?.getBoundingClientRect();
+      if (g) {
+        const root = document.documentElement.style;
+        root.setProperty('--boot-x', `${Math.round(g.left + g.width / 2)}px`);
+        root.setProperty('--boot-y', `${Math.round(g.top + g.height / 2)}px`);
+      }
+    }
     if (loaderPhase !== 'flying') {
       setLogoFlyStyle(null);
       return;
@@ -436,16 +446,15 @@ export default function App() {
     });
   }, [loaderPhase]);
 
-  // One-shot "boot reveal": once the splash logo has landed in the top
-  // bar, flag <html> briefly so motion.css can pop the top bar's
-  // buttons in one after another and draw a gradient line under it.
-  // The logo itself is untouched (it must stay exactly where it landed).
+  // One-shot boot reveal: flag <html> while the circular reveal plays so
+  // motion.css can spring the top bar buttons in, glow the logo and
+  // delay the subject-card cascade until the circle reaches them.
+  // (No cleanup on purpose: the phase moves flying -> done mid-reveal.)
   useEffect(() => {
-    if (loaderPhase !== 'done') return undefined;
+    if (loaderPhase !== 'flying') return;
     const root = document.documentElement;
     root.dataset.boot = '1';
-    const t = setTimeout(() => { delete root.dataset.boot; }, 1800);
-    return () => { clearTimeout(t); delete root.dataset.boot; };
+    setTimeout(() => { delete root.dataset.boot; }, 2400);
   }, [loaderPhase]);
 
   if (loading) {
@@ -707,17 +716,9 @@ export default function App() {
   // No artificial time cap here - the loader stays up for exactly as
   // long as auth/semester data/calendar actually take to resolve, then
   // plays its finish sequence (completing -> flying -> done).
-  if (loaderPhase !== 'done') {
-    const flying = loaderPhase === 'flying';
-    return (
-      <>
-        {showOnboardingTour && (
-          <OnboardingTour onFinish={finishOnboardingTour} />
-        )}
-        {showWhatsAppPrompt && (
-          <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
-        )}
-        <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
+  const flying = loaderPhase === 'flying';
+  const splashScreen = (
+    <div className={flying ? 'app-loading-screen app-loading-screen-flying' : 'app-loading-screen'}>
         {/* Invisible stand-in for the real top bar's logo, used only to measure where the splash logo should land. */}
         <div className="topbar topbar-ghost" aria-hidden="true">
           <div className="topbar-left">
@@ -745,6 +746,17 @@ export default function App() {
           <StuckLoaderHelp hint={semesterData.loading ? 'loading questions' : 'loading your semester'} />
         )}
       </div>
+  );
+  if (loaderPhase === 'loading' || loaderPhase === 'completing') {
+    return (
+      <>
+        {showOnboardingTour && (
+          <OnboardingTour onFinish={finishOnboardingTour} />
+        )}
+        {showWhatsAppPrompt && (
+          <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
+        )}
+        {splashScreen}
       </>
     );
   }
@@ -821,7 +833,10 @@ export default function App() {
   );
 
   return (
-    <div>
+    <>
+    {flying && splashScreen}
+    {flying && <span className="boot-ring" aria-hidden="true" />}
+    <div className={flying ? 'boot-reveal' : undefined}>
       {signupNotice && (
         <div className="kicked-banner" onClick={() => setSignupNotice(null)}>
           {signupNotice}
@@ -1080,5 +1095,6 @@ export default function App() {
       )}
       <Analytics />
     </div>
+    </>
   );
 }

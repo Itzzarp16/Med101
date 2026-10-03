@@ -81,48 +81,73 @@ button, a, [role='button'] {
 }
 
 /* ── Boot reveal ───────────────────────────────────────────────
-   Plays once, right after the splash logo lands in the top bar
-   (App.jsx sets <html data-boot> for ~1.8s). The logo stays put;
-   the menu button, online pill and profile chip spring in one after
-   another, the logo gets a brief cyan glow, and a brand-gradient
-   line sweeps across the bottom edge of the bar. Transform/opacity/
-   filter only; fill-mode `backwards` so nothing lingers. */
-html[data-boot] .topbar-left > .topbar-icon-btn {
-  animation: boot-pop 0.5s var(--ease-spring) 0.05s backwards;
+   After the splash logo lands in the top bar, the real app expands
+   out of that exact point as a growing circle (clip-path) with a cyan
+   shockwave ring riding its edge. Top bar buttons spring in as the
+   circle reaches them, the logo glows once, and the subject cards
+   cascade in last. App.jsx sets --boot-x/--boot-y (logo centre) and
+   <html data-boot>. Transform/opacity/clip-path/filter only. */
+:root {
+  --boot-x: 90px;
+  --boot-y: 30px;
+  --boot-delay: 0.45s;
+  --boot-dur: 0.85s;
 }
-html[data-boot] .topbar-right > * {
-  animation: boot-pop 0.5s var(--ease-spring) backwards;
+
+.boot-reveal {
+  position: relative;
+  z-index: 1001;
+  min-height: 100vh;
+  background: var(--bg);
+  animation: boot-circle var(--boot-dur) cubic-bezier(0.22, 1, 0.36, 1) var(--boot-delay) backwards;
 }
-html[data-boot] .topbar-right > :nth-child(1) { animation-delay: 0.14s; }
-html[data-boot] .topbar-right > :nth-child(2) { animation-delay: 0.22s; }
-html[data-boot] .topbar-logo-stack-btn {
-  animation: boot-glow 1s ease-out 0.1s backwards;
+
+@keyframes boot-circle {
+  from { clip-path: circle(0px at var(--boot-x) var(--boot-y)); }
+  to { clip-path: circle(150vmax at var(--boot-x) var(--boot-y)); }
 }
-html[data-boot] .topbar::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 2px;
-  background: var(--brand-gradient);
-  transform-origin: left center;
+
+.boot-ring {
+  position: fixed;
+  z-index: 1002;
+  left: var(--boot-x);
+  top: var(--boot-y);
+  width: 200px;
+  height: 200px;
+  margin: -100px 0 0 -100px;
+  border-radius: 50%;
+  border: 2px solid var(--cyan);
+  box-shadow: 0 0 28px rgba(var(--cyan-rgb), 0.55), inset 0 0 28px rgba(var(--cyan-rgb), 0.35);
   pointer-events: none;
-  animation: boot-line 1.2s var(--ease-out-expo) backwards;
+  will-change: transform, opacity;
+  animation: boot-ring var(--boot-dur) cubic-bezier(0.22, 1, 0.36, 1) var(--boot-delay) backwards;
+}
+
+@keyframes boot-ring {
+  0% { transform: scale(0.05); opacity: 0.95; }
+  70% { opacity: 0.45; }
+  100% { transform: scale(13); opacity: 0; }
+}
+
+html[data-boot] .topbar-left > .topbar-icon-btn {
+  animation: boot-pop 0.5s var(--ease-spring) 0.62s backwards;
+}
+html[data-boot] .topbar-right > :nth-child(1) { animation: boot-pop 0.5s var(--ease-spring) 0.78s backwards; }
+html[data-boot] .topbar-right > :nth-child(2) { animation: boot-pop 0.5s var(--ease-spring) 0.88s backwards; }
+html[data-boot] .topbar-logo-stack-btn {
+  animation: boot-glow 1.1s ease-out 0.5s backwards;
+}
+html[data-boot] .subj-card.stagger-in {
+  animation-delay: calc(0.7s + var(--stagger-i, 0) * 0.08s);
 }
 
 @keyframes boot-pop {
-  from { opacity: 0; transform: translateY(-10px) scale(0.7); }
+  from { opacity: 0; transform: translateY(-10px) scale(0.6); }
 }
 @keyframes boot-glow {
   0% { filter: drop-shadow(0 0 0 transparent); }
   35% { filter: drop-shadow(0 0 10px var(--cyan)) brightness(1.25); }
   100% { filter: drop-shadow(0 0 0 transparent); }
-}
-@keyframes boot-line {
-  0% { transform: scaleX(0); opacity: 1; }
-  65% { transform: scaleX(1); opacity: 1; }
-  100% { transform: scaleX(1); opacity: 0; }
 }
 
 /* ── Reduced motion ────────────────────────────────────────── 
