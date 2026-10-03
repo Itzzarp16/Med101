@@ -38,6 +38,7 @@ let forgeLastTop = null;
 let forgeAcc = 0;
 let forgeRaf = 0;
 let forgeBound = false;
+let forgeSettleT = 0;
 
 function forgeTick() {
   forgeRaf = 0;
@@ -68,8 +69,24 @@ function forgeTick() {
   }
 }
 
+// Once scrolling stops, every card that is on screen must be built. Without
+// this, scrolling up (or hitting the very top) leaves the cards below the
+// erase line erased with nothing to ever rebuild them -> big blank gaps.
+function forgeSettle() {
+  forgeSettleT = 0;
+  const viewH = window.innerHeight;
+  let built = 0;
+  for (const c of forgeCards) {
+    if (!c.el.isConnected) continue;
+    const rect = c.el.getBoundingClientRect();
+    if (rect.top < viewH && rect.bottom > 0 && c.build(built)) built += 1;
+  }
+}
+
 function forgeSchedule() {
   if (!forgeRaf) forgeRaf = requestAnimationFrame(forgeTick);
+  clearTimeout(forgeSettleT);
+  forgeSettleT = setTimeout(forgeSettle, 220);
 }
 
 function forgeRegister(card) {
@@ -84,6 +101,8 @@ function forgeRegister(card) {
     forgeCards.delete(card);
     if (forgeCards.size === 0 && forgeBound) {
       forgeBound = false;
+      clearTimeout(forgeSettleT);
+      forgeSettleT = 0;
       forgeLastTop = null;
       forgeDir = 'down';
       forgeAcc = 0;
