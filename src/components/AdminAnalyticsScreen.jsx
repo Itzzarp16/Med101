@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
 import { fetchUsageAnalytics } from '../lib/analytics';
 import { playTapSound } from '../lib/sounds';
+import './AdminAnalytics.css';
 
 const SEMESTER_LABELS = {
-  y1s1: 'Year 1 · Sem 1',
-  y1s2: 'Year 1 · Sem 2',
-  y2s1: 'Year 2 · Sem 1',
-  y2s2: 'Year 2 · Sem 2',
-  y3s1: 'Year 3 · Sem 1',
-  y3s2: 'Year 3 · Sem 2',
+  y1s1: 'Semester 1',
+  y1s2: 'Semester 2',
+  y2s1: 'Semester 3',
+  y2s2: 'Semester 4',
+  y3s1: 'Semester 5',
+  y3s2: 'Semester 6',
 };
 
 function Kpi({ label, value, sub, tone }) {

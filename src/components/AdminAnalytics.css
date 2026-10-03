@@ -1,0 +1,126 @@
+/* Analytics skin for the main site's admin menu route (the /admin portal loads
+   AdminTheme.css instead). Only the admin-portal-scoped palette and the an-
+   rules are copied here: AdminTheme.css also has unscoped sub- and pay- rules
+   that would leak into the student app if it were loaded globally. */
+/* Refined admin palette: warm neutrals, hairline borders, one gold accent.
+   Scoped here so the student app keeps its own tokens. */
+.admin-portal {
+  --bg: #0c0c0e;
+  --bg2: #101013;
+  --surface: #151518;
+  --surface2: #1c1c20;
+  --border: rgba(255, 255, 255, 0.07);
+  --border2: rgba(255, 255, 255, 0.13);
+  --amber: #e6b93a;
+  --text: #ececee;
+  --text2: #b4b4bb;
+  --text3: #86868f;
+}
+body.light-mode .admin-portal {
+  --bg: #f6f5f1;
+  --bg2: #efede7;
+  --surface: #ffffff;
+  --surface2: #f3f1ec;
+  --border: #e6e3da;
+  --border2: #d6d2c6;
+  --amber: #a8730a;
+  --text: #1b1b1f;
+  --text2: #45454d;
+  --text3: #74747d;
+}
+
+.admin-portal .std-screen {
+  max-width: none;
+  padding: 8px 0 0;
+}
+.admin-portal .std-header { margin-bottom: 14px; }
+.admin-portal .std-header .std-title { display: none; } /* page title bar already names the section */
+.admin-portal .std-sub {
+  margin: 0;
+  color: var(--text3);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+/* Solid cards - the translucent glass let the page behind bleed through
+   modals and made text hard to read. */
+.admin-portal .glass.std-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03) inset, 0 6px 20px rgba(0, 0, 0, 0.14);
+}
+.admin-portal .std-card { padding: 20px; gap: 14px; }
+.admin-portal .std-card + .std-card { margin-top: 12px; }
+
+
+/* ── Usage Analytics ────────────────────────────── */
+.an-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+.admin-portal .an-refresh { padding: 7px 14px; font-size: 13px; white-space: nowrap; }
+.an-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 12px; }
+.an-kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 18px;
+}
+.an-kpi-label {
+  font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 0.09em;
+  text-transform: uppercase; color: var(--text3);
+}
+.an-kpi-value { margin-top: 8px; font-family: var(--font-heading); font-size: 32px; line-height: 1; color: var(--text); }
+.an-kpi-sub { margin-top: 8px; font-size: 12px; color: var(--text3); }
+
+.an-row { display: grid; grid-template-columns: 300px 1fr; gap: 12px; margin-bottom: 12px; }
+.admin-portal .an-row .std-card + .std-card, .admin-portal .an-subjects { margin-top: 0; }
+.an-acc { align-items: center; text-align: center; }
+.an-acc .auth-label { align-self: flex-start; }
+.an-ring { width: 150px; height: 150px; }
+.an-ring-text { font-family: var(--font-heading); font-size: 30px; fill: var(--text); }
+.an-acc-note { font-size: 12.5px; color: var(--text3); }
+
+.an-bars { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+.an-bar-row { display: grid; grid-template-columns: 110px 1fr 36px; align-items: center; gap: 12px; }
+.an-bar-label { font-size: 13px; color: var(--text2); white-space: nowrap; }
+.an-bar-num { text-align: right; font-weight: 700; font-size: 13px; color: var(--text); }
+.an-bar-track { display: block; height: 8px; border-radius: 999px; background: var(--surface2); overflow: hidden; }
+.an-bar-fill { display: block; height: 100%; min-width: 2px; border-radius: 999px; background: var(--amber); }
+
+.an-subjects { gap: 4px; }
+.an-subj { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-top: 1px solid var(--border); }
+.an-subjects .auth-label + .an-subj { border-top: none; }
+.an-subj-rank {
+  width: 26px; height: 26px; flex-shrink: 0; display: grid; place-items: center;
+  border-radius: 8px; background: var(--surface2); font-size: 12px; font-weight: 700; color: var(--text2);
+}
+.an-subj-main { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+.an-subj-top { display: flex; justify-content: space-between; gap: 12px; }
+.an-subj-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.an-subj-meta { font-family: var(--font-mono); font-size: 11.5px; color: var(--text3); white-space: nowrap; }
+.an-subj-pill { padding: 4px 11px; border-radius: 999px; font-size: 12px; font-weight: 700; min-width: 52px; text-align: center; }
+
+@media (max-width: 860px) {
+  .an-kpis { grid-template-columns: 1fr 1fr; }
+  .an-row { grid-template-columns: 1fr; }
+  .an-bar-row { grid-template-columns: 96px 1fr 30px; gap: 10px; }
+  .an-kpi-value { font-size: 28px; }
+}
+
+.an-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 10px; }
+.an-chip {
+  padding: 6px 13px; border-radius: 999px; cursor: pointer;
+  border: 1px solid var(--border2); background: transparent;
+  color: var(--text2); font-family: var(--font-body); font-size: 12.5px;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.an-chip:hover:not(.active) { background: var(--surface2); color: var(--text); }
+.an-chip.active { background: var(--amber); border-color: var(--amber); color: #0a0f22; font-weight: 700; }
+body.light-mode .an-chip.active { color: #fff; }
+@media (max-width: 860px) {
+  .an-chips { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 4px; }
+  .an-chip { white-space: nowrap; }
+}
+
+/* Subscribers: grant-another-semester */

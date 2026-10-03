@@ -678,7 +678,7 @@ export default function App() {
     return (
       <div>
         <TopBar {...topBarProps} />
-        <div className="screen-fade admin-wide" key={screen}>
+        <div className="screen-fade admin-wide admin-portal" style={{ minHeight: 0, background: 'transparent', textAlign: 'left' }} key={screen}>
           <Suspense fallback={<AdminScreenFallback />}>
             <AdminAnalyticsScreen onBack={goBack} />
           </Suspense>
