@@ -20,49 +20,118 @@ function traceDelayFor(name) {
   return (hash % 26) / 10; // 0 - 2.5s
 }
 
+// ── Scroll-linked forge controller ─────────────────────────────────────
+// One shared, rAF-throttled scroll listener for every build-enabled card.
+// A previous IntersectionObserver version flickered because state only
+// changed at threshold crossings (cards sat half-hidden/half-built) and
+// flipped back and forth when the scroll jittered. This version decides
+// from scroll DIRECTION plus fixed lines, so nothing can toggle twice:
+//   scrolling down: any card whose top is above the BUILD line is built
+//   scrolling up:   any card whose top is below the ERASE line is erased
+// and nothing else ever changes. Direction only flips after ~10px of
+// movement the other way, so momentum/bounce jitter is ignored.
+const BUILD_LINE = 0.94; // fraction of viewport height
+const ERASE_LINE = 0.66;
+const forgeCards = new Set();
+let forgeDir = 'down';
+let forgeLastTop = null;
+let forgeAcc = 0;
+let forgeRaf = 0;
+let forgeBound = false;
+
+function forgeTick() {
+  forgeRaf = 0;
+  const viewH = window.innerHeight;
+  let ref = null;
+  for (const c of forgeCards) {
+    if (c.el.isConnected) { ref = c; break; }
+  }
+  if (!ref) { forgeLastTop = null; return; }
+  const top = ref.el.getBoundingClientRect().top;
+  if (forgeLastTop !== null) {
+    const d = top - forgeLastTop; // negative = page moved up = scrolling down
+    if (d < 0) forgeAcc = Math.min(forgeAcc, 0) + d;
+    else if (d > 0) forgeAcc = Math.max(forgeAcc, 0) + d;
+    if (forgeAcc <= -10) forgeDir = 'down';
+    else if (forgeAcc >= 10) forgeDir = 'up';
+  }
+  forgeLastTop = top;
+  let built = 0;
+  for (const c of forgeCards) {
+    if (!c.el.isConnected) continue;
+    const rect = c.el.getBoundingClientRect();
+    if (forgeDir === 'down') {
+      if (rect.top < viewH * BUILD_LINE && rect.bottom > 0 && c.build(built)) built += 1;
+    } else if (rect.top > viewH * ERASE_LINE) {
+      c.erase();
+    }
+  }
+}
+
+function forgeSchedule() {
+  if (!forgeRaf) forgeRaf = requestAnimationFrame(forgeTick);
+}
+
+function forgeRegister(card) {
+  forgeCards.add(card);
+  if (!forgeBound) {
+    forgeBound = true;
+    document.addEventListener('scroll', forgeSchedule, { capture: true, passive: true });
+    window.addEventListener('resize', forgeSchedule, { passive: true });
+  }
+  forgeSchedule();
+  return () => {
+    forgeCards.delete(card);
+    if (forgeCards.size === 0 && forgeBound) {
+      forgeBound = false;
+      forgeLastTop = null;
+      forgeDir = 'down';
+      forgeAcc = 0;
+      document.removeEventListener('scroll', forgeSchedule, { capture: true });
+      window.removeEventListener('resize', forgeSchedule);
+    }
+  };
+}
+
 export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
-  // Scroll-linked build (see SubjectCard.css). Phases:
-  //   pending    hidden, waiting below the fold
+  // Scroll-linked build (see SubjectCard.css + controller above). Phases:
+  //   pending    hidden, waiting below the build line
   //   building   forge-in plays, then the card simply stays visible
-  //   unbuilding reverse animation, played when the card leaves through
-  //              the BOTTOM edge (i.e. the user scrolled back up)
-  // Cards that leave through the top just stay as they are. The
-  // observer is permanent, so this repeats on every scroll pass.
-  // No IntersectionObserver -> 'done' = plain visible card.
+  //   unbuilding reverse animation, played when scrolling back up past
+  //              the erase line; then back to pending
+  // Cards above the viewport are left alone. Repeats on every pass.
   const cardRef = useRef(null);
-  const [buildPhase, setBuildPhase] = useState(
-    build ? (typeof IntersectionObserver === 'undefined' ? 'done' : 'pending') : undefined
-  );
+  const phaseRef = useRef(build ? 'pending' : undefined);
+  const [buildPhase, setBuildPhaseState] = useState(phaseRef.current);
+  const setBuildPhase = (next) => {
+    const value = typeof next === 'function' ? next(phaseRef.current) : next;
+    phaseRef.current = value;
+    setBuildPhaseState(value);
+  };
   useEffect(() => {
-    if (!build || typeof IntersectionObserver === 'undefined') return undefined;
+    if (!build) return undefined;
     const el = cardRef.current;
     if (!el) return undefined;
-    // The erase must start while the card is still on screen: the old
-    // version waited until the card had fully left (ratio 0), so the
-    // animation played off-screen and was never seen. Direction comes
-    // from whether the visible ratio is rising (entering) or falling.
-    let prevRatio = 0;
-    const io = new IntersectionObserver((entries) => {
-      const e = entries[entries.length - 1];
-      const ratio = e.intersectionRatio;
-      const entering = ratio > prevRatio;
-      prevRatio = ratio;
-      if (entering && ratio >= 0.2) {
-        // Cards already on screen during the app-boot reveal wait for
-        // the circle to reach them; every later build starts at once.
+    return forgeRegister({
+      el,
+      // Returns true when it actually started a build (for staggering).
+      build: (order) => {
+        if (phaseRef.current !== 'pending' && phaseRef.current !== 'unbuilding') return false;
+        // Cards on screen during the app-boot reveal wait for the circle
+        // to reach them; later builds start at once, staggered a little
+        // when several cards appear in the same frame.
         const booting = !!el.closest('.boot-reveal');
-        el.style.setProperty('--build-delay', booting ? `${1.2 + Math.min(index ?? 0, 8) * 0.14}s` : '0s');
-        setBuildPhase((p) => (p === 'pending' || p === 'unbuilding' ? 'building' : p));
-      } else if (!entering && ratio < 0.8) {
-        const viewH = (e.rootBounds && e.rootBounds.height) || window.innerHeight;
-        const leavingThroughBottom = e.boundingClientRect.top > viewH / 2;
-        if (leavingThroughBottom) setBuildPhase((p) => (p === 'building' ? 'unbuilding' : p));
-      }
-    }, { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1], rootMargin: '0px 0px -6% 0px' });
-    io.observe(el);
-    return () => io.disconnect();
+        const delay = booting ? 1.2 + Math.min(index ?? 0, 8) * 0.14 : order * 0.07;
+        el.style.setProperty('--build-delay', `${delay}s`);
+        setBuildPhase('building');
+        return true;
+      },
+      erase: () => {
+        if (phaseRef.current === 'building') setBuildPhase('unbuilding');
+      },
+    });
   }, [build, index]);
 
   // unbuilding -> pending once the reverse animation has played (timer is
