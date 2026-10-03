@@ -94,17 +94,39 @@ button, a, [role='button'] {
   --boot-dur: 1.6s;
 }
 
+/* One shared clock drives BOTH the reveal circle and the ring, so the
+   ring can never lag behind (or outlive) the content it rides on:
+   a single animation on <html> moves --boot-r / --boot-o and every
+   consumer just reads them. fill-mode both keeps the end state until
+   App.jsx removes data-boot. */
+@property --boot-r {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+@property --boot-o {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 0;
+}
+
+html[data-boot] {
+  animation: boot-drive var(--boot-dur) cubic-bezier(0.33, 0.9, 0.5, 1) var(--boot-delay) both;
+}
+
+@keyframes boot-drive {
+  0% { --boot-r: 0px; --boot-o: 0; }
+  8% { --boot-o: 0.9; }
+  75% { --boot-o: 0.35; }
+  100% { --boot-r: 150vmax; --boot-o: 0; }
+}
+
 .boot-reveal {
   position: relative;
   z-index: 1001;
   min-height: 100vh;
   background: var(--bg);
-  animation: boot-circle var(--boot-dur) cubic-bezier(0.33, 0.9, 0.5, 1) var(--boot-delay) backwards;
-}
-
-@keyframes boot-circle {
-  from { clip-path: circle(0px at var(--boot-x) var(--boot-y)); }
-  to { clip-path: circle(150vmax at var(--boot-x) var(--boot-y)); }
+  clip-path: circle(var(--boot-r) at var(--boot-x) var(--boot-y));
 }
 
 .boot-ring {
@@ -112,21 +134,15 @@ button, a, [role='button'] {
   z-index: 1002;
   left: var(--boot-x);
   top: var(--boot-y);
-  width: 200px;
-  height: 200px;
-  margin: -100px 0 0 -100px;
+  width: calc(var(--boot-r) * 2);
+  height: calc(var(--boot-r) * 2);
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
   border-radius: 50%;
   border: 2px solid var(--cyan);
   box-shadow: 0 0 28px rgba(var(--cyan-rgb), 0.55), inset 0 0 28px rgba(var(--cyan-rgb), 0.35);
+  opacity: var(--boot-o);
   pointer-events: none;
-  will-change: transform, opacity;
-  animation: boot-ring var(--boot-dur) cubic-bezier(0.33, 0.9, 0.5, 1) var(--boot-delay) backwards;
-}
-
-@keyframes boot-ring {
-  0% { transform: scale(0.05); opacity: 0.95; }
-  70% { opacity: 0.45; }
-  100% { transform: scale(13); opacity: 0; }
 }
 
 html[data-boot] .topbar-left > .topbar-icon-btn {
