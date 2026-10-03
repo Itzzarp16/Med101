@@ -90,8 +90,8 @@ button, a, [role='button'] {
 :root {
   --boot-x: 90px;
   --boot-y: 30px;
-  --boot-delay: 0.45s;
-  --boot-dur: 0.85s;
+  --boot-delay: 0.5s;
+  --boot-dur: 1.6s;
 }
 
 .boot-reveal {
@@ -99,7 +99,7 @@ button, a, [role='button'] {
   z-index: 1001;
   min-height: 100vh;
   background: var(--bg);
-  animation: boot-circle var(--boot-dur) cubic-bezier(0.22, 1, 0.36, 1) var(--boot-delay) backwards;
+  animation: boot-circle var(--boot-dur) cubic-bezier(0.33, 0.9, 0.5, 1) var(--boot-delay) backwards;
 }
 
 @keyframes boot-circle {
@@ -120,7 +120,7 @@ button, a, [role='button'] {
   box-shadow: 0 0 28px rgba(var(--cyan-rgb), 0.55), inset 0 0 28px rgba(var(--cyan-rgb), 0.35);
   pointer-events: none;
   will-change: transform, opacity;
-  animation: boot-ring var(--boot-dur) cubic-bezier(0.22, 1, 0.36, 1) var(--boot-delay) backwards;
+  animation: boot-ring var(--boot-dur) cubic-bezier(0.33, 0.9, 0.5, 1) var(--boot-delay) backwards;
 }
 
 @keyframes boot-ring {
@@ -130,15 +130,16 @@ button, a, [role='button'] {
 }
 
 html[data-boot] .topbar-left > .topbar-icon-btn {
-  animation: boot-pop 0.5s var(--ease-spring) 0.62s backwards;
+  animation: boot-pop 0.7s var(--ease-spring) 0.95s backwards;
 }
-html[data-boot] .topbar-right > :nth-child(1) { animation: boot-pop 0.5s var(--ease-spring) 0.78s backwards; }
-html[data-boot] .topbar-right > :nth-child(2) { animation: boot-pop 0.5s var(--ease-spring) 0.88s backwards; }
+html[data-boot] .topbar-right > :nth-child(1) { animation: boot-pop 0.7s var(--ease-spring) 1.25s backwards; }
+html[data-boot] .topbar-right > :nth-child(2) { animation: boot-pop 0.7s var(--ease-spring) 1.4s backwards; }
 html[data-boot] .topbar-logo-stack-btn {
-  animation: boot-glow 1.1s ease-out 0.5s backwards;
+  animation: boot-glow 1.6s ease-out 0.7s backwards;
 }
 html[data-boot] .subj-card.stagger-in {
-  animation-delay: calc(0.7s + var(--stagger-i, 0) * 0.08s);
+  animation-duration: 0.6s;
+  animation-delay: calc(1.2s + var(--stagger-i, 0) * 0.14s);
 }
 
 @keyframes boot-pop {

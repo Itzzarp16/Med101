@@ -373,7 +373,7 @@ export default function App() {
     if (loaderPhase !== 'loading') return; // already completing/flying/done
     setLoaderPhase('completing');
     const t1 = setTimeout(() => setLoaderPhase('flying'), 380);
-    const t2 = setTimeout(() => setLoaderPhase('done'), 380 + 1350);
+    const t2 = setTimeout(() => setLoaderPhase('done'), 380 + 2400);
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, [semesterData.loading, calendarLoading]);
 
@@ -454,7 +454,7 @@ export default function App() {
     if (loaderPhase !== 'flying') return;
     const root = document.documentElement;
     root.dataset.boot = '1';
-    setTimeout(() => { delete root.dataset.boot; }, 2400);
+    setTimeout(() => { delete root.dataset.boot; }, 4200);
   }, [loaderPhase]);
 
   if (loading) {
