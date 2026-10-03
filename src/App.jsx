@@ -175,6 +175,15 @@ export default function App() {
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
+  // Splash bar runs ONCE: eases from 0 toward ~90% (decelerating, so it
+  // never looks frozen however long loading takes), then snaps to 100%
+  // when loading really finishes. Armed after first paint so the
+  // transition has a 0% starting point to animate from.
+  const [loaderBarArmed, setLoaderBarArmed] = useState(false);
+  useEffect(() => {
+    const id = requestAnimationFrame(() => requestAnimationFrame(() => setLoaderBarArmed(true)));
+    return () => cancelAnimationFrame(id);
+  }, []);
   const logoStackRef = useRef(null);
   const topbarGhostLogoRef = useRef(null); // invisible copy of the real topbar logo, measured as the fly target
   const [logoFlyStyle, setLogoFlyStyle] = useState(null);
@@ -737,8 +746,10 @@ export default function App() {
           <span className="app-loading-play">▶</span>
           <div className="app-loading-track">
             <div
-              className={loaderPhase === 'completing' ? 'app-loading-fill' : 'app-loading-fill app-loading-fill-indeterminate'}
-              style={loaderPhase === 'completing' ? { width: '100%' } : undefined}
+              className="app-loading-fill"
+              style={loaderPhase === 'loading'
+                ? { width: loaderBarArmed ? '90%' : '0%', transition: 'width 7s cubic-bezier(0.1, 0.65, 0.25, 1)' }
+                : { width: '100%', transition: 'width 0.35s ease' }}
             />
           </div>
         </div>
