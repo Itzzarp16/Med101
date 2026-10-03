@@ -39,20 +39,28 @@ export default function SubjectCard({ index, emoji, name, desc, questionCount, t
     if (!build || typeof IntersectionObserver === 'undefined') return undefined;
     const el = cardRef.current;
     if (!el) return undefined;
+    // The erase must start while the card is still on screen: the old
+    // version waited until the card had fully left (ratio 0), so the
+    // animation played off-screen and was never seen. Direction comes
+    // from whether the visible ratio is rising (entering) or falling.
+    let prevRatio = 0;
     const io = new IntersectionObserver((entries) => {
       const e = entries[entries.length - 1];
-      if (e.isIntersecting && e.intersectionRatio >= 0.2) {
+      const ratio = e.intersectionRatio;
+      const entering = ratio > prevRatio;
+      prevRatio = ratio;
+      if (entering && ratio >= 0.2) {
         // Cards already on screen during the app-boot reveal wait for
         // the circle to reach them; every later build starts at once.
         const booting = !!el.closest('.boot-reveal');
         el.style.setProperty('--build-delay', booting ? `${1.2 + Math.min(index ?? 0, 8) * 0.14}s` : '0s');
         setBuildPhase((p) => (p === 'pending' || p === 'unbuilding' ? 'building' : p));
-      } else if (!e.isIntersecting) {
+      } else if (!entering && ratio < 0.8) {
         const viewH = (e.rootBounds && e.rootBounds.height) || window.innerHeight;
-        const leftThroughBottom = e.boundingClientRect.top > viewH / 2;
-        if (leftThroughBottom) setBuildPhase((p) => (p === 'building' ? 'unbuilding' : p));
+        const leavingThroughBottom = e.boundingClientRect.top > viewH / 2;
+        if (leavingThroughBottom) setBuildPhase((p) => (p === 'building' ? 'unbuilding' : p));
       }
-    }, { threshold: [0, 0.2], rootMargin: '0px 0px -6% 0px' });
+    }, { threshold: [0, 0.2, 0.4, 0.6, 0.8, 1], rootMargin: '0px 0px -6% 0px' });
     io.observe(el);
     return () => io.disconnect();
   }, [build, index]);
