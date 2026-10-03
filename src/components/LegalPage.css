@@ -407,3 +407,27 @@
 @media (prefers-reduced-motion: reduce) {
   .lp-sec, .lp-card, .lp-person { animation: none !important; }
 }
+
+/* ── Font-colour fixes ────────────────────────────────── */
+/* `.lp-sec a` (cyan link colour) out-ranked `.lp-btn`, so the "Contact us"
+   button on About rendered cyan text on the cyan gradient in both themes.
+   Buttons keep their own text colour wherever they sit. */
+.lp-sec a.lp-btn,
+.lp-card a.lp-btn { color: #fff; text-decoration: none; }
+.lp-sec a.lp-btn--ghost,
+.lp-card a.lp-btn--ghost { color: var(--text); }
+
+/* Ghost buttons and footer pills used the dark-theme glass tint (white at
+   10%), which vanishes on the light theme's white cards. Tint with the
+   theme's accent instead so the border and label read in both. */
+.lp-btn--ghost,
+.lp-more a {
+  color: var(--text);
+  background: rgba(var(--cyan-rgb), 0.10);
+  border: 1px solid rgba(var(--cyan-rgb), 0.38);
+}
+.lp-more a.is-current {
+  color: #fff;
+  background: var(--brand-gradient);
+  border-color: transparent;
+}
