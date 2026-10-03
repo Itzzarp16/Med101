@@ -1,6 +1,6 @@
-/* The legal pages normally fill the whole screen on their own; with the top
-   bar above them, take its height off so the page doesn't overshoot. */
-.legal-shell .legal-page {
-  min-height: calc(100vh - 52px);
-  padding-top: 28px;
+/* Public pages sit directly under the app top bar; the page background
+   is the app's own. */
+.legal-shell {
+  min-height: 100vh;
+  background: var(--bg);
 }

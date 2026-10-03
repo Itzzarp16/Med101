@@ -1,64 +1,409 @@
-.legal-page {
-  min-height: 100vh;
-  background: var(--bg);
+/* Public pages (About, Contact, Privacy, Terms) - see LegalKit.jsx.
+   Mobile-first, theme-aware (everything reads the app's CSS variables,
+   so light and dark mode both work). */
+.lp {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 8px 16px 72px;
   color: var(--text);
   font-family: var(--font-body);
-  padding: 40px 16px 80px;
+}
+
+/* ── Hero ─────────────────────────────────────────────── */
+.lp-hero {
+  position: relative;
+  text-align: center;
+  padding: 36px 8px 22px;
+  isolation: isolate;
+}
+.lp-hero::before {
+  content: '';
+  position: absolute;
+  inset: -20px 0 auto;
+  height: 220px;
+  z-index: -1;
+  background: radial-gradient(60% 70% at 50% 0%, rgba(var(--cyan-rgb), 0.28), transparent 72%);
+  pointer-events: none;
+}
+.lp-eyebrow {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 10px;
+}
+.lp-title {
+  font-family: var(--font-heading);
+  font-size: clamp(30px, 8.5vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 0;
+  color: var(--text);
+}
+.lp-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 6px 13px;
+  font-size: 12.5px;
+  color: var(--text2);
+  background: var(--g1);
+  border: 1px solid var(--g-border);
+  border-radius: 999px;
+}
+.lp-pill i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 0 3px rgba(48, 242, 138, 0.18);
+}
+.lp-lead {
+  max-width: 520px;
+  margin: 16px auto 0;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text2);
+}
+
+/* ── On-this-page chips ───────────────────────────────── */
+.lp-toc {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 4px 2px 14px;
+  margin: 0 -16px 8px;
+  padding-inline: 16px;
+  scrollbar-width: none;
+}
+.lp-toc::-webkit-scrollbar { display: none; }
+.lp-toc a {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px 7px 8px;
+  font-size: 13px;
+  white-space: nowrap;
+  color: var(--text2);
+  text-decoration: none;
+  background: var(--g1);
+  border: 1px solid var(--g-border);
+  border-radius: 999px;
+  transition: background 0.2s, transform 0.2s;
+}
+.lp-toc a:active { transform: scale(0.96); }
+.lp-toc a b {
+  display: inline-grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  font-size: 11px;
+  color: #fff;
+  background: var(--brand-gradient);
+  border-radius: 999px;
+}
+
+/* ── Section cards ────────────────────────────────────── */
+.lp-body { display: grid; gap: 14px; }
+.lp-sec {
+  scroll-margin-top: 76px;
+  padding: 20px 18px 18px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+}
+.lp-h2 {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 12px;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  line-height: 1.25;
+  color: var(--text);
+}
+.lp-num {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--brand-gradient);
+  border-radius: 10px;
+}
+.lp-h2--plain { margin-bottom: 10px; }
+
+.lp-sec h3 {
+  margin: 18px 0 6px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.lp-sec p,
+.lp-sec li {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--text2);
+}
+.lp-sec p { margin: 0 0 10px; }
+.lp-sec p:last-child { margin-bottom: 0; }
+.lp-sec strong { color: var(--text); font-weight: 650; }
+.lp-sec ul {
+  list-style: none;
+  margin: 8px 0 12px;
+  padding: 0;
+}
+.lp-sec li {
+  position: relative;
+  margin: 0 0 8px;
+  padding-left: 20px;
+}
+.lp-sec li::before {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 0.62em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0.85;
+}
+.lp-sec a {
+  color: var(--cyan);
+  text-underline-offset: 3px;
+  word-break: break-word;
+}
+
+.lp-intro {
+  margin: 0 4px 4px;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--text2);
+}
+
+.lp-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 12px 0 0 !important;
+  padding: 12px 14px;
+  font-weight: 600;
+  color: var(--text) !important;
+  background: rgba(48, 242, 138, 0.09);
+  border: 1px solid rgba(48, 242, 138, 0.28);
+  border-radius: 14px;
+}
+.lp-callout svg { flex: 0 0 auto; margin-top: 3px; color: var(--green); }
+
+/* Scroll-linked reveal where supported (Chromium); elsewhere cards are
+   simply there. */
+@supports (animation-timeline: view()) {
+  .lp-sec,
+  .lp-card,
+  .lp-person {
+    animation: lp-rise linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
+  @keyframes lp-rise {
+    from { opacity: 0; transform: translateY(26px); }
+  }
+}
+
+/* ── Sibling-page pills + footer ──────────────────────── */
+.lp-more {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
 }
-
-.legal-card {
-  max-width: 720px;
-  width: 100%;
+.lp-more a {
+  padding: 8px 16px;
+  font-size: 13.5px;
+  color: var(--text2);
+  text-decoration: none;
+  background: var(--g1);
+  border: 1px solid var(--g-border);
+  border-radius: 999px;
+  transition: transform 0.2s;
 }
-
-.legal-card h1 {
-  font-family: var(--font-heading);
-  font-size: 28px;
-  margin: 0 0 4px;
+.lp-more a:active { transform: scale(0.96); }
+.lp-more a.is-current {
+  color: #fff;
+  background: var(--brand-gradient);
+  border-color: transparent;
 }
-
-.legal-updated {
+.lp-foot {
+  margin: 16px 0 0;
+  text-align: center;
+  font-size: 12.5px;
   color: var(--text3);
-  font-size: 13px;
-  margin: 0 0 28px;
 }
 
-.legal-card h2 {
-  font-size: 19px;
-  margin: 32px 0 10px;
-  color: var(--cyan);
+/* ── Contact: action cards ────────────────────────────── */
+.lp-cards { display: grid; gap: 14px; }
+.lp-card {
+  display: block;
+  padding: 18px;
+  color: inherit;
+  text-decoration: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
 }
-
-.legal-card h3 {
-  font-size: 15px;
-  margin: 18px 0 6px;
+.lp-card-top { display: flex; align-items: center; gap: 14px; }
+.lp-ico {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  color: #fff;
+  background: var(--brand-gradient);
+}
+.lp-ico img { width: 28px; height: 28px; display: block; }
+.lp-ico--wa { background: #1fa855; }
+.lp-card-label {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.lp-card-value {
+  margin-top: 2px;
+  font-size: 16.5px;
+  font-weight: 650;
+  color: var(--text);
+  word-break: break-word;
+}
+.lp-card-desc {
+  margin: 12px 0 0;
+  font-size: 14.5px;
+  line-height: 1.55;
   color: var(--text2);
 }
-
-.legal-card p,
-.legal-card li {
-  color: var(--text2);
+.lp-actions { display: flex; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+.lp-btn {
+  flex: 1 1 140px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 16px;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 650;
+  color: #fff;
+  text-decoration: none;
+  background: var(--brand-gradient);
+  border: 0;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.18s;
+}
+.lp-btn:active { transform: scale(0.97); }
+.lp-btn--ghost {
+  color: var(--text);
+  background: var(--g1);
+  border: 1px solid var(--g-border);
+}
+.lp-btn--wa { background: #1fa855; }
+.lp-note {
+  margin: 22px 8px 0;
+  text-align: center;
+  font-size: 14.5px;
   line-height: 1.6;
-  font-size: 15px;
+  color: var(--text2);
 }
 
-.legal-card ul {
-  margin: 8px 0;
-  padding-left: 22px;
+/* ── About: people ────────────────────────────────────── */
+.lp-people { display: grid; gap: 12px; }
+.lp-person {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
 }
-
-.legal-card li {
-  margin-bottom: 6px;
+.lp-person img {
+  flex: 0 0 auto;
+  width: 92px;
+  height: 92px;
+  object-fit: cover;
+  object-position: center 20%;
+  border-radius: 18px;
+  background: var(--surface2);
 }
-
-.legal-card a {
+.lp-role {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   color: var(--cyan);
 }
-
-.legal-governing {
-  margin-top: 32px;
+.lp-name {
+  margin: 3px 0 0;
+  font-family: var(--font-heading);
+  font-size: 18px;
+  line-height: 1.2;
+  color: var(--text);
+}
+.lp-about {
+  margin: 4px 0 0;
+  font-size: 13.5px;
+  line-height: 1.45;
+  color: var(--text2);
+}
+.lp-ig {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 9px;
+  padding: 5px 11px;
   font-size: 13px;
-  color: var(--text3);
+  color: var(--text);
+  text-decoration: none;
+  background: var(--g1);
+  border: 1px solid var(--g-border);
+  border-radius: 999px;
+}
+.lp-ig svg { color: var(--cyan); }
+
+.lp-quote {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 19px;
+  line-height: 1.4;
+  color: var(--text);
+}
+.lp-quote strong { color: var(--cyan); }
+
+@media (min-width: 640px) {
+  .lp { padding-top: 20px; }
+  .lp-sec { padding: 24px 24px 22px; }
+  .lp-people { grid-template-columns: repeat(3, 1fr); }
+  .lp-person { flex-direction: column; align-items: flex-start; text-align: left; }
+  .lp-person img { width: 100%; height: 190px; }
+  .lp-cards { grid-template-columns: 1fr 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-sec, .lp-card, .lp-person { animation: none !important; }
 }
