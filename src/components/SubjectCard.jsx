@@ -30,15 +30,14 @@ function traceDelayFor(name) {
 //   scrolling up:   any card whose top is below the ERASE line is erased
 // and nothing else ever changes. Direction only flips after ~10px of
 // movement the other way, so momentum/bounce jitter is ignored.
-const BUILD_LINE = 0.94; // fraction of viewport height
-const ERASE_LINE = 0.88; // a card erases as its top slips below this line
+const BUILD_LINE = 0.86; // fraction of viewport height
+const ERASE_LINE = 0.92; // BUILD_LINE is higher up the screen, so an erased card never comes back until you really scroll down again
 const forgeCards = new Set();
 let forgeDir = 'down';
 let forgeLastTop = null;
 let forgeAcc = 0;
 let forgeRaf = 0;
 let forgeBound = false;
-let forgeSettleT = 0;
 
 function forgeTick() {
   forgeRaf = 0;
@@ -53,7 +52,7 @@ function forgeTick() {
     const d = top - forgeLastTop; // negative = page moved up = scrolling down
     if (d < 0) forgeAcc = Math.min(forgeAcc, 0) + d;
     else if (d > 0) forgeAcc = Math.max(forgeAcc, 0) + d;
-    if (forgeAcc <= -10) forgeDir = 'down';
+    if (forgeAcc <= -14) forgeDir = 'down';
     else if (forgeAcc >= 10) forgeDir = 'up';
   }
   forgeLastTop = top;
@@ -83,23 +82,8 @@ function forgeTick() {
   }
 }
 
-// Once scrolling stops, rebuild any card that should be visible but was
-// erased (e.g. after reaching the top of the page).
-function forgeSettle() {
-  forgeSettleT = 0;
-  const viewH = window.innerHeight;
-  let built = 0;
-  for (const c of forgeCards) {
-    if (!c.el.isConnected) continue;
-    const rect = c.el.getBoundingClientRect();
-    if (rect.top < viewH * ERASE_LINE && rect.bottom > 0 && c.build(built)) built += 1;
-  }
-}
-
 function forgeSchedule() {
   if (!forgeRaf) forgeRaf = requestAnimationFrame(forgeTick);
-  clearTimeout(forgeSettleT);
-  forgeSettleT = setTimeout(forgeSettle, 220);
 }
 
 function forgeRegister(card) {
@@ -114,8 +98,6 @@ function forgeRegister(card) {
     forgeCards.delete(card);
     if (forgeCards.size === 0 && forgeBound) {
       forgeBound = false;
-      clearTimeout(forgeSettleT);
-      forgeSettleT = 0;
       forgeLastTop = null;
       forgeDir = 'down';
       forgeAcc = 0;
