@@ -221,3 +221,83 @@
   color: var(--cyan);
 }
 .subj-exam.soon { color: var(--red); }
+
+/* ── Forge-in: dashboard subject cards are "created" as they scroll in ──
+   SubjectCard.jsx flips data-build pending -> building when the card
+   enters the viewport (once per session). A cyan scan line sweeps down
+   while the card is revealed under it; then the emoji tile pops, the
+   title is "written" left to right, the stats fade up, the progress bar
+   fills and the chevron slides in. --build-delay (set from JS) only
+   differs during the app-boot reveal. All selectors are deliberately
+   specific so they beat the generic .subj-grid child rise in motion.css. */
+.subj-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  z-index: 3;
+  opacity: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg, transparent, var(--cyan), #fff, var(--cyan), transparent);
+  box-shadow: 0 0 14px 2px rgba(var(--cyan-rgb), 0.8);
+}
+
+.subj-grid > .subj-card.subj-card--build[data-build="pending"] {
+  animation: none;
+  opacity: 0;
+}
+
+.subj-grid > .subj-card.subj-card--build[data-build="building"] {
+  animation: subj-forge 0.95s cubic-bezier(0.55, 0.05, 0.25, 1) var(--build-delay, 0s) backwards;
+}
+.subj-card[data-build="building"] .subj-scan {
+  animation: subj-scan 0.95s cubic-bezier(0.55, 0.05, 0.25, 1) var(--build-delay, 0s) backwards;
+}
+.subj-card[data-build="building"] .subj-emoji {
+  animation: subj-emoji-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--build-delay, 0s) + 0.4s) backwards;
+}
+.subj-card[data-build="building"] .subj-name {
+  animation: subj-write 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.45s) backwards;
+}
+.subj-card[data-build="building"] .subj-foot,
+.subj-card[data-build="building"] .subj-exam {
+  animation: subj-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.65s) backwards;
+}
+.subj-card[data-build="building"] .subj-progress {
+  animation: subj-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.75s) backwards;
+}
+.subj-card[data-build="building"] .subj-progress-bar > span {
+  animation: m-bar-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.9s) backwards;
+}
+.subj-card[data-build="building"] .subj-arrow {
+  animation: subj-arrow-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.8s) backwards;
+}
+
+@keyframes subj-forge {
+  0% { clip-path: inset(0 0 100% 0 round 20px); border-color: rgba(var(--cyan-rgb), 0.9); }
+  70% { border-color: rgba(var(--cyan-rgb), 0.9); }
+  100% { clip-path: inset(0 0 0 0 round 20px); }
+}
+@keyframes subj-scan {
+  0% { top: 0; opacity: 1; }
+  92% { top: calc(100% - 2px); opacity: 1; }
+  100% { top: calc(100% - 2px); opacity: 0; }
+}
+@keyframes subj-emoji-pop {
+  from { opacity: 0; transform: scale(0.3) rotate(-20deg); }
+}
+@keyframes subj-write {
+  from { opacity: 0.2; clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes subj-fade-up {
+  from { opacity: 0; transform: translateY(6px); }
+}
+@keyframes subj-arrow-in {
+  from { opacity: 0; transform: translateX(-10px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .subj-grid > .subj-card.subj-card--build[data-build] { opacity: 1; }
+}

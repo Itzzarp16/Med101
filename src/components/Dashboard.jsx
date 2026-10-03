@@ -295,6 +295,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
                 questionCount={subjectStats[name]?.questionCount}
                 topicCount={subjectStats[name]?.topicCount}
                 trace
+                build
                 exam={examBySubject[name] || null}
                 progress={prog && prog.answered > 0 ? { answered: prog.answered, pct: Math.round((prog.correct / prog.answered) * 100) } : null}
                 onClick={() => (hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
