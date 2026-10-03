@@ -83,6 +83,19 @@ function forgeTick() {
   }
 }
 
+// Once scrolling stops, rebuild any card that should be visible but was
+// erased (e.g. after reaching the top of the page).
+function forgeSettle() {
+  forgeSettleT = 0;
+  const viewH = window.innerHeight;
+  let built = 0;
+  for (const c of forgeCards) {
+    if (!c.el.isConnected) continue;
+    const rect = c.el.getBoundingClientRect();
+    if (rect.top < viewH * ERASE_LINE && rect.bottom > 0 && c.build(built)) built += 1;
+  }
+}
+
 function forgeSchedule() {
   if (!forgeRaf) forgeRaf = requestAnimationFrame(forgeTick);
   clearTimeout(forgeSettleT);
