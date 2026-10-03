@@ -80,6 +80,51 @@ button, a, [role='button'] {
   to { transform: scaleX(1); }
 }
 
+/* ── Boot reveal ───────────────────────────────────────────────
+   Plays once, right after the splash logo lands in the top bar
+   (App.jsx sets <html data-boot> for ~1.8s). The logo stays put;
+   the menu button, online pill and profile chip spring in one after
+   another, the logo gets a brief cyan glow, and a brand-gradient
+   line sweeps across the bottom edge of the bar. Transform/opacity/
+   filter only; fill-mode `backwards` so nothing lingers. */
+html[data-boot] .topbar-left > .topbar-icon-btn {
+  animation: boot-pop 0.5s var(--ease-spring) 0.05s backwards;
+}
+html[data-boot] .topbar-right > * {
+  animation: boot-pop 0.5s var(--ease-spring) backwards;
+}
+html[data-boot] .topbar-right > :nth-child(1) { animation-delay: 0.14s; }
+html[data-boot] .topbar-right > :nth-child(2) { animation-delay: 0.22s; }
+html[data-boot] .topbar-logo-stack-btn {
+  animation: boot-glow 1s ease-out 0.1s backwards;
+}
+html[data-boot] .topbar::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: var(--brand-gradient);
+  transform-origin: left center;
+  pointer-events: none;
+  animation: boot-line 1.2s var(--ease-out-expo) backwards;
+}
+
+@keyframes boot-pop {
+  from { opacity: 0; transform: translateY(-10px) scale(0.7); }
+}
+@keyframes boot-glow {
+  0% { filter: drop-shadow(0 0 0 transparent); }
+  35% { filter: drop-shadow(0 0 10px var(--cyan)) brightness(1.25); }
+  100% { filter: drop-shadow(0 0 0 transparent); }
+}
+@keyframes boot-line {
+  0% { transform: scaleX(0); opacity: 1; }
+  65% { transform: scaleX(1); opacity: 1; }
+  100% { transform: scaleX(1); opacity: 0; }
+}
+
 /* ── Reduced motion ────────────────────────────────────────── 
    No movement. Screen changes keep their own short fade (tokens.css),
    and the live notice marquee is left to its own handling. */

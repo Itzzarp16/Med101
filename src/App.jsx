@@ -436,6 +436,18 @@ export default function App() {
     });
   }, [loaderPhase]);
 
+  // One-shot "boot reveal": once the splash logo has landed in the top
+  // bar, flag <html> briefly so motion.css can pop the top bar's
+  // buttons in one after another and draw a gradient line under it.
+  // The logo itself is untouched (it must stay exactly where it landed).
+  useEffect(() => {
+    if (loaderPhase !== 'done') return undefined;
+    const root = document.documentElement;
+    root.dataset.boot = '1';
+    const t = setTimeout(() => { delete root.dataset.boot; }, 1800);
+    return () => { clearTimeout(t); delete root.dataset.boot; };
+  }, [loaderPhase]);
+
   if (loading) {
     return (
       <div className="app-loading-screen">
