@@ -97,34 +97,34 @@
 }
 
 body.light-mode {
-  --bg: #e8eeff;
-  --bg2: #dde6ff;
+  --bg: #e9edf3;
+  --bg2: #dde3ec;
   --surface: #ffffff;
-  --surface2: #f0f4ff;
-  --border: #c0d0ee;
-  --border2: #aabade;
-  --cyan: #0090c8;
-  --cyan-rgb: 0, 144, 200;
-  --cyan2: #007aaa;
-  --violet: #6633cc;
-  --violet-rgb: 102, 51, 204;
+  --surface2: #f1f4f8;
+  --border: #c8d2df;
+  --border2: #aebccd;
+  --cyan: #3d5c7d;
+  --cyan-rgb: 61, 92, 125;
+  --cyan2: #2f4a66;
+  --violet: #5b5f7d;
+  --violet-rgb: 91, 95, 125;
   --green: #118855;
   --red: #cc1133;
   --amber: #aa7700;
-  --pink: #aa2266;
-  --pink-rgb: 170, 34, 102;
+  --pink: #7d5f6b;
+  --pink-rgb: 125, 95, 107;
   --brand-gradient: linear-gradient(90deg, #1e3a5f, #3d5875, #64748b);
-  --heading: #0090c8;
-  --text: #081428;
-  --text2: #1e3a5c;
-  --text3: #3d6080;
+  --heading: #1e3a5f;
+  --text: #0b1626;
+  --text2: #2a4059;
+  --text3: #4f647c;
   --spec-top: rgba(255, 255, 255, 0.60);
   --spec-side: rgba(255, 255, 255, 0.30);
   --chrome-bg-topbar: #ffffff;
   --chrome-bg-menu: rgba(255, 255, 255, 0.96);
   --chrome-bg-popover: rgba(255, 255, 255, 0.97);
   --chrome-bg-strip: #ffffff;
-  --chrome-bg-overlay: rgba(232, 238, 255, 0.94);
+  --chrome-bg-overlay: rgba(233, 237, 243, 0.94);
   --chrome-border: rgba(0, 0, 0, 0.12);
 }
 
@@ -136,7 +136,7 @@ body.light-mode {
    doesn't set its own family was rendering in the browser's serif. */
 button { font-family: inherit; }
 
-html.light-mode { background: #e8eeff; } /* keep in sync with body.light-mode --bg */
+html.light-mode { background: #e9edf3; } /* keep in sync with body.light-mode --bg */
 
 body {
   margin: 0;
@@ -506,8 +506,11 @@ h1, h2, .display {
 body.light-mode .topbar-logo {
   /* On the light background this contrast problem doesn't exist -
      back to the darker navy stack, which reads as proper depth here. */
-  text-shadow: 0.5px 0.5px 0 var(--brand-wordmark-shadow), 1px 1px 0 var(--brand-wordmark-shadow),
-    1.5px 1.5px 2px rgba(0, 0, 0, 0.3);
+  /* Same metallic read as dark mode: bright rim on the top-left edge, then
+     a slate (not near-black) stepped shadow so the navy-to-slate face
+     stays visible instead of merging into its own shadow. */
+  text-shadow: -0.5px -0.5px 0 rgba(255, 255, 255, 0.85), 0.5px 0.5px 0 rgba(30, 58, 95, 0.55),
+    1px 1px 0 rgba(30, 58, 95, 0.45), 1.5px 1.5px 2px rgba(12, 28, 48, 0.25);
 }
 
 .topbar-tagline {
@@ -1133,8 +1136,8 @@ body.light-mode .menu-item:active {
 }
 
 body.light-mode .app-loading-logo {
-  text-shadow: 1px 1px 0 var(--brand-wordmark-shadow), 2px 2px 0 var(--brand-wordmark-shadow),
-    3px 3px 0 var(--brand-wordmark-shadow), 4px 4px 6px rgba(0, 0, 0, 0.35);
+  text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.85), 1px 1px 0 rgba(30, 58, 95, 0.55),
+    2px 2px 0 rgba(30, 58, 95, 0.45), 3px 3px 6px rgba(12, 28, 48, 0.28);
 }
 
 .app-loading-signature {
