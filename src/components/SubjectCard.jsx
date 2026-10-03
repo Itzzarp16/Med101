@@ -20,40 +20,50 @@ function traceDelayFor(name) {
   return (hash % 26) / 10; // 0 - 2.5s
 }
 
-// Cards that have already played their "forge-in" this session; they
-// don't replay every time the dashboard is revisited.
-const builtThisSession = new Set();
-
 export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
-  // Scroll-triggered build: the card stays hidden until it scrolls into
-  // view, then it is "forged" (scan line + staged content, see
-  // SubjectCard.css). IntersectionObserver missing -> just show it.
+  // Scroll-linked build (see SubjectCard.css). Phases:
+  //   pending    hidden, waiting below the fold
+  //   building   forge-in plays, then the card simply stays visible
+  //   unbuilding reverse animation, played when the card leaves through
+  //              the BOTTOM edge (i.e. the user scrolled back up)
+  // Cards that leave through the top just stay as they are. The
+  // observer is permanent, so this repeats on every scroll pass.
+  // No IntersectionObserver -> 'done' = plain visible card.
   const cardRef = useRef(null);
   const [buildPhase, setBuildPhase] = useState(
-    build ? (builtThisSession.has(name) ? 'done' : 'pending') : undefined
+    build ? (typeof IntersectionObserver === 'undefined' ? 'done' : 'pending') : undefined
   );
   useEffect(() => {
-    if (buildPhase !== 'pending') return undefined;
+    if (!build || typeof IntersectionObserver === 'undefined') return undefined;
     const el = cardRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') {
-      setBuildPhase('done');
-      return undefined;
-    }
+    if (!el) return undefined;
     const io = new IntersectionObserver((entries) => {
-      if (!entries.some((e) => e.isIntersecting)) return;
-      // Cards already on screen during the app-boot reveal wait for the
-      // circle to reach them; cards scrolled to later build right away.
-      const booting = !!el.closest('.boot-reveal');
-      el.style.setProperty('--build-delay', booting ? `${1.2 + Math.min(index ?? 0, 8) * 0.14}s` : '0s');
-      builtThisSession.add(name);
-      setBuildPhase('building');
-      io.disconnect();
-    }, { threshold: 0.2, rootMargin: '0px 0px -6% 0px' });
+      const e = entries[entries.length - 1];
+      if (e.isIntersecting && e.intersectionRatio >= 0.2) {
+        // Cards already on screen during the app-boot reveal wait for
+        // the circle to reach them; every later build starts at once.
+        const booting = !!el.closest('.boot-reveal');
+        el.style.setProperty('--build-delay', booting ? `${1.2 + Math.min(index ?? 0, 8) * 0.14}s` : '0s');
+        setBuildPhase((p) => (p === 'pending' || p === 'unbuilding' ? 'building' : p));
+      } else if (!e.isIntersecting) {
+        const viewH = (e.rootBounds && e.rootBounds.height) || window.innerHeight;
+        const leftThroughBottom = e.boundingClientRect.top > viewH / 2;
+        if (leftThroughBottom) setBuildPhase((p) => (p === 'building' ? 'unbuilding' : p));
+      }
+    }, { threshold: [0, 0.2], rootMargin: '0px 0px -6% 0px' });
     io.observe(el);
     return () => io.disconnect();
-  }, [buildPhase, index, name]);
+  }, [build, index]);
+
+  // unbuilding -> pending once the reverse animation has played (timer is
+  // a safety net in case animationend never fires).
+  useEffect(() => {
+    if (buildPhase !== 'unbuilding') return undefined;
+    const t = setTimeout(() => setBuildPhase((p) => (p === 'unbuilding' ? 'pending' : p)), 600);
+    return () => clearTimeout(t);
+  }, [buildPhase]);
 
   return (
     <button

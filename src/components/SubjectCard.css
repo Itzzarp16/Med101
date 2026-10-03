@@ -223,13 +223,15 @@
 .subj-exam.soon { color: var(--red); }
 
 /* ── Forge-in: dashboard subject cards are "created" as they scroll in ──
-   SubjectCard.jsx flips data-build pending -> building when the card
-   enters the viewport (once per session). A cyan scan line sweeps down
-   while the card is revealed under it; then the emoji tile pops, the
-   title is "written" left to right, the stats fade up, the progress bar
-   fills and the chevron slides in. --build-delay (set from JS) only
-   differs during the app-boot reveal. All selectors are deliberately
-   specific so they beat the generic .subj-grid child rise in motion.css. */
+   SubjectCard.jsx drives data-build (pending / building / unbuilding)
+   from an IntersectionObserver, so it repeats on every scroll pass:
+   scrolling down, a card entering from the bottom is forged (cyan scan
+   line sweeping down, emoji pop, title written, stats fade up, progress
+   fills, chevron slides in); scrolling back up, a card leaving through
+   the bottom is un-forged (scan line sweeps back up, card erased).
+   --build-delay (set from JS) only differs during the app-boot reveal.
+   Selectors are deliberately specific so they beat the generic
+   .subj-grid child rise in motion.css. */
 .subj-scan {
   position: absolute;
   left: 0;
@@ -249,29 +251,35 @@
 }
 
 .subj-grid > .subj-card.subj-card--build[data-build="building"] {
-  animation: subj-forge 0.95s cubic-bezier(0.55, 0.05, 0.25, 1) var(--build-delay, 0s) backwards;
+  animation: subj-forge 0.6s cubic-bezier(0.55, 0.05, 0.25, 1) var(--build-delay, 0s) backwards;
+}
+.subj-grid > .subj-card.subj-card--build[data-build="unbuilding"] {
+  animation: subj-unforge 0.38s cubic-bezier(0.45, 0, 0.75, 0.4) forwards;
 }
 .subj-card[data-build="building"] .subj-scan {
-  animation: subj-scan 0.95s cubic-bezier(0.55, 0.05, 0.25, 1) var(--build-delay, 0s) backwards;
+  animation: subj-scan 0.6s cubic-bezier(0.55, 0.05, 0.25, 1) var(--build-delay, 0s) backwards;
+}
+.subj-card[data-build="unbuilding"] .subj-scan {
+  animation: subj-unscan 0.38s cubic-bezier(0.45, 0, 0.75, 0.4) forwards;
 }
 .subj-card[data-build="building"] .subj-emoji {
-  animation: subj-emoji-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--build-delay, 0s) + 0.4s) backwards;
+  animation: subj-emoji-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--build-delay, 0s) + 0.25s) backwards;
 }
 .subj-card[data-build="building"] .subj-name {
-  animation: subj-write 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.45s) backwards;
+  animation: subj-write 0.4s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.28s) backwards;
 }
 .subj-card[data-build="building"] .subj-foot,
 .subj-card[data-build="building"] .subj-exam {
-  animation: subj-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.65s) backwards;
+  animation: subj-fade-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.4s) backwards;
 }
 .subj-card[data-build="building"] .subj-progress {
-  animation: subj-fade-up 0.5s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.75s) backwards;
+  animation: subj-fade-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.46s) backwards;
 }
 .subj-card[data-build="building"] .subj-progress-bar > span {
-  animation: m-bar-grow 0.9s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.9s) backwards;
+  animation: m-bar-grow 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.55s) backwards;
 }
 .subj-card[data-build="building"] .subj-arrow {
-  animation: subj-arrow-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.8s) backwards;
+  animation: subj-arrow-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.5s) backwards;
 }
 
 @keyframes subj-forge {
@@ -279,10 +287,19 @@
   70% { border-color: rgba(var(--cyan-rgb), 0.9); }
   100% { clip-path: inset(0 0 0 0 round 20px); }
 }
+@keyframes subj-unforge {
+  from { clip-path: inset(0 0 0 0 round 20px); border-color: rgba(var(--cyan-rgb), 0.9); }
+  to { clip-path: inset(0 0 100% 0 round 20px); border-color: rgba(var(--cyan-rgb), 0.9); }
+}
 @keyframes subj-scan {
   0% { top: 0; opacity: 1; }
   92% { top: calc(100% - 2px); opacity: 1; }
   100% { top: calc(100% - 2px); opacity: 0; }
+}
+@keyframes subj-unscan {
+  0% { top: calc(100% - 2px); opacity: 1; }
+  90% { top: 0; opacity: 1; }
+  100% { top: 0; opacity: 0; }
 }
 @keyframes subj-emoji-pop {
   from { opacity: 0; transform: scale(0.3) rotate(-20deg); }
