@@ -431,3 +431,12 @@
   background: var(--brand-gradient);
   border-color: transparent;
 }
+
+/* "Last updated" pill and the on-this-page chips had the same problem as the
+   ghost buttons: a white-at-10% tint that disappears on the light theme. */
+.lp-pill,
+.lp-toc a {
+  color: var(--text);
+  background: rgba(var(--cyan-rgb), 0.10);
+  border: 1px solid rgba(var(--cyan-rgb), 0.38);
+}
