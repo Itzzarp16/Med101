@@ -748,7 +748,7 @@ export default function App() {
             <div
               className="app-loading-fill"
               style={loaderPhase === 'loading'
-                ? { width: loaderBarArmed ? '90%' : '0%', transition: 'width 7s cubic-bezier(0.1, 0.65, 0.25, 1)' }
+                ? { width: loaderBarArmed ? '94%' : '0%', transition: 'width 24s cubic-bezier(0.08, 0.6, 0.3, 1)' }
                 : { width: '100%', transition: 'width 0.35s ease' }}
             />
           </div>
