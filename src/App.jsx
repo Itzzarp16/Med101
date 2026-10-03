@@ -180,6 +180,9 @@ export default function App() {
   // when loading really finishes. Armed after first paint so the
   // transition has a 0% starting point to animate from.
   const [loaderBarArmed, setLoaderBarArmed] = useState(false);
+  // The reveal ring is removed from the DOM the moment its animation is
+  // over (it must never be able to show again afterwards).
+  const [bootRingDone, setBootRingDone] = useState(false);
   useEffect(() => {
     const id = requestAnimationFrame(() => requestAnimationFrame(() => setLoaderBarArmed(true)));
     return () => cancelAnimationFrame(id);
@@ -463,6 +466,7 @@ export default function App() {
     if (loaderPhase !== 'flying') return;
     const root = document.documentElement;
     root.dataset.boot = '1';
+    setTimeout(() => setBootRingDone(true), 2150);
     setTimeout(() => { delete root.dataset.boot; }, 4200);
   }, [loaderPhase]);
 
@@ -846,7 +850,7 @@ export default function App() {
   return (
     <>
     {flying && splashScreen}
-    {flying && <span className="boot-ring" aria-hidden="true" />}
+    {flying && !bootRingDone && <span className="boot-ring" aria-hidden="true" />}
     <div className={flying ? 'boot-reveal' : undefined}>
       {signupNotice && (
         <div className="kicked-banner" onClick={() => setSignupNotice(null)}>
