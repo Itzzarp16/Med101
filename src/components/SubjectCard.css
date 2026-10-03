@@ -222,16 +222,16 @@
 }
 .subj-exam.soon { color: var(--red); }
 
-/* ── Forge-in: dashboard subject cards are "created" as they scroll in ──
-   SubjectCard.jsx drives data-build (pending / building / unbuilding)
-   from an IntersectionObserver, so it repeats on every scroll pass:
-   scrolling down, a card entering from the bottom is forged (cyan scan
-   line sweeping down, emoji pop, title written, stats fade up, progress
-   fills, chevron slides in); scrolling back up, a card leaving through
-   the bottom is un-forged (scan line sweeps back up, card erased).
-   --build-delay (set from JS) only differs during the app-boot reveal.
-   Selectors are deliberately specific so they beat the generic
-   .subj-grid child rise in motion.css. */
+/* ── Scroll-scrubbed entrance for dashboard cards ────────────────────
+   Each card declares a view timeline (--subj); the card and its parts are
+   animated against it, so the build is driven by scroll position and runs
+   backwards when you scroll back up. Windows are expressed as % of the
+   card's "cover" range (card top touching the bottom edge = 0%), so the
+   parts finish one after another over roughly the first 150-200px of
+   travel: card rises + fades in, a cyan scan line sweeps down it, emoji
+   pops, title / stats / progress rise, bar fills, chevron slides in.
+   Keyframes have no `to` on purpose: the end state is the card's normal
+   style, so :hover / :active transforms still work afterwards. */
 .subj-scan {
   position: absolute;
   left: 0;
@@ -244,77 +244,89 @@
   background: linear-gradient(90deg, transparent, var(--cyan), #fff, var(--cyan), transparent);
   box-shadow: 0 0 14px 2px rgba(var(--cyan-rgb), 0.8);
 }
+.subj-grid > .subj-card.subj-card--build { animation: none; }
 
-.subj-grid > .subj-card.subj-card--build[data-build="pending"] {
-  animation: none;
-  opacity: 0;
+@supports (animation-timeline: view()) {
+  .subj-grid > .subj-card.subj-card--build {
+    view-timeline: --subj block;
+    animation: subj-in ease-out both;
+    animation-timeline: --subj;
+    animation-range: cover 0% cover 14%;
+  }
+  .subj-card--build .subj-scan {
+    animation: subj-scan-sweep linear both;
+    animation-timeline: --subj;
+    animation-range: cover 1% cover 15%;
+  }
+  .subj-card--build .subj-emoji {
+    animation: subj-emoji-in ease-out both;
+    animation-timeline: --subj;
+    animation-range: cover 3% cover 15%;
+  }
+  .subj-card--build .subj-name {
+    animation: subj-part-in ease-out both;
+    animation-timeline: --subj;
+    animation-range: cover 4% cover 16%;
+  }
+  .subj-card--build .subj-foot,
+  .subj-card--build .subj-exam {
+    animation: subj-part-in ease-out both;
+    animation-timeline: --subj;
+    animation-range: cover 5% cover 17%;
+  }
+  .subj-card--build .subj-progress {
+    animation: subj-part-in ease-out both;
+    animation-timeline: --subj;
+    animation-range: cover 6% cover 18%;
+  }
+  .subj-card--build .subj-progress-bar > span {
+    transform-origin: left center;
+    animation: subj-bar-in ease-out both;
+    animation-timeline: --subj;
+    animation-range: cover 7% cover 19%;
+  }
+  .subj-card--build .subj-arrow {
+    animation: subj-arrow-in ease-out both;
+    animation-timeline: --subj;
+    animation-range: cover 5% cover 16%;
+  }
 }
 
-.subj-grid > .subj-card.subj-card--build[data-build="building"] {
-  animation: subj-forge 0.6s cubic-bezier(0.55, 0.05, 0.25, 1) var(--build-delay, 0s) backwards;
+@keyframes subj-in {
+  from { opacity: 0; transform: translateY(26px) scale(0.955); border-color: rgba(var(--cyan-rgb), 0.75); }
 }
-.subj-grid > .subj-card.subj-card--build[data-build="unbuilding"] {
-  animation: subj-unforge 0.38s cubic-bezier(0.45, 0, 0.75, 0.4) forwards;
-}
-.subj-card[data-build="building"] .subj-scan {
-  animation: subj-scan 0.6s cubic-bezier(0.55, 0.05, 0.25, 1) var(--build-delay, 0s) backwards;
-}
-.subj-card[data-build="unbuilding"] .subj-scan {
-  animation: subj-unscan 0.38s cubic-bezier(0.45, 0, 0.75, 0.4) forwards;
-}
-.subj-card[data-build="building"] .subj-emoji {
-  animation: subj-emoji-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--build-delay, 0s) + 0.25s) backwards;
-}
-.subj-card[data-build="building"] .subj-name {
-  animation: subj-write 0.4s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.28s) backwards;
-}
-.subj-card[data-build="building"] .subj-foot,
-.subj-card[data-build="building"] .subj-exam {
-  animation: subj-fade-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.4s) backwards;
-}
-.subj-card[data-build="building"] .subj-progress {
-  animation: subj-fade-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.46s) backwards;
-}
-.subj-card[data-build="building"] .subj-progress-bar > span {
-  animation: m-bar-grow 0.6s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.55s) backwards;
-}
-.subj-card[data-build="building"] .subj-arrow {
-  animation: subj-arrow-in 0.3s cubic-bezier(0.22, 1, 0.36, 1) calc(var(--build-delay, 0s) + 0.5s) backwards;
-}
-
-@keyframes subj-forge {
-  0% { clip-path: inset(0 0 100% 0 round 20px); border-color: rgba(var(--cyan-rgb), 0.9); }
-  70% { border-color: rgba(var(--cyan-rgb), 0.9); }
-  100% { clip-path: inset(0 0 0 0 round 20px); }
-}
-@keyframes subj-unforge {
-  from { clip-path: inset(0 0 0 0 round 20px); border-color: rgba(var(--cyan-rgb), 0.9); }
-  to { clip-path: inset(0 0 100% 0 round 20px); border-color: rgba(var(--cyan-rgb), 0.9); }
-}
-@keyframes subj-scan {
-  0% { top: 0; opacity: 1; }
-  92% { top: calc(100% - 2px); opacity: 1; }
+@keyframes subj-scan-sweep {
+  0% { top: 0; opacity: 0; }
+  12% { opacity: 1; }
+  88% { opacity: 1; }
   100% { top: calc(100% - 2px); opacity: 0; }
 }
-@keyframes subj-unscan {
-  0% { top: calc(100% - 2px); opacity: 1; }
-  90% { top: 0; opacity: 1; }
-  100% { top: 0; opacity: 0; }
+@keyframes subj-emoji-in {
+  from { opacity: 0; transform: scale(0.45) rotate(-14deg); }
 }
-@keyframes subj-emoji-pop {
-  from { opacity: 0; transform: scale(0.3) rotate(-20deg); }
+@keyframes subj-part-in {
+  from { opacity: 0; transform: translateY(8px); }
 }
-@keyframes subj-write {
-  from { opacity: 0.2; clip-path: inset(0 100% 0 0); }
-  to { clip-path: inset(0 0 0 0); }
-}
-@keyframes subj-fade-up {
-  from { opacity: 0; transform: translateY(6px); }
+@keyframes subj-bar-in {
+  from { transform: scaleX(0); }
 }
 @keyframes subj-arrow-in {
   from { opacity: 0; transform: translateX(-10px); }
 }
 
+/* No scroll-driven animation support: each card rises in once on first view. */
+@supports not (animation-timeline: view()) {
+  .subj-card--build[data-reveal="pending"] {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+  .subj-card--build[data-reveal="in"] {
+    transition: opacity 0.55s ease-out, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .subj-grid > .subj-card.subj-card--build[data-build] { opacity: 1; }
+  .subj-grid > .subj-card.subj-card--build,
+  .subj-card--build * { animation: none !important; }
+  .subj-card--build[data-reveal] { opacity: 1; transform: none; transition: none; }
 }

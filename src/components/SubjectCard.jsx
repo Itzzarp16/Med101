@@ -20,152 +20,46 @@ function traceDelayFor(name) {
   return (hash % 26) / 10; // 0 - 2.5s
 }
 
-// ── Scroll-linked forge controller ─────────────────────────────────────
-// One shared, rAF-throttled scroll listener for every build-enabled card.
-// A previous IntersectionObserver version flickered because state only
-// changed at threshold crossings (cards sat half-hidden/half-built) and
-// flipped back and forth when the scroll jittered. This version decides
-// from scroll DIRECTION plus fixed lines, so nothing can toggle twice:
-//   scrolling down: any card whose top is above the BUILD line is built
-//   scrolling up:   any card whose top is below the ERASE line is erased
-// and nothing else ever changes. Direction only flips after ~10px of
-// movement the other way, so momentum/bounce jitter is ignored.
-const BUILD_LINE = 0.86; // fraction of viewport height
-const ERASE_LINE = 0.92; // BUILD_LINE is higher up the screen, so an erased card never comes back until you really scroll down again
-const forgeCards = new Set();
-let forgeDir = 'down';
-let forgeLastTop = null;
-let forgeAcc = 0;
-let forgeRaf = 0;
-let forgeBound = false;
-
-function forgeTick() {
-  forgeRaf = 0;
-  const viewH = window.innerHeight;
-  let ref = null;
-  for (const c of forgeCards) {
-    if (c.el.isConnected) { ref = c; break; }
-  }
-  if (!ref) { forgeLastTop = null; return; }
-  const top = ref.el.getBoundingClientRect().top;
-  if (forgeLastTop !== null) {
-    const d = top - forgeLastTop; // negative = page moved up = scrolling down
-    if (d < 0) forgeAcc = Math.min(forgeAcc, 0) + d;
-    else if (d > 0) forgeAcc = Math.max(forgeAcc, 0) + d;
-    if (forgeAcc <= -14) forgeDir = 'down';
-    else if (forgeAcc >= 10) forgeDir = 'up';
-  }
-  forgeLastTop = top;
-  let built = 0;
-  for (const c of forgeCards) {
-    if (!c.el.isConnected) continue;
-    const rect = c.el.getBoundingClientRect();
-    if (forgeDir === 'down') {
-      if (rect.top < viewH * BUILD_LINE && rect.bottom > 0 && c.build(built)) built += 1;
-    }
-  }
-  if (forgeDir === 'up') {
-    // One card at a time: only the single card that is just now sliding off
-    // the bottom edge plays its erase animation. Cards already fully below
-    // the screen are reset silently (nobody can see them).
-    let next = null;
-    let nextTop = Infinity;
-    let busy = false;
-    for (const c of forgeCards) {
-      if (!c.el.isConnected) continue;
-      const top = c.el.getBoundingClientRect().top;
-      if (c.isErasing()) busy = true;
-      if (top >= viewH) c.erase(true);
-      else if (top > viewH * ERASE_LINE && top < nextTop && c.isBuilt()) { next = c; nextTop = top; }
-    }
-    if (next && !busy) next.erase(false);
-  }
-}
-
-function forgeSchedule() {
-  if (!forgeRaf) forgeRaf = requestAnimationFrame(forgeTick);
-}
-
-function forgeRegister(card) {
-  forgeCards.add(card);
-  if (!forgeBound) {
-    forgeBound = true;
-    document.addEventListener('scroll', forgeSchedule, { capture: true, passive: true });
-    window.addEventListener('resize', forgeSchedule, { passive: true });
-  }
-  forgeSchedule();
-  return () => {
-    forgeCards.delete(card);
-    if (forgeCards.size === 0 && forgeBound) {
-      forgeBound = false;
-      forgeLastTop = null;
-      forgeDir = 'down';
-      forgeAcc = 0;
-      document.removeEventListener('scroll', forgeSchedule, { capture: true });
-      window.removeEventListener('resize', forgeSchedule);
-    }
-  };
-}
+// ── Scroll-scrubbed entrance (dashboard cards, `build` prop) ───────────
+// The card's entrance is tied directly to scroll position, not triggered by
+// it: SubjectCard.css animates every card with a CSS view() timeline, so as a
+// card rises from the bottom edge it builds in step with your finger, and
+// scrolling back up plays the exact same motion in reverse, one card at a
+// time as each one crosses the bottom edge. No JS runs per scroll frame, no
+// timers, no direction guessing, so nothing can flicker or pop.
+//
+// Browsers without scroll-driven animations (older Safari/Firefox) get a
+// simple fallback instead: each card fades and rises in once, the first time
+// it enters the screen, and then stays put.
+const SCROLL_TIMELINE =
+  typeof CSS !== 'undefined' && typeof CSS.supports === 'function' &&
+  CSS.supports('animation-timeline: view()');
 
 export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
-  // Scroll-linked build (see SubjectCard.css + controller above). Phases:
-  //   pending    hidden, waiting below the build line
-  //   building   forge-in plays, then the card simply stays visible
-  //   unbuilding reverse animation, played when scrolling back up past
-  //              the erase line; then back to pending
-  // Cards above the viewport are left alone. Repeats on every pass.
+  // Fallback only (no scroll-driven animation support): reveal once on first view.
   const cardRef = useRef(null);
-  const phaseRef = useRef(build ? 'pending' : undefined);
-  const [buildPhase, setBuildPhaseState] = useState(phaseRef.current);
-  const setBuildPhase = (next) => {
-    const value = typeof next === 'function' ? next(phaseRef.current) : next;
-    phaseRef.current = value;
-    setBuildPhaseState(value);
-  };
+  const fallback = !!build && !SCROLL_TIMELINE;
+  const [revealed, setRevealed] = useState(false);
   useEffect(() => {
-    if (!build) return undefined;
+    if (!fallback) return undefined;
     const el = cardRef.current;
     if (!el) return undefined;
-    return forgeRegister({
-      el,
-      // Returns true when it actually started a build (for staggering).
-      build: (order) => {
-        if (phaseRef.current !== 'pending' && phaseRef.current !== 'unbuilding') return false;
-        // Cards on screen during the app-boot reveal wait for the circle
-        // to reach them; later builds start at once, staggered a little
-        // when several cards appear in the same frame.
-        const booting = !!el.closest('.boot-reveal');
-        const delay = booting ? 1.2 + Math.min(index ?? 0, 8) * 0.14 : order * 0.07;
-        el.style.setProperty('--build-delay', `${delay}s`);
-        setBuildPhase('building');
-        return true;
-      },
-      isBuilt: () => phaseRef.current === 'building',
-      isErasing: () => phaseRef.current === 'unbuilding',
-      erase: (silent) => {
-        if (silent) {
-          if (phaseRef.current === 'building' || phaseRef.current === 'unbuilding') setBuildPhase('pending');
-        } else if (phaseRef.current === 'building') setBuildPhase('unbuilding');
-      },
-    });
-  }, [build, index]);
-
-  // unbuilding -> pending once the reverse animation has played (timer is
-  // a safety net in case animationend never fires).
-  useEffect(() => {
-    if (buildPhase !== 'unbuilding') return undefined;
-    const t = setTimeout(() => setBuildPhase((p) => (p === 'unbuilding' ? 'pending' : p)), 600);
-    return () => clearTimeout(t);
-  }, [buildPhase]);
+    if (typeof IntersectionObserver === 'undefined') { setRevealed(true); return undefined; }
+    const io = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) { setRevealed(true); io.disconnect(); }
+    }, { threshold: 0.12, rootMargin: '0px 0px -4% 0px' });
+    io.observe(el);
+    return () => io.disconnect();
+  }, [fallback]);
 
   return (
     <button
       ref={cardRef}
       className={`${trace ? 'subj-card subj-card--dash' : 'subj-card'}${build ? ' subj-card--build' : (index != null ? ' stagger-in' : '')}`}
       style={index != null ? { '--stagger-i': Math.min(index, 8) } : undefined}
-      data-build={buildPhase}
+      data-reveal={fallback ? (revealed ? 'in' : 'pending') : undefined}
       onClick={onClick}
     >
       {build && <span className="subj-scan" aria-hidden="true" />}
