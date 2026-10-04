@@ -368,6 +368,20 @@ function draw3DText(doc, text, x, y, { align = 'left' } = {}) {
   doc.text(text, x, y, { align });
 }
 
+// The tagline sits under the wordmark as one lockup: same left/right
+// edges, same length. Letter-spacing is solved from the wordmark's
+// measured width instead of a fixed value, so the two lines match at
+// every size (the header and the closing signature use different sizes,
+// and a fixed spacing left the closing tagline hanging out past the
+// wordmark). Returns the tagline's charSpace.
+const TAGLINE = 'LEARN. PRACTICE. IMPROVE.';
+function fitTaglineSpacing(doc, targetWidth, fontSize) {
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(fontSize);
+  const natural = doc.getTextWidth(TAGLINE);
+  return (targetWidth - natural) / (TAGLINE.length - 1);
+}
+
 function arrayBufferToBase64(buffer) {
   let binary = '';
   const bytes = new Uint8Array(buffer);
@@ -420,15 +434,17 @@ function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBy
 
   doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
   doc.setFontSize(hasSyne ? 22 : 20);
+  const markWidth = doc.getTextWidth('Med101');
   draw3DText(doc, 'Med101', textStartX, 34);
 
   // Tight gap to the tagline, matching the site's own topbar lockup
-  // (.topbar-logo-stack: line-height 1, 1px margin) rather than the
-  // looser spacing a plain two-line text block defaults to.
+  // (.topbar-logo-stack: line-height 1, 1px margin). Tagline is stretched
+  // to exactly the wordmark's width (see fitTaglineSpacing).
+  const headerCs = fitTaglineSpacing(doc, markWidth, 7.5);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(...TEXT_MUTED);
-  doc.text('LEARN. PRACTICE. IMPROVE.', textStartX, 44, { charSpace: 1.1 });
+  doc.text(TAGLINE, textStartX, 44, { charSpace: headerCs });
 
   doc.setTextColor(...NAVY);
   doc.setFont('helvetica', 'bold');
@@ -782,20 +798,17 @@ export async function buildUserDataExportPdf(uid) {
   doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
   doc.setTextColor(...NAVY);
   doc.setFontSize(hasSyne ? 17 : 15);
+  const closingMarkWidth = doc.getTextWidth('Med101');
   draw3DText(doc, 'Med101', pageWidth - marginX, y, { align: 'right' });
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(6.5);
-  doc.setTextColor(...TEXT_MUTED);
   {
-    // Same jsPDF align+charSpace width-measurement bug noted above -
-    // compute the letter-spaced width by hand and left-align there
-    // instead of trusting align:'right' to account for it. Gap to the
-    // wordmark above kept tight (matching .topbar-logo-stack) rather
-    // than the looser spacing plain two-line text defaults to.
-    const tagline = 'LEARN. PRACTICE. IMPROVE.';
-    const charSpaceVal = 1.1;
-    const taglineWidth = doc.getTextWidth(tagline) + charSpaceVal * (tagline.length - 1);
-    doc.text(tagline, pageWidth - marginX - taglineWidth, y + 8, { charSpace: charSpaceVal });
+    // Same lockup rule as the header: tagline exactly as long as the
+    // wordmark, right edges aligned. jsPDF's align:'right' ignores
+    // charSpace when measuring, so left-align at the computed position.
+    const cs = fitTaglineSpacing(doc, closingMarkWidth, 6.5);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(6.5);
+    doc.setTextColor(...TEXT_MUTED);
+    doc.text(TAGLINE, pageWidth - marginX - closingMarkWidth, y + 8, { charSpace: cs });
   }
 
   // --- Footer on every page: page numbers + confidentiality note ---
