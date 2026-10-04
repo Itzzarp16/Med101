@@ -118,7 +118,7 @@ export default function SettingsScreen({ onBack, onProfile }) {
 
       <div className="set-section-label">Preferences</div>
       <div className="glass set-card set-rows">
-        <div className="set-row">
+        <div className="set-row set-tap" onClick={toggleTheme}>
           <span>{light ? '☀️ Light mode' : '🌙 Dark mode'}</span>
           <button
             type="button"
@@ -126,10 +126,10 @@ export default function SettingsScreen({ onBack, onProfile }) {
             aria-checked={light}
             aria-label="Light mode"
             className={light ? 'set-switch on' : 'set-switch'}
-            onClick={toggleTheme}
+            onClick={(e) => { e.stopPropagation(); toggleTheme(); }}
           />
         </div>
-        <div className="set-row">
+        <div className="set-row set-tap" onClick={toggleSound}>
           <span>{muted ? '🔇 Sound off' : '🔊 Sound on'}</span>
           <button
             type="button"
@@ -137,11 +137,14 @@ export default function SettingsScreen({ onBack, onProfile }) {
             aria-checked={!muted}
             aria-label="Sound"
             className={!muted ? 'set-switch on' : 'set-switch'}
-            onClick={toggleSound}
+            onClick={(e) => { e.stopPropagation(); toggleSound(); }}
           />
         </div>
         {pushOk && (
-          <div className="set-row">
+          <div
+            className={'set-row set-tap' + ((pushBusy || (pushPermission() === 'denied' && !pushOn)) ? ' is-disabled' : '')}
+            onClick={() => { if (!(pushBusy || (pushPermission() === 'denied' && !pushOn))) togglePush(); }}
+          >
             <span>{pushOn ? '🔔 Invite notifications on' : '🔕 Invite notifications off'}</span>
             <button
               type="button"
@@ -150,7 +153,7 @@ export default function SettingsScreen({ onBack, onProfile }) {
               aria-label="Challenge invite notifications"
               disabled={pushBusy || (pushPermission() === 'denied' && !pushOn)}
               className={pushOn ? 'set-switch on' : 'set-switch'}
-              onClick={togglePush}
+              onClick={(e) => { e.stopPropagation(); togglePush(); }}
             />
           </div>
         )}

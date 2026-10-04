@@ -49,6 +49,9 @@
 }
 .set-rows > .set-row:last-child { border-bottom: none; }
 a.set-row, .set-link { cursor: pointer; }
+.set-tap { cursor: pointer; }
+.set-tap:active { opacity: 0.7; }
+.set-tap.is-disabled { cursor: default; opacity: 0.6; }
 .set-chev { color: var(--text3); font-size: 18px; }
 .set-signout { color: var(--red); font-weight: 600; }
 .set-switch {
