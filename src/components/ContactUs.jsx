@@ -3,7 +3,7 @@ import { LegalPageFrame } from './LegalKit';
 
 // Public, no-auth route (see main.jsx) - needs to be reachable
 // without signing in.
-const EMAIL = 'admin.med101@gmail.com';
+const EMAIL = 'support@med101.space';
 const WHATSAPP_URL = 'https://chat.whatsapp.com/Kn2NDwg7Wij5VQbs35hYMx?s=cl&p=a&mlu=4&ilr=4';
 
 export default function ContactUs() {

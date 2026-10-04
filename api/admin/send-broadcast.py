@@ -111,7 +111,7 @@ BACKUP_COLLECTIONS = ['paymentRequests', 'activationCodes']
 BACKUP_SINGLE_DOCS = [('config', 'subscription')]
 BACKUP_TO = [a.strip() for a in os.environ.get('BACKUP_EMAIL_TO', 'admin.med101@gmail.com').split(',') if a.strip()]
 FROM_EMAIL = os.environ.get('FROM_EMAIL', 'Med101 Admin <admin@med101.space>')
-REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'admin.med101@gmail.com')
+REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'support@med101.space')
 BACKUP_COOLDOWN_S = 30
 GZIP_ABOVE_BYTES = 12 * 1024 * 1024  # Resend allows ~40 MB per email; stay well under
 

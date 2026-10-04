@@ -13,7 +13,7 @@ Resend sends through a properly domain-authenticated (SPF/DKIM)
 sending path instead, which is far more reliable.
 
 To still keep the "feels like it's from the admin" intent,
-Reply-To is set to admin.med101@gmail.com - the visible From address
+Reply-To is set to support@med101.space - the visible From address
 is a med101.space one, but hitting Reply in an email client goes
 straight to that Gmail inbox.
 
@@ -35,7 +35,7 @@ Required env vars: same as api/send-welcome-email.py -
   FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
   RESEND_API_KEY
   FROM_EMAIL (optional, defaults to 'Med101 Admin <admin@med101.space>')
-  REPLY_TO_EMAIL (optional, defaults to 'admin.med101@gmail.com')
+  REPLY_TO_EMAIL (optional, defaults to 'support@med101.space')
 """
 
 import html
@@ -61,7 +61,7 @@ ADMIN_EMAILS = {
 ALLOWED_ORIGINS = {'https://med101.space', 'https://www.med101.space'}
 
 FROM_EMAIL = os.environ.get('FROM_EMAIL', 'Med101 Admin <admin@med101.space>')
-REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'admin.med101@gmail.com')
+REPLY_TO_EMAIL = os.environ.get('REPLY_TO_EMAIL', 'support@med101.space')
 
 # A base64-encoded PDF stays well under Vercel's 4.5MB serverless
 # request body limit even for a very active student's full history.

@@ -24,7 +24,7 @@ export default function TermsAndConditions() {
       current="terms"
       eyebrow="Legal"
       title="Terms & Conditions"
-      updated="22 September 2026"
+      updated="4 October 2026"
       toc={TOC}
     >
       <p className="lp-intro">
@@ -137,7 +137,7 @@ export default function TermsAndConditions() {
     <p>
           Questions about these Terms, a payment, or your account can be
           sent to:{' '}
-          <a href="mailto:admin.med101@gmail.com">admin.med101@gmail.com</a>
+          <a href="mailto:support@med101.space">support@med101.space</a>
         </p>
       </Section>
     </LegalPageFrame>
