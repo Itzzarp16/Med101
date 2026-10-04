@@ -506,11 +506,13 @@ h1, h2, .display {
 body.light-mode .topbar-logo {
   /* On the light background this contrast problem doesn't exist -
      back to the darker navy stack, which reads as proper depth here. */
-  /* Same metallic read as dark mode: bright rim on the top-left edge, then
-     a slate (not near-black) stepped shadow so the navy-to-slate face
-     stays visible instead of merging into its own shadow. */
-  text-shadow: -0.5px -0.5px 0 rgba(255, 255, 255, 0.85), 0.5px 0.5px 0 rgba(30, 58, 95, 0.55),
-    1px 1px 0 rgba(30, 58, 95, 0.45), 1.5px 1.5px 2px rgba(12, 28, 48, 0.25);
+  /* The fill is transparent (gradient text), so the FIRST text-shadow layer
+     is what you actually see as the letter face - it covers the glyph. A
+     near-white first layer made the wordmark wash out on the light
+     background. First layer is now a mid steel-blue face, then a white rim
+     that only peeks out on the top-left edge, then navy depth steps. */
+  text-shadow: 0.4px 0.4px 0 #51647d, -0.5px -0.5px 0 rgba(255, 255, 255, 0.9),
+    1px 1px 0 #1e3a5f, 1.5px 1.5px 0 #1e3a5f, 2px 2px 3px rgba(12, 28, 48, 0.3);
 }
 
 .topbar-tagline {
@@ -1136,8 +1138,8 @@ body.light-mode .menu-item:active {
 }
 
 body.light-mode .app-loading-logo {
-  text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.85), 1px 1px 0 rgba(30, 58, 95, 0.55),
-    2px 2px 0 rgba(30, 58, 95, 0.45), 3px 3px 6px rgba(12, 28, 48, 0.28);
+  text-shadow: 0.6px 0.6px 0 #51647d, -1px -1px 0 rgba(255, 255, 255, 0.9),
+    1.5px 1.5px 0 #1e3a5f, 2.5px 2.5px 0 #1e3a5f, 3.5px 3.5px 5px rgba(12, 28, 48, 0.3);
 }
 
 .app-loading-signature {
