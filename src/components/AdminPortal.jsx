@@ -233,7 +233,7 @@ export default function AdminPortal() {
       <aside className="admin-side">
         <div className="admin-side-brand">
           <span className="admin-portal-badge">ADMIN</span>
-          <span className="admin-side-name">Med101</span>
+          <span className="admin-side-name topbar-logo">Med101</span>
         </div>
 
         <nav className="admin-side-nav" aria-label="Admin sections">
