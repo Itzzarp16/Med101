@@ -58,9 +58,9 @@ export default function AboutUs() {
         />
         <Person
           photo="/about-friend.jpg"
-          alt="Quality Assurance Lead"
+          alt="Aaditya Singh"
           role="Quality assurance"
-          name="Quality Assurance Lead"
+          name="Aaditya Singh"
           about="Hunts down bugs on the site so you don't have to."
           handle="walker101z"
           href="https://www.instagram.com/walker101z"
