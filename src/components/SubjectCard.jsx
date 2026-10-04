@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import './SubjectCard.css';
 
 // Old site's .subj-card layout exactly (flat glass row, emoji left,
@@ -21,45 +21,83 @@ function traceDelayFor(name) {
 }
 
 // ── Scroll-scrubbed entrance (dashboard cards, `build` prop) ───────────
-// The card's entrance is tied directly to scroll position, not triggered by
-// it: SubjectCard.css animates every card with a CSS view() timeline, so as a
-// card rises from the bottom edge it builds in step with your finger, and
-// scrolling back up plays the exact same motion in reverse, one card at a
-// time as each one crosses the bottom edge. No JS runs per scroll frame, no
-// timers, no direction guessing, so nothing can flicker or pop.
-//
-// Browsers without scroll-driven animations (older Safari/Firefox) get a
-// simple fallback instead: each card fades and rises in once, the first time
-// it enters the screen, and then stays put.
-const SCROLL_TIMELINE =
-  typeof CSS !== 'undefined' && typeof CSS.supports === 'function' &&
-  CSS.supports('animation-timeline: view()');
+// Every card gets a progress value --p (0..1) from where it sits on screen:
+// 0 while its top is at/below the bottom edge, 1 once it has risen ~170px.
+// SubjectCard.css turns --p into the build (card drawn top to bottom under a
+// cyan scan line, emoji pops, title written, stats / progress / chevron
+// follow). Because --p is a pure function of scroll position there is no
+// state machine: scrolling down builds, scrolling back up un-builds in
+// reverse, and nothing can flicker. Done in JS (not CSS view() timelines)
+// so it behaves the same in every browser. One shared rAF-throttled scroll
+// listener; reads are batched before writes.
+const REVEAL_RANGE = 170; // px of travel from the bottom edge to fully built
+const scrubCards = new Set();
+const scrubLast = new WeakMap();
+let scrubRaf = 0;
+let scrubBound = false;
+
+function scrubTick() {
+  scrubRaf = 0;
+  const viewH = window.innerHeight;
+  const reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const reads = [];
+  scrubCards.forEach((el) => {
+    if (el.isConnected) reads.push([el, el.getBoundingClientRect().top]);
+  });
+  reads.forEach(([el, top]) => {
+    let p = reduce ? 1 : (viewH - top) / REVEAL_RANGE;
+    p = p < 0 ? 0 : p > 1 ? 1 : Math.round(p * 200) / 200;
+    if (scrubLast.get(el) === p) return;
+    scrubLast.set(el, p);
+    el.style.setProperty('--p', String(p));
+    el.dataset.forge = p >= 1 ? '1' : '0';
+  });
+}
+
+function scrubSchedule() {
+  if (!scrubRaf) scrubRaf = requestAnimationFrame(scrubTick);
+}
+
+function scrubRegister(el) {
+  scrubCards.add(el);
+  if (!scrubBound) {
+    scrubBound = true;
+    document.addEventListener('scroll', scrubSchedule, { capture: true, passive: true });
+    window.addEventListener('resize', scrubSchedule, { passive: true });
+  }
+  // Layout can shift after mount without any scroll (banners, fonts, data
+  // arriving), so re-measure a few times while things settle.
+  const timers = [150, 500, 1200, 2500].map((ms) => setTimeout(scrubSchedule, ms));
+  return () => {
+    timers.forEach(clearTimeout);
+    scrubCards.delete(el);
+    if (scrubCards.size === 0 && scrubBound) {
+      scrubBound = false;
+      document.removeEventListener('scroll', scrubSchedule, { capture: true });
+      window.removeEventListener('resize', scrubSchedule);
+    }
+  };
+}
 
 export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
-  // Fallback only (no scroll-driven animation support): reveal once on first view.
   const cardRef = useRef(null);
-  const fallback = !!build && !SCROLL_TIMELINE;
-  const [revealed, setRevealed] = useState(false);
-  useEffect(() => {
-    if (!fallback) return undefined;
+  // Layout effect so the first measurement happens before paint (no flash of
+  // fully-built cards sitting below the fold).
+  useLayoutEffect(() => {
+    if (!build || !cardRef.current) return undefined;
     const el = cardRef.current;
-    if (!el) return undefined;
-    if (typeof IntersectionObserver === 'undefined') { setRevealed(true); return undefined; }
-    const io = new IntersectionObserver((entries) => {
-      if (entries.some((e) => e.isIntersecting)) { setRevealed(true); io.disconnect(); }
-    }, { threshold: 0.12, rootMargin: '0px 0px -4% 0px' });
-    io.observe(el);
-    return () => io.disconnect();
-  }, [fallback]);
+    const cleanup = scrubRegister(el);
+    scrubTick();
+    return cleanup;
+  }, [build]);
 
   return (
     <button
       ref={cardRef}
       className={`${trace ? 'subj-card subj-card--dash' : 'subj-card'}${build ? ' subj-card--build' : (index != null ? ' stagger-in' : '')}`}
       style={index != null ? { '--stagger-i': Math.min(index, 8) } : undefined}
-      data-reveal={fallback ? (revealed ? 'in' : 'pending') : undefined}
       onClick={onClick}
     >
       {build && <span className="subj-scan" aria-hidden="true" />}

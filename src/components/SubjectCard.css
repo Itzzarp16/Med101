@@ -223,110 +223,73 @@
 .subj-exam.soon { color: var(--red); }
 
 /* ── Scroll-scrubbed entrance for dashboard cards ────────────────────
-   Each card declares a view timeline (--subj); the card and its parts are
-   animated against it, so the build is driven by scroll position and runs
-   backwards when you scroll back up. Windows are expressed as % of the
-   card's "cover" range (card top touching the bottom edge = 0%), so the
-   parts finish one after another over roughly the first 150-200px of
-   travel: card rises + fades in, a cyan scan line sweeps down it, emoji
-   pops, title / stats / progress rise, bar fills, chevron slides in.
-   Keyframes have no `to` on purpose: the end state is the card's normal
-   style, so :hover / :active transforms still work afterwards. */
+   SubjectCard.jsx sets --p (0..1) on each card from its position on screen
+   (0 = card top at the bottom edge, 1 = risen ~170px). Everything below is
+   a pure function of --p, so scrolling down builds the card and scrolling
+   up runs it in reverse. Parts finish one after another: the card is drawn
+   top to bottom under a cyan scan line, then emoji pops, title is written
+   left to right, stats / progress bar / chevron follow. The card itself is
+   never transformed (its position is what --p is measured from).
+   data-forge="1" (fully built) switches the clips off so shadows and :hover
+   behave normally. */
+.subj-grid > .subj-card.subj-card--build {
+  animation: none;
+  --p: 1;
+  --a: clamp(0, calc(var(--p) / 0.55), 1);
+  --e: clamp(0, calc((var(--p) - 0.15) / 0.45), 1);
+  --n: clamp(0, calc((var(--p) - 0.2) / 0.45), 1);
+  --f: clamp(0, calc((var(--p) - 0.3) / 0.45), 1);
+  --g: clamp(0, calc((var(--p) - 0.4) / 0.45), 1);
+  --r: clamp(0, calc((var(--p) - 0.3) / 0.5), 1);
+}
+.subj-grid > .subj-card.subj-card--build[data-forge="0"] {
+  clip-path: inset(0 0 calc((1 - var(--a)) * 100%) 0 round 20px);
+  border-color: rgba(var(--cyan-rgb), 0.75);
+}
+
 .subj-scan {
   position: absolute;
   left: 0;
   right: 0;
-  top: 0;
+  top: calc(var(--a, 1) * (100% - 2px));
   height: 2px;
   z-index: 3;
-  opacity: 0;
+  opacity: calc(clamp(0, calc(var(--p, 1) * 14), 1) * clamp(0, calc((0.62 - var(--p, 1)) * 10), 1));
   pointer-events: none;
   background: linear-gradient(90deg, transparent, var(--cyan), #fff, var(--cyan), transparent);
   box-shadow: 0 0 14px 2px rgba(var(--cyan-rgb), 0.8);
 }
-.subj-grid > .subj-card.subj-card--build { animation: none; }
 
-@supports (animation-timeline: view()) {
-  .subj-grid > .subj-card.subj-card--build {
-    view-timeline: --subj block;
-    animation: subj-in ease-out both;
-    animation-timeline: --subj;
-    animation-range: cover 0% cover 14%;
-  }
-  .subj-card--build .subj-scan {
-    animation: subj-scan-sweep linear both;
-    animation-timeline: --subj;
-    animation-range: cover 1% cover 15%;
-  }
-  .subj-card--build .subj-emoji {
-    animation: subj-emoji-in ease-out both;
-    animation-timeline: --subj;
-    animation-range: cover 3% cover 15%;
-  }
-  .subj-card--build .subj-name {
-    animation: subj-part-in ease-out both;
-    animation-timeline: --subj;
-    animation-range: cover 4% cover 16%;
-  }
-  .subj-card--build .subj-foot,
-  .subj-card--build .subj-exam {
-    animation: subj-part-in ease-out both;
-    animation-timeline: --subj;
-    animation-range: cover 5% cover 17%;
-  }
-  .subj-card--build .subj-progress {
-    animation: subj-part-in ease-out both;
-    animation-timeline: --subj;
-    animation-range: cover 6% cover 18%;
-  }
-  .subj-card--build .subj-progress-bar > span {
-    transform-origin: left center;
-    animation: subj-bar-in ease-out both;
-    animation-timeline: --subj;
-    animation-range: cover 7% cover 19%;
-  }
-  .subj-card--build .subj-arrow {
-    animation: subj-arrow-in ease-out both;
-    animation-timeline: --subj;
-    animation-range: cover 5% cover 16%;
-  }
+.subj-card--build[data-forge="0"] .subj-emoji {
+  opacity: var(--e);
+  transform: scale(calc(0.45 + 0.55 * var(--e))) rotate(calc((1 - var(--e)) * -14deg));
 }
-
-@keyframes subj-in {
-  from { opacity: 0; transform: translateY(26px) scale(0.955); border-color: rgba(var(--cyan-rgb), 0.75); }
+.subj-card--build[data-forge="0"] .subj-name {
+  opacity: var(--n);
+  clip-path: inset(0 calc((1 - var(--n)) * 100%) 0 0);
 }
-@keyframes subj-scan-sweep {
-  0% { top: 0; opacity: 0; }
-  12% { opacity: 1; }
-  88% { opacity: 1; }
-  100% { top: calc(100% - 2px); opacity: 0; }
+.subj-card--build[data-forge="0"] .subj-foot,
+.subj-card--build[data-forge="0"] .subj-exam,
+.subj-card--build[data-forge="0"] .subj-count {
+  opacity: var(--f);
+  transform: translateY(calc((1 - var(--f)) * 8px));
 }
-@keyframes subj-emoji-in {
-  from { opacity: 0; transform: scale(0.45) rotate(-14deg); }
+.subj-card--build[data-forge="0"] .subj-progress {
+  opacity: var(--g);
+  transform: translateY(calc((1 - var(--g)) * 8px));
 }
-@keyframes subj-part-in {
-  from { opacity: 0; transform: translateY(8px); }
+.subj-card--build[data-forge="0"] .subj-progress-bar > span {
+  transform-origin: left center;
+  transform: scaleX(var(--g));
 }
-@keyframes subj-bar-in {
-  from { transform: scaleX(0); }
+.subj-card--build[data-forge="0"] .subj-arrow {
+  opacity: var(--r);
+  transform: translateX(calc((1 - var(--r)) * -10px));
 }
-@keyframes subj-arrow-in {
-  from { opacity: 0; transform: translateX(-10px); }
-}
-
-/* No scroll-driven animation support: each card rises in once on first view. */
-@supports not (animation-timeline: view()) {
-  .subj-card--build[data-reveal="pending"] {
-    opacity: 0;
-    transform: translateY(24px) scale(0.97);
-  }
-  .subj-card--build[data-reveal="in"] {
-    transition: opacity 0.55s ease-out, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-}
+/* the one-shot bar-grow on mount would fight the scrubbed bar */
+.subj-card--build .subj-progress-bar > span { animation: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
   .subj-grid > .subj-card.subj-card--build,
   .subj-card--build * { animation: none !important; }
-  .subj-card--build[data-reveal] { opacity: 1; transform: none; transition: none; }
 }
