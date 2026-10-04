@@ -341,27 +341,30 @@ export async function buildUserDataExport(uid) {
 // different product from the site itself.
 
 const NAVY = [30, 58, 95];       // --brand-gradient's darkest stop
-const NAVY_SHADOW = [12, 28, 48]; // --brand-wordmark-shadow, same tone as the CSS wordmark's embossed shadow
-const TEXT_DARK = [30, 41, 59];
-const TEXT_MUTED = [100, 116, 139];
-const RULE_LIGHT = [203, 213, 225];
-const HEADER_FILL = [241, 245, 249];
+const STEEL = [81, 100, 125];    // wordmark face (light theme), same #51647d as the site's .topbar-logo
+const STEEL_ACCENT = [74, 111, 148]; // --cyan, the site's muted steel accent
+const TEXT_DARK = [11, 22, 38];  // light theme --text
+const TEXT_MUTED = [79, 100, 124]; // light theme --text3, also the site's tagline colour
+const RULE_LIGHT = [200, 210, 223];
+const HEADER_FILL = [233, 237, 243]; // light theme --bg (cool grey)
 
-// Same embossed/extruded look as the site's CSS wordmark
-// (.topbar-logo / .app-loading-logo's text-shadow stack), replicated
-// for jsPDF's vector text: a few same-direction offset copies in a
-// darker navy behind the real text read as depth, then the actual
-// text is drawn on top in its normal color. Only used for the
-// "Med101" wordmark itself, not the tagline - at 6.5-7.5pt the
-// tagline is too small for the offsets to read as anything but
+// Same metallic wordmark as the site (.topbar-logo, light theme): a
+// mid steel-blue face with navy stepped depth behind it and a soft
+// shadow under that. jsPDF has no text-shadow or gradient text, so the
+// depth is a few same-direction offset copies drawn first (deepest and
+// lightest first), then a faint highlight edge, then the real face on
+// top. Only used for the "Med101" wordmark itself, not the tagline - at
+// 6.5-7.5pt the tagline is too small for offsets to read as anything but
 // blur.
 function draw3DText(doc, text, x, y, { align = 'left' } = {}) {
-  const mainColor = doc.getTextColor();
-  doc.setTextColor(...NAVY_SHADOW);
-  doc.text(text, x + 0.5, y + 0.5, { align });
-  doc.text(text, x + 1, y + 1, { align });
-  doc.text(text, x + 1.5, y + 1.5, { align });
-  doc.setTextColor(mainColor);
+  doc.setTextColor(176, 188, 204);
+  doc.text(text, x + 1.8, y + 1.8, { align });
+  doc.setTextColor(...NAVY);
+  doc.text(text, x + 1.2, y + 1.2, { align });
+  doc.text(text, x + 0.6, y + 0.6, { align });
+  doc.setTextColor(214, 222, 233);
+  doc.text(text, x - 0.35, y - 0.35, { align });
+  doc.setTextColor(...STEEL);
   doc.text(text, x, y, { align });
 }
 
@@ -422,7 +425,7 @@ function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBy
   // Tight gap to the tagline, matching the site's own topbar lockup
   // (.topbar-logo-stack: line-height 1, 1px margin) rather than the
   // looser spacing a plain two-line text block defaults to.
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(...TEXT_MUTED);
   doc.text('LEARN. PRACTICE. IMPROVE.', textStartX, 44, { charSpace: 1.1 });
@@ -537,7 +540,7 @@ export async function buildUserDataExportPdf(uid) {
     doc.setFontSize(11);
     const label = count != null ? `${title} (${count})` : title;
     doc.text(label, x, y + 10);
-    doc.setDrawColor(...NAVY);
+    doc.setDrawColor(...STEEL_ACCENT);
     doc.setLineWidth(1);
     doc.line(x, y + 16, x + width, y + 16);
     return y + 28;
@@ -780,7 +783,7 @@ export async function buildUserDataExportPdf(uid) {
   doc.setTextColor(...NAVY);
   doc.setFontSize(hasSyne ? 17 : 15);
   draw3DText(doc, 'Med101', pageWidth - marginX, y, { align: 'right' });
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('helvetica', 'bold');
   doc.setFontSize(6.5);
   doc.setTextColor(...TEXT_MUTED);
   {
