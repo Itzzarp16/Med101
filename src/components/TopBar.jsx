@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
@@ -14,6 +14,20 @@ import { subscribeToMyInvites } from '../lib/invites';
 export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, onProfile, onWeakTopics, onWrongFlagged, onHistory, onSearch, onPremium, onAdminNotice, onAdminExams, onAdminReports, onAdminBroadcast, onAdminBackup, onAdminSecurity, onAdminCalendar, onAdminUploadQuestions, onAdminUserDetail, onAdminAnalytics, onAdminPayments, onAdminSubscribers, onViewUser, screen }) {
   const { user, profile, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  // Closing plays an exit animation (see .menu-overlay.is-closing in
+  // tokens.css) before the menu is actually unmounted.
+  const [menuClosing, setMenuClosing] = useState(false);
+  const closeTimer = useRef(null);
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
+  function closeMenu() {
+    if (menuClosing) return;
+    setMenuClosing(true);
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => {
+      setMenuOpen(false);
+      setMenuClosing(false);
+    }, 300);
+  }
   // Waiting challenge invites -> red dot on the hamburger + a count on
   // the Friends & Challenges row, so nothing is missed.
   const [inviteCount, setInviteCount] = useState(0);
@@ -42,7 +56,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
 
   function go(fn) {
     playTapSound();
-    setMenuOpen(false);
+    closeMenu();
     fn?.();
   }
 
@@ -50,7 +64,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
     <>
     <div className="topbar">
       <div className="topbar-left">
-        <button className="topbar-icon-btn home" title="Menu" aria-label="Open menu" onClick={() => { playTapSound(); setMenuOpen(true); }}>
+        <button className="topbar-icon-btn home" title="Menu" aria-label="Open menu" onClick={() => { playTapSound(); setMenuClosing(false); setMenuOpen(true); }}>
           {inviteCount > 0 && <span className="notif-dot" aria-label={`${inviteCount} pending invites`} />}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="4" y1="7" x2="20" y2="7" />
@@ -128,11 +142,11 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
       )}
 
       {menuOpen && createPortal(
-        <div className="menu-overlay" onClick={() => setMenuOpen(false)}>
+        <div className={`menu-overlay${menuClosing ? ' is-closing' : ''}`} onClick={closeMenu}>
           <div className="menu-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="menu-drawer-header">
               <span className="topbar-logo">Med101</span>
-              <button className="menu-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">✕</button>
+              <button className="menu-close" onClick={closeMenu} aria-label="Close menu">✕</button>
             </div>
 
             <button className="menu-user menu-user-btn" onClick={() => go(onProfile)} title="Your profile">
@@ -159,7 +173,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
               target="_blank"
               rel="noopener noreferrer"
               style={{ textDecoration: 'none' }}
-              onClick={() => { playTapSound(); setMenuOpen(false); }}
+              onClick={() => { playTapSound(); closeMenu(); }}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" style={{ verticalAlign: '-3px', marginRight: 6 }}>
                 <circle cx="12" cy="12" r="12" fill="#25D366" />

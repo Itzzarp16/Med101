@@ -689,9 +689,11 @@ body.light-mode .topbar-logo {
      100lvh is the full (toolbar-hidden) height, so it always covers. */
   min-height: 100lvh;
   background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 200;
   display: flex;
+  animation: menuOverlayIn 0.4s ease backwards;
 }
 
 .menu-drawer {
@@ -709,12 +711,63 @@ body.light-mode .topbar-logo {
   flex-direction: column;
   gap: 10px;
   overflow-y: auto;
-  animation: menuSlideIn 0.22s cubic-bezier(.34, 1.2, .64, 1);
+  /* Opens like apple.com's mobile menu: the page blurs and dims, the
+     panel is drawn down from the top edge like a curtain, then its
+     items fade in one after another from top to bottom. Closing plays
+     it back quickly (items out, panel wiped back up). */
+  animation: menuWipeIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
-@keyframes menuSlideIn {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(0); }
+@keyframes menuOverlayIn {
+  from { background: rgba(0, 0, 0, 0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); }
+}
+@keyframes menuWipeIn {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes menuItemIn {
+  from { opacity: 0; transform: translateY(-6px); }
+}
+@keyframes menuOverlayOut {
+  to { background: rgba(0, 0, 0, 0); backdrop-filter: blur(0); -webkit-backdrop-filter: blur(0); }
+}
+@keyframes menuWipeOut {
+  to { clip-path: inset(0 0 100% 0); }
+}
+@keyframes menuItemOut {
+  to { opacity: 0; }
+}
+
+.menu-drawer > * {
+  animation: menuItemIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) calc(0.2s + var(--mi, 0) * 0.04s) backwards;
+}
+.menu-drawer > :nth-child(1) { --mi: 0; }
+.menu-drawer > :nth-child(2) { --mi: 1; }
+.menu-drawer > :nth-child(3) { --mi: 2; }
+.menu-drawer > :nth-child(4) { --mi: 3; }
+.menu-drawer > :nth-child(5) { --mi: 4; }
+.menu-drawer > :nth-child(6) { --mi: 5; }
+.menu-drawer > :nth-child(7) { --mi: 6; }
+.menu-drawer > :nth-child(8) { --mi: 7; }
+.menu-drawer > :nth-child(9) { --mi: 8; }
+.menu-drawer > :nth-child(10) { --mi: 9; }
+.menu-drawer > :nth-child(11) { --mi: 10; }
+.menu-drawer > :nth-child(12) { --mi: 11; }
+.menu-drawer > :nth-child(13) { --mi: 12; }
+.menu-drawer > :nth-child(14) { --mi: 13; }
+.menu-drawer > :nth-child(15) { --mi: 14; }
+.menu-drawer > :nth-child(16) { --mi: 15; }
+.menu-drawer > :nth-child(n + 17) { --mi: 16; }
+
+.menu-overlay.is-closing {
+  pointer-events: none;
+  animation: menuOverlayOut 0.3s ease forwards;
+}
+.menu-overlay.is-closing .menu-drawer {
+  animation: menuWipeOut 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+.menu-overlay.is-closing .menu-drawer > * {
+  animation: menuItemOut 0.14s ease forwards;
 }
 
 .menu-drawer-header {
