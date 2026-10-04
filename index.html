@@ -149,6 +149,28 @@
       </div>
     </div></div>
     <script>
+      /* Tagline exactly as wide as the wordmark (same edges). Mirrors
+         src/lib/lockup.js for the pre-React splash. */
+      (function () {
+        function fit() {
+          var box = document.querySelector('#initial-loader .logo-stack');
+          if (!box) return;
+          var mark = box.querySelector('.logo'), tag = box.querySelector('.tagline');
+          function w(el) { var r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect().width; }
+          tag.style.letterSpacing = '0px';
+          var ls = (w(mark) - w(tag)) / (tag.textContent.length - 1);
+          if (isFinite(ls)) tag.style.letterSpacing = ls.toFixed(3) + 'px';
+        }
+        document.addEventListener('DOMContentLoaded', fit);
+        if (document.fonts) {
+          document.fonts.ready.then(fit);
+          document.fonts.addEventListener && document.fonts.addEventListener('loadingdone', fit);
+        }
+        window.addEventListener('resize', fit);
+        fit();
+      })();
+    </script>
+    <script>
       /* React replaces #initial-loader the moment it mounts. If it is still
          here after 15s, the app's code failed to load or start - offer a
          reload instead of an endless bar. */

@@ -5,6 +5,7 @@ import './styles/motion.css'
 import App from './App.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
+import { startLockupFit } from './lib/lockup'
 import { initViewTransitions } from './lib/viewTransition'
 import { startVersionWatcher } from './lib/versionCheck'
 import OfflineGuard from './components/OfflineGuard.jsx'
@@ -40,6 +41,7 @@ const isContactRoute = path === '/contact';
 const isResetPasswordRoute = path === '/reset-password';
 
 initTheme()
+startLockupFit()
 initViewTransitions();
 startVersionWatcher();
 
