@@ -936,18 +936,18 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   // Brand letterhead (logo + wordmark + double rule), then the big
   // INVOICE title and status badge on the right.
   drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBytes, genLabel: '', uid: '', title: '', metaLine: ' ' });
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('times', 'bold');
   doc.setFontSize(28);
   doc.setTextColor(...NAVY);
   doc.text('INVOICE', rightX, 38, { align: 'right' });
   doc.setFontSize(9);
   doc.setTextColor(...TEXT_MUTED);
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('times', 'normal');
   doc.text(`# ${invoiceNo}`, rightX, 54, { align: 'right' });
 
   const badge = byAdmin ? 'GIVEN BY ADMIN' : 'PAID';
   const badgeColor = byAdmin ? STEEL_ACCENT : [34, 139, 94];
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('times', 'bold');
   doc.setFontSize(9);
   const bw = doc.getTextWidth(badge) + 20;
   doc.setDrawColor(...badgeColor);
@@ -960,19 +960,19 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   let y = bannerHeight + 30;
 
   // --- Bill to (left) / invoice details (right) ---
-  const label = (t, x, yy) => { doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...STEEL_ACCENT); doc.text(t, x, yy, { charSpace: 0.8 }); };
+  const label = (t, x, yy) => { doc.setFont('times', 'bold'); doc.setFontSize(8); doc.setTextColor(...STEEL_ACCENT); doc.text(t, x, yy, { charSpace: 0.8 }); };
   // Seller (left), buyer (middle), invoice details (right)
   label('SOLD BY', marginX, y);
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...TEXT_DARK);
+  doc.setFont('times', 'bold'); doc.setFontSize(12); doc.setTextColor(...TEXT_DARK);
   doc.text('Med101', marginX, y + 18);
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
+  doc.setFont('times', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
   doc.text(['med101.space', 'admin@med101.space'], marginX, y + 34, { lineHeightFactor: 1.45 });
 
   const billX = 190;
   label('BILLED TO', billX, y);
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...TEXT_DARK);
+  doc.setFont('times', 'bold'); doc.setFontSize(12); doc.setTextColor(...TEXT_DARK);
   doc.text(user.displayName || request.displayName || 'Student', billX, y + 18, { maxWidth: 170 });
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
+  doc.setFont('times', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
   const billLines = [user.email || request.email, profile?.username ? `@${profile.username}` : null, request.phone ? `Phone: ${request.phone}` : null].filter(Boolean);
   billLines.forEach((l, k) => doc.text(l, billX, y + 34 + k * 14, { maxWidth: 170 }));
 
@@ -985,9 +985,9 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
     ['Payment method', byAdmin ? 'Granted by admin' : 'UPI'],
   ];
   meta.forEach(([k, v], n) => {
-    doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
+    doc.setFont('times', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
     doc.text(k, metaX, y + 18 + n * 15);
-    doc.setFont('helvetica', 'bold'); doc.setTextColor(...TEXT_DARK);
+    doc.setFont('times', 'bold'); doc.setTextColor(...TEXT_DARK);
     doc.text(String(v), rightX, y + 18 + n * 15, { align: 'right' });
   });
   y += 96;
@@ -997,7 +997,7 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
     startY: y,
     margin: { left: marginX, right: marginX },
     theme: 'plain',
-    styles: { fontSize: 9.5, cellPadding: { top: 9, bottom: 9, left: 10, right: 10 }, textColor: TEXT_DARK },
+    styles: { font: 'times', fontSize: 10.5, cellPadding: { top: 9, bottom: 9, left: 10, right: 10 }, textColor: TEXT_DARK },
     headStyles: { fillColor: NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9 },
     columnStyles: { 0: { cellWidth: 28, halign: 'center' }, 1: { cellWidth: 'auto' }, 2: { cellWidth: 70 }, 3: { cellWidth: 36, halign: 'center' }, 4: { cellWidth: 70, halign: 'right' }, 5: { cellWidth: 74, halign: 'right' } },
     head: [['#', 'Description', 'Access', 'Qty', 'Rate', 'Amount']],
@@ -1013,7 +1013,7 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   // --- Totals block (right) ---
   const totW = 210, totX = rightX - totW;
   const row = (k, v, yy, bold) => {
-    doc.setFont('helvetica', bold ? 'bold' : 'normal'); doc.setFontSize(10);
+    doc.setFont('times', bold ? 'bold' : 'normal'); doc.setFontSize(10);
     doc.setTextColor(...(bold ? TEXT_DARK : TEXT_MUTED));
     doc.text(k, totX + 10, yy); doc.setTextColor(...TEXT_DARK); doc.text(v, rightX - 10, yy, { align: 'right' });
   };
@@ -1021,7 +1021,7 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   doc.setDrawColor(...RULE_LIGHT); doc.setLineWidth(0.5); doc.line(totX, y + 12, rightX, y + 12);
   doc.setFillColor(...NAVY);
   doc.rect(totX, y + 18, totW, 28, 'F');
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(255, 255, 255);
+  doc.setFont('times', 'bold'); doc.setFontSize(11); doc.setTextColor(255, 255, 255);
   doc.text('Total', totX + 10, y + 36); doc.text(amount, rightX - 10, y + 36, { align: 'right' });
   let afterTotals = y + 46;
   if (!byAdmin) {
@@ -1037,14 +1037,14 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
     ? [['Status', 'Subscription given by an admin'], ['Given by', 'Med101 admin'], ['Activated on', fmt(paidOn)]]
     : [['Method', 'UPI (manual, verified)'], ['Transaction ID', String(request.utr)], ['Paid from', request.bankingName || '-'], ['Verified on', fmt(paidOn)]];
   info.forEach(([k, v], n) => {
-    doc.setFont('helvetica', 'normal'); doc.setTextColor(...TEXT_MUTED); doc.text(k, marginX, y + 22 + n * 15);
-    doc.setFont('helvetica', 'bold'); doc.setTextColor(...TEXT_DARK); doc.text(String(v), marginX + 82, y + 22 + n * 15, { maxWidth: totX - marginX - 92 });
+    doc.setFont('times', 'normal'); doc.setTextColor(...TEXT_MUTED); doc.text(k, marginX, y + 22 + n * 15);
+    doc.setFont('times', 'bold'); doc.setTextColor(...TEXT_DARK); doc.text(String(v), marginX + 82, y + 22 + n * 15, { maxWidth: totX - marginX - 92 });
   });
   y = Math.max(afterTotals, y + 22 + info.length * 15) + 28;
 
   // --- Notes ---
   label('NOTES', marginX, y);
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...TEXT_MUTED);
+  doc.setFont('times', 'normal'); doc.setFontSize(9); doc.setTextColor(...TEXT_MUTED);
   doc.text(
     byAdmin
       ? ['This subscription was given by an admin. The amount shown is the plan price.', 'This is a computer-generated invoice and does not require a signature.']
@@ -1053,9 +1053,9 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   );
   y += 58;
 
-  doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...NAVY);
+  doc.setFont('times', 'bold'); doc.setFontSize(14); doc.setTextColor(...NAVY);
   doc.text('Thank you!', marginX, y);
-  doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...TEXT_MUTED);
+  doc.setFont('times', 'normal'); doc.setFontSize(9); doc.setTextColor(...TEXT_MUTED);
   doc.text('We appreciate you being part of the Med101 community.', marginX, y + 14);
 
   // --- Footer ---
