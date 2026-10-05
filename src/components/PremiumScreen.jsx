@@ -9,6 +9,7 @@ import { playTapSound } from '../lib/sounds';
 import LiveQrCode from './LiveQrCode';
 import PremiumThankYou from './PremiumThankYou';
 import PremiumRejected from './PremiumRejected';
+import { buildInvoicePdf } from '../lib/dataExport';
 import './PremiumScreen.css';
 
 // Which rejected payment UTRs this student has already been shown the
@@ -190,6 +191,25 @@ export default function PremiumScreen({ onBack }) {
 
   const [copied, setCopied] = useState(false);
   const [subsOpen, setSubsOpen] = useState(false);
+  const [invoiceBusy, setInvoiceBusy] = useState(null);
+  const [invoiceError, setInvoiceError] = useState(null);
+  // Paid = the admin approved the payment (an approved request later
+  // ended early by an admin was still paid for, so it keeps its invoice).
+  const paidRequests = myRequests.filter((r) => r.status === 'approved' || r.status === 'revoked');
+
+  async function handleInvoice(r) {
+    playTapSound();
+    setInvoiceBusy(r.utr);
+    setInvoiceError(null);
+    try {
+      const doc = await buildInvoicePdf({ request: r, user, profile, fallbackAmount: formatPrice(priceFor(r.yearSemester)) });
+      doc.save(`med101-invoice-${r.utr}.pdf`);
+    } catch (e) {
+      setInvoiceError(e.message || String(e));
+    } finally {
+      setInvoiceBusy(null);
+    }
+  }
 
   const [code, setCode] = useState('');
   const [redeeming, setRedeeming] = useState(false);
@@ -490,7 +510,7 @@ export default function PremiumScreen({ onBack }) {
             </form>
           )}
 
-          {(premium.subscriptions || []).length > 0 && (
+          {((premium.subscriptions || []).length > 0 || paidRequests.length > 0) && (
             <div className={`glass pm-card pm-acc${subsOpen ? ' open' : ''}`}>
               <button
                 type="button"
@@ -516,6 +536,23 @@ export default function PremiumScreen({ onBack }) {
                     />
                   ))}
                 </div>
+                {paidRequests.length > 0 && (
+                  <div className="pm-invoices">
+                    <div className="pm-invoices-title">Invoices</div>
+                    {paidRequests.map((r) => (
+                      <div key={r.utr} className="pm-invoice-row">
+                        <div className="pm-invoice-info">
+                          <b>{semesterName(r.yearSemester)}</b>
+                          <span>{r.amount ? formatPrice(r.amount) : formatPrice(priceFor(r.yearSemester))} · {r.utr}</span>
+                        </div>
+                        <button type="button" className="pay-upi-copy" onClick={() => handleInvoice(r)} disabled={invoiceBusy === r.utr}>
+                          {invoiceBusy === r.utr ? 'Preparing…' : '⬇ Invoice'}
+                        </button>
+                      </div>
+                    ))}
+                    {invoiceError && <div className="auth-msg error" style={{ display: 'block' }}>{invoiceError}</div>}
+                  </div>
+                )}
               </div></div>
             </div>
           )}

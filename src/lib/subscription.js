@@ -160,6 +160,8 @@ export async function submitPaymentRequest({
     // access stays scoped to this semester even if they later switch
     // their enrolled semester in Settings (see computePremiumFromCodeDocs).
     yearSemester: yearSemester || null,
+    // Price shown to the student when they paid - used on their invoice.
+    amount: amount || '',
     bankingName: bankingName || '',
     phone: phone || '',
     status: 'pending',

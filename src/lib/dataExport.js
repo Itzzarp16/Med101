@@ -422,7 +422,7 @@ async function loadSyneFont(doc) {
 // didDrawPage hook for every page a table spills onto, and once more
 // after the manual addPage() before the closing block - so every
 // page in the export carries the same header, not just the first.
-function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBytes, genLabel, uid }) {
+function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBytes, genLabel, uid, title = 'PERSONAL DATA EXPORT', metaLine }) {
   doc.setTextColor(...NAVY);
 
   let textStartX = marginX;
@@ -454,7 +454,7 @@ function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBy
     // measuring text width, so combining them overflows past the
     // intended right margin - approximate the letter-spaced width by
     // hand instead and left-align at the resulting position.
-    const label = 'PERSONAL DATA EXPORT';
+    const label = title;
     const charSpaceVal = 0.5;
     const approxWidth = doc.getTextWidth(label) + charSpaceVal * (label.length - 1);
     doc.text(label, pageWidth - marginX - approxWidth, 22, { charSpace: charSpaceVal });
@@ -463,7 +463,7 @@ function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBy
   doc.setTextColor(...TEXT_MUTED);
   doc.setFontSize(8.5);
   doc.text(genLabel, pageWidth - marginX, 38, { align: 'right' });
-  doc.text(`Account UID: ${uid}`, pageWidth - marginX, 52, { align: 'right' });
+  doc.text(metaLine || `Account UID: ${uid}`, pageWidth - marginX, 52, { align: 'right' });
 
   // A double rule under the letterhead - a thicker navy line with a
   // thin gray hairline just beneath it - the way a formal letterhead
@@ -886,4 +886,152 @@ export async function emailMyDataExport(currentUser) {
   }
 
   return data;
+}
+
+
+// "₹299 / 3 months" -> "INR 299 / 3 months": the built-in PDF fonts
+// have no rupee glyph, so spell the currency out instead.
+function pdfMoney(label) {
+  const t = String(label || '').trim();
+  if (!t) return '-';
+  const clean = t.replace(/₹\s*/g, 'INR ');
+  return /^\d+(\.\d+)?$/.test(clean) ? `INR ${clean}` : clean;
+}
+
+// Invoice for one approved payment request, in the same letterhead /
+// ruled-section / table style as the personal data export. `request` is
+// a paymentRequests doc ({ utr, amount, yearSemester, durationDays,
+// bankingName, phone, createdAt, reviewedAt, ... }); `fallbackAmount`
+// is used for older requests that never stored an amount.
+export async function buildInvoicePdf({ request, user, profile, fallbackAmount }) {
+  const { jsPDF } = await import('jspdf');
+  const { autoTable } = await import('jspdf-autotable');
+  const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+  const marginX = 40;
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const usableWidth = pageWidth - marginX * 2;
+  const bannerHeight = 86;
+
+  let logoBytes = null;
+  try {
+    const res = await fetch('/icon-512.png');
+    logoBytes = new Uint8Array(await res.arrayBuffer());
+  } catch { /* text-only header is fine */ }
+  const hasSyne = await loadSyneFont(doc);
+
+  const toDate = (ts) => (ts?.toDate ? ts.toDate() : ts?.seconds ? new Date(ts.seconds * 1000) : null);
+  const paidOn = toDate(request.reviewedAt) || toDate(request.createdAt) || new Date();
+  const submittedOn = toDate(request.createdAt);
+  const fmt = (d) => d.toLocaleDateString('en-US', { dateStyle: 'medium' });
+  const ymd = paidOn.toISOString().slice(0, 10).replace(/-/g, '');
+  const invoiceNo = `MED-${ymd}-${String(request.utr).slice(-6).toUpperCase()}`;
+  const semester = request.yearSemester ? (SEMESTER_LABELS[request.yearSemester] || request.yearSemester) : 'All semesters';
+  const amount = pdfMoney(request.amount || fallbackAmount);
+  const days = request.durationDays;
+  const period = days ? (days % 30 === 0 ? `${days / 30} month${days / 30 === 1 ? '' : 's'}` : `${days} days`) : '-';
+
+  const letterheadArgs = {
+    marginX, pageWidth, bannerHeight, hasSyne, logoBytes,
+    genLabel: `Issued: ${fmt(new Date())}`, uid: user.uid,
+    title: 'INVOICE', metaLine: `Invoice No: ${invoiceNo}`,
+  };
+  drawLetterhead(doc, letterheadArgs);
+
+  const section = (title, y) => {
+    doc.setTextColor(...NAVY);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(11);
+    doc.text(title, marginX, y + 10);
+    doc.setDrawColor(...STEEL_ACCENT);
+    doc.setLineWidth(1);
+    doc.line(marginX, y + 16, marginX + usableWidth, y + 16);
+    return y + 28;
+  };
+  const theme = {
+    theme: 'grid',
+    styles: { fontSize: 9, cellPadding: { top: 4, bottom: 4, left: 8, right: 8 }, textColor: TEXT_DARK, lineColor: RULE_LIGHT, lineWidth: 0.5 },
+    headStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: HEADER_FILL, lineColor: RULE_LIGHT, lineWidth: 0.5 },
+    columnStyles: { 0: { fontStyle: 'bold', cellWidth: 150, fillColor: HEADER_FILL, textColor: NAVY } },
+    margin: { left: marginX, right: marginX },
+  };
+
+  let y = bannerHeight + 22;
+
+  y = section('BILLED TO', y);
+  autoTable(doc, {
+    ...theme, startY: y, body: [
+      ['Name', user.displayName || request.displayName || '-'],
+      ['Username', profile?.username || '-'],
+      ['Email', user.email || request.email || '-'],
+      ['Contact number', request.phone || '-'],
+    ],
+  });
+  y = doc.lastAutoTable.finalY + 20;
+
+  y = section('PAYMENT DETAILS', y);
+  autoTable(doc, {
+    ...theme, startY: y, body: [
+      ['Invoice number', invoiceNo],
+      ['Payment verified on', fmt(paidOn)],
+      ...(submittedOn ? [['Submitted on', fmt(submittedOn)]] : []),
+      ['Payment method', 'UPI'],
+      ['Transaction ID (UTR)', String(request.utr)],
+      ['Paid from (banking name)', request.bankingName || '-'],
+      ['Status', 'PAID'],
+    ],
+  });
+  y = doc.lastAutoTable.finalY + 20;
+
+  y = section('ITEMS', y);
+  autoTable(doc, {
+    ...theme, startY: y,
+    columnStyles: { 0: { cellWidth: 230 }, 1: { cellWidth: 110 }, 2: { halign: 'right' } },
+    head: [['Description', 'Access period', 'Amount']],
+    body: [[`Med101 Maxx - ${semester}`, period, amount]],
+    foot: [['', 'Total paid', amount]],
+    footStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: HEADER_FILL, halign: 'right', lineColor: RULE_LIGHT, lineWidth: 0.5 },
+  });
+  y = doc.lastAutoTable.finalY + 22;
+
+  doc.setFont('helvetica', 'italic');
+  doc.setFontSize(8.5);
+  doc.setTextColor(...TEXT_MUTED);
+  doc.text('This invoice confirms a manual UPI payment that was verified by Med101. It is computer-generated and needs no signature.', marginX, y, { maxWidth: usableWidth });
+  y += 36;
+
+  const closingColWidth = usableWidth * 0.55;
+  doc.setDrawColor(...RULE_LIGHT);
+  doc.setLineWidth(0.5);
+  doc.line(pageWidth - marginX - closingColWidth, y, pageWidth - marginX, y);
+  y += 22;
+  doc.setTextColor(...NAVY);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.text('Thank You', pageWidth - marginX, y, { align: 'right' });
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(9);
+  doc.setTextColor(...TEXT_MUTED);
+  doc.text(['Thank you for being part of the Med101 community', 'and trusting us with your learning journey.'], pageWidth - marginX, y + 15, { align: 'right' });
+  y += 46;
+  doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
+  doc.setTextColor(...NAVY);
+  doc.setFontSize(hasSyne ? 17 : 15);
+  const markW = doc.getTextWidth('Med101');
+  draw3DText(doc, 'Med101', pageWidth - marginX, y, { align: 'right' });
+  const cs = fitTaglineSpacing(doc, markW, 6.5);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(6.5);
+  doc.setTextColor(...TEXT_MUTED);
+  doc.text(TAGLINE, pageWidth - marginX - markW, y + 8, { charSpace: cs });
+
+  const pageHeight = doc.internal.pageSize.getHeight();
+  doc.setDrawColor(...RULE_LIGHT);
+  doc.setLineWidth(0.5);
+  doc.line(marginX, pageHeight - 30, pageWidth - marginX, pageHeight - 30);
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(8);
+  doc.setTextColor(...TEXT_MUTED);
+  doc.text(`Med101 - Invoice ${invoiceNo}`, marginX, pageHeight - 18);
+  doc.text('Page 1 of 1', pageWidth - marginX, pageHeight - 18, { align: 'right' });
+  return doc;
 }
