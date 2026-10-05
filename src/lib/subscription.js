@@ -559,6 +559,7 @@ function computePremiumFromCodeDocs(allDocs, config) {
       semester: data.yearSemester || null,
       activatedAt: new Date(usedAtMs),
       expiresAt: new Date(untilMs),
+      durationDays,
       active: untilMs > Date.now(),
       source: data.grantedByAdmin ? 'admin' : data.grantedFree ? 'free' : 'paid',
     });

@@ -904,6 +904,7 @@ function pdfMoney(label) {
 // bankingName, phone, createdAt, reviewedAt, ... }); `fallbackAmount`
 // is used for older requests that never stored an amount.
 export async function buildInvoicePdf({ request, user, profile, fallbackAmount }) {
+  const byAdmin = !!request.grantedByAdmin;
   const { jsPDF } = await import('jspdf');
   const { autoTable } = await import('jspdf-autotable');
   const doc = new jsPDF({ unit: 'pt', format: 'a4' });
@@ -919,7 +920,7 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   } catch { /* text-only header is fine */ }
   const hasSyne = await loadSyneFont(doc);
 
-  const toDate = (ts) => (ts?.toDate ? ts.toDate() : ts?.seconds ? new Date(ts.seconds * 1000) : null);
+  const toDate = (ts) => (ts instanceof Date ? ts : ts?.toDate ? ts.toDate() : ts?.seconds ? new Date(ts.seconds * 1000) : null);
   const paidOn = toDate(request.reviewedAt) || toDate(request.createdAt) || new Date();
   const submittedOn = toDate(request.createdAt);
   const fmt = (d) => d.toLocaleDateString('en-US', { dateStyle: 'medium' });
@@ -972,12 +973,16 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   autoTable(doc, {
     ...theme, startY: y, body: [
       ['Invoice number', invoiceNo],
-      ['Payment verified on', fmt(paidOn)],
-      ...(submittedOn ? [['Submitted on', fmt(submittedOn)]] : []),
-      ['Payment method', 'UPI'],
-      ['Transaction ID (UTR)', String(request.utr)],
-      ['Paid from (banking name)', request.bankingName || '-'],
-      ['Status', 'PAID'],
+      ...(byAdmin
+        ? [['Activated on', fmt(paidOn)], ['Given by', 'Med101 admin'], ['Status', 'GIVEN BY AN ADMIN']]
+        : [
+            ['Payment verified on', fmt(paidOn)],
+            ...(submittedOn ? [['Submitted on', fmt(submittedOn)]] : []),
+            ['Payment method', 'UPI'],
+            ['Transaction ID (UTR)', String(request.utr)],
+            ['Paid from (banking name)', request.bankingName || '-'],
+            ['Status', 'PAID'],
+          ]),
     ],
   });
   y = doc.lastAutoTable.finalY + 20;
@@ -988,7 +993,7 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
     columnStyles: { 0: { cellWidth: 230 }, 1: { cellWidth: 110 }, 2: { halign: 'right' } },
     head: [['Description', 'Access period', 'Amount']],
     body: [[`Med101 Maxx - ${semester}`, period, amount]],
-    foot: [['', 'Total paid', amount]],
+    foot: [['', byAdmin ? 'Plan price' : 'Total paid', amount]],
     footStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: HEADER_FILL, halign: 'right', lineColor: RULE_LIGHT, lineWidth: 0.5 },
   });
   y = doc.lastAutoTable.finalY + 22;
@@ -996,7 +1001,9 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   doc.setFont('helvetica', 'italic');
   doc.setFontSize(8.5);
   doc.setTextColor(...TEXT_MUTED);
-  doc.text('This invoice confirms a manual UPI payment that was verified by Med101. It is computer-generated and needs no signature.', marginX, y, { maxWidth: usableWidth });
+  doc.text(byAdmin
+      ? 'This subscription was given by an admin. The amount shown is the plan price. This invoice is computer-generated and needs no signature.'
+      : 'This invoice confirms a manual UPI payment that was verified by Med101. It is computer-generated and needs no signature.', marginX, y, { maxWidth: usableWidth });
   y += 36;
 
   const closingColWidth = usableWidth * 0.55;

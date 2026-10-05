@@ -196,6 +196,16 @@ export default function PremiumScreen({ onBack }) {
   // Paid = the admin approved the payment (an approved request later
   // ended early by an admin was still paid for, so it keeps its invoice).
   const paidRequests = myRequests.filter((r) => r.status === 'approved' || r.status === 'revoked');
+  // Admin-granted subscriptions have no payment request, so they're
+  // turned into invoice rows from the subscription itself.
+  const adminInvoices = (premium.subscriptions || [])
+    .filter((sub) => sub.source === 'admin')
+    .map((sub) => ({
+      utr: `ADM${sub.activatedAt.getTime()}`, grantedByAdmin: true,
+      yearSemester: sub.semester, durationDays: sub.durationDays,
+      reviewedAt: sub.activatedAt, createdAt: sub.activatedAt, amount: '',
+    }));
+  const invoiceRows = [...paidRequests, ...adminInvoices];
 
   async function handleInvoice(r) {
     playTapSound();
@@ -510,7 +520,7 @@ export default function PremiumScreen({ onBack }) {
             </form>
           )}
 
-          {((premium.subscriptions || []).length > 0 || paidRequests.length > 0) && (
+          {((premium.subscriptions || []).length > 0 || invoiceRows.length > 0) && (
             <div className={`glass pm-card pm-acc${subsOpen ? ' open' : ''}`}>
               <button
                 type="button"
@@ -536,14 +546,14 @@ export default function PremiumScreen({ onBack }) {
                     />
                   ))}
                 </div>
-                {paidRequests.length > 0 && (
+                {invoiceRows.length > 0 && (
                   <div className="pm-invoices">
                     <div className="pm-invoices-title">Invoices</div>
-                    {paidRequests.map((r) => (
+                    {invoiceRows.map((r) => (
                       <div key={r.utr} className="pm-invoice-row">
                         <div className="pm-invoice-info">
                           <b>{semesterName(r.yearSemester)}</b>
-                          <span>{r.amount ? formatPrice(r.amount) : formatPrice(priceFor(r.yearSemester))} · {r.utr}</span>
+                          <span>{r.amount ? formatPrice(r.amount) : formatPrice(priceFor(r.yearSemester))} · {r.grantedByAdmin ? 'Given by an admin' : r.utr}</span>
                         </div>
                         <button type="button" className="pay-upi-copy" onClick={() => handleInvoice(r)} disabled={invoiceBusy === r.utr}>
                           {invoiceBusy === r.utr ? 'Preparing…' : '⬇ Invoice'}
