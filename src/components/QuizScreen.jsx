@@ -340,7 +340,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       playCorrectSound();
     } else {
       playWrongSound();
-      if (user) recordWrongQuestion(user.uid, mainSubject, q);
+      if (user) recordWrongQuestion(user.uid, mainSubject, q, idx);
     }
 
 
@@ -429,7 +429,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         return next;
       });
       playWrongSound();
-      if (user) recordWrongQuestion(user.uid, mainSubject, q);
+      if (user) recordWrongQuestion(user.uid, mainSubject, q, -2);
       // Timed out = always wrong - never auto-advances regardless of autoAdvance.
     }, 250);
     return () => clearInterval(id);
@@ -500,7 +500,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     // student's Wrong list now instead of one by one.
     if (mock) {
       quizQuestions.forEach((qq, i) => {
-        if (answers[i] >= 0 && answers[i] !== qq.c) recordWrongQuestion(user.uid, mainSubject, qq);
+        if (answers[i] >= 0 && answers[i] !== qq.c) recordWrongQuestion(user.uid, mainSubject, qq, answers[i]);
       });
     }
 

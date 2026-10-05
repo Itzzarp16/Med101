@@ -24,13 +24,17 @@ export default function ReviewCard({ item, kind, term, onRemove, removeLabel }) 
   const [open, setOpen] = useState(false);
   const options = Array.isArray(item.o) ? item.o : [];
   const answer = options[item.c];
+  // What the student chose (wrong list only; older entries never saved it).
+  const picked = kind === 'wrong' && Number.isInteger(item.picked) ? item.picked : null;
+  const pickedText = picked !== null && picked >= 0 && picked !== item.c ? options[picked] : undefined;
+  const timedOut = picked === -2;
   const when = kind === 'wrong' ? ago(item.lastWrongAt) : ago(item.flaggedAt);
   const meta = [item.s, when && `${kind === 'wrong' ? 'Missed' : 'Flagged'} ${when}`].filter(Boolean).join(' · ');
   // Only open a row by itself when the search hit is hidden: inside an option
   // that is not the correct answer, and not in the question/answer already shown.
   const has = (x) => typeof x === 'string' && x.toLowerCase().includes(term.toLowerCase());
-  const shownHit = !!term && (has(item.q) || has(answer));
-  const hiddenHit = !!term && options.some((o, i) => i !== item.c && has(o));
+  const shownHit = !!term && (has(item.q) || has(answer) || has(pickedText));
+  const hiddenHit = !!term && options.some((o, i) => i !== item.c && i !== picked && has(o));
   const expanded = open || (!shownHit && hiddenHit);
 
   return (
@@ -38,6 +42,18 @@ export default function ReviewCard({ item, kind, term, onRemove, removeLabel }) 
       <button type="button" className="wf-row-head" aria-expanded={expanded} onClick={() => setOpen((v) => !v)}>
         <span className="wf-row-main">
           <span className="wf-q"><Highlight text={item.q} term={term} /></span>
+          {pickedText !== undefined && (
+            <span className="wf-ans bad">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+              <span><Highlight text={String(pickedText)} term={term} /></span>
+            </span>
+          )}
+          {timedOut && (
+            <span className="wf-ans bad">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" aria-hidden="true"><circle cx="12" cy="13" r="8" /><path d="M12 9v4l2.5 2M9.5 2.5h5" /></svg>
+              <span>Ran out of time</span>
+            </span>
+          )}
           {answer !== undefined && (
             <span className="wf-ans">
               <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
@@ -53,9 +69,10 @@ export default function ReviewCard({ item, kind, term, onRemove, removeLabel }) 
         <div className="wf-detail-in">
           <div className="wf-opts">
             {options.map((opt, i) => (
-              <div key={i} className={i === item.c ? 'wf-opt ok' : 'wf-opt'}>
+              <div key={i} className={i === item.c ? 'wf-opt ok' : i === picked ? 'wf-opt bad' : 'wf-opt'}>
                 <span className="wf-opt-l">{LABELS[i]}</span>
                 <span className="wf-opt-t"><Highlight text={String(opt)} term={term} /></span>
+                {i === picked && i !== item.c && <span className="wf-opt-tag">Your answer</span>}
               </div>
             ))}
           </div>

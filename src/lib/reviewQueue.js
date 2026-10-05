@@ -14,7 +14,10 @@ function hashQuestion(mainSubject, subtopic, questionText) {
   return hash.toString(36);
 }
 
-export async function recordWrongQuestion(uid, mainSubject, question) {
+// `picked` is the option index the student chose (or -2 when the timer ran
+// out). It is stored so the Wrong list can show what they actually answered;
+// a repeat miss overwrites it with the latest wrong choice.
+export async function recordWrongQuestion(uid, mainSubject, question, picked) {
   const key = hashQuestion(mainSubject, question.s, question.q);
   const ref = doc(db, 'users', uid, 'wrongQuestions', key);
   await setDoc(
@@ -25,6 +28,7 @@ export async function recordWrongQuestion(uid, mainSubject, question) {
       q: question.q,
       o: question.o,
       c: question.c,
+      ...(Number.isInteger(picked) ? { picked } : null),
       lastWrongAt: serverTimestamp(),
     },
     { merge: true }
