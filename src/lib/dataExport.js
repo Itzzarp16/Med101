@@ -961,14 +961,22 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
 
   // --- Bill to (left) / invoice details (right) ---
   const label = (t, x, yy) => { doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...STEEL_ACCENT); doc.text(t, x, yy, { charSpace: 0.8 }); };
-  label('BILLED TO', marginX, y);
+  // Seller (left), buyer (middle), invoice details (right)
+  label('SOLD BY', marginX, y);
   doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...TEXT_DARK);
-  doc.text(user.displayName || request.displayName || 'Student', marginX, y + 18);
+  doc.text('Med101', marginX, y + 18);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
+  doc.text(['med101.space', 'admin@med101.space'], marginX, y + 34, { lineHeightFactor: 1.45 });
+
+  const billX = 190;
+  label('BILLED TO', billX, y);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...TEXT_DARK);
+  doc.text(user.displayName || request.displayName || 'Student', billX, y + 18, { maxWidth: 170 });
   doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
   const billLines = [user.email || request.email, profile?.username ? `@${profile.username}` : null, request.phone ? `Phone: ${request.phone}` : null].filter(Boolean);
-  billLines.forEach((l, k) => doc.text(l, marginX, y + 34 + k * 14));
+  billLines.forEach((l, k) => doc.text(l, billX, y + 34 + k * 14, { maxWidth: 170 }));
 
-  const metaX = 330;
+  const metaX = 385;
   label('INVOICE DETAILS', metaX, y);
   const meta = [
     ['Invoice no.', invoiceNo],
