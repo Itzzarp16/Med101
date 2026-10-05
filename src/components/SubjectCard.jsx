@@ -24,8 +24,8 @@ function traceDelayFor(name) {
 // Every card gets a progress value --p (0..1) from where it sits on screen:
 // 0 while its top is at/below the bottom edge, 1 once it has risen ~170px.
 // SubjectCard.css turns --p into the build (card drawn top to bottom under a
-// ripple ring: the card is a dot on its emoji, grows into a circle, then
-// opens out into the full card; title, stats, progress and chevron follow). Because --p is a pure function of scroll position there is no
+// ripple ring: the card is a dot at its centre, grows into a circle, glides
+// to the emoji and opens out into the full card; title, stats, progress and chevron follow). Because --p is a pure function of scroll position there is no
 // state machine: scrolling down builds, scrolling back up un-builds in
 // reverse, and nothing can flicker. Done in JS (not CSS view() timelines)
 // so it behaves the same in every browser. One shared rAF-throttled scroll
@@ -33,6 +33,7 @@ function traceDelayFor(name) {
 const REVEAL_RANGE = 250; // px of travel from the bottom edge to fully built
 const scrubCards = new Set();
 const scrubLast = new WeakMap();
+const scrubWidth = new WeakMap();
 let scrubRaf = 0;
 let scrubBound = false;
 
@@ -46,6 +47,12 @@ function scrubTick() {
     reads.push([el, el.getBoundingClientRect().top]);
   });
   reads.forEach(([el, top]) => {
+    // Card width feeds the circle's travel to the card centre (see CSS).
+    const w = el.offsetWidth;
+    if (scrubWidth.get(el) !== w) {
+      scrubWidth.set(el, w);
+      el.style.setProperty('--cw', `${w}px`);
+    }
     let p = reduce ? 1 : (viewH - top) / REVEAL_RANGE;
     p = p < 0 ? 0 : p > 1 ? 1 : Math.round(p * 200) / 200;
     if (scrubLast.get(el) === p) return;
