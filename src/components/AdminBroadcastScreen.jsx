@@ -122,7 +122,7 @@ export default function AdminBroadcastScreen({ onBack, hideBack = false }) {
       const r = await callApi({ action, title, body: message, screen, audience });
       if (r.reason === 'no-devices') {
         setResult({ type: 'error', text: action === 'test'
-          ? 'You have not turned on notifications on any device yet (Settings → Invite notifications).'
+          ? 'You have not turned on notifications on any device yet (Settings → Notifications).'
           : 'Nobody in that audience has notifications turned on.' });
       } else if (action === 'test') {
         setResult({ type: 'success', text: `Test sent to ${r.sent} of your device${r.devices === 1 ? '' : 's'}.` });

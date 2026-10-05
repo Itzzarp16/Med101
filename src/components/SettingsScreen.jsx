@@ -145,12 +145,12 @@ export default function SettingsScreen({ onBack, onProfile }) {
             className={'set-row set-tap' + ((pushBusy || (pushPermission() === 'denied' && !pushOn)) ? ' is-disabled' : '')}
             onClick={() => { if (!(pushBusy || (pushPermission() === 'denied' && !pushOn))) togglePush(); }}
           >
-            <span>{pushOn ? '🔔 Invite notifications on' : '🔕 Invite notifications off'}</span>
+            <span>{pushOn ? '🔔 Notifications on' : '🔕 Notifications off'}</span>
             <button
               type="button"
               role="switch"
               aria-checked={pushOn}
-              aria-label="Challenge invite notifications"
+              aria-label="Notifications"
               disabled={pushBusy || (pushPermission() === 'denied' && !pushOn)}
               className={pushOn ? 'set-switch on' : 'set-switch'}
               onClick={(e) => { e.stopPropagation(); togglePush(); }}
