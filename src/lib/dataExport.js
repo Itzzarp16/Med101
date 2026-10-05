@@ -898,11 +898,12 @@ function pdfMoney(label) {
   return /^\d+(\.\d+)?$/.test(clean) ? `INR ${clean}` : clean;
 }
 
-// Invoice for one approved payment request, in the same letterhead /
-// ruled-section / table style as the personal data export. `request` is
-// a paymentRequests doc ({ utr, amount, yearSemester, durationDays,
-// bankingName, phone, createdAt, reviewedAt, ... }); `fallbackAmount`
-// is used for older requests that never stored an amount.
+// Classic invoice layout (Med101 letterhead, bill-to / invoice-details
+// columns, line-item table, totals block, payment info, notes).
+// `request` is a paymentRequests doc ({ utr, amount, yearSemester,
+// durationDays, bankingName, phone, createdAt, reviewedAt, ... }) or an
+// admin-grant stand-in ({ grantedByAdmin: true, ... }); `fallbackAmount`
+// is used when no amount was stored.
 export async function buildInvoicePdf({ request, user, profile, fallbackAmount }) {
   const byAdmin = !!request.grantedByAdmin;
   const { jsPDF } = await import('jspdf');
@@ -910,7 +911,9 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   const doc = new jsPDF({ unit: 'pt', format: 'a4' });
   const marginX = 40;
   const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
   const usableWidth = pageWidth - marginX * 2;
+  const rightX = pageWidth - marginX;
   const bannerHeight = 86;
 
   let logoBytes = null;
@@ -922,8 +925,7 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
 
   const toDate = (ts) => (ts instanceof Date ? ts : ts?.toDate ? ts.toDate() : ts?.seconds ? new Date(ts.seconds * 1000) : null);
   const paidOn = toDate(request.reviewedAt) || toDate(request.createdAt) || new Date();
-  const submittedOn = toDate(request.createdAt);
-  const fmt = (d) => d.toLocaleDateString('en-US', { dateStyle: 'medium' });
+  const fmt = (d) => d.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
   const ymd = paidOn.toISOString().slice(0, 10).replace(/-/g, '');
   const invoiceNo = `MED-${ymd}-${String(request.utr).slice(-6).toUpperCase()}`;
   const semester = request.yearSemester ? (SEMESTER_LABELS[request.yearSemester] || request.yearSemester) : 'All semesters';
@@ -931,114 +933,128 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   const days = request.durationDays;
   const period = days ? (days % 30 === 0 ? `${days / 30} month${days / 30 === 1 ? '' : 's'}` : `${days} days`) : '-';
 
-  const letterheadArgs = {
-    marginX, pageWidth, bannerHeight, hasSyne, logoBytes,
-    genLabel: `Issued: ${fmt(new Date())}`, uid: user.uid,
-    title: 'INVOICE', metaLine: `Invoice No: ${invoiceNo}`,
-  };
-  drawLetterhead(doc, letterheadArgs);
-
-  const section = (title, y) => {
-    doc.setTextColor(...NAVY);
-    doc.setFont('helvetica', 'bold');
-    doc.setFontSize(11);
-    doc.text(title, marginX, y + 10);
-    doc.setDrawColor(...STEEL_ACCENT);
-    doc.setLineWidth(1);
-    doc.line(marginX, y + 16, marginX + usableWidth, y + 16);
-    return y + 28;
-  };
-  const theme = {
-    theme: 'grid',
-    styles: { fontSize: 9, cellPadding: { top: 4, bottom: 4, left: 8, right: 8 }, textColor: TEXT_DARK, lineColor: RULE_LIGHT, lineWidth: 0.5 },
-    headStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: HEADER_FILL, lineColor: RULE_LIGHT, lineWidth: 0.5 },
-    columnStyles: { 0: { fontStyle: 'bold', cellWidth: 150, fillColor: HEADER_FILL, textColor: NAVY } },
-    margin: { left: marginX, right: marginX },
-  };
-
-  let y = bannerHeight + 22;
-
-  y = section('BILLED TO', y);
-  autoTable(doc, {
-    ...theme, startY: y, body: [
-      ['Name', user.displayName || request.displayName || '-'],
-      ['Username', profile?.username || '-'],
-      ['Email', user.email || request.email || '-'],
-      ['Contact number', request.phone || '-'],
-    ],
-  });
-  y = doc.lastAutoTable.finalY + 20;
-
-  y = section('PAYMENT DETAILS', y);
-  autoTable(doc, {
-    ...theme, startY: y, body: [
-      ['Invoice number', invoiceNo],
-      ...(byAdmin
-        ? [['Activated on', fmt(paidOn)], ['Given by', 'Med101 admin'], ['Status', 'GIVEN BY AN ADMIN']]
-        : [
-            ['Payment verified on', fmt(paidOn)],
-            ...(submittedOn ? [['Submitted on', fmt(submittedOn)]] : []),
-            ['Payment method', 'UPI'],
-            ['Transaction ID (UTR)', String(request.utr)],
-            ['Paid from (banking name)', request.bankingName || '-'],
-            ['Status', 'PAID'],
-          ]),
-    ],
-  });
-  y = doc.lastAutoTable.finalY + 20;
-
-  y = section('ITEMS', y);
-  autoTable(doc, {
-    ...theme, startY: y,
-    columnStyles: { 0: { cellWidth: 230 }, 1: { cellWidth: 110 }, 2: { halign: 'right' } },
-    head: [['Description', 'Access period', 'Amount']],
-    body: [[`Med101 Maxx - ${semester}`, period, amount]],
-    foot: [['', byAdmin ? 'Plan price' : 'Total paid', amount]],
-    footStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: HEADER_FILL, halign: 'right', lineColor: RULE_LIGHT, lineWidth: 0.5 },
-  });
-  y = doc.lastAutoTable.finalY + 22;
-
-  doc.setFont('helvetica', 'italic');
-  doc.setFontSize(8.5);
-  doc.setTextColor(...TEXT_MUTED);
-  doc.text(byAdmin
-      ? 'This subscription was given by an admin. The amount shown is the plan price. This invoice is computer-generated and needs no signature.'
-      : 'This invoice confirms a manual UPI payment that was verified by Med101. It is computer-generated and needs no signature.', marginX, y, { maxWidth: usableWidth });
-  y += 36;
-
-  const closingColWidth = usableWidth * 0.55;
-  doc.setDrawColor(...RULE_LIGHT);
-  doc.setLineWidth(0.5);
-  doc.line(pageWidth - marginX - closingColWidth, y, pageWidth - marginX, y);
-  y += 22;
-  doc.setTextColor(...NAVY);
+  // Brand letterhead (logo + wordmark + double rule), then the big
+  // INVOICE title and status badge on the right.
+  drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBytes, genLabel: '', uid: '', title: '', metaLine: ' ' });
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  doc.text('Thank You', pageWidth - marginX, y, { align: 'right' });
-  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(28);
+  doc.setTextColor(...NAVY);
+  doc.text('INVOICE', rightX, 38, { align: 'right' });
   doc.setFontSize(9);
   doc.setTextColor(...TEXT_MUTED);
-  doc.text(['Thank you for being part of the Med101 community', 'and trusting us with your learning journey.'], pageWidth - marginX, y + 15, { align: 'right' });
-  y += 46;
-  doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
-  doc.setTextColor(...NAVY);
-  doc.setFontSize(hasSyne ? 17 : 15);
-  const markW = doc.getTextWidth('Med101');
-  draw3DText(doc, 'Med101', pageWidth - marginX, y, { align: 'right' });
-  const cs = fitTaglineSpacing(doc, markW, 6.5);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(6.5);
-  doc.setTextColor(...TEXT_MUTED);
-  doc.text(TAGLINE, pageWidth - marginX - markW, y + 8, { charSpace: cs });
-
-  const pageHeight = doc.internal.pageSize.getHeight();
-  doc.setDrawColor(...RULE_LIGHT);
-  doc.setLineWidth(0.5);
-  doc.line(marginX, pageHeight - 30, pageWidth - marginX, pageHeight - 30);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
-  doc.setTextColor(...TEXT_MUTED);
-  doc.text(`Med101 - Invoice ${invoiceNo}`, marginX, pageHeight - 18);
-  doc.text('Page 1 of 1', pageWidth - marginX, pageHeight - 18, { align: 'right' });
+  doc.text(`# ${invoiceNo}`, rightX, 54, { align: 'right' });
+
+  const badge = byAdmin ? 'GIVEN BY ADMIN' : 'PAID';
+  const badgeColor = byAdmin ? STEEL_ACCENT : [34, 139, 94];
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(9);
+  const bw = doc.getTextWidth(badge) + 20;
+  doc.setDrawColor(...badgeColor);
+  doc.setFillColor(...badgeColor);
+  doc.setLineWidth(1);
+  doc.roundedRect(rightX - bw, 62, bw, 18, 4, 4, 'S');
+  doc.setTextColor(...badgeColor);
+  doc.text(badge, rightX - bw / 2, 74, { align: 'center' });
+
+  let y = bannerHeight + 30;
+
+  // --- Bill to (left) / invoice details (right) ---
+  const label = (t, x, yy) => { doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(...STEEL_ACCENT); doc.text(t, x, yy, { charSpace: 0.8 }); };
+  label('BILLED TO', marginX, y);
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(...TEXT_DARK);
+  doc.text(user.displayName || request.displayName || 'Student', marginX, y + 18);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
+  const billLines = [user.email || request.email, profile?.username ? `@${profile.username}` : null, request.phone ? `Phone: ${request.phone}` : null].filter(Boolean);
+  billLines.forEach((l, k) => doc.text(l, marginX, y + 34 + k * 14));
+
+  const metaX = 330;
+  label('INVOICE DETAILS', metaX, y);
+  const meta = [
+    ['Invoice no.', invoiceNo],
+    ['Invoice date', fmt(paidOn)],
+    [byAdmin ? 'Activated on' : 'Payment date', fmt(paidOn)],
+    ['Payment method', byAdmin ? 'Granted by admin' : 'UPI'],
+  ];
+  meta.forEach(([k, v], n) => {
+    doc.setFont('helvetica', 'normal'); doc.setFontSize(9.5); doc.setTextColor(...TEXT_MUTED);
+    doc.text(k, metaX, y + 18 + n * 15);
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(...TEXT_DARK);
+    doc.text(String(v), rightX, y + 18 + n * 15, { align: 'right' });
+  });
+  y += 96;
+
+  // --- Line items ---
+  autoTable(doc, {
+    startY: y,
+    margin: { left: marginX, right: marginX },
+    theme: 'plain',
+    styles: { fontSize: 9.5, cellPadding: { top: 9, bottom: 9, left: 10, right: 10 }, textColor: TEXT_DARK },
+    headStyles: { fillColor: NAVY, textColor: [255, 255, 255], fontStyle: 'bold', fontSize: 9 },
+    columnStyles: { 0: { cellWidth: 28, halign: 'center' }, 1: { cellWidth: 'auto' }, 2: { cellWidth: 70 }, 3: { cellWidth: 36, halign: 'center' }, 4: { cellWidth: 70, halign: 'right' }, 5: { cellWidth: 74, halign: 'right' } },
+    head: [['#', 'Description', 'Access', 'Qty', 'Rate', 'Amount']],
+    body: [['1', `Med101 Maxx subscription\n${semester}`, period, '1', amount, amount]],
+    didParseCell: (d) => {
+      if (d.section === 'body') { d.cell.styles.lineWidth = { bottom: 0.7 }; d.cell.styles.lineColor = RULE_LIGHT; }
+      if (d.section === 'head' && (d.column.index === 4 || d.column.index === 5)) d.cell.styles.halign = 'right';
+      if (d.section === 'head' && (d.column.index === 0 || d.column.index === 3)) d.cell.styles.halign = 'center';
+    },
+  });
+  y = doc.lastAutoTable.finalY + 34;
+
+  // --- Totals block (right) ---
+  const totW = 210, totX = rightX - totW;
+  const row = (k, v, yy, bold) => {
+    doc.setFont('helvetica', bold ? 'bold' : 'normal'); doc.setFontSize(10);
+    doc.setTextColor(...(bold ? TEXT_DARK : TEXT_MUTED));
+    doc.text(k, totX + 10, yy); doc.setTextColor(...TEXT_DARK); doc.text(v, rightX - 10, yy, { align: 'right' });
+  };
+  row('Subtotal', amount, y + 4);
+  doc.setDrawColor(...RULE_LIGHT); doc.setLineWidth(0.5); doc.line(totX, y + 12, rightX, y + 12);
+  doc.setFillColor(...NAVY);
+  doc.rect(totX, y + 18, totW, 28, 'F');
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(255, 255, 255);
+  doc.text('Total', totX + 10, y + 36); doc.text(amount, rightX - 10, y + 36, { align: 'right' });
+  let afterTotals = y + 46;
+  if (!byAdmin) {
+    row('Amount paid', amount, y + 66);
+    row('Balance due', 'INR 0', y + 82);
+    afterTotals = y + 86;
+  }
+
+  // --- Payment info (left, beside totals) ---
+  label('PAYMENT INFORMATION', marginX, y + 4);
+  doc.setFontSize(9.5);
+  const info = byAdmin
+    ? [['Status', 'Subscription given by an admin'], ['Given by', 'Med101 admin'], ['Activated on', fmt(paidOn)]]
+    : [['Method', 'UPI (manual, verified)'], ['Transaction ID', String(request.utr)], ['Paid from', request.bankingName || '-'], ['Verified on', fmt(paidOn)]];
+  info.forEach(([k, v], n) => {
+    doc.setFont('helvetica', 'normal'); doc.setTextColor(...TEXT_MUTED); doc.text(k, marginX, y + 22 + n * 15);
+    doc.setFont('helvetica', 'bold'); doc.setTextColor(...TEXT_DARK); doc.text(String(v), marginX + 82, y + 22 + n * 15, { maxWidth: totX - marginX - 92 });
+  });
+  y = Math.max(afterTotals, y + 22 + info.length * 15) + 28;
+
+  // --- Notes ---
+  label('NOTES', marginX, y);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...TEXT_MUTED);
+  doc.text(
+    byAdmin
+      ? ['This subscription was given by an admin. The amount shown is the plan price.', 'This is a computer-generated invoice and does not require a signature.']
+      : ['Payment received via UPI and verified by Med101.', 'This is a computer-generated invoice and does not require a signature.'],
+    marginX, y + 14, { lineHeightFactor: 1.5 }
+  );
+  y += 58;
+
+  doc.setFont('helvetica', 'bold'); doc.setFontSize(14); doc.setTextColor(...NAVY);
+  doc.text('Thank you!', marginX, y);
+  doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(...TEXT_MUTED);
+  doc.text('We appreciate you being part of the Med101 community.', marginX, y + 14);
+
+  // --- Footer ---
+  doc.setDrawColor(...RULE_LIGHT); doc.setLineWidth(0.5);
+  doc.line(marginX, pageHeight - 36, rightX, pageHeight - 36);
+  doc.setFontSize(8); doc.setTextColor(...TEXT_MUTED);
+  doc.text('Med101  ·  med101.space  ·  admin@med101.space', marginX, pageHeight - 22);
+  doc.text(`Invoice ${invoiceNo}`, rightX, pageHeight - 22, { align: 'right' });
   return doc;
 }
