@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef } from 'react';
 import './SubjectCard.css';
+import { hapticSync } from '../lib/haptics';
 
 // Old site's .subj-card layout exactly (flat glass row, emoji left,
 // text stacked, chevron right). The animated pulse-trace line is only
@@ -32,6 +33,11 @@ function traceDelayFor(name) {
 // listener; reads are batched before writes.
 const REVEAL_RANGE = 250; // px of travel from the bottom edge to fully built
 const SETTLE_DELAY = 160; // ms without scrolling before visible cards finish building
+// Haptic beats, synced to the same --p the CSS animation reads: a light tick
+// as the card sparks into a dot, a medium one as it opens into the full card,
+// a firm one when it lands. Crossing them going up (scroll down, building) and
+// going down (scroll up, un-building) both fire, so feel follows the visuals.
+const HAPTIC_BEATS = [[0.15, 0.4], [0.6, 0.75], [1, 1]];
 const scrubCards = new Set();
 const scrubShown = new WeakMap(); // the p value currently displayed per card
 const scrubWidth = new WeakMap();
@@ -72,7 +78,16 @@ function scrubTick() {
     }
     if (Math.abs(target - p) < 0.004) p = target;
     else moving = true;
-    if (p === scrubShown.get(el)) return;
+    const prev = scrubShown.get(el);
+    if (p === prev) return;
+    if (prev !== undefined && !reduce) {
+      for (const [beat, strength] of HAPTIC_BEATS) {
+        if ((prev < beat && p >= beat) || (prev >= beat && p < beat)) {
+          // only for cards actually on screen
+          if (top < viewH && top > -el.offsetHeight) hapticSync(strength);
+        }
+      }
+    }
     scrubShown.set(el, p);
     el.style.setProperty('--p', p.toFixed(3));
     el.dataset.forge = p >= 1 ? '1' : '0';
