@@ -31,46 +31,71 @@ function traceDelayFor(name) {
 // so it behaves the same in every browser. One shared rAF-throttled scroll
 // listener; reads are batched before writes.
 const REVEAL_RANGE = 250; // px of travel from the bottom edge to fully built
+const SETTLE_DELAY = 160; // ms without scrolling before visible cards finish building
 const scrubCards = new Set();
-const scrubLast = new WeakMap();
+const scrubShown = new WeakMap(); // the p value currently displayed per card
 const scrubWidth = new WeakMap();
 let scrubRaf = 0;
 let scrubBound = false;
+let scrubLastScroll = 0;
+let scrubSettleTimer = 0;
 
 function scrubTick() {
   scrubRaf = 0;
+  const now = performance.now();
+  const resting = now - scrubLastScroll > SETTLE_DELAY;
   const viewH = window.innerHeight;
   const reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const reads = [];
   scrubCards.forEach((el) => {
-    if (!el.isConnected) return;
-    reads.push([el, el.getBoundingClientRect().top]);
+    if (el.isConnected) reads.push([el, el.getBoundingClientRect().top, el.offsetWidth]);
   });
-  reads.forEach(([el, top]) => {
+  let moving = false;
+  reads.forEach(([el, top, w]) => {
     // Card width feeds the circle's travel to the card centre (see CSS).
-    const w = el.offsetWidth;
     if (scrubWidth.get(el) !== w) {
       scrubWidth.set(el, w);
       el.style.setProperty('--cw', `${w}px`);
     }
-    let p = reduce ? 1 : (viewH - top) / REVEAL_RANGE;
-    p = p < 0 ? 0 : p > 1 ? 1 : Math.round(p * 200) / 200;
-    if (scrubLast.get(el) === p) return;
-    scrubLast.set(el, p);
-    el.style.setProperty('--p', String(p));
+    const pos = Math.min(1, Math.max(0, (viewH - top) / REVEAL_RANGE));
+    // While scrolling the card follows its position on screen; once the page
+    // has been still for a moment, any card that is on screen finishes
+    // building by itself, so nothing is left half-open at rest.
+    let target = reduce ? 1 : pos;
+    if (!reduce && resting && top < viewH - 6) target = 1;
+    let p = scrubShown.get(el);
+    if (p === undefined) p = pos;
+    else {
+      // Light smoothing (quick while scrolling, slower when settling) keeps
+      // the motion fluid and continuous when the target jumps.
+      p += (target - p) * (resting ? 0.14 : 0.45);
+    }
+    if (Math.abs(target - p) < 0.004) p = target;
+    else moving = true;
+    if (p === scrubShown.get(el)) return;
+    scrubShown.set(el, p);
+    el.style.setProperty('--p', p.toFixed(3));
     el.dataset.forge = p >= 1 ? '1' : '0';
   });
+  if (moving) scrubSchedule();
 }
 
 function scrubSchedule() {
   if (!scrubRaf) scrubRaf = requestAnimationFrame(scrubTick);
 }
 
+function scrubOnScroll() {
+  scrubLastScroll = performance.now();
+  scrubSchedule();
+  clearTimeout(scrubSettleTimer);
+  scrubSettleTimer = setTimeout(scrubSchedule, SETTLE_DELAY + 20);
+}
+
 function scrubRegister(el) {
   scrubCards.add(el);
   if (!scrubBound) {
     scrubBound = true;
-    document.addEventListener('scroll', scrubSchedule, { capture: true, passive: true });
+    document.addEventListener('scroll', scrubOnScroll, { capture: true, passive: true });
     window.addEventListener('resize', scrubSchedule, { passive: true });
   }
   // Layout can shift after mount without any scroll (banners, fonts, data
@@ -81,7 +106,8 @@ function scrubRegister(el) {
     scrubCards.delete(el);
     if (scrubCards.size === 0 && scrubBound) {
       scrubBound = false;
-      document.removeEventListener('scroll', scrubSchedule, { capture: true });
+      clearTimeout(scrubSettleTimer);
+      document.removeEventListener('scroll', scrubOnScroll, { capture: true });
       window.removeEventListener('resize', scrubSchedule);
     }
   };

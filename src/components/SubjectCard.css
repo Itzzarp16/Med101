@@ -241,14 +241,23 @@
 .subj-grid > .subj-card.subj-card--build {
   animation: none;
   --p: 1;
-  --s: clamp(0, calc(var(--p) / 0.15), 1);
-  --q: calc(1 - clamp(0, calc((var(--p) - 0.15) / 0.45), 1));
+  /* raw stage progress (linear in --p) ... */
+  --s0: clamp(0, calc(var(--p) / 0.15), 1);
+  --q0: calc(1 - clamp(0, calc((var(--p) - 0.15) / 0.45), 1));
+  --e0: clamp(0, calc(var(--p) / 0.18), 1);
+  --n0: clamp(0, calc((var(--p) - 0.45) / 0.4), 1);
+  --f0: clamp(0, calc((var(--p) - 0.55) / 0.4), 1);
+  --g0: clamp(0, calc((var(--p) - 0.62) / 0.35), 1);
+  --r0: clamp(0, calc((var(--p) - 0.55) / 0.4), 1);
+  /* ... eased with smoothstep so every part accelerates and settles softly */
+  --s: calc(var(--s0) * var(--s0) * (3 - 2 * var(--s0)));
+  --q: calc(var(--q0) * var(--q0) * (3 - 2 * var(--q0)));
+  --e: calc(var(--e0) * var(--e0) * (3 - 2 * var(--e0)));
+  --n: calc(var(--n0) * var(--n0) * (3 - 2 * var(--n0)));
+  --f: calc(var(--f0) * var(--f0) * (3 - 2 * var(--f0)));
+  --g: calc(var(--g0) * var(--g0) * (3 - 2 * var(--g0)));
+  --r: calc(var(--r0) * var(--r0) * (3 - 2 * var(--r0)));
   --rs: calc(var(--s) * 29px);
-  --e: clamp(0, calc(var(--p) / 0.18), 1);
-  --n: clamp(0, calc((var(--p) - 0.45) / 0.4), 1);
-  --f: clamp(0, calc((var(--p) - 0.55) / 0.4), 1);
-  --g: clamp(0, calc((var(--p) - 0.62) / 0.35), 1);
-  --r: clamp(0, calc((var(--p) - 0.55) / 0.4), 1);
   /* circle centre, measured from the card's left edge: the emoji's own spot
      (38px) when built, the card's middle (--cw / 2, set from JS) when closed */
   --cx: calc(38px + var(--q) * (var(--cw, 330px) / 2 - 38px));
@@ -264,6 +273,23 @@
   transition: none;
 }
 
+/* Crisp outline that follows the morphing shape (the card's own border is
+   clipped away while it is a circle / pill). The pseudo-element's box is the
+   same as the clip box, nudged 1px out to account for the card's border. */
+.subj-card--build[data-forge="0"]::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  top: calc(var(--q) * (50% - var(--rs)) - 1px);
+  bottom: calc(var(--q) * (50% - var(--rs)) - 1px);
+  left: calc(var(--q) * (var(--cx) - var(--rs)) - 1px);
+  right: calc(var(--q) * (var(--cw, 330px) - var(--cx) - var(--rs)) - 1px);
+  border-radius: calc(20px + var(--q) * 90px);
+  border: 1px solid rgba(var(--cyan-rgb), calc(0.2 + var(--q) * 0.5));
+  opacity: clamp(0, calc(var(--q) * 5), 1);
+}
+
 /* Ripple ring: hugs the circle, then spreads out and fades as the card opens. */
 .subj-scan {
   position: absolute;
@@ -273,8 +299,8 @@
   height: calc(var(--rs, 29px) * 2 + (1 - var(--q, 0)) * 520px);
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 2px solid rgba(var(--cyan-rgb), 0.9);
-  box-shadow: 0 0 18px rgba(var(--cyan-rgb), 0.55), inset 0 0 14px rgba(var(--cyan-rgb), 0.3);
+  border: 1.5px solid rgba(var(--cyan-rgb), 0.8);
+  box-shadow: 0 0 16px rgba(var(--cyan-rgb), 0.45), inset 0 0 12px rgba(var(--cyan-rgb), 0.25);
   z-index: 3;
   pointer-events: none;
   opacity: calc(clamp(0, calc(var(--p, 1) * 12), 1) * clamp(0, calc((0.6 - var(--p, 1)) * 5), 1));
@@ -282,7 +308,7 @@
 
 .subj-card--build[data-forge="0"] .subj-emoji {
   opacity: var(--e);
-  transform: translateX(calc(var(--q) * (var(--cw, 330px) / 2 - 38px))) scale(calc(0.3 + 0.7 * var(--e)));
+  transform: translateX(calc(var(--q) * (var(--cw, 330px) / 2 - 38px))) scale(calc(0.3 + 0.7 * var(--e) + 0.3 * var(--e) * (1 - var(--e))));
 }
 .subj-card--build[data-forge="0"] .subj-name {
   opacity: var(--n);
