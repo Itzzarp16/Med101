@@ -25,8 +25,8 @@ const STEPS = [
   },
   {
     emoji: '📌',
-    title: 'Wrong & Flagged Questions',
-    text: "Anything you get wrong, or flag yourself, is saved here automatically so you can revisit it later.",
+    title: 'Wrong Questions & Important Marked',
+    text: "Anything you get wrong is saved under Wrong Questions, and questions you star yourself go to Important Marked, so you can revisit them later.",
   },
   {
     emoji: '🎉',

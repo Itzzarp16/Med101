@@ -153,7 +153,7 @@ const SLOTS = [
       "Recap today's topics - spaced revision beats re-reading.",
       "Check the leaderboard, then earn your spot with a round.",
       "Ten good questions now will make tomorrow feel easier.",
-      "Go through your Wrong & Flagged questions while today is fresh.",
+      "Go through your Wrong questions while today is fresh.",
       "Evenings are perfect for a full topic run - settle in.",
     ],
   },

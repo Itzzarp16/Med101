@@ -41,14 +41,36 @@ function useReveal() {
   return reveal;
 }
 
-export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
+// One screen, two menu items: kind='wrong' is "Wrong Questions" and
+// kind='flagged' is "Important Marked" (questions starred during a quiz).
+const COPY = {
+  wrong: {
+    title: 'Wrong Questions',
+    placeholder: 'Search wrong questions',
+    emptyIcon: '✅',
+    emptyTitle: 'Nothing missed yet',
+    emptyText: 'Questions you get wrong will show up here for review.',
+    noMatch: 'wrong',
+    removeLabel: 'Remove from wrong questions',
+  },
+  flagged: {
+    title: 'Important Marked',
+    placeholder: 'Search important questions',
+    emptyIcon: '⭐',
+    emptyTitle: 'Nothing marked yet',
+    emptyText: 'Tap the ☆ star on a question during a quiz to save it here.',
+    noMatch: 'important',
+    removeLabel: 'Remove from important marked',
+  },
+};
+
+export default function ReviewListScreen({ kind = 'wrong', onPracticeSet, onBack }) {
   const { user } = useAuth();
   const reveal = useReveal();
-  const [tab, setTab] = useState('wrong');
+  const copy = COPY[kind] || COPY.wrong;
   const [subject, setSubject] = useState('all');
   const [query, setQuery] = useState('');
-  const [wrong, setWrong] = useState([]);
-  const [flagged, setFlagged] = useState([]);
+  const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [leaving, setLeaving] = useState(() => new Set());
 
@@ -56,16 +78,14 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
     let alive = true;
     (async () => {
       setLoading(true);
-      const [w, f] = await Promise.all([fetchWrongQuestions(user.uid), fetchFlaggedQuestions(user.uid)]);
+      const items = kind === 'flagged' ? await fetchFlaggedQuestions(user.uid) : await fetchWrongQuestions(user.uid);
       if (!alive) return;
-      setWrong(w);
-      setFlagged(f);
+      setList(items);
       setLoading(false);
     })();
     return () => { alive = false; };
-  }, [user.uid]);
+  }, [user.uid, kind]);
 
-  const list = tab === 'wrong' ? wrong : flagged;
   const term = query.trim();
 
   // Search matches the question, its topic and every option.
@@ -95,14 +115,6 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
   const visibleGroups = activeSubject === 'all' ? groups : groups.filter((g) => g.name === activeSubject);
   const visibleItems = visibleGroups.flatMap((g) => g.items).filter((it) => !leaving.has(it.id));
 
-  function pickTab(next) {
-    if (next === tab) return;
-    playTapSound();
-    haptic(8);
-    setTab(next);
-    setSubject('all');
-  }
-
   function pickSubject(name) {
     if (name === activeSubject) return;
     playTapSound();
@@ -115,13 +127,12 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
     setLeaving((prev) => new Set(prev).add(item.id));
     setTimeout(async () => {
       try {
-        if (tab === 'wrong') {
-          await removeWrongQuestion(user.uid, item.id);
-          setWrong((prev) => prev.filter((x) => x.id !== item.id));
-        } else {
+        if (kind === 'flagged') {
           await toggleFlaggedQuestion(user.uid, item.mainSubject, item, true);
-          setFlagged((prev) => prev.filter((x) => x.id !== item.id));
+        } else {
+          await removeWrongQuestion(user.uid, item.id);
         }
+        setList((prev) => prev.filter((x) => x.id !== item.id));
       } catch {
         // Couldn't remove it: bring the card back instead of losing it.
       } finally {
@@ -146,17 +157,9 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
 
   return (
     <div className="std-screen wf-screen">
-      <ScreenHeader onBack={onBack} title="Wrong & Flagged" />
-
-      <div className="wf-tabs" role="tablist" aria-label="Wrong or flagged" data-tab={tab}>
-        <button type="button" role="tab" aria-selected={tab === 'wrong'} className="wf-tab" onClick={() => pickTab('wrong')}>
-          Wrong <b>{wrong.length}</b>
-        </button>
-        <button type="button" role="tab" aria-selected={tab === 'flagged'} className="wf-tab" onClick={() => pickTab('flagged')}>
-          Flagged <b>{flagged.length}</b>
-        </button>
-        <span className="wf-tabs-bar" aria-hidden="true" />
-      </div>
+      <ScreenHeader onBack={onBack} title={copy.title}>
+        {!loading && list.length > 0 && `${list.length} ${list.length === 1 ? 'question' : 'questions'}`}
+      </ScreenHeader>
 
       {loading ? (
         <div className="wf-skels" aria-busy="true" aria-label="Loading">
@@ -164,9 +167,9 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
         </div>
       ) : list.length === 0 ? (
         <div className="wf-empty">
-          <div className="wf-empty-ico">{tab === 'wrong' ? '✅' : '🔖'}</div>
-          <div className="wf-empty-t">{tab === 'wrong' ? 'Nothing missed yet' : 'No flagged questions'}</div>
-          <div className="wf-empty-s">{tab === 'wrong' ? 'Questions you get wrong will show up here for review.' : 'Star a question during a quiz to save it here.'}</div>
+          <div className="wf-empty-ico">{copy.emptyIcon}</div>
+          <div className="wf-empty-t">{copy.emptyTitle}</div>
+          <div className="wf-empty-s">{copy.emptyText}</div>
         </div>
       ) : (
         <>
@@ -175,7 +178,7 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
             <input
               type="search"
               className="wf-search-input"
-              placeholder={`Search ${tab === 'wrong' ? 'wrong' : 'flagged'} questions`}
+              placeholder={copy.placeholder}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               enterKeyHint="search"
@@ -211,12 +214,12 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
             <div className="wf-empty">
               <div className="wf-empty-ico">🔍</div>
               <div className="wf-empty-t">No matches</div>
-              <div className="wf-empty-s">Nothing in your {tab === 'wrong' ? 'wrong' : 'flagged'} questions matches “{term}”.</div>
+              <div className="wf-empty-s">Nothing in your {copy.noMatch} questions matches “{term}”.</div>
               <button type="button" className="wf-empty-btn" onClick={() => setQuery('')}>Clear search</button>
             </div>
           ) : (
-            /* key = tab + subject, so switching view replays the entrance */
-            <div className="wf-groups" key={`${tab}:${activeSubject}`}>
+            /* key = list + subject, so switching view replays the entrance */
+            <div className="wf-groups" key={`${kind}:${activeSubject}`}>
               {visibleGroups.map((g) => (
                 <section key={g.name} className="wf-group">
                   {visibleGroups.length > 1 && (
@@ -236,10 +239,10 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
                           <div className="wf-item-in">
                             <ReviewCard
                               item={item}
-                              kind={tab}
+                              kind={kind}
                               term={term}
                               onRemove={() => handleRemove(item)}
-                              removeLabel={tab === 'wrong' ? 'Remove from wrong questions' : 'Unflag this question'}
+                              removeLabel={copy.removeLabel}
                             />
                           </div>
                         </div>

@@ -21,6 +21,7 @@ const TOP_BAR_PROPS = {
   onSearch: open('search'),
   onWeakTopics: open('weak-topics'),
   onWrongFlagged: open('wrong-flagged'),
+  onImportantMarked: open('important-marked'),
   onHistory: open('history'),
   onLeaderboard: open('leaderboard'),
   onFriends: open('friends'),

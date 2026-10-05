@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Highlight } from './QuestionListCard';
 
-// One row in the Wrong & Flagged list. Collapsed it shows just the question,
+// One row in the Wrong Questions / Important Marked lists. Collapsed it shows just the question,
 // the correct answer and a quiet meta line; tap the row to see every option
 // and the remove action. Rows sit in a shared list (dividers, no boxes).
 const LABELS = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -29,7 +29,7 @@ export default function ReviewCard({ item, kind, term, onRemove, removeLabel }) 
   const pickedText = picked !== null && picked >= 0 && picked !== item.c ? options[picked] : undefined;
   const timedOut = picked === -2;
   const when = kind === 'wrong' ? ago(item.lastWrongAt) : ago(item.flaggedAt);
-  const meta = [item.s, when && `${kind === 'wrong' ? 'Missed' : 'Flagged'} ${when}`].filter(Boolean).join(' · ');
+  const meta = [item.s, when && `${kind === 'wrong' ? 'Missed' : 'Marked'} ${when}`].filter(Boolean).join(' · ');
   // Only open a row by itself when the search hit is hidden: inside an option
   // that is not the correct answer, and not in the question/answer already shown.
   const has = (x) => typeof x === 'string' && x.toLowerCase().includes(term.toLowerCase());
@@ -78,7 +78,7 @@ export default function ReviewCard({ item, kind, term, onRemove, removeLabel }) 
           </div>
           {onRemove && (
             <button type="button" className="wf-remove" onClick={onRemove} aria-label={removeLabel}>
-              {kind === 'wrong' ? 'Remove from list' : 'Unflag'}
+              {kind === 'wrong' ? 'Remove from list' : 'Unmark'}
             </button>
           )}
         </div>

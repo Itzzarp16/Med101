@@ -44,7 +44,8 @@ const SettingsScreen = lazy(() => import('./components/SettingsScreen'));
 const YourDataScreen = lazy(() => import('./components/YourDataScreen'));
 const ProfileScreen = lazy(() => import('./components/ProfileScreen'));
 const WeakTopicsScreen = lazy(() => import('./components/WeakTopicsScreen'));
-const WrongFlaggedScreen = lazy(() => import('./components/WrongFlaggedScreen'));
+// One list screen serves both menu items (kind="wrong" / kind="flagged").
+const ReviewListScreen = lazy(() => import('./components/ReviewListScreen'));
 const SearchScreen = lazy(() => import('./components/SearchScreen'));
 const HistoryScreen = lazy(() => import('./components/HistoryScreen'));
 const PremiumScreen = lazy(() => import('./components/PremiumScreen'));
@@ -316,7 +317,7 @@ export default function App() {
     // themselves, so listing them here doesn't let anyone in.
     const OPEN_SCREENS = [
       'leaderboard', 'challenge', 'friends', 'weak-topics', 'history',
-      'search', 'wrong-flagged', 'premium', 'settings', 'profile',
+      'search', 'wrong-flagged', 'important-marked', 'premium', 'settings', 'profile',
       'admin-payments', 'admin-subscribers', 'admin-backup', 'admin-notice', 'admin-broadcast',
       'admin-calendar', 'admin-exams', 'admin-upload-questions', 'admin-reports',
       'admin-user-detail', 'admin-analytics', 'admin-security',
@@ -509,7 +510,8 @@ export default function App() {
     onSettings: () => goTo('settings'),
     onProfile: () => goTo('profile'),
     onWeakTopics: () => goTo('weak-topics'),
-    onWrongFlagged: () => goTo('wrong-flagged'),
+    onWrongFlagged: () => goTo('wrong-flagged'), // route id kept so old notification links still open it
+    onImportantMarked: () => goTo('important-marked'),
     onSearch: () => goTo('search'),
     onHistory: () => goTo('history'),
     onPremium: () => goTo('premium'),
@@ -998,7 +1000,24 @@ export default function App() {
 
       {screen === 'wrong-flagged' && (
         <Suspense fallback={<ScreenFallback />}>
-          <WrongFlaggedScreen
+          <ReviewListScreen
+            kind="wrong"
+            onPracticeSet={(items) => {
+              const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
+              setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
+              setSelectedSubject(items[0]?.mainSubject || null);
+              setSelectedTopic(null);
+              goTo('quiz');
+            }}
+            onBack={goBack}
+          />
+        </Suspense>
+      )}
+
+      {screen === 'important-marked' && (
+        <Suspense fallback={<ScreenFallback />}>
+          <ReviewListScreen
+            kind="flagged"
             onPracticeSet={(items) => {
               const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
               setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
