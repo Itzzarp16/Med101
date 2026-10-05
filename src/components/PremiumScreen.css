@@ -295,3 +295,15 @@
 @media (prefers-reduced-motion: reduce) {
   .pm *, .pm *::before, .pm *::after, .pay-card, .pm-banner, .pm-card { animation: none !important; transition: none !important; }
 }
+
+/* Collapsible "Your subscriptions" card */
+.pm-acc { padding: 0; overflow: hidden; }
+.pm-acc-head { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 16px; background: none; border: 0; color: inherit; cursor: pointer; text-align: left; -webkit-tap-highlight-color: transparent; }
+.pm-acc-head .pm-card-title { margin: 0; }
+.pm-acc-chev { font-size: 22px; line-height: 1; color: var(--text3); transition: transform .35s cubic-bezier(.3,1.3,.5,1); }
+.pm-acc.open .pm-acc-chev { transform: rotate(180deg); }
+.pm-acc-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .4s cubic-bezier(.2,.8,.2,1); }
+.pm-acc.open .pm-acc-body { grid-template-rows: 1fr; }
+.pm-acc-inner { overflow: hidden; padding: 0 16px; opacity: 0; transition: opacity .3s, padding .4s; }
+.pm-acc.open .pm-acc-inner { opacity: 1; padding: 0 16px 16px; }
+.pm-title { white-space: nowrap; font-size: clamp(1.5rem, 8vw, 2rem); }

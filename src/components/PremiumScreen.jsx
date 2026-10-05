@@ -189,6 +189,7 @@ export default function PremiumScreen({ onBack }) {
   const [submitMsg, setSubmitMsg] = useState(null);
 
   const [copied, setCopied] = useState(false);
+  const [subsOpen, setSubsOpen] = useState(false);
 
   const [code, setCode] = useState('');
   const [redeeming, setRedeeming] = useState(false);
@@ -390,31 +391,7 @@ export default function PremiumScreen({ onBack }) {
             <Banner tone="amber" icon="⏳" title="Waiting for approval">
               We've got your payment details - check below for the current status.
             </Banner>
-          ) : (
-            <Banner tone="neutral" icon="🔓" title="Free preview">
-              You can try the first 25 questions of any subject. Get Med101 Maxx for full access to everything.
-            </Banner>
-          )}
-
-          {(premium.subscriptions || []).length > 0 && (
-            <div className="glass pm-card">
-              <div className="pm-card-title">Your subscriptions</div>
-              {hasOtherActiveSub && (
-                <div className="pm-warn">
-                  You're viewing {semesterName(profile?.enrolledYearSemester)}, which isn't covered by an active subscription. Your active subscriptions below apply to the semesters listed.
-                </div>
-              )}
-              <div className="pm-sub-list">
-                {premium.subscriptions.map((sub, i) => (
-                  <SubscriptionRow
-                    key={`${sub.semester}-${sub.activatedAt.getTime()}-${i}`}
-                    sub={sub}
-                    isCurrent={sub.semester === null || sub.semester === profile?.enrolledYearSemester}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+          ) : null}
 
           {payFlowVisible && !hidePaymentFlow && config && (
             <div className="pay-card">
@@ -511,6 +488,36 @@ export default function PremiumScreen({ onBack }) {
               </button>
               {submitMsg && <div className={`auth-msg ${submitMsg.type}`} style={{ display: 'block' }}>{submitMsg.text}</div>}
             </form>
+          )}
+
+          {(premium.subscriptions || []).length > 0 && (
+            <div className={`glass pm-card pm-acc${subsOpen ? ' open' : ''}`}>
+              <button
+                type="button"
+                className="pm-acc-head"
+                aria-expanded={subsOpen}
+                onClick={() => { playTapSound(); setSubsOpen((o) => !o); }}
+              >
+                <span className="pm-card-title">Your subscriptions</span>
+                <span className="pm-acc-chev" aria-hidden="true">⌄</span>
+              </button>
+              <div className="pm-acc-body"><div className="pm-acc-inner">
+                {hasOtherActiveSub && (
+                  <div className="pm-warn">
+                    You're viewing {semesterName(profile?.enrolledYearSemester)}, which isn't covered by an active subscription. Your active subscriptions below apply to the semesters listed.
+                  </div>
+                )}
+                <div className="pm-sub-list">
+                  {premium.subscriptions.map((sub, i) => (
+                    <SubscriptionRow
+                      key={`${sub.semester}-${sub.activatedAt.getTime()}-${i}`}
+                      sub={sub}
+                      isCurrent={sub.semester === null || sub.semester === profile?.enrolledYearSemester}
+                    />
+                  ))}
+                </div>
+              </div></div>
+            </div>
           )}
 
           {payFlowVisible && !hasPendingRequest && config?.activationMethod === 'code' && (
