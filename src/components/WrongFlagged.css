@@ -1,0 +1,184 @@
+/* Wrong & Flagged: segmented switch, subject chips + sections, compact review
+   cards, scroll-in transitions. Colours come from theme tokens (and color-mix
+   on --text) so it works in light and dark. --acc is set per subject. */
+.wf-screen {
+  --wf-line: color-mix(in srgb, var(--text) 11%, transparent);
+  --wf-fill: color-mix(in srgb, var(--text) 5%, transparent);
+  --wf-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ── Segmented Wrong / Flagged switch ── */
+.wf-seg {
+  position: relative; display: grid; grid-template-columns: 1fr 1fr; padding: 4px; margin-bottom: 14px;
+  border-radius: 16px; background: var(--wf-fill); border: 1px solid var(--wf-line);
+}
+.wf-seg-thumb {
+  position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 12px;
+  background: color-mix(in srgb, var(--cyan) 20%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cyan) 55%, transparent);
+  transition: transform 0.32s var(--wf-ease);
+}
+.wf-seg[data-tab='flagged'] .wf-seg-thumb { transform: translateX(100%); }
+.wf-seg-btn {
+  position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; gap: 7px;
+  padding: 11px 8px; border: 0; background: none; font: inherit; font-size: 14px; font-weight: 700;
+  color: var(--text2); cursor: pointer; -webkit-tap-highlight-color: transparent; transition: color 0.2s;
+}
+.wf-seg-btn[aria-selected='true'] { color: var(--text); }
+.wf-seg-btn b {
+  min-width: 24px; padding: 1px 7px; border-radius: 999px; font-size: 12px; font-weight: 800; text-align: center;
+  font-variant-numeric: tabular-nums; background: color-mix(in srgb, var(--text) 10%, transparent);
+}
+
+/* ── Subject chips ── */
+.wf-chips {
+  display: flex; gap: 8px; margin: 0 -16px 16px; padding: 2px 16px 4px; overflow-x: auto;
+  scrollbar-width: none; scroll-snap-type: x proximity; scroll-padding-inline: 16px;
+}
+.wf-chips::-webkit-scrollbar { display: none; }
+.wf-chip {
+  flex-shrink: 0; display: inline-flex; align-items: center; gap: 6px; padding: 8px 13px; border-radius: 999px;
+  font: inherit; font-size: 13px; font-weight: 600; color: var(--text2); cursor: pointer; scroll-snap-align: start;
+  background: var(--wf-fill); border: 1px solid var(--wf-line); -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+}
+.wf-chip:active { transform: scale(0.96); }
+.wf-chip b { font-size: 12px; font-weight: 800; opacity: 0.75; font-variant-numeric: tabular-nums; }
+.wf-chip[aria-pressed='true'] {
+  color: var(--text); --acc: var(--cyan);
+  background: color-mix(in srgb, var(--acc) 22%, transparent);
+  border-color: color-mix(in srgb, var(--acc) 60%, transparent);
+}
+.wf-chip[aria-pressed='true'] b { opacity: 1; }
+
+/* ── Subject sections ── */
+.wf-group { margin-bottom: 22px; }
+.wf-sec { display: flex; align-items: center; gap: 12px; margin: 0 2px 12px; }
+.wf-sec-ico {
+  width: 40px; height: 40px; flex-shrink: 0; display: grid; place-items: center; border-radius: 13px; font-size: 20px;
+  background: color-mix(in srgb, var(--acc) 18%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--acc) 35%, transparent);
+}
+.wf-sec-text { flex: 1; min-width: 0; }
+.wf-sec-name { margin: 0; font-size: 15.5px; font-weight: 800; color: var(--text); line-height: 1.2; }
+.wf-sec-count { font-size: 12px; color: var(--text3); }
+.wf-sec-btn {
+  display: inline-flex; align-items: center; gap: 5px; padding: 7px 12px; border-radius: 999px; border: 0; cursor: pointer;
+  font: inherit; font-size: 12.5px; font-weight: 700; color: var(--text);
+  background: color-mix(in srgb, var(--acc) 20%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--acc) 40%, transparent);
+  -webkit-tap-highlight-color: transparent; transition: transform 0.15s;
+}
+.wf-sec-btn:active { transform: scale(0.95); }
+
+/* ── Cards ── */
+.wf-item {
+  display: grid; grid-template-rows: 1fr; margin-bottom: 12px;
+  transition: grid-template-rows 0.28s var(--wf-ease), opacity 0.22s ease, margin 0.28s var(--wf-ease);
+}
+.wf-item-in { min-height: 0; }
+.wf-item[data-leaving] { grid-template-rows: 0fr; opacity: 0; margin-bottom: 0; pointer-events: none; }
+.wf-item[data-leaving] .wf-item-in { overflow: hidden; }
+
+.wf-card {
+  position: relative; padding: 14px 15px 12px; border-radius: 20px;
+  background: var(--wf-fill); border: 1px solid var(--wf-line);
+}
+.wf-card::before { /* accent stripe */
+  content: ''; position: absolute; left: 0; top: 18px; bottom: 18px; width: 3px; border-radius: 0 3px 3px 0;
+  background: var(--acc, var(--cyan)); opacity: 0.85;
+}
+.wf-card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.wf-topic {
+  display: inline-flex; align-items: center; gap: 6px; min-width: 0; max-width: 62%; padding: 4px 10px; border-radius: 999px;
+  font-size: 11.5px; font-weight: 700; letter-spacing: 0.02em; color: var(--text2);
+  background: color-mix(in srgb, var(--text) 8%, transparent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.wf-topic i { width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: var(--acc, var(--cyan)); }
+.wf-when { font-size: 11.5px; color: var(--text3); white-space: nowrap; }
+.wf-x {
+  margin: -6px -7px -6px auto; width: 34px; height: 34px; flex-shrink: 0; display: grid; place-items: center; border: 0;
+  border-radius: 50%; background: none; color: var(--text3); cursor: pointer; -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s, color 0.15s, transform 0.15s;
+}
+.wf-x:hover { color: var(--red); background: color-mix(in srgb, var(--red) 14%, transparent); }
+.wf-x:active { transform: scale(0.88); }
+
+.wf-q { margin: 0 0 12px; font-size: 15px; font-weight: 600; line-height: 1.5; color: var(--text); }
+
+.wf-answer {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 14px; color: var(--green);
+  background: color-mix(in srgb, var(--green) 13%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--green) 35%, transparent);
+}
+.wf-answer-l, .wf-opt-l {
+  width: 22px; height: 22px; flex-shrink: 0; display: grid; place-items: center; border-radius: 7px; font-size: 11.5px; font-weight: 800;
+  background: color-mix(in srgb, currentColor 16%, transparent);
+}
+.wf-answer-t { flex: 1; min-width: 0; font-size: 14px; font-weight: 700; line-height: 1.4; }
+.wf-answer svg { flex-shrink: 0; }
+
+.wf-toggle {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 8px; padding: 6px 4px; border: 0; background: none; cursor: pointer;
+  font: inherit; font-size: 12.5px; font-weight: 700; color: var(--text3); -webkit-tap-highlight-color: transparent;
+}
+.wf-toggle svg { transition: transform 0.28s var(--wf-ease); }
+.wf-toggle[aria-expanded='true'] svg { transform: rotate(180deg); }
+
+.wf-opts-wrap { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.3s var(--wf-ease); }
+.wf-opts-wrap[data-open='1'] { grid-template-rows: 1fr; }
+.wf-opts { min-height: 0; overflow: hidden; display: flex; flex-direction: column; gap: 6px; }
+.wf-opts-wrap[data-open='1'] .wf-opts { padding-top: 4px; }
+.wf-opt {
+  display: flex; align-items: flex-start; gap: 10px; padding: 8px 11px; border-radius: 12px; font-size: 13.5px; line-height: 1.4;
+  color: var(--text2); background: color-mix(in srgb, var(--text) 5%, transparent);
+}
+.wf-opt.ok { color: var(--green); font-weight: 700; background: color-mix(in srgb, var(--green) 12%, transparent); }
+.wf-opt-t { flex: 1; min-width: 0; }
+
+/* ── Floating practice button ── */
+.wf-bar { position: sticky; bottom: calc(10px + env(safe-area-inset-bottom, 0px)); z-index: 5; margin-top: 6px; }
+.wf-bar::before { /* soft fade so cards don't collide with the button */
+  content: ''; position: absolute; z-index: -1; pointer-events: none; left: -16px; right: -16px; top: -26px;
+  bottom: calc(-10px - env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, var(--bg2) 55%, transparent);
+}
+.wf-cta {
+  width: 100%; height: 54px; display: flex; align-items: center; justify-content: center; gap: 10px; border: 0; border-radius: 18px;
+  cursor: pointer; font: inherit; font-size: 15.5px; font-weight: 800; color: #fff; -webkit-tap-highlight-color: transparent;
+  background: linear-gradient(135deg, var(--cyan), color-mix(in srgb, var(--cyan) 55%, #7c6cf0));
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--cyan) 38%, transparent), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: transform 0.15s, opacity 0.2s;
+}
+.wf-cta:active { transform: scale(0.98); }
+.wf-cta:disabled { opacity: 0.5; }
+.wf-cta-label { max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wf-cta-count { min-width: 28px; padding: 2px 9px; border-radius: 999px; font-size: 13px; text-align: center; background: rgba(255, 255, 255, 0.22); font-variant-numeric: tabular-nums; }
+
+/* ── Empty + loading ── */
+.wf-empty { text-align: center; padding: 44px 20px; border-radius: 22px; background: var(--wf-fill); border: 1px dashed var(--wf-line); }
+.wf-empty-ico { font-size: 38px; margin-bottom: 10px; }
+.wf-empty-t { font-size: 16px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+.wf-empty-s { font-size: 13px; color: var(--text3); line-height: 1.5; }
+.wf-skels { display: flex; flex-direction: column; gap: 12px; }
+.wf-skel {
+  height: 168px; border-radius: 20px; border: 1px solid var(--wf-line);
+  background: linear-gradient(100deg, var(--wf-fill) 30%, color-mix(in srgb, var(--text) 11%, transparent) 50%, var(--wf-fill) 70%);
+  background-size: 220% 100%; animation: wf-shimmer 1.3s linear infinite; animation-delay: calc(var(--i) * -0.2s);
+}
+@keyframes wf-shimmer { from { background-position: 120% 0; } to { background-position: -120% 0; } }
+
+/* ── Scroll-in transitions (only when motion is OK) ── */
+@media (prefers-reduced-motion: no-preference) {
+  .wf-reveal {
+    opacity: 0; transform: translateY(18px) scale(0.985);
+    transition: opacity 0.5s var(--wf-ease), transform 0.55s var(--wf-ease), grid-template-rows 0.28s var(--wf-ease), margin 0.28s var(--wf-ease);
+    transition-delay: var(--d, 0ms), var(--d, 0ms), 0ms, 0ms;
+  }
+  .wf-reveal.in { opacity: 1; transform: none; }
+  .wf-item[data-leaving] { opacity: 0; transition-delay: 0ms; transition-duration: 0.2s, 0.2s, 0.28s, 0.28s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wf-skel { animation: none; }
+  .wf-seg-thumb, .wf-opts-wrap, .wf-item, .wf-toggle svg { transition: none; }
+}
