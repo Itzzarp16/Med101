@@ -346,13 +346,17 @@ export default function PremiumScreen({ onBack }) {
         />
       )}
 
-      <div className="pm-head">
+      <header className="pm-hero">
         <button className="pm-back" onClick={() => { playTapSound(); onBack(); }} aria-label="Back">←</button>
-        <div>
-          <h1 className="pm-title">⭐ Med101 Maxx</h1>
-          <div className="pm-sub">Unlock every question, in every subject.</div>
+        <div className="pm-orb" aria-hidden="true"><span>⭐</span></div>
+        <h1 className="pm-title">Med101 Maxx</h1>
+        <div className="pm-sub">Unlock every question, in every subject.</div>
+        <div className="pm-perks">
+          <span>♾️ Every question</span>
+          <span>📚 Every subject</span>
+          <span>🎓 Your semester</span>
         </div>
-      </div>
+      </header>
 
       {isAdmin ? (
         <Banner tone="green" icon="✅" title="Full Access (Admin)">

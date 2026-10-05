@@ -160,29 +160,43 @@
   margin-top: 10px;
 }
 
-/* ═════════ Premium screen chrome (header, banner, cards, steps) ═════════ */
-.pm-head { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+/* ═════════ Premium screen chrome (hero, banner, cards, steps) ═════════ */
+.pm-hero { position: relative; text-align: center; padding: 6px 0 18px; margin-bottom: 8px; }
+.pm-hero::before { content: ''; position: absolute; left: 50%; top: -30px; width: 280px; height: 280px; transform: translateX(-50%); background: radial-gradient(closest-side, rgba(var(--cyan-rgb), .35), transparent); filter: blur(10px); animation: pm-breathe 5s ease-in-out infinite; pointer-events: none; }
 .pm-back {
-  width: 40px; height: 40px; flex-shrink: 0; border-radius: 13px;
+  position: absolute; left: 0; top: 6px; z-index: 1; width: 40px; height: 40px; border-radius: 13px;
   border: 1px solid rgba(255, 255, 255, 0.28); background: rgba(255, 255, 255, 0.12);
-  color: var(--text); font-size: 18px; font-weight: 700; cursor: pointer;
+  color: var(--text); font-size: 18px; font-weight: 700; cursor: pointer; transition: transform .15s;
   -webkit-tap-highlight-color: transparent;
 }
-.pm-title { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--heading); margin: 0; line-height: 1.1; }
-.pm-sub { font-size: 12.5px; color: var(--text2); margin-top: 3px; }
+.pm-back:active { transform: scale(.9); }
+.pm-orb { position: relative; z-index: 1; width: 78px; height: 78px; margin: 4px auto 12px; border-radius: 50%; display: grid; place-items: center; font-size: 34px;
+  background: conic-gradient(from 0deg, var(--cyan), var(--violet), var(--pink), var(--amber), var(--cyan));
+  animation: pm-spin 8s linear infinite; box-shadow: 0 0 34px rgba(var(--cyan-rgb), .45); }
+.pm-orb::before { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: var(--bg2); }
+.pm-orb span { position: relative; animation: pm-spin 8s linear infinite reverse, pm-bob 3s ease-in-out infinite; display: block; }
+.pm-title { position: relative; z-index: 1; margin: 0; font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800; line-height: 1.05; letter-spacing: -.01em;
+  background: linear-gradient(100deg, var(--heading) 20%, #fff 45%, var(--amber) 55%, var(--heading) 80%); background-size: 250% 100%;
+  -webkit-background-clip: text; background-clip: text; color: transparent; animation: pm-shimmer 5s ease-in-out infinite; }
+.pm-sub { position: relative; z-index: 1; font-size: 13.5px; color: var(--text2); margin-top: 6px; }
+.pm-perks { position: relative; z-index: 1; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin-top: 14px; }
+.pm-perks span { font-size: 12px; font-weight: 700; color: var(--text2); padding: 6px 12px; border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.14); animation: pm-in .6s cubic-bezier(.2,.9,.3,1.2) both; }
+.pm-perks span:nth-child(1) { animation-delay: .35s; } .pm-perks span:nth-child(2) { animation-delay: .45s; } .pm-perks span:nth-child(3) { animation-delay: .55s; }
 
 .pm-banner {
   --tone: var(--text3);
-  display: flex; gap: 12px; align-items: flex-start;
-  padding: 14px 16px; border-radius: 20px; margin-bottom: 12px;
-  background: color-mix(in srgb, var(--tone) 12%, rgba(255, 255, 255, 0.06));
-  border: 1px solid color-mix(in srgb, var(--tone) 55%, transparent);
+  position: relative; overflow: hidden; display: flex; gap: 12px; align-items: flex-start;
+  padding: 15px 16px; border-radius: 20px; margin-bottom: 12px;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--tone) 18%, rgba(255,255,255,.04)), color-mix(in srgb, var(--tone) 6%, transparent));
+  border: 1px solid color-mix(in srgb, var(--tone) 50%, transparent);
 }
+.pm-banner::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.12) 50%, transparent 60%); transform: translateX(-120%); animation: pm-sweep 4.5s ease-in-out 1s infinite; pointer-events: none; }
 .pm-banner.green { --tone: var(--green); }
 .pm-banner.cyan { --tone: var(--cyan); }
 .pm-banner.amber { --tone: var(--amber); }
 .pm-banner.neutral { --tone: rgba(255, 255, 255, 0.5); }
-.pm-banner-icon { font-size: 22px; line-height: 1.2; }
+.pm-banner-icon { font-size: 24px; line-height: 1.2; animation: pm-bob 3s ease-in-out infinite; }
+.pm-banner.amber .pm-banner-icon { animation: pm-pulse 1.6s ease-in-out infinite; }
 .pm-banner-title { font-size: 15px; font-weight: 800; color: var(--text); }
 .pm-banner.green .pm-banner-title { color: var(--green); }
 .pm-banner.cyan .pm-banner-title { color: var(--cyan); }
@@ -190,7 +204,12 @@
 .pm-banner-body { font-size: 13px; color: var(--text2); margin-top: 3px; line-height: 1.5; }
 .pm-retry { margin-top: 8px; }
 
-.pm-card { padding: 14px 16px; margin-bottom: 12px; }
+/* Staggered entrance for the screen's blocks */
+.pm-banner, .pm-card, .pay-card { animation: pm-in .6s cubic-bezier(.2,.8,.2,1) both; }
+.pm > :nth-child(3) { animation-delay: .1s; } .pm > :nth-child(4) { animation-delay: .2s; }
+.pm > :nth-child(5) { animation-delay: .3s; } .pm > :nth-child(6) { animation-delay: .4s; } .pm > :nth-child(7) { animation-delay: .5s; }
+
+.pm-card { padding: 16px; margin-bottom: 12px; border-radius: 20px; }
 .pm-card-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
 .pm-warn { font-size: 12.5px; color: var(--amber); line-height: 1.5; margin-bottom: 10px; }
 
@@ -210,17 +229,19 @@
 .pm-sub-name { font-weight: 700; font-size: 14px; color: var(--text); }
 .pm-sub-badge { margin-left: 8px; font-size: 10px; }
 .pm-sub-bar { --tone: var(--green); height: 5px; border-radius: 3px; background: var(--border2); margin-top: 8px; overflow: hidden; }
-.pm-sub-bar > span { display: block; height: 100%; border-radius: 3px; background: var(--tone); }
+.pm-sub-bar > span { display: block; height: 100%; border-radius: 3px; background: linear-gradient(90deg, color-mix(in srgb, var(--tone) 60%, transparent), var(--tone)); transform-origin: left; animation: pm-fill 1.1s cubic-bezier(.2,.8,.2,1) .4s both; }
 .pm-sub-dates { margin-top: 6px; font-size: 12px; color: var(--text3); line-height: 1.6; }
 
 .pm-phone-tip { font-size: 12px; color: var(--text2); line-height: 1.5; margin: 12px 0 0; }
-.pm-steps { list-style: none; counter-reset: pm; text-align: left; margin: 16px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
-.pm-steps li { counter-increment: pm; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text2); }
+.pm-steps { list-style: none; counter-reset: pm; text-align: left; margin: 18px 0 0; padding: 0; display: flex; flex-direction: column; gap: 14px; position: relative; }
+.pm-steps::before { content: ''; position: absolute; left: 14px; top: 14px; bottom: 14px; width: 2px; background: linear-gradient(var(--cyan), var(--violet)); opacity: .35; border-radius: 2px; transform-origin: top; animation: pm-grow 1s ease .5s both; }
+.pm-steps li { counter-increment: pm; position: relative; display: flex; align-items: center; gap: 12px; font-size: 13.5px; color: var(--text2); line-height: 1.4; animation: pm-in .5s cubic-bezier(.2,.8,.2,1) both; }
+.pm-steps li:nth-child(1) { animation-delay: .5s; } .pm-steps li:nth-child(2) { animation-delay: .6s; } .pm-steps li:nth-child(3) { animation-delay: .7s; } .pm-steps li:nth-child(4) { animation-delay: .8s; }
 .pm-steps li::before {
-  content: counter(pm); flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%;
+  content: counter(pm); flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
   display: inline-flex; align-items: center; justify-content: center;
-  font-size: 11.5px; font-weight: 800; color: var(--cyan);
-  background: rgba(var(--cyan-rgb), 0.14); border: 1px solid rgba(var(--cyan-rgb), 0.4);
+  font-size: 12.5px; font-weight: 800; color: #fff; z-index: 1;
+  background: linear-gradient(135deg, var(--cyan2), var(--violet)); box-shadow: 0 0 0 4px var(--surface);
 }
 
 .pm-form .auth-label { margin-top: 10px; }
@@ -247,3 +268,30 @@
 .pm-for-sem strong { color: var(--text); }
 @keyframes pay-swap { from { opacity: 0; transform: translateY(8px) scale(.97); } }
 @media (prefers-reduced-motion: reduce) { .pay-swap { animation: none; } }
+
+/* Pay card polish: drifting gradient ring, glowing QR, shimmering submit */
+.pay-card { background-size: 250% 250%; animation: pm-in .6s cubic-bezier(.2,.8,.2,1) both, pm-drift 8s ease-in-out infinite; }
+.pay-card-inner { border-radius: 20px; }
+.pay-qr-frame { animation: pm-glow 3s ease-in-out infinite; }
+.pay-card-price { font-size: 34px; letter-spacing: -.01em; }
+.pay-sem-select { border-radius: 14px; transition: box-shadow .2s, border-color .2s; }
+.pay-sem-select:focus { border-color: var(--cyan); box-shadow: 0 0 0 3px rgba(var(--cyan-rgb), .25); }
+.pm-form .std-save-btn { position: relative; overflow: hidden; margin-top: 14px; }
+.pm-form .std-save-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,.28) 50%, transparent 60%); transform: translateX(-120%); animation: pm-sweep 3.5s ease-in-out 1.2s infinite; pointer-events: none; }
+.pm-form .std-save-btn:active { transform: scale(.98); }
+.pm-req { animation: pm-in .5s cubic-bezier(.2,.8,.2,1) both; }
+
+@keyframes pm-in { from { opacity: 0; transform: translateY(16px); } }
+@keyframes pm-spin { to { transform: rotate(360deg); } }
+@keyframes pm-bob { 50% { transform: translateY(-3px); } }
+@keyframes pm-pulse { 50% { transform: scale(1.15); opacity: .7; } }
+@keyframes pm-breathe { 50% { opacity: .55; transform: translateX(-50%) scale(1.08); } }
+@keyframes pm-shimmer { 0%, 100% { background-position: 100% 0; } 50% { background-position: 0 0; } }
+@keyframes pm-sweep { 0%, 60% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+@keyframes pm-fill { from { transform: scaleX(0); } }
+@keyframes pm-grow { from { transform: scaleY(0); } }
+@keyframes pm-drift { 50% { background-position: 100% 100%; } }
+@keyframes pm-glow { 50% { box-shadow: 0 0 26px rgba(var(--cyan-rgb), .5); } }
+@media (prefers-reduced-motion: reduce) {
+  .pm *, .pm *::before, .pm *::after, .pay-card, .pm-banner, .pm-card { animation: none !important; transition: none !important; }
+}
