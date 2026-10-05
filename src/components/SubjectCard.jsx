@@ -45,12 +45,34 @@ let scrubRaf = 0;
 let scrubBound = false;
 let scrubLastScroll = 0;
 let scrubSettleTimer = 0;
+let scrubLastFrame = 0;
+let scrubDir = 0; // +1 content moving up (scrolling down), -1 content moving down
+const scrubScrollY = new WeakMap(); // last scrollTop per scroller
+
+// The mobile browser's address bar sliding in/out changes innerHeight in the
+// middle of a scroll, which used to shift every card's progress at once (a
+// visible jump). Use the tallest height seen for this width instead; it only
+// resets when the width changes (rotation / resize).
+let stableW = 0;
+let stableH = 0;
+function stableViewH() {
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+  if (w !== stableW) { stableW = w; stableH = h; }
+  else if (h > stableH) stableH = h;
+  return stableH;
+}
 
 function scrubTick() {
   scrubRaf = 0;
   const now = performance.now();
   const resting = now - scrubLastScroll > SETTLE_DELAY;
-  const viewH = window.innerHeight;
+  // Frame-rate independent smoothing: 60Hz and 120Hz phones now animate at
+  // the same speed (the per-frame factors below are tuned for 60fps).
+  const dt = scrubLastFrame ? Math.min(64, now - scrubLastFrame) : 16.7;
+  scrubLastFrame = now;
+  const frames = dt / 16.7;
+  const viewH = stableViewH();
   const reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const reads = [];
   scrubCards.forEach((el) => {
@@ -72,9 +94,15 @@ function scrubTick() {
     let p = scrubShown.get(el);
     if (p === undefined) p = pos;
     else {
+      // Never un-build a card while the page is being scrolled DOWN: a card
+      // that finished building during a pause used to collapse back to a
+      // half-open pill the instant the finger moved again. Cards still
+      // un-build when you scroll back UP, which is the intended reverse.
+      if (!resting && scrubDir > 0 && target < p) target = p;
       // Light smoothing (quick while scrolling, slower when settling) keeps
       // the motion fluid and continuous when the target jumps.
-      p += (target - p) * (resting ? 0.14 : 0.45);
+      const k = resting ? 0.14 : 0.45;
+      p += (target - p) * (1 - Math.pow(1 - k, frames));
     }
     if (Math.abs(target - p) < 0.004) p = target;
     else moving = true;
@@ -99,7 +127,16 @@ function scrubSchedule() {
   if (!scrubRaf) scrubRaf = requestAnimationFrame(scrubTick);
 }
 
-function scrubOnScroll() {
+function scrubOnScroll(e) {
+  const t = e && e.target && e.target.scrollTop !== undefined && e.target !== document
+    ? e.target
+    : document.scrollingElement;
+  if (t) {
+    const y = t.scrollTop;
+    const last = scrubScrollY.get(t);
+    if (last !== undefined && y !== last) scrubDir = y > last ? 1 : -1;
+    scrubScrollY.set(t, y);
+  }
   scrubLastScroll = performance.now();
   scrubSchedule();
   clearTimeout(scrubSettleTimer);
