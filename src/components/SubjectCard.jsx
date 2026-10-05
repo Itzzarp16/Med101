@@ -32,7 +32,7 @@ function traceDelayFor(name) {
 // so it behaves the same in every browser. One shared rAF-throttled scroll
 // listener; reads are batched before writes.
 const REVEAL_RANGE = 250; // px of travel from the bottom edge to fully built
-const SETTLE_DELAY = 160; // ms without scrolling before visible cards finish building
+const SETTLE_DELAY = 160; // ms after the last scroll event before the loop is re-checked
 // Haptic beats, synced to the same --p the CSS animation reads: a light tick
 // as the card sparks into a dot, a medium one as it opens into the full card,
 // a firm one when it lands. Crossing them going up (scroll down, building) and
@@ -46,6 +46,7 @@ let scrubBound = false;
 let scrubLastScroll = 0;
 let scrubSettleTimer = 0;
 let scrubLastFrame = 0;
+let scrubUserScrolled = false; // before the first scroll, on-screen cards build in on their own
 let scrubDir = 0; // +1 content moving up (scrolling down), -1 content moving down
 const scrubScrollY = new WeakMap(); // last scrollTop per scroller
 
@@ -66,7 +67,6 @@ function stableViewH() {
 function scrubTick() {
   scrubRaf = 0;
   const now = performance.now();
-  const resting = now - scrubLastScroll > SETTLE_DELAY;
   // Frame-rate independent smoothing: 60Hz and 120Hz phones now animate at
   // the same speed (the per-frame factors below are tuned for 60fps).
   const dt = scrubLastFrame ? Math.min(64, now - scrubLastFrame) : 16.7;
@@ -90,7 +90,10 @@ function scrubTick() {
     // has been still for a moment, any card that is on screen finishes
     // building by itself, so nothing is left half-open at rest.
     let target = reduce ? 1 : pos;
-    if (!reduce && resting && top < viewH - 6) target = 1;
+    // Only the very first paint (before any scroll) builds cards in by itself.
+    // After that the card is a pure function of scroll position, so lifting
+    // your finger mid-way leaves it paused exactly where it is.
+    if (!reduce && !scrubUserScrolled && top < viewH - 6) target = 1;
     let p = scrubShown.get(el);
     if (p === undefined) p = pos;
     else {
@@ -98,10 +101,10 @@ function scrubTick() {
       // that finished building during a pause used to collapse back to a
       // half-open pill the instant the finger moved again. Cards still
       // un-build when you scroll back UP, which is the intended reverse.
-      if (!resting && scrubDir > 0 && target < p) target = p;
+      if (scrubDir > 0 && target < p) target = p;
       // Light smoothing (quick while scrolling, slower when settling) keeps
       // the motion fluid and continuous when the target jumps.
-      const k = resting ? 0.14 : 0.45;
+      const k = 0.45;
       p += (target - p) * (1 - Math.pow(1 - k, frames));
     }
     if (Math.abs(target - p) < 0.004) p = target;
@@ -137,6 +140,7 @@ function scrubOnScroll(e) {
     if (last !== undefined && y !== last) scrubDir = y > last ? 1 : -1;
     scrubScrollY.set(t, y);
   }
+  scrubUserScrolled = true;
   scrubLastScroll = performance.now();
   scrubSchedule();
   clearTimeout(scrubSettleTimer);
