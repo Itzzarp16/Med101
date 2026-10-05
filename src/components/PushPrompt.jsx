@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { playTapSound } from '../lib/sounds';
 import { pushConfigured, pushSupported, pushPermission, pushEnabled, enablePush } from '../lib/push';
 
-// One-time banner (Friends screen): offers to turn on challenge-invite
+// One-time banner (Friends screen): offers to turn on challenge-invite and site-update
 // notifications. Hidden when they're already on, blocked, unsupported,
 // not set up yet, or the student dismissed it.
 const DISMISS_KEY = 'med101_push_prompt_dismissed';
@@ -46,9 +46,9 @@ export default function PushPrompt() {
 
   return (
     <div className="glass std-card" style={{ marginTop: 12 }}>
-      <div style={{ fontWeight: 700, fontSize: 14 }}>🔔 Get notified when a friend challenges you</div>
+      <div style={{ fontWeight: 700, fontSize: 14 }}>🔔 Get notified about challenges and updates</div>
       <div style={{ fontSize: 12.5, color: 'var(--text3)', lineHeight: 1.5 }}>
-        We&apos;ll send a notification the moment someone invites you to a quiz room, even when Med101 is closed.
+        We&apos;ll notify you when a friend invites you to a quiz room, and when we add new questions or share Med101 updates, even when Med101 is closed.
       </div>
       {err && <div className="auth-msg error" style={{ display: 'block' }}>{err}</div>}
       <div style={{ display: 'flex', gap: 10 }}>
