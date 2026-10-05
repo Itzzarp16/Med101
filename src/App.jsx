@@ -12,6 +12,7 @@ import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig, premiumCover
 import AuthScreen from './components/AuthScreen';
 import WhatsAppPromptModal from './components/WhatsAppPromptModal';
 import OnboardingTour from './components/OnboardingTour';
+import NotificationGateModal from './components/NotificationGateModal';
 import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
@@ -862,6 +863,9 @@ export default function App() {
       )}
       {showWhatsAppPrompt && (
         <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
+      )}
+      {user?.uid && !showOnboardingTour && !showWhatsAppPrompt && !needsGoogleProfileSetup && (
+        <NotificationGateModal uid={user.uid} />
       )}
       <TopBar {...topBarProps} />
 
