@@ -3,6 +3,7 @@ import {
   collection, query, where, getDocs, onSnapshot, serverTimestamp, writeBatch,
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
+import { makeInvoiceNo } from './invoiceNumber';
 
 // ── Config (admin-editable UPI ID / price / instructions) ──────────
 // Same pattern as homeNotice.js - a single admin-editable doc, read by
@@ -391,6 +392,16 @@ export async function getAllActivationCodes() {
       studentEmail: student?.email || '',
       bankingName: request?.bankingName || '',
       phone: request?.phone || '',
+      amount: request?.amount || '',
+      requestStatus: request?.status || null,
+      // Stored on the record when it was approved/granted; older
+      // records get the same number computed from their dates.
+      invoiceNo: c.utr
+        ? (request?.invoiceNo || (request ? makeInvoiceNo(c.utr, request.reviewedAt?.toDate?.() || c.createdAt?.toDate?.()) : null))
+        : c.grantedByAdmin
+          ? (c.invoiceNo || (c.usedAt?.toDate ? makeInvoiceNo(`ADM${c.usedAt.toMillis()}`, c.usedAt.toDate()) : null))
+          : null,
+      paidAt: request?.reviewedAt || c.createdAt || null,
       expiresAt,
     };
   });
@@ -450,6 +461,8 @@ export async function approvePaymentRequest(
 
   await updateDoc(doc(db, 'paymentRequests', utr), {
     status: 'approved',
+    // Stored so the admin can look a student up by invoice number.
+    invoiceNo: makeInvoiceNo(utr, new Date()),
     durationDays,
     code,
     activationMethod: autoActivate ? 'auto' : 'code',
@@ -560,6 +573,7 @@ function computePremiumFromCodeDocs(allDocs, config) {
       activatedAt: new Date(usedAtMs),
       expiresAt: new Date(untilMs),
       durationDays,
+      invoiceNo: data.invoiceNo || null,
       active: untilMs > Date.now(),
       source: data.grantedByAdmin ? 'admin' : data.grantedFree ? 'free' : 'paid',
     });
@@ -645,6 +659,7 @@ export async function grantPremiumDirectly(uid, durationDays, yearSemester = nul
     usedAt: now,
     createdAt: now,
     grantedByAdmin: true,
+    invoiceNo: makeInvoiceNo(`ADM${Date.now()}`, new Date()),
     ...(yearSemester ? { yearSemester } : {}),
   });
 

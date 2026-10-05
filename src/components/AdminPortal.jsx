@@ -11,6 +11,7 @@ import AdminUserDetailScreen from './AdminUserDetailScreen';
 import AdminAnalyticsScreen from './AdminAnalyticsScreen';
 import AdminPaymentsScreen from './AdminPaymentsScreen';
 import AdminSubscribersScreen from './AdminSubscribersScreen';
+import AdminInvoicesScreen from './AdminInvoicesScreen';
 import AdminUploadQuestionsScreen from './AdminUploadQuestionsScreen';
 import AdminSecurityScreen from './AdminSecurityScreen';
 import AdminBackupScreen from './AdminBackupScreen';
@@ -28,6 +29,7 @@ const NAV_GROUPS = [
   { title: 'Money', tabs: [
     { id: 'payments', icon: '💳', label: 'Payments' },
     { id: 'subscribers', icon: '✅', label: 'Subscribers' },
+    { id: 'invoices', icon: '🧾', label: 'Invoices' },
     { id: 'backup', icon: '💾', label: 'Backups' },
   ] },
   { title: 'Content', tabs: [
@@ -68,6 +70,7 @@ function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
     case 'analytics': return <AdminAnalyticsScreen onBack={noop} hideBack semesterMainSubjects={semesterMainSubjects} />;
     case 'payments': return <AdminPaymentsScreen onBack={noop} hideBack />;
     case 'subscribers': return <AdminSubscribersScreen onBack={noop} hideBack />;
+    case 'invoices': return <AdminInvoicesScreen />;
     case 'backup': return <AdminBackupScreen />;
     case 'security': return <AdminSecurityScreen />;
     default: return null;

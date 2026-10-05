@@ -1,3 +1,4 @@
+import { makeInvoiceNo } from './invoiceNumber';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { db } from './firebase';
 import { formatDuration } from './timeTracking';
@@ -926,8 +927,7 @@ export async function buildInvoicePdf({ request, user, profile, fallbackAmount }
   const toDate = (ts) => (ts instanceof Date ? ts : ts?.toDate ? ts.toDate() : ts?.seconds ? new Date(ts.seconds * 1000) : null);
   const paidOn = toDate(request.reviewedAt) || toDate(request.createdAt) || new Date();
   const fmt = (d) => d.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-  const ymd = paidOn.toISOString().slice(0, 10).replace(/-/g, '');
-  const invoiceNo = `MED-${ymd}-${String(request.utr).slice(-6).toUpperCase()}`;
+    const invoiceNo = request.invoiceNo || makeInvoiceNo(request.utr, paidOn);
   const semester = request.yearSemester ? (SEMESTER_LABELS[request.yearSemester] || request.yearSemester) : 'All semesters';
   const amount = pdfMoney(request.amount || fallbackAmount);
   const days = request.durationDays;

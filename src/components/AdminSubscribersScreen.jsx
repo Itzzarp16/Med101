@@ -172,6 +172,7 @@ export default function AdminSubscribersScreen({ onBack, hideBack = false }) {
                 {c.bankingName && <div><dt>Paid as</dt><dd>{c.bankingName}</dd></div>}
                 {c.phone && <div><dt>Phone</dt><dd>{c.phone}</dd></div>}
                 {c.utr && <div><dt>UTR</dt><dd className="mono">{c.utr}</dd></div>}
+                {c.invoiceNo && <div><dt>Invoice</dt><dd className="mono">{c.invoiceNo}</dd></div>}
                 <div><dt>Semester</dt><dd>{SEMESTER_LABELS[c.yearSemester] || 'All semesters'}</dd></div>
                 <div><dt>Code</dt><dd className="mono">{c.code}</dd></div>
                 <div><dt>Duration</dt><dd>{c.durationDays} days</dd></div>

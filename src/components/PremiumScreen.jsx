@@ -203,7 +203,7 @@ export default function PremiumScreen({ onBack }) {
     .map((sub) => ({
       utr: `ADM${sub.activatedAt.getTime()}`, grantedByAdmin: true,
       yearSemester: sub.semester, durationDays: sub.durationDays,
-      reviewedAt: sub.activatedAt, createdAt: sub.activatedAt, amount: '',
+      reviewedAt: sub.activatedAt, createdAt: sub.activatedAt, amount: '', invoiceNo: sub.invoiceNo || undefined,
     }));
   const invoiceRows = [...paidRequests, ...adminInvoices];
 
