@@ -138,12 +138,21 @@ export default function PremiumScreen({ onBack }) {
   // -> Per-Semester Pricing); this is what actually gets shown/charged,
   // falling back to the single default priceLabel when that semester
   // has no override set.
-  const effectivePriceLabel = config?.priceLabelsBySemester?.[paySemester] || config?.priceLabel;
+  const priceFor = (sem) => config?.priceLabelsBySemester?.[sem] || config?.priceLabel;
+  const effectivePriceLabel = priceFor(paySemester);
+  const isFreeFor = (sem) => {
+    const a = extractAmount(priceFor(sem));
+    return a !== null && parseFloat(a) === 0;
+  };
+  // The semester picked in the pay card can differ from the student's
+  // own semester: payIsFree drives what that card shows, while the free
+  // auto-activation below only ever follows the student's own semester
+  // (the server activates that one).
+  const payIsFree = isFreeFor(paySemester);
   // A bare "0"/"00"/"₹0" (not a fuller label that merely contains a
   // zero somewhere) means the admin has made this semester free -
   // see the auto-activation effect below.
-  const freeAmount = extractAmount(effectivePriceLabel);
-  const isFreeSemester = freeAmount !== null && parseFloat(freeAmount) === 0;
+  const isFreeSemester = isFreeFor(profile?.enrolledYearSemester);
   // Whether the student's ACTIVE subscription actually covers the
   // semester they're currently viewing (see App.jsx's identical
   // check) - premium.isPremium alone isn't enough once premium can be
@@ -406,16 +415,38 @@ export default function PremiumScreen({ onBack }) {
           {payFlowVisible && !hidePaymentFlow && config && (
             <div className="pay-card">
               <div className="pay-card-inner">
-                <div className="pay-card-eyebrow">Step 1 · Scan to pay</div>
-                {effectivePriceLabel && <div className="pay-card-price">{formatPrice(effectivePriceLabel)}</div>}
+                <div className="pay-card-eyebrow">Step 1 · Pick your semester &amp; pay</div>
 
-                {config.upiId && (
-                  <div className="pay-qr-frame">
-                    <LiveQrCode upiId={config.upiId} amount={extractAmount(effectivePriceLabel)} />
+                <label htmlFor="premium-pay-semester" className="pay-sem-label">Which semester is this for?</label>
+                <select
+                  id="premium-pay-semester"
+                  className="auth-input pay-sem-select"
+                  value={paySemester || ''}
+                  onChange={(e) => { playTapSound(); paySemesterTouched.current = true; setPaySemester(e.target.value); }}
+                >
+                  {Object.entries(SEMESTER_LABELS).map(([value, label]) => (
+                    <option key={value} value={value}>
+                      {label}{priceFor(value) ? ` · ${isFreeFor(value) ? 'Free' : formatPrice(priceFor(value))}` : ''}
+                    </option>
+                  ))}
+                </select>
+
+                {payIsFree ? (
+                  <div className="pay-free-note">
+                    🎉 {semesterName(paySemester)} is free right now - nothing to pay. Switch to it in Settings to unlock it.
+                  </div>
+                ) : (
+                  <div key={`${paySemester}-${effectivePriceLabel}`} className="pay-swap">
+                    {effectivePriceLabel && <div className="pay-card-price">{formatPrice(effectivePriceLabel)}</div>}
+                    {config.upiId && (
+                      <div className="pay-qr-frame">
+                        <LiveQrCode upiId={config.upiId} amount={extractAmount(effectivePriceLabel)} />
+                      </div>
+                    )}
                   </div>
                 )}
 
-                {config.upiId && (
+                {!payIsFree && config.upiId && (
                   <div className="pay-upi-row">
                     <span className="pay-upi-id">{config.upiId}</span>
                     <button type="button" className="pay-upi-copy" onClick={handleCopyUpi}>
@@ -424,9 +455,9 @@ export default function PremiumScreen({ onBack }) {
                   </div>
                 )}
 
-                <p className="pm-phone-tip">
+                {!payIsFree && <p className="pm-phone-tip">
                   Paying from this phone? Copy the UPI ID above and pay it in your UPI app, or screenshot the QR and scan it from your gallery.
-                </p>
+                </p>}
 
                 <ol className="pm-steps">
                   <li>Pay using any UPI app</li>
@@ -448,21 +479,11 @@ export default function PremiumScreen({ onBack }) {
             </div>
           )}
 
-          {payFlowVisible && !hidePaymentFlow && (
+          {payFlowVisible && !hidePaymentFlow && !payIsFree && (
             <form className="glass pm-card pm-form" onSubmit={handleSubmit}>
               <div className="pm-card-title">Step 2 · Submit your payment</div>
 
-              <label htmlFor="premium-pay-semester" className="auth-label">Which semester is this for?</label>
-              <select
-                id="premium-pay-semester"
-                className="auth-input"
-                value={paySemester || ''}
-                onChange={(e) => { paySemesterTouched.current = true; setPaySemester(e.target.value); }}
-              >
-                {Object.entries(SEMESTER_LABELS).map(([value, label]) => (
-                  <option key={value} value={value}>{label}</option>
-                ))}
-              </select>
+              <div className="pm-for-sem">For <strong>{semesterName(paySemester)}</strong>{effectivePriceLabel ? <> · <strong>{formatPrice(effectivePriceLabel)}</strong></> : null}</div>
 
               <label htmlFor="premium-your-banking-name" className="auth-label">Your banking name</label>
               <input id="premium-your-banking-name" className="auth-input" value={bankingName} onChange={(e) => setBankingName(e.target.value)} placeholder="Name on the account you paid from" />

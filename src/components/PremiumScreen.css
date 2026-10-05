@@ -237,3 +237,13 @@
 .pm-req-code { margin-top: 10px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .pm-req-code .pay-upi-id { font-size: 13px; }
 .pm-activate { border-color: var(--green); color: var(--green); }
+
+/* Semester picker sits above the QR; changing it swaps price + QR */
+.pay-sem-label { display: block; margin-top: 14px; font-size: 13px; color: var(--text3); font-weight: 600; }
+.pay-sem-select { margin-top: 8px; text-align: center; font-weight: 700; }
+.pay-swap { animation: pay-swap .45s cubic-bezier(.2,.9,.3,1.1) both; }
+.pay-free-note { margin: 16px 0 4px; padding: 14px; border-radius: 14px; background: rgba(var(--cyan-rgb), .12); border: 1px solid rgba(var(--cyan-rgb), .4); font-size: 14px; line-height: 1.5; color: var(--text2); }
+.pm-for-sem { font-size: 13px; color: var(--text3); margin-bottom: 4px; }
+.pm-for-sem strong { color: var(--text); }
+@keyframes pay-swap { from { opacity: 0; transform: translateY(8px) scale(.97); } }
+@media (prefers-reduced-motion: reduce) { .pay-swap { animation: none; } }
