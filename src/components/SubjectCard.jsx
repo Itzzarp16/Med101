@@ -30,7 +30,9 @@ function traceDelayFor(name) {
 // reverse, and nothing can flicker. Done in JS (not CSS view() timelines)
 // so it behaves the same in every browser. One shared rAF-throttled scroll
 // listener; reads are batched before writes.
-const REVEAL_RANGE = 170; // px of travel from the bottom edge to fully built
+const REVEAL_RANGE = 230; // px of travel from the bottom edge to fully built
+const RISE_PX = 28; // how far a card rises into place (keep in sync with SubjectCard.css)
+const RISE_DONE = 0.55; // progress at which the card has finished rising
 const scrubCards = new Set();
 const scrubLast = new WeakMap();
 let scrubRaf = 0;
@@ -42,7 +44,14 @@ function scrubTick() {
   const reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   const reads = [];
   scrubCards.forEach((el) => {
-    if (el.isConnected) reads.push([el, el.getBoundingClientRect().top]);
+    if (!el.isConnected) return;
+    // The card is shifted down by (1 - a) * RISE_PX while it builds; take
+    // that out so progress is measured from its real layout position
+    // (otherwise the shift feeds back into --p and the card jitters).
+    const last = scrubLast.get(el);
+    const lastP = last === undefined ? 1 : last;
+    const shift = (1 - Math.min(1, lastP / RISE_DONE)) * RISE_PX;
+    reads.push([el, el.getBoundingClientRect().top - shift]);
   });
   reads.forEach(([el, top]) => {
     let p = reduce ? 1 : (viewH - top) / REVEAL_RANGE;

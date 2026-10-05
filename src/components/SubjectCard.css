@@ -245,6 +245,16 @@
 .subj-grid > .subj-card.subj-card--build[data-forge="0"] {
   clip-path: inset(0 0 calc((1 - var(--a)) * 100%) 0 round 20px);
   border-color: rgba(var(--cyan-rgb), 0.75);
+  /* rises into place and settles; origin at the top edge so the card's top
+     only moves by the translate (JS subtracts exactly that, RISE_PX = 28) */
+  transform-origin: top center;
+  transform: translateY(calc((1 - var(--a)) * 28px)) scale(calc(0.94 + 0.06 * var(--a)));
+  transition: none;
+  /* cyan glow that swells mid-build and fades as the card completes */
+  --glow: calc(var(--p) * (1 - var(--p)) * 4);
+  box-shadow:
+    0 0 calc(var(--glow) * 26px) calc(var(--glow) * 2px) rgba(var(--cyan-rgb), calc(var(--glow) * 0.5)),
+    0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
 .subj-scan {
