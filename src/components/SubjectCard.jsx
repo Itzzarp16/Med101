@@ -24,15 +24,13 @@ function traceDelayFor(name) {
 // Every card gets a progress value --p (0..1) from where it sits on screen:
 // 0 while its top is at/below the bottom edge, 1 once it has risen ~170px.
 // SubjectCard.css turns --p into the build (card drawn top to bottom under a
-// cyan scan line, emoji pops, title written, stats / progress / chevron
-// follow). Because --p is a pure function of scroll position there is no
+// ripple ring: the card is a dot on its emoji, grows into a circle, then
+// opens out into the full card; title, stats, progress and chevron follow). Because --p is a pure function of scroll position there is no
 // state machine: scrolling down builds, scrolling back up un-builds in
 // reverse, and nothing can flicker. Done in JS (not CSS view() timelines)
 // so it behaves the same in every browser. One shared rAF-throttled scroll
 // listener; reads are batched before writes.
-const REVEAL_RANGE = 230; // px of travel from the bottom edge to fully built
-const RISE_PX = 28; // how far a card rises into place (keep in sync with SubjectCard.css)
-const RISE_DONE = 0.55; // progress at which the card has finished rising
+const REVEAL_RANGE = 250; // px of travel from the bottom edge to fully built
 const scrubCards = new Set();
 const scrubLast = new WeakMap();
 let scrubRaf = 0;
@@ -45,13 +43,7 @@ function scrubTick() {
   const reads = [];
   scrubCards.forEach((el) => {
     if (!el.isConnected) return;
-    // The card is shifted down by (1 - a) * RISE_PX while it builds; take
-    // that out so progress is measured from its real layout position
-    // (otherwise the shift feeds back into --p and the card jitters).
-    const last = scrubLast.get(el);
-    const lastP = last === undefined ? 1 : last;
-    const shift = (1 - Math.min(1, lastP / RISE_DONE)) * RISE_PX;
-    reads.push([el, el.getBoundingClientRect().top - shift]);
+    reads.push([el, el.getBoundingClientRect().top]);
   });
   reads.forEach(([el, top]) => {
     let p = reduce ? 1 : (viewH - top) / REVEAL_RANGE;

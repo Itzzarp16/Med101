@@ -224,55 +224,62 @@
 
 /* ── Scroll-scrubbed entrance for dashboard cards ────────────────────
    SubjectCard.jsx sets --p (0..1) on each card from its position on screen
-   (0 = card top at the bottom edge, 1 = risen ~170px). Everything below is
-   a pure function of --p, so scrolling down builds the card and scrolling
-   up runs it in reverse. Parts finish one after another: the card is drawn
-   top to bottom under a cyan scan line, then emoji pops, title is written
-   left to right, stats / progress bar / chevron follow. The card itself is
-   never transformed (its position is what --p is measured from).
-   data-forge="1" (fully built) switches the clips off so shadows and :hover
-   behave normally. */
+   (0 = card top at the bottom edge, 1 = risen ~250px). Everything below is
+   a pure function of --p, so it runs forwards while you scroll down and
+   backwards while you scroll up:
+     p 0 -> .15   a dot at the emoji grows into a circle (emoji pops in)
+     p .15 -> .6  the circle opens out into the full rounded card (a cyan
+                  ripple ring spreads from the emoji)
+     p .3 -> 1    title is written, stats / progress bar / chevron follow
+   Backwards, the card closes into a circle around its emoji, and the circle
+   shrinks to nothing on the emoji.
+   Geometry is for the dashboard card: emoji tile 46px, centred vertically,
+   centre 38px from the card's left edge (1px border + 14px padding + 23px);
+   circle radius 29px just clears the tile's rounded corners.
+   data-forge="1" (fully built) switches every clip off so shadows and
+   :hover behave normally. */
 .subj-grid > .subj-card.subj-card--build {
   animation: none;
   --p: 1;
-  --a: clamp(0, calc(var(--p) / 0.55), 1);
-  --e: clamp(0, calc((var(--p) - 0.15) / 0.45), 1);
-  --n: clamp(0, calc((var(--p) - 0.2) / 0.45), 1);
-  --f: clamp(0, calc((var(--p) - 0.3) / 0.45), 1);
-  --g: clamp(0, calc((var(--p) - 0.4) / 0.45), 1);
-  --r: clamp(0, calc((var(--p) - 0.3) / 0.5), 1);
+  --s: clamp(0, calc(var(--p) / 0.15), 1);
+  --q: calc(1 - clamp(0, calc((var(--p) - 0.15) / 0.45), 1));
+  --rs: calc(var(--s) * 29px);
+  --e: clamp(0, calc(var(--p) / 0.18), 1);
+  --n: clamp(0, calc((var(--p) - 0.3) / 0.4), 1);
+  --f: clamp(0, calc((var(--p) - 0.42) / 0.4), 1);
+  --g: clamp(0, calc((var(--p) - 0.52) / 0.4), 1);
+  --r: clamp(0, calc((var(--p) - 0.45) / 0.4), 1);
 }
 .subj-grid > .subj-card.subj-card--build[data-forge="0"] {
-  clip-path: inset(0 0 calc((1 - var(--a)) * 100%) 0 round 20px);
-  border-color: rgba(var(--cyan-rgb), 0.75);
-  /* rises into place and settles; origin at the top edge so the card's top
-     only moves by the translate (JS subtracts exactly that, RISE_PX = 28) */
-  transform-origin: top center;
-  transform: translateY(calc((1 - var(--a)) * 28px)) scale(calc(0.94 + 0.06 * var(--a)));
+  clip-path: inset(
+    calc(var(--q) * (50% - var(--rs)))
+    calc(var(--q) * (100% - 38px - var(--rs)))
+    calc(var(--q) * (50% - var(--rs)))
+    calc(var(--q) * (38px - var(--rs)))
+    round calc(20px + var(--q) * 90px)
+  );
   transition: none;
-  /* cyan glow that swells mid-build and fades as the card completes */
-  --glow: calc(var(--p) * (1 - var(--p)) * 4);
-  box-shadow:
-    0 0 calc(var(--glow) * 26px) calc(var(--glow) * 2px) rgba(var(--cyan-rgb), calc(var(--glow) * 0.5)),
-    0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
+/* Ripple ring: hugs the circle, then spreads out and fades as the card opens. */
 .subj-scan {
   position: absolute;
-  left: 0;
-  right: 0;
-  top: calc(var(--a, 1) * (100% - 2px));
-  height: 2px;
+  left: 38px;
+  top: 50%;
+  width: calc(var(--rs, 29px) * 2 + (1 - var(--q, 0)) * 520px);
+  height: calc(var(--rs, 29px) * 2 + (1 - var(--q, 0)) * 520px);
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid rgba(var(--cyan-rgb), 0.9);
+  box-shadow: 0 0 18px rgba(var(--cyan-rgb), 0.55), inset 0 0 14px rgba(var(--cyan-rgb), 0.3);
   z-index: 3;
-  opacity: calc(clamp(0, calc(var(--p, 1) * 14), 1) * clamp(0, calc((0.62 - var(--p, 1)) * 10), 1));
   pointer-events: none;
-  background: linear-gradient(90deg, transparent, var(--cyan), #fff, var(--cyan), transparent);
-  box-shadow: 0 0 14px 2px rgba(var(--cyan-rgb), 0.8);
+  opacity: calc(clamp(0, calc(var(--p, 1) * 12), 1) * clamp(0, calc((0.6 - var(--p, 1)) * 5), 1));
 }
 
 .subj-card--build[data-forge="0"] .subj-emoji {
   opacity: var(--e);
-  transform: scale(calc(0.45 + 0.55 * var(--e))) rotate(calc((1 - var(--e)) * -14deg));
+  transform: scale(calc(0.3 + 0.7 * var(--e)));
 }
 .subj-card--build[data-forge="0"] .subj-name {
   opacity: var(--n);
