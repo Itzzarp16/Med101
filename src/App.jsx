@@ -999,7 +999,6 @@ export default function App() {
       {screen === 'wrong-flagged' && (
         <Suspense fallback={<ScreenFallback />}>
           <WrongFlaggedScreen
-            mainSubjectMeta={mainSubjectMeta}
             onPracticeSet={(items) => {
               const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
               setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });

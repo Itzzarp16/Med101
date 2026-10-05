@@ -1,8 +1,9 @@
 import { useState } from 'react';
+import { Highlight } from './QuestionListCard';
 
-// One question in the Wrong & Flagged review list. Shows the question and the
-// correct answer up front (that's what you came to review); the other
-// options fold away behind a tap so long lists stay easy to scan.
+// One row in the Wrong & Flagged list. Collapsed it shows just the question,
+// the correct answer and a quiet meta line; tap the row to see every option
+// and the remove action. Rows sit in a shared list (dividers, no boxes).
 const LABELS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
 function ago(ts) {
@@ -19,52 +20,52 @@ function ago(ts) {
   return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
 }
 
-export default function ReviewCard({ item, kind, onRemove, removeLabel }) {
+export default function ReviewCard({ item, kind, term, onRemove, removeLabel }) {
   const [open, setOpen] = useState(false);
   const options = Array.isArray(item.o) ? item.o : [];
+  const answer = options[item.c];
   const when = kind === 'wrong' ? ago(item.lastWrongAt) : ago(item.flaggedAt);
-  const whenLabel = when ? `${kind === 'wrong' ? 'Missed' : 'Flagged'} ${when}` : '';
+  const meta = [item.s, when && `${kind === 'wrong' ? 'Missed' : 'Flagged'} ${when}`].filter(Boolean).join(' · ');
+  // Only open a row by itself when the search hit is hidden: inside an option
+  // that is not the correct answer, and not in the question/answer already shown.
+  const has = (x) => typeof x === 'string' && x.toLowerCase().includes(term.toLowerCase());
+  const shownHit = !!term && (has(item.q) || has(answer));
+  const hiddenHit = !!term && options.some((o, i) => i !== item.c && has(o));
+  const expanded = open || (!shownHit && hiddenHit);
 
   return (
-    <article className="wf-card" data-kind={kind}>
-      <div className="wf-card-top">
-        <span className="wf-topic" title={item.s}><i aria-hidden="true" />{item.s}</span>
-        {whenLabel && <span className="wf-when">{whenLabel}</span>}
-        {onRemove && (
-          <button type="button" className="wf-x" onClick={onRemove} aria-label={removeLabel}>
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
-          </button>
-        )}
-      </div>
+    <article className="wf-row">
+      <button type="button" className="wf-row-head" aria-expanded={expanded} onClick={() => setOpen((v) => !v)}>
+        <span className="wf-row-main">
+          <span className="wf-q"><Highlight text={item.q} term={term} /></span>
+          {answer !== undefined && (
+            <span className="wf-ans">
+              <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+              <span><Highlight text={String(answer)} term={term} /></span>
+            </span>
+          )}
+          {meta && <span className="wf-meta">{meta}</span>}
+        </span>
+        <svg className="wf-chev" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
+      </button>
 
-      <p className="wf-q">{item.q}</p>
-
-      {options[item.c] !== undefined && (
-        <div className="wf-answer">
-          <span className="wf-answer-l">{LABELS[item.c]}</span>
-          <span className="wf-answer-t">{options[item.c]}</span>
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-label="Correct answer"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-        </div>
-      )}
-
-      {options.length > 1 && (
-        <>
-          <button type="button" className="wf-toggle" aria-expanded={open} onClick={() => setOpen((v) => !v)}>
-            {open ? 'Hide options' : 'Show all options'}
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6" /></svg>
-          </button>
-          <div className="wf-opts-wrap" data-open={open ? '1' : '0'}>
-            <div className="wf-opts">
-              {options.map((opt, i) => (
-                <div key={i} className={i === item.c ? 'wf-opt ok' : 'wf-opt'}>
-                  <span className="wf-opt-l">{LABELS[i]}</span>
-                  <span className="wf-opt-t">{opt}</span>
-                </div>
-              ))}
-            </div>
+      <div className="wf-detail" data-open={expanded ? '1' : '0'}>
+        <div className="wf-detail-in">
+          <div className="wf-opts">
+            {options.map((opt, i) => (
+              <div key={i} className={i === item.c ? 'wf-opt ok' : 'wf-opt'}>
+                <span className="wf-opt-l">{LABELS[i]}</span>
+                <span className="wf-opt-t"><Highlight text={String(opt)} term={term} /></span>
+              </div>
+            ))}
           </div>
-        </>
-      )}
+          {onRemove && (
+            <button type="button" className="wf-remove" onClick={onRemove} aria-label={removeLabel}>
+              {kind === 'wrong' ? 'Remove from list' : 'Unflag'}
+            </button>
+          )}
+        </div>
+      </div>
     </article>
   );
 }

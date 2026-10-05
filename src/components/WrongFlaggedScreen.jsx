@@ -41,11 +41,12 @@ function useReveal() {
   return reveal;
 }
 
-export default function WrongFlaggedScreen({ onPracticeSet, onBack, mainSubjectMeta = {} }) {
+export default function WrongFlaggedScreen({ onPracticeSet, onBack }) {
   const { user } = useAuth();
   const reveal = useReveal();
   const [tab, setTab] = useState('wrong');
   const [subject, setSubject] = useState('all');
+  const [query, setQuery] = useState('');
   const [wrong, setWrong] = useState([]);
   const [flagged, setFlagged] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -65,11 +66,21 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack, mainSubjectM
   }, [user.uid]);
 
   const list = tab === 'wrong' ? wrong : flagged;
+  const term = query.trim();
+
+  // Search matches the question, its topic and every option.
+  const searched = useMemo(() => {
+    if (!term) return list;
+    const t = term.toLowerCase();
+    return list.filter((it) =>
+      [it.q, it.s, ...(Array.isArray(it.o) ? it.o : [])].some((x) => typeof x === 'string' && x.toLowerCase().includes(t))
+    );
+  }, [list, term]);
 
   // Subject-wise grouping: most-missed subject first.
   const groups = useMemo(() => {
     const m = new Map();
-    for (const it of list) {
+    for (const it of searched) {
       const k = it.mainSubject || 'Other';
       if (!m.has(k)) m.set(k, []);
       m.get(k).push(it);
@@ -77,19 +88,12 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack, mainSubjectM
     return [...m.entries()]
       .map(([name, items]) => ({ name, items }))
       .sort((a, b) => b.items.length - a.items.length || a.name.localeCompare(b.name));
-  }, [list]);
+  }, [searched]);
 
-  // If the chosen subject empties out (last question removed), go back to All.
-  useEffect(() => {
-    if (subject !== 'all' && !groups.some((g) => g.name === subject)) setSubject('all');
-  }, [groups, subject]);
-
-  const visibleGroups = subject === 'all' ? groups : groups.filter((g) => g.name === subject);
+  // A chosen subject that has no (remaining / matching) questions falls back to All.
+  const activeSubject = subject === 'all' || groups.some((g) => g.name === subject) ? subject : 'all';
+  const visibleGroups = activeSubject === 'all' ? groups : groups.filter((g) => g.name === activeSubject);
   const visibleItems = visibleGroups.flatMap((g) => g.items).filter((it) => !leaving.has(it.id));
-
-  const metaFor = (name) => mainSubjectMeta[name] || {};
-  const accentFor = (name) => metaFor(name).accent || 'var(--cyan)';
-  const emojiFor = (name) => metaFor(name).emoji || '📘';
 
   function pickTab(next) {
     if (next === tab) return;
@@ -100,7 +104,7 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack, mainSubjectM
   }
 
   function pickSubject(name) {
-    if (name === subject) return;
+    if (name === activeSubject) return;
     playTapSound();
     haptic(8);
     setSubject(name);
@@ -137,104 +141,126 @@ export default function WrongFlaggedScreen({ onPracticeSet, onBack, mainSubjectM
     onPracticeSet(items);
   }
 
-  let cardIndex = 0;
+  let rowIndex = 0;
+  const n = visibleItems.length;
 
   return (
     <div className="std-screen wf-screen">
-      <ScreenHeader onBack={onBack} title={<>📌 Wrong &amp; Flagged</>}>
-        Questions you've missed or starred for extra review.
-      </ScreenHeader>
+      <ScreenHeader onBack={onBack} title="Wrong & Flagged" />
 
-      <div className="wf-seg" role="tablist" aria-label="Wrong or flagged" data-tab={tab}>
-        <span className="wf-seg-thumb" aria-hidden="true" />
-        <button type="button" role="tab" aria-selected={tab === 'wrong'} className="wf-seg-btn" onClick={() => pickTab('wrong')}>
-          <span aria-hidden="true">❌</span> Wrong <b>{wrong.length}</b>
+      <div className="wf-tabs" role="tablist" aria-label="Wrong or flagged" data-tab={tab}>
+        <button type="button" role="tab" aria-selected={tab === 'wrong'} className="wf-tab" onClick={() => pickTab('wrong')}>
+          Wrong <b>{wrong.length}</b>
         </button>
-        <button type="button" role="tab" aria-selected={tab === 'flagged'} className="wf-seg-btn" onClick={() => pickTab('flagged')}>
-          <span aria-hidden="true">⭐</span> Flagged <b>{flagged.length}</b>
+        <button type="button" role="tab" aria-selected={tab === 'flagged'} className="wf-tab" onClick={() => pickTab('flagged')}>
+          Flagged <b>{flagged.length}</b>
         </button>
+        <span className="wf-tabs-bar" aria-hidden="true" />
       </div>
 
       {loading ? (
         <div className="wf-skels" aria-busy="true" aria-label="Loading">
-          {[0, 1, 2].map((i) => <div key={i} className="wf-skel" style={{ '--i': i }} />)}
+          {[0, 1, 2, 3].map((i) => <div key={i} className="wf-skel" style={{ '--i': i }} />)}
         </div>
       ) : list.length === 0 ? (
         <div className="wf-empty">
           <div className="wf-empty-ico">{tab === 'wrong' ? '✅' : '🔖'}</div>
           <div className="wf-empty-t">{tab === 'wrong' ? 'Nothing missed yet' : 'No flagged questions'}</div>
-          <div className="wf-empty-s">{tab === 'wrong' ? "Questions you get wrong will show up here for review." : 'Star a question during a quiz to save it here.'}</div>
+          <div className="wf-empty-s">{tab === 'wrong' ? 'Questions you get wrong will show up here for review.' : 'Star a question during a quiz to save it here.'}</div>
         </div>
       ) : (
         <>
-          <div className="wf-chips" role="group" aria-label="Filter by subject">
-            <button type="button" className="wf-chip" aria-pressed={subject === 'all'} onClick={() => pickSubject('all')}>
-              All <b>{list.length}</b>
-            </button>
-            {groups.map((g) => (
-              <button
-                key={g.name}
-                type="button"
-                className="wf-chip"
-                aria-pressed={subject === g.name}
-                style={{ '--acc': accentFor(g.name) }}
-                onClick={() => pickSubject(g.name)}
-              >
-                <span aria-hidden="true">{emojiFor(g.name)}</span> {g.name} <b>{g.items.length}</b>
+          <div className="wf-search">
+            <svg className="wf-search-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
+            <input
+              type="search"
+              className="wf-search-input"
+              placeholder={`Search ${tab === 'wrong' ? 'wrong' : 'flagged'} questions`}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              enterKeyHint="search"
+              autoComplete="off"
+              spellCheck={false}
+              aria-label="Search questions"
+            />
+            {query && (
+              <button type="button" className="wf-search-clear" onClick={() => { playTapSound(); setQuery(''); }} aria-label="Clear search">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
               </button>
-            ))}
+            )}
           </div>
 
-          {/* key = tab + subject, so switching view replays the entrance */}
-          <div className="wf-groups" key={`${tab}:${subject}`}>
-            {visibleGroups.map((g) => (
-              <section key={g.name} className="wf-group" style={{ '--acc': accentFor(g.name) }}>
-                <header className="wf-sec wf-reveal" ref={reveal}>
-                  <span className="wf-sec-ico" aria-hidden="true">{emojiFor(g.name)}</span>
-                  <div className="wf-sec-text">
-                    <h2 className="wf-sec-name">{g.name}</h2>
-                    <span className="wf-sec-count">{g.items.length} {g.items.length === 1 ? 'question' : 'questions'}</span>
-                  </div>
+          {groups.length > 1 && (
+            <div className="wf-chips" role="group" aria-label="Filter by subject">
+              <button type="button" className="wf-chip" aria-pressed={activeSubject === 'all'} onClick={() => pickSubject('all')}>
+                All <b>{searched.length}</b>
+              </button>
+              {groups.map((g) => (
+                <button key={g.name} type="button" className="wf-chip" aria-pressed={activeSubject === g.name} onClick={() => pickSubject(g.name)}>
+                  {g.name} <b>{g.items.length}</b>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {term && searched.length > 0 && (
+            <div className="wf-result-note">{searched.length} {searched.length === 1 ? 'result' : 'results'} for “{term}”</div>
+          )}
+
+          {searched.length === 0 ? (
+            <div className="wf-empty">
+              <div className="wf-empty-ico">🔍</div>
+              <div className="wf-empty-t">No matches</div>
+              <div className="wf-empty-s">Nothing in your {tab === 'wrong' ? 'wrong' : 'flagged'} questions matches “{term}”.</div>
+              <button type="button" className="wf-empty-btn" onClick={() => setQuery('')}>Clear search</button>
+            </div>
+          ) : (
+            /* key = tab + subject, so switching view replays the entrance */
+            <div className="wf-groups" key={`${tab}:${activeSubject}`}>
+              {visibleGroups.map((g) => (
+                <section key={g.name} className="wf-group">
                   {visibleGroups.length > 1 && (
-                    <button type="button" className="wf-sec-btn" onClick={() => practice(g.items.filter((it) => !leaving.has(it.id)))}>
-                      Practice
-                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-                    </button>
+                    <h2 className="wf-label wf-reveal" ref={reveal}>{g.name}<span>{g.items.length}</span></h2>
                   )}
-                </header>
+                  <div className="wf-list">
+                    {g.items.map((item) => {
+                      const idx = rowIndex++;
+                      return (
+                        <div
+                          key={item.id}
+                          className="wf-item wf-reveal"
+                          ref={reveal}
+                          data-leaving={leaving.has(item.id) ? '1' : undefined}
+                          style={{ '--d': idx < 6 ? `${idx * 45}ms` : '0ms' }}
+                        >
+                          <div className="wf-item-in">
+                            <ReviewCard
+                              item={item}
+                              kind={tab}
+                              term={term}
+                              onRemove={() => handleRemove(item)}
+                              removeLabel={tab === 'wrong' ? 'Remove from wrong questions' : 'Unflag this question'}
+                            />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </section>
+              ))}
+            </div>
+          )}
 
-                {g.items.map((item) => {
-                  const idx = cardIndex++;
-                  return (
-                    <div
-                      key={item.id}
-                      className="wf-item wf-reveal"
-                      ref={reveal}
-                      data-leaving={leaving.has(item.id) ? '1' : undefined}
-                      style={{ '--d': idx < 5 ? `${idx * 55}ms` : '0ms' }}
-                    >
-                      <div className="wf-item-in">
-                        <ReviewCard
-                          item={item}
-                          kind={tab}
-                          onRemove={() => handleRemove(item)}
-                          removeLabel={tab === 'wrong' ? 'Remove from wrong questions' : 'Unflag this question'}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </section>
-            ))}
-          </div>
-
-          <div className="wf-bar">
-            <button type="button" className="wf-cta" onClick={() => practice(visibleItems)} disabled={!visibleItems.length}>
-              <span className="wf-cta-label">{subject === 'all' ? 'Practice all' : `Practice ${subject}`}</span>
-              <span className="wf-cta-count">{visibleItems.length}</span>
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-            </button>
-          </div>
+          {searched.length > 0 && (
+            <div className="wf-bar">
+              <button type="button" className="wf-cta" onClick={() => practice(visibleItems)} disabled={!n}>
+                <span className="wf-cta-label">
+                  {activeSubject === 'all' ? `Practice ${n} ${n === 1 ? 'question' : 'questions'}` : `Practice ${n} · ${activeSubject}`}
+                </span>
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>
