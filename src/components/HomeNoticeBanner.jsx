@@ -7,7 +7,23 @@ import './HomeNoticeBanner.css';
 export default function HomeNoticeBanner({ semesterId }) {
   const [notice, setNotice] = useState(() => loadCachedHomeNotice(semesterId));
   const [open, setOpen] = useState(false);
+  const [closing, setClosing] = useState(false);
   useLockBodyScroll(open);
+
+  // Plays the exit animation before unmounting.
+  const close = () => {
+    if (closing) return;
+    setClosing(true);
+    setTimeout(() => { setOpen(false); setClosing(false); }, 200);
+  };
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') close(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, closing]);
 
   useEffect(() => {
     let cancelled = false;
@@ -40,11 +56,18 @@ export default function HomeNoticeBanner({ semesterId }) {
       </div>
 
       {open && (
-        <div className="home-notice-modal" onClick={() => setOpen(false)}>
-          <div className="home-notice-modal-card glass-hi" onClick={(e) => e.stopPropagation()}>
-            <button className="home-notice-close" onClick={() => setOpen(false)} aria-label="Close notice">✕</button>
-            <div className="home-notice-modal-title">📢 Notice</div>
+        <div className={`home-notice-modal${closing ? ' closing' : ''}`} onClick={close}>
+          <div className="home-notice-modal-card" role="dialog" aria-modal="true" aria-label="Notice" onClick={(e) => e.stopPropagation()}>
+            <button className="home-notice-close" onClick={() => { playTapSound(); close(); }} aria-label="Close notice">✕</button>
+            <div className="home-notice-badge" aria-hidden="true">
+              <span className="home-notice-ring" />
+              <span className="home-notice-ring r2" />
+              <span className="home-notice-mega">📢</span>
+            </div>
+            <div className="home-notice-modal-title">Notice</div>
+            <div className="home-notice-from">From Med101</div>
             <div className="home-notice-modal-body">{notice.text}</div>
+            <button className="home-notice-ok" onClick={() => { playTapSound(); close(); }}>Got it</button>
           </div>
         </div>
       )}
