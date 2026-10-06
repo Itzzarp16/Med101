@@ -30,16 +30,38 @@ function gradeFor(pct) {
   return { letter: 'F', color: 'var(--red)' };
 }
 
-// A different hero emoji, praise line and confetti set for every result band.
+// A different hero emoji and confetti set for every result band, plus a
+// pool of praise lines per band - one is picked per result (never the same
+// line twice in a row for a band), see pickPraise().
+const BANDS = [
+  { min: 100, emoji: '🏆', confetti: ['🏆', '👑', '🎉', '🌟', '🎊', '💎', '🏆', '✨'], praise: [
+    'Perfect score! Absolutely flawless.', 'Not a single miss. Legendary!', '100%! You just aced it.', 'Flawless victory, doctor in the making!', 'Every answer right. Take a bow!' ] },
+  { min: 90, emoji: '🌟', confetti: ['🌟', '✨', '🎉', '💫', '🎊', '⭐', '🌟', '🎉'], praise: [
+    'Outstanding! You really know this.', 'Brilliant work, nearly perfect!', 'You are on fire today!', 'Top-tier performance. Proud of you!', 'Superb! That is exam-ready.' ] },
+  { min: 80, emoji: '🎉', confetti: ['🎉', '🎊', '✨', '⭐', '🎉', '💫', '🎊', '✨'], praise: [
+    'Excellent work, keep it up!', 'Really strong result. Well done!', 'You are getting seriously good.', 'Great going, the hard work shows!', 'Solid and confident. Nice one!' ] },
+  { min: 70, emoji: '💪', confetti: ['💪', '⭐', '✨', '💫', '💪', '✨', '⭐', '💫'], praise: [
+    'Great job, you are getting strong!', 'Good score, keep that momentum!', 'Nice work, you are clearly improving.', 'Strong effort. A bit more polish and you are there.', 'Well played, keep pushing!' ] },
+  { min: 60, emoji: '👍', confetti: [], praise: [
+    'Good effort, a little more and you are there.', 'Decent result. Review the misses and level up.', 'You are close, keep practising!', 'Not bad at all. Next time even better.', 'Steady progress, keep going!' ] },
+  { min: 40, emoji: '📚', confetti: [], praise: [
+    'Keep going, review the misses and retry.', 'Learning in progress. Revise and try again!', 'Every attempt teaches you something.', 'Hit the books once more, you can do this.', 'The gaps are now clear. Time to fill them!' ] },
+  { min: 20, emoji: '🌱', confetti: [], praise: [
+    'Every expert started here. Keep growing.', 'A small start, big growth ahead.', 'Keep at it, it gets easier!', 'Progress takes time. Keep planting.', 'You showed up, and that counts. Try again!' ] },
+  { min: 0, emoji: '🔁', confetti: [], praise: [
+    "Don't give up. Try again, you will improve!", 'Tough one, but you can bounce back.', 'Reset, review and go again.', 'Mistakes are the best teachers. Retry!', 'Next round will be better. Believe it!' ] },
+];
+const lastPraiseIdx = {}; // band.min -> last index shown
+function pickPraise(band) {
+  const n = band.praise.length;
+  let i = Math.floor(Math.random() * n);
+  if (n > 1 && i === lastPraiseIdx[band.min]) i = (i + 1 + Math.floor(Math.random() * (n - 1))) % n;
+  lastPraiseIdx[band.min] = i;
+  return band.praise[i];
+}
 function appreciationFor(pct) {
-  if (pct >= 100) return { emoji: '🏆', praise: 'Perfect score! Absolutely flawless.', confetti: ['🏆', '👑', '🎉', '🌟', '🎊', '💎', '🏆', '✨'] };
-  if (pct >= 90) return { emoji: '🌟', praise: 'Outstanding! You really know this.', confetti: ['🌟', '✨', '🎉', '💫', '🎊', '⭐', '🌟', '🎉'] };
-  if (pct >= 80) return { emoji: '🎉', praise: 'Excellent work, keep it up!', confetti: ['🎉', '🎊', '✨', '⭐', '🎉', '💫', '🎊', '✨'] };
-  if (pct >= 70) return { emoji: '💪', praise: 'Great job, you are getting strong!', confetti: ['💪', '⭐', '✨', '💫', '💪', '✨', '⭐', '💫'] };
-  if (pct >= 60) return { emoji: '👍', praise: 'Good effort, a little more and you are there.', confetti: [] };
-  if (pct >= 40) return { emoji: '📚', praise: 'Keep going, review the misses and retry.', confetti: [] };
-  if (pct >= 20) return { emoji: '🌱', praise: 'Every expert started here. Keep growing.', confetti: [] };
-  return { emoji: '🔁', praise: "Don't give up. Try again, you will improve!", confetti: [] };
+  const band = BANDS.find((b) => pct >= b.min) || BANDS[BANDS.length - 1];
+  return { band, emoji: band.emoji, confetti: band.confetti };
 }
 
 // The source data for some subjects (Physiology in particular) lists
@@ -490,6 +512,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   // transition so the number and the ring stay perfectly in sync.
   // Short "calculating" intro before the results are revealed (solo quizzes
   // only - rooms go straight to results). Tap to skip.
+  const praiseRef = useRef(null); // the praise line chosen for this result
   const [intro, setIntro] = useState(true);
   useEffect(() => {
     if (!finished) { setIntro(true); return undefined; }
@@ -608,6 +631,8 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     const paceQPerMin = timeTakenMs > 0 ? (total / (timeTakenMs / 60000)) : 0;
     const grade = gradeFor(pct);
     const appr = appreciationFor(pct);
+    // Picked once per result so it doesn't change while the ring animates.
+    if (praiseRef.current === null) praiseRef.current = pickPraise(appr.band);
 
     const wrongQuestions = quizQuestions
       .map((qq, i) => ({ qq, i }))
@@ -679,7 +704,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           <div className={`rs-hero ${pct > 70 ? 'rs-good' : pct >= 40 ? 'rs-mid' : 'rs-low'}`}>
             <div className="results-hero-emoji">{appr.emoji}</div>
             <h2 className="results-hero-title">{mock ? 'Exam Complete!' : 'Quiz Complete!'}</h2>
-            <div className="rs-praise">{appr.praise}</div>
+            <div className="rs-praise">{praiseRef.current}</div>
             <div className="results-hero-sub">
               {mock ? `${correctCount} correct out of ${total} · ${answeredCount} answered` : `${answeredCount} of ${total} answered`}
             </div>
