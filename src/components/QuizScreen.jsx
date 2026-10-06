@@ -618,49 +618,71 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
               {['🎉', '✨', '⭐', '🎊', '💫', '✨', '🎉', '⭐'].map((emoji, i) => (
                 <span key={i} className="confetti-piece" style={{ '--i': i }}>{emoji}</span>
               ))}
+              {Array.from({ length: 18 }, (_, i) => (
+                <span key={`b${i}`} className="confetti-bit" style={{ '--x': `${(i * 37) % 100}%`, '--d': `${(i % 6) * 0.12}s`, '--h': (i * 47) % 360 }} />
+              ))}
             </div>
           )}
-          <div className="results-hero-emoji">{pct > 70 ? '💪' : pct >= 40 ? '📚' : '🔁'}</div>
-          <h2 className="results-hero-title">{mock ? 'Exam Complete!' : 'Quiz Complete!'}</h2>
-          <div className="results-hero-sub">
-            {mock ? `${correctCount} correct out of ${total} · ${answeredCount} answered` : `${answeredCount} of ${total} answered`}
-          </div>
-          {timesUp && <div className="results-hero-sub" style={{ color: 'var(--red)' }}>⏰ Time ran out, so the exam was submitted automatically.</div>}
+          <div className={`rs-hero ${pct > 70 ? 'rs-good' : pct >= 40 ? 'rs-mid' : 'rs-low'}`}>
+            <div className="results-hero-emoji">{pct > 70 ? '💪' : pct >= 40 ? '📚' : '🔁'}</div>
+            <h2 className="results-hero-title">{mock ? 'Exam Complete!' : 'Quiz Complete!'}</h2>
+            <div className="results-hero-sub">
+              {mock ? `${correctCount} correct out of ${total} · ${answeredCount} answered` : `${answeredCount} of ${total} answered`}
+            </div>
+            {timesUp && <div className="results-hero-sub" style={{ color: 'var(--red)' }}>⏰ Time ran out, so the exam was submitted automatically.</div>}
 
-          <div className="results-ring-wrap">
-            <svg viewBox="0 0 120 120" className="results-ring-svg">
-              <circle cx="60" cy="60" r={ringR} className="results-ring-track" />
-              <circle
-                cx="60" cy="60" r={ringR}
-                className="results-ring-progress"
-                strokeDasharray={ringC}
-                strokeDashoffset={ringOffset}
-              />
-            </svg>
-            <div className="results-ring-center">
-              <div className="results-ring-pct">{ringAnimPct}%</div>
-              <div className="results-ring-label">{mock ? 'SCORE' : 'ACCURACY'}</div>
+            <div className="results-ring-wrap">
+              <svg viewBox="0 0 120 120" className="results-ring-svg">
+                <defs>
+                  <linearGradient id="rsRingGrad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stopColor="var(--rs-a)" />
+                    <stop offset="100%" stopColor="var(--rs-b)" />
+                  </linearGradient>
+                </defs>
+                <circle cx="60" cy="60" r={ringR} className="results-ring-track" />
+                <circle
+                  cx="60" cy="60" r={ringR}
+                  className="results-ring-progress"
+                  stroke="url(#rsRingGrad)"
+                  strokeDasharray={ringC}
+                  strokeDashoffset={ringOffset}
+                />
+              </svg>
+              <div className="results-ring-center">
+                <div className="results-ring-pct">{ringAnimPct}%</div>
+                <div className="results-ring-label">{mock ? 'SCORE' : 'ACCURACY'}</div>
+              </div>
+            </div>
+            <div className="rs-grade" style={{ '--g': grade.color }}>
+              <span className="rs-grade-letter">{grade.letter}</span>
+              <span className="rs-grade-text">Grade · {correctCount}/{total} correct</span>
             </div>
           </div>
 
-          <div className="results-time-card">
-            <div className="results-time-label">⏱ TOTAL TIME</div>
-            <div className="results-time-big">{formatElapsed(timeTakenMs)}</div>
-            <div className="results-time-subgrid">
-              <div className="results-time-sub">
-                <div className="results-time-sub-val" style={{ color: 'var(--cyan)' }}>{(avgMsPerQ / 1000).toFixed(1)}s</div>
-                <div className="results-time-sub-label">Avg / Question</div>
-              </div>
-              <div className="results-time-sub">
-                <div className="results-time-sub-val" style={{ color: 'var(--green)' }}>{(fastestMs / 1000).toFixed(1)}s</div>
-                <div className="results-time-sub-label">Fastest</div>
-              </div>
-              <div className="results-time-sub">
-                <div className="results-time-sub-val" style={{ color: 'var(--red)' }}>{(slowestMs / 1000).toFixed(1)}s</div>
-                <div className="results-time-sub-label">Slowest</div>
-              </div>
+          <div className="rs-tiles">
+            <div className="rs-tile ok" style={{ '--i': 0 }}><b>{correctCount}</b><span>Correct</span></div>
+            <div className="rs-tile bad" style={{ '--i': 1 }}><b>{incorrectCount}</b><span>Incorrect</span></div>
+            <div className="rs-tile skip" style={{ '--i': 2 }}><b>{skippedCount}</b><span>Skipped</span></div>
+          </div>
+          {total > 0 && (
+            <div className="rs-stack" aria-label={`${correctCount} correct, ${incorrectCount} incorrect, ${skippedCount} skipped`}>
+              <span className="ok" style={{ flexGrow: correctCount }} />
+              <span className="bad" style={{ flexGrow: incorrectCount }} />
+              <span className="skip" style={{ flexGrow: skippedCount }} />
             </div>
-            <div className="results-pace">📊 Pace: ~{paceQPerMin.toFixed(1)} questions per minute</div>
+          )}
+
+          <div className="rs-time">
+            <div className="rs-time-main">
+              <span className="rs-time-label">⏱ Total time</span>
+              <span className="rs-time-big">{formatElapsed(timeTakenMs)}</span>
+            </div>
+            <div className="rs-time-grid">
+              <div><b style={{ color: 'var(--cyan)' }}>{(avgMsPerQ / 1000).toFixed(1)}s</b><span>Avg / question</span></div>
+              <div><b style={{ color: 'var(--green)' }}>{(fastestMs / 1000).toFixed(1)}s</b><span>Fastest</span></div>
+              <div><b style={{ color: 'var(--red)' }}>{(slowestMs / 1000).toFixed(1)}s</b><span>Slowest</span></div>
+            </div>
+            <div className="rs-pace">📊 ~{paceQPerMin.toFixed(1)} questions per minute</div>
           </div>
 
           {mock && (
@@ -678,53 +700,19 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             </div>
           )}
 
-          <div className="results-breakdown-card">
-            <div className="results-time-label">🥧 BREAKDOWN</div>
-            <div className="results-pie-row">
-              <div
-                className="results-pie"
-                style={{
-                  background: total
-                    ? `conic-gradient(var(--green) 0deg ${(correctCount / total) * 360}deg, var(--red) ${(correctCount / total) * 360}deg ${((correctCount + incorrectCount) / total) * 360}deg, var(--pink) ${((correctCount + incorrectCount) / total) * 360}deg 360deg)`
-                    : 'var(--surface2)',
-                }}
-              />
-              <div className="results-legend">
-                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--green)' }} />Correct: {correctCount}</div>
-                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--red)' }} />Incorrect: {incorrectCount}</div>
-                <div className="results-legend-item"><span className="results-legend-dot" style={{ background: 'var(--pink)' }} />Skipped: {skippedCount}</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="results-summary-grid">
-            <div className="results-summary-card stagger-in" style={{ '--stagger-i': 0, borderColor: 'rgba(var(--cyan-rgb),0.35)' }}>
-              <div className="results-summary-val" style={{ color: 'var(--cyan)' }}>{correctCount}/{total}</div>
-              <div className="results-summary-label">Score</div>
-            </div>
-            <div className="results-summary-card stagger-in" style={{ '--stagger-i': 1, borderColor: 'rgba(48,242,138,0.35)' }}>
-              <div className="results-summary-val" style={{ color: 'var(--green)' }}>{pct}%</div>
-              <div className="results-summary-label">Accuracy</div>
-            </div>
-            <div className="results-summary-card stagger-in" style={{ '--stagger-i': 2, borderColor: 'rgba(255,204,42,0.35)' }}>
-              <div className="results-summary-val" style={{ color: grade.color }}>{grade.letter}</div>
-              <div className="results-summary-label">Grade</div>
-            </div>
-          </div>
-
           {roomCode ? (
             <button className="btn-glow" onClick={onViewRoomResults}>View Room Results →</button>
           ) : (
             <>
+              {wrongQuestions.length > 0 && (
+                <button className="results-retry-wrong-btn rs-retry" onClick={handleRetryWrong}>
+                  ✕ Retry Wrong Questions ({wrongQuestions.length})
+                </button>
+              )}
               <div className="results-action-row">
                 <button className="btn-glow" onClick={handleRestartSame}>↺ Restart Same</button>
                 <button className="btn-ghost results-newquiz-btn" onClick={handleNewQuiz}>← New Quiz</button>
               </div>
-              {wrongQuestions.length > 0 && (
-                <button className="results-retry-wrong-btn" onClick={handleRetryWrong}>
-                  ✕ Retry Wrong Questions ({wrongQuestions.length})
-                </button>
-              )}
             </>
           )}
 
