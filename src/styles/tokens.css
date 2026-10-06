@@ -116,7 +116,6 @@ body.light-mode {
   --pink: #7d5f6b;
   --pink-rgb: 125, 95, 107;
   --brand-gradient: linear-gradient(90deg, #1e3a5f, #3d5875, #64748b);
-  --logo-face: var(--brand-gradient);
   --heading: #1e3a5f;
   --text: #0b1626;
   --text2: #2a4059;
@@ -498,15 +497,12 @@ h1, h2, .display {
 }
 
 body.light-mode .topbar-logo {
-  filter: none;
-  /* On the light background the darker navy stack reads as proper depth. */
-  /* The fill is transparent (gradient text), so the FIRST text-shadow layer
-     is what you actually see as the letter face - it covers the glyph. A
-     near-white first layer made the wordmark wash out on the light
-     background. First layer is now a mid steel-blue face, then a white rim
-     that only peeks out on the top-left edge, then navy depth steps. */
-  text-shadow: 0.4px 0.4px 0 #51647d, -0.5px -0.5px 0 rgba(255, 255, 255, 0.9),
-    1px 1px 0 #1e3a5f, 1.5px 1.5px 0 #1e3a5f, 2px 2px 3px rgba(12, 28, 48, 0.3);
+  /* Same silver-blue face as dark mode. On the pale background it needs a
+     thin navy outline (drop-shadows in four directions) plus a soft depth
+     shadow to stay readable. */
+  text-shadow: none;
+  filter: drop-shadow(0.6px 0 0 #1e3a5f) drop-shadow(-0.6px 0 0 #1e3a5f) drop-shadow(0 0.6px 0 #1e3a5f)
+    drop-shadow(0 -0.6px 0 #1e3a5f) drop-shadow(0 1.5px 2px rgba(12, 28, 48, 0.35));
 }
 
 .topbar-tagline {
@@ -1181,9 +1177,9 @@ body.light-mode .menu-item:active {
 }
 
 body.light-mode .app-loading-logo {
-  filter: none;
-  text-shadow: 0.6px 0.6px 0 #51647d, -1px -1px 0 rgba(255, 255, 255, 0.9),
-    1.5px 1.5px 0 #1e3a5f, 2.5px 2.5px 0 #1e3a5f, 3.5px 3.5px 5px rgba(12, 28, 48, 0.3);
+  text-shadow: none;
+  filter: drop-shadow(0.9px 0 0 #1e3a5f) drop-shadow(-0.9px 0 0 #1e3a5f) drop-shadow(0 0.9px 0 #1e3a5f)
+    drop-shadow(0 -0.9px 0 #1e3a5f) drop-shadow(0 3px 4px rgba(12, 28, 48, 0.35));
 }
 
 .app-loading-signature {
