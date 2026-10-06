@@ -92,6 +92,7 @@ html, body { height: 100%; background: var(--bg); color: var(--ice); font-family
 .cta:active { transform: scale(0.97); }
 .replay { margin-top: 18px; padding: 8px 14px; border: 0; background: none; font: inherit; font-size: 13px; font-weight: 600; color: var(--steel); cursor: pointer; }
 
+html.embed .cta, html.embed .url, html.embed .replay { display: none; }
 #skip {
   position: absolute; z-index: 9; top: calc(14px + env(safe-area-inset-top, 0px)); right: 14px; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.16);
   background: rgba(255, 255, 255, 0.06); color: #c0d4f0; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; backdrop-filter: blur(6px); transition: opacity 0.3s;
@@ -160,6 +161,13 @@ html, body { height: 100%; background: var(--bg); color: var(--ice); font-family
   const easeInOut = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
   // trapezoid: fades in a→b, out c→d
   const win = (t, a, b, c, d) => clamp((t - a) / (b - a)) * (1 - clamp((t - c) / (d - c)));
+
+  // Embedded inside the app (IntroOverlay): no CTA, Skip leaves straight away,
+  // and the film reports back when it has started / finished.
+  const EMBED = new URLSearchParams(location.search).has('embed');
+  if (EMBED) document.documentElement.classList.add('embed');
+  const tell = (type) => { try { window.parent.postMessage({ type }, location.origin); } catch (e) { /* not framed */ } };
+  let finishedSent = false;
 
   const stage = $('stage');
   const cv = $('fx');
@@ -387,7 +395,10 @@ html, body { height: 100%; background: var(--bg); color: var(--ice); font-family
     if (playing) t = Math.min(END, t + dt);
     render(t);
     if (playing && t < END) raf = requestAnimationFrame(loop);
-    else playing = false;
+    else {
+      playing = false;
+      if (EMBED && t >= END && !finishedSent) { finishedSent = true; setTimeout(() => tell('med101-intro-done'), 500); }
+    }
   }
   function play(from = 0) {
     cancelAnimationFrame(raf);
@@ -395,7 +406,10 @@ html, body { height: 100%; background: var(--bg); color: var(--ice); font-family
     raf = requestAnimationFrame(loop);
   }
 
-  $('skip').addEventListener('click', () => { t = Math.max(t, 14.2); if (!playing) play(t); });
+  $('skip').addEventListener('click', () => {
+    if (EMBED) { if (!finishedSent) { finishedSent = true; tell('med101-intro-done'); } return; }
+    t = Math.max(t, 14.2); if (!playing) play(t);
+  });
   $('replay').addEventListener('click', () => play(0));
   window.addEventListener('resize', () => { resize(); render(t); });
   // Testing helper: window.__seek(seconds)
@@ -409,7 +423,7 @@ html, body { height: 100%; background: var(--bg); color: var(--ice); font-family
   ready.then(() => {
     resize();
     if (reduce) { t = END; render(t); $('skip').style.display = 'none'; }
-    else play(0);
+    else { play(0); tell('med101-intro-ready'); }
   });
 })();
 </script>

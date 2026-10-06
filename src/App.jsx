@@ -22,6 +22,8 @@ import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence'
 import { loadResumeSnapshot, clearQuizProgress, saveQuizProgress } from './lib/quizProgress';
 import { loadCloudSnapshot, deleteCloudSnapshot } from './lib/quizResumeCloud';
 import ResumeQuizCard from './components/ResumeQuizCard';
+import IntroOverlay from './components/IntroOverlay';
+import { shouldPlayIntro } from './lib/intro';
 
 // Dashboard/SubtopicScreen/QuizModeScreen/QuizScreen above stay
 // normal static imports - together they're the one back-to-back path
@@ -176,6 +178,8 @@ export default function App() {
   }, [user?.uid, profile?.enrolledYearSemester, premiumStatus, subscriptionConfig, premiumPaused, isPremiumForCurrentSemester]);
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
+  // Cinematic intro after the first loading screen (see lib/intro.js for when it plays).
+  const [introDone, setIntroDone] = useState(() => !shouldPlayIntro());
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
   // Splash bar runs ONCE: eases from 0 toward ~90% (decelerating, so it
   // never looks frozen however long loading takes), then snaps to 100%
@@ -380,7 +384,9 @@ export default function App() {
   // reads as *becoming* the top bar logo rather than the loader just
   // vanishing and a separate small logo appearing in its place.
   useEffect(() => {
-    if (semesterData.loading || calendarLoading) {
+    // Hold the finish sequence until the intro is over, so the logo reveal
+    // plays after it instead of unseen behind it.
+    if (semesterData.loading || calendarLoading || !introDone) {
       if (loaderPhase !== 'loading') setLoaderPhase('loading');
       return;
     }
@@ -389,7 +395,7 @@ export default function App() {
     const t1 = setTimeout(() => setLoaderPhase('flying'), 380);
     const t2 = setTimeout(() => setLoaderPhase('done'), 380 + 2400);
     return () => { clearTimeout(t1); clearTimeout(t2); };
-  }, [semesterData.loading, calendarLoading]);
+  }, [semesterData.loading, calendarLoading, introDone]);
 
   // Presence heartbeat - pings this session as "online" every 30s so
   // the topbar can show a live headcount of currently active students.
@@ -489,6 +495,10 @@ export default function App() {
       </div>
     );
   }
+
+  // Intro plays here: data keeps loading behind it (hooks above), and the
+  // normal splash finish / login screen follow when it is done.
+  if (!introDone) return <IntroOverlay onDone={() => setIntroDone(true)} />;
 
   if (!user || needsGoogleProfileSetup) {
     return (
