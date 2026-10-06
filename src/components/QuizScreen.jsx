@@ -58,6 +58,24 @@ function shuffleOptions(q) {
 // real exam: nothing is revealed while it runs (no right/wrong, no running
 // score), answers can be changed until the end, "mark for review" is local to
 // this attempt, and the score is out of ALL questions (blank = wrong).
+// Counts 0 -> `to` after `delay` ms (instant for reduced motion).
+function CountNum({ to, delay = 0 }) {
+  const [n, setN] = useState(0);
+  useEffect(() => {
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { setN(to); return undefined; }
+    let raf; let t0 = null;
+    const tick = (now) => {
+      if (t0 === null) t0 = now + delay;
+      const p = Math.min(1, Math.max(0, (now - t0) / 800));
+      setN(Math.round(to * (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [to, delay]);
+  return <>{n}</>;
+}
+
 export default function QuizScreen({ mainSubject, topic, semesterId, questions, isPremium, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, mock, resumeAttemptId, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
   const { user, profile } = useAuth();
   // Work out once, on mount, whether this is a fresh attempt or a continuation
@@ -458,15 +476,25 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   // to the actual score over ~700ms, rather than just appearing at its
   // final value - driven frame-by-frame here rather than a plain CSS
   // transition so the number and the ring stay perfectly in sync.
+  // Short "calculating" intro before the results are revealed (solo quizzes
+  // only - rooms go straight to results). Tap to skip.
+  const [intro, setIntro] = useState(true);
+  useEffect(() => {
+    if (!finished) { setIntro(true); return undefined; }
+    if (roomCode || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { setIntro(false); return undefined; }
+    const t = setTimeout(() => setIntro(false), 1700);
+    return () => clearTimeout(t);
+  }, [finished, roomCode]);
+
   const [ringAnimPct, setRingAnimPct] = useState(0);
   useEffect(() => {
-    if (!finished) { setRingAnimPct(0); return; }
+    if (!finished || intro) { setRingAnimPct(0); return; }
     if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
       setRingAnimPct(pct);
       return;
     }
     let raf;
-    const duration = 700;
+    const duration = 1100;
     const start = performance.now() + 150; // small pause before it starts, so it reads as a reveal
     function tick(now) {
       const elapsed = now - start;
@@ -478,7 +506,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     }
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [finished, pct]);
+  }, [finished, pct, intro]);
 
   // Save history + leaderboard once, the moment the results screen appears.
   useEffect(() => {
@@ -610,6 +638,18 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       onRetryWrong?.(wrongQuestions);
     }
 
+    if (intro) {
+      return (
+        <div className="quiz-results rs-intro" onClick={() => setIntro(false)} role="status">
+          <div className="rs-intro-orb" aria-hidden="true"><span /><span /><span /><b>🧮</b></div>
+          <div className="rs-intro-title">Calculating your result<span className="rs-dots"><i>.</i><i>.</i><i>.</i></span></div>
+          <div className="rs-intro-sub">Checking {answeredCount} answer{answeredCount === 1 ? '' : 's'}</div>
+          <div className="rs-intro-bar" aria-hidden="true"><i /></div>
+          <div className="rs-intro-skip">Tap to skip</div>
+        </div>
+      );
+    }
+
     return (
       <div className="quiz-results">
         <div className="quiz-results-card">
@@ -660,9 +700,9 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
           </div>
 
           <div className="rs-tiles">
-            <div className="rs-tile ok" style={{ '--i': 0 }}><b>{correctCount}</b><span>Correct</span></div>
-            <div className="rs-tile bad" style={{ '--i': 1 }}><b>{incorrectCount}</b><span>Incorrect</span></div>
-            <div className="rs-tile skip" style={{ '--i': 2 }}><b>{skippedCount}</b><span>Skipped</span></div>
+            <div className="rs-tile ok" style={{ '--i': 0 }}><b><CountNum to={correctCount} delay={500} /></b><span>Correct</span></div>
+            <div className="rs-tile bad" style={{ '--i': 1 }}><b><CountNum to={incorrectCount} delay={600} /></b><span>Incorrect</span></div>
+            <div className="rs-tile skip" style={{ '--i': 2 }}><b><CountNum to={skippedCount} delay={700} /></b><span>Skipped</span></div>
           </div>
           {total > 0 && (
             <div className="rs-stack" aria-label={`${correctCount} correct, ${incorrectCount} incorrect, ${skippedCount} skipped`}>

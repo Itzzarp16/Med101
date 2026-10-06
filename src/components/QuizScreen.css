@@ -1076,3 +1076,23 @@ body.light-mode .opt-btn.correct .opt-label {
   100% { opacity: 0; transform: translateY(420px) rotate(540deg); }
 }
 @media (prefers-reduced-motion: reduce) { .confetti-bit { display: none; } }
+
+/* "Calculating" intro shown for ~1.7s before the results reveal */
+.rs-intro { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 70vh; gap: 10px; text-align: center; cursor: pointer; animation: rs-up .3s ease backwards; }
+.rs-intro-orb { position: relative; width: 96px; height: 96px; display: grid; place-items: center; margin-bottom: 14px; }
+.rs-intro-orb b { font-size: 38px; position: relative; animation: rs-tilt 1s ease-in-out infinite; }
+.rs-intro-orb span { position: absolute; inset: 0; border-radius: 50%; border: 3px solid transparent; border-top-color: var(--cyan); animation: pm-spin 1.1s linear infinite; }
+.rs-intro-orb span:nth-child(2) { inset: 10px; border-top-color: var(--violet); animation-duration: 1.6s; animation-direction: reverse; }
+.rs-intro-orb span:nth-child(3) { inset: 20px; border-top-color: var(--pink); animation-duration: 2.1s; }
+.rs-intro-title { font: 800 1.25rem var(--font-heading); color: var(--text); }
+.rs-dots i { font-style: normal; display: inline-block; animation: rs-dot 1.2s infinite; }
+.rs-dots i:nth-child(2) { animation-delay: .2s; } .rs-dots i:nth-child(3) { animation-delay: .4s; }
+.rs-intro-sub { font-size: 13.5px; color: var(--text3); }
+.rs-intro-bar { width: 180px; height: 5px; border-radius: 9px; background: var(--border); overflow: hidden; margin-top: 10px; }
+.rs-intro-bar i { display: block; height: 100%; width: 100%; border-radius: 9px; background: linear-gradient(90deg, var(--cyan), var(--violet), var(--pink)); transform-origin: left; animation: rs-load 1.6s cubic-bezier(.4,.1,.2,1) forwards; }
+.rs-intro-skip { font-size: 11px; color: var(--text3); opacity: .6; margin-top: 8px; }
+@keyframes rs-load { from { transform: scaleX(0); } }
+@keyframes rs-dot { 0%, 60%, 100% { opacity: .25; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
+@keyframes rs-tilt { 50% { transform: rotate(-10deg) scale(1.12); } }
+@keyframes pm-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .rs-intro * { animation: none !important; } }
