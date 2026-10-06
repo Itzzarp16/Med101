@@ -30,6 +30,18 @@ function gradeFor(pct) {
   return { letter: 'F', color: 'var(--red)' };
 }
 
+// A different hero emoji, praise line and confetti set for every result band.
+function appreciationFor(pct) {
+  if (pct >= 100) return { emoji: '🏆', praise: 'Perfect score! Absolutely flawless.', confetti: ['🏆', '👑', '🎉', '🌟', '🎊', '💎', '🏆', '✨'] };
+  if (pct >= 90) return { emoji: '🌟', praise: 'Outstanding! You really know this.', confetti: ['🌟', '✨', '🎉', '💫', '🎊', '⭐', '🌟', '🎉'] };
+  if (pct >= 80) return { emoji: '🎉', praise: 'Excellent work, keep it up!', confetti: ['🎉', '🎊', '✨', '⭐', '🎉', '💫', '🎊', '✨'] };
+  if (pct >= 70) return { emoji: '💪', praise: 'Great job, you are getting strong!', confetti: ['💪', '⭐', '✨', '💫', '💪', '✨', '⭐', '💫'] };
+  if (pct >= 60) return { emoji: '👍', praise: 'Good effort, a little more and you are there.', confetti: [] };
+  if (pct >= 40) return { emoji: '📚', praise: 'Keep going, review the misses and retry.', confetti: [] };
+  if (pct >= 20) return { emoji: '🌱', praise: 'Every expert started here. Keep growing.', confetti: [] };
+  return { emoji: '🔁', praise: "Don't give up. Try again, you will improve!", confetti: [] };
+}
+
 // The source data for some subjects (Physiology in particular) lists
 // the correct answer first almost every time - so without reshuffling,
 // a student could score well just by always picking "A" instead of
@@ -595,6 +607,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     const slowestMs = visitedTimes.length ? Math.max(...visitedTimes) : 0;
     const paceQPerMin = timeTakenMs > 0 ? (total / (timeTakenMs / 60000)) : 0;
     const grade = gradeFor(pct);
+    const appr = appreciationFor(pct);
 
     const wrongQuestions = quizQuestions
       .map((qq, i) => ({ qq, i }))
@@ -653,9 +666,9 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     return (
       <div className="quiz-results">
         <div className="quiz-results-card">
-          {pct > 70 && (
+          {appr.confetti.length > 0 && (
             <div className="results-confetti" aria-hidden="true">
-              {['🎉', '✨', '⭐', '🎊', '💫', '✨', '🎉', '⭐'].map((emoji, i) => (
+              {appr.confetti.map((emoji, i) => (
                 <span key={i} className="confetti-piece" style={{ '--i': i }}>{emoji}</span>
               ))}
               {Array.from({ length: 18 }, (_, i) => (
@@ -664,8 +677,9 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             </div>
           )}
           <div className={`rs-hero ${pct > 70 ? 'rs-good' : pct >= 40 ? 'rs-mid' : 'rs-low'}`}>
-            <div className="results-hero-emoji">{pct > 70 ? '💪' : pct >= 40 ? '📚' : '🔁'}</div>
+            <div className="results-hero-emoji">{appr.emoji}</div>
             <h2 className="results-hero-title">{mock ? 'Exam Complete!' : 'Quiz Complete!'}</h2>
+            <div className="rs-praise">{appr.praise}</div>
             <div className="results-hero-sub">
               {mock ? `${correctCount} correct out of ${total} · ${answeredCount} answered` : `${answeredCount} of ${total} answered`}
             </div>

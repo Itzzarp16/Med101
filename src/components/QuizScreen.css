@@ -1096,3 +1096,5 @@ body.light-mode .opt-btn.correct .opt-label {
 @keyframes rs-tilt { 50% { transform: rotate(-10deg) scale(1.12); } }
 @keyframes pm-spin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .rs-intro * { animation: none !important; } }
+
+.rs-praise { font-size: 14px; font-weight: 700; color: var(--text); margin: 2px 0 6px; animation: rs-up .5s ease .35s backwards; }
