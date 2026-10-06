@@ -268,7 +268,7 @@ export default function App() {
     const usableOf = (snap) => {
       if (!snap || snap.roomCode || (snap.uid && snap.uid !== user.uid)) return null;
       const answered = snap.answers.filter((a) => a !== -1).length;
-      return answered > 0 && answered < snap.questions.length ? snap : null;
+      return (answered > 0 || snap.cur > 0) && answered < snap.questions.length ? snap : null;
     };
     const newest = (x, y) => (x && y ? (x.savedAt >= y.savedAt ? x : y) : (x || y));
     const local = usableOf(loadResumeSnapshot());

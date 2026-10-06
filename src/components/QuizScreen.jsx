@@ -155,15 +155,22 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     mock: !!mock,
   });
 
+  // A brand-new solo attempt is NOT written until the student has actually
+  // answered something or moved on. Writing it on mount used to overwrite
+  // an older unfinished quiz with an empty one (open another quiz, glance,
+  // go back -> the real unfinished quiz was gone and nothing was offered).
+  const hasProgressRef = useRef(false);
+  hasProgressRef.current = !!roomCode || answers.some((a) => a !== -1) || cur > 0;
+
   useEffect(() => {
-    if (finished) return;
+    if (finished || !hasProgressRef.current) return;
     saveQuizProgress(latestSnapshotRef.current());
   }, [cur, answers, questionTimesMs, finished]);
 
   // Refresh the saved elapsed time when the tab is hidden/closed.
   useEffect(() => {
     function flush() {
-      if (!finished && latestSnapshotRef.current) saveQuizProgress(latestSnapshotRef.current());
+      if (!finished && hasProgressRef.current && latestSnapshotRef.current) saveQuizProgress(latestSnapshotRef.current());
     }
     function onVis() { if (document.visibilityState === 'hidden') flush(); }
     window.addEventListener('pagehide', flush);
