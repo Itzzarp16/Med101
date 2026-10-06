@@ -377,7 +377,7 @@ function draw3DText(doc, text, x, y, { align = 'left' } = {}) {
 // wordmark). Returns the tagline's charSpace.
 const TAGLINE = 'LEARN. PRACTICE. IMPROVE.';
 function fitTaglineSpacing(doc, targetWidth, fontSize) {
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('times', 'bold');
   doc.setFontSize(fontSize);
   const natural = doc.getTextWidth(TAGLINE);
   return (targetWidth - natural) / (TAGLINE.length - 1);
@@ -433,7 +433,7 @@ function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBy
     textStartX = marginX + logoSize + 14;
   }
 
-  doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
+  doc.setFont(hasSyne ? 'Syne' : 'times', 'bold');
   doc.setFontSize(hasSyne ? 22 : 20);
   const markWidth = doc.getTextWidth('Med101');
   draw3DText(doc, 'Med101', textStartX, 34);
@@ -442,13 +442,13 @@ function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBy
   // (.topbar-logo-stack: line-height 1, 1px margin). Tagline is stretched
   // to exactly the wordmark's width (see fitTaglineSpacing).
   const headerCs = fitTaglineSpacing(doc, markWidth, 7.5);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('times', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(...TEXT_MUTED);
   doc.text(TAGLINE, textStartX, 44, { charSpace: headerCs });
 
   doc.setTextColor(...NAVY);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('times', 'bold');
   doc.setFontSize(10);
   {
     // jsPDF's align:'right' doesn't account for charSpace when
@@ -460,7 +460,7 @@ function drawLetterhead(doc, { marginX, pageWidth, bannerHeight, hasSyne, logoBy
     const approxWidth = doc.getTextWidth(label) + charSpaceVal * (label.length - 1);
     doc.text(label, pageWidth - marginX - approxWidth, 22, { charSpace: charSpaceVal });
   }
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('times', 'normal');
   doc.setTextColor(...TEXT_MUTED);
   doc.setFontSize(8.5);
   doc.text(genLabel, pageWidth - marginX, 38, { align: 'right' });
@@ -553,7 +553,7 @@ export async function buildUserDataExportPdf(uid) {
   function sectionBar(doc, x, y, width, title, count) {
     y = ensurePageSpace(doc, y, 40);
     doc.setTextColor(...NAVY);
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(11);
     const label = count != null ? `${title} (${count})` : title;
     doc.text(label, x, y + 10);
@@ -565,7 +565,7 @@ export async function buildUserDataExportPdf(uid) {
 
   function emptyNote(doc, x, y, text) {
     y = ensurePageSpace(doc, y, 20);
-    doc.setFont('helvetica', 'italic');
+    doc.setFont('times', 'italic');
     doc.setFontSize(9.5);
     doc.setTextColor(...TEXT_MUTED);
     doc.text(text, x, y);
@@ -574,7 +574,7 @@ export async function buildUserDataExportPdf(uid) {
 
   const tableTheme = {
     theme: 'grid',
-    styles: { fontSize: 9, cellPadding: { top: 4, bottom: 4, left: 8, right: 8 }, textColor: TEXT_DARK, lineColor: RULE_LIGHT, lineWidth: 0.5 },
+    styles: { font: 'times', fontSize: 10, cellPadding: { top: 4, bottom: 4, left: 8, right: 8 }, textColor: TEXT_DARK, lineColor: RULE_LIGHT, lineWidth: 0.5 },
     headStyles: { fontStyle: 'bold', textColor: NAVY, fillColor: HEADER_FILL, lineColor: RULE_LIGHT, lineWidth: 0.5 },
     margin: { top: bannerHeight + 22, left: marginX, right: marginX },
     didDrawPage: () => drawLetterhead(doc, letterheadArgs),
@@ -586,7 +586,7 @@ export async function buildUserDataExportPdf(uid) {
 
   // --- Explanatory note (plain text, no colored box) ---
   doc.setTextColor(...TEXT_MUTED);
-  doc.setFont('helvetica', 'italic');
+  doc.setFont('times', 'italic');
   doc.setFontSize(8.5);
   doc.text(
     'This is everything Med101 stores about this account, compiled in response to a data access request (see Section 6 of the Privacy Policy).',
@@ -746,7 +746,7 @@ export async function buildUserDataExportPdf(uid) {
   // --- Rooms / invites (single small info box, no table needed) ---
   y = sectionBar(doc, marginX, y, usableWidth, 'ROOMS HOSTED / INVITES');
   doc.setTextColor(...TEXT_DARK);
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('times', 'normal');
   doc.setFontSize(9.5);
   doc.text(`Rooms created: ${data.myRoomsCount}`, marginX, y);
   doc.text(`Pending invites: ${data.invitesCount}`, marginX, y + 14);
@@ -778,11 +778,11 @@ export async function buildUserDataExportPdf(uid) {
   y += 22;
 
   doc.setTextColor(...NAVY);
-  doc.setFont('helvetica', 'bold');
+  doc.setFont('times', 'bold');
   doc.setFontSize(16);
   doc.text('Thank You', pageWidth - marginX, y, { align: 'right' });
 
-  doc.setFont('helvetica', 'normal');
+  doc.setFont('times', 'normal');
   doc.setFontSize(9);
   doc.setTextColor(...TEXT_MUTED);
   // Two explicit lines (not maxWidth auto-wrap) so the break always
@@ -796,7 +796,7 @@ export async function buildUserDataExportPdf(uid) {
   );
   y += 46;
 
-  doc.setFont(hasSyne ? 'Syne' : 'helvetica', 'bold');
+  doc.setFont(hasSyne ? 'Syne' : 'times', 'bold');
   doc.setTextColor(...NAVY);
   doc.setFontSize(hasSyne ? 17 : 15);
   const closingMarkWidth = doc.getTextWidth('Med101');
@@ -806,7 +806,7 @@ export async function buildUserDataExportPdf(uid) {
     // wordmark, right edges aligned. jsPDF's align:'right' ignores
     // charSpace when measuring, so left-align at the computed position.
     const cs = fitTaglineSpacing(doc, closingMarkWidth, 6.5);
-    doc.setFont('helvetica', 'bold');
+    doc.setFont('times', 'bold');
     doc.setFontSize(6.5);
     doc.setTextColor(...TEXT_MUTED);
     doc.text(TAGLINE, pageWidth - marginX - closingMarkWidth, y + 8, { charSpace: cs });
@@ -820,7 +820,7 @@ export async function buildUserDataExportPdf(uid) {
     doc.setDrawColor(...RULE_LIGHT);
     doc.setLineWidth(0.5);
     doc.line(marginX, pageHeight - 30, pageWidth - marginX, pageHeight - 30);
-    doc.setFont('helvetica', 'normal');
+    doc.setFont('times', 'normal');
     doc.setFontSize(8);
     doc.setTextColor(...TEXT_MUTED);
     doc.text('Med101 - Confidential data export', marginX, pageHeight - 18);
