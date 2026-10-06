@@ -64,13 +64,13 @@ const COPY = {
   },
 };
 
-export default function ReviewListScreen({ kind = 'wrong', onPracticeSet, onBack }) {
+export default function ReviewListScreen({ kind = 'wrong', semesterSubjects, onPracticeSet, onBack }) {
   const { user } = useAuth();
   const reveal = useReveal();
   const copy = COPY[kind] || COPY.wrong;
   const [subject, setSubject] = useState('all');
   const [query, setQuery] = useState('');
-  const [list, setList] = useState([]);
+  const [allItems, setAllItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [leaving, setLeaving] = useState(() => new Set());
 
@@ -80,13 +80,22 @@ export default function ReviewListScreen({ kind = 'wrong', onPracticeSet, onBack
       setLoading(true);
       const items = kind === 'flagged' ? await fetchFlaggedQuestions(user.uid) : await fetchWrongQuestions(user.uid);
       if (!alive) return;
-      setList(items);
+      setAllItems(items);
       setLoading(false);
     })();
     return () => { alive = false; };
   }, [user.uid, kind]);
 
   const term = query.trim();
+
+  // Only this semester's questions: an entry belongs to the active semester
+  // when its subject is one of that semester's subjects. Other semesters'
+  // entries stay saved and reappear when the student switches back.
+  const list = useMemo(
+    () => (Array.isArray(semesterSubjects) ? allItems.filter((it) => semesterSubjects.includes(it.mainSubject)) : allItems),
+    [allItems, semesterSubjects]
+  );
+  const hiddenCount = allItems.length - list.length;
 
   // Search matches the question, its topic and every option.
   const searched = useMemo(() => {
@@ -132,7 +141,7 @@ export default function ReviewListScreen({ kind = 'wrong', onPracticeSet, onBack
         } else {
           await removeWrongQuestion(user.uid, item.id);
         }
-        setList((prev) => prev.filter((x) => x.id !== item.id));
+        setAllItems((prev) => prev.filter((x) => x.id !== item.id));
       } catch {
         // Couldn't remove it: bring the card back instead of losing it.
       } finally {
@@ -169,7 +178,7 @@ export default function ReviewListScreen({ kind = 'wrong', onPracticeSet, onBack
         <div className="wf-empty">
           <div className="wf-empty-ico">{copy.emptyIcon}</div>
           <div className="wf-empty-t">{copy.emptyTitle}</div>
-          <div className="wf-empty-s">{copy.emptyText}</div>
+          <div className="wf-empty-s">{hiddenCount > 0 ? 'Nothing from this semester yet. Questions from your other semesters appear when you switch to them.' : copy.emptyText}</div>
         </div>
       ) : (
         <>

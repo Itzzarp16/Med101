@@ -1002,6 +1002,7 @@ export default function App() {
         <Suspense fallback={<ScreenFallback />}>
           <ReviewListScreen
             kind="wrong"
+            semesterSubjects={semesterSubjectNames}
             onPracticeSet={(items) => {
               const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
               setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
@@ -1018,6 +1019,7 @@ export default function App() {
         <Suspense fallback={<ScreenFallback />}>
           <ReviewListScreen
             kind="flagged"
+            semesterSubjects={semesterSubjectNames}
             onPracticeSet={(items) => {
               const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
               setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
