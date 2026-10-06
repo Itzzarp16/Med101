@@ -879,6 +879,13 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   // In a mock exam nothing is ever shown as answered-and-revealed.
   const answered = !mock && ua !== -1;
   const unansweredCount = total - answeredCount;
+  // Correct answers in a row, counted back from the latest answered question.
+  let streak = 0;
+  if (!mock) {
+    let j = cur;
+    if (answers[j] === -1) j -= 1;
+    for (; j >= 0 && answers[j] === quizQuestions[j].c; j -= 1) streak += 1;
+  }
 
   return (
     <div className="screen-quiz" onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
@@ -939,8 +946,9 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             </>
           ) : (
             <>
-              <span className="qchip ok">✓ <b>{correctCount}</b></span>
+              <span className="qchip ok">✓ <b key={correctCount} className="qchip-pop">{correctCount}</b></span>
               <span className="qchip acc"><b>{answeredCount ? `${pct}%` : '-'}</b> acc</span>
+              {streak >= 3 && <span key={streak} className="qchip streak">🔥 <b>{streak}</b> in a row</span>}
             </>
           )}
           <button
@@ -1034,7 +1042,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
         {/* Question card */}
         <div className={`q-card q-enter q-enter-${qDirRef.current}`} key={`q-${cur}`}>
           <div className="q-card-top">
-            <span className="badge badge-cyan">{q.s}</span>
+            <span className="q-card-id"><span className="q-num">Q{cur + 1}</span><span className="badge badge-cyan">{q.s}</span></span>
             <span className="q-card-actions">
             <button
               onClick={toggleFlag}

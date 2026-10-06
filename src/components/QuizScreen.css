@@ -1124,3 +1124,47 @@ body.light-mode .opt-btn.correct .opt-label {
 @keyframes rs-sprout { 0%, 100% { scale: 1 1; rotate: -4deg; } 50% { scale: 1.06 1.22; rotate: 5deg; } }
 @keyframes rs-loop { 0% { rotate: 0deg; } 70%, 100% { rotate: 360deg; } }
 @media (prefers-reduced-motion: reduce) { .rs-halo, .rs-hero .results-hero-emoji { animation: none !important; } }
+
+/* ── Quiz screen refresh: richer question card, answer feedback, live chips ── */
+.q-card { position: relative; overflow: hidden; background: linear-gradient(160deg, var(--surface) 0%, var(--bg2) 100%); border: 1px solid var(--border); box-shadow: 0 10px 30px rgba(0, 0, 0, .18); }
+.q-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(180deg, var(--cyan), var(--violet)); }
+.q-card-id { display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.q-num { flex-shrink: 0; font: 800 11px var(--font-heading); letter-spacing: .04em; color: #fff; padding: 4px 9px; border-radius: 999px; background: linear-gradient(135deg, var(--cyan2, var(--cyan)), var(--violet)); }
+.q-text { font-size: 17px; line-height: 1.55; }
+
+/* Options: gradient letter chip, lift on hover, tick / cross on reveal */
+.opt-btn { padding-right: 46px; }
+.opt-label { background: linear-gradient(135deg, var(--surface2), var(--surface)); }
+.opt-btn:active:not(:disabled) .opt-label { transform: scale(.88); }
+.opt-btn.correct::after, .opt-btn.wrong::after {
+  position: absolute; right: 14px; top: 50%; width: 24px; height: 24px; margin-top: -12px; border-radius: 50%;
+  display: grid; place-items: center; font: 800 13px var(--font-body); color: #fff; animation: opt-mark .45s cubic-bezier(.2, 1.6, .4, 1) both;
+}
+.opt-btn.correct::after { content: '✓'; background: var(--green); color: #04150c; }
+.opt-btn.wrong::after { content: '✕'; background: var(--red); }
+.opt-btn.correct::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .28) 50%, transparent 65%); transform: translateX(-120%); animation: opt-shine .9s ease .1s 1 forwards;
+}
+.opt-btn.picked::after { content: '●'; position: absolute; right: 16px; top: 50%; margin-top: -9px; font-size: 14px; color: var(--cyan); animation: opt-mark .3s ease both; }
+@keyframes opt-mark { from { transform: scale(0) rotate(-90deg); opacity: 0; } }
+@keyframes opt-shine { to { transform: translateX(120%); } }
+
+/* Chips react when their number changes; streak chip burns */
+.qchip-pop { display: inline-block; animation: chip-pop .45s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes chip-pop { 0% { transform: scale(.4); } 100% { transform: scale(1); } }
+.qchip.streak { color: #fff; border-color: rgba(255, 150, 40, .6); background: linear-gradient(135deg, rgba(255, 120, 30, .55), rgba(255, 60, 90, .45)); animation: chip-pop .5s cubic-bezier(.2, 1.6, .4, 1); }
+.qchip.streak b { color: #fff; }
+
+/* Progress strip: current segment breathes, answered ones pop in */
+.qseg-bit { height: 7px; transition: background .25s, transform .25s; }
+.qseg-bit.cur { animation: seg-pulse 1.8s ease-in-out infinite; }
+.qseg-bit.ok, .qseg-bit.bad, .qseg-bit.sel { animation: seg-pop .35s cubic-bezier(.2, 1.6, .4, 1); }
+@keyframes seg-pulse { 50% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--cyan) 35%, transparent); } }
+@keyframes seg-pop { from { transform: scaleY(.3); } }
+.prog-fill { transition: width .5s cubic-bezier(.2, .8, .2, 1); }
+
+@media (prefers-reduced-motion: reduce) {
+  .opt-btn.correct::after, .opt-btn.wrong::after, .opt-btn.correct::before, .qchip-pop, .qchip.streak, .qseg-bit.cur, .qseg-bit.ok, .qseg-bit.bad, .qseg-bit.sel { animation: none !important; }
+  .opt-btn.correct::before { display: none; }
+}
