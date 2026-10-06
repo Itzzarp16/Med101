@@ -149,6 +149,7 @@ html.embed .cta, html.embed .url, html.embed .replay { display: none; }
     ['⚛️', 'Biophysics', '9 topics · 300 questions', 0.22],
     ['📊', 'MSCR', '4 topics · 300 questions', 0.3],
     ['🇰🇬', 'Kyrgyz Language', '1 topic · 399 questions', 0.12],
+    ['🇷🇺', 'Russian Language', '1 topic · 376 questions', 0.08],
   ];
   const WORD = 'Med101';
   const END = 15.2;            // seconds; the end card holds from here
@@ -376,6 +377,9 @@ html.embed .cta, html.embed .url, html.embed .replay { display: none; }
       c.bar.style.width = (c.fill * 100 * easeOut(clamp((t - s0 - 0.2) / 0.9))).toFixed(1) + '%';
       c.path.style.strokeDashoffset = (100 * (1 - clamp((t - s0) / 0.9))).toFixed(1);
     });
+
+    // The list drifts up a little, like a thumb scrolling the home screen.
+    cardsEl.style.transform = `translateY(${(-9 * easeInOut(clamp((t - 12.3) / 1.5))).toFixed(2)}cqw)`;
 
     // End card
     const e = easeOut(clamp((t - 14.2) / 0.8));
