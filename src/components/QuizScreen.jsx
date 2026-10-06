@@ -34,21 +34,21 @@ function gradeFor(pct) {
 // pool of praise lines per band - one is picked per result (never the same
 // line twice in a row for a band), see pickPraise().
 const BANDS = [
-  { min: 100, emoji: '🏆', confetti: ['🏆', '👑', '🎉', '🌟', '🎊', '💎', '🏆', '✨'], praise: [
+  { key: 'trophy', min: 100, emoji: '🏆', confetti: ['🏆', '👑', '🎉', '🌟', '🎊', '💎', '🏆', '✨'], praise: [
     'Perfect score! Absolutely flawless.', 'Not a single miss. Legendary!', '100%! You just aced it.', 'Flawless victory, doctor in the making!', 'Every answer right. Take a bow!' ] },
-  { min: 90, emoji: '🌟', confetti: ['🌟', '✨', '🎉', '💫', '🎊', '⭐', '🌟', '🎉'], praise: [
+  { key: 'star', min: 90, emoji: '🌟', confetti: ['🌟', '✨', '🎉', '💫', '🎊', '⭐', '🌟', '🎉'], praise: [
     'Outstanding! You really know this.', 'Brilliant work, nearly perfect!', 'You are on fire today!', 'Top-tier performance. Proud of you!', 'Superb! That is exam-ready.' ] },
-  { min: 80, emoji: '🎉', confetti: ['🎉', '🎊', '✨', '⭐', '🎉', '💫', '🎊', '✨'], praise: [
+  { key: 'party', min: 80, emoji: '🎉', confetti: ['🎉', '🎊', '✨', '⭐', '🎉', '💫', '🎊', '✨'], praise: [
     'Excellent work, keep it up!', 'Really strong result. Well done!', 'You are getting seriously good.', 'Great going, the hard work shows!', 'Solid and confident. Nice one!' ] },
-  { min: 70, emoji: '💪', confetti: ['💪', '⭐', '✨', '💫', '💪', '✨', '⭐', '💫'], praise: [
+  { key: 'flex', min: 70, emoji: '💪', confetti: ['💪', '⭐', '✨', '💫', '💪', '✨', '⭐', '💫'], praise: [
     'Great job, you are getting strong!', 'Good score, keep that momentum!', 'Nice work, you are clearly improving.', 'Strong effort. A bit more polish and you are there.', 'Well played, keep pushing!' ] },
-  { min: 60, emoji: '👍', confetti: [], praise: [
+  { key: 'thumb', min: 60, emoji: '👍', confetti: [], praise: [
     'Good effort, a little more and you are there.', 'Decent result. Review the misses and level up.', 'You are close, keep practising!', 'Not bad at all. Next time even better.', 'Steady progress, keep going!' ] },
-  { min: 40, emoji: '📚', confetti: [], praise: [
+  { key: 'books', min: 40, emoji: '📚', confetti: [], praise: [
     'Keep going, review the misses and retry.', 'Learning in progress. Revise and try again!', 'Every attempt teaches you something.', 'Hit the books once more, you can do this.', 'The gaps are now clear. Time to fill them!' ] },
-  { min: 20, emoji: '🌱', confetti: [], praise: [
+  { key: 'sprout', min: 20, emoji: '🌱', confetti: [], praise: [
     'Every expert started here. Keep growing.', 'A small start, big growth ahead.', 'Keep at it, it gets easier!', 'Progress takes time. Keep planting.', 'You showed up, and that counts. Try again!' ] },
-  { min: 0, emoji: '🔁', confetti: [], praise: [
+  { key: 'loop', min: 0, emoji: '🔁', confetti: [], praise: [
     "Don't give up. Try again, you will improve!", 'Tough one, but you can bounce back.', 'Reset, review and go again.', 'Mistakes are the best teachers. Retry!', 'Next round will be better. Believe it!' ] },
 ];
 const lastPraiseIdx = {}; // band.min -> last index shown
@@ -512,6 +512,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   // transition so the number and the ring stay perfectly in sync.
   // Short "calculating" intro before the results are revealed (solo quizzes
   // only - rooms go straight to results). Tap to skip.
+  const [emojiPop, setEmojiPop] = useState(0); // bumped when the hero emoji is tapped
   const praiseRef = useRef(null); // the praise line chosen for this result
   const [intro, setIntro] = useState(true);
   useEffect(() => {
@@ -702,7 +703,16 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             </div>
           )}
           <div className={`rs-hero ${pct > 70 ? 'rs-good' : pct >= 40 ? 'rs-mid' : 'rs-low'}`}>
-            <div className="results-hero-emoji">{appr.emoji}</div>
+            <div className="rs-emoji-stage">
+              <span className="rs-halo" aria-hidden="true" />
+              <div
+                key={emojiPop}
+                className={`results-hero-emoji rs-e-${appr.band.key}`}
+                role="img"
+                aria-label="Result reaction"
+                onClick={() => { playTapSound(); setEmojiPop((n) => n + 1); }}
+              >{appr.emoji}</div>
+            </div>
             <h2 className="results-hero-title">{mock ? 'Exam Complete!' : 'Quiz Complete!'}</h2>
             <div className="rs-praise">{praiseRef.current}</div>
             <div className="results-hero-sub">

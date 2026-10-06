@@ -1098,3 +1098,29 @@ body.light-mode .opt-btn.correct .opt-label {
 @media (prefers-reduced-motion: reduce) { .rs-intro * { animation: none !important; } }
 
 .rs-praise { font-size: 14px; font-weight: 700; color: var(--text); margin: 2px 0 6px; animation: rs-up .5s ease .35s backwards; }
+
+/* ── Living hero emoji: one personality per result band; tap it to replay ── */
+.rs-emoji-stage { position: relative; display: inline-grid; place-items: center; width: 96px; height: 96px; margin-bottom: 2px; }
+.rs-halo { position: absolute; inset: 6px; border-radius: 50%; background: radial-gradient(closest-side, color-mix(in srgb, var(--rs-b) 45%, transparent), transparent); animation: rs-halo 2.8s ease-in-out infinite; }
+.rs-hero .results-hero-emoji { position: relative; font-size: 58px; margin: 0; cursor: pointer; will-change: translate, rotate, scale; -webkit-tap-highlight-color: transparent;
+  animation: results-hero-bounce-in .6s cubic-bezier(.34, 1.5, .64, 1) backwards, var(--rs-life, rs-bob) var(--rs-dur, 3s) ease-in-out .7s infinite; }
+.rs-e-trophy { --rs-life: rs-trophy; --rs-dur: 2.6s; filter: drop-shadow(0 0 14px rgba(255, 200, 60, .65)); }
+.rs-e-star   { --rs-life: rs-star; --rs-dur: 5s; filter: drop-shadow(0 0 14px rgba(255, 220, 90, .6)); }
+.rs-e-party  { --rs-life: rs-party; --rs-dur: 1.8s; transform-origin: 20% 80%; }
+.rs-e-flex   { --rs-life: rs-flex; --rs-dur: 1.6s; }
+.rs-e-thumb  { --rs-life: rs-thumb; --rs-dur: 2.2s; transform-origin: 30% 90%; }
+.rs-e-books  { --rs-life: rs-bob; --rs-dur: 3.4s; }
+.rs-e-sprout { --rs-life: rs-sprout; --rs-dur: 3s; transform-origin: 50% 95%; }
+.rs-e-loop   { --rs-life: rs-loop; --rs-dur: 3.2s; }
+.rs-hero .results-hero-emoji:active { scale: .9; }
+
+@keyframes rs-halo { 0%, 100% { transform: scale(.9); opacity: .55; } 50% { transform: scale(1.15); opacity: 1; } }
+@keyframes rs-bob { 0%, 100% { translate: 0 0; rotate: 0deg; } 50% { translate: 0 -7px; rotate: 4deg; } }
+@keyframes rs-trophy { 0%, 100% { translate: 0 0; rotate: 0deg; scale: 1; } 25% { translate: 0 -10px; rotate: -6deg; scale: 1.08; } 50% { translate: 0 0; rotate: 6deg; scale: 1; } 75% { translate: 0 -5px; rotate: -3deg; scale: 1.05; } }
+@keyframes rs-star { 0% { rotate: 0deg; scale: 1; } 25% { scale: 1.15; } 50% { rotate: 180deg; scale: 1; } 75% { scale: 1.15; } 100% { rotate: 360deg; scale: 1; } }
+@keyframes rs-party { 0%, 55%, 100% { rotate: 0deg; scale: 1; } 62% { rotate: -16deg; scale: 1.18; } 70% { rotate: 12deg; scale: 1.1; } 78% { rotate: -9deg; scale: 1.14; } 86% { rotate: 5deg; scale: 1.04; } }
+@keyframes rs-flex { 0%, 100% { scale: 1; rotate: 0deg; } 40% { scale: 1.22; rotate: -8deg; } 55% { scale: 1.22; rotate: -8deg; } 70% { scale: 1; rotate: 0deg; } }
+@keyframes rs-thumb { 0%, 100% { rotate: 0deg; translate: 0 0; } 30% { rotate: -22deg; translate: 0 -6px; } 50% { rotate: -22deg; translate: 0 -6px; } 70% { rotate: 6deg; } }
+@keyframes rs-sprout { 0%, 100% { scale: 1 1; rotate: -4deg; } 50% { scale: 1.06 1.22; rotate: 5deg; } }
+@keyframes rs-loop { 0% { rotate: 0deg; } 70%, 100% { rotate: 360deg; } }
+@media (prefers-reduced-motion: reduce) { .rs-halo, .rs-hero .results-hero-emoji { animation: none !important; } }
