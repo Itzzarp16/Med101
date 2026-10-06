@@ -63,6 +63,8 @@
      changes from a single edit. Navy-to-slate, not theme-dependent
      (the logo should look the same in light or dark mode). */
   --brand-gradient: linear-gradient(90deg, #1e3a5f, #3d5875, #64748b);
+  /* Wordmark face: the luminous silver-blue gradient from the intro film in dark mode. */
+  --logo-face: linear-gradient(180deg, #f4f8ff 0%, #a9c8f0 55%, #6f93bd 100%);
   /* Darker navy used only for the wordmark's 3D/embossed shadow layers
      below (.topbar-logo, .app-loading-logo) - same fixed value in
      light or dark mode, for the same reason as --brand-gradient
@@ -114,6 +116,7 @@ body.light-mode {
   --pink: #7d5f6b;
   --pink-rgb: 125, 95, 107;
   --brand-gradient: linear-gradient(90deg, #1e3a5f, #3d5875, #64748b);
+  --logo-face: var(--brand-gradient);
   --heading: #1e3a5f;
   --text: #0b1626;
   --text2: #2a4059;
@@ -483,29 +486,20 @@ h1, h2, .display {
   font-family: 'Syne', sans-serif;
   font-size: 19px;
   font-weight: 800;
-  background: var(--brand-gradient);
+  background: var(--logo-face);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.01em;
-  /* Extruded/embossed look via a light rim on the top-left edge plus
-     a dark shadow underneath - this dark-mode default reads clearly
-     against the near-black --bg. The darker navy-on-navy version
-     (light mode's override below) went illegible here: both the
-     gradient face and that shadow are dark navy, so on a near-black
-     background they merged into an unreadable blur instead of
-     reading as depth. Tried adding a touch of blur to each stepped
-     layer to smooth curves like the 'e' - reverted, since at this
-     weight/size it softened the 'e's small aperture enough to read
-     as a closed 'o' instead, which is worse than the minor
-     stair-stepping it was fixing. */
-  text-shadow: -0.5px -0.5px 0 rgba(255, 255, 255, 0.3), 0.5px 0.5px 0 rgba(0, 0, 0, 0.7),
-    1px 1px 0 rgba(0, 0, 0, 0.7), 1.5px 1.5px 2px rgba(0, 0, 0, 0.4);
+  /* Dark mode: bright silver-blue face (same as the intro film) with a soft
+     glow. The old embossed dark text-shadow stack is now light mode only. */
+  text-shadow: none;
+  filter: drop-shadow(0 0 9px rgba(106, 168, 255, 0.28));
 }
 
 body.light-mode .topbar-logo {
-  /* On the light background this contrast problem doesn't exist -
-     back to the darker navy stack, which reads as proper depth here. */
+  filter: none;
+  /* On the light background the darker navy stack reads as proper depth. */
   /* The fill is transparent (gradient text), so the FIRST text-shadow layer
      is what you actually see as the letter face - it covers the glyph. A
      near-white first layer made the wordmark wash out on the light
@@ -1177,20 +1171,17 @@ body.light-mode .menu-item:active {
   font-weight: 800;
   font-size: 2.4rem;
   line-height: 1;
-  background: var(--brand-gradient);
+  background: var(--logo-face);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  /* Same dark-mode-safe rim technique as .topbar-logo (see its
-     comment), scaled up for the bigger type here. Blur on the stepped
-     layers was tried and reverted here too - see .topbar-logo's
-     comment for why (it closed the 'e's aperture into a misread 'o'
-     at this size). */
-  text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.3), 1px 1px 0 rgba(0, 0, 0, 0.7),
-    2px 2px 0 rgba(0, 0, 0, 0.7), 3px 3px 6px rgba(0, 0, 0, 0.4);
+  /* Matches .topbar-logo (the splash logo flies into the top bar). */
+  text-shadow: none;
+  filter: drop-shadow(0 0 18px rgba(106, 168, 255, 0.32));
 }
 
 body.light-mode .app-loading-logo {
+  filter: none;
   text-shadow: 0.6px 0.6px 0 #51647d, -1px -1px 0 rgba(255, 255, 255, 0.9),
     1.5px 1.5px 0 #1e3a5f, 2.5px 2.5px 0 #1e3a5f, 3.5px 3.5px 5px rgba(12, 28, 48, 0.3);
 }
