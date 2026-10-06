@@ -169,7 +169,7 @@ function scrubRegister(el) {
   };
 }
 
-export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, onClick }) {
+export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, hideArrow, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
   const cardRef = useRef(null);
@@ -228,7 +228,7 @@ export default function SubjectCard({ index, emoji, name, desc, questionCount, t
           </span>
         )}
       </span>
-      <span className="subj-arrow">›</span>
+      {!hideArrow && <span className="subj-arrow">›</span>}
     </button>
   );
 }

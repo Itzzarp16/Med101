@@ -45,7 +45,7 @@ export default function SubtopicScreen({ mainSubject, mainSubjectMeta, subjectMe
       </div>
 
       <div className="subj-grid">
-        <SubjectCard emoji="←" name="Back to Subjects" desc="" onClick={onBack} />
+        <SubjectCard emoji="←" name="Back to Subjects" desc="" hideArrow onClick={onBack} />
 
         <SubjectCard
           emoji={subjectEmoji}
