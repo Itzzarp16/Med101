@@ -193,3 +193,49 @@ html[data-boot] .subj-progress-bar > span {
     scroll-behavior: auto !important;
   }
 }
+
+/* ── Living emojis ────────────────────────────────────────────
+   Icon emojis idle with a gentle float, big hero/empty-state ones
+   wiggle and breathe, and every one pops when its card is pressed.
+   Uses the individual translate / rotate / scale properties, so it
+   composes with any `transform` a card or entrance animation sets. */
+.subj-emoji, .subj-icon, .mode-card-emoji, .fr-tile-icon, .exam-card-icon,
+.aud-action-icon, .qm-head-emoji,
+.wf-empty-ico, .empty-state-icon, .lb-empty-emoji, .coming-soon-emoji, .results-hero-emoji,
+.onboarding-emoji, .thanks-icon, .rejected-icon, .offline-guard-icon, .auth-icon, .lp-ico {
+  display: inline-block;
+  will-change: translate, rotate, scale;
+}
+.subj-emoji, .subj-icon, .mode-card-emoji, .fr-tile-icon, .exam-card-icon,
+.aud-action-icon, .qm-head-emoji {
+  animation: emoji-float 3.4s ease-in-out infinite;
+  transition: scale .25s var(--ease-spring);
+}
+.wf-empty-ico, .empty-state-icon, .lb-empty-emoji, .coming-soon-emoji, .results-hero-emoji,
+.onboarding-emoji, .thanks-icon, .rejected-icon, .offline-guard-icon, .auth-icon, .lp-ico {
+  animation: emoji-alive 4.2s ease-in-out infinite;
+  transform-origin: 50% 70%;
+}
+/* Desync neighbours so a grid breathes instead of marching in step. */
+:is(.subj-card, .mode-card, .fr-tile, .exam-card):nth-child(2n) :is(.subj-emoji, .mode-card-emoji, .fr-tile-icon, .exam-card-icon) { animation-delay: -.9s; }
+:is(.subj-card, .mode-card, .fr-tile, .exam-card):nth-child(3n) :is(.subj-emoji, .mode-card-emoji, .fr-tile-icon, .exam-card-icon) { animation-delay: -1.8s; }
+:is(.subj-card, .mode-card, .fr-tile, .exam-card):nth-child(5n) :is(.subj-emoji, .mode-card-emoji, .fr-tile-icon, .exam-card-icon) { animation-delay: -2.6s; }
+/* Press = the emoji pops. */
+:is(button, a, [role='button']):active :is(.subj-emoji, .subj-icon, .mode-card-emoji, .fr-tile-icon, .exam-card-icon, .aud-action-icon) { scale: 1.28; }
+
+@keyframes emoji-float {
+  0%, 100% { translate: 0 0; rotate: 0deg; }
+  50% { translate: 0 -3px; rotate: 4deg; }
+}
+@keyframes emoji-alive {
+  0%, 100% { translate: 0 0; rotate: 0deg; scale: 1; }
+  20% { translate: 0 -6px; rotate: -8deg; scale: 1.06; }
+  40% { translate: 0 0; rotate: 7deg; scale: 1; }
+  55% { translate: 0 -3px; rotate: -4deg; scale: 1.1; }
+  70% { translate: 0 0; rotate: 0deg; scale: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .subj-emoji, .subj-icon, .mode-card-emoji, .fr-tile-icon, .exam-card-icon, .aud-action-icon, .qm-head-emoji,
+  .wf-empty-ico, .empty-state-icon, .lb-empty-emoji, .coming-soon-emoji, .results-hero-emoji, .onboarding-emoji,
+  .thanks-icon, .rejected-icon, .offline-guard-icon, .auth-icon { animation: none; }
+}
