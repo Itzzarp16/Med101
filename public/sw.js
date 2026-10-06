@@ -55,7 +55,7 @@ self.addEventListener('notificationclick', (event) => {
     // Only the student app can open a screen - not the /admin portal or the
     // static pages, which may well be the first tab in the list.
     const appWins = wins.filter((w) => {
-      try { return !/^\/(admin|privacy-policy|terms|about-us|contact|reset-password)\/?$/.test(new URL(w.url).pathname); }
+      try { return !/^\/(admin|privacy-policy|terms|about-us|contact|reset-password|intro(?:\.html)?)\/?$/.test(new URL(w.url).pathname); }
       catch (e) { return true; }
     });
     if (appWins.length) {

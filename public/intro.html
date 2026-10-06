@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Med101 | Learn. Practice. Improve.</title>
+<meta name="description" content="Medical exam prep for MBBS students: Physiology, Biochemistry, Anatomy, and more.">
+<meta name="theme-color" content="#030508">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@font-face { font-family: 'Syne'; src: url('/fonts/Syne-ExtraBold.ttf') format('truetype'); font-weight: 800; font-display: block; }
+
+:root { --ice: #e8f1ff; --steel: #8aaed0; --blue: #6aa8ff; --bg: #030508; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--ice); font-family: Inter, system-ui, sans-serif; overflow: hidden; -webkit-tap-highlight-color: transparent; }
+
+#stage { position: fixed; inset: 0; overflow: hidden; touch-action: none; }
+.bg {
+  position: absolute; inset: -10%;
+  background:
+    radial-gradient(40% 30% at 20% 22%, rgba(70, 130, 220, 0.22), transparent 70%),
+    radial-gradient(34% 28% at 82% 68%, rgba(40, 110, 200, 0.18), transparent 70%),
+    radial-gradient(60% 40% at 50% 102%, rgba(30, 70, 140, 0.28), transparent 70%);
+  animation: drift 14s ease-in-out infinite alternate;
+}
+@keyframes drift { to { transform: translate3d(2%, -2%, 0) scale(1.06); } }
+#fx { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+.scene {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; padding: 24px; opacity: 0; visibility: hidden; pointer-events: none;
+}
+
+/* ── Logo scene ── */
+.wordmark {
+  font-family: 'Syne', 'Space Grotesk', sans-serif; font-weight: 800; letter-spacing: -0.02em; line-height: 1;
+  font-size: clamp(44px, 14vw, 104px); padding: 0 0.04em;
+  background: linear-gradient(180deg, #f4f8ff 0%, #a9c8f0 55%, #6f93bd 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 0 22px rgba(106, 168, 255, 0.35));
+}
+.tag { margin-top: 16px; font-size: clamp(10px, 2.9vw, 14px); letter-spacing: 0.32em; font-weight: 600; color: var(--steel); }
+
+/* ── Kinetic text ── */
+.kinetic { gap: 0.35em; }
+.k { font-family: 'Space Grotesk', Inter, sans-serif; font-weight: 700; font-size: clamp(28px, 8.4vw, 62px); line-height: 1.14; letter-spacing: -0.02em; max-width: 13em; }
+.k .w { display: inline-block; will-change: transform, filter, opacity; }
+.k .blue { background: linear-gradient(90deg, #3d8bff, #7cc4ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.scan { position: absolute; left: 0; right: 0; height: 2px; background: rgba(110, 175, 255, 0.55); opacity: 0; box-shadow: 0 0 12px rgba(110, 175, 255, 0.6); }
+
+/* ── Phone scene ── */
+.cap { font-family: 'Space Grotesk', Inter, sans-serif; font-weight: 700; font-size: clamp(20px, 5.6vw, 34px); letter-spacing: -0.01em; margin-bottom: clamp(14px, 3vh, 26px); }
+.cap b { color: #7cc4ff; font-weight: 700; }
+.phone {
+  position: relative; width: min(62vw, 300px, calc((100dvh - 200px) * 0.47)); aspect-ratio: 9 / 19; border-radius: 38px; will-change: transform, filter, opacity;
+  background: linear-gradient(145deg, #2c3643, #0b1016); padding: 9px;
+  box-shadow: inset 0 0 0 1.5px #3b4757, 0 30px 80px rgba(0, 0, 0, 0.65), 0 0 70px rgba(70, 130, 220, 0.25);
+}
+.screen { text-align: left; position: absolute; inset: 9px; border-radius: 30px; overflow: hidden; background: #050505; container-type: inline-size; display: flex; flex-direction: column; }
+.notch { position: absolute; top: 2.4cqw; left: 50%; width: 24cqw; height: 6cqw; margin-left: -12cqw; border-radius: 99px; background: #000; z-index: 3; }
+.sb { display: flex; justify-content: space-between; padding: 3.6cqw 8cqw 0; font-size: 3.2cqw; font-weight: 600; color: #cfe0f5; }
+.ui-top { display: flex; align-items: center; gap: 2.5cqw; padding: 5cqw 5cqw 0; }
+.ui-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 6.4cqw; letter-spacing: -0.01em; background: linear-gradient(180deg, #f4f8ff, #8fb4e0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.ui-on { margin-left: auto; font-family: 'IBM Plex Mono', monospace; font-size: 2.8cqw; color: #8aaed0; display: flex; align-items: center; gap: 1.2cqw; }
+.ui-on i { width: 2cqw; height: 2cqw; border-radius: 50%; background: #30f28a; box-shadow: 0 0 6px #30f28a; }
+.ui-av { width: 7.5cqw; height: 7.5cqw; border-radius: 50%; background: linear-gradient(135deg, #5d86b3, #24384f); }
+.ui-hi { padding: 5.5cqw 5cqw 3cqw; }
+.ui-hi h4 { font-size: 5.4cqw; font-weight: 700; letter-spacing: -0.01em; }
+.ui-hi p { margin-top: 1cqw; font-size: 3.2cqw; color: #8aaed0; }
+.cards { display: flex; flex-direction: column; gap: 3cqw; padding: 0 4cqw; }
+.card { display: flex; align-items: center; gap: 3.2cqw; padding: 3.4cqw; border-radius: 4.4cqw; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.09); opacity: 0; will-change: transform, opacity; }
+.card .ic { width: 11.5cqw; height: 11.5cqw; flex-shrink: 0; display: grid; place-items: center; border-radius: 3.4cqw; font-size: 6.4cqw; background: rgba(255, 255, 255, 0.07); }
+.card .tx { flex: 1; min-width: 0; }
+.card .nm { font-size: 4cqw; font-weight: 700; color: #eef4ff; }
+.card .mt { margin-top: 0.8cqw; font-family: 'IBM Plex Mono', monospace; font-size: 2.6cqw; color: #8aaed0; }
+.card .bar { margin-top: 2.2cqw; height: 1.2cqw; border-radius: 99px; background: rgba(255, 255, 255, 0.09); overflow: hidden; }
+.card .bar i { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, #3d6a99, #6aa8ff); }
+.card svg { width: 12cqw; height: 4cqw; flex-shrink: 0; overflow: visible; }
+.card svg path { fill: none; stroke: #30f28a; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ── End card ── */
+.end .wordmark { margin-bottom: 0; }
+.url { margin-top: 18px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--steel); letter-spacing: 0.04em; }
+.cta {
+  margin-top: 30px; display: inline-flex; align-items: center; gap: 10px; padding: 15px 28px; border-radius: 16px; text-decoration: none;
+  font-family: 'Space Grotesk', Inter, sans-serif; font-weight: 700; font-size: 16px; color: #fff;
+  background: linear-gradient(135deg, #3d6a99, #5d86d9); box-shadow: 0 10px 30px rgba(70, 120, 210, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+.cta:active { transform: scale(0.97); }
+.replay { margin-top: 18px; padding: 8px 14px; border: 0; background: none; font: inherit; font-size: 13px; font-weight: 600; color: var(--steel); cursor: pointer; }
+
+#skip {
+  position: absolute; z-index: 9; top: calc(14px + env(safe-area-inset-top, 0px)); right: 14px; padding: 8px 14px; border-radius: 99px; border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06); color: #c0d4f0; font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; backdrop-filter: blur(6px); transition: opacity 0.3s;
+}
+</style>
+</head>
+<body>
+<main id="stage" role="img" aria-label="Med101 intro animation">
+  <div class="bg"></div>
+  <canvas id="fx"></canvas>
+
+  <section class="scene" id="s-logo">
+    <div class="wordmark" id="wordmark">Med101</div>
+    <div class="tag" id="tag">LEARN. PRACTICE. IMPROVE.</div>
+  </section>
+
+  <section class="scene kinetic" id="s-text">
+    <p class="k" id="k1"><span class="w">Med</span> <span class="w">school</span> <span class="w">is</span> <span class="w">hard</span> <span class="w">enough.</span></p>
+    <p class="k" id="k2"><span class="w">Your</span> <span class="w">revision</span> <span class="w blue">shouldn’t</span> <span class="w blue">be.</span></p>
+    <div class="scan"></div><div class="scan"></div><div class="scan"></div>
+  </section>
+
+  <section class="scene" id="s-phone">
+    <p class="cap" id="cap">This is the <b>Med101</b> home screen.</p>
+    <div class="phone" id="phone">
+      <div class="screen">
+        <div class="notch"></div>
+        <div class="sb"><span>9:41</span><span>●●● ▮</span></div>
+        <div class="ui-top"><span class="ui-logo">Med101</span><span class="ui-on"><i></i>1 online</span><span class="ui-av"></span></div>
+        <div class="ui-hi"><h4>Good evening 👋</h4><p>Pick a subject to practise</p></div>
+        <div class="cards" id="cards"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="scene end" id="s-end">
+    <div class="wordmark" id="wm2">Med101</div>
+    <div class="tag">LEARN. PRACTICE. IMPROVE.</div>
+    <a class="cta" id="cta" href="/">Start practising <span aria-hidden="true">→</span></a>
+    <div class="url">med101.space</div>
+    <button class="replay" id="replay" type="button">↻ Replay</button>
+  </section>
+
+  <button id="skip" type="button">Skip</button>
+</main>
+
+<script>
+(() => {
+  // ───────── Edit here ─────────
+  const SUBJECTS = [
+    ['🫀', 'Physiology', '6 topics · 398 questions', 0.62],
+    ['🔬', 'Biochemistry', '12 topics · 399 questions', 0.38],
+    ['🦴', 'Anatomy', '5 topics · 500 questions', 0.5],
+    ['⚛️', 'Biophysics', '9 topics · 300 questions', 0.22],
+    ['📊', 'MSCR', '4 topics · 300 questions', 0.3],
+    ['🇰🇬', 'Kyrgyz Language', '1 topic · 399 questions', 0.12],
+  ];
+  const WORD = 'Med101';
+  const END = 15.2;            // seconds; the end card holds from here
+  // ─────────────────────────────
+
+  const $ = (id) => document.getElementById(id);
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, k) => a + (b - a) * k;
+  const easeOut = (k) => 1 - Math.pow(1 - k, 3);
+  const easeInOut = (k) => (k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2);
+  // trapezoid: fades in a→b, out c→d
+  const win = (t, a, b, c, d) => clamp((t - a) / (b - a)) * (1 - clamp((t - c) / (d - c)));
+
+  const stage = $('stage');
+  const cv = $('fx');
+  const ctx = cv.getContext('2d');
+  const sLogo = $('s-logo'), sText = $('s-text'), sPhone = $('s-phone'), sEnd = $('s-end');
+  const wordmark = $('wordmark'), tag = $('tag');
+  const k1 = $('k1'), k2 = $('k2');
+  const scans = [...document.querySelectorAll('.scan')];
+  const cap = $('cap'), phone = $('phone');
+  const cta = $('cta'), wm2 = $('wm2');
+
+  // Subject cards inside the phone
+  const cardsEl = $('cards');
+  const cardNodes = SUBJECTS.map(([ic, nm, mt, fill]) => {
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `<div class="ic">${ic}</div><div class="tx"><div class="nm">${nm}</div><div class="mt">${mt}</div><div class="bar"><i></i></div></div>` +
+      `<svg viewBox="0 0 60 16"><path d="M0 8 H16 L20 2 L25 14 L29 8 H60" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100"/></svg>`;
+    cardsEl.appendChild(el);
+    return { el, bar: el.querySelector('.bar i'), path: el.querySelector('path'), fill };
+  });
+
+  // ───────── Canvas: ECG line + particles ─────────
+  let W = 0, H = 0, DPR = 1;
+  let particles = [];
+  let center = { x: 0, y: 0 };
+  let ringR = 0;
+
+  const BEATS = [[0.12, 0.45], [0.34, 0.7], [0.56, 1], [0.8, 0.55]];
+  function ecgY(x) {
+    const u = x / W;
+    let off = 0;
+    for (const [c, a] of BEATS) {
+      const d = u - c;
+      const g = (m, h, s) => h * Math.exp(-((d - m) * (d - m)) / (2 * s * s));
+      off += a * (g(-0.05, 0.02, 0.014) + g(-0.014, -0.03, 0.005) + g(0, 0.2, 0.0045) + g(0.011, -0.07, 0.006) + g(0.07, 0.035, 0.02));
+    }
+    return H * 0.5 - off * H;
+  }
+
+  function buildTargets() {
+    const r = wordmark.getBoundingClientRect();
+    const fs = parseFloat(getComputedStyle(wordmark).fontSize);
+    const off = document.createElement('canvas');
+    off.width = W; off.height = H;
+    const o = off.getContext('2d', { willReadFrequently: true });
+    o.fillStyle = '#fff';
+    o.font = `800 ${fs}px Syne, 'Space Grotesk', sans-serif`;
+    o.textAlign = 'center';
+    o.textBaseline = 'alphabetic';
+    // Lay the sample text out where the real wordmark will sit.
+    const cx = r.left + r.width / 2;
+    // Same vertical placement CSS gives the wordmark: content area centred in its line box.
+    const m = o.measureText(WORD);
+    const asc = m.fontBoundingBoxAscent || fs * 0.9, desc = m.fontBoundingBoxDescent || fs * 0.25;
+    o.fillText(WORD, cx, r.top + (r.height - (asc + desc)) / 2 + asc);
+    const data = o.getImageData(0, 0, W, H).data;
+    const step = Math.max(2, Math.round(fs / 34));
+    const pts = [];
+    for (let y = 0; y < H; y += step) for (let x = 0; x < W; x += step) if (data[(y * W + x) * 4 + 3] > 140) pts.push([x, y]);
+    center = { x: cx, y: r.top + r.height / 2 };
+    ringR = Math.max(r.width, r.height) * 0.7;
+
+    const N = Math.min(2600, Math.max(900, Math.round((W * H) / 420)));
+    for (let i = pts.length - 1; i > 0; i--) { const j = (Math.random() * (i + 1)) | 0; [pts[i], pts[j]] = [pts[j], pts[i]]; }
+    particles = [];
+    for (let i = 0; i < N; i++) {
+      const tgt = pts.length ? pts[i % pts.length] : [cx, center.y];
+      const sx = Math.random() * W;
+      particles.push({
+        sx, sy: ecgY(sx) + (Math.random() - 0.5) * 6,
+        tx: tgt[0] + (Math.random() - 0.5) * 1.2, ty: tgt[1] + (Math.random() - 0.5) * 1.2,
+        d: Math.random() * 0.35, arc: (Math.random() - 0.5) * 140,
+        ang: Math.random() * Math.PI * 2, dist: 50 + Math.random() * 190, sz: 0.8 + Math.random() * 1.4,
+      });
+    }
+  }
+
+  function resize() {
+    DPR = Math.min(2, window.devicePixelRatio || 1);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    buildTargets();
+  }
+
+  function drawFx(t) {
+    ctx.clearRect(0, 0, W, H);
+
+    // 1) ECG line sweeping across, then dissolving into particles
+    const headX = clamp((t - 0.35) / 2.35) * (W * 1.04);
+    const lineA = 1 - clamp((t - 2.3) / 0.8);
+    if (lineA > 0 && headX > 0) {
+      const trail = W * 0.6;
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      const step = 4;
+      for (let x = Math.max(0, headX - trail); x < headX; x += step) {
+        const a = clamp(1 - (headX - x) / trail) * lineA;
+        const y0 = ecgY(x), y1 = ecgY(Math.min(x + step, headX));
+        ctx.strokeStyle = `rgba(80,150,255,${a * 0.28})`; ctx.lineWidth = 7;
+        ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x + step, y1); ctx.stroke();
+        ctx.strokeStyle = `rgba(200,228,255,${a})`; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(x, y0); ctx.lineTo(x + step, y1); ctx.stroke();
+      }
+      if (headX < W) {
+        const hy = ecgY(headX);
+        const g = ctx.createRadialGradient(headX, hy, 0, headX, hy, 26);
+        g.addColorStop(0, `rgba(210,235,255,${0.95 * lineA})`); g.addColorStop(1, 'rgba(80,150,255,0)');
+        ctx.fillStyle = g; ctx.beginPath(); ctx.arc(headX, hy, 26, 0, 7); ctx.fill();
+      }
+    }
+
+    // 2) Particles: line -> wordmark, then wordmark -> dust
+    const conv = clamp((t - 2.3) / 1.6);
+    const diss = clamp((t - 6.0) / 1.1);
+    let alpha = 0;
+    if (t >= 2.3 && t < 4.7) alpha = 0.95 * (1 - clamp((t - 3.95) / 0.7));
+    else if (t >= 6.0 && t < 7.2) alpha = 0.9 * (1 - diss);
+    if (alpha > 0.01) {
+      for (const p of particles) {
+        let x, y;
+        if (t < 5) {
+          const lp = easeInOut(clamp((conv - p.d) / 0.65));
+          x = lerp(p.sx, p.tx, lp); y = lerp(p.sy, p.ty, lp) + (1 - lp) * lp * 4 * p.arc;
+        } else {
+          const e = easeOut(diss);
+          x = p.tx + Math.cos(p.ang) * p.dist * e; y = p.ty + Math.sin(p.ang) * p.dist * e - 40 * e;
+        }
+        ctx.fillStyle = `rgba(190,222,255,${alpha})`;
+        ctx.fillRect(x, y, p.sz, p.sz);
+      }
+    }
+
+    // 3) Shockwave ring when the wordmark locks in
+    const rp = clamp((t - 3.9) / 1.0);
+    if (rp > 0 && rp < 1) {
+      ctx.strokeStyle = `rgba(130,190,255,${0.55 * (1 - rp)})`; ctx.lineWidth = lerp(2.5, 0.5, rp);
+      ctx.beginPath(); ctx.arc(center.x, center.y, ringR * easeOut(rp), 0, 7); ctx.stroke();
+    }
+  }
+
+  // ───────── Scenes (pure functions of t) ─────────
+  function setScene(el, o) {
+    el.style.opacity = o.toFixed(3);
+    el.style.visibility = o > 0.002 ? 'visible' : 'hidden';
+  }
+
+  function wordsReveal(line, start, t, blueSafe) {
+    let g = 0;
+    line.querySelectorAll('.w').forEach((w, i) => {
+      const wp = clamp((t - start - i * 0.11) / 0.5);
+      const e = easeOut(wp);
+      w.style.opacity = e.toFixed(3);
+      w.style.filter = wp < 1 ? `blur(${((1 - e) * 14).toFixed(1)}px)` : 'none';
+      w.style.transform = `translateY(${((1 - e) * 18).toFixed(1)}px)`;
+      if (!blueSafe || !w.classList.contains('blue')) {
+        const s = wp > 0 && wp < 0.7 ? (1 - wp) * 6 : 0;
+        w.style.textShadow = s ? `${s.toFixed(1)}px 0 rgba(255,60,90,.7), ${(-s).toFixed(1)}px 0 rgba(60,200,255,.7)` : 'none';
+      }
+      if (wp > 0 && wp < 0.7) g = Math.max(g, 1 - wp);
+    });
+    return g;
+  }
+
+  function render(t) {
+    drawFx(t);
+
+    // Logo scene
+    const inL = easeOut(clamp((t - 3.95) / 0.65));
+    const outL = easeOut(clamp((t - 6.0) / 0.9));
+    setScene(sLogo, inL * (1 - outL));
+    wordmark.style.filter = `drop-shadow(0 0 22px rgba(106,168,255,.35)) blur(${((1 - inL) * 14 + outL * 18).toFixed(1)}px)`;
+    wordmark.style.transform = `scale(${(1.06 - 0.06 * inL + 0.04 * outL).toFixed(3)})`;
+    const tg = easeOut(clamp((t - 4.6) / 0.6));
+    tag.style.opacity = (tg * (1 - outL)).toFixed(3);
+    tag.style.transform = `translateY(${((1 - tg) * 10).toFixed(1)}px)`;
+
+    // Kinetic text
+    const kFade = 1 - clamp((t - 9.9) / 0.5);
+    setScene(sText, t > 6.8 ? kFade : 0);
+    const g1 = wordsReveal(k1, 6.9, t, true);
+    const g2 = wordsReveal(k2, 8.2, t, true);
+    k1.style.opacity = (1 - 0.6 * clamp((t - 8.1) / 0.5)).toFixed(3);
+    const g = Math.max(g1, g2);
+    scans.forEach((b, i) => {
+      const on = g > 0.02 && (Math.floor(t * 30) + i) % 3 === 0;
+      b.style.opacity = on ? (0.55 * g).toFixed(2) : '0';
+      b.style.top = ((Math.floor(t * 17) * 37 + i * 29) % 100) + '%';
+    });
+
+    // Phone scene
+    const pOut = clamp((t - 13.6) / 0.6);
+    setScene(sPhone, win(t, 10.4, 10.7, 13.6, 14.2));
+    const cp = easeOut(clamp((t - 10.5) / 0.6));
+    cap.style.opacity = cp.toFixed(3);
+    cap.style.filter = `blur(${((1 - cp) * 10).toFixed(1)}px)`;
+    const ph = easeOut(clamp((t - 10.6) / 1.0));
+    phone.style.opacity = clamp(ph * 2).toFixed(3);
+    phone.style.filter = `blur(${((1 - ph) * 8 + pOut * 6).toFixed(1)}px)`;
+    phone.style.transform = `translateY(${((1 - ph) * H * 0.5).toFixed(0)}px) scale(${(0.94 + 0.06 * ph - 0.05 * pOut).toFixed(3)})`;
+    cardNodes.forEach((c, i) => {
+      const s0 = 11.4 + i * 0.2;
+      const k = easeOut(clamp((t - s0) / 0.6));
+      c.el.style.opacity = k.toFixed(3);
+      c.el.style.transform = `translateY(${((1 - k) * 14).toFixed(1)}px) scale(${(0.96 + 0.04 * k).toFixed(3)})`;
+      c.bar.style.width = (c.fill * 100 * easeOut(clamp((t - s0 - 0.2) / 0.9))).toFixed(1) + '%';
+      c.path.style.strokeDashoffset = (100 * (1 - clamp((t - s0) / 0.9))).toFixed(1);
+    });
+
+    // End card
+    const e = easeOut(clamp((t - 14.2) / 0.8));
+    setScene(sEnd, e);
+    wm2.style.transform = `scale(${(1.04 - 0.04 * e).toFixed(3)})`;
+    cta.style.pointerEvents = t >= 14.6 ? 'auto' : 'none';
+    sEnd.style.pointerEvents = t >= 14.6 ? 'auto' : 'none';
+    $('skip').style.opacity = t >= 14.2 ? '0' : '1';
+    $('skip').style.pointerEvents = t >= 14.2 ? 'none' : 'auto';
+  }
+
+  // ───────── Clock ─────────
+  let t = 0, last = 0, raf = 0, playing = false;
+  function loop(now) {
+    const dt = Math.min(0.1, (now - last) / 1000);
+    last = now;
+    if (playing) t = Math.min(END, t + dt);
+    render(t);
+    if (playing && t < END) raf = requestAnimationFrame(loop);
+    else playing = false;
+  }
+  function play(from = 0) {
+    cancelAnimationFrame(raf);
+    t = from; playing = true; last = performance.now();
+    raf = requestAnimationFrame(loop);
+  }
+
+  $('skip').addEventListener('click', () => { t = Math.max(t, 14.2); if (!playing) play(t); });
+  $('replay').addEventListener('click', () => play(0));
+  window.addEventListener('resize', () => { resize(); render(t); });
+  // Testing helper: window.__seek(seconds)
+  window.__seek = (s) => { cancelAnimationFrame(raf); playing = false; t = s; render(t); };
+
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ready = Promise.race([
+    (document.fonts && document.fonts.load ? document.fonts.load("800 80px Syne") : Promise.resolve()).catch(() => {}),
+    new Promise((r) => setTimeout(r, 1500)),
+  ]);
+  ready.then(() => {
+    resize();
+    if (reduce) { t = END; render(t); $('skip').style.display = 'none'; }
+    else play(0);
+  });
+})();
+</script>
+</body>
+</html>
