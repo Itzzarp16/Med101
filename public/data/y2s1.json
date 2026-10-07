@@ -34,6 +34,16 @@
       "emoji": "🦴",
       "desc": "Content coming soon",
       "accent": "#f59e0b"
+    },
+    "Medical Radiology and Radiotherapy": {
+      "emoji": "☢️",
+      "desc": "Content coming soon",
+      "accent": "#60a5fa"
+    },
+    "Practice: Ward assistant and procedure nursing clinical clerkship": {
+      "emoji": "🩺",
+      "desc": "Content coming soon",
+      "accent": "#2dd4bf"
     }
   },
   "subjectMeta": {
