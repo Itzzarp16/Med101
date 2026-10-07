@@ -1,7 +1,20 @@
 import { useState } from 'react';
-import { examStatus } from '../lib/examDates';
+import { examStatus, parseExamDate } from '../lib/examDates';
 import { playTapSound } from '../lib/sounds';
 import './ExamCountdown.css';
+
+// Calendar tile showing the exam's own month and day (the 📅 emoji always
+// shows the same fixed date, so this replaces it).
+function CalendarTile({ date }) {
+  const d = parseExamDate(date);
+  if (!d) return <span className="exam-card-icon">📅</span>;
+  return (
+    <span className="exam-cal" aria-hidden="true">
+      <span className="exam-cal-month">{d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase()}</span>
+      <span className="exam-cal-day">{d.getDate()}</span>
+    </span>
+  );
+}
 
 // "Next exam" card for the dashboard, with the full list one tap away.
 // Renders nothing once every exam date has passed (or none are set).
@@ -16,7 +29,7 @@ export default function ExamCountdown({ exams }) {
   return (
     <div className="exam-card">
       <button className="exam-card-main" onClick={() => { playTapSound(); setOpen((o) => !o); }} aria-expanded={open}>
-        <span className="exam-card-icon">📅</span>
+        <CalendarTile date={next.exam.date} />
         <span className="exam-card-text">
           <span className="exam-card-kicker">Next exam</span>
           <span className="exam-card-name">{next.exam.label || next.exam.subject}</span>
