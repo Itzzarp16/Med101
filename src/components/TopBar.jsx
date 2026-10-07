@@ -4,6 +4,7 @@ import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence';
 import { subscribeToMyInvites } from '../lib/invites';
+import { subscribeToSubscriptionConfig } from '../lib/subscription';
 
 // Everything except the Med101 logo/signature and the user's own name
 // now lives behind a hamburger menu - matches the drawer content the
@@ -36,6 +37,10 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
     if (!inviteUid) return undefined;
     return subscribeToMyInvites(inviteUid, (list) => setInviteCount(list.length));
   }, [inviteUid]);
+  // Admin's "Free for everyone" pause hides Med101 Maxx from the menu
+  // entirely; turning it off brings the entry back.
+  const [premiumPaused, setPremiumPaused] = useState(false);
+  useEffect(() => subscribeToSubscriptionConfig((c) => setPremiumPaused(!!c?.premiumPaused)), []);
   const [onlineCount, setOnlineCount] = useState(null);
   const [onlineNames, setOnlineNames] = useState(null);
   const [showOnlineList, setShowOnlineList] = useState(false);
@@ -167,7 +172,9 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
             <button className="menu-item" onClick={() => go(onFriends)}>👥 Friends &amp; Challenges{inviteCount > 0 && <span className="notif-count">{inviteCount}</span>}</button>
 
             <div className="menu-section-label">Account</div>
-            <button className="menu-item" onClick={() => go(onPremium)}>⭐ Get Med101 Maxx</button>
+            {!premiumPaused && (
+              <button className="menu-item" onClick={() => go(onPremium)}>⭐ Get Med101 Maxx</button>
+            )}
             <a
               className="menu-item"
               href="https://chat.whatsapp.com/Kn2NDwg7Wij5VQbs35hYMx?s=cl&p=a&mlu=4&ilr=4"
