@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { SEMESTER_ORDER } from '../lib/academicCalendar';
-import { fetchExams, hasExamOverride, resetExams, saveExams } from '../lib/examSchedule';
+import { fetchExamReveal, fetchExams, hasExamOverride, resetExams, saveExams, setExamReveal } from '../lib/examSchedule';
 import { parseExamDate } from '../lib/examDates';
 import { playTapSound } from '../lib/sounds';
 
@@ -17,6 +17,23 @@ export default function AdminExamScheduleScreen({ onBack, hideBack = false }) {
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState(null); // { type, text }
+  const [reveal, setReveal] = useState(false);
+  const [revealBusy, setRevealBusy] = useState(false);
+
+  useEffect(() => { fetchExamReveal().then(setReveal).catch(() => {}); }, []);
+
+  async function toggleReveal() {
+    playTapSound();
+    const next = !reveal;
+    setRevealBusy(true); setMsg(null);
+    try {
+      await setExamReveal(next);
+      setReveal(next);
+      setMsg({ type: 'success', text: next ? 'Exam dates are now visible to students.' : 'Exam dates are hidden from students.' });
+    } catch (e) {
+      setMsg({ type: 'error', text: e.message || String(e) });
+    } finally { setRevealBusy(false); }
+  }
 
   function load(id) {
     setLoading(true);
@@ -74,12 +91,30 @@ export default function AdminExamScheduleScreen({ onBack, hideBack = false }) {
       <div className="std-header">
         <h1 className="std-title">📅 Exam Schedule</h1>
         <p className="std-sub">
-          Shown as a countdown on the dashboard and on each subject card. Students in the
-          semester also get an automatic push 7 days and 1 day before each exam.
+          Shown as a countdown on the dashboard and on each subject card once you turn on
+          "Reveal exam dates". Students in the semester also get an automatic push 7 days and 1 day before each exam.
         </p>
       </div>
 
       <div className="glass std-card">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12 }}>
+          <div>
+            <div className="qmode-toggle-title">Reveal exam dates</div>
+            <div className="qmode-toggle-desc">
+              {reveal ? 'On: students can see the countdown and exam dates.' : 'Off: students cannot see any exam dates.'}
+            </div>
+          </div>
+          <div
+            className={reveal ? 'toggle-track on' : 'toggle-track'}
+            style={revealBusy ? { opacity: 0.5, pointerEvents: 'none' } : undefined}
+            onClick={toggleReveal}
+          >
+            <div className="toggle-thumb" />
+          </div>
+        </div>
+      </div>
+
+      <div className="glass std-card" style={{ marginTop: 12 }}>
         <label className="auth-label">Semester</label>
         <select className="auth-input" value={semesterId} onChange={(e) => setSemesterId(e.target.value)}>
           {SEMESTER_ORDER.map((id) => <option key={id} value={id}>{semLabel(id)}</option>)}

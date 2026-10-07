@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { deleteField, doc, getDoc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { deleteField, doc, getDoc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { db } from './firebase';
 import defaults from '../data/examSchedule.json';
 
@@ -50,12 +50,35 @@ export async function resetExams(semesterId) {
   cache = null;
 }
 
+// Admin's "Reveal exam dates" switch, stored as config/examSchedule.reveal.
+// Off (or never set) = students see no exam dates at all.
+export async function fetchExamReveal() {
+  const snap = await getDoc(REF());
+  return snap.exists() && snap.data().reveal === true;
+}
+
+export async function setExamReveal(on) {
+  await setDoc(REF(), { reveal: !!on, updatedAt: serverTimestamp() }, { merge: true });
+  cache = null;
+}
+
+// What students see: the semester's exams while the reveal switch is on,
+// an empty list while it is off. Live - flipping the switch updates open
+// apps without a refresh.
 export function useExams(semesterId) {
-  const [exams, setExams] = useState(() => (semesterId ? sortByDate(defaults[semesterId] || []) : []));
+  const [exams, setExams] = useState([]);
   useEffect(() => {
-    let cancelled = false;
-    fetchExams(semesterId).then((list) => { if (!cancelled) setExams(list); });
-    return () => { cancelled = true; };
+    if (!semesterId) { setExams([]); return undefined; }
+    return onSnapshot(
+      REF(),
+      (snap) => {
+        const data = snap.exists() ? snap.data() : {};
+        if (data.reveal !== true) { setExams([]); return; }
+        const override = (data.exams || {})[semesterId];
+        setExams(sortByDate(Array.isArray(override) ? override : (defaults[semesterId] || [])));
+      },
+      (e) => { console.warn('Could not read exam schedule:', e); setExams([]); },
+    );
   }, [semesterId]);
   return exams;
 }
