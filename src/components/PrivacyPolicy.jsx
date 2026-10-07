@@ -1,4 +1,5 @@
 import { LegalPageFrame, Section, Callout } from './LegalKit';
+import usePremiumPaused from '../lib/usePremiumPaused';
 
 // Public, no-auth route (see main.jsx) - needs to be reachable
 // without signing in. Presentation lives in LegalKit/LegalPage.css; the
@@ -16,6 +17,8 @@ const TOC = [
 ];
 
 export default function PrivacyPolicy() {
+  // Payment details only apply while Med101 Maxx is actually being sold.
+  const paused = usePremiumPaused();
   return (
     <LegalPageFrame
       current="privacy"
@@ -48,6 +51,8 @@ export default function PrivacyPolicy() {
           <li>Basic technical data such as browser type, generated as part of normal website operation</li>
         </ul>
 
+        {!paused && (
+          <>
         <h3>c) Payment information (Med101 Maxx)</h3>
         <p>
           The Med101 Maxx subscription is handled manually, not through a
@@ -70,15 +75,17 @@ export default function PrivacyPolicy() {
           separately store your card or bank account details anywhere
           else in the app.
         </p>
+          </>
+        )}
       </Section>
 
       <Section toc={TOC} i={1}>
         <ul>
           <li>To create and maintain your account</li>
           <li>To provide quiz content, track your progress, and show leaderboards</li>
-          <li>To verify manually-submitted payments and activate Med101 Maxx subscriptions</li>
+          {!paused && <li>To verify manually-submitted payments and activate Med101 Maxx subscriptions</li>}
           <li>To enforce one active device/session per account</li>
-          <li>To communicate with you about your account, a payment, or support requests</li>
+          <li>To communicate with you about your account{paused ? '' : ', a payment,'} or support requests</li>
           <li>To maintain the security and integrity of the platform</li>
         </ul>
         <Callout>We do not sell your personal information to anyone.</Callout>
@@ -91,9 +98,8 @@ export default function PrivacyPolicy() {
           <li><strong>Vercel</strong> - hosts our website</li>
         </ul>
         <p>
-          Payment verification (Section 1c) is handled directly by our
-          own admin team, not a third-party payment processor. We do
-          not share your data with advertisers, and we do not use
+          {!paused && 'Payment verification (Section 1c) is handled directly by our own admin team, not a third-party payment processor. '}
+          We do not share your data with advertisers, and we do not use
           third-party advertising or tracking cookies.
         </p>
       </Section>

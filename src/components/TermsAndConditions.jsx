@@ -1,4 +1,5 @@
 import { LegalPageFrame, Section } from './LegalKit';
+import usePremiumPaused from '../lib/usePremiumPaused';
 
 // Public, no-auth route (see main.jsx) - needs to be reachable
 // without signing in. Presentation lives in LegalKit/LegalPage.css; the
@@ -19,13 +20,18 @@ const TOC = [
 ];
 
 export default function TermsAndConditions() {
+  // While the admin's "Free for everyone" pause is on, the Med101 Maxx
+  // payment and refund sections (and their TOC entries) are left out.
+  const paused = usePremiumPaused();
+  const toc = paused ? TOC.filter((t) => t.id !== 'payments' && t.id !== 'refunds') : TOC;
+  const at = (id) => toc.findIndex((t) => t.id === id);
   return (
     <LegalPageFrame
       current="terms"
       eyebrow="Legal"
       title="Terms & Conditions"
       updated="4 October 2026"
-      toc={TOC}
+      toc={toc}
     >
       <p className="lp-intro">
         These Terms &amp; Conditions ("Terms") govern your use of Med101
@@ -34,7 +40,7 @@ export default function TermsAndConditions() {
         agree to these Terms.
       </p>
 
-      <Section toc={TOC} i={0}>
+      <Section toc={toc} i={at('service')}>
     <p>
           Med101 provides subject-wise quiz banks, progress tracking, and
           related study tools for medical students. Med101 is a study aid
@@ -44,7 +50,7 @@ export default function TermsAndConditions() {
         </p>
       </Section>
 
-      <Section toc={TOC} i={1}>
+      <Section toc={toc} i={at('eligibility')}>
     <p>
           Med101 is intended for medical students and is not directed at
           children. You must be at least 18 years old, or the age of
@@ -52,7 +58,7 @@ export default function TermsAndConditions() {
         </p>
       </Section>
 
-      <Section toc={TOC} i={2}>
+      <Section toc={toc} i={at('account')}>
     <ul>
           <li>You're responsible for the accuracy of the information you provide and for keeping your password secure.</li>
           <li>Each account is for one person's individual use. Med101 enforces a single active device/session per account.</li>
@@ -60,7 +66,8 @@ export default function TermsAndConditions() {
         </ul>
       </Section>
 
-      <Section toc={TOC} i={3}>
+      {!paused && (
+      <Section toc={toc} i={at('payments')}>
     <p>Med101 Maxx content/features are activated through a manual process, not an automatic payment gateway:</p>
         <ul>
           <li>You pay us directly via UPI, using the UPI ID/QR code shown in the app.</li>
@@ -70,8 +77,10 @@ export default function TermsAndConditions() {
           <li>Submitting inaccurate payment details, or a transaction ID that doesn't correspond to an actual payment to us, may result in rejection and, for repeated or deliberate attempts, account suspension.</li>
         </ul>
       </Section>
+      )}
 
-      <Section toc={TOC} i={4}>
+      {!paused && (
+      <Section toc={toc} i={at('refunds')}>
     <ul>
           <li>Med101 Maxx is a one-time payment for a fixed duration, not an auto-renewing subscription - there's nothing to "cancel" in that sense.</li>
           <li>If you've submitted a payment that hasn't been approved yet and change your mind, contact us before approval and we'll refund it.</li>
@@ -79,8 +88,9 @@ export default function TermsAndConditions() {
           <li>If you believe a payment was verified incorrectly, or you were charged in error, contact us at the email below and we'll look into it.</li>
         </ul>
       </Section>
+      )}
 
-      <Section toc={TOC} i={5}>
+      <Section toc={toc} i={at('content')}>
     <p>
           Quiz questions, explanations, notices, and other material on
           Med101 belong to Med101 or its licensors. You may use them for
@@ -90,7 +100,7 @@ export default function TermsAndConditions() {
         </p>
       </Section>
 
-      <Section toc={TOC} i={6}>
+      <Section toc={toc} i={at('use')}>
     <p>You agree not to:</p>
         <ul>
           <li>Share your account/login with others</li>
@@ -101,7 +111,7 @@ export default function TermsAndConditions() {
         </ul>
       </Section>
 
-      <Section toc={TOC} i={7}>
+      <Section toc={toc} i={at('warranties')}>
     <p>
           Med101 is provided "as is." We don't guarantee that content is
           error-free, complete, or sufficient on its own to pass any
@@ -110,7 +120,7 @@ export default function TermsAndConditions() {
         </p>
       </Section>
 
-      <Section toc={TOC} i={8}>
+      <Section toc={toc} i={at('liability')}>
     <p>
           To the maximum extent permitted by law, Med101 is not liable for
           indirect, incidental, or consequential damages arising from your
@@ -118,7 +128,7 @@ export default function TermsAndConditions() {
         </p>
       </Section>
 
-      <Section toc={TOC} i={9}>
+      <Section toc={toc} i={at('termination')}>
     <p>
           We may suspend or terminate an account that violates these
           Terms, including sharing login credentials or attempting to
@@ -126,16 +136,16 @@ export default function TermsAndConditions() {
         </p>
       </Section>
 
-      <Section toc={TOC} i={10}>
+      <Section toc={toc} i={at('changes')}>
     <p>
           We may update these Terms from time to time. Changes will be
           posted on this page with an updated "Last updated" date.
         </p>
       </Section>
 
-      <Section toc={TOC} i={11}>
+      <Section toc={toc} i={at('contact')}>
     <p>
-          Questions about these Terms, a payment, or your account can be
+          Questions about these Terms{paused ? '' : ', a payment,'} or your account can be
           sent to:{' '}
           <a href="mailto:support@med101.space">support@med101.space</a>
         </p>

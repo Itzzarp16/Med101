@@ -4,7 +4,7 @@ import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence';
 import { subscribeToMyInvites } from '../lib/invites';
-import { subscribeToSubscriptionConfig } from '../lib/subscription';
+import usePremiumPaused from '../lib/usePremiumPaused';
 
 // Everything except the Med101 logo/signature and the user's own name
 // now lives behind a hamburger menu - matches the drawer content the
@@ -39,8 +39,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
   }, [inviteUid]);
   // Admin's "Free for everyone" pause hides Med101 Maxx from the menu
   // entirely; turning it off brings the entry back.
-  const [premiumPaused, setPremiumPaused] = useState(false);
-  useEffect(() => subscribeToSubscriptionConfig((c) => setPremiumPaused(!!c?.premiumPaused)), []);
+  const premiumPaused = usePremiumPaused();
   const [onlineCount, setOnlineCount] = useState(null);
   const [onlineNames, setOnlineNames] = useState(null);
   const [showOnlineList, setShowOnlineList] = useState(false);
