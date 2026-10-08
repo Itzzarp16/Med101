@@ -24,6 +24,7 @@ import { loadCloudSnapshot, deleteCloudSnapshot } from './lib/quizResumeCloud';
 import ResumeQuizCard from './components/ResumeQuizCard';
 import IntroOverlay from './components/IntroOverlay';
 import { shouldPlayIntro } from './lib/intro';
+import LoadingLine from './components/LoadingLine';
 
 // Dashboard/SubtopicScreen/QuizModeScreen/QuizScreen above stay
 // normal static imports - together they're the one back-to-back path
@@ -73,7 +74,7 @@ const AdminPaymentsScreen = lazy(() => import('./components/AdminPaymentsScreen'
 const AdminSubscribersScreen = lazy(() => import('./components/AdminSubscribersScreen'));
 
 function AdminScreenFallback() {
-  return <div className="std-loading">Loading…</div>;
+  return <LoadingLine />;
 }
 
 // Same fallback, generic name for the non-admin lazy screens below.
@@ -770,6 +771,7 @@ export default function App() {
             />
           </div>
         </div>
+        {loaderPhase === 'loading' && <LoadingLine className="app-loading-quip" spinner={false} />}
         {loaderPhase === 'loading' && (
           <StuckLoaderHelp hint={semesterData.loading ? 'loading questions' : 'loading your semester'} />
         )}

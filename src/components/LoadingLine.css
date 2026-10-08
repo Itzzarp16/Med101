@@ -1,0 +1,27 @@
+.loading-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text2);
+  min-height: 3.2em;
+}
+.loading-line-spin {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--cyan-rgb), 0.25);
+  border-top-color: var(--cyan);
+  animation: std-loading-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+.loading-line-text { transition: opacity 0.26s ease; opacity: 1; }
+.loading-line-text.is-fading { opacity: 0; }
+/* Splash screen: sits under the progress bar, no spinner, quieter. */
+.loading-line.app-loading-quip { padding: 14px 20px 0; min-height: 2.6em; font-size: 13px; color: var(--text3); }
+@media (prefers-reduced-motion: reduce) {
+  .loading-line-spin { animation: none; }
+  .loading-line-text { transition: none; }
+}

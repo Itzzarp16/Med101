@@ -5,6 +5,7 @@ import { subscribeToFriends } from '../lib/friends';
 import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
 import './LeaderboardScreen.css';
+import LoadingLine from './LoadingLine';
 
 const PODIUM_ORDER = [1, 0, 2]; // display order: 2nd, 1st, 3rd
 
@@ -169,7 +170,7 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack,
           </div>
         )}
 
-        {loading && <div className="lb-loading">Loading leaderboard…</div>}
+        {loading && <LoadingLine />}
 
         {!loading && (error || rows.length === 0) && (
           <div className="lb-empty">

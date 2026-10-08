@@ -11,6 +11,7 @@ import PremiumThankYou from './PremiumThankYou';
 import PremiumRejected from './PremiumRejected';
 import { buildInvoicePdf } from '../lib/dataExport';
 import './PremiumScreen.css';
+import LoadingLine from './LoadingLine';
 
 // Which rejected payment UTRs this student has already been shown the
 // rejection overlay for - persisted so a rejection they never saw
@@ -394,7 +395,7 @@ export default function PremiumScreen({ onBack }) {
           Admin accounts always have complete access to every subject and question - no subscription needed.
         </Banner>
       ) : loading ? (
-        <div className="std-loading">Loading…</div>
+        <LoadingLine />
       ) : (
         <>
           {premiumForThisSemester ? (

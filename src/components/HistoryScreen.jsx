@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import { fetchQuizHistory, deleteQuizHistoryEntry } from '../lib/quizHistory';
 import { playTapSound } from '../lib/sounds';
 import './HistoryScreen.css';
+import LoadingLine from './LoadingLine';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
 
@@ -404,7 +405,7 @@ export default function HistoryScreen({ onRetry, onBack }) {
       </div>
 
       {loading ? (
-        <div className="std-loading">Loading…</div>
+        <LoadingLine />
       ) : history.length === 0 ? (
         <div className="glass std-card empty-state">
           <div className="empty-state-icon">🗂️</div>
