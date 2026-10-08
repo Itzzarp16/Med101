@@ -228,7 +228,7 @@ h1, h2, .display {
 
 /* ── Shared buttons/badges/cards, ported from old site ── */
 .btn-glow {
-  background: linear-gradient(135deg, var(--cyan2) 0%, var(--violet) 100%);
+  background: linear-gradient(135deg, var(--cyan2) 0%, var(--btn-grad-end, var(--violet)) 100%);
   color: #fff;
   border: none;
   border-radius: 14px;

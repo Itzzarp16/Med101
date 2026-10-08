@@ -26,7 +26,7 @@ const TIMER_PRESETS = [20, 30, 45, 60];
 // then Auto-advance/Timer settings and the Start Quiz button, then
 // multi-select topic chips at the very bottom (picking any chip
 // switches mode to "topic" and filters the pool to just those topics).
-export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, isPremium, onGetPremium, onStart, onBack }) {
+export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, hueIndex, isPremium, onGetPremium, onStart, onBack }) {
   const { profile } = useAuth();
   const [mode, setMode] = useState('rand25');
   const [unseenOnly, setUnseenOnly] = useState(false);
@@ -168,7 +168,7 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
   const startSummary = [modeLabel, unseenOnly ? 'Unseen only' : null, timerOn ? `${timerSeconds}s timer` : null].filter(Boolean).join(' · ');
 
   return (
-    <div className="screen-home qmode-v2">
+    <div className={`screen-home qmode-v2${hueIndex != null ? ` subj-tint subj-hue-${hueIndex}` : ''}`}>
       {/* Compact header: back, subject, counts */}
       <div className="qm-head">
         <button className="qm-back" onClick={() => { playTapSound(); onBack(); }} aria-label="Back">←</button>

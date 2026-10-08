@@ -2,6 +2,7 @@ import { useLayoutEffect, useRef } from 'react';
 import './SubjectCard.css';
 import { hapticSync } from '../lib/haptics';
 import CountUp from './CountUp';
+import '../styles/subjectTheme.css';
 
 // Old site's .subj-card layout exactly (flat glass row, emoji left,
 // text stacked, chevron right). The animated pulse-trace line is only
@@ -173,8 +174,9 @@ function scrubRegister(el) {
 // Visually hidden but read by screen readers (the animated numbers are aria-hidden).
 const SR_ONLY = { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' };
 
-export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, hideArrow, onClick }) {
-  const accent = trace ? traceColorFor(name) : null;
+export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, hideArrow, hue, onClick }) {
+  // `hue` (0-11) = this subject's own colour from styles/subjectTheme.css; falls back to the old hashed colour.
+  const accent = trace ? (hue != null ? 'var(--hue)' : traceColorFor(name)) : null;
 
   const cardRef = useRef(null);
   // Layout effect so the first measurement happens before paint (no flash of
@@ -190,7 +192,7 @@ export default function SubjectCard({ index, emoji, name, desc, questionCount, t
   return (
     <button
       ref={cardRef}
-      className={`${trace ? 'subj-card subj-card--dash' : 'subj-card'}${build ? ' subj-card--build' : (index != null ? ' stagger-in' : '')}`}
+      className={`${trace ? 'subj-card subj-card--dash' : 'subj-card'}${build ? ' subj-card--build' : (index != null ? ' stagger-in' : '')}${hue != null ? ` subj-hue-${hue}` : ''}`}
       style={index != null ? { '--stagger-i': Math.min(index, 8) } : undefined}
       onClick={onClick}
     >

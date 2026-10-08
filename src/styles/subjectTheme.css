@@ -1,0 +1,65 @@
+/* GENERATED palette for per-subject tinting (see SubjectTheme use in SubtopicScreen/QuizModeScreen/SubjectCard).
+   12 muted hues; each matches the luminance of the app's own navy accent so buttons keep the same contrast.
+   Dark theme is the default, light theme is body.light-mode. A subject picks its hue by position in its semester's subject list. */
+.subj-hue-0 { --hue: #4b6f98; --hue2: #3e5c7d; --hue-rgb: 75, 111, 152; }
+.subj-hue-1 { --hue: #906147; --hue2: #78513b; --hue-rgb: 144, 97, 71; }
+.subj-hue-2 { --hue: #3a7767; --hue2: #316356; --hue-rgb: 58, 119, 103; }
+.subj-hue-3 { --hue: #a5516d; --hue2: #89445b; --hue-rgb: 165, 81, 109; }
+.subj-hue-4 { --hue: #776c3a; --hue2: #625a30; --hue-rgb: 119, 108, 58; }
+.subj-hue-5 { --hue: #8159ad; --hue2: #6d4995; --hue-rgb: 129, 89, 173; }
+.subj-hue-6 { --hue: #3e737e; --hue2: #346069; --hue-rgb: 62, 115, 126; }
+.subj-hue-7 { --hue: #a55452; --hue2: #8a4644; --hue-rgb: 165, 84, 82; }
+.subj-hue-8 { --hue: #45783b; --hue2: #396431; --hue-rgb: 69, 120, 59; }
+.subj-hue-9 { --hue: #9d4e9d; --hue2: #834083; --hue-rgb: 157, 78, 157; }
+.subj-hue-10 { --hue: #5b7339; --hue2: #4c6030; --hue-rgb: 91, 115, 57; }
+.subj-hue-11 { --hue: #6464b2; --hue2: #5050a3; --hue-rgb: 100, 100, 178; }
+body.light-mode .subj-hue-0 { --hue: #3c5b7f; --hue2: #304a66; --hue-rgb: 60, 91, 127; }
+body.light-mode .subj-hue-1 { --hue: #795039; --hue2: #61412e; --hue-rgb: 121, 80, 57; }
+body.light-mode .subj-hue-2 { --hue: #2e6255; --hue2: #254f45; --hue-rgb: 46, 98, 85; }
+body.light-mode .subj-hue-3 { --hue: #8c425a; --hue2: #703548; --hue-rgb: 140, 66, 90; }
+body.light-mode .subj-hue-4 { --hue: #625a2e; --hue2: #4f4825; --hue-rgb: 98, 90, 46; }
+body.light-mode .subj-hue-5 { --hue: #6d4898; --hue2: #583a7a; --hue-rgb: 109, 72, 152; }
+body.light-mode .subj-hue-6 { --hue: #32616a; --hue2: #284d55; --hue-rgb: 50, 97, 106; }
+body.light-mode .subj-hue-7 { --hue: #8c4442; --hue2: #703735; --hue-rgb: 140, 68, 66; }
+body.light-mode .subj-hue-8 { --hue: #38632f; --hue2: #2d5026; --hue-rgb: 56, 99, 47; }
+body.light-mode .subj-hue-9 { --hue: #853f85; --hue2: #6b326b; --hue-rgb: 133, 63, 133; }
+body.light-mode .subj-hue-10 { --hue: #4b612d; --hue2: #3c4e24; --hue-rgb: 75, 97, 45; }
+body.light-mode .subj-hue-11 { --hue: #4f4fa9; --hue2: #3f3f87; --hue-rgb: 79, 79, 169; }
+
+/* Scope class: re-points the app's accent tokens at the subject's colour, so
+   everything inside that already uses --cyan (header glow, ghost/primary
+   buttons, chips, highlights) picks the tint up with no per-component edits.
+   --violet is left alone (it means premium); gradients end on --btn-grad-end. */
+.subj-tint {
+  --cyan: var(--hue);
+  --cyan2: var(--hue2);
+  --cyan-rgb: var(--hue-rgb);
+  --btn-grad-end: var(--hue2);
+}
+/* Soft colour wash behind the top of the screen + a short accent bar under the heading.
+   isolation + z-index -1 keeps the wash behind the content, never over it. */
+.screen-subject.subj-tint,
+.qmode-v2.subj-tint { isolation: isolate; }
+.screen-subject.subj-tint::before,
+.qmode-v2.subj-tint::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 240px;
+  background: radial-gradient(ellipse 80% 100% at 50% 0%, rgba(var(--hue-rgb), 0.22), transparent 72%);
+  pointer-events: none;
+  z-index: -1;
+}
+.qmode-v2.subj-tint { position: relative; }
+.subj-tint .subj-header::after {
+  content: '';
+  display: block;
+  width: 46px;
+  height: 3px;
+  border-radius: 2px;
+  margin: 16px auto 0;
+  background: var(--hue);
+}
+.subj-tint .subj-sub { color: var(--hue); }
+.qmode-v2.subj-tint .qm-back { border-color: rgba(var(--hue-rgb), 0.5); }
+

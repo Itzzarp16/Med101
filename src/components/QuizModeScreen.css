@@ -169,7 +169,7 @@
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--cyan), var(--violet));
+  background: linear-gradient(90deg, var(--cyan), var(--btn-grad-end, var(--violet)));
   opacity: 0.9;
 }
 

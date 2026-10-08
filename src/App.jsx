@@ -18,6 +18,7 @@ import ResumeQuizCard from './components/ResumeQuizCard';
 import IntroOverlay from './components/IntroOverlay';
 import { shouldPlayIntro } from './lib/intro';
 import LoadingLine from './components/LoadingLine';
+import { subjectHueIndex } from './lib/subjectTheme';
 
 // Dashboard/SubtopicScreen/QuizModeScreen/QuizScreen above stay
 // normal static imports - together they're the one back-to-back path
@@ -1001,6 +1002,7 @@ export default function App() {
                 subjectMeta={subjectMeta}
                 subjectName={selectedSubject}
                 emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
+              hueIndex={subjectHueIndex(selectedSubject, scopedMainSubjectMeta)}
                 isPremium={isPremiumForCurrentSemester || isAdmin || premiumPaused}
                 onGetPremium={() => goTo('premium')}
                 onStart={(quizQuestions, settings) => {

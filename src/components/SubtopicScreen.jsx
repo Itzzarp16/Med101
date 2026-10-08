@@ -4,6 +4,8 @@ import HomeNoticeBanner from './HomeNoticeBanner';
 import { useExams } from '../lib/examSchedule';
 import { examStatus } from '../lib/examDates';
 import './Dashboard.css';
+import '../styles/subjectTheme.css';
+import { subjectHueIndex } from '../lib/subjectTheme';
 
 // Restores the old site's "Choose a Subtopic" step (was briefly
 // removed under the mistaken belief the original design went straight
@@ -32,7 +34,7 @@ export default function SubtopicScreen({ mainSubject, mainSubjectMeta, subjectMe
   const subjectEmoji = mainSubjectMeta[mainSubject]?.emoji || '📚';
 
   return (
-    <div className="screen-subject">
+    <div className={`screen-subject subj-tint subj-hue-${subjectHueIndex(mainSubject, mainSubjectMeta)}`}>
       <div className="subj-header">
         <div className="subj-icon">🩺</div>
         <div className="subj-title">Choose a Subtopic</div>

@@ -7,6 +7,7 @@ import { examStatus } from '../lib/examDates';
 import PendingInvites from './PendingInvites';
 import LegalFooter from './LegalFooter';
 import PullToRefresh from './PullToRefresh';
+import { subjectHueIndex } from '../lib/subjectTheme';
 import { useAuth } from '../lib/AuthContext';
 import { todayStr } from '../lib/streak';
 import './Dashboard.css';
@@ -305,6 +306,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
                 topicCount={subjectStats[name]?.topicCount}
                 trace
                 build
+                hue={subjectHueIndex(name, mainSubjectMeta)}
                 exam={examBySubject[name] || null}
                 progress={prog && prog.answered > 0 ? { answered: prog.answered, pct: Math.round((prog.correct / prog.answered) * 100) } : null}
                 onClick={() => (hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
