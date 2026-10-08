@@ -121,11 +121,11 @@ export default function SettingsScreen({ onBack, onProfile }) {
       <div className="glass set-card set-rows">
         <div className="set-row set-tap" onClick={toggleTheme}>
           <span>{light ? '☀️ Light mode' : '🌙 Dark mode'}</span>
-          <LiquidSwitch on={light} label="Light mode" onClick={(e) => { e.stopPropagation(); toggleTheme(); }} />
+          <LiquidSwitch variant="set" on={light} label="Light mode" onClick={(e) => { e.stopPropagation(); toggleTheme(); }} />
         </div>
         <div className="set-row set-tap" onClick={toggleSound}>
           <span>{muted ? '🔇 Sound off' : '🔊 Sound on'}</span>
-          <LiquidSwitch on={!muted} label="Sound" onClick={(e) => { e.stopPropagation(); toggleSound(); }} />
+          <LiquidSwitch variant="set" on={!muted} label="Sound" onClick={(e) => { e.stopPropagation(); toggleSound(); }} />
         </div>
         {pushOk && (
           <div
@@ -134,6 +134,7 @@ export default function SettingsScreen({ onBack, onProfile }) {
           >
             <span>{pushOn ? '🔔 Notifications on' : '🔕 Notifications off'}</span>
             <LiquidSwitch
+              variant="set"
               on={pushOn}
               label="Notifications"
               disabled={pushBusy || (pushPermission() === 'denied' && !pushOn)}

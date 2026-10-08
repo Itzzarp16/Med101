@@ -1,17 +1,28 @@
-/* Liquid switch: white pill + glossy black knob that morphs while it moves. */
+/* Switch with the liquid knob effect (the knob stretches into a blob while it
+   slides, squashes at the far end, then settles). Colours and sizes are the
+   app's own: glass track + cyan when on; Settings uses the green variant. */
 .lq {
+  --w: 44px; --h: 24px; --k: 18px;
+  box-sizing: border-box;
   position: relative;
+  display: block;
   flex-shrink: 0;
-  width: 48px;
-  height: 26px;
+  width: var(--w);
+  height: var(--h);
   padding: 0;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.14);
-  background: #fff;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   cursor: pointer;
-  display: inline-block;
+  transition: background 0.22s, border-color 0.22s, box-shadow 0.22s;
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.20), inset 0 -1px 0 rgba(0, 0, 0, 0.15);
   -webkit-tap-highlight-color: transparent;
+}
+.lq.on {
+  background: rgba(var(--cyan-rgb), 0.30);
+  border-color: rgba(var(--cyan-rgb), 0.60);
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.25), 0 0 16px rgba(var(--cyan-rgb), 0.25);
 }
 button.lq:disabled { opacity: 0.5; cursor: not-allowed; }
 button.lq:focus-visible { outline: 2px solid var(--cyan, #38bdf8); outline-offset: 2px; }
@@ -19,16 +30,33 @@ button.lq:focus-visible { outline: 2px solid var(--cyan, #38bdf8); outline-offse
 .lq-knob {
   position: absolute;
   top: 2px;
-  left: 3px;
-  width: 20px;
-  height: 20px;
+  left: 2px;
+  width: var(--k);
+  height: var(--k);
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #5a5a5a 0%, #1a1a1a 45%, #000 100%);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.45);
+  background: rgba(255, 255, 255, 0.80);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.30);
   transform: translateX(0);
+  transition: background 0.22s, box-shadow 0.22s;
   will-change: transform, border-radius;
 }
-.lq.on .lq-knob { transform: translateX(21px); }
+.lq.on .lq-knob {
+  transform: translateX(20px);
+  background: var(--cyan);
+  box-shadow: 0 0 12px rgba(var(--cyan-rgb), 0.60), 0 1px 4px rgba(0, 0, 0, 0.20);
+}
+
+/* Settings screen keeps its own look: green when on, white knob. */
+.lq.lq-set {
+  --w: 46px; --h: 26px; --k: 20px;
+  border: 1px solid var(--border2);
+  background: var(--surface2, rgba(255, 255, 255, 0.1));
+  backdrop-filter: none;
+  box-shadow: none;
+}
+.lq.lq-set .lq-knob { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); }
+.lq.lq-set.on { background: var(--green, #22c55e); border-color: transparent; box-shadow: none; }
+.lq.lq-set.on .lq-knob { background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); }
 
 .lq.go-on .lq-knob { animation: lq-go-on 0.75s ease both; }
 .lq.go-off .lq-knob { animation: lq-go-off 0.75s ease both; }
@@ -37,14 +65,14 @@ button.lq:focus-visible { outline: 2px solid var(--cyan, #38bdf8); outline-offse
   0%   { transform: translateX(0) scale(1, 1); border-radius: 50%; }
   18%  { transform: translateX(2px) scale(1.12, 0.92); border-radius: 50%; }
   40%  { transform: translateX(10px) scale(1.55, 0.78) rotate(-8deg); border-radius: 62% 38% 55% 45% / 55% 60% 40% 45%; }
-  62%  { transform: translateX(20px) scale(1.25, 0.9) rotate(6deg); border-radius: 45% 55% 40% 60% / 60% 45% 55% 40%; }
-  80%  { transform: translateX(22px) scale(0.88, 1.08); border-radius: 50%; }
-  100% { transform: translateX(21px) scale(1, 1); border-radius: 50%; }
+  62%  { transform: translateX(19px) scale(1.25, 0.9) rotate(6deg); border-radius: 45% 55% 40% 60% / 60% 45% 55% 40%; }
+  80%  { transform: translateX(21px) scale(0.88, 1.08); border-radius: 50%; }
+  100% { transform: translateX(20px) scale(1, 1); border-radius: 50%; }
 }
 @keyframes lq-go-off {
-  0%   { transform: translateX(21px) scale(1, 1); border-radius: 50%; }
-  18%  { transform: translateX(19px) scale(1.12, 0.92); border-radius: 50%; }
-  40%  { transform: translateX(11px) scale(1.55, 0.78) rotate(8deg); border-radius: 62% 38% 55% 45% / 55% 60% 40% 45%; }
+  0%   { transform: translateX(20px) scale(1, 1); border-radius: 50%; }
+  18%  { transform: translateX(18px) scale(1.12, 0.92); border-radius: 50%; }
+  40%  { transform: translateX(10px) scale(1.55, 0.78) rotate(8deg); border-radius: 62% 38% 55% 45% / 55% 60% 40% 45%; }
   62%  { transform: translateX(1px) scale(1.25, 0.9) rotate(-6deg); border-radius: 45% 55% 40% 60% / 60% 45% 55% 40%; }
   80%  { transform: translateX(-1px) scale(0.88, 1.08); border-radius: 50%; }
   100% { transform: translateX(0) scale(1, 1); border-radius: 50%; }
@@ -52,5 +80,5 @@ button.lq:focus-visible { outline: 2px solid var(--cyan, #38bdf8); outline-offse
 
 @media (prefers-reduced-motion: reduce) {
   .lq.go-on .lq-knob, .lq.go-off .lq-knob { animation: none; }
-  .lq-knob { transition: transform 0.15s; }
+  .lq-knob { transition: transform 0.15s, background 0.22s, box-shadow 0.22s; }
 }

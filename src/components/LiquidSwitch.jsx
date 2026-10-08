@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import './LiquidSwitch.css';
 
-// The app's one switch: white pill, glossy black knob that stretches into a
-// liquid blob as it slides across, squashes at the far end, then settles.
+// The app's switch, in the app's own colours, with a liquid knob: it stretches
+// into a blob as it slides across, squashes at the far end, then settles.
+// variant="set" is the Settings-screen look (green when on).
 //
 //   <LiquidSwitch on={value} onClick={toggle} label="Sound" />
 //
 // Without onClick it renders as a decorative (aria-hidden) switch, for rows
 // where the whole row is already the clickable switch.
-export default function LiquidSwitch({ on, onClick, disabled, label, className = '' }) {
+export default function LiquidSwitch({ on, onClick, disabled, label, variant, className = '' }) {
   const prev = useRef(!!on);
   const [anim, setAnim] = useState('');
 
@@ -20,7 +21,7 @@ export default function LiquidSwitch({ on, onClick, disabled, label, className =
     return () => clearTimeout(t);
   }, [on]);
 
-  const cls = ['lq', on ? 'on' : '', anim, className].filter(Boolean).join(' ');
+  const cls = ['lq', variant === 'set' ? 'lq-set' : '', on ? 'on' : '', anim, className].filter(Boolean).join(' ');
   const knob = <span className="lq-knob" />;
 
   if (!onClick) return <span className={cls} aria-hidden="true">{knob}</span>;
