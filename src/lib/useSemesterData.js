@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from './firebase';
 
@@ -53,10 +53,17 @@ export function useSemesterData() {
     questions: [],            // all questions, tagged with .term = semesterId
   });
 
-  useEffect(() => {
-    let cancelled = false;
+  const mountedRef = useRef(true);
+  const loadRef = useRef(null);
 
-    async function load() {
+  useEffect(() => {
+    mountedRef.current = true;
+
+    // silent = a manual refresh (pull-to-refresh): no loading flag, and a
+    // failed fetch leaves the data already on screen alone instead of
+    // flipping the whole app to the offline/error screen. Resolves true
+    // when fresh data was applied.
+    async function load(silent = false) {
       const semesters = [];
       const mainSubjectMeta = {};
       const subjectMeta = {};
@@ -73,10 +80,11 @@ export function useSemesterData() {
           data = await res.json();
         } catch (err) {
           console.error('Failed to load question data (no offline fallback):', entry.file, err);
-          if (!cancelled) {
+          if (silent) return false;
+          if (mountedRef.current) {
             setState((s) => ({ ...s, loading: false, error: 'connection' }));
           }
-          return;
+          return false;
         }
 
         data.questions.forEach((q) => {
@@ -129,7 +137,7 @@ export function useSemesterData() {
         }
       }
 
-      if (!cancelled) {
+      if (mountedRef.current) {
         setState({
           loading: false,
           error: null,
@@ -141,13 +149,20 @@ export function useSemesterData() {
           questions,
         });
       }
+      return true;
     }
 
+    loadRef.current = load;
     load();
     return () => {
-      cancelled = true;
+      mountedRef.current = false;
     };
   }, []);
 
-  return state;
+  // Stable handle for pull-to-refresh: re-reads the semester JSON files and
+  // the admin-uploaded questions doc, so a freshly uploaded question set
+  // shows up without closing the app. Costs the same few reads as a load.
+  const refresh = useCallback(() => (loadRef.current ? loadRef.current(true) : Promise.resolve(false)), []);
+
+  return { ...state, refresh };
 }

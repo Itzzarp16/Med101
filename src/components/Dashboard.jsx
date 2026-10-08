@@ -6,6 +6,7 @@ import { useExams } from '../lib/examSchedule';
 import { examStatus } from '../lib/examDates';
 import PendingInvites from './PendingInvites';
 import LegalFooter from './LegalFooter';
+import PullToRefresh from './PullToRefresh';
 import { useAuth } from '../lib/AuthContext';
 import { todayStr } from '../lib/streak';
 import './Dashboard.css';
@@ -194,7 +195,7 @@ function getGreeting(kgNow, questionsToday) {
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
 // header, then the scrolling notice, then a centered max-width subj-grid.
-export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, semesterId }) {
+export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, onRefresh, semesterId }) {
   const { user, profile } = useAuth();
   // Exam dates for this semester: one card at the top plus a date line on each subject.
   const exams = useExams(semesterId);
@@ -262,6 +263,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
   return (
     <>
       <div className="screen-subject">
+        {onRefresh && <PullToRefresh onRefresh={onRefresh} />}
         <div className="dashboard-greeting">
           <div className="dashboard-greeting-text">{greeting.title}, {firstName} {greeting.emoji}</div>
           <div className="dashboard-nudge">{greeting.nudge}</div>

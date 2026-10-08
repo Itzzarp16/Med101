@@ -923,6 +923,7 @@ export default function App() {
               subjectGroup={subjectGroup}
               questions={scopedQuestions}
               semesterId={activeSemesterId}
+              onRefresh={semesterData.refresh}
               onSelectSubject={(name) => goTo('subtopic', { selectedSubject: name, selectedTopic: null })}
               onComingSoon={(name) => goTo('subject-soon', { selectedSubject: name, selectedTopic: null })}
               onPracticeTopic={(subject, subtopic) => {

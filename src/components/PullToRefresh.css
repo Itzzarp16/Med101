@@ -1,0 +1,35 @@
+/* Native browser pull-to-reload is suppressed only while the dashboard (and
+   so this component) is mounted; other screens keep default behaviour. */
+html.ptr-active, html.ptr-active body { overscroll-behavior-y: contain; }
+
+.ptr {
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  height: 0;
+}
+.ptr:not(.ptr-dragging) { transition: height 0.28s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.ptr-inner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 10px;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  color: var(--text-dim, rgba(255, 255, 255, 0.7));
+}
+.ptr-spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--cyan-rgb, 74, 111, 148), 0.3);
+  border-top-color: var(--cyan, #4a6f94);
+  flex: none;
+}
+.ptr-spin { animation: ptr-rotate 0.8s linear infinite; }
+@keyframes ptr-rotate { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .ptr:not(.ptr-dragging) { transition: none; }
+  .ptr-spin { animation-duration: 1.6s; }
+}
