@@ -39,6 +39,21 @@
       "emoji": "🧠",
       "desc": "Content coming soon",
       "accent": "var(--cyan)"
+    },
+    "Public Health": {
+      "emoji": "🏥",
+      "desc": "Content coming soon",
+      "accent": "#fb923c"
+    },
+    "Clinical Communication with Virtual Patients": {
+      "emoji": "💬",
+      "desc": "Content coming soon",
+      "accent": "#a78bfa"
+    },
+    "Practice: Ward assistant and procedure nursing clinical clerkship": {
+      "emoji": "🩺",
+      "desc": "Content coming soon",
+      "accent": "#2dd4bf"
     }
   },
   "subjectMeta": {

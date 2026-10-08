@@ -197,7 +197,7 @@ export default function SubjectCard({ index, emoji, name, desc, questionCount, t
         {desc && <span className="subj-count">{desc}</span>}
         {exam && (
           <span className={exam.days <= 7 ? 'subj-exam soon' : 'subj-exam'}>
-            📅 Exam {exam.dateText} · {exam.daysText}
+            📅 Exam {exam.dateText} · {exam.daysText}{exam.note ? ` (${exam.note})` : ''}
           </span>
         )}
 

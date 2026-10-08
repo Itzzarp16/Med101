@@ -34,8 +34,13 @@ export const SHOW_WITHIN_DAYS = Infinity;
 
 // { days, dateText, daysText } for an exam that is within SHOW_WITHIN_DAYS
 // and hasn't passed yet, otherwise null (too far away, past, or bad date).
+// Group note for display, e.g. 'GM2 only' -> 'GM2' (shown in brackets).
+export function groupNote(note) {
+  return String(note || '').replace(/\s*only\s*$/i, '').trim();
+}
+
 export function examStatus(exam, now = new Date()) {
   const days = daysUntil(exam?.date, now);
   if (days === null || days < 0 || days > SHOW_WITHIN_DAYS) return null;
-  return { days, dateText: formatExamDate(exam.date), daysText: daysText(days) };
+  return { days, dateText: formatExamDate(exam.date), daysText: daysText(days), note: groupNote(exam.note) };
 }

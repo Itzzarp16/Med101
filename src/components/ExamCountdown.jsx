@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { examStatus, parseExamDate } from '../lib/examDates';
+import { examStatus, groupNote, parseExamDate } from '../lib/examDates';
 import { playTapSound } from '../lib/sounds';
 import './ExamCountdown.css';
 
@@ -32,7 +32,7 @@ export default function ExamCountdown({ exams }) {
         <CalendarTile date={next.exam.date} />
         <span className="exam-card-text">
           <span className="exam-card-kicker">Next exam</span>
-          <span className="exam-card-name">{next.exam.label || next.exam.subject}</span>
+          <span className="exam-card-name">{next.exam.label || next.exam.subject}{groupNote(next.exam.note) ? ` (${groupNote(next.exam.note)})` : ''}</span>
           <span className="exam-card-date">{next.status.dateText}{next.exam.time ? ` · ${next.exam.time}` : ''}</span>
         </span>
         <span className={`exam-card-days${next.status.days <= 7 ? ' soon' : ''}`}>
@@ -43,7 +43,7 @@ export default function ExamCountdown({ exams }) {
         <ul className="exam-card-list">
           {upcoming.map(({ exam, status }) => (
             <li key={`${exam.subject}-${exam.date}`}>
-              <span className="exam-li-name">{exam.label || exam.subject}{exam.note ? <em> · {exam.note}</em> : null}</span>
+              <span className="exam-li-name">{exam.label || exam.subject}{groupNote(exam.note) ? <em> ({groupNote(exam.note)})</em> : null}</span>
               <span className="exam-li-date">{status.dateText} · {status.daysText}</span>
             </li>
           ))}
