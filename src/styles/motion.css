@@ -244,3 +244,24 @@ html[data-boot] .subj-progress-bar > span {
   .wf-empty-ico, .empty-state-icon, .lb-empty-emoji, .coming-soon-emoji, .results-hero-emoji, .onboarding-emoji,
   .thanks-icon, .rejected-icon, .offline-guard-icon, .auth-icon { animation: none; }
 }
+
+
+/* ── Light/dark switch: the new theme fades in over the old one ── */
+html[data-vt-theme]:root::view-transition-group(root) { animation-duration: 0.5s; }
+html[data-vt-theme]:root::view-transition-old(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html[data-vt-theme]:root::view-transition-new(root) {
+  animation: vt-theme-in 0.5s ease both;
+  mix-blend-mode: normal;
+}
+@keyframes vt-theme-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* Fallback for browsers without View Transitions */
+html.theme-fading,
+html.theme-fading *,
+html.theme-fading *::before,
+html.theme-fading *::after {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, fill 0.4s ease !important;
+}

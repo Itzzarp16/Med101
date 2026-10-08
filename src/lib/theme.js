@@ -23,9 +23,34 @@ function apply(theme) {
   document.documentElement.classList.toggle('light-mode', theme === 'light');
 }
 
+// Switching themes cross-fades instead of flipping: the new theme fades in
+// over the old one. Uses the View Transitions API where available; other
+// browsers get a short colour transition instead. People who ask for reduced
+// motion get the instant switch.
 export function setTheme(theme) {
   localStorage.setItem(KEY, theme === 'light' ? 'light' : 'dark');
+
+  const root = document.documentElement;
+  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  if (reduced) { apply(theme); return; }
+
+  if (typeof document.startViewTransition === 'function') {
+    root.setAttribute('data-vt-theme', '');
+    try {
+      const t = document.startViewTransition(() => apply(theme));
+      t.ready.catch(() => {});
+      t.updateCallbackDone.catch(() => {});
+      t.finished.catch(() => {}).finally(() => root.removeAttribute('data-vt-theme'));
+    } catch {
+      root.removeAttribute('data-vt-theme');
+      apply(theme);
+    }
+    return;
+  }
+
+  root.classList.add('theme-fading');
   apply(theme);
+  setTimeout(() => root.classList.remove('theme-fading'), 450);
 }
 
 // Call once on app boot so a saved preference sticks across reloads
