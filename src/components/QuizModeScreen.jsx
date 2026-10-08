@@ -4,6 +4,7 @@ import { filterUnseen } from '../lib/seenQuestions';
 import { playTapSound } from '../lib/sounds';
 import { MOCK_EXAM_ENABLED } from '../lib/featureFlags';
 import './QuizModeScreen.css';
+import LiquidSwitch from './LiquidSwitch';
 
 function shuffled(arr) {
   const a = [...arr];
@@ -345,9 +346,7 @@ export function ToggleRow({ title, desc, on, onToggle, disabled }) {
         <div className="qmode-toggle-title">{title}</div>
         <div className="qmode-toggle-desc">{desc}</div>
       </div>
-      <div className={on ? 'toggle-track on' : 'toggle-track'}>
-        <div className="toggle-thumb" />
-      </div>
+      <LiquidSwitch on={on} />
     </div>
   );
 }

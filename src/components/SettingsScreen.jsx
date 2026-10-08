@@ -7,6 +7,7 @@ import { isLightMode, setTheme } from '../lib/theme';
 import { pushConfigured, pushSupported, pushPermission, pushEnabled, enablePush, disablePush } from '../lib/push';
 import { isInstallable, isStandalone, isIOS, onInstallabilityChange, promptInstall } from '../lib/installPrompt';
 import LegalFooter from './LegalFooter';
+import LiquidSwitch from './LiquidSwitch';
 import './SettingsScreen.css';
 
 // Same options as the signup dropdown - kept in sync there manually
@@ -120,25 +121,11 @@ export default function SettingsScreen({ onBack, onProfile }) {
       <div className="glass set-card set-rows">
         <div className="set-row set-tap" onClick={toggleTheme}>
           <span>{light ? '☀️ Light mode' : '🌙 Dark mode'}</span>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={light}
-            aria-label="Light mode"
-            className={light ? 'set-switch on' : 'set-switch'}
-            onClick={(e) => { e.stopPropagation(); toggleTheme(); }}
-          />
+          <LiquidSwitch on={light} label="Light mode" onClick={(e) => { e.stopPropagation(); toggleTheme(); }} />
         </div>
         <div className="set-row set-tap" onClick={toggleSound}>
           <span>{muted ? '🔇 Sound off' : '🔊 Sound on'}</span>
-          <button
-            type="button"
-            role="switch"
-            aria-checked={!muted}
-            aria-label="Sound"
-            className={!muted ? 'set-switch on' : 'set-switch'}
-            onClick={(e) => { e.stopPropagation(); toggleSound(); }}
-          />
+          <LiquidSwitch on={!muted} label="Sound" onClick={(e) => { e.stopPropagation(); toggleSound(); }} />
         </div>
         {pushOk && (
           <div
@@ -146,13 +133,10 @@ export default function SettingsScreen({ onBack, onProfile }) {
             onClick={() => { if (!(pushBusy || (pushPermission() === 'denied' && !pushOn))) togglePush(); }}
           >
             <span>{pushOn ? '🔔 Notifications on' : '🔕 Notifications off'}</span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={pushOn}
-              aria-label="Notifications"
+            <LiquidSwitch
+              on={pushOn}
+              label="Notifications"
               disabled={pushBusy || (pushPermission() === 'denied' && !pushOn)}
-              className={pushOn ? 'set-switch on' : 'set-switch'}
               onClick={(e) => { e.stopPropagation(); togglePush(); }}
             />
           </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { subscribeToPendingPaymentRequests, subscribeToRejectedPaymentRequests, approvePaymentRequest, rejectPaymentRequest, getSubscriptionConfig, saveSubscriptionConfig, subscribeToAllActivationCodes, fmtDate, expiryLabel } from '../lib/subscription';
 import { playTapSound } from '../lib/sounds';
+import LiquidSwitch from './LiquidSwitch';
 
 const DURATION_PRESETS = [
   { label: '1 Month', days: 30 },
@@ -219,12 +220,11 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                         : "Everyone's normal subscription status applies."}
                     </div>
                   </div>
-                  <div
-                    className={config.premiumPaused ? 'toggle-track on' : 'toggle-track'}
+                  <LiquidSwitch
+                    on={!!config.premiumPaused}
                     onClick={() => setConfig((c) => ({ ...c, premiumPaused: !c.premiumPaused }))}
-                  >
-                    <div className="toggle-thumb" />
-                  </div>
+                    label="Pause Med101 Maxx"
+                  />
                 </label>
                 {config.premiumPaused && (
                   <div style={{ fontSize: 12, color: 'var(--amber)', marginTop: 6 }}>

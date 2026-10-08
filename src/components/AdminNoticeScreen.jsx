@@ -3,6 +3,7 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { saveHomeNotice } from '../lib/homeNotice';
 import { playTapSound } from '../lib/sounds';
+import LiquidSwitch from './LiquidSwitch';
 
 // Styled with the shared std-screen/glass/auth-input classes.
 // semesters/semesterMainSubjects (same shape useSemesterData() returns)
@@ -95,9 +96,7 @@ export default function AdminNoticeScreen({ onBack, hideBack = false, semesters 
                   {semesterId ? 'Visible to students in this semester' : 'Visible to any semester without its own notice'}
                 </div>
               </div>
-              <div className={enabled ? 'toggle-track on' : 'toggle-track'} onClick={() => setEnabled((v) => !v)}>
-                <div className="toggle-thumb" />
-              </div>
+              <LiquidSwitch on={enabled} onClick={() => setEnabled((v) => !v)} label="Show this notice" />
             </label>
 
             <button className="btn-glow std-save-btn" onClick={handleSave} disabled={saving}>

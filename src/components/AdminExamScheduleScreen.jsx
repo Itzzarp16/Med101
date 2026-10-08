@@ -3,6 +3,7 @@ import { SEMESTER_ORDER } from '../lib/academicCalendar';
 import { fetchExamReveal, fetchExams, hasExamOverride, resetExams, saveExams, setExamReveal } from '../lib/examSchedule';
 import { parseExamDate } from '../lib/examDates';
 import { playTapSound } from '../lib/sounds';
+import LiquidSwitch from './LiquidSwitch';
 
 const semLabel = (id) => `Semester ${SEMESTER_ORDER.indexOf(id) + 1}`;
 const blank = () => ({ subject: '', date: '', time: '08:00-17:00', note: '' });
@@ -104,13 +105,7 @@ export default function AdminExamScheduleScreen({ onBack, hideBack = false }) {
               {reveal ? 'On: students can see the countdown and exam dates.' : 'Off: students cannot see any exam dates.'}
             </div>
           </div>
-          <div
-            className={reveal ? 'toggle-track on' : 'toggle-track'}
-            style={revealBusy ? { opacity: 0.5, pointerEvents: 'none' } : undefined}
-            onClick={toggleReveal}
-          >
-            <div className="toggle-thumb" />
-          </div>
+          <LiquidSwitch on={reveal} onClick={toggleReveal} disabled={revealBusy} label="Reveal exam dates" />
         </div>
       </div>
 

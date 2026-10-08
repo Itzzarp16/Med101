@@ -54,15 +54,4 @@ a.set-row, .set-link { cursor: pointer; }
 .set-tap.is-disabled { cursor: default; opacity: 0.6; }
 .set-chev { color: var(--text3); font-size: 18px; }
 .set-signout { color: var(--red); font-weight: 600; }
-.set-switch {
-  position: relative; flex-shrink: 0; width: 46px; height: 26px; padding: 0; cursor: pointer;
-  border-radius: 999px; border: 1px solid var(--border2); background: var(--surface2, rgba(255,255,255,.1));
-  transition: background 0.2s, border-color 0.2s;
-}
-.set-switch::after {
-  content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px;
-  border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.35); transition: transform 0.2s;
-}
-.set-switch.on { background: var(--green, #22c55e); border-color: transparent; }
-.set-switch.on::after { transform: translateX(20px); }
 a.set-row { justify-content: flex-start; gap: 10px; }
