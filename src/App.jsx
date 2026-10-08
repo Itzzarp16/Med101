@@ -2,22 +2,15 @@ import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import TopBar from './components/TopBar';
 import Dashboard from './components/Dashboard';
-import SubtopicScreen from './components/SubtopicScreen';
 import SlideStack from './components/SlideStack';
 import StuckLoaderHelp from './components/StuckLoaderHelp';
 import { viewTransition } from './lib/viewTransition';
-import QuizModeScreen from './components/QuizModeScreen';
-import QuizScreen from './components/QuizScreen';
 import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig, premiumCoversSemester, isFreeLabel, activateFreeSemester } from './lib/subscription';
-import AuthScreen from './components/AuthScreen';
-import WhatsAppPromptModal from './components/WhatsAppPromptModal';
-import OnboardingTour from './components/OnboardingTour';
-import NotificationGateModal from './components/NotificationGateModal';
 import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
 import { subscribeToAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
-import { startPresenceHeartbeat } from './lib/presence';
+import { startPresenceHeartbeat } from './lib/presenceLazy';
 import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence';
 import { loadResumeSnapshot, clearQuizProgress, saveQuizProgress } from './lib/quizProgress';
 import { loadCloudSnapshot, deleteCloudSnapshot } from './lib/quizResumeCloud';
@@ -38,6 +31,30 @@ import LoadingLine from './components/LoadingLine';
 // than being part of that default flow, so each is its own lazy
 // chunk instead of dead weight on every visitor's first load - same
 // reasoning as the Admin*/legal-page split in main.jsx.
+// The quiz flow (subtopic -> mode -> quiz) is lazy too, but it is warmed up in
+// the background shortly after the dashboard appears (see prefetchQuizFlow
+// below), so by the time a student taps a subject the code is already
+// downloaded - the first load stays small without a pause in the main flow.
+const loadSubtopicScreen = () => import('./components/SubtopicScreen');
+const loadQuizModeScreen = () => import('./components/QuizModeScreen');
+const loadQuizScreen = () => import('./components/QuizScreen');
+const SubtopicScreen = lazy(loadSubtopicScreen);
+const QuizModeScreen = lazy(loadQuizModeScreen);
+const QuizScreen = lazy(loadQuizScreen);
+// Sign-in screen: only logged-out visitors see it. Popups: only shown to
+// some students, some of the time.
+const AuthScreen = lazy(() => import('./components/AuthScreen'));
+const WhatsAppPromptModal = lazy(() => import('./components/WhatsAppPromptModal'));
+const OnboardingTour = lazy(() => import('./components/OnboardingTour'));
+const NotificationGateModal = lazy(() => import('./components/NotificationGateModal'));
+
+function prefetchQuizFlow() {
+  if (navigator.connection?.saveData) return;
+  loadSubtopicScreen();
+  loadQuizModeScreen();
+  loadQuizScreen();
+}
+
 const LeaderboardScreen = lazy(() => import('./components/LeaderboardScreen'));
 const ChallengeScreen = lazy(() => import('./components/ChallengeScreen'));
 const FriendsScreen = lazy(() => import('./components/FriendsScreen'));
@@ -405,6 +422,19 @@ export default function App() {
     return startPresenceHeartbeat(user.uid, user.displayName || user.email);
   }, [user]);
 
+  // Once a signed-in student is in, quietly download the quiz-flow code while
+  // the browser is idle (never on data-saver connections).
+  useEffect(() => {
+    if (!user) return undefined;
+    const run = () => prefetchQuizFlow();
+    if ('requestIdleCallback' in window) {
+      const id = window.requestIdleCallback(run, { timeout: 6000 });
+      return () => window.cancelIdleCallback(id);
+    }
+    const t = setTimeout(run, 3000);
+    return () => clearTimeout(t);
+  }, [user]);
+
   // Compute the logo's fly-to-topbar animation using real measured
   // pixels (captured once via getBoundingClientRect + window
   // dimensions) instead of vh/vw CSS units. vh/vw recalculate live as
@@ -509,7 +539,9 @@ export default function App() {
             {kickedMessage}
           </div>
         )}
-        <AuthScreen />
+        <Suspense fallback={<ScreenFallback />}>
+          <AuthScreen />
+        </Suspense>
       </>
     );
   }
@@ -780,12 +812,14 @@ export default function App() {
   if (loaderPhase === 'loading' || loaderPhase === 'completing') {
     return (
       <>
-        {showOnboardingTour && (
-          <OnboardingTour onFinish={finishOnboardingTour} />
-        )}
-        {showWhatsAppPrompt && (
-          <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
-        )}
+        <Suspense fallback={null}>
+          {showOnboardingTour && (
+            <OnboardingTour onFinish={finishOnboardingTour} />
+          )}
+          {showWhatsAppPrompt && (
+            <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
+          )}
+        </Suspense>
         {splashScreen}
       </>
     );
@@ -872,15 +906,17 @@ export default function App() {
           {signupNotice}
         </div>
       )}
-      {showOnboardingTour && (
-        <OnboardingTour onFinish={finishOnboardingTour} />
-      )}
-      {showWhatsAppPrompt && (
-        <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
-      )}
-      {user?.uid && !showOnboardingTour && !showWhatsAppPrompt && !needsGoogleProfileSetup && (
-        <NotificationGateModal uid={user.uid} />
-      )}
+      <Suspense fallback={null}>
+        {showOnboardingTour && (
+          <OnboardingTour onFinish={finishOnboardingTour} />
+        )}
+        {showWhatsAppPrompt && (
+          <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
+        )}
+        {user?.uid && !showOnboardingTour && !showWhatsAppPrompt && !needsGoogleProfileSetup && (
+          <NotificationGateModal uid={user.uid} />
+        )}
+      </Suspense>
       <TopBar {...topBarProps} />
 
       {dataError && (
@@ -945,54 +981,60 @@ export default function App() {
             />
           )}
           {screen === 'subtopic' && (
-            <SubtopicScreen
-              mainSubject={selectedSubject}
-              mainSubjectMeta={scopedMainSubjectMeta}
-              subjectMeta={subjectMeta}
-              subjectGroup={subjectGroup}
-              questions={scopedQuestions}
-              onSelectTopic={(topic) => goTo('mode', { selectedSubject, selectedTopic: topic })}
-              onBack={() => goTo('dashboard')}
-              semesterId={activeSemesterId}
-            />
+            <Suspense fallback={<ScreenFallback />}>
+              <SubtopicScreen
+                mainSubject={selectedSubject}
+                mainSubjectMeta={scopedMainSubjectMeta}
+                subjectMeta={subjectMeta}
+                subjectGroup={subjectGroup}
+                questions={scopedQuestions}
+                onSelectTopic={(topic) => goTo('mode', { selectedSubject, selectedTopic: topic })}
+                onBack={() => goTo('dashboard')}
+                semesterId={activeSemesterId}
+              />
+            </Suspense>
           )}
           {screen === 'mode' && (
-            <QuizModeScreen
-              pool={modePool}
-              subjectMeta={subjectMeta}
-              subjectName={selectedSubject}
-              emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
-              isPremium={isPremiumForCurrentSemester || isAdmin || premiumPaused}
-              onGetPremium={() => goTo('premium')}
-              onStart={(quizQuestions, settings) => {
-                setFinalQuiz({ questions: quizQuestions, ...settings });
-                goTo('quiz');
-              }}
-              onBack={goBack}
-            />
+            <Suspense fallback={<ScreenFallback />}>
+              <QuizModeScreen
+                pool={modePool}
+                subjectMeta={subjectMeta}
+                subjectName={selectedSubject}
+                emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
+                isPremium={isPremiumForCurrentSemester || isAdmin || premiumPaused}
+                onGetPremium={() => goTo('premium')}
+                onStart={(quizQuestions, settings) => {
+                  setFinalQuiz({ questions: quizQuestions, ...settings });
+                  goTo('quiz');
+                }}
+                onBack={goBack}
+              />
+            </Suspense>
           )}
           {screen === 'quiz' && finalQuiz && (
-            <QuizScreen
-              key={quizKey}
-              mainSubject={finalQuiz.roomCode ? finalQuiz.roomMainSubject : selectedSubject}
-              topic={selectedTopic}
-              semesterId={activeSemesterId}
-              questions={finalQuiz.questions}
-              isPremium={isPremiumForCurrentSemester || isAdmin || premiumPaused}
-              autoAdvance={finalQuiz.autoAdvance}
-              timerSeconds={finalQuiz.timerSeconds}
-              roomCode={finalQuiz.roomCode}
-              totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
-              mock={finalQuiz.mock}
-              resumeAttemptId={finalQuiz.resumeAttemptId}
-              onExit={goBack}
-              onViewRoomResults={() => goTo('room-results')}
-              onRestartSame={() => setQuizKey((k) => k + 1)}
-              onRetryWrong={(wrongQuestions) => {
-                setFinalQuiz((prev) => ({ ...prev, questions: wrongQuestions }));
-                setQuizKey((k) => k + 1);
-              }}
-            />
+            <Suspense fallback={<ScreenFallback />}>
+              <QuizScreen
+                key={quizKey}
+                mainSubject={finalQuiz.roomCode ? finalQuiz.roomMainSubject : selectedSubject}
+                topic={selectedTopic}
+                semesterId={activeSemesterId}
+                questions={finalQuiz.questions}
+                isPremium={isPremiumForCurrentSemester || isAdmin || premiumPaused}
+                autoAdvance={finalQuiz.autoAdvance}
+                timerSeconds={finalQuiz.timerSeconds}
+                roomCode={finalQuiz.roomCode}
+                totalTimeLimitMs={finalQuiz.totalTimeLimitMs}
+                mock={finalQuiz.mock}
+                resumeAttemptId={finalQuiz.resumeAttemptId}
+                onExit={goBack}
+                onViewRoomResults={() => goTo('room-results')}
+                onRestartSame={() => setQuizKey((k) => k + 1)}
+                onRetryWrong={(wrongQuestions) => {
+                  setFinalQuiz((prev) => ({ ...prev, questions: wrongQuestions }));
+                  setQuizKey((k) => k + 1);
+                }}
+              />
+            </Suspense>
           )}
         </SlideStack>
       ) : (

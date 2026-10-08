@@ -1,5 +1,7 @@
-import { onValue, onDisconnect, ref, serverTimestamp as rtdbServerTimestamp, set } from 'firebase/database';
-import { rtdb } from './firebase';
+import { getDatabase, onValue, onDisconnect, ref, serverTimestamp as rtdbServerTimestamp, set } from 'firebase/database';
+import { app } from './firebase';
+
+const rtdb = getDatabase(app);
 
 // True instant presence via Realtime Database's onDisconnect - this is
 // the one thing Firestore genuinely can't do: RTDB's server notices the

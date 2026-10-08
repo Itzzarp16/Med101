@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
-import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presence';
+import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presenceLazy';
 import { subscribeToMyInvites } from '../lib/invites';
 import usePremiumPaused from '../lib/usePremiumPaused';
 

@@ -8,12 +8,8 @@
 // by your Firestore Security Rules, not by hiding this object.
 
 import { initializeApp } from 'firebase/app';
-import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getStorage } from 'firebase/storage';
-import { getFunctions } from 'firebase/functions';
-import { getDatabase } from 'firebase/database';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyD_iSCYOkHdH1DS46dTgBjUnHVJijQa0qs',
@@ -65,12 +61,15 @@ function recaptchaReachable(siteKey, timeoutMs = 4000) {
 }
 
 if (RECAPTCHA_SITE_KEY) {
-  recaptchaReachable(RECAPTCHA_SITE_KEY).then((ok) => {
+  recaptchaReachable(RECAPTCHA_SITE_KEY).then(async (ok) => {
     if (!ok) {
       console.warn('App Check skipped: reCAPTCHA did not load (blocked or offline).');
       return;
     }
     try {
+      // Loaded only now (after the page is up) so the App Check SDK isn't in
+      // the first-load download.
+      const { initializeAppCheck, ReCaptchaV3Provider } = await import('firebase/app-check');
       // Local dev can't pass reCAPTCHA; the SDK prints a debug token in the
       // console that you register under App Check > Apps > Manage debug tokens.
       if (import.meta.env.DEV) self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
@@ -94,6 +93,6 @@ export const auth = getAuth(app);
 // silently continuing to work from IndexedDB.
 export const db = getFirestore(app);
 
-export const storage = getStorage(app);
-export const functions = getFunctions(app);
-export const rtdb = getDatabase(app);
+// Storage, Functions and Realtime Database are deliberately not initialised
+// here: nothing uses Storage/Functions, and presence.js sets up Realtime
+// Database itself so that SDK loads lazily instead of on every first visit.
