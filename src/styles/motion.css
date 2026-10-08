@@ -47,6 +47,10 @@ button, a, [role='button'] {
   to { opacity: 1; transform: translate3d(0, 0, 0); }
 }
 
+/* ── Tab switches: the new tab's content rises in (keyed remount) ── */
+.m-tab-in { animation: m-rise var(--dur-med) cubic-bezier(0.22, 1, 0.36, 1) backwards; }
+.std-screen > .m-tab-in { animation-delay: 0s !important; }
+
 /* ── Press feedback ──────────────────────────────────────────
    Tappable things dip slightly under the finger. :is() keeps the
    specificity above the components' own :hover rules. */
@@ -55,10 +59,10 @@ button, a, [role='button'] {
 }
 
 /* ── Modals and sheets ─────────────────────────────────────── */
-:is(.rq-overlay, .whatsapp-modal-overlay) {
+:is(.rq-overlay, .whatsapp-modal-overlay, .mfa-overlay) {
   animation: m-fade 0.2s ease-out backwards;
 }
-:is(.rq-card, .whatsapp-modal-card) {
+:is(.rq-card, .whatsapp-modal-card, .mfa-card) {
   animation: m-pop 0.34s var(--ease-spring) backwards;
 }
 @keyframes m-fade {
@@ -235,6 +239,7 @@ html[data-boot] .subj-progress-bar > span {
   70% { translate: 0 0; rotate: 0deg; scale: 1; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .m-tab-in, .mfa-overlay, .mfa-card { animation: none !important; }
   .subj-emoji, .subj-icon, .mode-card-emoji, .fr-tile-icon, .exam-card-icon, .aud-action-icon, .qm-head-emoji,
   .wf-empty-ico, .empty-state-icon, .lb-empty-emoji, .coming-soon-emoji, .results-hero-emoji, .onboarding-emoji,
   .thanks-icon, .rejected-icon, .offline-guard-icon, .auth-icon { animation: none; }

@@ -43,8 +43,8 @@ export default function WeakTopicsScreen({ onPracticeTopic, onBack }) {
             <span className="lu-chip"><b>{topics.filter((t) => t.accuracyPct < 50).length}</b> under 50%</span>
           </div>
           <div className="lu-list">
-            {topics.map((t) => (
-              <div key={t.subtopic} className="glass wk-card">
+            {topics.map((t, i) => (
+              <div key={t.subtopic} className="glass wk-card stagger-in" style={{ '--stagger-i': Math.min(i, 8) }}>
                 <div className="wk-top">
                   <div className="wk-main">
                     <div className="wk-name">{t.subtopic}</div>

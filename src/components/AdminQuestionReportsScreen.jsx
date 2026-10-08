@@ -45,12 +45,12 @@ export default function AdminQuestionReportsScreen({ onBack, hideBack = false })
       {groups === null && <div className="std-loading">Loading…</div>}
       {groups && groups.length === 0 && !error && <div style={{ margin: '16px 4px', opacity: 0.7 }}>No open reports. 🎉</div>}
 
-      {groups && groups.map((g) => {
+      {groups && groups.map((g, gi) => {
         const reasonCounts = {};
         g.reports.forEach((r) => { reasonCounts[r.reason] = (reasonCounts[r.reason] || 0) + 1; });
         const notes = g.reports.filter((r) => r.note).slice(0, 5);
         return (
-          <div className="glass std-card rpt-group" key={g.key}>
+          <div className="glass std-card rpt-group stagger-in" style={{ '--stagger-i': Math.min(gi, 8) }} key={g.key}>
             <div className="rpt-head">
               <span className="rpt-sub">{g.mainSubject}{g.s ? ` · ${g.s}` : ''}</span>
               <span className="rpt-count">{g.reports.length} report{g.reports.length === 1 ? '' : 's'}</span>

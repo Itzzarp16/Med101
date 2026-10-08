@@ -203,6 +203,7 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
         <button type="button" className={tab === 'history' ? 'auth-tab active' : 'auth-tab'} onClick={() => { setTab('history'); setError(null); }}>My Rooms</button>
       </div>
 
+      <div key={tab} className="m-tab-in">
       {tab === 'create' && (
         <>
           <div className="glass std-card">
@@ -339,8 +340,8 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
           </div>
         ) : (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {myRooms.map((room) => (
-              <div key={room.roomCode} className="glass" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+            {myRooms.map((room, i) => (
+              <div key={room.roomCode} className="glass stagger-in" style={{ '--stagger-i': Math.min(i, 8), padding: '12px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 13.5, color: 'var(--text)' }}>
                     {room.mainSubject} {room.role === 'host' && <span style={{ color: 'var(--amber)' }}>👑</span>}
@@ -353,6 +354,7 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
           </div>
         )
       )}
+      </div>
     </div>
   );
 }

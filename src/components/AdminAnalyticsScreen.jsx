@@ -149,7 +149,7 @@ export default function AdminAnalyticsScreen({ onBack , hideBack = false, semest
                     <div className="std-sub">No quiz activity recorded for this selection yet.</div>
                   ) : (
                     list.map((sj, i) => (
-                      <div key={sj.name} className="an-subj">
+                      <div key={sj.name} className="an-subj stagger-in" style={{ '--stagger-i': Math.min(i, 8) }}>
                         <span className="an-subj-rank">{i + 1}</span>
                         <div className="an-subj-main">
                           <div className="an-subj-top">

@@ -262,7 +262,7 @@ export default function AdminBroadcastScreen({ onBack, hideBack = false }) {
         {history === null && <div style={{ opacity: 0.6 }}>Loading…</div>}
         {history && history.length === 0 && <div style={{ opacity: 0.6 }}>Nothing sent yet.</div>}
         {history && history.map((h, i) => (
-          <div key={h.id} style={{ padding: '10px 0', borderTop: i ? '1px solid var(--g-border)' : 'none' }}>
+          <div key={h.id} className="stagger-in" style={{ '--stagger-i': Math.min(i, 8), padding: '10px 0', borderTop: i ? '1px solid var(--g-border)' : 'none' }}>
             <div style={{ fontWeight: 600, wordBreak: 'break-word' }}>{h.title}</div>
             <div style={{ fontSize: 13, opacity: 0.8, wordBreak: 'break-word' }}>{h.body}</div>
             <div style={{ fontSize: 12, opacity: 0.55, marginTop: 4 }}>

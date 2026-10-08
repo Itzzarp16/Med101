@@ -314,8 +314,8 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
       ) : requests.length === 0 ? (
         <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No pending payments.</div>
       ) : (
-        requests.map((req) => (
-          <div key={req.utr} className="glass std-card" style={{ marginTop: 10 }}>
+        requests.map((req, i) => (
+          <div key={req.utr} className="glass std-card stagger-in" style={{ marginTop: 10, '--stagger-i': Math.min(i, 8) }}>
             <div style={{ fontWeight: 700, fontSize: 14 }}>{req.displayName || '(no name)'}</div>
             <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{req.email}</div>
             <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -419,8 +419,8 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
             ) : rejected.length === 0 ? (
               <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No rejected payments.</div>
             ) : (
-              rejected.map((req) => (
-                <div key={req.utr} className="glass std-card" style={{ marginTop: 10, borderColor: 'rgba(255, 58, 92, 0.35)' }}>
+              rejected.map((req, i) => (
+                <div key={req.utr} className="glass std-card stagger-in" style={{ marginTop: 10, '--stagger-i': Math.min(i, 8), borderColor: 'rgba(255, 58, 92, 0.35)' }}>
                   <div style={{ fontWeight: 700, fontSize: 14 }}>{req.displayName || '(no name)'}</div>
                   <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{req.email}</div>
                   <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -452,10 +452,10 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
           const notActivated = codes.filter((c) => !c.used);
           const expired = codes.filter((c) => c.used && c.expiresAt && c.expiresAt.getTime() <= Date.now());
 
-          const renderCard = (c) => {
+          const renderCard = (c, i) => {
             const expiry = expiryLabel(c);
             return (
-              <div key={c.code} className="glass std-card" style={{ marginTop: 10 }}>
+              <div key={c.code} className="glass std-card stagger-in" style={{ marginTop: 10, '--stagger-i': Math.min(i, 8) }}>
                 <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
                 <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{c.studentEmail}</div>
                 <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>

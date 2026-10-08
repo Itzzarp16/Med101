@@ -100,7 +100,7 @@ export default function AdminInvoicesScreen() {
       )}
 
       <div style={{ display: 'grid', gap: 10 }}>
-        {shown.map((c) => {
+        {shown.map((c, ci) => {
           const byAdmin = !!c.grantedByAdmin;
           const revoked = c.requestStatus === 'revoked';
           const tag = byAdmin ? 'Given by admin' : revoked ? 'Paid · access ended' : 'Paid';
@@ -116,7 +116,7 @@ export default function AdminInvoicesScreen() {
             [byAdmin ? 'Activated' : 'Verified', when],
           ];
           return (
-            <div key={c.code} className="glass std-card">
+            <div key={c.code} className="glass std-card stagger-in" style={{ '--stagger-i': Math.min(ci, 8) }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
                 <div style={{ fontFamily: 'var(--font-mono)', fontWeight: 800, fontSize: 14, color: 'var(--text)' }}>{c.invoiceNo}</div>
                 <span style={{ fontSize: 11.5, fontWeight: 800, padding: '3px 10px', borderRadius: 999, color: tone, background: `color-mix(in srgb, ${tone} 14%, transparent)`, border: `1px solid color-mix(in srgb, ${tone} 45%, transparent)` }}>{tag}</span>
