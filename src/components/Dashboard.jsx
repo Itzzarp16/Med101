@@ -252,6 +252,13 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
     return out;
   }, [profile]);
 
+  // Subjects with an upcoming exam come first, nearest exam on top; the rest
+  // keep their normal order after them. (No exam dates shown = normal order.)
+  const orderedSubjects = Object.entries(mainSubjectMeta)
+    .map((entry, i) => ({ entry, i, days: examBySubject[entry[0]]?.days ?? Infinity }))
+    .sort((a, b) => (a.days === b.days ? a.i - b.i : a.days - b.days))
+    .map((x) => x.entry);
+
   return (
     <>
       <div className="screen-subject">
@@ -270,7 +277,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
         </div>
 
         <div className="subj-grid">
-          {Object.entries(mainSubjectMeta).map(([name, meta], idx) => {
+          {orderedSubjects.map(([name, meta], idx) => {
             const hasQuestions = (subjectStats[name]?.questionCount || 0) > 0;
             // The static "Content coming soon" desc lives in the semester
             // JSON (see y2s1/y2s2.json) - once an upload gives this subject
