@@ -1,0 +1,46 @@
+/* Empty-state illustrations (see EmptyIllustration.jsx).
+   Colours come from the theme tokens, so light/dark mode just works. */
+.ei {
+  display: block;
+  margin: 0 auto 4px;
+  max-width: 100%;
+  color: var(--cyan, #4a6f94);
+  overflow: visible;
+  animation: ei-float 4.2s ease-in-out infinite;
+}
+
+.ei .ei-line,
+.ei .ei-acc {
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.ei .ei-line { stroke: var(--text3, #8a8f98); }
+.ei .ei-acc { stroke: currentColor; }
+.ei .ei-fill { fill: rgba(var(--cyan-rgb, 74, 111, 148), 0.14); }
+.ei .ei-dot { fill: currentColor; stroke: none; opacity: 0.7; transform-box: fill-box; transform-origin: center; animation: ei-twinkle 2.8s ease-in-out infinite; }
+.ei .ei-d2 { animation-delay: -0.9s; }
+.ei .ei-d3 { animation-delay: -1.8s; }
+
+/* Per-drawing touches */
+.ei .ei-pulse { transform-box: fill-box; transform-origin: center; animation: ei-pulse 2.6s ease-in-out infinite; }
+.ei .ei-bob { animation: ei-bob 3s ease-in-out infinite; }
+.ei .ei-sweep { animation: ei-sweep 3.6s ease-in-out infinite; transform-box: fill-box; transform-origin: 30% 30%; }
+.ei .ei-door { transform-box: fill-box; transform-origin: left center; animation: ei-door 3.4s ease-in-out infinite; }
+.ei .ei-spin-in { transform-box: fill-box; transform-origin: center; animation: ei-star 4.2s ease-in-out infinite; }
+.ei .ei-draw { stroke-dasharray: 60; stroke-dashoffset: 60; animation: ei-draw 3.6s ease-out infinite; }
+
+@keyframes ei-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes ei-twinkle { 0%, 100% { opacity: 0.2; transform: scale(0.7); } 50% { opacity: 0.85; transform: scale(1.15); } }
+@keyframes ei-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+@keyframes ei-bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -3px; } }
+@keyframes ei-sweep { 0%, 100% { translate: 0 0; } 50% { translate: -5px -4px; } }
+@keyframes ei-door { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(0.82); } }
+@keyframes ei-star { 0%, 100% { transform: rotate(0) scale(1); } 50% { transform: rotate(8deg) scale(1.06); } }
+@keyframes ei-draw { 0% { stroke-dashoffset: 60; } 35%, 85% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ei, .ei * { animation: none !important; }
+  .ei .ei-draw { stroke-dashoffset: 0; }
+  .ei .ei-dot { opacity: 0.6; }
+}

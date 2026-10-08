@@ -6,6 +6,7 @@ import { haptic } from '../lib/haptics';
 import ScreenHeader from './ScreenHeader';
 import ReviewCard from './ReviewCard';
 import './WrongFlagged.css';
+import EmptyIllustration from './EmptyIllustration';
 
 const LEAVE_MS = 280;
 
@@ -47,7 +48,7 @@ const COPY = {
   wrong: {
     title: 'Wrong Questions',
     placeholder: 'Search wrong questions',
-    emptyIcon: '✅',
+    emptyArt: 'wrong',
     emptyTitle: 'Nothing missed yet',
     emptyText: 'Questions you get wrong will show up here for review.',
     noMatch: 'wrong',
@@ -56,7 +57,7 @@ const COPY = {
   flagged: {
     title: 'Important Marked',
     placeholder: 'Search important questions',
-    emptyIcon: '⭐',
+    emptyArt: 'flagged',
     emptyTitle: 'Nothing marked yet',
     emptyText: 'Tap the ☆ star on a question during a quiz to save it here.',
     noMatch: 'important',
@@ -176,7 +177,7 @@ export default function ReviewListScreen({ kind = 'wrong', semesterSubjects, onP
         </div>
       ) : list.length === 0 ? (
         <div className="wf-empty">
-          <div className="wf-empty-ico">{copy.emptyIcon}</div>
+          <EmptyIllustration kind={copy.emptyArt} />
           <div className="wf-empty-t">{copy.emptyTitle}</div>
           <div className="wf-empty-s">{hiddenCount > 0 ? 'Nothing from this semester yet. Questions from your other semesters appear when you switch to them.' : copy.emptyText}</div>
         </div>
@@ -221,7 +222,7 @@ export default function ReviewListScreen({ kind = 'wrong', semesterSubjects, onP
 
           {searched.length === 0 ? (
             <div className="wf-empty">
-              <div className="wf-empty-ico">🔍</div>
+              <EmptyIllustration kind="search" />
               <div className="wf-empty-t">No matches</div>
               <div className="wf-empty-s">Nothing in your {copy.noMatch} questions matches “{term}”.</div>
               <button type="button" className="wf-empty-btn" onClick={() => setQuery('')}>Clear search</button>

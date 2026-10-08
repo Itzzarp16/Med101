@@ -7,6 +7,7 @@ import ScreenHeader from './ScreenHeader';
 import './LeaderboardScreen.css';
 import LoadingLine from './LoadingLine';
 import CountUp from './CountUp';
+import EmptyIllustration from './EmptyIllustration';
 
 const PODIUM_ORDER = [1, 0, 2]; // display order: 2nd, 1st, 3rd
 
@@ -157,7 +158,7 @@ export default function LeaderboardScreen({ semesterId, mainSubjectMeta, onBack,
 
         {!loading && (error || rows.length === 0) && (
           <div className="lb-empty">
-            <div className="lb-empty-emoji">{error ? '⚠️' : '🏳️'}</div>
+            <EmptyIllustration kind={error ? 'error' : 'podium'} />
             <div className="lb-empty-title">
               {error ? 'Something went wrong loading this list' : friendsOnly ? 'No friends to show yet' : metric === 'accuracyPct' ? 'No one qualifies yet' : 'No scores yet'}
             </div>

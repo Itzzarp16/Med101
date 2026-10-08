@@ -3,6 +3,7 @@ import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
 import './ListScreens.css';
+import EmptyIllustration from './EmptyIllustration';
 
 const MIN_ANSWERED = 5; // lower bar than the dashboard card since this is an intentional deep-dive
 
@@ -32,8 +33,9 @@ export default function WeakTopicsScreen({ onPracticeTopic, onBack }) {
       </ScreenHeader>
 
       {topics.length === 0 ? (
-        <div className="glass lu-empty">
-          Answer at least {MIN_ANSWERED} questions in a topic to see it ranked here.
+        <div className="glass std-card empty-state">
+          <EmptyIllustration kind="weak" />
+          <div>Answer at least {MIN_ANSWERED} questions in a topic to see it ranked here.</div>
         </div>
       ) : (
         <>

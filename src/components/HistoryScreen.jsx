@@ -4,6 +4,7 @@ import { fetchQuizHistory, deleteQuizHistoryEntry } from '../lib/quizHistory';
 import { playTapSound } from '../lib/sounds';
 import './HistoryScreen.css';
 import LoadingLine from './LoadingLine';
+import EmptyIllustration from './EmptyIllustration';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
 
@@ -408,7 +409,7 @@ export default function HistoryScreen({ onRetry, onBack }) {
         <LoadingLine />
       ) : history.length === 0 ? (
         <div className="glass std-card empty-state">
-          <div className="empty-state-icon">🗂️</div>
+          <EmptyIllustration kind="history" />
           <div>You haven't attempted any question sets yet. Finish a quiz to see it here.</div>
         </div>
       ) : (

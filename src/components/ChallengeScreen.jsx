@@ -6,6 +6,7 @@ import { playTapSound } from '../lib/sounds';
 import { ModeCard, ToggleRow } from './QuizModeScreen';
 import ScreenHeader from './ScreenHeader';
 import LoadingLine from './LoadingLine';
+import EmptyIllustration from './EmptyIllustration';
 
 const TIME_PRESETS = [5, 10, 15, 20, 30];
 const TIMER_PRESETS = [20, 30, 45, 60];
@@ -336,7 +337,7 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
           <LoadingLine />
         ) : myRooms.length === 0 ? (
           <div className="glass std-card empty-state">
-            <div className="empty-state-icon">🎮</div>
+            <EmptyIllustration kind="rooms" />
             <div>No rooms yet. Create or join one to see it here.</div>
           </div>
         ) : (

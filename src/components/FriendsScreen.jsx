@@ -5,6 +5,7 @@ import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
 import PushPrompt from './PushPrompt';
 import './FriendsScreen.css';
+import EmptyIllustration from './EmptyIllustration';
 
 // Layout, top to bottom: the two actions (Challenge / Leaderboard) first so
 // they're visible without scrolling, then adding friends (and sharing your
@@ -157,7 +158,7 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
       <div className="fr-section">Your friends ({friends.length})</div>
       {friends.length === 0 ? (
         <div className="glass std-card empty-state">
-          <div className="empty-state-icon">👥</div>
+          <EmptyIllustration kind="friends" />
           <div>No friends yet</div>
           <div className="fr-note" style={{ marginTop: 6 }}>Add someone above, or send them your username.</div>
         </div>
