@@ -8,5 +8,17 @@
     { "subject": "Microbiology", "label": "Microbiology, Virology", "date": "2027-01-27", "time": "08:00-17:00" },
     { "subject": "Medical Radiology and Radiotherapy", "date": "2027-01-29", "time": "08:00-17:00", "note": "GM2 only" },
     { "subject": "Practice: Ward assistant and procedure nursing clinical clerkship", "date": "2027-01-30", "time": "08:00-17:00", "note": "GM1 only" }
+  ],
+  "y2s2": [
+    { "subject": "Public Health", "date": "2027-06-07", "time": "08:00-17:00" },
+    { "subject": "Pathology 2", "date": "2027-06-09", "time": "08:00-17:00" },
+    { "subject": "Basic Pharmacology 1", "date": "2027-06-11", "time": "08:00-17:00" },
+    { "subject": "Medical Radiology and Radiotherapy", "date": "2027-06-12", "time": "08:00-13:00", "note": "GM1 only" },
+    { "subject": "Clinical Communication with Virtual Patients", "date": "2027-06-12", "time": "13:00-17:00", "note": "GM2 only" },
+    { "subject": "Propedeutics of Internal Medicine 1", "date": "2027-06-14", "time": "08:00-17:00" },
+    { "subject": "Propedeutics of Child Diseases", "date": "2027-06-16", "time": "08:00-17:00" },
+    { "subject": "Clinical Anatomy and Nerves", "label": "Clinical Anatomy, Vessels and Nerves", "date": "2027-06-18", "time": "08:00-17:00" },
+    { "subject": "Communication Skills in Healthcare", "date": "2027-06-19", "time": "08:00-13:00", "note": "GM1 only" },
+    { "subject": "Practice: Ward assistant and procedure nursing clinical clerkship", "date": "2027-06-19", "time": "13:00-17:00", "note": "GM2 only" }
   ]
 }
