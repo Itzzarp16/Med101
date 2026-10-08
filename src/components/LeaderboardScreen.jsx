@@ -6,26 +6,9 @@ import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
 import './LeaderboardScreen.css';
 import LoadingLine from './LoadingLine';
+import CountUp from './CountUp';
 
 const PODIUM_ORDER = [1, 0, 2]; // display order: 2nd, 1st, 3rd
-
-// Counts up from 0 to `to` once per value change (skipped for reduced motion).
-function CountUp({ to, suffix = '' }) {
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    const target = Number(to) || 0;
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) { setN(target); return; }
-    let raf; const t0 = performance.now();
-    const tick = (t) => {
-      const p = Math.min(1, (t - t0) / 900);
-      setN(Math.round(target * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [to]);
-  return <>{n}{suffix}</>;
-}
 
 function Avatar({ row, className = '' }) {
   const name = (row.displayName || '').trim() || 'Student';

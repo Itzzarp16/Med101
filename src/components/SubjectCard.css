@@ -178,8 +178,10 @@
   background: linear-gradient(90deg, var(--cyan), var(--green));
 }
 .subj-progress-text {
+  position: relative;
   font-size: 11.5px;
   color: var(--text2);
+  font-variant-numeric: tabular-nums; /* digits keep their width while counting up */
 }
 
 .subj-meta {

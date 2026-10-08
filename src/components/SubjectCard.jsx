@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import './SubjectCard.css';
 import { hapticSync } from '../lib/haptics';
+import CountUp from './CountUp';
 
 // Old site's .subj-card layout exactly (flat glass row, emoji left,
 // text stacked, chevron right). The animated pulse-trace line is only
@@ -169,6 +170,9 @@ function scrubRegister(el) {
   };
 }
 
+// Visually hidden but read by screen readers (the animated numbers are aria-hidden).
+const SR_ONLY = { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' };
+
 export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, hideArrow, onClick }) {
   const accent = trace ? traceColorFor(name) : null;
 
@@ -224,7 +228,12 @@ export default function SubjectCard({ index, emoji, name, desc, questionCount, t
             <span className="subj-progress-bar" aria-hidden="true">
               <span style={{ width: `${questionCount ? Math.min(100, (progress.answered / questionCount) * 100) : 0}%` }} />
             </span>
-            <span className="subj-progress-text">{progress.answered} answered · {progress.pct}% accuracy</span>
+            <span className="subj-progress-text">
+              <span style={SR_ONLY}>{progress.answered} answered, {progress.pct}% accuracy</span>
+              <span aria-hidden="true">
+                <CountUp to={progress.answered} whenVisible /> answered · <CountUp to={progress.pct} suffix="%" whenVisible /> accuracy
+              </span>
+            </span>
           </span>
         )}
       </span>
