@@ -398,8 +398,8 @@ body.light-mode .opt-btn.correct .opt-label {
   width: 100%;
   background: linear-gradient(160deg, var(--surface) 0%, var(--bg2) 100%);
   border: 1px solid var(--border);
-  border-radius: 24px;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  border-radius: var(--radius-card-lg);
+  box-shadow: var(--shadow-hi);
 }
 
 .results-hero-emoji {
@@ -1048,7 +1048,7 @@ body.light-mode .opt-btn.correct .opt-label {
 .rs-stack span { min-width: 0; border-radius: 999px; }
 .rs-stack .ok { background: var(--green); } .rs-stack .bad { background: var(--red); } .rs-stack .skip { background: var(--pink); }
 
-.rs-time { padding: 16px; border-radius: 18px; background: var(--surface); border: 1px solid var(--border); margin-bottom: 14px; animation: rs-up .5s ease .9s backwards; }
+.rs-time { padding: 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); margin-bottom: 14px; animation: rs-up .5s ease .9s backwards; }
 .rs-time-main { display: flex; justify-content: space-between; align-items: baseline; }
 .rs-time-label { font-size: 12px; font-weight: 800; letter-spacing: .06em; color: var(--text3); text-transform: uppercase; }
 .rs-time-big { font: 800 28px var(--font-heading); color: var(--text); font-variant-numeric: tabular-nums; }

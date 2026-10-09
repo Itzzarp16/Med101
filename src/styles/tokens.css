@@ -96,6 +96,24 @@
   --font-mono: 'IBM Plex Mono', monospace;
 
   --topbar-h: 56px;
+
+  /* One design language for cards and buttons. Radii: 20px cards, 24px hero
+     cards/modals, 14px buttons. Depth: .glass (panels), --shadow-hi (hero
+     cards: question, results, modals, premium), --shadow-btn (every primary
+     button). Glow is reserved for primary actions and premium; plain cards
+     get depth only. */
+  --radius-card: 20px;
+  --radius-card-lg: 24px;
+  --radius-btn: 14px;
+  --shadow-hi:
+    inset 0 2.5px 0 rgba(255, 255, 255, 0.38),
+    inset 0 -1.5px 0 rgba(0, 0, 0, 0.22),
+    0 16px 60px rgba(0, 0, 0, 0.45),
+    0 4px 20px rgba(0, 0, 0, 0.30);
+  --shadow-btn:
+    0 0 28px rgba(var(--cyan-rgb), 0.35),
+    0 6px 20px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 body.light-mode {
@@ -219,11 +237,7 @@ h1, h2, .display {
   border-radius: 20px;
   backdrop-filter: blur(60px) saturate(200%);
   -webkit-backdrop-filter: blur(60px) saturate(200%);
-  box-shadow:
-    inset 0 2.5px 0 rgba(255, 255, 255, 0.40),
-    inset 0 -1.5px 0 rgba(0, 0, 0, 0.25),
-    0 16px 56px rgba(0, 0, 0, 0.50),
-    0 2px 12px rgba(0, 0, 0, 0.30);
+  box-shadow: var(--shadow-hi);
 }
 
 /* ── Shared buttons/badges/cards, ported from old site ── */
@@ -321,11 +335,7 @@ h1, h2, .display {
   overflow: hidden;
   backdrop-filter: blur(60px) saturate(200%);
   -webkit-backdrop-filter: blur(60px) saturate(200%);
-  box-shadow:
-    inset 0 2.5px 0 rgba(255, 255, 255, 0.38),
-    inset 0 -1.5px 0 rgba(0, 0, 0, 0.22),
-    0 16px 60px rgba(0, 0, 0, 0.45),
-    0 4px 20px rgba(0, 0, 0, 0.30);
+  box-shadow: var(--shadow-hi);
 }
 .q-card::before {
   content: '';

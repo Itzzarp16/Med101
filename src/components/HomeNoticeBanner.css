@@ -83,8 +83,8 @@
   overflow: hidden;
   background: var(--bg2, #121826);
   border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
-  border-radius: 26px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+  border-radius: var(--radius-card-lg);
+  box-shadow: var(--shadow-hi);
   animation: hn-pop .45s cubic-bezier(.2, .9, .3, 1.15) both;
 }
 .home-notice-modal.closing .home-notice-modal-card { animation: hn-pop .2s ease reverse both; }

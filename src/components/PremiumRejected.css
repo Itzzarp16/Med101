@@ -21,9 +21,9 @@
   width: 100%;
   max-width: 360px;
   padding: 2px;
-  border-radius: 22px;
+  border-radius: var(--radius-card-lg);
   background: linear-gradient(135deg, var(--red) 0%, #ff8a5c 100%);
-  box-shadow: 0 0 40px rgba(255, 80, 80, 0.22), 0 12px 36px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 40px rgba(255, 80, 80, 0.22), 0 16px 56px rgba(0, 0, 0, 0.45);
   animation: rejected-pop-in 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
 }
 
@@ -34,7 +34,7 @@
 
 .rejected-card-inner {
   background: var(--surface);
-  border-radius: 20px;
+  border-radius: 22px;
   padding: 30px 24px 24px;
   text-align: center;
   position: relative;
@@ -111,12 +111,12 @@
   width: 100%;
   padding: 13px;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--radius-btn);
   background: linear-gradient(135deg, var(--cyan2) 0%, var(--violet) 100%);
   color: #fff;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 14.5px;
   cursor: pointer;
-  box-shadow: 0 0 22px rgba(var(--cyan-rgb), 0.25), 0 4px 16px rgba(0, 0, 0, 0.4);
+  box-shadow: var(--shadow-btn);
 }

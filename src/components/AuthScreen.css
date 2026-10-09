@@ -35,7 +35,7 @@
   max-width: 420px;
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.28);
-  border-radius: 32px;
+  border-radius: var(--radius-card-lg);
   padding: 36px 32px 32px;
   backdrop-filter: blur(64px) saturate(200%);
   -webkit-backdrop-filter: blur(64px) saturate(200%);
@@ -207,7 +207,7 @@
   background: linear-gradient(135deg, var(--cyan2) 0%, var(--violet) 100%);
   color: #fff;
   border: none;
-  border-radius: 16px;
+  border-radius: var(--radius-btn);
   padding: 15px;
   font-family: 'Syne', sans-serif;
   font-weight: 700;
@@ -216,7 +216,7 @@
   transition: all 0.22s cubic-bezier(.34, 1.2, .64, 1);
   position: relative;
   overflow: hidden;
-  box-shadow: 0 0 28px rgba(var(--cyan-rgb), 0.35), 0 6px 20px rgba(0, 0, 0, 0.45), inset 0 1.5px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: var(--shadow-btn);
   letter-spacing: 0.02em;
 }
 
