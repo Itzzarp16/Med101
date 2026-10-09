@@ -676,8 +676,39 @@ class handler(BaseHTTPRequestHandler):
                 wanted = set(audience['semesters'])
                 devices = [d for d in devices if sem.get(d[0]) in wanted]
 
+        if not test:
+            # Persist an in-app inbox item for every targeted account, including
+            # students without push permission/device tokens. Push delivery and
+            # the in-app notification center are deliberately independent.
+            if audience['type'] == 'student':
+                target_uids = [audience['uid']]
+            else:
+                target_uids = [d.id for d in db.collection('users').stream()]
+                if audience['type'] == 'semesters' and target_uids:
+                    sem_of = _semester_by_uid(db, target_uids)
+                    wanted = set(audience['semesters'])
+                    target_uids = [u for u in target_uids if sem_of.get(u) in wanted]
+            sent_at = firestore.SERVER_TIMESTAMP
+            for uid in target_uids:
+                db.collection('users').document(uid).collection('notifications').add({
+                    'title': title, 'body': body, 'screen': screen,
+                    'kind': 'broadcast', 'createdAt': sent_at, 'read': False,
+                    'by': decoded.get('email'),
+                })
+
         if not devices:
+            if not test:
+                db.collection('broadcasts').add({
+                    'title': title, 'body': body, 'screen': screen,
+                    'audience': {k: v for k, v in audience.items() if k != 'uid'},
+                    'audienceLabel': _audience_label(audience),
+                    'sent': 0, 'failed': 0, 'devices': 0, 'students': len(target_uids),
+                    'by': decoded.get('email'), 'sentAt': firestore.SERVER_TIMESTAMP,
+                })
+                db.collection('adminMeta').document('broadcastState').set(
+                    {'lastSentAt': firestore.SERVER_TIMESTAMP, 'by': decoded.get('email')})
             return self._send(200, {'ok': True, 'sent': 0, 'devices': 0, 'reason': 'no-devices'})
+
 
         if not test:
             db.collection('adminMeta').document('broadcastState').set(
@@ -712,24 +743,6 @@ class handler(BaseHTTPRequestHandler):
 
         students = len({u for u, _, _ in devices})
         if not test:
-            # Persist an in-app inbox item for every targeted account, including
-            # students without push permission/device tokens. Push delivery and
-            # the in-app notification center are deliberately independent.
-            if audience['type'] == 'student':
-                target_uids = [audience['uid']]
-            else:
-                target_uids = [d.id for d in db.collection('users').stream()]
-                if audience['type'] == 'semesters' and target_uids:
-                    sem_of = _semester_by_uid(db, target_uids)
-                    wanted = set(audience['semesters'])
-                    target_uids = [u for u in target_uids if sem_of.get(u) in wanted]
-            sent_at = firestore.SERVER_TIMESTAMP
-            for uid in target_uids:
-                db.collection('users').document(uid).collection('notifications').add({
-                    'title': title, 'body': body, 'screen': screen,
-                    'kind': 'broadcast', 'createdAt': sent_at, 'read': False,
-                    'by': decoded.get('email'),
-                })
             db.collection('broadcasts').add({
                 'title': title, 'body': body, 'screen': screen,
                 'audience': {k: v for k, v in audience.items() if k != 'uid'},
