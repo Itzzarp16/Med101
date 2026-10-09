@@ -1,0 +1,93 @@
+/* Pulse the mascot (see Mascot.jsx). Colours are tokens so both themes work. */
+.mascot {
+  --mc-body: #e8647d;
+  --mc-dark: color-mix(in srgb, var(--mc-body) 72%, #000);
+  --mc-ink: #2b1b24;
+  display: block;
+  overflow: visible;
+}
+body.light-mode .mascot { --mc-body: #d9566f; }
+
+.mascot .mc-body { fill: var(--mc-body); }
+.mascot .mc-dark { fill: var(--mc-dark); }
+.mascot .mc-shine { fill: rgba(255, 255, 255, 0.38); }
+.mascot .mc-arm { stroke: var(--mc-dark); stroke-width: 6; stroke-linecap: round; fill: none; }
+.mascot .mc-steth { stroke: var(--cyan, #4a6f94); stroke-width: 3.2; stroke-linecap: round; fill: none; }
+.mascot .mc-steth-head { fill: var(--cyan2, #3d5c7d); stroke: #fff; stroke-width: 1.6; }
+.mascot .mc-steth-dot { fill: #fff; }
+.mascot .mc-eye { fill: var(--mc-ink); }
+.mascot .mc-glint { fill: #fff; }
+.mascot .mc-eye-line { stroke: var(--mc-ink); stroke-width: 3; stroke-linecap: round; fill: none; }
+.mascot .mc-mouth { stroke: var(--mc-ink); stroke-width: 3; stroke-linecap: round; fill: none; }
+.mascot .mc-mouth-open { fill: var(--mc-ink); stroke: var(--mc-ink); stroke-width: 2; stroke-linejoin: round; }
+.mascot .mc-tongue { fill: #ff9aa9; }
+.mascot .mc-cheek { fill: rgba(255, 255, 255, 0.28); }
+.mascot .mc-spark { fill: #ffd35c; transform-box: fill-box; transform-origin: center; animation: mc-twinkle 0.9s ease-in-out infinite; }
+.mascot .mc-s2 { animation-delay: -0.3s; }
+.mascot .mc-s3 { animation-delay: -0.6s; }
+.mascot .mc-z { fill: var(--text3, #8a8f98); font: 800 14px var(--font-heading, sans-serif); animation: mc-z 3s ease-in-out infinite; opacity: 0; }
+.mascot .mc-z2 { animation-delay: 1.2s; font-size: 18px; }
+
+/* Whole-body motion, per mood */
+.mascot .mc-all { transform-box: view-box; transform-origin: 50% 92%; }
+.mascot--idle .mc-all { animation: mc-bob 3.2s ease-in-out infinite; }
+.mascot--wave .mc-all { animation: mc-bob 3.2s ease-in-out infinite; }
+.mascot--cheer .mc-all { animation: mc-jump 0.55s cubic-bezier(.3, .8, .4, 1) 2; }
+.mascot--nap .mc-all { animation: mc-breathe 3.6s ease-in-out infinite; }
+.mascot .mc-eyes { transform-box: fill-box; transform-origin: center; animation: mc-blink 4.6s ease-in-out infinite; }
+.mascot .mc-arm-r.mc-wave { transform-box: fill-box; transform-origin: left bottom; animation: mc-wave 0.55s ease-in-out 6 alternate; }
+
+@keyframes mc-bob { 50% { transform: translateY(-2.5px); } }
+@keyframes mc-jump { 0%, 100% { transform: translateY(0) scale(1, 1); } 35% { transform: translateY(-14px) scale(0.96, 1.05); } 70% { transform: translateY(0) scale(1.05, 0.95); } }
+@keyframes mc-breathe { 50% { transform: scale(1.035, 1.045); } }
+@keyframes mc-blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+@keyframes mc-wave { from { transform: rotate(-12deg); } to { transform: rotate(24deg); } }
+@keyframes mc-twinkle { 50% { transform: scale(0.45) rotate(25deg); opacity: 0.5; } }
+@keyframes mc-z { 0% { transform: translate(0, 6px); opacity: 0; } 25% { opacity: 0.9; } 100% { transform: translate(6px, -12px); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .mascot .mc-all, .mascot .mc-eyes, .mascot .mc-arm-r.mc-wave, .mascot .mc-spark { animation: none; }
+  .mascot .mc-z { animation: none; opacity: 0.8; }
+}
+
+/* ── Greeting on the dashboard ── */
+.dashboard-mascot { margin: 0 auto 2px; }
+
+/* ── Cheer pop-up in the quiz: bottom corner, never intercepts taps ── */
+.mascot-cheer {
+  position: fixed;
+  right: 12px;
+  bottom: calc(14px + env(safe-area-inset-bottom, 0px));
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  animation: mc-cheer-pop 1.5s cubic-bezier(.2, .9, .3, 1.1) both;
+}
+.mascot-cheer-bubble {
+  margin-bottom: 2px;
+  padding: 5px 11px;
+  border-radius: 14px;
+  background: var(--surface, #14181f);
+  border: 1px solid rgba(var(--cyan-rgb, 74, 111, 148), 0.5);
+  color: var(--text, #fff);
+  font: 700 12.5px var(--font-display, sans-serif);
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+@keyframes mc-cheer-pop {
+  0% { transform: translateY(40px) scale(0.6); opacity: 0; }
+  18% { transform: translateY(0) scale(1); opacity: 1; }
+  80% { transform: translateY(0) scale(1); opacity: 1; }
+  100% { transform: translateY(24px) scale(0.85); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mascot-cheer { animation: mc-cheer-fade 1.5s linear both; }
+  @keyframes mc-cheer-fade { 0%, 85% { opacity: 1; } 100% { opacity: 0; } }
+}
+
+/* ── Napping on empty screens ── */
+.ei-wrap { position: relative; display: block; width: fit-content; max-width: 100%; margin: 0 auto 4px; }
+.ei-wrap .ei { margin: 0; }
+.ei-mascot { position: absolute; right: -26px; bottom: -8px; }

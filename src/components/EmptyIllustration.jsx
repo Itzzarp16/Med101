@@ -1,4 +1,5 @@
 import './EmptyIllustration.css';
+import Mascot from './Mascot';
 
 // Small line drawings for empty lists, used in place of the old emoji.
 // Everything is drawn with currentColor / CSS variables (see the .ei-*
@@ -127,6 +128,7 @@ const ART = {
 export default function EmptyIllustration({ kind = 'history', size = 112, className = '' }) {
   const art = ART[kind] || ART.history;
   return (
+    <span className="ei-wrap">
     <svg
       className={`ei ${className}`.trim()}
       width={size}
@@ -139,5 +141,8 @@ export default function EmptyIllustration({ kind = 'history', size = 112, classN
     >
       {art}
     </svg>
+    {/* Pulse naps beside every empty state (not on errors, where a nap would be odd). */}
+    {kind !== 'error' && <Mascot mood="nap" size={Math.round(size * 0.42)} className="ei-mascot" />}
+    </span>
   );
 }

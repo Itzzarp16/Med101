@@ -7,6 +7,7 @@ import { examStatus } from '../lib/examDates';
 import PendingInvites from './PendingInvites';
 import LegalFooter from './LegalFooter';
 import PullToRefresh from './PullToRefresh';
+import Mascot from './Mascot';
 import { subjectHueIndex } from '../lib/subjectTheme';
 import { useAuth } from '../lib/AuthContext';
 import { todayStr } from '../lib/streak';
@@ -266,6 +267,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
       <div className="screen-subject">
         {onRefresh && <PullToRefresh onRefresh={onRefresh} />}
         <div className="dashboard-greeting">
+          <Mascot mood="wave" size={68} className="dashboard-mascot" />
           <div className="dashboard-greeting-text">{greeting.title}, {firstName} {greeting.emoji}</div>
           <div className="dashboard-nudge">{greeting.nudge}</div>
           {questionsToday > 0 && (

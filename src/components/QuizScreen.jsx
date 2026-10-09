@@ -9,6 +9,8 @@ import { submitRoomResult } from '../lib/rooms';
 import { recordWrongQuestion, toggleFlaggedQuestion } from '../lib/reviewQueue';
 import { saveQuizProgress, loadResumeSnapshot, loadSessionSnapshot, getAttemptMark, detachAttemptFromTab, clearQuizProgress, questionsSig, newAttemptId } from '../lib/quizProgress';
 import { getAIExplanation } from '../lib/aiExplanation';
+import MascotCheer from './MascotCheer';
+import { cheerLine } from '../lib/mascotLines';
 import ReportQuestionModal from './ReportQuestionModal';
 import { saveCloudSnapshot, deleteCloudSnapshot } from '../lib/quizResumeCloud';
 import './QuizScreen.css';
@@ -147,6 +149,9 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
   const [showReview, setShowReview] = useState(false);
   const [markedIdx, setMarkedIdx] = useState(() => new Set()); // mock: questions marked for review
   const [confirmSubmit, setConfirmSubmit] = useState(false); // mock: "submit exam?" sheet
+  const [cheer, setCheer] = useState(null); // mascot pop-up after a correct answer
+  const cheerTimerRef = useRef(null);
+  useEffect(() => () => clearTimeout(cheerTimerRef.current), []);
   const [aiExplanations, setAiExplanations] = useState({});
   const [aiLoading, setAiLoading] = useState({});
   const [aiErrors, setAiErrors] = useState({});
@@ -397,6 +402,12 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     setAnswers(next);
     if (idx === q.c) {
       playCorrectSound();
+      // Run of correct answers including this one, for the mascot's cheer.
+      let run = 1;
+      for (let k = cur - 1; k >= 0 && next[k] === quizQuestions[k].c; k -= 1) run += 1;
+      setCheer({ id: Date.now(), line: cheerLine(run) });
+      clearTimeout(cheerTimerRef.current);
+      cheerTimerRef.current = setTimeout(() => setCheer(null), 1500);
     } else {
       playWrongSound();
       if (user) recordWrongQuestion(user.uid, mainSubject, q, idx);
@@ -889,6 +900,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   return (
     <div className="screen-quiz" onTouchStart={onSwipeStart} onTouchEnd={onSwipeEnd}>
+      <MascotCheer cheer={cheer} />
       {/* Compact top row - back, mode label, stopwatch (or room countdown), score */}
       <div className="qtop">
         <div className="qtop-inner">
