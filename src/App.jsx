@@ -70,6 +70,7 @@ const WeakTopicsScreen = lazy(() => import('./components/WeakTopicsScreen'));
 const ReviewListScreen = lazy(() => import('./components/ReviewListScreen'));
 const SearchScreen = lazy(() => import('./components/SearchScreen'));
 const HistoryScreen = lazy(() => import('./components/HistoryScreen'));
+const NotificationCenterScreen = lazy(() => import('./components/NotificationCenterScreen'));
 const PremiumScreen = lazy(() => import('./components/PremiumScreen'));
 
 // Only ever rendered for isAdmin accounts - a handful of people, not
@@ -562,6 +563,7 @@ export default function App() {
     onHome: goHome,
     onLeaderboard: () => goTo('leaderboard'),
     onFriends: () => goTo('friends'),
+    onNotifications: () => goTo('notifications'),
     onSettings: () => goTo('settings'),
     onProfile: () => goTo('profile'),
     onWeakTopics: () => goTo('weak-topics'),
@@ -589,6 +591,19 @@ export default function App() {
   // Settings and admin calendar/notice screens are reachable regardless
   // of semester-data state - a student stuck on "content coming soon"
   // still needs to be able to change their semester back, for instance.
+  if (screen === 'notifications') {
+    return (
+      <div>
+        <TopBar {...topBarProps} />
+        <div className="screen-fade" key={screen}>
+          <Suspense fallback={<ScreenFallback />}>
+            <NotificationCenterScreen onBack={goBack} onFriends={() => goTo('friends')} />
+          </Suspense>
+        </div>
+      </div>
+    );
+  }
+
   if (screen === 'settings') {
     return (
       <div>
