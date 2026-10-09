@@ -13,7 +13,7 @@ import usePremiumPaused from '../lib/usePremiumPaused';
 // own section. Items not yet built (change user ID/password/name, a
 // dedicated profile screen, wrong/flagged questions) are left out until
 // they actually exist.
-export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, onProfile, onWeakTopics, onWrongFlagged, onImportantMarked, onHistory, onSearch, onPremium, onAdminNotice, onAdminExams, onAdminReports, onAdminBroadcast, onAdminBackup, onAdminSecurity, onAdminCalendar, onAdminUploadQuestions, onAdminUserDetail, onAdminAnalytics, onAdminPayments, onAdminSubscribers, onViewUser, screen }) {
+export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, onNotifications, onProfile, onWeakTopics, onWrongFlagged, onImportantMarked, onHistory, onSearch, onPremium, onAdminNotice, onAdminExams, onAdminReports, onAdminBroadcast, onAdminBackup, onAdminSecurity, onAdminCalendar, onAdminUploadQuestions, onAdminUserDetail, onAdminAnalytics, onAdminPayments, onAdminSubscribers, onViewUser, screen }) {
   const { user, profile, isAdmin, logOut } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   // Closing plays an exit animation (see .menu-overlay.is-closing in
@@ -172,6 +172,9 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
             <button className="menu-item" onClick={() => go(onWrongFlagged)}>📌 Wrong Questions</button>
             <button className="menu-item" onClick={() => go(onImportantMarked)}>⭐ Important Marked</button>
             <button className="menu-item" onClick={() => go(onHistory)}>🕘 History</button>
+
+            <div className="menu-section-label">Notifications</div>
+            <button className="menu-item" onClick={() => go(onNotifications)}>🔔 Notification Center{inviteCount > 0 && <span className="notif-count">{inviteCount}</span>}</button>
 
             <div className="menu-section-label">Compete</div>
             <button className="menu-item" onClick={() => go(onLeaderboard)}>🏆 Leaderboard</button>
