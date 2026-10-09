@@ -1,5 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presenceLazy';
@@ -34,6 +36,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
   // hamburger + a count on the Friends & Challenges row, so nothing is missed.
   const [challengeCount, setChallengeCount] = useState(0);
   const [requestCount, setRequestCount] = useState(0);
+  const [unreadNotificationCount, setUnreadNotificationCount] = useState(0);
   const inviteCount = challengeCount + requestCount;
   const inviteUid = user?.uid;
   useEffect(() => {
@@ -43,6 +46,11 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
   useEffect(() => {
     if (!inviteUid) return undefined;
     return subscribeToFriendRequests(inviteUid, (list) => setRequestCount(list.length));
+  }, [inviteUid]);
+  useEffect(() => {
+    if (!inviteUid) return undefined;
+    const q = query(collection(db, 'users', inviteUid, 'notifications'), where('read', '==', false));
+    return onSnapshot(q, (snap) => setUnreadNotificationCount(snap.size), () => setUnreadNotificationCount(0));
   }, [inviteUid]);
   // Admin's "Free for everyone" pause hides Med101 Maxx from the menu
   // entirely; turning it off brings the entry back.
@@ -76,7 +84,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
     <div className="topbar">
       <div className="topbar-left">
         <button className="topbar-icon-btn home" title="Menu" aria-label="Open menu" onClick={() => { playTapSound(); setMenuClosing(false); setMenuOpen(true); }}>
-          {inviteCount > 0 && <span className="notif-dot" aria-label={`${inviteCount} pending invites and friend requests`} />}
+          {(inviteCount > 0 || unreadNotificationCount > 0) && <span className="notif-dot" aria-label={`${unreadNotificationCount} unread notifications`} />}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="4" y1="7" x2="20" y2="7" />
             <line x1="4" y1="12" x2="20" y2="12" />
@@ -174,7 +182,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
             <button className="menu-item" onClick={() => go(onHistory)}>🕘 History</button>
 
             <div className="menu-section-label">Notifications</div>
-            <button className="menu-item" onClick={() => go(onNotifications)}>🔔 Notification Center{inviteCount > 0 && <span className="notif-count">{inviteCount}</span>}</button>
+            <button className="menu-item" onClick={() => go(onNotifications)}>🔔 Notification Center{unreadNotificationCount > 0 && <span className="notif-count">{unreadNotificationCount}</span>}</button>
 
             <div className="menu-section-label">Compete</div>
             <button className="menu-item" onClick={() => go(onLeaderboard)}>🏆 Leaderboard</button>
