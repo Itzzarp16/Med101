@@ -139,20 +139,27 @@ class handler(BaseHTTPRequestHandler):
 
         from_name = _clean(invite.get('fromName'), 50) or 'A friend'
         if kind == 'friendRequest':
-            data = {
-                'title': f'👥 {from_name} wants to be your friend',
-                'body': 'Open Med101 to accept or decline.',
-                'url': '/',
-                'tag': f'friend-{invite_id}',
-            }
+            title = f'👥 {from_name} wants to be your friend'
+            body = 'Open Med101 to accept or decline.'
+            screen = 'friends'
+            data = {'title': title, 'body': body, 'url': '/', 'screen': screen,
+                    'kind': kind, 'tag': f'friend-{invite_id}'}
         else:
             subject = _clean(invite.get('mainSubject'), 60)
-            data = {
-                'title': f'⚔️ {from_name} challenged you',
-                'body': f'Join the {subject} quiz room and compete!' if subject else 'Join their quiz room and compete!',
-                'url': '/',
-                'tag': f'invite-{invite_id}',
-            }
+            title = f'⚔️ {from_name} challenged you'
+            body = f'Join the {subject} quiz room and compete!' if subject else 'Join their quiz room and compete!'
+            screen = 'friends'
+            data = {'title': title, 'body': body, 'url': '/', 'screen': screen,
+                    'kind': kind, 'tag': f'invite-{invite_id}'}
+
+        # Persist in the in-app inbox even if this user has no push token.
+        # A stable ID prevents duplicate inbox entries if the endpoint retries.
+        inbox_id = f'{kind}-{invite_id}'
+        user_ref.collection('notifications').document(inbox_id).set({
+            'title': title, 'body': body, 'screen': screen, 'kind': kind,
+            'createdAt': firestore.SERVER_TIMESTAMP, 'read': False,
+            'fromUid': decoded['uid'], 'sourceId': invite_id,
+        }, merge=True)
 
         messages = [
             messaging.Message(
