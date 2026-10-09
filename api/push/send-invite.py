@@ -1,6 +1,8 @@
 """
 Vercel Python serverless function: sends a push notification to a
-student when someone invites them to a challenge room.
+student when someone invites them to a challenge room, or sends them a
+friend request (type "friendRequest"). One endpoint for both because the
+Vercel Hobby plan caps a project at 12 serverless functions.
 
 The client calls this right after writing the invite doc
 (users/{toUid}/invites/{inviteId}). The notification text is built HERE
@@ -12,7 +14,9 @@ endpoint only fires when:
   - it hasn't already been pushed (pushedAt), and
   - the recipient wasn't pushed in the last 15 seconds (anti-spam).
 
-Body: {"toUid": "...", "inviteId": "..."}
+Body: {"toUid": "...", "inviteId": "...", "type": "invite" | "friendRequest"}
+  (for a friend request, inviteId is the SENDER's uid - that is the request
+  doc id - and the doc is users/{toUid}/friendRequests/{inviteId})
 Env vars (already set for the other endpoints):
   FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY
 """
@@ -99,12 +103,15 @@ class handler(BaseHTTPRequestHandler):
 
         to_uid = (payload.get('toUid') or '').strip()
         invite_id = (payload.get('inviteId') or '').strip()
+        kind = (payload.get('type') or 'invite').strip()
+        if kind not in ('invite', 'friendRequest'):
+            return self._send(400, {'error': 'Unknown notification type.'})
         if not to_uid or not invite_id:
             return self._send(400, {'error': 'Missing toUid or inviteId.'})
 
         db = firestore.client()
         user_ref = db.collection('users').document(to_uid)
-        invite_ref = user_ref.collection('invites').document(invite_id)
+        invite_ref = user_ref.collection('friendRequests' if kind == 'friendRequest' else 'invites').document(invite_id)
         snap = invite_ref.get()
         if not snap.exists:
             return self._send(404, {'error': 'Invite not found.'})
@@ -131,13 +138,21 @@ class handler(BaseHTTPRequestHandler):
         meta_ref.set({'lastPushAt': firestore.SERVER_TIMESTAMP})
 
         from_name = _clean(invite.get('fromName'), 50) or 'A friend'
-        subject = _clean(invite.get('mainSubject'), 60)
-        data = {
-            'title': f'⚔️ {from_name} challenged you',
-            'body': f'Join the {subject} quiz room and compete!' if subject else 'Join their quiz room and compete!',
-            'url': '/',
-            'tag': f'invite-{invite_id}',
-        }
+        if kind == 'friendRequest':
+            data = {
+                'title': f'👥 {from_name} wants to be your friend',
+                'body': 'Open Med101 to accept or decline.',
+                'url': '/',
+                'tag': f'friend-{invite_id}',
+            }
+        else:
+            subject = _clean(invite.get('mainSubject'), 60)
+            data = {
+                'title': f'⚔️ {from_name} challenged you',
+                'body': f'Join the {subject} quiz room and compete!' if subject else 'Join their quiz room and compete!',
+                'url': '/',
+                'tag': f'invite-{invite_id}',
+            }
 
         messages = [
             messaging.Message(

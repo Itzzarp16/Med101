@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
-import { findFriendCandidate, saveFriend, removeFriend, subscribeToFriends } from '../lib/friends';
+import {
+  findFriendCandidate, sendFriendRequest, acceptFriendRequest, declineFriendRequest,
+  removeFriend, subscribeToFriends, subscribeToFriendRequests,
+} from '../lib/friends';
 import useLockBodyScroll from '../lib/useLockBodyScroll';
 import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
@@ -8,8 +11,8 @@ import PushPrompt from './PushPrompt';
 import './FriendsScreen.css';
 import EmptyIllustration from './EmptyIllustration';
 
-// "Add @name as a friend?" - shown after the username is looked up and before
-// anything is saved. Cancel / overlay tap / Escape all back out without a write.
+// "Send @name a friend request?" - shown after the username is looked up and
+// before anything is sent. Cancel / overlay tap / Escape all back out.
 function ConfirmAddSheet({ candidate, busy, onCancel, onConfirm }) {
   useLockBodyScroll();
   useEffect(() => {
@@ -19,15 +22,15 @@ function ConfirmAddSheet({ candidate, busy, onCancel, onConfirm }) {
   }, [onCancel]);
   return (
     <div className="fr-confirm-overlay" onClick={onCancel}>
-      <div className="glass fr-confirm-card" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={`Add @${candidate.username} as a friend?`}>
+      <div className="glass fr-confirm-card" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={`Send @${candidate.username} a friend request?`}>
         <div className="fr-confirm-avatar" aria-hidden="true">{(candidate.username || '?').charAt(0).toUpperCase()}</div>
-        <h3 className="fr-confirm-title">Add @{candidate.username}?</h3>
+        <h3 className="fr-confirm-title">Send @{candidate.username} a request?</h3>
         <p className="fr-confirm-text">
-          They'll join your friends list, so you can challenge them and see them on your leaderboard. They won't be notified.
+          They'll get a notification and need to accept. Once they do, you'll both be on each other's friends list and can challenge each other.
         </p>
         <div className="fr-confirm-actions">
           <button className="btn-ghost" onClick={onCancel} disabled={busy}>Cancel</button>
-          <button className="btn-glow" onClick={onConfirm} disabled={busy} autoFocus>{busy ? '…' : 'Add friend'}</button>
+          <button className="btn-glow" onClick={onConfirm} disabled={busy} autoFocus>{busy ? '…' : 'Send request'}</button>
         </div>
       </div>
     </div>
@@ -46,10 +49,17 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
   const [msg, setMsg] = useState(null); // { type: 'ok' | 'error', text }
   const [copied, setCopied] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(null); // friend uid awaiting a 2nd tap
-  const [candidate, setCandidate] = useState(null); // looked-up student awaiting "Add friend?" confirmation
+  const [candidate, setCandidate] = useState(null); // looked-up student awaiting "Send request?" confirmation
+  const [requests, setRequests] = useState([]); // incoming friend requests awaiting my answer
+  const [answering, setAnswering] = useState(null); // request id being accepted/declined
 
   useEffect(() => {
     const unsub = subscribeToFriends(user.uid, setFriends);
+    return unsub;
+  }, [user.uid]);
+
+  useEffect(() => {
+    const unsub = subscribeToFriendRequests(user.uid, setRequests);
     return unsub;
   }, [user.uid]);
 
@@ -82,14 +92,37 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
     playTapSound();
     setBusy(true);
     try {
-      await saveFriend(user.uid, candidate);
-      setMsg({ type: 'ok', text: `Added @${candidate.username} ✓` });
+      const result = await sendFriendRequest(user.uid, myUsername, candidate);
+      setMsg({
+        type: 'ok',
+        text: result === 'accepted'
+          ? `@${candidate.username} had already asked you - you're friends now ✓`
+          : `Request sent to @${candidate.username} ✓ They'll show up here once they accept.`,
+      });
       setUsername('');
     } catch (e) {
       setMsg({ type: 'error', text: e.message || String(e) });
     } finally {
       setCandidate(null);
       setBusy(false);
+    }
+  }
+
+  async function handleAnswer(req, accept) {
+    playTapSound();
+    setAnswering(req.id);
+    setMsg(null);
+    try {
+      if (accept) {
+        await acceptFriendRequest(user.uid, myUsername, req);
+        setMsg({ type: 'ok', text: `You and @${req.fromName} are friends now ✓` });
+      } else {
+        await declineFriendRequest(user.uid, req.fromUid);
+      }
+    } catch (e) {
+      setMsg({ type: 'error', text: e.message || String(e) });
+    } finally {
+      setAnswering(null);
     }
   }
 
@@ -156,6 +189,27 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
         </button>
       </div>
 
+      {/* incoming requests - they only become friends once I accept */}
+      {requests.length > 0 && (
+        <>
+          <div className="fr-section">Friend requests ({requests.length})</div>
+          <div className="fr-list">
+            {requests.map((r) => (
+              <div key={r.id} className="glass fr-row fr-request stagger-in">
+                <div className="fr-avatar" aria-hidden="true">{(r.fromName || '?').charAt(0).toUpperCase()}</div>
+                <div className="fr-row-name">@{r.fromName}</div>
+                <button className="btn-ghost fr-small-btn" onClick={() => handleAnswer(r, false)} disabled={answering === r.id}>
+                  Decline
+                </button>
+                <button className="btn-glow fr-small-btn" onClick={() => handleAnswer(r, true)} disabled={answering === r.id}>
+                  {answering === r.id ? '…' : 'Accept'}
+                </button>
+              </div>
+            ))}
+          </div>
+        </>
+      )}
+
       {/* add a friend + share my own username */}
       <div className="fr-section">Add a friend</div>
       <div className="glass std-card">
@@ -184,7 +238,7 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
         <div className="fr-divider" />
         {myUsername ? (
           <>
-            <div className="fr-me-label">Your username - friends type this to add you</div>
+            <div className="fr-me-label">Your username - friends type this to send you a request</div>
             <div className="fr-me">
               <div className="fr-me-name">@{myUsername}</div>
               <div className="fr-btn-row">

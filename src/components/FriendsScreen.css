@@ -43,6 +43,10 @@
 }
 .fr-remove.confirm { color: var(--red); font-weight: 700; }
 
+/* incoming friend request rows: name, then Decline / Accept */
+.fr-request { flex-wrap: nowrap; }
+.fr-request .fr-small-btn { padding: 9px 12px !important; }
+
 /* top action tiles */
 .fr-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
 .fr-tile {

@@ -4,6 +4,7 @@ import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import { subscribeToOnlineCount, subscribeToOnlineNames } from '../lib/presenceLazy';
 import { subscribeToMyInvites } from '../lib/invites';
+import { subscribeToFriendRequests } from '../lib/friends';
 import usePremiumPaused from '../lib/usePremiumPaused';
 
 // Everything except the Med101 logo/signature and the user's own name
@@ -29,13 +30,19 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
       setMenuClosing(false);
     }, 300);
   }
-  // Waiting challenge invites -> red dot on the hamburger + a count on
-  // the Friends & Challenges row, so nothing is missed.
-  const [inviteCount, setInviteCount] = useState(0);
+  // Waiting challenge invites + incoming friend requests -> red dot on the
+  // hamburger + a count on the Friends & Challenges row, so nothing is missed.
+  const [challengeCount, setChallengeCount] = useState(0);
+  const [requestCount, setRequestCount] = useState(0);
+  const inviteCount = challengeCount + requestCount;
   const inviteUid = user?.uid;
   useEffect(() => {
     if (!inviteUid) return undefined;
-    return subscribeToMyInvites(inviteUid, (list) => setInviteCount(list.length));
+    return subscribeToMyInvites(inviteUid, (list) => setChallengeCount(list.length));
+  }, [inviteUid]);
+  useEffect(() => {
+    if (!inviteUid) return undefined;
+    return subscribeToFriendRequests(inviteUid, (list) => setRequestCount(list.length));
   }, [inviteUid]);
   // Admin's "Free for everyone" pause hides Med101 Maxx from the menu
   // entirely; turning it off brings the entry back.
@@ -69,7 +76,7 @@ export default function TopBar({ onHome, onLeaderboard, onSettings, onFriends, o
     <div className="topbar">
       <div className="topbar-left">
         <button className="topbar-icon-btn home" title="Menu" aria-label="Open menu" onClick={() => { playTapSound(); setMenuClosing(false); setMenuOpen(true); }}>
-          {inviteCount > 0 && <span className="notif-dot" aria-label={`${inviteCount} pending invites`} />}
+          {inviteCount > 0 && <span className="notif-dot" aria-label={`${inviteCount} pending invites and friend requests`} />}
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <line x1="4" y1="7" x2="20" y2="7" />
             <line x1="4" y1="12" x2="20" y2="12" />

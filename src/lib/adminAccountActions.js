@@ -6,7 +6,7 @@ import { usernameDocId } from './profile';
 // account is deleted. (friends/invites point at OTHER users' data by
 // uid reference only, so deleting this user's own copies is enough -
 // nothing elsewhere references this uid in a way that would break.)
-const SUBCOLLECTIONS = ['quizHistory', 'friends', 'wrongQuestions', 'flaggedQuestions', 'myRooms', 'invites', 'quizResume'];
+const SUBCOLLECTIONS = ['quizHistory', 'friends', 'wrongQuestions', 'flaggedQuestions', 'myRooms', 'invites', 'friendRequests', 'quizResume'];
 
 async function deleteCollection(uid, name) {
   const snap = await getDocs(collection(db, 'users', uid, name));
