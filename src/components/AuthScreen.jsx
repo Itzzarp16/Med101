@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import Mascot from './Mascot';
+import AuthBackdrop from './AuthBackdrop';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
@@ -41,6 +43,7 @@ export default function AuthScreen() {
   const [confirm, setConfirm] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [showPw, setShowPw] = useState(false);
+  const [pwFocus, setPwFocus] = useState(false); // Pulse covers its eyes while a password is being typed
   const [msg, setMsg] = useState(null);
   const [busy, setBusy] = useState(false);
   const [photoFile, setPhotoFile] = useState(null);
@@ -470,9 +473,10 @@ export default function AuthScreen() {
   if (needsGoogleProfileSetup) {
     return (
       <div id="auth-screen">
+        <AuthBackdrop />
         <div className="auth-center">
           <div className="auth-card">
-            <div className="auth-icon">👨‍⚕️</div>
+            <div className="auth-icon"><Mascot mood="wave" size={84} /></div>
 
             <div className="auth-title">Almost there</div>
 
@@ -612,9 +616,10 @@ export default function AuthScreen() {
 
   return (
     <div id="auth-screen">
+      <AuthBackdrop />
       <div className="auth-center">
         <div className="auth-card" ref={cardRef} onTouchStart={onCardTouchStart} onTouchEnd={onCardTouchEnd}>
-          <div className="auth-icon">👨‍⚕️</div>
+          <div className="auth-icon"><Mascot mood={pwFocus && !showPw ? 'shy' : mode === 'signin' ? 'wave' : 'idle'} size={84} /></div>
 
           <div className="auth-title">
             {mode === 'signin' ? 'Welcome Back' : 'Create Account'}
@@ -622,10 +627,16 @@ export default function AuthScreen() {
 
           <div className="auth-sub">
             {mode === 'signin'
-              ? 'Sign in to continue'
+              ? 'Good to see you again, pick up where you left off'
               : showingSignupStep2
                 ? 'Almost done - set your email and password'
-                : 'Sign up to start your medical MCQ journey'}
+                : 'Join the squad and start acing your MCQs'}
+          </div>
+
+          <div className="auth-chips" aria-hidden="true">
+            <span>🧠 Thousands of MCQs</span>
+            <span>⏱️ Mock exams</span>
+            <span>⚔️ Challenge friends</span>
           </div>
 
           <div className="auth-tabs">
@@ -908,6 +919,8 @@ export default function AuthScreen() {
                   <input
                     id="auth-password"
                     className="auth-input"
+                    onFocus={() => setPwFocus(true)}
+                    onBlur={() => setPwFocus(false)}
                     type={showPw ? 'text' : 'password'}
                     value={password}
                     onChange={(e) =>
@@ -947,6 +960,8 @@ export default function AuthScreen() {
                       <input
                         id="auth-confirm-password"
                         className="auth-input"
+                    onFocus={() => setPwFocus(true)}
+                    onBlur={() => setPwFocus(false)}
                         type={
                           showPw ? 'text' : 'password'
                         }

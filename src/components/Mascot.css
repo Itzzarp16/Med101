@@ -10,6 +10,7 @@ body.light-mode .mascot { --mc-body: #d9566f; }
 
 .mascot .mc-body { fill: var(--mc-body); }
 .mascot .mc-dark { fill: var(--mc-dark); }
+.mascot .mc-hand { fill: var(--mc-dark); stroke: var(--mc-body); stroke-width: 1.5; }
 .mascot .mc-shine { fill: rgba(255, 255, 255, 0.38); }
 .mascot .mc-arm { stroke: var(--mc-dark); stroke-width: 6; stroke-linecap: round; fill: none; }
 .mascot .mc-steth { stroke: var(--cyan, #4a6f94); stroke-width: 3.2; stroke-linecap: round; fill: none; }
@@ -32,6 +33,7 @@ body.light-mode .mascot { --mc-body: #d9566f; }
 .mascot .mc-all { transform-box: view-box; transform-origin: 50% 92%; }
 .mascot--idle .mc-all { animation: mc-bob 3.2s ease-in-out infinite; }
 .mascot--wave .mc-all { animation: mc-bob 3.2s ease-in-out infinite; }
+.mascot--shy .mc-all { animation: mc-bob 3.2s ease-in-out infinite; }
 .mascot--cheer .mc-all { animation: mc-jump 0.55s cubic-bezier(.3, .8, .4, 1) 2; }
 .mascot--nap .mc-all { animation: mc-breathe 3.6s ease-in-out infinite; }
 .mascot .mc-eyes { transform-box: fill-box; transform-origin: center; animation: mc-blink 4.6s ease-in-out infinite; }

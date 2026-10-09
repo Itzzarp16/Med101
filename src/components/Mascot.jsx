@@ -7,12 +7,14 @@ import './Mascot.css';
 //         wave  - waves a few times, then settles (greeting)
 //         cheer - jumps with arms up and sparkles (correct answer)
 //         nap   - eyes shut, breathing slowly, floating z's (empty screens)
+//         shy   - covers its eyes with both hands (sign-in password field)
 //
 // Decorative only (aria-hidden): whatever it accompanies carries the meaning.
 export default function Mascot({ mood = 'idle', size = 72, className = '' }) {
   const cheer = mood === 'cheer';
   const nap = mood === 'nap';
   const wave = mood === 'wave';
+  const shy = mood === 'shy';
 
   return (
     <svg
@@ -30,7 +32,7 @@ export default function Mascot({ mood = 'idle', size = 72, className = '' }) {
         <ellipse className="mc-dark" cx="61" cy="92" rx="8" ry="4.5" />
 
         {/* arms (behind the body) */}
-        {cheer ? (
+        {shy ? null : cheer ? (
           <>
             <path className="mc-arm mc-arm-l" d="M13 52 Q1 48 0 33" />
             <path className="mc-arm mc-arm-r" d="M87 52 Q99 48 100 33" />
@@ -49,6 +51,14 @@ export default function Mascot({ mood = 'idle', size = 72, className = '' }) {
         />
         <ellipse className="mc-shine" cx="27" cy="26" rx="8" ry="5" transform="rotate(-28 27 26)" />
 
+        {/* shy: arms come up in FRONT of the body to the hands covering the eyes */}
+        {shy && (
+          <>
+            <path className="mc-arm" d="M9 60 Q-4 40 30 44" />
+            <path className="mc-arm" d="M91 60 Q104 40 70 44" />
+          </>
+        )}
+
         {/* stethoscope draped over the front */}
         <path className="mc-steth" d="M29 62 Q50 92 71 62" />
         <circle className="mc-steth-head" cx="50" cy="79" r="4.6" />
@@ -56,7 +66,13 @@ export default function Mascot({ mood = 'idle', size = 72, className = '' }) {
 
         {/* face */}
         <g className="mc-face">
-          {nap ? (
+          {shy ? (
+            <>
+              <ellipse className="mc-hand" cx="36" cy="43" rx="9.5" ry="7.5" />
+              <ellipse className="mc-hand" cx="64" cy="43" rx="9.5" ry="7.5" />
+              <path className="mc-mouth" d="M43 56 Q50 61 57 56" />
+            </>
+          ) : nap ? (
             <>
               <path className="mc-eye-line" d="M31 44 Q37 50 43 44" />
               <path className="mc-eye-line" d="M57 44 Q63 50 69 44" />
