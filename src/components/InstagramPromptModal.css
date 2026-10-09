@@ -1,0 +1,15 @@
+.ig-modal-ico {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(45deg, #f9a03f 0%, #e1306c 55%, #833ab4 100%);
+  box-shadow: 0 6px 18px rgba(225, 48, 108, 0.30);
+}
+.whatsapp-modal-cta.ig-modal-cta {
+  background: linear-gradient(45deg, #e8892a 0%, #d42a65 55%, #7a35ab 100%);
+  color: #fff;
+}

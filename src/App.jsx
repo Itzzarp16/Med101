@@ -46,6 +46,7 @@ const QuizScreen = lazy(loadQuizScreen);
 // some students, some of the time.
 const AuthScreen = lazy(() => import('./components/AuthScreen'));
 const WhatsAppPromptModal = lazy(() => import('./components/WhatsAppPromptModal'));
+const InstagramPromptModal = lazy(() => import('./components/InstagramPromptModal'));
 const OnboardingTour = lazy(() => import('./components/OnboardingTour'));
 const NotificationGateModal = lazy(() => import('./components/NotificationGateModal'));
 
@@ -113,6 +114,16 @@ export default function App() {
   // quiz in progress) rather than being dumped to the dashboard. This
   // restores the last-saved navigation snapshot once on mount - the
   // saving side is the useEffect further down.
+  // Instagram follow prompt: shown right after the WhatsApp prompt closes (same
+  // moments: fresh sign-in or the end of the onboarding tour). Keyed by uid so
+  // it can't linger into another account's session after a sign-out.
+  const [igPromptFor, setIgPromptFor] = useState(null);
+  const showInstagramPrompt = !!user?.uid && igPromptFor === user.uid && !showWhatsAppPrompt;
+  function closeWhatsAppPrompt() {
+    setShowWhatsAppPrompt(false);
+    setIgPromptFor(user?.uid || null);
+  }
+
   const savedNavRef = useState(() => loadNavState())[0];
 
   const [screen, setScreen] = useState(savedNavRef?.screen || 'dashboard');
@@ -818,7 +829,10 @@ export default function App() {
             <OnboardingTour onFinish={finishOnboardingTour} />
           )}
           {showWhatsAppPrompt && (
-            <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
+            <WhatsAppPromptModal onClose={closeWhatsAppPrompt} />
+          )}
+          {showInstagramPrompt && (
+            <InstagramPromptModal onClose={() => setIgPromptFor(null)} />
           )}
         </Suspense>
         {splashScreen}
@@ -912,9 +926,12 @@ export default function App() {
           <OnboardingTour onFinish={finishOnboardingTour} />
         )}
         {showWhatsAppPrompt && (
-          <WhatsAppPromptModal onClose={() => setShowWhatsAppPrompt(false)} />
+          <WhatsAppPromptModal onClose={closeWhatsAppPrompt} />
         )}
-        {user?.uid && !showOnboardingTour && !showWhatsAppPrompt && !needsGoogleProfileSetup && (
+        {showInstagramPrompt && (
+          <InstagramPromptModal onClose={() => setIgPromptFor(null)} />
+        )}
+        {user?.uid && !showOnboardingTour && !showWhatsAppPrompt && !showInstagramPrompt && !needsGoogleProfileSetup && (
           <NotificationGateModal uid={user.uid} />
         )}
       </Suspense>
