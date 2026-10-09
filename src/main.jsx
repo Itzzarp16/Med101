@@ -2,6 +2,12 @@ import { StrictMode, lazy, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import './styles/tokens.css'
 import './styles/motion.css'
+import './styles/review.css'
+// Form + mode-picker styles (.auth-input/.auth-tab/.auth-label, .qmode-*) are used by
+// many screens besides sign-in and the quiz-mode picker, which load lazily; keep
+// them always available so Challenge, Search, Friends, Settings etc. never lose them.
+import './components/AuthScreen.css'
+import './components/QuizModeScreen.css'
 import App from './App.jsx'
 import { AuthProvider } from './lib/AuthContext'
 import { initTheme } from './lib/theme'
