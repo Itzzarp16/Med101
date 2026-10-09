@@ -133,9 +133,8 @@ class handler(BaseHTTPRequestHandler):
 
         token_docs = list(user_ref.collection('pushTokens').stream())
         invite_ref.update({'pushedAt': firestore.SERVER_TIMESTAMP})
-        if not token_docs:
-            return self._send(200, {'ok': True, 'sent': 0, 'reason': 'no-devices'})
-        meta_ref.set({'lastPushAt': firestore.SERVER_TIMESTAMP})
+        if token_docs:
+            meta_ref.set({'lastPushAt': firestore.SERVER_TIMESTAMP})
 
         from_name = _clean(invite.get('fromName'), 50) or 'A friend'
         if kind == 'friendRequest':
@@ -160,6 +159,9 @@ class handler(BaseHTTPRequestHandler):
             'createdAt': firestore.SERVER_TIMESTAMP, 'read': False,
             'fromUid': decoded['uid'], 'sourceId': invite_id,
         }, merge=True)
+
+        if not token_docs:
+            return self._send(200, {'ok': True, 'sent': 0, 'reason': 'no-devices'})
 
         messages = [
             messaging.Message(
