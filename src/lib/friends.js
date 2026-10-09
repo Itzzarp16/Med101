@@ -6,15 +6,27 @@ import { lookupUsername } from './invites';
 // request/accept flow - adding someone to your own friends list is
 // purely a write to YOUR OWN subcollection, so it stays secure under
 // simple "own data only" rules with no cross-user writes needed.
-export async function addFriendByUsername(uid, rawUsername) {
+// Step 1 of adding a friend: resolve the typed username to a student and make
+// sure it is someone you can add. Writes nothing, so the UI can ask "add
+// @name?" before anything is saved.
+export async function findFriendCandidate(uid, rawUsername) {
   const found = await lookupUsername(rawUsername);
   if (!found) throw new Error('No student has claimed that username.');
   if (found.uid === uid) throw new Error("You can't add yourself.");
+  return found;
+}
+
+// Step 2: the actual write, after the student confirms.
+export async function saveFriend(uid, found) {
   await setDoc(doc(db, 'users', uid, 'friends', found.uid), {
     username: found.username,
     addedAt: serverTimestamp(),
   });
   return found;
+}
+
+export async function addFriendByUsername(uid, rawUsername) {
+  return saveFriend(uid, await findFriendCandidate(uid, rawUsername));
 }
 
 export async function removeFriend(uid, friendUid) {

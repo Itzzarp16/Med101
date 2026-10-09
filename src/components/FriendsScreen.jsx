@@ -1,11 +1,38 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
-import { addFriendByUsername, removeFriend, subscribeToFriends } from '../lib/friends';
+import { findFriendCandidate, saveFriend, removeFriend, subscribeToFriends } from '../lib/friends';
+import useLockBodyScroll from '../lib/useLockBodyScroll';
 import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
 import PushPrompt from './PushPrompt';
 import './FriendsScreen.css';
 import EmptyIllustration from './EmptyIllustration';
+
+// "Add @name as a friend?" - shown after the username is looked up and before
+// anything is saved. Cancel / overlay tap / Escape all back out without a write.
+function ConfirmAddSheet({ candidate, busy, onCancel, onConfirm }) {
+  useLockBodyScroll();
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onCancel(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onCancel]);
+  return (
+    <div className="fr-confirm-overlay" onClick={onCancel}>
+      <div className="glass fr-confirm-card" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={`Add @${candidate.username} as a friend?`}>
+        <div className="fr-confirm-avatar" aria-hidden="true">{(candidate.username || '?').charAt(0).toUpperCase()}</div>
+        <h3 className="fr-confirm-title">Add @{candidate.username}?</h3>
+        <p className="fr-confirm-text">
+          They'll join your friends list, so you can challenge them and see them on your leaderboard. They won't be notified.
+        </p>
+        <div className="fr-confirm-actions">
+          <button className="btn-ghost" onClick={onCancel} disabled={busy}>Cancel</button>
+          <button className="btn-glow" onClick={onConfirm} disabled={busy} autoFocus>{busy ? '…' : 'Add friend'}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // Layout, top to bottom: the two actions (Challenge / Leaderboard) first so
 // they're visible without scrolling, then adding friends (and sharing your
@@ -19,6 +46,7 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
   const [msg, setMsg] = useState(null); // { type: 'ok' | 'error', text }
   const [copied, setCopied] = useState(false);
   const [confirmRemove, setConfirmRemove] = useState(null); // friend uid awaiting a 2nd tap
+  const [candidate, setCandidate] = useState(null); // looked-up student awaiting "Add friend?" confirmation
 
   useEffect(() => {
     const unsub = subscribeToFriends(user.uid, setFriends);
@@ -34,20 +62,40 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
     }
     setBusy(true);
     try {
-      const alreadyFriends = friends.map((f) => f.uid);
-      const found = await addFriendByUsername(user.uid, username);
-      setUsername('');
-      setMsg({
-        type: 'ok',
-        text: alreadyFriends.includes(found.uid)
-          ? `@${found.username} is already your friend.`
-          : `Added @${found.username} ✓`,
-      });
+      // Look the student up first; nothing is saved until they confirm.
+      const found = await findFriendCandidate(user.uid, username);
+      if (friends.some((f) => f.uid === found.uid)) {
+        setUsername('');
+        setMsg({ type: 'ok', text: `@${found.username} is already your friend.` });
+      } else {
+        setCandidate(found);
+      }
     } catch (e) {
       setMsg({ type: 'error', text: e.message || String(e) });
     } finally {
       setBusy(false);
     }
+  }
+
+  async function handleConfirmAdd() {
+    if (!candidate) return;
+    playTapSound();
+    setBusy(true);
+    try {
+      await saveFriend(user.uid, candidate);
+      setMsg({ type: 'ok', text: `Added @${candidate.username} ✓` });
+      setUsername('');
+    } catch (e) {
+      setMsg({ type: 'error', text: e.message || String(e) });
+    } finally {
+      setCandidate(null);
+      setBusy(false);
+    }
+  }
+
+  function handleCancelAdd() {
+    playTapSound();
+    setCandidate(null);
   }
 
   function handleRemoveTap(friendUid) {
@@ -84,6 +132,9 @@ export default function FriendsScreen({ onBack, onChallenge, onLeaderboard, onPr
 
   return (
     <div className="std-screen">
+      {candidate && (
+        <ConfirmAddSheet candidate={candidate} busy={busy} onCancel={handleCancelAdd} onConfirm={handleConfirmAdd} />
+      )}
       <ScreenHeader onBack={onBack} title={<>👥 Friends</>}>
         Challenge friends and see who's ahead.
       </ScreenHeader>
