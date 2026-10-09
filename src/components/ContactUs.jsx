@@ -4,6 +4,8 @@ import { LegalPageFrame } from './LegalKit';
 // Public, no-auth route (see main.jsx) - needs to be reachable
 // without signing in.
 const EMAIL = 'support@med101.space';
+const INSTAGRAM_HANDLE = 'med101.space';
+const INSTAGRAM_URL = 'https://www.instagram.com/med101.space/';
 const WHATSAPP_URL = 'https://chat.whatsapp.com/Kn2NDwg7Wij5VQbs35hYMx?s=cl&p=a&mlu=4&ilr=4';
 
 export default function ContactUs() {
@@ -72,6 +74,35 @@ export default function ContactUs() {
               rel="noopener noreferrer"
             >
               Join the Med101 WhatsApp Group
+            </a>
+          </div>
+        </div>
+
+        <div className="lp-card">
+          <div className="lp-card-top">
+            <span className="lp-ico lp-ico--ig" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.5" cy="6.5" r="0.7" fill="currentColor" />
+              </svg>
+            </span>
+            <div>
+              <div className="lp-card-label">Instagram</div>
+              <div className="lp-card-value">@{INSTAGRAM_HANDLE}</div>
+            </div>
+          </div>
+          <p className="lp-card-desc">
+            Follow us for study tips, updates and new features, or send us a message.
+          </p>
+          <div className="lp-actions">
+            <a
+              className="lp-btn lp-btn--ig"
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Follow on Instagram
             </a>
           </div>
         </div>

@@ -276,6 +276,7 @@
 }
 .lp-ico img { width: 28px; height: 28px; display: block; }
 .lp-ico--wa { background: #1fa855; }
+.lp-ico--ig { background: linear-gradient(45deg, #f9a03f 0%, #e1306c 55%, #833ab4 100%); }
 .lp-card-label {
   font-size: 12px;
   font-weight: 700;
@@ -323,6 +324,9 @@
   border: 1px solid var(--g-border);
 }
 .lp-btn--wa { background: #1fa855; }
+.lp-btn--ig { background: linear-gradient(45deg, #e8892a 0%, #d42a65 55%, #7a35ab 100%); }
+/* An odd last card (three contact cards in a two-column grid) spans the full width. */
+.lp-cards > .lp-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
 .lp-note {
   margin: 22px 8px 0;
   text-align: center;
