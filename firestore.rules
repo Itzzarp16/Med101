@@ -67,6 +67,18 @@ service cloud.firestore {
       allow read, write: if isAdmin();
     }
 
+    // ── users/{uid}/notifications/{notificationId} ───────────────
+    // Admin SDK creates inbox notifications. A student can read their own
+    // inbox and only toggle the read flag; clients cannot forge announcements.
+    match /users/{uid}/notifications/{notificationId} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow update: if request.auth != null && request.auth.uid == uid
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['read'])
+                    && request.resource.data.read is bool;
+      allow create, delete: if false;
+      allow read, write: if isAdmin();
+    }
+
     // ── users/{uid}/friends/{friendUid} ──────────────────────────
     // A student's own friends/watchlist — one-directional (adding
     // someone doesn't touch their data), so purely self-owned. Admin
