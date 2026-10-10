@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
 import ScreenHeader from './ScreenHeader';
-import EmptyIllustration from './EmptyIllustration';
 import './AnswerKey.css';
 
 const SEMESTER_LABELS = {
@@ -12,12 +11,22 @@ const SEMESTER_LABELS = {
   y3s2: 'Semester 6',
 };
 
+function DocumentMark() {
+  return (
+    <svg viewBox="0 0 28 32" aria-hidden="true" className="ak-doc-svg">
+      <path d="M5 1.5h11l7 7V28a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 5 28V4a2.5 2.5 0 0 1 2.5-2.5Z" />
+      <path d="M16 2v7h7M9 16h10M9 20h10M9 24h7" />
+    </svg>
+  );
+}
+
 export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
   const semesterLabel = SEMESTER_LABELS[activeSemesterId] || 'Your Semester';
   const [pdfs, setPdfs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
   const [viewingPdf, setViewingPdf] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     let alive = true;
@@ -40,17 +49,24 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
     () => pdfs.filter((pdf) => pdf.semesterId === activeSemesterId),
     [pdfs, activeSemesterId],
   );
+  const filteredPdfs = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return semesterPdfs;
+    return semesterPdfs.filter((pdf) => pdf.subject.toLowerCase().includes(query));
+  }, [semesterPdfs, searchQuery]);
 
   if (viewingPdf) {
     const viewerUrl = `${viewingPdf.path}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
     return (
       <div className="std-screen wf-screen ak-pdf-screen ak-pdf-viewer-screen">
         <ScreenHeader onBack={() => setViewingPdf(null)} title={viewingPdf.subject}>
-          {semesterLabel} · Answer Key PDF
+          {semesterLabel} · Answer Key
         </ScreenHeader>
         <div className="ak-viewer-toolbar">
           <span className="ak-viewer-label"><span className="ak-viewer-dot" /> PDF DOCUMENT</span>
-          <a className="ak-pdf-btn ak-viewer-download" href={viewingPdf.path} download={viewingPdf.filename}>Download PDF</a>
+          <a className="ak-action ak-action-primary" href={viewingPdf.path} download={viewingPdf.filename}>
+            <span aria-hidden="true">↓</span> Download
+          </a>
         </div>
         <div className="ak-viewer-frame-wrap">
           <iframe className="ak-viewer-frame" src={viewerUrl} title={`${viewingPdf.subject} answer key PDF`} />
@@ -62,42 +78,94 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
   return (
     <div className="std-screen wf-screen ak-pdf-screen">
       <ScreenHeader onBack={onBack} title="Answer Key">
-        {semesterLabel} PDFs
+        Your revision library
       </ScreenHeader>
 
+      <section className="ak-hero" aria-label="Answer key library">
+        <div className="ak-hero-orbit ak-hero-orbit-one" />
+        <div className="ak-hero-orbit ak-hero-orbit-two" />
+        <div className="ak-hero-content">
+          <div className="ak-eyebrow"><span className="ak-eyebrow-dot" /> STUDY LIBRARY</div>
+          <h2 className="ak-hero-title">Revise smarter<span>.</span></h2>
+          <p className="ak-hero-copy">Your answer keys, organised and ready when you are.</p>
+          <div className="ak-hero-meta">
+            <span className="ak-semester-pill">{semesterLabel}</span>
+            <span className="ak-meta-divider" />
+            <span>{loading ? 'Loading library…' : `${semesterPdfs.length} ${semesterPdfs.length === 1 ? 'document' : 'documents'}`}</span>
+          </div>
+        </div>
+        <div className="ak-hero-mark" aria-hidden="true"><DocumentMark /><span>AK</span></div>
+      </section>
+
+      <div className="ak-library-heading">
+        <div>
+          <h3>Available documents</h3>
+          <p>Choose a subject to open its answer key.</p>
+        </div>
+        {!loading && !loadError && semesterPdfs.length > 0 && (
+          <span className="ak-count">{filteredPdfs.length} / {semesterPdfs.length}</span>
+        )}
+      </div>
+
+      {!loading && !loadError && semesterPdfs.length > 0 && (
+        <label className="ak-search">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 5 5" /></svg>
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="Search subjects…"
+            aria-label="Search answer keys"
+          />
+          {searchQuery && <button type="button" onClick={() => setSearchQuery('')} aria-label="Clear search">×</button>}
+        </label>
+      )}
+
       {loading ? (
-        <div className="wf-empty"><div className="wf-empty-s">Loading answer-key PDFs…</div></div>
+        <div className="ak-loading-list" aria-label="Loading answer keys">
+          {[1, 2, 3].map((item) => <div className="ak-skeleton" key={item}><span /><div><i /><i /></div><b /></div>)}
+        </div>
       ) : loadError ? (
-        <div className="wf-empty">
-          <EmptyIllustration kind="search" />
-          <div className="wf-empty-t">Could not load answer keys</div>
-          <div className="wf-empty-s">Check your connection and try opening this page again.</div>
+        <div className="ak-state-card">
+          <div className="ak-state-icon">!</div>
+          <h3>Couldn’t load the library</h3>
+          <p>Check your connection and try opening this page again.</p>
         </div>
       ) : semesterPdfs.length === 0 ? (
-        <div className="wf-empty">
-          <EmptyIllustration kind="search" />
-          <div className="wf-empty-t">No answer-key PDFs yet</div>
-          <div className="wf-empty-s">
-            Answer-key PDFs for {semesterLabel} will appear here when they are uploaded.
-          </div>
+        <div className="ak-state-card">
+          <div className="ak-state-icon"><DocumentMark /></div>
+          <h3>Your library is getting ready</h3>
+          <p>Answer keys for {semesterLabel} will appear here as soon as they’re uploaded.</p>
+        </div>
+      ) : filteredPdfs.length === 0 ? (
+        <div className="ak-state-card ak-state-compact">
+          <div className="ak-state-icon">⌕</div>
+          <h3>No matching subjects</h3>
+          <p>Try another search term.</p>
+          <button className="ak-text-action" type="button" onClick={() => setSearchQuery('')}>Clear search</button>
         </div>
       ) : (
         <section className="ak-pdf-list" aria-label={semesterLabel + ' answer-key PDFs'}>
-          {semesterPdfs.map((pdf) => (
-            <article className="ak-pdf-card" key={pdf.semesterId + '-' + pdf.filename}>
-              <div className="ak-pdf-icon" aria-hidden="true">PDF</div>
+          {filteredPdfs.map((pdf, index) => (
+            <article className="ak-pdf-card" key={pdf.semesterId + '-' + pdf.filename} style={{ '--ak-index': Math.min(index, 8) }}>
+              <div className="ak-pdf-icon"><DocumentMark /><span>PDF</span></div>
               <div className="ak-pdf-info">
                 <div className="ak-pdf-title">{pdf.subject}</div>
-                <div className="ak-pdf-subtitle">{semesterLabel} · PDF document</div>
+                <div className="ak-pdf-subtitle"><span className="ak-file-dot" /> {semesterLabel} <span className="ak-subtitle-sep">/</span> PDF document</div>
               </div>
               <div className="ak-pdf-actions">
-                <button className="ak-pdf-btn" type="button" onClick={() => setViewingPdf(pdf)}>View PDF</button>
-                <a className="ak-pdf-btn ak-pdf-btn-secondary" href={pdf.path} download={pdf.filename}>Download</a>
+                <button className="ak-action ak-action-primary" type="button" onClick={() => setViewingPdf(pdf)}>
+                  Open answer key <span aria-hidden="true">↗</span>
+                </button>
+                <a className="ak-action ak-action-secondary" href={pdf.path} download={pdf.filename} aria-label={`Download ${pdf.subject} answer key`}>
+                  <span aria-hidden="true">↓</span>
+                </a>
               </div>
             </article>
           ))}
         </section>
       )}
+      <div className="ak-footer-note"><span>✳</span> Small steps. Stronger recall.</div>
     </div>
   );
 }
