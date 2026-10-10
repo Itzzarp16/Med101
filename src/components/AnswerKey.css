@@ -293,3 +293,30 @@ body.light-mode .ak-viewer-toolbar { background: var(--surface); }
 @media (prefers-reduced-motion: reduce) {
   .ak-pdf-card { animation: none; transition: none; }
 }
+
+
+/* Minimal Answer Key layout: plain black background, simple headings and flat cards. */
+.ak-pdf-screen { padding-bottom: 24px; }
+.ak-pdf-screen .sh-head { margin-bottom: 20px; }
+.ak-simple-heading { margin: 4px 0 24px; }
+.ak-simple-heading h2 { margin: 0; color: var(--text); font-size: 26px; font-weight: 750; letter-spacing: -.04em; }
+.ak-simple-heading p { margin: 6px 0 0; color: var(--text3); font-size: 14px; }
+.ak-library-heading { margin: 0 2px 14px; }
+.ak-library-heading h3 { font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
+.ak-library-heading p { font-size: 13px; }
+.ak-search { border-radius: 10px; background: var(--surface); box-shadow: none; }
+.ak-pdf-list { gap: 10px; }
+.ak-pdf-card {
+  border-radius: 12px; padding: 14px; background: var(--surface);
+  box-shadow: none; animation: none; transition: border-color .15s ease;
+}
+.ak-pdf-card:hover { transform: none; background: var(--surface); border-color: rgba(var(--cyan-rgb),.4); }
+.ak-pdf-icon { border-radius: 9px; box-shadow: none; }
+.ak-action { border-radius: 9px; box-shadow: none; }
+.ak-action-primary { background: var(--cyan); border-color: var(--cyan); }
+.ak-action-primary:hover { background: var(--cyan2); border-color: var(--cyan2); }
+.ak-action-secondary { border-radius: 9px; }
+.ak-state-card { border-radius: 12px; box-shadow: none; }
+.ak-skeleton { border-radius: 12px; }
+.ak-viewer-toolbar, .ak-viewer-frame-wrap { border-radius: 12px; box-shadow: none; }
+.ak-hero, .ak-footer-note { display: none !important; }
