@@ -26959,6 +26959,18 @@
     },
     {
       "s": "Liver and gastric function tests",
+      "q": "Which of the following is produced in the bones?",
+      "o": [
+        "GGT",
+        "ALT",
+        "Protrombin",
+        "AST"
+      ],
+      "c": 1,
+      "n": 23
+    },
+    {
+      "s": "Liver and gastric function tests",
       "q": "An important fuiction the liver carries out in the human body is detoxification. Which * of the following best describes what happens in detoxification?",
       "o": [
         "Ammonia is converted into urine and excreted",
