@@ -1,16 +1,48 @@
-# React + Vite
+# Med101
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Med101 is a medical-learning website for studying subjects, practicing quizzes, reviewing incorrect or flagged questions, tracking quiz history, and using study/community tools.
 
-Currently, two official plugins are available:
+## Technology
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 and Vite
+- Firebase for authentication and application data
+- Vercel for deployment and analytics
+- Optional Capacitor work for an Android app wrapper
 
-## React Compiler
+## Local development
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Requirements: a supported Node.js version and npm.
 
-## Expanding the Oxlint configuration
+```bash
+npm install
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Quality checks
+
+```bash
+npm run lint
+npm run build
+```
+
+Run both checks before merging or deploying meaningful changes. A successful local build does not by itself verify Firebase permissions or production behavior.
+
+## Configuration and secrets
+
+Use the environment variables configured for the intended deployment environment. Never commit private API keys, service-account credentials, bot tokens, payment secrets, or real user data. Client-side Firebase configuration is not a substitute for correctly configured Firestore and Storage security rules.
+
+## Deployment
+
+The production website is hosted through Vercel. The `react-rebuild` branch is the current working branch for the React rebuild. Confirm the Vercel build and deployment status before assuming a commit is live.
+
+## Project guidance
+
+See [the Med101 product roadmap](docs/PRODUCT_ROADMAP.md) for the prioritized plan covering reliability, student experience, security, notifications, admin workflows, accessibility, performance, and operations.
+
+## Change guidelines
+
+- Preserve Med101's black/charcoal and muted slate-blue brand palette.
+- Keep changes focused and reviewable.
+- Protect the core dashboard-to-quiz flow from unnecessary loading or visual changes.
+- Test loading, empty, error, and success states.
+- Do not overwrite unrelated in-progress work; review patches separately before applying them.
