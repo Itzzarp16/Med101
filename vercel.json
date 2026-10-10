@@ -12,6 +12,9 @@
     "api/admin/send-broadcast.py": {
       "includeFiles": "src/data/examSchedule.json",
       "maxDuration": 60
+    },
+    "api/admin/upload-answer-key.py": {
+      "maxDuration": 60
     }
   },
   "rewrites": [
