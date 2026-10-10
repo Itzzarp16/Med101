@@ -22,15 +22,20 @@ function ConfirmAddSheet({ candidate, busy, onCancel, onConfirm }) {
   }, [onCancel]);
   return (
     <div className="fr-confirm-overlay" onClick={onCancel}>
-      <div className="glass fr-confirm-card" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={`Send @${candidate.username} a friend request?`}>
-        <div className="fr-confirm-avatar" aria-hidden="true">{(candidate.username || '?').charAt(0).toUpperCase()}</div>
-        <h3 className="fr-confirm-title">Send @{candidate.username} a request?</h3>
+      <div className="fr-confirm-card" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label={`Send @${candidate.username} a friend request?`}>
+        <div className="fr-confirm-badge" aria-hidden="true">
+          <span className="fr-confirm-ring" />
+          <span className="fr-confirm-ring r2" />
+          <span className="fr-confirm-initial">{(candidate.username || '?').charAt(0).toUpperCase()}</span>
+        </div>
+        <h3 className="fr-confirm-title">Friend request</h3>
+        <div className="fr-confirm-to">To <b>@{candidate.username}</b></div>
         <p className="fr-confirm-text">
           They'll get a notification and need to accept. Once they do, you'll both be on each other's friends list and can challenge each other.
         </p>
         <div className="fr-confirm-actions">
-          <button className="btn-ghost" onClick={onCancel} disabled={busy}>Cancel</button>
-          <button className="btn-glow" onClick={onConfirm} disabled={busy} autoFocus>{busy ? '…' : 'Send request'}</button>
+          <button className="fr-confirm-cancel" onClick={onCancel} disabled={busy}>Cancel</button>
+          <button className="fr-confirm-send" onClick={onConfirm} disabled={busy} autoFocus>{busy ? '…' : 'Send request'}</button>
         </div>
       </div>
     </div>
