@@ -24878,7 +24878,10 @@
         "Aspartate"
       ],
       "c": 0,
-      "n": 1
+      "n": 1,
+      "img": [
+        "/img/q/biochem-general-amino-acid-metabolism-q1-1.jpg"
+      ]
     },
     {
       "s": "General amino acid metabolism",
@@ -24890,7 +24893,10 @@
         "Leucine"
       ],
       "c": 0,
-      "n": 2
+      "n": 2,
+      "img": [
+        "/img/q/biochem-general-amino-acid-metabolism-q2-1.jpg"
+      ]
     },
     {
       "s": "General amino acid metabolism",
@@ -24926,7 +24932,10 @@
         "Oxidative deamination"
       ],
       "c": 3,
-      "n": 5
+      "n": 5,
+      "img": [
+        "/img/q/biochem-general-amino-acid-metabolism-q5-1.jpg"
+      ]
     },
     {
       "s": "General amino acid metabolism",
@@ -25610,7 +25619,10 @@
         "Rubonucleotide triphosphate"
       ],
       "c": 2,
-      "n": 2
+      "n": 2,
+      "img": [
+        "/img/q/biochem-metabolism-of-purines-and-pyrimidines-q2-1.jpg"
+      ]
     },
     {
       "s": "Metabolism of purines and pyrimidines",
@@ -26102,7 +26114,10 @@
         "Pyrrole"
       ],
       "c": 0,
-      "n": 21
+      "n": 21,
+      "img": [
+        "/img/q/biochem-plasma-proteins-q21-1.jpg"
+      ]
     },
     {
       "s": "Plasma proteins",
@@ -26534,7 +26549,10 @@
         "An increase in hydrophobic interactions between deoxyhemoglobin molecules"
       ],
       "c": 3,
-      "n": 25
+      "n": 25,
+      "img": [
+        "/img/q/biochem-mcq-hemoglobin-q25-1.jpg"
+      ]
     },
     {
       "s": "Hemoglobin",

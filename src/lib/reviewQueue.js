@@ -28,6 +28,7 @@ export async function recordWrongQuestion(uid, mainSubject, question, picked) {
       q: question.q,
       o: question.o,
       c: question.c,
+      ...(question.img?.length ? { img: question.img } : null),
       ...(Number.isInteger(picked) ? { picked } : null),
       lastWrongAt: serverTimestamp(),
     },
@@ -47,6 +48,7 @@ export async function toggleFlaggedQuestion(uid, mainSubject, question, isFlagge
       q: question.q,
       o: question.o,
       c: question.c,
+      ...(question.img?.length ? { img: question.img } : null),
       flaggedAt: serverTimestamp(),
     });
   }

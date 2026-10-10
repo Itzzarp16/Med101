@@ -1,3 +1,4 @@
+import QImage from './QImage';
 // Shared card for a question in a list (Search results, Wrong & Flagged):
 // badges + optional remove button, the question, and its options with the
 // correct one marked. `term` highlights search matches.
@@ -26,6 +27,7 @@ export default function QuestionListCard({ item, badges, term, onRemove, removeL
         )}
       </div>
       <p className="lu-q"><Highlight text={item.q} term={term} /></p>
+      <QImage srcs={item.img} />
       <div className="lu-opts">
         {item.o.map((opt, i) => (
           <div key={i} className={i === item.c ? 'lu-opt ok' : 'lu-opt'}>

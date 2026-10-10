@@ -14,6 +14,7 @@ import { cheerLine } from '../lib/mascotLines';
 import ReportQuestionModal from './ReportQuestionModal';
 import { saveCloudSnapshot, deleteCloudSnapshot } from '../lib/quizResumeCloud';
 import './QuizScreen.css';
+import QImage from './QImage';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
 
@@ -573,7 +574,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
       // Full set + per-question answers, so History can rebuild
       // "Retry All / Wrong / Skipped" later without depending on the
       // live question bank still matching this exact attempt.
-      questions: quizQuestions.map((qq) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c })),
+      questions: quizQuestions.map((qq) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c, ...(qq.img?.length ? { img: qq.img } : null) })),
       answers,
       ...(mock ? { mock: true } : null),
     });
@@ -649,7 +650,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
     const wrongQuestions = quizQuestions
       .map((qq, i) => ({ qq, i }))
       .filter(({ i }) => answers[i] !== -1 && answers[i] !== quizQuestions[i].c)
-      .map(({ qq }) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c }));
+      .map(({ qq }) => ({ s: qq.s, q: qq.q, o: qq.o, c: qq.c, ...(qq.img?.length ? { img: qq.img } : null) }));
 
     // Mock exam: how each subtopic went (blank counts as wrong, like the
     // overall score), weakest first so the study list is the top of it.
@@ -841,6 +842,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
                     </span>
                   </div>
                   <p className="results-review-question">{qq.q}</p>
+                  <QImage srcs={qq.img} />
                   <div className="results-review-options">
                     {qq.o.map((opt, oi) => {
                       const isCorrectOpt = oi === qq.c;
@@ -1070,6 +1072,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
             </span>
           </div>
           <p className="q-text">{q.q}</p>
+          <QImage srcs={q.img} />
         </div>
 
         {reportQ && <ReportQuestionModal mainSubject={mainSubject} question={reportQ} onClose={() => setReportQ(null)} />}

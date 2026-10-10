@@ -5,6 +5,7 @@ import ScreenHeader from './ScreenHeader';
 import { Highlight } from './QuestionListCard';
 import EmptyIllustration from './EmptyIllustration';
 import './WrongFlagged.css';
+import QImage from './QImage';
 
 const PER_GROUP = 20; // rows shown per subject before "Show all"
 const LABELS = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -36,6 +37,7 @@ function SearchRow({ q, term }) {
       </button>
       <div className="wf-detail" data-open={expanded ? '1' : '0'}>
         <div className="wf-detail-in">
+          <QImage srcs={q.img} />
           <div className="wf-opts">
             {q.o.map((opt, i) => (
               <div key={i} className={i === q.c ? 'wf-opt ok' : 'wf-opt'}>

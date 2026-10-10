@@ -5,6 +5,7 @@ import { playTapSound } from '../lib/sounds';
 import './HistoryScreen.css';
 import LoadingLine from './LoadingLine';
 import EmptyIllustration from './EmptyIllustration';
+import QImage from './QImage';
 
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
 
@@ -71,6 +72,7 @@ function QuestionReviewList({ entry }) {
               </span>
             </div>
             <p className="results-review-question">{qq.q}</p>
+            <QImage srcs={qq.img} />
             <div className="results-review-options">
               {qq.o.map((opt, oi) => {
                 const isCorrectOpt = oi === qq.c;
@@ -119,6 +121,7 @@ function ReviewItem({ qq, i, ua }) {
       {open && (
         <div className="hd-item-body">
           <div className="hd-item-topic">{qq.s}</div>
+          <QImage srcs={qq.img} />
           {qq.o.map((opt, oi) => {
             const isCorrectOpt = oi === qq.c;
             const isUserPick = oi === ua;

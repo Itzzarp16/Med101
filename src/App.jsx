@@ -1093,7 +1093,7 @@ export default function App() {
             kind="wrong"
             semesterSubjects={semesterSubjectNames}
             onPracticeSet={(items) => {
-              const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
+              const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c, ...(it.img?.length ? { img: it.img } : null) }));
               setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
               setSelectedSubject(items[0]?.mainSubject || null);
               setSelectedTopic(null);
@@ -1110,7 +1110,7 @@ export default function App() {
             kind="flagged"
             semesterSubjects={semesterSubjectNames}
             onPracticeSet={(items) => {
-              const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c }));
+              const asQuizShape = items.map((it) => ({ s: it.s, q: it.q, o: it.o, c: it.c, ...(it.img?.length ? { img: it.img } : null) }));
               setFinalQuiz({ questions: asQuizShape, autoAdvance: true, timerSeconds: null });
               setSelectedSubject(items[0]?.mainSubject || null);
               setSelectedTopic(null);

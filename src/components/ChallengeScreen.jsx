@@ -138,7 +138,7 @@ export default function ChallengeScreen({ mainSubjectMeta, scopedQuestions, subj
     setBusy(true);
     playTapSound();
     try {
-      const questions = quizQ.map((q) => ({ s: q.s, q: q.q, o: q.o, c: q.c }));
+      const questions = quizQ.map((q) => ({ s: q.s, q: q.q, o: q.o, c: q.c, ...(q.img?.length ? { img: q.img } : null) }));
       const code = await createRoom({
         hostUid: user.uid,
         hostName: user.displayName || user.email,

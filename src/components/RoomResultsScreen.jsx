@@ -3,6 +3,7 @@ import { fetchRoom, subscribeToParticipants } from '../lib/rooms';
 import { useAuth } from '../lib/AuthContext';
 import { playTapSound } from '../lib/sounds';
 import ScreenHeader from './ScreenHeader';
+import QImage from './QImage';
 
 const MEDALS = ['🥇', '🥈', '🥉'];
 const LABELS = ['A', 'B', 'C', 'D', 'E'];
@@ -96,6 +97,7 @@ export default function RoomResultsScreen({ code, onBack }) {
                           </span>
                         </div>
                         <p className="results-review-question">{qq.q}</p>
+                        <QImage srcs={qq.img} />
                         <div className="results-review-options">
                           {qq.o.map((opt, oi) => {
                             const isCorrectOpt = oi === qq.c;

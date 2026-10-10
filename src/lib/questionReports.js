@@ -31,6 +31,7 @@ export async function reportQuestion(uid, mainSubject, question, reason, note) {
       q: question.q,
       o: question.o,
       c: question.c,
+      ...(question.img?.length ? { img: question.img } : null),
       reason,
       note: (note || '').trim().slice(0, 300),
       status: 'open',
