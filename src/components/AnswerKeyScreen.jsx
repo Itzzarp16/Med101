@@ -1,18 +1,7 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ScreenHeader from './ScreenHeader';
 import EmptyIllustration from './EmptyIllustration';
 import './AnswerKey.css';
-
-// Each PDF is explicitly assigned to a semester, so students only see
-// answer keys for the semester they are currently viewing.
-const ANSWER_KEY_PDFS = [
-  {
-    semesterId: 'y2s1',
-    subject: 'Physiology 2',
-    filename: 'physiology-2.pdf',
-    path: '/answer-keys/semester-3/physiology-2.pdf',
-  },
-];
 
 const SEMESTER_LABELS = {
   y1s1: 'Semester 1',
@@ -25,9 +14,30 @@ const SEMESTER_LABELS = {
 
 export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
   const semesterLabel = SEMESTER_LABELS[activeSemesterId] || 'Your Semester';
-  const pdfs = useMemo(
-    () => ANSWER_KEY_PDFS.filter((pdf) => pdf.semesterId === activeSemesterId),
-    [activeSemesterId],
+  const [pdfs, setPdfs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+
+  useEffect(() => {
+    let alive = true;
+    fetch('/answer-keys/manifest.json', { cache: 'no-store' })
+      .then((response) => {
+        if (!response.ok) throw new Error('Could not load answer keys.');
+        return response.json();
+      })
+      .then((data) => {
+        if (!alive) return;
+        setPdfs(Array.isArray(data.pdfs) ? data.pdfs : []);
+        setLoadError(false);
+      })
+      .catch(() => { if (alive) setLoadError(true); })
+      .finally(() => { if (alive) setLoading(false); });
+    return () => { alive = false; };
+  }, []);
+
+  const semesterPdfs = useMemo(
+    () => pdfs.filter((pdf) => pdf.semesterId === activeSemesterId),
+    [pdfs, activeSemesterId],
   );
 
   return (
@@ -36,7 +46,15 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
         {semesterLabel} PDFs
       </ScreenHeader>
 
-      {pdfs.length === 0 ? (
+      {loading ? (
+        <div className="wf-empty"><div className="wf-empty-s">Loading answer-key PDFs…</div></div>
+      ) : loadError ? (
+        <div className="wf-empty">
+          <EmptyIllustration kind="search" />
+          <div className="wf-empty-t">Could not load answer keys</div>
+          <div className="wf-empty-s">Check your connection and try opening this page again.</div>
+        </div>
+      ) : semesterPdfs.length === 0 ? (
         <div className="wf-empty">
           <EmptyIllustration kind="search" />
           <div className="wf-empty-t">No answer-key PDFs yet</div>
@@ -46,8 +64,8 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
         </div>
       ) : (
         <section className="ak-pdf-list" aria-label={semesterLabel + ' answer-key PDFs'}>
-          {pdfs.map((pdf) => (
-            <article className="ak-pdf-card" key={pdf.filename}>
+          {semesterPdfs.map((pdf) => (
+            <article className="ak-pdf-card" key={pdf.semesterId + '-' + pdf.filename}>
               <div className="ak-pdf-icon" aria-hidden="true">PDF</div>
               <div className="ak-pdf-info">
                 <div className="ak-pdf-title">{pdf.subject}</div>
