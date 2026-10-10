@@ -69,10 +69,10 @@ export default function AdminAnswerKeysScreen() {
         setDoc(refs[index], { uploadId, index, data })
       ));
       const idToken = await user.getIdToken();
-      const response = await fetch('/api/admin/upload-answer-key', {
+      const response = await fetch('/api/upload-questions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
-        body: JSON.stringify({ semesterId, subject: subject.trim(), uploadId, chunkCount: chunks.length }),
+        body: JSON.stringify({ uploadType: 'answerKey', semesterId, subject: subject.trim(), uploadId, chunkCount: chunks.length }),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'Upload failed.');
