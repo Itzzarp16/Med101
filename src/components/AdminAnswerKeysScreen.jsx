@@ -21,9 +21,10 @@ function fileToBase64(file) {
   });
 }
 
-export default function AdminAnswerKeysScreen() {
+export default function AdminAnswerKeysScreen({ semesters = [], semesterMainSubjects = {} }) {
   const [semesterId, setSemesterId] = useState('y2s1');
   const [subject, setSubject] = useState('');
+  const subjectOptions = semesterMainSubjects?.[semesterId] || [];
   const [file, setFile] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -33,8 +34,8 @@ export default function AdminAnswerKeysScreen() {
     event.preventDefault();
     setError('');
     setSuccess(null);
-    if (!subject.trim() || !file) {
-      setError('Enter the subject and choose a PDF file.');
+    if (!subject || !file) {
+      setError('Select a dashboard subject and choose a PDF file.');
       return;
     }
     if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
@@ -94,20 +95,22 @@ export default function AdminAnswerKeysScreen() {
       <div className="std-header">
         <h1 className="std-title">📄 Upload Answer-Key PDF</h1>
         <p className="std-sub">
-          Choose a semester and subject. The PDF is committed to that semester’s GitHub folder,
+          Select a semester and a subject already listed on the student dashboard. The PDF filename is generated automatically from the subject, and the file is committed to that semester’s GitHub folder,
           then appears on the student Answer Key page after Vercel deploys the new commit.
           No Firebase Storage is used.
         </p>
       </div>
       <form className="glass std-card" onSubmit={handleUpload}>
         <label className="auth-label" htmlFor="answer-key-semester">Semester</label>
-        <select id="answer-key-semester" className="auth-input" value={semesterId} onChange={(e) => setSemesterId(e.target.value)}>
-          {SEMESTERS.map((semester) => <option key={semester.id} value={semester.id}>{semester.label}</option>)}
+        <select id="answer-key-semester" className="auth-input" value={semesterId} onChange={(e) => { setSemesterId(e.target.value); setSubject(''); }}>
+          {semesters.map((semester) => <option key={semester.id} value={semester.id}>{semester.label || semester.id}</option>)}
         </select>
 
         <label className="auth-label" htmlFor="answer-key-subject">Subject</label>
-        <input id="answer-key-subject" className="auth-input" type="text" maxLength={120}
-          placeholder="e.g. Physiology 2" value={subject} onChange={(e) => setSubject(e.target.value)} />
+        <select id="answer-key-subject" className="auth-input" value={subject} onChange={(e) => setSubject(e.target.value)}>
+          <option value="">Select a dashboard subject…</option>
+          {subjectOptions.map((name) => <option key={name} value={name}>{name}</option>)}
+        </select>
 
         <label className="auth-label" htmlFor="answer-key-pdf-file">PDF file (max 15 MB)</label>
         <input id="answer-key-pdf-file" className="auth-input" type="file" accept="application/pdf,.pdf"
