@@ -86,6 +86,11 @@
       "emoji": "💧",
       "desc": "",
       "accent": "var(--cyan)"
+    },
+    "Microbiology Exam 2025-26": {
+      "emoji": "🦠",
+      "desc": "",
+      "accent": "var(--cyan)"
     }
   },
   "subjectGroup": {
@@ -96,7 +101,8 @@
     "Physiology of Respiration": "Human Physiology 2",
     "Digestion & Metabolism": "Human Physiology 2",
     "Thermoregulation & Energy": "Human Physiology 2",
-    "Physiology of Excretion": "Human Physiology 2"
+    "Physiology of Excretion": "Human Physiology 2",
+    "Microbiology Exam 2025-26": "Microbiology"
   },
   "questions": [
     {
@@ -9450,6 +9456,6678 @@
         "Increased calcium excretion in the proximal tubule"
       ],
       "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Live vaccines contain",
+      "o": [
+        "attenuated bacteria",
+        "inactivated bacteria",
+        "immunogenic component of the bacteria",
+        "inactivated toxin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Killed corpuscular vaccines contain",
+      "o": [
+        "attenuated bacteria",
+        "inactivated bacteria",
+        "immunogenic component of the bacteria",
+        "inactivated toxin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Subunit vaccines contain",
+      "o": [
+        "attenuated bacteria",
+        "inactivated bacteria",
+        "immunogenic component of the bacteria",
+        "inactivated toxin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Immunofluorescence test is a",
+      "o": [
+        "reaction of precipitation",
+        "reaction of agglutination",
+        "lysis test",
+        "serological reaction with the use of labels"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Standard quantitative method is a",
+      "o": [
+        "slide agglutination",
+        "tube agglutination",
+        "microagglutination",
+        "all of the above"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The interaction between somatic antigens and specific antibodies is",
+      "o": [
+        "slow and fine granular sediment forms in 18-20 hrs. agglutinate do not break upon shaking",
+        "rapid and fine granular sediment forms in 5-10 hrs. agglutinate do not break upon shaking",
+        "rapid and large flocculi form in 2-4 hrs. agglutinate readily break upon shaking",
+        "slow and large flocculi form in 3-4 days agglutinate readily break upon shaking"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The antigen causing agglutination is called",
+      "o": [
+        "agglutinogen",
+        "agglutinin",
+        "agglutinate",
+        "Precipitinogen"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Epidemic disease is",
+      "o": [
+        "constantly present in particular area",
+        "spreads rapidly, involving many persons in an area at the same time",
+        "spreads through many areas of the world involving many persons within a shot period",
+        "spreads slowly, involving several persons in an area at the same time"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Plasma cells are:",
+      "o": [
+        "mature T cells",
+        "immature macrophages",
+        "mature macrophages",
+        "immature T cells",
+        "antibody-producing cells"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following vaccine is attenuated?",
+      "o": [
+        "Dysentery vaccines.",
+        "Cholera vaccines",
+        "Diphtheria vaccines.",
+        "Solk polio vaccines.",
+        "BCG"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following molecules would be the best antigens?",
+      "o": [
+        "Lipids",
+        "DNA",
+        "fatty acids",
+        "sugars",
+        "proteins"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Large granular lymphocytes which can kill virus-infected cells as part of innate immunity are called:",
+      "o": [
+        "neutrophils",
+        "natural killer cells",
+        "monocytes",
+        "lymphocytes",
+        "mast cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "One of the following statements about exotoxins is false:",
+      "o": [
+        "action is often enzymatic",
+        "have specific tissue affinity",
+        "are active in very minute doses",
+        "polysaccharide-lipid complex in nature"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Cross infection is",
+      "o": [
+        "initial infection with organism in host",
+        "subsequent infection by the same organism",
+        "situation, when patient suffering from a disease and new infection is set up from external source",
+        "constantly present in particular area"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Pandemic disease is",
+      "o": [
+        "constantly present in particular area",
+        "spreads rapidly, involving many persons in an area at the same time",
+        "spreads through many areas of the world involving many persons within a shot period",
+        "spreads slowly, involving several persons in an area at the same time"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Reinfecton infection is",
+      "o": [
+        "initial infection with organism in host",
+        "subsequent infection by the same organism",
+        "situation, when patient suffering from a disease and new infection is set up from external source",
+        "constantly present in particular area"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Redaction of virulence is known us",
+      "o": [
+        "attenuation",
+        "exaltation",
+        "initiation",
+        "inhibition"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Transcription is the process by which",
+      "o": [
+        "m-RNA, in conjugation with t-RNA and the ribosome, directs the synthesis of specific protein",
+        "genetic information carried in the bacterial DNA is transferred to m-RNA",
+        "DNA is formed a new identical copy",
+        "genetic information carried in the bacterial RNA is transferred to DNA"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Gene is a",
+      "o": [
+        "segment of DNA carrying codons specifying for a particular polypeptide",
+        "triple nucleotide group, coding one specific amino acid",
+        "triple nucleotide group, not coding one specific amino acid",
+        "segment of RNA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Transformation is",
+      "o": [
+        "the transfer of genetic information trough the agency of free DNA",
+        "the transfer of a portion of the DNA from one of bacterium to another by a bacteriophage",
+        "the transfer of genes from donor cell to recipient by means of physical contact",
+        "a random, undirected, heritable variation caused by an alteration in the nucleotide sequence at some point of the DNA of the cell"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Plasmid is a",
+      "o": [
+        "extrachromosomal genetic element in the bacterial chromosome",
+        "segment of DNA carrying codons specifying for a particular polypeptide",
+        "triple nucleotide group, coding one specific amino acid",
+        "segment of RNA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "R-plasmids",
+      "o": [
+        "determine colicin prodaction",
+        "determine production of heat labile and heat stable endotoxins",
+        "determine production of hemolysins",
+        "determine production of specific enzymes that modify or destroy specific antibiotics"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Translation is the process by which",
+      "o": [
+        "m-RNA, in conjugation with t-RNA and the ribosome, directs the synthesis of specific protein",
+        "genetic information carried in the bacterial DNA is transferred to m-RNA",
+        "DNA is formed a new identical copy",
+        "genetic information carried in the bacterial RNA is transferred to DNA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Codon is a",
+      "o": [
+        "segment of DNA carrying codons specifying for a particular polypeptide",
+        "triple nucleotide group, coding one specific amino acid",
+        "triple nucleotide group, not coding one specific amino acid",
+        "segment of RNA"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Transduction is",
+      "o": [
+        "the transfer of genetic information trough the agency of free DNA",
+        "the transfer of a portion of the DNA from one of bacterium to another by a bacteriophage",
+        "the transfer of genes from donor cell to recipient by means of physical contact",
+        "a random, undirected, heritable variation caused by an alteration in the nucleotide sequence at some point of the DNA of the cell"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Col-plasmids",
+      "o": [
+        "determine colicin prodaction",
+        "determine production of heat labile and heat stable endotoxins",
+        "determine production of hemolysins",
+        "determine production of specific enzymes that modify or destroy specific antibiotics"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "F-plasmid (fertility factor)",
+      "o": [
+        "determine colicin prodaction",
+        "determine production of heat labile and heat stable endotoxins",
+        "codes for a series of genes necessary for conjugal transfer",
+        "determine production of specific enzymes that modify or destroy specific antibiotics"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Replication is the process by which",
+      "o": [
+        "m-RNA, in conjugation with t-RNA and the ribosome, directs the synthesis of specific protein",
+        "genetic information carried in the bacterial DNA is transferred to m-RNA",
+        "DNA is formed a new identical copy",
+        "genetic information carried in the bacterial RNA is transferred to DNA"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Termination codon is a",
+      "o": [
+        "segment of DNA carrying codons specifying for a particular polypeptide",
+        "triple nucleotide group, coding one specific amino acid",
+        "triple nucleotide group, not coding one specific amino acid",
+        "segment of RNA"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Conjugation is",
+      "o": [
+        "the transfer of genetic information trough the agency of free DNA",
+        "the transfer of a portion of the DNA from one of bacterium to another by a bacteriophage",
+        "the transfer of genes from donor cell to recipient by means of physical contact",
+        "a random, undirected, heritable variation caused by an alteration in the nucleotide sequence at some point of the DNA of the cell"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Ent-plasmids",
+      "o": [
+        "determine colicin prodaction",
+        "determine production of heat labile and heat stable enterotoxins",
+        "determine production of hemolysins",
+        "determine production of specific enzymes that modify or destroy specific antibiotics"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Transcription of bacterial DNA is mediated by",
+      "o": [
+        "DNA polymerase",
+        "RNA polymerase",
+        "DNA ligase",
+        "RNA ligase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mutation is",
+      "o": [
+        "the transfer of genetic information trough the agency of free DNA",
+        "the transfer of a portion of the DNA from one of bacterium to another by a bacteriophage",
+        "the transfer of genes from donor cell to recipient by means of physical contact",
+        "a random, undirected, heritable variation caused by an alteration in the nucleotide sequence at some point of the DNA of the cell"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Salt agar is contain of",
+      "o": [
+        "1-2 % sodium chloride",
+        "3-4 % sodium chloride",
+        "5-6 % sodium chloride",
+        "7-10 % sodium chloride"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Streptococci is",
+      "o": [
+        "Gram - positive cocci. They are arranged in grape - like clusters, non- sporing and non - motile. Capsules are produced by some strains.",
+        "Gram - positive cocci. They are arranged in chains, non- sporing and non - motile. Capsules are produced by some strains.",
+        "Gram - negative cocci. They are arranged in pairs, non- sporing and non - motile. Most fresh isolates are encapsulated.",
+        "Gram - negative cocci. They are arranged single, non- sporing and non - motile. Capsules are not produced."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Menincocci are",
+      "o": [
+        "Gram - positive cocci. They are arranged in grape - like clusters, non- sporing and non - motile. Capsules are produced by some strains.",
+        "Gram - positive cocci. They are arranged in chains, non- sporing and non - motile. Capsules are produced by some strains.",
+        "Gram - negative cocci. They are arranged in pairs, non- sporing and non - motile. Most fresh isolates are encapsulated.",
+        "Gram - negative cocci. They are arranged single, non- sporing and non - motile. Capsules are not produced."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The optimum pH for good growth vibrio cholera",
+      "o": [
+        "5,3",
+        "6",
+        "7,2",
+        "8,2"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The alkaline nutrient agar is a",
+      "o": [
+        "Basal media",
+        "Selective media",
+        "Differential media",
+        "Natural media"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Another common bacterial shape is that of a rod, often called",
+      "o": [
+        "coccus",
+        "pleomorphic",
+        "bacillus",
+        "vibrio",
+        "spirochete"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Bacterial genus/genera of medical importance which produce endospores is/are:",
+      "o": [
+        "Bacterium.",
+        "Corynebacterium",
+        "Mycobacterium",
+        "Bacillus."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Cell wall of gram-positive bacteria consist of:",
+      "o": [
+        "thin monolayer peptidiglycan",
+        "lipoproteins",
+        "lipopolysaccharides",
+        "polilayer peptidiglican"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Cells that do not have a membrane separating their nuclear material from their cytoplasm are called",
+      "o": [
+        "heterozygous.",
+        "homozygous.",
+        "eukaryotic.",
+        "prokaryotic"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose rod-shaped bacteria:",
+      "o": [
+        "Meningococcus",
+        "Clostridium",
+        "Vibrio",
+        "Borrelia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Credit for the first vaccine for the prevention of human disease is generally given to:",
+      "o": [
+        "Louis Pasteur for the prevention of rabies.",
+        "Louis Pasteur for the prevention of anthrax.",
+        "Robert Koch for the prevention of tuberculosis.",
+        "Edward Jenner for the prevention of small pox."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Differential Interference Contrast microscopy",
+      "o": [
+        "illuminates the specimen with light of two different phases.",
+        "compares two identical specimens on the same microscope.",
+        "illuminates the specimen with light of two different colors.",
+        "illuminates the specimen with both reflected and transmitted light."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Fimbriae",
+      "o": [
+        "cause bacteria move through fluids.",
+        "sense changes in nutrient concentration.",
+        "attach bacteria to various surfaces.",
+        "are pathways for the secretion of exoenzymes.",
+        "are pathways for the nutrition."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Gram positive cells",
+      "o": [
+        "have a second, outer membrane that helps retain the crystal violet stain.",
+        "have multiple layers of peptidoglycan that help retain the crystal violet stain.",
+        "have a thick capsule that traps the crystal violet stain.",
+        "have inclusions that traps crystal violet stain.",
+        "have monolayer of peptidoglycan that traps crystal violet stain"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "In bacterial cells, ribosomes are packed into the cytoplasmic matrix and also loosely attached to the plasma membrane. What is the function of ribosomes?",
+      "o": [
+        "Site of energy production",
+        "Site of genetic reproduction",
+        "Site of lipid synthesis",
+        "Site of protein synthesis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Indicate gram-negative bacteria.",
+      "o": [
+        "Neisseria meningitidis",
+        "Clostridium botulinum",
+        "Bacillus anthracis",
+        "Micrococcus luteus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Living, unstained cells and organisms can be observed best using",
+      "o": [
+        "fluorescent microscopy",
+        "transmission electron microscopy",
+        "phase contrast microscopy",
+        "Scan. Electron microscopy",
+        "light microscopy"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Living, unstained cells and organisms can be observed best using",
+      "o": [
+        "fluorescent microscopy",
+        "TEM (transmission electron microscopy)",
+        "binocular magnifier",
+        "phase contrast microscopy"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Louis Pasteur's studies on the unwanted production of acid from beet sugar was the first demonstration that",
+      "o": [
+        "sugars are unstable and can breakdown into either ethanol or acid.",
+        "ethanol is unstable and can convert to acid.",
+        "microorganisms can be found in air.",
+        "bacteria can cause specific chemical reactions."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mark rod-shaped bacteria:",
+      "o": [
+        "Escherichia coli",
+        "Vibrio",
+        "Treponema",
+        "Borrelia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mark rod-shaped bacteria:",
+      "o": [
+        "Sarcina",
+        "Spirilla",
+        "Streptococcus",
+        "Mycobacterium"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Light of which color below would give you the best resolution of light microscopes?",
+      "o": [
+        "Red",
+        "Blue",
+        "Orange",
+        "Green"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Phase Contrast microscopy:",
+      "o": [
+        "Continuously changes the phase of the incident light from the condenser to improve contrast in the specimen.",
+        "Uses special lenses to distinguish between solid and liquid phases of the cell.",
+        "Uses special lenses to change the color of light passing through them.",
+        "Uses circular filters in the condenser and objective to give contrast to parts of the cell with different refractive indices."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Phase Contrast microscopy",
+      "o": [
+        "Uses circular filters in the condenser and objective to give contrast to parts of the cell with different refractive indices.",
+        "Continuously changes the phase of the incident light from the condenser to improve contrast in the specimen.",
+        "Uses special lenses to distinguish between solid and liquid phases of the cell.",
+        "Uses special lenses to change the color of light passing through them."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Poly-beta-hydroxybutyrate inclusion bodies",
+      "o": [
+        "protect bacteria from excessive drying.",
+        "turn reddish brown when stained with iodine.",
+        "store carbon for energy and biosynthesis.",
+        "are composed of polymers of glucose."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Resolution is the ability of a lens to distinguish between small objects close together. What approximate resolution can be obtained with a light microscope",
+      "o": [
+        "0.3 nm",
+        "0.5 nm",
+        "0.8 nm",
+        "0.1 nm"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Scanning electron microscopy (SEM) is best used to study",
+      "o": [
+        "small internal cell structures.",
+        "cytoplasma",
+        "nucleoid",
+        "surface morphology."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Show diplococci:",
+      "o": [
+        "Vibrio",
+        "Treponema",
+        "Borrelia",
+        "Neisseria"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Some bacteria are considered pleomorphic. This means:",
+      "o": [
+        "they are shaped like bent rods.",
+        "do not have just one shape.",
+        "they have a corkscrew shape.",
+        "they are not either bacilli or cocci.",
+        "they are not either vibrio or spirochete"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Spherical bacteria arranged in a chain are known as",
+      "o": [
+        "spirochetes",
+        "bacilli",
+        "streptococci",
+        "staphylococci.",
+        "streptobacilli"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Syphilis is caused by which of the following?",
+      "o": [
+        "Treponema pallidum",
+        "Helicobacter pylori",
+        "Proteus mirabilis",
+        "Serratia marcesans",
+        "Treponema vincentii"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The 70S procaryotic ribosomes consist of",
+      "o": [
+        "two 40S subunits.",
+        "a 40S and a 30S subunit.",
+        "a 50S and a 20S subunit.",
+        "a 50S and a 30S subunit.",
+        "two 30S subunits."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The cell wall of Gram-positive bacteria is composed primarily of",
+      "o": [
+        "chitin.",
+        "cellulose,",
+        "starch.",
+        "protein.",
+        "peptidoglycan."
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The construction and use of the compound microscope is attributed to:",
+      "o": [
+        "Louis Pasteur.",
+        "Antony van Leeuwenhoek.",
+        "Robert Koch.",
+        "Ferdinand Cohn.",
+        "Paul Ehrlich."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The first observation that bacteria-like organisms could be found in normal air was by",
+      "o": [
+        "Louis Pasteur",
+        "Anton Leeuwenhoek",
+        "Robert Koch",
+        "Joseph Meister",
+        "Edward Jenner"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The first person to see bacteria did his work mostly in what century?",
+      "o": [
+        "14th",
+        "16th",
+        "17th",
+        "18th",
+        "19th"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The first physician to make practical application of the germ theory of disease to surgery was",
+      "o": [
+        "Louis Pasteur",
+        "Robert Koch",
+        "Edward Jenner",
+        "Anton von Leeuwenhoek",
+        "Joseph Lister"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The first techniques of sterilization were introduced by:",
+      "o": [
+        "Robert Koch.",
+        "Ferdinand Cohn.",
+        "John Needham.",
+        "Louis Pasteur.",
+        "Gerhardt Domagk."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The flagellar filament grows by",
+      "o": [
+        "enzymatic addition of subunits to the tip of the flagellum.",
+        "enzymatic addition of subunits to the base of the flagellum.",
+        "self-insertion of subunits along the length of the filament.",
+        "no correct answer",
+        "self-assembly of subunits traveling through the hollow flagellum to the tip."
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The form of coffee corn is had:",
+      "o": [
+        "staphylococcus and streptococcus",
+        "meningococcus and gonococcus",
+        "pneumococcus and monococcus",
+        "peptococcus and peptostreptococcus",
+        "tetracoccus and sarcina"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The fourth stage of making of a staining smear is:",
+      "o": [
+        "Staining",
+        "Fixation",
+        "Washing",
+        "Drying",
+        "Preparation of smear"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The major defining difference(s) between a PROKARYOTIC and a EUKARYOTIC cell is/are:",
+      "o": [
+        "The absence of membrane-bound organelles in eukaryotes.",
+        "The lack of photosynthesis by prokaryotic cells.",
+        "The use of ATP as an energy source by the more complex eukaryotic cells.",
+        "The absence of chromosomes in prokaryotes.",
+        "The absence of membrane-bound organelles in prokaryotes."
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The most commonly encountered bacteria are roughly spherical. The microbiological term describing this shape is",
+      "o": [
+        "bacillus",
+        "pleomorphic",
+        "coccus",
+        "vibrio",
+        "spirochete"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The most important role of the prokaryotic cell wall is to",
+      "o": [
+        "maintain the shape of the cell.",
+        "protect the cell from osmotic pressures.",
+        "prevent ions from diffusing away from the cell.",
+        "block the effects of antibiotics like penicillin."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The original distinction between the two types of cells, prokaryotic and eukaryotic, was made on the basis of the",
+      "o": [
+        "structure of the cell wall",
+        "absence or presence of mitochondria.",
+        "absence or presence of ribosomes",
+        "structure of the cell membrane.",
+        "absence or presence of a nuclear membrane."
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The outer membrane of Gram negative cells is more permeable than the plasma membrane because",
+      "o": [
+        "LPS is larger than most membrane phospholipids.",
+        "lipoproteins stretch the outer membrane.",
+        "the core polysaccharide spans the lipid bilayer.",
+        "porin proteins establish holes in the outer membrane.",
+        "it contains LPS."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The primary use of Koch's postulates is to",
+      "o": [
+        "demonstrate that a disease is caused by a microorganism.",
+        "clearly identify and characterize a particular microorganism.",
+        "isolate microorganisms from diseased animals.",
+        "develop vaccines for specific diseases.",
+        "environment suround the diseased animals."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The substage condenser",
+      "o": [
+        "changes the wavelength of the light reaching the specimen",
+        "decreases the amount of light reaching the specimen",
+        "eluminate the specimen",
+        "magnificates size of specimen",
+        "focuses light on the specimen"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Typical drumstick appearance of bacilli is observed in:",
+      "o": [
+        "Clostridium botulinum.",
+        "Clostridium perfringens.",
+        "Clostridium tetani.",
+        "Clostridium histolyticum."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What disease do Streptococci cause?",
+      "o": [
+        "Epidemic cerebrospinal meningitidis",
+        "Enteric fever",
+        "Diphtheria",
+        "Scarlet fever"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What disease do Streptococci cause?",
+      "o": [
+        "Typhoid fever",
+        "Mumps",
+        "Rheumatic fever",
+        "Epidemic cerebrospinal meningitidis",
+        "Tuberculosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What disease does Neisseria meningitidis cause?",
+      "o": [
+        "Rheumatic fever",
+        "Scarlet fever",
+        "Cholera",
+        "Epidemic cerebrospinal meningitides"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What does Kingdom Prokaryotae include:",
+      "o": [
+        "bacteria.",
+        "protozoa.",
+        "fungi.",
+        "viruses"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What is the function of an illuminator?",
+      "o": [
+        "To control the temperature of the specimen",
+        "To keep the specimen moist",
+        "To keep the specimen dry",
+        "An illuminator is the light source used to observe a specimen under a microscope"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What microbes do belong to spiral forms?",
+      "o": [
+        "Vibrio",
+        "Bordetella",
+        "Clostridia",
+        "Micrococcus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What was the first bacterium shown to cause human disease?",
+      "o": [
+        "Mycobacterium",
+        "Diphtheria",
+        "Streptococcus",
+        "Anthrax"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What was the first successful solid medium for colony purification of bacteria?",
+      "o": [
+        "Agar",
+        "Potato",
+        "Gelatin",
+        "Meat"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following bacteria is cell wall deficient?",
+      "o": [
+        "Treponema.",
+        "Slaphylococcus.",
+        "Mycoplasma.",
+        "Klebsiella."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following components are not found in the Gram-positive cell wall?",
+      "o": [
+        "lipopolysaccharides",
+        "peptidoglycan",
+        "teichoic acid",
+        "N-acetyl muramic acid"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statements is most correct about the differential Gram stain?",
+      "o": [
+        "Crystal violet differentially stains Gram positive cells.",
+        "Gram's iodine differentially stains Gram positive cells.",
+        "Saffron red differentially stains Gram negative cells.",
+        "Acetone differentially distains Gram negative cells."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose the unique structure of prokaryotic organisms?",
+      "o": [
+        "mitochondria",
+        "ribosomes",
+        "peptidoglycan cell wall",
+        "cell membrane"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Who did coin the term vaccine?",
+      "o": [
+        "Ehrlich.",
+        "Louis Pasteur,",
+        "Robert Koch.",
+        "Edward Jenner."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Who did develop rabies vaccine for the first time in 1885?",
+      "o": [
+        "Semple.",
+        "Edward Jenner",
+        "Paul Ehrlich.",
+        "Louis Pasteur",
+        "Wasserman."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Who did discovere bacillus of tuberculosis?",
+      "o": [
+        "Hansen.",
+        "Robert Koch.",
+        "Loeffler.",
+        "Bruce."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Who did introduce the method of vaccination to prevent smallpox?",
+      "o": [
+        "Edward Jenner.",
+        "Louis Pasteur.",
+        "Paul Ehrlich.",
+        "John Hunter."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Who first developed the process of colony purification on solid media?",
+      "o": [
+        "Louis Pasteur",
+        "Fannie Hesse",
+        "Robert Koch",
+        "Richard Petri"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Who was this scientist? He was originally trained as a chemist, but his studies on fermentation led him to take interest in microorganisms. His discoveries revolutionized medical practice, although he never studied medicine.",
+      "o": [
+        "Antony van Leeuwenhoek.",
+        "Edward Jenner.",
+        "Paul Ehrlich.",
+        "Louis Pasteur."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Why is a bacterium called a prokaryotic organism?",
+      "o": [
+        "A bacterium is a one-cell organism that has a distinct nucleus.",
+        "A bacterium is a multicell organism that does not have a distinct nucleus.",
+        "A bacterium is a multicell organism that has a distinct nucleus.",
+        "A bacterium is a one-cell organism that does not have a distinct nucleus."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "When flagella are distributed on both sides of the bacterial cell, the arrangement is known as:",
+      "o": [
+        "peritrichous.",
+        "polytrichous",
+        "monotrichous.",
+        "amphitrichous."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A cytoplasmic membrane is",
+      "o": [
+        "a membrane that provides a barrier between the cell’s internal structures",
+        "a membrane that provides a selective barrier between the cell wall and the cell’s internal structures",
+        "part of the cell envelope",
+        "No correct answers",
+        "a membrane that provides a selective barrier between the nucleus and the cell’s internal structures"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "After what sign of mycoplasma differ from bacteria :",
+      "o": [
+        "by intracellular parasite",
+        "by absence of cell wall",
+        "by tinctorial properties",
+        "by structure of cytoplasmatic membrane"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose one true option about prokaryotes:",
+      "o": [
+        "produce endospores.",
+        "possess ribosomes identical to those of eukaryotes.",
+        "have cell walls.",
+        "lack mitochondria."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "An important property of the cell envelope of acid-fast bacteria is:",
+      "o": [
+        "the presence of porins in the outer membrane",
+        "the lack of oxidative phosphorylation enzymes",
+        "the absence of a peptidoglycan layer",
+        "the abundance of mycolic acid in the cell wall"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Appearance of a hard chancre is characteristic of:",
+      "o": [
+        "secondary syphilis.",
+        "latent syphilis.",
+        "tertiary syphilis.",
+        "primary syphilis."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Bacilli are differed from bacteria according to their ability to form:",
+      "o": [
+        "capsules;",
+        "spores",
+        "flagella;",
+        "volutin;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Bacteria do not have some organelles, but always have:",
+      "o": [
+        "Mitochondria",
+        "Cell membrane",
+        "Chloroplasts",
+        "Nucleoid"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Bacterial genus/genera of medical importance which produce endospores is/are:",
+      "o": [
+        "Bacillus.",
+        "Bacterium.",
+        "Corynebacterium",
+        "Mycobacterium",
+        "Micrococcus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Bacterial genus/genera of medical importance which does not produce endospores is/are:",
+      "o": [
+        "Bacillus.",
+        "Cl. botulinum",
+        "Bacteroides",
+        "Cl. tetani"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Capsules to the bacteria are needed for:",
+      "o": [
+        "toxins production",
+        "defence from fagocytosis",
+        "antibodies production",
+        "spore production",
+        "survival in an external environment"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What is incorrect?",
+      "o": [
+        "Spores are formed under adverse environmental conditions such as the absence of a",
+        "Spores are resistant to boiling",
+        "Spores are metabolically inactive and contain dipicolinic acid, a calcium chelator",
+        "Spores are formed primarily by organisms of the genus Neisseria"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose among listed bacteria microorganism, which is not able to form a capsule:",
+      "o": [
+        "Streptococcus pneumoniae",
+        "Rickettsia typhi",
+        "Klebsiella pneumoniae",
+        "Bacillus anthracis",
+        "Yersinia pestis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose correct statement about bacterial L-forms:",
+      "o": [
+        "they have no nucleoid",
+        "they have no ribosomes",
+        "they have no cell wall",
+        "they have no cell membrane"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Clostridium and Bacillus are unique among most bacteria, because they ______",
+      "o": [
+        "produce endospores",
+        "are acid-fast",
+        "do not have teichoic acids",
+        "are mesophiles"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Endospore formation is a property of:",
+      "o": [
+        "Clostridium botulinum",
+        "Escherichia coli",
+        "Treponema pallidum",
+        "Mycobacterium tuberculosis",
+        "Staphylococcus aureus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Indicate disease caused by Leptospira interrogans:",
+      "o": [
+        "Endemic relapsing fever",
+        "Lyme disease",
+        "Weil syndrome (icterohemorrhagic fever), canicola fever",
+        "Syphilis",
+        "Enteric fever"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Medical important spore forming bacteria belong to next genus:",
+      "o": [
+        "Fusobacterium",
+        "Streptococcus",
+        "Escherichia",
+        "Proteus",
+        "Clostridia"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mesosomes of bacteria are analogous to:",
+      "o": [
+        "lysosomes of eukaryotes.",
+        "Golgi apparatus of eukaryotes.",
+        "mitochondria of eukaryotes.",
+        "polyribosomes of eukaryotes",
+        "no correct answers."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Spores are necessary to bacteria for:",
+      "o": [
+        "Defence from fagocytosis",
+        "Defence from acid in stomack",
+        "Survival into human and animal’s organism",
+        "Survival in an external environment",
+        "Reproduction"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The bacterial capsule is:",
+      "o": [
+        "A form of storage granule within the cell.",
+        "a long thin protein rod that is used for bacterial exchange of genetic material.",
+        "Always present on a cell that has the ability to form a capsule.",
+        "a long thin protein rod that is used for attachment.",
+        "A coating on the exterior of many cells."
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The major function of the cell membrane is:",
+      "o": [
+        "To keep water from entering the cell, which causes it to burst.",
+        "To protect the internal components of a cell from the chaos outside of a cell.",
+        "No correct answer",
+        "To bind lipids in the hydrophobic inner layer.",
+        "To trap energy so the cell can use it for the functions of life."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The significance of the plasma membrane is that",
+      "o": [
+        "it prevents movement of molecules out of the organism",
+        "it is the site of protein synthesis",
+        "All answers are correct",
+        "no correct answers",
+        "it selectively allows some molecules to pass into the organism"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The structure of DNA was discovered by:",
+      "o": [
+        "Darwin and Crick",
+        "Pasteur and Koch",
+        "Watson and Crick",
+        "Baltimore and Flemming",
+        "Watson and Griffith"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "To the spiral-shaped bacteria ______ belong:",
+      "o": [
+        "staphylococci",
+        "streptococci",
+        "bacilli",
+        "clostridia",
+        "spirillas"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What are plasmides of bacteria?",
+      "o": [
+        "circular DNA in a shell",
+        "fragments DNA in volutin granules",
+        "circular RNA in cytoplasm",
+        "circular DNA in a cytoplasm",
+        "circular DNA in nucleoid"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What is necessary component of bacterial ultrastructure?",
+      "o": [
+        "Mesosome",
+        "Nucleus",
+        "Mitochondria",
+        "Cell membrane",
+        "Golgi apparatus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The main task of the bacteriological laboratory:",
+      "o": [
+        "study of the epizootic situation.",
+        "diagnosis of diseases of farm animals.",
+        "development of planned activities.",
+        "analysis of statistical data.",
+        "treatment of animals."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "CD3 surface antigen is expressed only by:",
+      "o": [
+        "T cells.",
+        "B cells.",
+        "monocytes.",
+        "granulocytes."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which departments are available in the bacteriological laboratory:",
+      "o": [
+        "epizootic.",
+        "therapeutic.",
+        "bacteriological, serological, virological.",
+        "operational.",
+        "clinical."
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Normal human microflora is:",
+      "o": [
+        "Set of microbiocenoses of all parts of the body",
+        "Skin",
+        "Mucous membranes",
+        "Intestine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Microflora of the oral cavity is represented by:",
+      "o": [
+        "Lactobacilli",
+        "Kokkovymi bacteria",
+        "Karinebacteria",
+        "Spirochetes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The founder of the theory of the normal microflora:",
+      "o": [
+        "P. V. Tsiklinskaya",
+        "L. G. Peretz",
+        "R. Koch",
+        "I. I. Mechnikov"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Sanitary-indicative microbes of air:",
+      "o": [
+        "Proteus",
+        "Meningococcus",
+        "E. coli",
+        "Enterococcus",
+        "Staphylococcus aureus"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Microflora of the upper respiratory tract:",
+      "o": [
+        "L-hemolytic streptococci",
+        "The virus of poliomyelitis",
+        "Mycobacterium",
+        "Brucella"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The microflora of the oral cavity of an adult:",
+      "o": [
+        "S. typhi",
+        "Lactobacterium bifidum",
+        "Treponema pallidum",
+        "Neisseria gonorhoeae"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Flora of the large intestine of an adult:",
+      "o": [
+        "E. coli",
+        "Acidophilic rod",
+        "Treponema dentium",
+        "It changes with antibiotic therapy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which species of microbes in the intestine are the vitamins essential for the human body (B1, B2, B12, K) produce?",
+      "o": [
+        "Streptococcusviridans",
+        "Streptococcusmutans",
+        "Escherihiacoli.",
+        "Staphylococcusepidermidis."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Solutions made in the pharmacy inoculated on medium to detect of microbial contamination. On Endo medium red colonies with metallic blistengrew. What it can be microbes?",
+      "o": [
+        "Shigella",
+        "Salmonella",
+        "streptococci",
+        "Escherihia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Spores of bacilli can be located in a cage:",
+      "o": [
+        "is terminal.",
+        "subterminally.",
+        "issuperficial.",
+        "centrally, subterminally, terminally."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Boy, 7 years old, has vomiting, acute diarrhoea. The previous diagnosis was cholera. But after inoculation of feces on Endo medium dark red colonies with metallic shine grow. Under the microscope they are gram-negative, small, straight rods. What these microbes are?",
+      "o": [
+        "Escherichia coli",
+        "Shigella spp.",
+        "Vibrio cholera",
+        "Salmonella spp."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The first word in the name of microorganisms means:",
+      "o": [
+        "type;",
+        "the species;",
+        "genus",
+        "family"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "For the prevention of diphtheria vaccine is used:",
+      "o": [
+        "BCG;",
+        "TAVTE;",
+        "DTP",
+        "Sabin."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The main carrier site on the human body for strains of potentially pathogenic Staphylococcus aureus is the",
+      "o": [
+        "nasal membranes",
+        "oral cavity",
+        "gastrointestinal tract",
+        "throat (posterior nasopharynx)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Infection diseases are transmitted from its source. Choose the source of an infection",
+      "o": [
+        "Polluted foodstuff",
+        "fly",
+        "sick animal",
+        "mosquitoes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A major difference between EHEC and EPEC is",
+      "o": [
+        "EHEC possesses a type III secretion system and EPEC does not",
+        "EHEC secretes a Shiga-like toxin and EPEC does not",
+        "EPEC rearranges host cell actin and EHEC does not",
+        "EPEC passes through the placenta to infect the fetus and EHEC does not"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The bacterial sore throat is caused by",
+      "o": [
+        "Staphylococcusaureus",
+        "Haemophilusspp",
+        "Streptococcuspyogenes",
+        "Mycoplasmapneumoniae"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Crystal violet blood agar is a selective medium for",
+      "o": [
+        "β-haemolytic streptococci",
+        "Staphylococcusaureus",
+        "Corynebacteriumdiphtheriae",
+        "Mycobacteriumtuberculosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Generation time of Escherichia coli is",
+      "o": [
+        "20 minutes",
+        "20 hours",
+        "20 days",
+        "200 hours"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Transmission of bubonic plague is by",
+      "o": [
+        "Inhalation",
+        "ratflea",
+        "Ingestion",
+        "Mice"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Transmission of pneumonic plague from man to man is through",
+      "o": [
+        "Inoculation",
+        "Ingestion",
+        "dropletinfection",
+        "Inhalation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The agent(s) which can cause plague is/are",
+      "o": [
+        "Proteusmirabilis",
+        "Pseudomonasaeruginosa",
+        "Yersiniapestis",
+        "mycoplasma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Humans become infected with Mycobacterium tuberculosis most frequently by",
+      "o": [
+        "Ingestion",
+        "Inhalation",
+        "Contact",
+        "Inoculation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Medusa head appearance of the colonies may be due to",
+      "o": [
+        "Proteus mirabilis",
+        "Bacillus anthracis",
+        "Clostridiumtetani",
+        "Pseudomonasaeruginosa"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The role of bacterial capsules as virulence factors is usually related to their ability to interfere with",
+      "o": [
+        "Antibody binding",
+        "B lymphocyte activation",
+        "Antibacterial penetration of bacterial cells",
+        "Phagocytosis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Resistance of Staphylococcus aureus to methicillin is most often caused by",
+      "o": [
+        "Alternation of the major target for the drug",
+        "cell membrane impermeability",
+        "decreased uptake of the antibiotic",
+        "Inactivation of autolysins"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The molecular basis for the effect of cholera toxin on duodenal mucosal cells is",
+      "o": [
+        "Activation of adenylateCyclase",
+        "Inactivation of a G1 protein",
+        "Increased activity of potassium pumps",
+        "increased generation of cyclic adenosine monophosphate (cAMP)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The synthesis of erythrogenic toxin by specific strains of group A Streptococcus is determined by a",
+      "o": [
+        "Bacterial chromosomal gene",
+        "gene carried by a lysogenic phage",
+        "Specific virulence plasmid",
+        "Transposon"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A patient develops explosive, watery diarrhea 24 hours after eating seafood. What bacterium is most likely involved?",
+      "o": [
+        "Campylobacter fetus",
+        "Salmonella typhimurium",
+        "Shigellaflexneri",
+        "Vibrio cholera"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following bacteria is not a most common bacterial pathogen causing diarrhea?",
+      "o": [
+        "Shigellaspp",
+        "Salmonella spp",
+        "Enterococcus faecalis",
+        "E.coli"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following bacteria is rarely associated with urinary tract infections?",
+      "o": [
+        "E.coli",
+        "Enterobacter spp",
+        "Proteus spp",
+        "Shigella spp"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following Gram negative rod is not a blood borne bacterial pathogen?",
+      "o": [
+        "Shigellaspp",
+        "Escherichia coli",
+        "Klebsiellapneumoniae",
+        "Pseudomonas aeruginosa"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Sterilization is done by autoclave that consists of exposure to stream at about",
+      "o": [
+        "120°C",
+        "170°C",
+        "121°C",
+        "116°C"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Penicillin is drug that destroy cells only when they are in growing stage, so penicillin is",
+      "o": [
+        "Bacteriocins",
+        "Bactericidal",
+        "Bacteriostatic",
+        "Bacteriainhibiting"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Tularemia is zoonotic disease that is caused by",
+      "o": [
+        "Francisellatularensis",
+        "E. coli",
+        "Brucellaspecie",
+        "Yersinia pestis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Shigella and Campylobacter are isolated by",
+      "o": [
+        "Urine culture",
+        "Stool Culture",
+        "Spinal fluid culture",
+        "Blood culture"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Minimum time for doubling of E. Coli generation is approximately",
+      "o": [
+        "I hour",
+        "30 minutes",
+        "40 minutes",
+        "20 minutes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Anthrax is a disease caused by Bacillus anthracis that is common in most animals but rare in",
+      "o": [
+        "Birds",
+        "Human",
+        "Algae",
+        "Fungi"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Gram negative rods that do not ferment lactose is",
+      "o": [
+        "Bacillus",
+        "Bacillussabtlis",
+        "Salmonella",
+        "Klebsilla"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Other name for pertussisis",
+      "o": [
+        "Cough",
+        "Coldcough",
+        "Whoopingcough",
+        "Fever"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Q fever word 'Q' is used to denote",
+      "o": [
+        "Question",
+        "Query",
+        "Quotation",
+        "Quality"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Human urban yellow fever is transmitted by",
+      "o": [
+        "Mosquito",
+        "Rats",
+        "Pigs",
+        "Monkeys"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mycobacterium tuberculosis doubles their generation in",
+      "o": [
+        "20 hours",
+        "20 minutes",
+        "24 hours",
+        "36 hours"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Tuberculosis is caused by mycobacterium tuberculosis that enters body via",
+      "o": [
+        "Respiratory tract",
+        "Skin",
+        "Gastrointestinal tract",
+        "Mucosa"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The most pathogenic Brucella spp for man is",
+      "o": [
+        "B melitensis",
+        "B abortus",
+        "B suis",
+        "B canis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Staphylococcus and Streptococcus are two medically important genera of",
+      "o": [
+        "Gram-positive baccilli",
+        "Aerobicbacteria",
+        "Gram-negativebacteria",
+        "Gram-positivecocci"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Yersinia caused",
+      "o": [
+        "Plague",
+        "Proteus",
+        "Treponema",
+        "Mycobacterium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Diphtheria iscausedby",
+      "o": [
+        "Corynebacterium diphtheria",
+        "Rods",
+        "Mycobacterium tuberculosis",
+        "Cocci"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Diseases for which animals are reservoirs are called",
+      "o": [
+        "Animals transmitters",
+        "Congenital",
+        "Zoonosis",
+        "Reservoirs"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which drug can be used for the setting of skin-allergic tests with a diagnostic purpose:",
+      "o": [
+        "BCG",
+        "Tuberculin",
+        "Tetanus toxoid",
+        "DTP"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Acid resistance is characteristic for:",
+      "o": [
+        "Diphtheria bacillus",
+        "Staphylococci",
+        "Rickettsius",
+        "Tuberculosis bacillus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The causative agent of the tetanus bacillus forms:",
+      "o": [
+        "Proteases",
+        "Endotoxin",
+        "Thetanospazmine",
+        "Plasmocoagulase"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "How do they call cocci, arranged in the form of bunches of grapes:",
+      "o": [
+        "Streptococci",
+        "Staphylococci",
+        "sarcinas",
+        "bacilli"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Widespread immunity that protects the population from the spread of disease is called",
+      "o": [
+        "population immunity",
+        "crossreactivity",
+        "epidemic prophylaxis",
+        "Herd immunity"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Sources of staphylococcal infections:",
+      "o": [
+        "patients, bacterial carriers",
+        "medical instruments",
+        "water",
+        "household items"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The optimum temperature for cultivation of pathogenic bacteria:",
+      "o": [
+        "37.0C",
+        "20 .0C",
+        "52.0C",
+        "0.0C"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Sanitation-indicative microorganisms of water are:",
+      "o": [
+        "E. coli",
+        "spore-forming bacteria",
+        "cholera vibrio",
+        "Protozoa"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Sanitary-indicative microorganisms of air are:",
+      "o": [
+        "Staphylococcus aureus",
+        "pneumococci",
+        "Pseudomonas aeruginosa",
+        "E. Coli"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Representative of the microflora of the upper respiratory tract:",
+      "o": [
+        "The virus of poliomyelitis.",
+        "Brucella.",
+        "Streptococci.",
+        "Cholera vibrios."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The fight against rodents - the sources of infectious diseases is called:",
+      "o": [
+        "disinfection",
+        "deratization",
+        "disinsection",
+        "sterilization"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "For thermophiles, the optimal growth temperature is:",
+      "o": [
+        "0-5 degrees",
+        "50-60 degrees",
+        "10-15 degrees",
+        "35-37 degrees"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The DTP vaccine includes:",
+      "o": [
+        "Tabte",
+        "Corpuscular leptospirosis.",
+        "Diphtheria, tetanus toxoid.",
+        "Influenza."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose bacteria that secrete enterotoxins:",
+      "o": [
+        "Brucella.",
+        "Pathogen plague.",
+        "Vibrio cholerae.",
+        "Pneumococci."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which microorganism causes scarlet fever:",
+      "o": [
+        "Corynebacterium",
+        "Streptococcus",
+        "Staphylococcus aureus",
+        "Klebsiella"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Specify a family of staphylococci:",
+      "o": [
+        "Neiseriaceae",
+        "Streptococcaceae",
+        "Micrococcaceae",
+        "Bacillaceae"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Streptococci:",
+      "o": [
+        "Causes purulent-inflammatory infections",
+        "Grow on the IPA",
+        "In the smear are arranged in groups, congestions",
+        "Do not have adhesives"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Indicate the causative agent of typhoid fever:",
+      "o": [
+        "Salmonella enteritidis",
+        "Salmonella typhimurium",
+        "Salmonella anatum",
+        "Salmonella typhi"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of these bacteria are characterized by the capacity for intensive propagation at low temperatures (0-4 C):",
+      "o": [
+        "Escherichia",
+        "Shigella",
+        "Yersinia",
+        "Klebsiella"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The Mantoux test is set for:",
+      "o": [
+        "Detection of infected individuals with tuberculosis mycobacteria",
+        "Treatment of tuberculosis",
+        "Accelerated diagnosis of tuberculosis",
+        "Diagnosis of the tuberculosis process"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The material for bacteriological research in the diphtheria of throat is:",
+      "o": [
+        "Cerebrospinal fluid",
+        "Pus",
+        "Exercises",
+        "Slime from the throat, larynx"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Prevention of brucellosis is carried out with the help of:",
+      "o": [
+        "Neutralization of products and raw materials of animal origin",
+        "Bacteriophage",
+        "The killed vaccine",
+        "Gamma globulin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The pathogenesis of brucellosis is associated with:",
+      "o": [
+        "endotoxin production",
+        "The ability of the toxin to spread along the nerve trunks",
+        "Formation of granulomas",
+        "The effect of toxin on the mucosa of the gastrointestinal tract"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which brucella often causes brucellosis in goats and sheep:",
+      "o": [
+        "Brucellamelitensis",
+        "Brucellaabortus",
+        "Brucellasuis",
+        "Brucellacanis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The causative agent of the plague opened:",
+      "o": [
+        "Gotschlich",
+        "Kitasamo",
+        "Leffler",
+        "Jersen"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Carriers of infection in the plague are:",
+      "o": [
+        "Lice",
+        "Fleas",
+        "Ticks",
+        "Cervix"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The causative agent of anthrax belongs to the family:",
+      "o": [
+        "Enterobacteriacae",
+        "Spirllaceae",
+        "Bacillaceae",
+        "Brucellaceae"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose obligate aerobes among these microorganisms:",
+      "o": [
+        "Clostridium tetani, Clostridium botulini",
+        "Shigella dysenteriae, Salmonella typhi",
+        "Bacillus anthracis, Brucella melitensis",
+        "Mycobacterium tuberculosis, Micrococcus spp."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose obligate anaerobes:",
+      "o": [
+        "Clostridium tetani, Clostridium botulinum",
+        "Escherichia coli",
+        "Salmonella typhi",
+        "Proteus vulgaris"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Material from patient with gas gangrene must be inoculated on selective nutrient medium. Choose most optimum from them:",
+      "o": [
+        "Kitt-Tarozzi medium",
+        "1 % alkaline peptone water",
+        "Ru’s medium",
+        "Blood agar"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Gas gangrene bacilli is",
+      "o": [
+        "Facultative anaerobe",
+        "Obligate aerobe",
+        "Microaerophylic bacteria",
+        "Obligate anaerobe"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Clostridium tetani is",
+      "o": [
+        "Gram negative bacilli",
+        "Gram positive cocci",
+        "Spiral-shaped bacteria",
+        "D.Gram positive bacilli"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Vaccines are sterilised by",
+      "o": [
+        "Hot air oven",
+        "Autoclaving",
+        "Heat inactivation",
+        "Seitz filtration"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following regarding chlamydia trachomatis is true",
+      "o": [
+        "Cause infertility",
+        "Ttransmitted parenterally",
+        "They are viruses",
+        "Gram negative"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Typical drumstick appearance of bacilli is observed in:",
+      "o": [
+        "Clostridium perfringens.",
+        "C. tetani.",
+        "C. botulinum.",
+        "C. histolyticum."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A degree of heterotrophy may be different. The highest heterotrophy have prokaryotic organisms that are able to live only inside the living cells. They are:",
+      "o": [
+        "staphylococci and streptococci",
+        "escherichia and salmonellas",
+        "mycobacteria and bordetella",
+        "rickettsia and chlamidia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What is unique about the Mycoplasma bacterial group?",
+      "o": [
+        "they lack cell walls",
+        "they lack a cell membrane",
+        "they have organelles",
+        "they are prokaryotes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following bacteria is cell wall deficient?",
+      "o": [
+        "Mycoplasma.",
+        "Treponema.",
+        "Slaphylococcus.",
+        "Klebsiella."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The main causative agent of gas anaerobic gangrene:",
+      "o": [
+        "C. perfringens",
+        "C. novyi",
+        "C. septicum",
+        "C. histolyticum"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Accelerated diagnostics of gas anaerobic infection:",
+      "o": [
+        "The Ermolieva Method",
+        "Gas-liquid chromatography",
+        "Detects the presence of clostridia",
+        "Neutralization reaction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Botulinum sticks are characterized by the formation of:",
+      "o": [
+        "Hyaluronidase",
+        "Plasmocoagulases",
+        "Neurotoxin",
+        "Neulysin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "For laboratory diagnostics of botulism use:",
+      "o": [
+        "Neutralization reaction in white mice",
+        "Agglutination reaction",
+        "RPGA",
+        "Allergic test"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "For the treatment of botulism use:",
+      "o": [
+        "Bacteriophage",
+        "Antimicrobial serum",
+        "Polyvalent antitoxic serum",
+        "Antibiotics"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Infectiousness of chlamydia provides:",
+      "o": [
+        "The initial bodies",
+        "Reticular bodies",
+        "Elementary bodies",
+        "Exotoxin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mycoplasmas:",
+      "o": [
+        "Affect the genito-urinary tract",
+        "Causes diseases with acute course",
+        "Cause OCI",
+        "Affect the mucosa of the small intestine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The laboratory diagnosis of mycoplasmosis includes:",
+      "o": [
+        "Serological",
+        "The phenomenon of plaque formation in cell culture",
+        "The biological method",
+        "Inhibition of growth by specific sera"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Rickettsia:",
+      "o": [
+        "obligate intracellular parasites",
+        "contain only DNA",
+        "reproduce by spores",
+        "grow on ordinary nutrient media"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Causative agent of epidemic typhus:",
+      "o": [
+        "Rickettsia sibirica",
+        "Rickettsia typhi",
+        "Rickettsia prowazekii",
+        "Rickettsia australis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Source of infection in epidemic typhus:",
+      "o": [
+        "pets",
+        "rodents",
+        "sick people",
+        "mites"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Infection with epidemic typhus occurs:",
+      "o": [
+        "when in contact with a sick person",
+        "when bitten by infected lice",
+        "through intact skin",
+        "when rubbing the feces of infected lice"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Chlamydia trachomatis causes everything, in particular:",
+      "o": [
+        "trachoma",
+        "urogenital chlamydiosis",
+        "respiratory chlamydiosis",
+        "pneumonia of newborns"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "M.pneumoniae is mycoplasma that is pathogenic only for",
+      "o": [
+        "Pigs",
+        "Rats",
+        "Cats",
+        "Human"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mycoplasma are free living and small organisms of size nearly",
+      "o": [
+        "0.5 μm",
+        "0.4 μm",
+        "0.3 μm",
+        "0.2 μm"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which property does mycoplasma differ from bacteria:",
+      "o": [
+        "by structure of the nucleoid",
+        "by intracellular parasite",
+        "by tinctorial properties",
+        "by absence of cell wall"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose among the listed reservoirs for human infections",
+      "o": [
+        "food",
+        "sick animals, snsects",
+        "fly",
+        "sick humans, cariers"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Biological control used in an autoclave is:",
+      "o": [
+        "Fungy",
+        "Ricketsia",
+        "Mycobacterium tuberculosis",
+        "Spores of bacillus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Dark Ground microscopy is used for detection of",
+      "o": [
+        "Chlamydia",
+        "Fungi",
+        "Virus",
+        "Spirochetes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Some bacteria are considered pleomorphic. This means:",
+      "o": [
+        "they are shaped like bent rods.",
+        "they have a corkscrew shape.",
+        "they do not have just one shape.",
+        "they are not either bacilli or cocci."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Who was discoverer of phenomenon of anaerobiosis?",
+      "o": [
+        "Mechnikov",
+        "Vinogradsky",
+        "Pasteur",
+        "Koch"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Factors of pathogenicity of rickettsia:",
+      "o": [
+        "Toxins",
+        "RNAse",
+        "DNAse",
+        "hyaluronidase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Reticular chlamydial bodies:",
+      "o": [
+        "adapted to extracellular survival",
+        "Infectious form of Chlamydia",
+        "Not sensitive to antibiotics",
+        "are metabolically active"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The causative agent of Q-fever?",
+      "o": [
+        "R. sibirica",
+        "R. typhi",
+        "R. conori",
+        "Coxiella burnetti"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Rickettsia and chlamydia are characterized by:",
+      "o": [
+        "Absolute intracellular parasitism",
+        "the presence of DNA or RNA",
+        "reproduction according to the genetic information of the host cell",
+        "lack of cellular organization"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Prevention of neonatal tetanus:",
+      "o": [
+        "Vaccination of all women of childbearing age",
+        "vaccination of pregnant women",
+        "vaccination of newborns",
+        "pasteurization of breast milk"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "When we use Romanowsky-Giemsa technique for staining of Borrelia, they have such color:",
+      "o": [
+        "green",
+        "red",
+        "black",
+        "violet"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which brucella often causes brucellosis in goats and sheep:",
+      "o": [
+        "Brucellamelitensis",
+        "Brucellaabortus",
+        "Brucellasuis",
+        "Brucellacanis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The causative agent of the plague opened:",
+      "o": [
+        "Gotschlich",
+        "Kitasamo",
+        "Leffler",
+        "Jersen"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Carriers of infection in the plague are:",
+      "o": [
+        "Lice",
+        "Fleas",
+        "Ticks",
+        "Cervix"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following bacteria is cell wall deficient?",
+      "o": [
+        "Mycoplasma.",
+        "Treponema.",
+        "Slaphylococcus.",
+        "Klebsiella."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mycoplasmas:",
+      "o": [
+        "Affect the genito-urinary tract",
+        "Causes diseases with acute course",
+        "Cause OCI",
+        "Affect the mucosa of the small intestine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Causative agent of epidemic typhus:",
+      "o": [
+        "Rickettsia sibirica",
+        "Rickettsia typhi",
+        "Rickettsia prowazekii",
+        "Rickettsia australis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Chlamydia trachomatis causes everything, in particular:",
+      "o": [
+        "trachoma",
+        "urogenital chlamydiosis",
+        "respiratory chlamydiosis",
+        "pneumonia of newborns"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "M.pneumoniae is mycoplasma that is pathogenic only for",
+      "o": [
+        "Pigs",
+        "Rats",
+        "Cats",
+        "Human"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which property does mycoplasma differ from bacteria:",
+      "o": [
+        "by structure of the nucleoid",
+        "by intracellular parasite",
+        "by tinctorial properties",
+        "by absence of cell wall"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Biological control used in an autoclave is:",
+      "o": [
+        "Fungy",
+        "Ricketsia",
+        "Mycobacterium tuberculosis",
+        "Spores of bacillus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Dark Ground microscopy is used for detection of",
+      "o": [
+        "Chlamydia",
+        "Fungi",
+        "Virus",
+        "Spirochetes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Factors of pathogenicity of rickettsia:",
+      "o": [
+        "Toxins",
+        "RNAse",
+        "DNAse",
+        "hyaluronidase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Reticular chlamydial bodies:",
+      "o": [
+        "adapted to extracellular survival",
+        "Infectious form of Chlamydia",
+        "Not sensitive to antibiotics",
+        "are metabolically active"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Prevention of neonatal tetanus:",
+      "o": [
+        "Vaccination of all women of childbearing age",
+        "vaccination of pregnant women",
+        "vaccination of newborns",
+        "pasteurization of breast milk"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The causative agent of Q-fever?",
+      "o": [
+        "R. sibirica",
+        "R. typhi",
+        "R. conori",
+        "Coxiella burnetti"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Rickettsia and chlamydia are characterized by:",
+      "o": [
+        "Absolute intracellular parasitism",
+        "the presence of DNA or RNA",
+        "reproduction according to the genetic information of the host cell",
+        "lack of cellular organization"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Who was discoverer of phenomenon of anaerobiosis?",
+      "o": [
+        "I. Mechnikov",
+        "S. Vinogradsky",
+        "L. Pasteur",
+        "R. Koch"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The science of microbiology is",
+      "o": [
+        "The study of microorganisms and their relationships to the world around them",
+        "The study of very small insects that are too small to inspect macroscopically",
+        "The study of only small species of the animal and plant kingdoms",
+        "The study of microscopes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The fist man to use a simple microscope to observe microorganisms was",
+      "o": [
+        "Pasteur",
+        "Leeuwenhoek",
+        "Koch",
+        "Mixon"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Classification of all living organisms divided?",
+      "o": [
+        "Kingdom, family, phylum, genus, class, order, species",
+        "Kingdom, phylum, family, order class, genus, specie",
+        "Kingdom, genus, phylum, , order, family, class, species",
+        "Kingdom, phylum, class, order, family, genus, species"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following structure is present in prokaryotic cells",
+      "o": [
+        "Mitochondria",
+        "Chloroplasts",
+        "Golgi structure",
+        "Mesosome"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Pathogenic microorganisms are",
+      "o": [
+        "Capable of causing disease",
+        "Capable of curing disease",
+        "Organisms that never caused disease",
+        "The essential continuance of our species"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Monotrichous organisms have",
+      "o": [
+        "One flagellum at each end",
+        "A tuft of flagella at one end",
+        "One flagellum",
+        "A tuft of flagella at each end"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The study of form and structure of bacteria is",
+      "o": [
+        "Zoology",
+        "Microbiology",
+        "Morphology",
+        "Physiology"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The first antibody to contact invading microorganisms was",
+      "o": [
+        "IgG",
+        "IgM",
+        "IgA",
+        "IgD"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The light emitted by luminescent bacteria is mediated by the enzyme",
+      "o": [
+        "Coenzyme Q",
+        "Luciferase",
+        "Lactose dehydrogenase",
+        "Carboxylase reductase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mycoplasmas are bacterial cells that",
+      "o": [
+        "Fail to reproduce on artificial meida",
+        "Have a rigid cell wall",
+        "Are resistant to penicillin",
+        "Stain well with Gram’s stain"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The bacterial cells are at their metabolic peak during",
+      "o": [
+        "Lag phase",
+        "Log",
+        "Stationary",
+        "Decline"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Endotoxin produced by gramnegative bacteria is present in",
+      "o": [
+        "Peptidoglycan",
+        "Lippolysacharide",
+        "Theichoic acid",
+        "Inner membrane"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Enzyme hydrolyzing bacterial cell wall",
+      "o": [
+        "Lysozome",
+        "Reductase",
+        "Protease",
+        "Lysozyme"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Gamma radiations are used for sterlizing :",
+      "o": [
+        "Syringes",
+        "Cystoscopes",
+        "Dressing aprons",
+        "Metal instruments"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The process of destroying all microbes including spores is called :",
+      "o": [
+        "Disinfection",
+        "Antisepsis",
+        "Disinfestation",
+        "Sterlization"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is most resistant to anticeptics?",
+      "o": [
+        "Spore",
+        "Prion",
+        "Cyst",
+        "Fungus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statement is true :",
+      "o": [
+        "Solid media are enrichment media",
+        "Nutrient broth is basal media",
+        "Agar adds nutrient to media",
+        "Chocolate agar is selective media"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Decreasing order of resistance to sterilization",
+      "o": [
+        "Spores, prions, non-lipid of smll virus",
+        "Prions, spores, enveloped viruses",
+        "Spores, mycobacteria, lipid or medium size virus",
+        "Bacterial spores, prions, bacteria"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Sterilising agents include",
+      "o": [
+        "Dry heat",
+        "Ethylene oxide",
+        "Ether",
+        "Alcohol"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Sporocidal disinfectant is following except :",
+      "o": [
+        "Glutaraldehyde",
+        "Formaldehyde",
+        "Ethylene oxide",
+        "Benzalkonium chloride"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "All are sporicidal except",
+      "o": [
+        "Lysol",
+        "Glutaraldehyde",
+        "Ethylene dioxide",
+        "Formaldehyde"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Sterlization of culture media containing serum is by :",
+      "o": [
+        "Autoclaving",
+        "Micropore filter",
+        "Gamma radiation",
+        "Centrifugation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Asepsis means :",
+      "o": [
+        "Absence of pathogenic microbes",
+        "Disinfection of the surface",
+        "Prevention of infection",
+        "Destroying all forms of microorganism"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "PCR is used to:",
+      "o": [
+        "Detect target plasmids",
+        "Amplify small amount of DNA",
+        "Seal the cut ends of DNA",
+        "Cleave the bacterial plasmid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mechanism of direct transfer of free DNA:",
+      "o": [
+        "Transformation",
+        "Conjugation",
+        "Transduction",
+        "None"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Reverse transcriptase is:",
+      "o": [
+        "DNA dependent RNA polymerase",
+        "RNA dependent DNA polymerase",
+        "DNA dependent DNA polymerase",
+        "RNA dependent RNA polymerase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Enzyme(s) used in polymerase chain reaction is/are:",
+      "o": [
+        "Restriction endonuclease",
+        "DNA polymerase",
+        "Alkaline phosphate",
+        "RNA polymerase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is enzyme of pathogenicity",
+      "o": [
+        "Fibrinolysin",
+        "Interferon",
+        "Lisocim",
+        "A and d"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Transfer of genetic material from a donor to a recipient bacterial cell with bacteriophage as a carrier is:",
+      "o": [
+        "Conjugation",
+        "Transcription",
+        "Transduction",
+        "Transformation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "What dye in the Gram stain do Gram positive bacteria retain?",
+      "o": [
+        "iodine",
+        "malachite green",
+        "sarfanin",
+        "crystal violet",
+        "methylene blue"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The Gram stain is based on differences in the __________ of bacteria.",
+      "o": [
+        "cell wall",
+        "sportes",
+        "flagella",
+        "nuclear membrane",
+        "ribosomes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The gram stain:",
+      "o": [
+        "will differentiate bacterial cells based on chemical differences in their cell walls",
+        "requires acid alcohol as decolorizer",
+        "requires the use of steam heat while staining the cells on the slide",
+        "can be used to determine if a bacterial cell is capable of photosynthesis",
+        "uses acidic dyes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which is true of bacterial cell walls:",
+      "o": [
+        "contain cellulose",
+        "protects against osmotic shock",
+        "selectively permeable",
+        "chemically identical in all bacterial cells",
+        "also called capsules"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which one of the following allows bacterial cell motility?",
+      "o": [
+        "plasmid",
+        "flagella",
+        "capsule",
+        "pill"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which term is used to describe flagella that are found all over the surface of the bacterial cell:",
+      "o": [
+        "peritrichous",
+        "monotrichous",
+        "amphitrichous",
+        "atrichous",
+        "lophotrichous"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A disease of slow progress and long duration is:",
+      "o": [
+        "Secondary disease",
+        "Primary disease",
+        "Chronic disease",
+        "Persistent disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The destruction or removal of all pathogenic organisms, or organisms capable of giving rise to infection is:",
+      "o": [
+        "Sterilisation",
+        "Washing",
+        "Asepsis",
+        "Disinfection"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Type of infection disease is:",
+      "o": [
+        "Sporadic",
+        "Endemic",
+        "Pandemic",
+        "All of the above"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Additional infection with new microorganism is:",
+      "o": [
+        "Reinfection",
+        "Recidivation",
+        "Mono-infection",
+        "Mix-infection"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A young pregnant woman presents with fulminant hepatic failure. The most likely etiological agent is :",
+      "o": [
+        "Hepatitis B virus",
+        "Hepatitis C virus",
+        "Hepatitis E virus",
+        "Hepatitis A virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following hepatitis virus have significant perinatal transmission",
+      "o": [
+        "HEV",
+        "HCV",
+        "HBV",
+        "HAV"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A pregnant woman from Bihar presents with hepatic encephalopathy. The likely diagnosis",
+      "o": [
+        "Hepatitis E",
+        "Hepatitis B",
+        "Sepsis",
+        "Acute fatty liver of pregnancy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "HCV is associated with",
+      "o": [
+        "Anti LKM-1 antibody",
+        "Scleroderma",
+        "Cryoglobulinemia",
+        "Cryoglobulinemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Chronic liver disease is caused by :",
+      "o": [
+        "Hepatitis B",
+        "Hepatitis A",
+        "Hepatitis C",
+        "Hepatitis E"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Non - parenteral hepatitis is :",
+      "o": [
+        "Hepatitis A",
+        "Hepatitis B",
+        "Hepatitis C",
+        "Hepatitis D"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Reverse transcriptase of HBV is coded on following gene",
+      "o": [
+        "C gene",
+        "S gene",
+        "P gene",
+        "X gene"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A blood donor is not considered for safe transfusion, if he has",
+      "o": [
+        "Anti HBS Ab+ve",
+        "Anti HBS Ab and HBc Ag+ve",
+        "HbS Ag +ve and IgM anti HBC+ve",
+        "Anti HBe+ve"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "During epidemic of hepatitis E, fatality is maximum in :",
+      "o": [
+        "Pregnant women",
+        "Infants",
+        "Malnourished male",
+        "Adolescents"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Acute infection with HBV is characterized by :",
+      "o": [
+        "HBs Ag",
+        "Anti HBs Ag",
+        "IgM anti HBc Ag and HBs Ag",
+        "Anti HBc Ag"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Marker for acute hepatitis B is",
+      "o": [
+        "HBV DNA",
+        "IgM anti-HBc",
+        "Core antgen (HbcAg)",
+        "Anti-HbsAg"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "In a patient of active chronic hepatitis B all are seen except",
+      "o": [
+        "HbsAg",
+        "IgM anti HbcAg",
+        "HbeAg",
+        "Anti-HbsAg"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following Hepatitis virus is cultivable",
+      "o": [
+        "Hepatitis A",
+        "Hepatitis B",
+        "Hepatitis D",
+        "Hepatitis E"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "With which of the following of viral hepatitis infection in pregnancy, the maternal mortality the highest",
+      "o": [
+        "Hepatitis A",
+        "Hepatitis B",
+        "Hepatitis C",
+        "Hepatitis E"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 30 year old patient presented with history of jaundice for 10 days. His liver function tests showed bilirubin of 10mg/dl, SGOT/SGPT - 1100/ 1450, serum alkaline phosphatase - 240 IU. He was positive for HbsAg. What should be the confirmatory test to establish acute hepatitis B infection ?",
+      "o": [
+        "IgM Anti-HBc antibody",
+        "HbeAg",
+        "HBV DNA by PCR",
+        "Anti-HBc antibody"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 30 year old lady delivered a healthy baby at 37 week of gestation. She was a known case of chronic hepatitis B infection. She was positive for HBsAg but negative for HBcAg. Which of the following is the most appropriate treatment for the baby ?",
+      "o": [
+        "Both active and passive immunization soon after birth",
+        "Passive immunization soon after birth and active immunization at 1 year of age",
+        "Only passive immunization soon after birth",
+        "Only active immunization soon after birth"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Hepatitis C virus is a",
+      "o": [
+        "Togavirus",
+        "Flavi virus",
+        "Filovirus",
+        "Retrovirus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which one of following is true regarding HIV infection :",
+      "o": [
+        "Following needle stick injury infectivity is reduced by administration of nucleoside analogues",
+        "CD 4 counts are the best predictors of disease progression",
+        "Infected T cells survive for a month in infected patients",
+        "In latent phase HIV has minimal replication"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "HIVvirus has",
+      "o": [
+        "Single stranded DNA",
+        "Single stranded RNA",
+        "Double stranded DNA",
+        "Double stranded RNA"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Regarding HIV which of the following is not true:",
+      "o": [
+        "It is a DNA retrovirus",
+        "Contains Reverse Transcriptase",
+        "May infect host CD 4 cells other than T lymphoctyes",
+        "Causes a reduction in host CD 4 cells at late stage of disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "CMV retinitis in HIV occurs when the CD - 4 counts fall below :",
+      "o": [
+        "50",
+        "100",
+        "200",
+        "150"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Regarding HIV infection, not true is :",
+      "o": [
+        "P24 is used for early diagnosis",
+        "Lysis of infected CD4 cells is seen",
+        "Dendritic cells do not support replication",
+        "Macrophage is a reservoir for the virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Reverse transcriptase sequence in HIV is best described as",
+      "o": [
+        "RNA - DNA - RNA",
+        "DNA - RNA",
+        "DNA - RNA - DNA",
+        "RNA - DNA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Multifocal tumour of vascular origin in a patient of AIDS :",
+      "o": [
+        "Kaposi sarcoma",
+        "Astrocytoma",
+        "Gastric carcinoma",
+        "Primary CNS lymphoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A patient with HIV has diarrhoea with AFB +ve organism in stool. The most likely organism is :",
+      "o": [
+        "Mycobacterium avium intracellulare",
+        "Mycobacterium TB",
+        "Mycobacterium leprae",
+        "Mycoplasmas"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A patient comes to hospital with a history of sore throat, diarrhoea and sexual contact 2 weeks before the best investigation to rule out HIV is :",
+      "o": [
+        "P24 antigen assay",
+        "ELISA",
+        "Western blot",
+        "Lymphnode biopsy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "AIDS involves primarily",
+      "o": [
+        "T-helper cells",
+        "T-suppressor cells",
+        "T-5 cytotoxic cells",
+        "B-cells"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "When compared to the Western blot technique, ELISA test is :",
+      "o": [
+        "More sensitive, less specific",
+        "More sensitive, more specific",
+        "Less sensitive, less specific",
+        "Less sensitive, more specific"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is not true about measles:",
+      "o": [
+        "High secondary attack",
+        "Only one strain causes infection",
+        "Not infectious in prodromal period",
+        "Infections confer life long immunity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "H5N1 is :",
+      "o": [
+        "Bird flu virus",
+        "Vaccinefor HIV",
+        "Causative agent of Japanese encpehalitis",
+        "An eradicated virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The most common etiological agent for acute bronchiolitis in infancy is :",
+      "o": [
+        "Influenza virus",
+        "Parainfluenza virus",
+        "Rhinovirus",
+        "Respiratory syncytial virus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "With reference to mumps which of the following is true :",
+      "o": [
+        "Meningoencephalitis can precede parotitis",
+        "Salivary gland involvement is limited to the parotids",
+        "The patient is not infectious prior to clinical parotid enlargement",
+        "Mumps orchitis frequently leads to infertility"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "All of the following statement are true about congenital Rubella except",
+      "o": [
+        "It is diagnosed when the infant has IgM antibodies at birth",
+        "It is diagnosed when IgG antibodies persist for more than 6 month",
+        "MC congenital defects are deafness, cardiac malformation and cataract",
+        "Infection after 16 weeks of gestation result in major congenital defects"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Laboratory diagnosis of viral respiratory tract infections can be established by all of the following tests except :",
+      "o": [
+        "Detection of virus specific IgM antibodies in single serum specimen",
+        "Demonstration of viral antigens by indirect immunofluorescence assay in nasopharyngeal washings",
+        "Isolation of viruses using centrifugation enhanced culture",
+        "Detection of viral hemagglutination inhibiting (HAI) antibodies in a single serum specimen"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "All of the following statements are true regarding poliovirus except :",
+      "o": [
+        "It is transmitted by feco-oral route",
+        "Asymptomatic infections are common in children",
+        "There is a single serotype causing infection",
+        "Live attenuated vaccine produces herd immunity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "All of the following clinical features are associated with Enteroviruses except",
+      "o": [
+        "Mycocarditis",
+        "Pleurodynia",
+        "Herpangina",
+        "Hemorrhagic fever"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Commonest complication of Mumps is",
+      "o": [
+        "Orchitis and Oophritis",
+        "Encephalitis",
+        "Pneumonia",
+        "Myocarditis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True statement about Influenza A virus",
+      "o": [
+        "It has a double stranded segmented RNA",
+        "Pandemics are caused by antigenic drifts",
+        "Nucelocapsid antibody is not specific",
+        "Hemaglutinin and neuraminidase are strain specific"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Acute hemorrhagic conjunctivitis is caused by",
+      "o": [
+        "Enterovirus",
+        "Adenovirus",
+        "Poliovirus",
+        "Hepadna virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 11 month old child presents with complaints of respiratory distress. On examination there is bilateral crepitation and wheezing. Which of the following is the most likely cause",
+      "o": [
+        "Pneumonia",
+        "Adenovirus",
+        "Respiratory syncitial virus",
+        "Rhinovirus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Rota virus is diagnosed by",
+      "o": [
+        "IgM specific antibody in stool",
+        "ELISA demonstrates antibody in stool",
+        "Immunoflorescence antigen in stool",
+        "Culture of rota virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Segmented double stranded RNA virus is seen in",
+      "o": [
+        "Reovirus",
+        "Myxovirus",
+        "Rabies",
+        "Parvo virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Micro- Organism used as weapon in biological terrorism",
+      "o": [
+        "Small pox Virus",
+        "Rabies Virus",
+        "Ebola Virus",
+        "Influenza C Virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Incubation period less than 10 days seen :",
+      "o": [
+        "Influenza",
+        "Cholera",
+        "Plague",
+        "Chickenpox"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Organism (s) causing, bronchiolitis in infant",
+      "o": [
+        "RSV",
+        "Rhino virus",
+        "Parainfluenza"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Lipid envelope is found in which virus :",
+      "o": [
+        "Relapsing fever",
+        "Herpes",
+        "Picorna",
+        "All of the above"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Soft tick transmits",
+      "o": [
+        "Relapsing fever",
+        "KFD",
+        "Tick typhus",
+        "Tularemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Negre body is seen in :",
+      "o": [
+        "CMV",
+        "Rabies",
+        "Inclusion of herpes simplex",
+        "EBV"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following viral infections is transmitted by tick :",
+      "o": [
+        "Japanese encephalitis",
+        "Dengue fever",
+        "Kyasanur forest disease (KFD",
+        "Yellow fever"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "New infectious agents are :",
+      "o": [
+        "Nipah virus",
+        "Pneumocystis jeruveci",
+        "Corona virus",
+        "SARS"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Following are Arboviral disease",
+      "o": [
+        "KFD",
+        "West Nile Fever",
+        "Ganjam virus",
+        "RSV"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statement is/are true of all paramyxoviruses :",
+      "o": [
+        "They contain a single-standed RNA genome of negative polarity",
+        "Envelopes are derived from the host cells plasma membrane",
+        "They have a cytoplasmic site of replication",
+        "They enter the body by the respiratory route"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following vaccine [s) should not be given to an immunodeficient patient :",
+      "o": [
+        "Influenza vaccine",
+        "Rubella vaccine",
+        "Pneumococcal vaccine",
+        "Trivalent oral polio vaccine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "In India, human infections has been reported dengue virus type :",
+      "o": [
+        "Types I and 1",
+        "Types 1 and 3",
+        "Types 2 and 4",
+        "All 4 types"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is not common in India :",
+      "o": [
+        "Japnese B encphalitis",
+        "Lassa fever",
+        "KFD",
+        "Dengue"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Neurological complications following Rabies vaccines is common with :",
+      "o": [
+        "HDC Vaccine",
+        "Chick embryo vaccine",
+        "Semple vaccine",
+        "Duck egg vaccine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Acute epidemic keratoconjuctivitis is caused by",
+      "o": [
+        "Herpes virus",
+        "Echo",
+        "Enterovirus 70",
+        "Enterovirus 72"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Diarrhea in Rota virus infection is due to :",
+      "o": [
+        "Increased intestinal hypermotility",
+        "Decreased absorption by villi",
+        "Increased Secretion by villi",
+        "None of the above"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Virus causing chicken pox belongs to :",
+      "o": [
+        "Pox virus",
+        "Herpes virus",
+        "Coxsackie virus",
+        "Adeno virus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Japanese B encephalitis virus is transmitted by :",
+      "o": [
+        "Aedes aegypti",
+        "Culex fatigans",
+        "Culex tritaeniorynchus",
+        "Hard tick"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Subacute sclerosing panencephalitis is associated with :",
+      "o": [
+        "Chicken pox",
+        "Rabies",
+        "Measles virus",
+        "Measles virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "In which of the following virus is shed in stool :",
+      "o": [
+        "Herpangina",
+        "Influenza",
+        "Varicella",
+        "Small pox"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which viral infection always causes clinical disease in human beings :",
+      "o": [
+        "Rubella",
+        "Poliomyelitis",
+        "Measles",
+        "Rabies"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Strain used in measles vaccine is",
+      "o": [
+        "Salk",
+        "Sabin",
+        "Wrong,TAF",
+        "Edmonston jagreb"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "RSV causes :",
+      "o": [
+        "Bronchiolitis",
+        "Mumps",
+        "Croup",
+        "Bronchitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True about influenza A is :",
+      "o": [
+        "Double strained segmented RNA",
+        "Pandemic are caused by antigenic drift",
+        "Nucleocapsid antibody is specific",
+        "Hexaminidase and Neuraminidase is type specific"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True about picornavirus is:",
+      "o": [
+        "OPV provides herd immunity",
+        "Immunity in poliomyelitis is type specific",
+        "Best method of isolation is tissue culture",
+        "Passive immunization of human immunoglobulin has more value"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Herpes - zoster is caused by",
+      "o": [
+        "Herpes-simplex type I",
+        "Herpes-simplex type II",
+        "Epstein-barr virus",
+        "Varicella"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Viral enterotoxin is detected as a possible mechanism of pathogenesis in",
+      "o": [
+        "Adeno virus",
+        "Rota virus",
+        "Calcivirus",
+        "Astrovirus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Varicella are classified under :",
+      "o": [
+        "Enterovirus",
+        "Retrovirus",
+        "Poxvirus",
+        "Herpes virus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "EB virus belongs to which group :",
+      "o": [
+        "Retrovirus",
+        "Herpes virus",
+        "RNA virus",
+        "Pox virus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following does not establish a diagnosis of congenital CMV infection in a neonate?",
+      "o": [
+        "Urine culture of CMV",
+        "IgG CMV antibodies in blood",
+        "Intra-nuclear inclusion bodies in hepatocytes",
+        "CMV viral DNA in blood by polymerase chain reaction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Parvovirus B19 does not cause",
+      "o": [
+        "Roseola infantum",
+        "Aplastic anemia in sickle cell",
+        "Fetal hydrops",
+        "Collapsing FSGS"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Epstein Barr virus is associated with",
+      "o": [
+        "Carcinoma larynx",
+        "Carcinoma bladder",
+        "Carcinoma nasopharynx",
+        "Carcinoma maxilla"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The most common cause of sporadic viral encephalitis is :",
+      "o": [
+        "Japnese B encephalitis",
+        "Herpes simplex encephalitis",
+        "HIV encephalitis",
+        "Rubeola encephalitis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 40 year old man underwent kidney transplantation. Two month after transplantation, he developed fever and feature suggestive of bilateral diffuse interstitial pneumonia. Which of the following is most likely etiologic agent :",
+      "o": [
+        "Herpes simplex virus",
+        "Cytomegalovirus",
+        "Epstein-barr virus",
+        "Varicella - zoster virus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A neonate develops encephalitis without any skin lesions most probable causative organism is :",
+      "o": [
+        "HSV I",
+        "HSV II",
+        "Meningococci",
+        "Streptococci"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Encephalitis is caused by",
+      "o": [
+        "HSV-I",
+        "EBV",
+        "Infectious mononucleosis",
+        "CMV"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Parvo virus causes :",
+      "o": [
+        "Aplastic anemia",
+        "Erythema infectiosum",
+        "Roseola infantum",
+        "Arthritis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "In parvovirus infection what is common in adult",
+      "o": [
+        "Bone marrow",
+        "PRCA",
+        "Erythema infectiosum",
+        "Arthropathy"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following pair is correct",
+      "o": [
+        "RSV “ Brochiolitis",
+        "HHV5 – Infectious mononucleosis",
+        "Parvovirus Exanthem subitum",
+        "HHV - 6 - Kaposi sarcoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statement is correct :",
+      "o": [
+        "Viral warts usually resolve spontaneously",
+        "Plantar warts should not be excised",
+        "Callosity are formed occupationally",
+        "Corn’s are viral in etiology"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "EBV associated with",
+      "o": [
+        "Ca tonsil",
+        "Nasopharyngeal Ca",
+        "Anal Ca",
+        "Infectious mononucleosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True about Herpes Virus :",
+      "o": [
+        "HSV encephalopathy is treated with acyclovir",
+        "Oropharyngeal involvement is common in HSV1",
+        "Recurrent genital involvement is seen in HSV-2",
+        "Recurrence is rare in HSV-1"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Disease caused by Epstein Barr virus are",
+      "o": [
+        "Infectious mononucleosis",
+        "Burkitt lymphoma",
+        "Kaposi sarcoma",
+        "Nasopharyngeal Ca"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Regarding HSV-2 infection True is / are",
+      "o": [
+        "Primary infection is usually widespread",
+        "Recurrent attacks are due to reactivation of latent infection",
+        "Encephalitis can be caused by HSV-2",
+        "Newborn may acquire infection via the birth canal at the time of labour"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Vaccine preparation requires which virus as vector:",
+      "o": [
+        "Rhinovirus",
+        "Vaccinia",
+        "Adenovirus",
+        "Ebola"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "EBV does not cause",
+      "o": [
+        "Nasopharyngeal Ca",
+        "Inverted papilloma",
+        "Burkitt lymphoma",
+        "Infectious mononucleosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Immunocompromised patient due to transplantation is suffering from pyrexia and neutropenia. Most likely cause is :",
+      "o": [
+        "HSV",
+        "CMV",
+        "Gram -ve organism",
+        "Gram +ve organism"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Most sensitive test for diagnosis of infectious mononucleosis :",
+      "o": [
+        "Monospot test",
+        "Paul Bunnet test",
+        "Lymphocytosis in peripheral smear",
+        "Culture of the virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Patient present in your clinic. On physical examination, there is bilateral lymphadenopthy, which is tender on palpation. He gave history of sexual contact. He is truck driver by profession. The probable causative agent is :",
+      "o": [
+        "Herpes",
+        "LGV",
+        "H. ducreyi",
+        "Treponema"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "African burkitts lymphoma is cuased by",
+      "o": [
+        "Cytomegala virus",
+        "EB virus",
+        "Herpes zoster",
+        "Infectious mononucleosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Erythema infectosum is caused by :",
+      "o": [
+        "Human parvovirus is B19",
+        "Papova virus",
+        "Human herpes virus type 8",
+        "Measles virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Most common extra skin manifestation of varicella is involvement of :",
+      "o": [
+        "CNS",
+        "Lungs",
+        "Kidneys",
+        "CVS"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True about Herpes virus:",
+      "o": [
+        "HSV encephalopathy is treated with acyclovir",
+        "Oropharyngeal involvement is common in HSV :1",
+        "Recurrent genital involvement is seen in HSV :2",
+        "Recurrence is rare in HSV :1"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Following virus is of pox family",
+      "o": [
+        "Variola",
+        "Coxsackie",
+        "ECHO",
+        "HSV"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Small pox belongs to which class of poxviruses",
+      "o": [
+        "Parapoxvirus",
+        "Capripoxvirus",
+        "Leporipoxvirus",
+        "Orthopoxvirus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is not a pox virus",
+      "o": [
+        "Cow pox",
+        "Molluscum contagiosum",
+        "Small pox",
+        "Chicken pox"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Pharyngoconjunctival fever is caused by:",
+      "o": [
+        "Adeno virus",
+        "Parainfluenza",
+        "Coxsakie viruses",
+        "All of the above"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Virus causing hemorrhagic cystitis, diarrhea and conjunctivitis is:",
+      "o": [
+        "RSV",
+        "Rhinovirus",
+        "Adenovirus",
+        "Rotavirus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Space vehicle virus is:",
+      "o": [
+        "Reovirus",
+        "Rhabdo virus",
+        "Retrovirus",
+        "Adenovirus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Slapped cheek sign is seen in:",
+      "o": [
+        "Parvovirus B19",
+        "JC virus",
+        "Rota virus",
+        "Mumps"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Parvovirus infection is associated with:",
+      "o": [
+        "Hydrops fetalis",
+        "Aplastic anemia",
+        "Abortion",
+        "Sixth disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "In parvovirus infection what is common in adult:",
+      "o": [
+        "Bone marrow aplasia",
+        "Prca",
+        "Erythema infectiosum",
+        "Arthropathy"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "HPV belongs to:",
+      "o": [
+        "Papova virus",
+        "Parvovirus",
+        "Herpes virus",
+        "Poxvirus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Progressive multifocal leukoencephalopathy is caused by:",
+      "o": [
+        "CMV",
+        "EBV",
+        "JC virus",
+        "RSV"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Condyloma acuminatum is caused by:",
+      "o": [
+        "HSV",
+        "HPV",
+        "HIV",
+        "VZV"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "HPV vaccine is:",
+      "o": [
+        "Monovalent",
+        "Bivalent",
+        "Quadrivalent",
+        "Both bivalent and quadrivalent"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statement is correct?",
+      "o": [
+        "Viral warts usually resolve spontaneously",
+        "Plantar warts should not be excised",
+        "Callosities are formed occupationally"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Renal involvement is seen in which of the following infections:",
+      "o": [
+        "Cytomegalovirus",
+        "Polyoma virus",
+        "Human papilloma virus",
+        "HIV"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "MC serotype of HPV causing CaCx:",
+      "o": [
+        "HPV 6",
+        "HPV 11",
+        "HPV 16",
+        "HPV 33"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True about bacteriophage is:",
+      "o": [
+        "Helps in gain of new toxigenic property",
+        "Transfers only chromosomal genes",
+        "Helps in transformation of bacteria",
+        "It is a bacteria infecting bacteria"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Phage typing is widely used for the intraspecies classification of one of the following bacteria:",
+      "o": [
+        "Staphylococci",
+        "E.coli",
+        "Klebsiella pneumoniae",
+        "Pseudomonas aeruginosa"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 74-year-old man develops fever, malaise, and a sore throat followed shortly thereafter by nausea, vomiting, and then stupor. Eastern equine encephalitis is diagnosed. Control of this disease in humans could be accomplished by eradication of which of the following?",
+      "o": [
+        "Horses",
+        "Sandflies",
+        "Mosquitoes",
+        "Ticks"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "An arbovirus common in the Middle East, Africa, and Southwest Asia first appeared in New York in 1999. By 2002 the virus had spread throughout the continental United States. This arbovirus, a member of the Japanese B encephalitis antigenic complex, is which of the following?",
+      "o": [
+        "Japanese B encephalitis virus",
+        "Tick-borne encephalitis virus",
+        "West Nile virus",
+        "Dengue virus",
+        "Rift Valley fever virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following descriptions of or statements about Lassa fever is correct?",
+      "o": [
+        "It is found in eastern Africa.",
+        "Human-to-human transmission does not occur.",
+        "It seldom causes death or complications.",
+        "It occurs from contact with the house rat Mastomys natalensis.",
+        "There is no drug that is effective in treating Lassa fever."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Arboviruses are transmitted by bloodsucking arthropods from one vertebrate host to another. Arboviruses are found in the following virus families except which of the following?",
+      "o": [
+        "Togaviridae",
+        "Flaviviridae",
+        "Bunyaviridae",
+        "Reoviridae",
+        "Arenaviridae"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 27-year-old man develops fever, chills, headache, and backache. Four days later he develops a high fever and jaundice. Yellow fever is diagnosed. Which of the following statements concerning yellow fever is correct?",
+      "o": [
+        "The virus is transmitted by culicine mosquitoes in the urban form of disease.",
+        "Monkeys in the jungle are a major reservoir of yellow fever virus.",
+        "Yellow fever often has long-term complications.",
+        "All infections lead to apparent disease.",
+        "Ribavirin is specific therapy."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Regarding the patient in Question 117? yellow fever occurs in which region or regions of the world?",
+      "o": [
+        "Asia",
+        "Africa and South America",
+        "North America",
+        "Africa and Middle East",
+        "Throughout the world"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "African hemorrhagic fevers, Marburg and Ebola, are severe diseases often ending in death. Which of the following is most accurate about Ebola virus?",
+      "o": [
+        "Is spread by contact with blood or other body fluids",
+        "Is transmitted by mosquitoes",
+        "Is a flavivirus",
+        "Causes infections but no disease in nonhuman primates",
+        "Is antigenically related to Lassa fever virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following groups can be vaccinated routinely with yellow fever vaccine without special safety considerations?",
+      "o": [
+        "Children younger than 9 months old",
+        "Pregnant women",
+        "Persons with compromised immune systems",
+        "All of the above",
+        "None of the above"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Hantaviruses, which are emerging pathogens in the United States, can be described by which of the following?",
+      "o": [
+        "They are arenaviruses.",
+        "They are readily transmitted human to human.",
+        "They cause influenza-like symptoms followed rapidly by acute respiratory failure.",
+        "They are acquired by inhalation of aerosols of deer urine.",
+        "They show a high frequency of antigenic variation."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A microbiologist was performing a necropsy in a laminar flow biosafety cabinet on a blue-jay submitted as part of a state’s arbovirus surveillance program. He lacerated his thumb while using a scalpel to remove the bird’s brain. Four days later, he developed a headache, myalgia, and malaise followed by chills, sweats, and lymph node swelling. Two days later, a rash began on his face and spread to the trunk, arms, and legs, persisting for about 3 days. He sought medical care and reported a history of dengue fever and vaccinations with yellow fever and Japanese B encephalitis vaccines. A serum sample taken the day of the injury contained anti- flavivirus immunoglobulin G (IgG) antibody by enzyme-linked immunosorbent assay. A serum sample collected 13 days after the onset of illness showed an increased titer of antiflavivirus IgG antibody and the presence of West Nile virus IgM antibody. The physician could conclude that the most likely cause of the microbiologist’s illness was which virus?",
+      "o": [
+        "Dengue virus",
+        "Yellow fever virus",
+        "West Nile virus",
+        "St. Louis encephalitis",
+        "Not identifiable until neutralizing antibody titers from paired sera could be assessed against a panel of arboviruses"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statements about dengue virus is not true?",
+      "o": [
+        "It is the most important mosquito-borne viral disease affecting humans.",
+        "It is distributed worldwide in tropical regions.",
+        "It can cause a severe hemorrhagic fever.",
+        "There is a single antigenic type.",
+        "One form of disease is characterized by increased vascular permeability."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following diseases occurring in the United States lacks a known vector?",
+      "o": [
+        "Hantavirus pulmonary syndrome",
+        "West Nile fever",
+        "La Crosse encephalitis",
+        "Colorado tick fever",
+        "St. Louis encephalitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statements about yellow fever is false?",
+      "o": [
+        "There is no animal reservoir.",
+        "The name “yellow” comes from the fact that many victims have jaundice.",
+        "Certain mosquitoes are biological hosts for the causative agent.",
+        "Outbreaks of the disease could occur in the United States because a suitable vector is present.",
+        "An attenuated vaccine is widely used to prevent the disease."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statements about hantaviruses in the United States is correct?",
+      "o": [
+        "Are limited in range to southwestern states",
+        "Are carried only by deer mice",
+        "Infect human beings with a fatality rate that can be above 30%",
+        "Were first identified in the early 1970s",
+        "Are contracted mainly in bat caves"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 40-year-old emergency services worker is considering smallpox vaccination because of the potential for bioterrorism. He inquires about the vaccine and finds that the most common adverse reaction or complication after vaccinia (smallpox) vaccination is",
+      "o": [
+        "Generalized vaccinia",
+        "Eczema vaccinatum",
+        "Progressive vaccinia",
+        "Severe allergic reaction",
+        "Inadvertent autoinoculation"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following poxviruses infects only humans?",
+      "o": [
+        "Monkeypox",
+        "Molluscum contagiosum",
+        "Tanapox",
+        "Cowpox",
+        "Yaba tumor virus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 7-year-old boy has pox-like lesions on his left hand and arm. He has a pet rodent imported from West Africa. Monkeypox is diagnosed in the boy and the rodent. Which of the following statements about monkeypox virus is most correct?",
+      "o": [
+        "Clinical disease resembles smallpox.",
+        "Human infections are never fatal.",
+        "Smallpox vaccination is not protective.",
+        "Infections are readily transmitted among family members.",
+        "Virus particles can be distinguished from smallpox virus by electron microscopy."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following best describes the currently licensed vaccinia (smallpox) vaccines?",
+      "o": [
+        "Live attenuated smallpox virus",
+        "Inactivated smallpox virus",
+        "Live vaccinia virus",
+        "Inactivated vaccinia virus",
+        "Reassortant vaccine containing both vaccinia and smallpox viruses"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following does not apply to vaccinia virus replication in cultured cells?",
+      "o": [
+        "Viral replication cycle takes place in the cytoplasm of infected cells.",
+        "The uncoating step leading to release of the viral genome requires a newly synthesized viral protein.",
+        "Early transcription of more than 50 viral genes occurs within viral cores and precedes viral DNA replication.",
+        "Newly formed virus particles mature by budding through the nuclear membrane."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 37-year-old emergency room nurse is vaccinated for smallpox because of the bioterrorism threat. Twelve days later, she has a major complication from the vaccine. Vaccinia immune globulin therapy is considered. For which of the following conditions is treatment with vaccinia immune globulin of no benefit?",
+      "o": [
+        "Severe generalized vaccinia",
+        "Progressive vaccinia",
+        "Postvaccinial encephalitis",
+        "Eczema vaccinatum",
+        "Ocular vaccinia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following does not fulfill the criteria for exposure to vaccinia?",
+      "o": [
+        "Smallpox vaccination",
+        "Close contact with a recent smallpox vaccine",
+        "Intrauterine exposure",
+        "Injection of vaccinia immune globulin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A researcher wishes to obtain a full-length genome of variola virus for vaccine studies. Which of the following is the appropriate source of the viral DNA?",
+      "o": [
+        "The Centers for Disease Control and Prevention.",
+        "A World Health Organization collaborating center.",
+        "The American Type Culture Collection.",
+        "A colleague with a variola virus clone.",
+        "Distribution of a full-length viral genome is prohibited"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Laboratory scientists who work with vaccinia virus-infected cultures or animals are at risk of accidental exposure to the virus. Which of the following procedures by the laboratory worker is of least benefit in protecting against inadvertent infection with vaccinia virus?",
+      "o": [
+        "Proper use of personal protective equipment such as gloves and goggles",
+        "Cleaning of laboratory work space before experimentation",
+        "Smallpox vaccination",
+        "Safe needle-handling practices",
+        "Use of biosafety hoods"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The eradication of smallpox was facilitated by several features of the virus. Which one of the following contributed least to eradication?",
+      "o": [
+        "It has one antigenic type.",
+        "Inapparent infection is rare.",
+        "Administration of live vaccine reliably induces immunity.",
+        "It multiplies in the cytoplasm of infected cells."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A previously healthy 3-year-old boy develops a classic viral childhood illness. Which of the following primary viral infections of childhood is usually symptomatic?",
+      "o": [
+        "Cytomegalovirus",
+        "Epstein-Barr virus",
+        "Hepatitis B virus",
+        "Varicella-zoster virus",
+        "Parvovirus B19"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which one of the following is a recommended therapy for herpes simplex virus genital infection?",
+      "o": [
+        "Acyclovir",
+        "Attenuated live virus vaccine",
+        "Herpes immune globulin",
+        "Interferon-α",
+        "Ribavirin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Most herpesvirus infections are endemic worldwide. Which one of the following viruses shows marked geographic differences in seroprevalence?",
+      "o": [
+        "Cytomegalovirus",
+        "Epstein-Barr virus",
+        "Herpes simplex virus type 2",
+        "Kaposi sarcoma herpesvirus",
+        "Varicella-zoster virus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 19-year-old female college student has a fever, sore throat, and lymphadenopathy accompanied by lymphocytosis with atypical cells and an increase in sheep cell agglutinins. The diagnosis is most likely",
+      "o": [
+        "Infectious hepatitis",
+        "Infectious mononucleosis",
+        "Chickenpox",
+        "Herpes simplex infection",
+        "Viral meningitis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A Tzanck smear of a scraping obtained from a vesicle on the skin demonstrates multinucleated giant cells. Multinucleated giant cells are associated with which of the following viruses?",
+      "o": [
+        "Varicella-zoster",
+        "Variola major",
+        "Coxsackievirus",
+        "Molluscum contagiosum"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statements about betaherpesviruses is not true?",
+      "o": [
+        "They are reactivated in immunocompromised patients.",
+        "Most infections are subclinical.",
+        "They can infect lymphoid cells.",
+        "They have short, cytolytic growth cycles in cultured cells",
+        "They establish latent infections and persist indefinitely in infected hosts."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 28-year-old woman has recurrent genital herpes. Which of the following statements about genital herpes infections is true?",
+      "o": [
+        "Reactivation of latent virus during pregnancy poses no threat to the newborn.",
+        "Virus cannot be transmitted in the absence of apparent lesions.",
+        "Recurrent episodes caused by reactivation of latent virus tend to be more severe than the primary infection.",
+        "They can be caused by either herpes simplex virus type 1 or type 2.",
+        "Latent herpes simplex virus can be found in dendritic cells."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following viruses causes a mononucleosis-like syndrome and is excreted in the urine?",
+      "o": [
+        "Cytomegalovirus",
+        "Epstein-Barr virus",
+        "Human herpesvirus 6",
+        "Varicella-zoster virus",
+        "Herpes simplex virus type 2"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 53-year-old woman develops fever and focal neurologic signs. Magnetic resonance imaging shows a left temporal lobe lesion. Which of the following tests would be most appropriate to confirm a diagnosis of herpes simplex encephalitis in this patient?",
+      "o": [
+        "Brain biopsy",
+        "Tzanck smear",
+        "Polymerase chain reaction assay for viral DNA in cerebrospinal fluid",
+        "Serologic test for viral IgM antibody"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following tumors is caused by a virus other than Epstein-Barr virus?",
+      "o": [
+        "Posttransplant lymphomas",
+        "Hodgkin disease",
+        "Kaposi sarcoma",
+        "AIDS-related central nervous system non-Hodgkin lymphomas O. Burkitt lymphoma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "An outbreak of a rash called “mat herpes” occurred among high school students who had competed in a wrestling tournament. Which of the following statements is most accurate?",
+      "o": [
+        "The rash is not contagious among wrestlers.",
+        "The causative agent is herpes simplex virus type 1.",
+        "The causative agent is varicella-zoster virus.",
+        "Lesions typically last 1 month or longer.",
+        "Students should be vaccinated before participating in wrestling tournaments."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The shingles vaccine is recommended for which of the following groups?",
+      "o": [
+        "Healthy adolescents",
+        "Individuals older than age 60 years",
+        "Pregnant women",
+        "Those who never had chickenpox"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The most common congenital infection is caused by",
+      "o": [
+        "Varicella-zoster virus",
+        "Herpes simplex virus type 2",
+        "Human herpesvirus 8 (Kaposi sarcoma herpesvirus)",
+        "Cytomegalovirus",
+        "Parvovirus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following groups are at increased risk for herpes zoster?",
+      "o": [
+        "Persons at advanced age",
+        "Patients with atopic dermatitis",
+        "Pregnant women",
+        "Persons who have been vaccinated with varicella vaccine",
+        "Infants with congenital infections"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which one of the following is the best explanation for the selective action of acyclovir (acycloguanosine) in herpes simplex virus (HSV)-infected cells?",
+      "o": [
+        "Acyclovir binds specifically to viral receptors only on the surface of the HSV-infected cell.",
+        "Acyclovir is phosphorylated by a virus-encoded phosphokinase only within HSV-infected cells.",
+        "Acyclovir selectively inhibits the RNA polymerase in the",
+        "Acyclovir specifically blocks the matrix protein of HSV, thereby preventing release of progeny HSV."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Vaccines have been demonstrated to be efficacious in preventing herpesvirus disease in which one of the following situations?",
+      "o": [
+        "Herpes simplex virus type 1 primary infection",
+        "Herpes simplex virus type 2 reactivation",
+        "Varicella-zoster reactivation",
+        "Cytomegalovirus primary infection",
+        "Epstein-Barr virus reactivation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Herpes simplex virus and cytomegalovirus share many features. Which one of the following features is least likely to be shared?",
+      "o": [
+        "Important cause of morbidity and mortality in the newborn",
+        "Congenital abnormalities caused by transplacental passage",
+        "Important cause of serious disease in immunosuppressed individuals",
+        "Mild or inapparent infection"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Herpes simplex virus type 1 (HSV-1) is distinct from herpes simplex virus type 2 (HSV-2) in several different ways. Which one of the following is the least accurate statement?",
+      "o": [
+        "HSV-1 causes lesions above the umbilicus more frequently than HSV-2 does.",
+        "Infection by HSV-1 is not associated with any tumors in humans.",
+        "Antiserum to HSV-1 neutralizes HSV-1 much more effectively than HSV-2.",
+        "Whereas HSV-1 causes frequent recurrences, HSV-2 infection rarely recurs."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following virus is the largest?",
+      "o": [
+        "Adeno",
+        "Pox",
+        "Parvo",
+        "Papova"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following does NOT apply to the vaccinia virus?",
+      "o": [
+        "Used as vector for human vaccines",
+        "Accommodates 25,000 foreign base pairs",
+        "Is an artificial virus",
+        "It has undergone permanent changes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Virions of which of the following viruses can be seen under the compound microscope?",
+      "o": [
+        "Herpes",
+        "Pox",
+        "Rabies",
+        "Polio"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The multiplication of which of the following viruses takes place entirely in the cytoplasm?",
+      "o": [
+        "Herpes",
+        "Rota",
+        "Influenza C",
+        "Pox"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Ceiling temperature is:",
+      "o": [
+        "Temperature at which a virus is neutralised",
+        "When a bacteriophage cannot enter the virus",
+        "Highest temperature at which pocks are not produced",
+        "When viruses cannot be cultivated in cell culture"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Guarnieri bodies are:",
+      "o": [
+        "Eosinophilic inclusion bodies of variola",
+        "Basophilic inclusion bodies seen in variola",
+        "Intracytoplasmic eosinophilic inclusion bodies of variola",
+        "Intranuclear basophilic inclusion bodies of variola"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A farmer who is regularly involved in milking of cows developed small, ulcerating nodules on his hands. What is the likely diagnosis?",
+      "o": [
+        "Brucellosis",
+        "Vaccinia",
+        "Cowpox",
+        "Yabapox"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A veterinary worker from Kenya who regularly handles monkeys presented with pock-like lesions on his arms. What is the likely causative agent?",
+      "o": [
+        "Variola",
+        "Tanapox",
+        "Herpes",
+        "Cowpox"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Thymidine kinase sensitivity is seen with:",
+      "o": [
+        "Monkey pox",
+        "Cowpox",
+        "Variola",
+        "Vaccinia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following causes fetal hydrops?",
+      "o": [
+        "HPV type 1-4",
+        "Epstein-Barr virus",
+        "Parvovirus B-19",
+        "Human polyoma virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Slapped cheek disease is caused by:",
+      "o": [
+        "Parvovirus B-19",
+        "Human papilloma virus",
+        "Human polyoma virus",
+        "Herpes simplex virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The name 'Ebola' virus is associated with:",
+      "o": [
+        "The name of the first case who succumbed to the disease",
+        "The scientist who first demonstrated the virus in the blood of patients",
+        "The river along the side of which the first few cases were reported",
+        "The city in South America where the initial case was reported"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Chikungunya virus belongs to the family:",
+      "o": [
+        "Flaviviridae",
+        "Reoviridae",
+        "Filoviridae",
+        "Togaviridae"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The reservoir host for Japanese encephalitis is:",
+      "o": [
+        "Monkey",
+        "Rodent",
+        "Bird",
+        "Sheep"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The vector that transmits Kyasanur forest disease is:",
+      "o": [
+        "Mosquito",
+        "Tick",
+        "Sandfly",
+        "Rodent"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The transmitting vector of Japanese encephalitis is:",
+      "o": [
+        "Tick",
+        "Sandfly",
+        "Mosquito",
+        "Rodent"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Ebola virus belongs to the family:",
+      "o": [
+        "Flaviviridae",
+        "Bunyaviridae",
+        "Reoviridae",
+        "Filoviridae"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Japanese encephalitis is transmitted by:",
+      "o": [
+        "Culextarsalis",
+        "Culex annulirostris",
+        "Culextritaeniorhynchus",
+        "Aedes aegypti"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 36-year-old woman presented with fever, headache and rashes since four day Her platelet count was 25,000/mm3 and tourniquet test was positive. What is tl disease she is likely to be suffering from?",
+      "o": [
+        "Yellow fever",
+        "Dengue fever",
+        "Chikungunya",
+        "Kyasanur forest disease"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Viruses can cause cancer in animals and humans. A principle of viral carcinogenesis is that",
+      "o": [
+        "Retroviruses cause most types of human cancer.",
+        "Not all infections with a human cancer virus lead to tumor formation.",
+        "Short latent periods elapse between time of virus infection and tumor appearance.",
+        "Animal models seldom predict cellular mechanisms in human cancer.",
+        "Host factors are insignificant in influencing the development of virus- induced human cancer."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Cellular oncogenes represent activated genes involved in cancer. A second class of cancer genes is involved in cancer development only when both alleles of such a gene are inactivated. The second class of genes is called",
+      "o": [
+        "Proto-oncogenes",
+        "T antigen genes",
+        "Tumor suppressor genes",
+        "Transduced genes",
+        "Silent genes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 38-year-old woman with many lifetime sexual partners is diagnosed with cervical cancer. This cancer is common worldwide and has a sexually transmitted viral etiology. The causative agent of human cervical cancer is",
+      "o": [
+        "Hepatitis C virus",
+        "Hepatitis B virus",
+        "Human papillomaviruses, high-risk types",
+        "Polyomaviruses",
+        "Herpesviruses"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Retroviruses encode an enzyme called reverse transcriptase. The function of the reverse transcriptase enzyme is",
+      "o": [
+        "DNase activity",
+        "RNA-dependent DNA polymerase activity",
+        "DNA-dependent RNA polymerase activity",
+        "RNA-dependent RNA polymerase activity",
+        "Topoisomerase activity"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Two months after a kidney transplant, a 47-year-old man developed nephropathy. Up to 5% of renal allograft recipients develop nephropathy. A viral cause of some of the nephropathy cases has been identified as",
+      "o": [
+        "Polyomavirus BK",
+        "Human papillomavirus, all types",
+        "Human papillomavirus, low-risk types",
+        "Hepatitis C virus",
+        "Human cytomegalovirus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Human papillomavirus can cause cancer in humans and is most commonly associated with",
+      "o": [
+        "Rectal polyps",
+        "Breast cancer",
+        "Prostate cancer",
+        "Anogenital cancers",
+        "Mesotheliomas"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A virus that causes human cancer is also associated with a nervous system disorder called tropical spastic paraparesis. That virus is",
+      "o": [
+        "Polyomavirus JC",
+        "Polyomavirus SV40",
+        "Herpes simplex virus",
+        "Human T-lymphotropic virus",
+        "Human immunodeficiency virus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The polyomaviruses encode oncoproteins called T antigens. These viral gene products",
+      "o": [
+        "Are not needed for virus replication",
+        "Interact with cellular tumor suppressor proteins",
+        "Function to integrate the viral provirus into the cellular chromosome",
+        "Mutate rapidly to allow the virus to escape immune clearance by the host",
+        "Are not able to transform cells in culture"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Cancer viruses are classified in several virus families. The following virus family contains a human cancer virus with an RNA genome",
+      "o": [
+        "Adenoviridae",
+        "Herpesviridae",
+        "Hepadnaviridae",
+        "Papillomaviridae",
+        "Flaviviridae"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Laryngeal papillomas in children are generally caused by the same viruses that cause benign genital condylomas. These viruses are",
+      "o": [
+        "Papillomaviruses, types 6 and 11",
+        "Polyomavirus JC",
+        "Epstein-Barr virus",
+        "Molluscum contagiosum virus",
+        "Papillomaviruses, types 16 and 18"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Vaccines against the most common HPV types that cause genital infections were approved in 2006 and 2007. They are aimed for use in which of the following population(s)?",
+      "o": [
+        "All adults, both men and women",
+        "All female adults",
+        "Women with precancerous cervical lesions",
+        "All adolescents and young adults, both boys and girls",
+        "Adolescent and young adult females"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following best describes available HPV vaccines?",
+      "o": [
+        "Live attenuated virus",
+        "Live recombinant virus",
+        "Noninfectious subunit",
+        "Toxoid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Many of the oncogenic retroviruses carry oncogenes closely related to normal cellular genes, called proto-oncogenes. Which one of the following statements concerning proto-oncogenes is incorrect?",
+      "o": [
+        "Several proto-oncogenes have been found in mutant form in human cancers that lack evidence for viral etiology.",
+        "Several viral oncogenes and their progenitor protooncogenes encode protein kinases specific for tyrosine.",
+        "Some proto-oncogenes encode cellular growth factors and receptors for growth factors.",
+        "Proto-oncogenes are closely related to transposons found in bacteria."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Creutzfeldt-Jakob disease (CJD) , kuru, scrapie, and Mad Cow disease are caused by:",
+      "o": [
+        "Viroids",
+        "Retroviruses",
+        "DNA viruses",
+        "Prions",
+        "RNA viruses"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following virus is spread by arthropods?",
+      "o": [
+        "HIV",
+        "Influenza virus",
+        "Arbovirus",
+        "Rhinovirus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is the common clinical feature of infection caused by rotavirus?",
+      "o": [
+        "Asymptomatic infection",
+        "Leukemia",
+        "Pneumonia",
+        "Bronchitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following belongs to the Bunyavirus genera?",
+      "o": [
+        "Oropouche",
+        "Rift Valley fever",
+        "Seoul",
+        "Belgrade"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following cannot detect the growth of Bunyavirus in cultured cells?",
+      "o": [
+        "Immunofluorescence",
+        "Hemagglutination",
+        "ELISA",
+        "PCR"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is used to screen the population of antibodies?",
+      "o": [
+        "PCR",
+        "Serology",
+        "Agarose Gel Electrophoresis",
+        "Chromatography"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mayaro viruses are spread by _______________",
+      "o": [
+        "Anopheles funestus",
+        "Anopheles gambiae",
+        "Aedes aegypti",
+        "Haemagogus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following virus is spread by Anopheles funestus?",
+      "o": [
+        "Chikungunya virus",
+        "Mayaro virus",
+        "O’nyong-nyong virus",
+        "Ross River virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is an e.g. of RNA oncogenic virus?",
+      "o": [
+        "Retroaviruses",
+        "Reoviruses",
+        "Coronaviruses",
+        "Roboviruses"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Virus quantification is done by",
+      "o": [
+        "Egg inoculation",
+        "Hemadsorption",
+        "Plaque assay",
+        "Electron microscopy"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Brick-shaped virus:",
+      "o": [
+        "Chicken pox",
+        "Small pox",
+        "CMV",
+        "EBV"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Non-enveloped ss-RNA virus is:",
+      "o": [
+        "Picornavirus",
+        "Poxvirus",
+        "Retrovirus",
+        "Bunyavirus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Suckling mice is used for isolation of:",
+      "o": [
+        "Coxsackie virus",
+        "Herpes",
+        "Pox",
+        "Adenovirus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Human fibroblast cell line is used for cultivation of:",
+      "o": [
+        "Adenovirus",
+        "Poliovirus",
+        "CMV",
+        "Measles"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Both intranuclear and cytoplasmic inclusion is seen in:",
+      "o": [
+        "Poxvirus",
+        "Herpesvirus",
+        "Measles virus",
+        "Mumps virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True about interferon is:",
+      "o": [
+        "Host protein",
+        "Viral protein",
+        "Inactivated by nucleases",
+        "Virus specific"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is primary cell line?",
+      "o": [
+        "Chick embryo fibroblast",
+        "HeLa cells",
+        "Vero cells",
+        "WI-38"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Live attenuated vaccines are A/E:",
+      "o": [
+        "Measles",
+        "Rabies",
+        "Oral polio",
+        "Yellow fever"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Continuous cell line for viruses not present for:",
+      "o": [
+        "Vero",
+        "Hep2",
+        "WI-38",
+        "Hela"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following statements are true",
+      "o": [
+        "Influenza A may undergo antigenic shift",
+        "Influenza B may undergo antigenic shift",
+        "Influenza C may undergo antigenic drift",
+        "Influenza C may respond to amantidine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Viral infection that is least transmitted transplacentally is:",
+      "o": [
+        "Hepatitis B.",
+        "Rubella.",
+        "Herpes simplex",
+        "HIV"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Respiratory Syncytial Virus",
+      "o": [
+        "Cause disease mainly in adults",
+        "May cause bronchiolitis",
+        "May be prevented by vaccination",
+        "May be treated by amantadine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is not an RNA virus:",
+      "o": [
+        "Ebola",
+        "Simian 40",
+        "Rabies",
+        "Vesicular stomatitis virus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Reassortment of genes may occur with",
+      "o": [
+        "HSV-1",
+        "HBV",
+        "HIV",
+        "Influenza A Virus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following are positively stranded RNA viruses",
+      "o": [
+        "Picornaviruses",
+        "Orthomyxoviruses",
+        "Paramyxoviruses",
+        "Bunyaviruses"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following viruses have segmented genomes, except",
+      "o": [
+        "Orthomyxoviruses",
+        "Herpesviruses",
+        "Arenaviruses",
+        "Bunyaviruses"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following are enveloped viruses",
+      "o": [
+        "Picornaviruses",
+        "Adenoviruses",
+        "Rotaviruses",
+        "Orthomyxoviruses"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Not true about viral antibodies?",
+      "o": [
+        "Formed before interferons",
+        "Formed against viral surface antigens",
+        "Formed against nucleoproteins",
+        "Influenza"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Both DNA and RNA are found in:",
+      "o": [
+        "All Bacteria",
+        "Prion",
+        "Viroid",
+        "Plasmid"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following viruses are not associated with respiratory infections",
+      "o": [
+        "Rotaviruses",
+        "Adenoviruses",
+        "Influenza viruses",
+        "Parainfluenza viruses"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following viruses are transmitted from animals to humans",
+      "o": [
+        "Influenza A H5N1, Rabies",
+        "HTLV-1, HIV",
+        "Influenza B, RS virus",
+        "Poliomyelitis, rhinoviruses"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following virus CANNOT withstand freeze-drying:",
+      "o": [
+        "Varicella",
+        "Rabies",
+        "Polio",
+        "CMV"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is a receptor-destroying enzyme?",
+      "o": [
+        "Neuraminidase",
+        "Transcriptase",
+        "Reverse transcriptase",
+        "Hemagglutinin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Viruses are",
+      "o": [
+        "Obligate intracellular parasites",
+        "May divide by binary fission",
+        "Have their own metabolism",
+        "May contain plasmides"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following are direct detection methods",
+      "o": [
+        "Detection of rotavirus antigen in faecal specimens",
+        "Complement fixation test with patient’s serum",
+        "Radal hemolysis test",
+        "Indirect hemagglutination test"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which one of the following is FALSE regarding bacteriophages?",
+      "o": [
+        "They have no role in genetic manipulations",
+        "They confer certain properties to bacteria",
+        "They are used for bacterial typing",
+        "They control the total number of bacteria in natural environments"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Phage typing is NOT useful for:",
+      "o": [
+        "Tracing the carrier during an epidemic",
+        "Identification of bacteria",
+        "Differentiating classical V. cholera from El tor",
+        "Pathogenicity testing"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The process of transmission of genes between bacteria through bacteriophages is called:",
+      "o": [
+        "Transduction",
+        "Eclipse",
+        "Conjugation",
+        "Transformation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following event/s occur/s in the temperate cycle of a bacteriophage life cycle?",
+      "o": [
+        "Intracellular multiplication",
+        "Intracellular multiplication and host cell death",
+        "Multiplication, incorporation into host DNA and cell death",
+        "Incorporation in host DNA and no harm to host cell"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The interval between the entry of phage into the cell and appearance of first infectious intracellular phage particle is called:",
+      "o": [
+        "Latent period",
+        "Eclipse phase",
+        "Rise period",
+        "Burst phase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Beta prophage is associated with:",
+      "o": [
+        "E coli",
+        "Classical vibrios",
+        "El tor Vibrios",
+        "C diphtheria"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Super infection immunity is seen in the case of:",
+      "o": [
+        "MRSA",
+        "El tor Vibrios",
+        "E. coli",
+        "Bacteriophage"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The highest dilution of the phage preparation that produces confluent lysis is called:",
+      "o": [
+        "Routine test dose",
+        "Prophage beta",
+        "Eclipse phase",
+        "Latent phase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Bacteriophages CANNOT be used for:",
+      "o": [
+        "Tracing the disease carrier",
+        "Identification of bacteria",
+        "Prophylaxis of bacterial infections",
+        "Differentiating classical V. cholera from El tor"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Human adenoviruses are grown in:",
+      "o": [
+        "HeLa cell lines",
+        "Serotypes 12,18,31",
+        "Rhesus cell lines",
+        "No role in human cancers"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A serological diagnosis of a primary viral infection may be made by",
+      "o": [
+        "Detection of viral-specific IgA",
+        "Detection of viral-specific IgD",
+        "Detection of viral-specific IgE",
+        "Detection of viral-specific IgM"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Poliovirus can be typed by",
+      "o": [
+        "Single radial haemolysis (SRH)",
+        "Haemagglutination inhibition test (HAI)",
+        "Haemagglutination test",
+        "Neutralization test"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which one of the following is FALSE regarding the shell vial technique?",
+      "o": [
+        "Virus is grown on monolayer cell lines",
+        "Cannot be performed directly on clinical samples",
+        "Centrifugation decreases the time to culture positivity",
+        "Direct immunofluorescence method is used for reporting"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which one of the following is FALSE regarding adeno-associated viruses?",
+      "o": [
+        "They are defective viruses",
+        "They are oncogenic",
+        "They can grow only in cells already infected by adenoviruses",
+        "Belong to the Parvoviridae family"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Genetic reassortment is a common natural event of:",
+      "o": [
+        "Influenza A virus",
+        "Influenza B virus",
+        "Influenza C virus",
+        "Influenza D virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The name Myxovirus refers to:",
+      "o": [
+        "Ability of the virus to undergo point mutations",
+        "Affinity of the virus towards mucin",
+        "Ability of the virus to integrate",
+        "Mixed antigenic structure of the virus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Gradual sequential change in the viral antigenic structure at regular intervals is known as:",
+      "o": [
+        "shift",
+        "Antigenic drift",
+        "Point mutation",
+        "Antigenic recombination"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Von Magnus phenomenon in influenza viruses refers to:",
+      "o": [
+        "Point mutations",
+        "Recombination between RNA genomes",
+        "Formation of incomplete virus particles",
+        "Genetic reassortment of human and swine viruses"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Incubation period in human influenza is:",
+      "o": [
+        "1-3 days",
+        "8-10 days",
+        "10-12 days",
+        "12-14 days"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "An eight-year-old school-going girl developed fever, malaise and non-suppurative right parotid gland swelling. During the next two days, the left parotid gland was enlarged and the whole episode got resolved within a week. What is the likely causative agent?",
+      "o": [
+        "Measles virus",
+        "Mumps virus",
+        "Newcastle disease virus",
+        "Respiratory syncytial virus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Paramyxoviruses may cause",
+      "o": [
+        "Croup",
+        "Maculopapular rash",
+        "Gastritis",
+        "Hepatitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Viruses",
+      "o": [
+        "Contain both DNA and RNA",
+        "May have an envelope",
+        "Have their own metabolism",
+        "May contain enzymes for nutrition"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following are DNA viruses",
+      "o": [
+        "Herpesviruses",
+        "Orthomyxoviruses",
+        "Enteroviruses",
+        "Flaviviruses"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Presence of Warthin-Finkeldey cells in lymphoid tissue is characteristic of:",
+      "o": [
+        "Measles",
+        "Mumps",
+        "Rubella",
+        "Newcastle disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The following are RNA viruses",
+      "o": [
+        "Picornaviruses",
+        "Adenoviruses",
+        "Papillomaviruses",
+        "Poxviruses"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The clumping of red blood cells by virus particles is known as:",
+      "o": [
+        "haemagglutination",
+        "haemadsorption",
+        "haemogglutination",
+        "hemygglutination"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "H5N1 is :",
+      "o": [
+        "Bird flu virus",
+        "Vaccinefor HIV",
+        "Causative agent of Japanese encpehalitis",
+        "An eradicated virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The most common etiological agent for acute bronchiolitis in infancy is :",
+      "o": [
+        "Influenza virus",
+        "Parainfluenza virus",
+        "Rhinovirus",
+        "Respiratory syncytial virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "With reference to mumps which of the following is true :",
+      "o": [
+        "Meningoencephalitis can precede parotitis",
+        "Salivary gland involvement is limited to the parotids",
+        "The patient is not infectious prior to clinical parotid enlargement",
+        "Mumps orchitis frequently leads to infertility"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Reverse transcriptases are:",
+      "o": [
+        "DNA-dependent DNA polymerases",
+        "DNA-dependent RNA polymerases",
+        "RNA-dependent DNA polymerases",
+        "RNA-dependent RNA polymerases"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The release of the virus genome from a virion when a cell is infected is called:",
+      "o": [
+        "decoating",
+        "uncoating",
+        "undercoating",
+        "undressing"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A phage genome that resides in a bacterial host in a latent state is known as a:",
+      "o": [
+        "prephage",
+        "prephagenome",
+        "prophage",
+        "prophagenome"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "In which component of adenovirus the hemagglutinin is found?",
+      "o": [
+        "The hexon",
+        "The core",
+        "The DNA protein",
+        "The penton with fiber"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Commonest complication of Mumps is",
+      "o": [
+        "Orchitis and Oophritis",
+        "Encephalitis",
+        "Pneumonia",
+        "Myocarditis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True statement about Influenza A virus",
+      "o": [
+        "It has a double stranded segmented RNA",
+        "Pandemics are caused by antigenic drifts",
+        "Nucelocapsid antibody is not specific",
+        "Hemaglutinin and neuraminidase are strain specific"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Acute hemorrhagic conjunctivitis is caused by",
+      "o": [
+        "Enterovirus",
+        "Adenovirus",
+        "Poliovirus",
+        "Hepadna virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "In addition to acute respiratory diseases, adenoviruses also cause:",
+      "o": [
+        "Tumors in humans",
+        "Diabetes",
+        "Otitis media",
+        "Acute diarrhea in children"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which family contains rubella virus and what group of individuals is most at risk for severe sequelae from rubella infections?",
+      "o": [
+        "Paramyxovirus family; grade school children",
+        "Togavirus family; infants in utero during the first trimester",
+        "Paramyxovirus family; infants in utero during the first trimester",
+        "Togavirus family; grade school children"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True about polio :",
+      "o": [
+        "Paralytic polio is most common",
+        "Only one type exist",
+        "Increased muscular activity leads to increased paralysis",
+        "Polio drop given only in <3 years"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Regarding mumps which is true",
+      "o": [
+        "Causes SSPE",
+        "Mumps causes aseptic meningitis in children",
+        "Sublingual gland is invlved commonly",
+        "All"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose family which contains rubella virus and what individuals have most risk for dangerous complications from rubella infections?",
+      "o": [
+        "Paramyxovirus family; grade school children",
+        "Paramyxovirus family; infants in utero during the first trimester",
+        "Togavirus family; infants in utero during the first trimester",
+        "Togavirus family; grade school children"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Rubella infection causes long term serious sequelae in which of the following populations?",
+      "o": [
+        "Women of childbearing age",
+        "Children infected in the first trimester in utero",
+        "Children infected during the first grade (age 6-7 yrs)",
+        "Children who have received the attenuated vaccine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following is the beast common complication of measles?",
+      "o": [
+        "Dirrhoea",
+        "Pneumonia",
+        "Otitis media",
+        "SSPE"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "All are true about polio virus except",
+      "o": [
+        "Type 1 is responsible for most epidemics",
+        "Very difficult to eliminate type 1",
+        "Type I is responsible for vaccine induced paralytic poliomyelitis",
+        "Type I most commonly associated with paralysis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Enterovirus causes all except :",
+      "o": [
+        "Hemorrhagic fever",
+        "Pleurodynia",
+        "Herpangina",
+        "Aseptic meningitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "A 11 month old child presents with complaints of respiratory distress. On examination there is bilateral crepitation and wheezing. Which of the following is the most likely cause",
+      "o": [
+        "Pneumonia",
+        "Adenovirus",
+        "Respiratory syncitial virus",
+        "Rhinovirus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Rota virus is diagnosed by",
+      "o": [
+        "IgM specific antibody in stool",
+        "ELISA demonstrates antibody in stool",
+        "Immunoflorescence antigen in stool",
+        "Culture of rota virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Segmented double stranded RNA virus is seen in",
+      "o": [
+        "Reovirus",
+        "Myxovirus",
+        "Rabies",
+        "Parvo virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Segmented RNA is found in :",
+      "o": [
+        "Influenza virus",
+        "Rabies virus",
+        "Rabies virus",
+        "Molluscum contagiosum virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Vaccination causing intussuception",
+      "o": [
+        "Rota virus",
+        "Parvo virus",
+        "Inactivated polio",
+        "BCG"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following proteins are present in the envelope of the parainfluenza and mumps viruses?",
+      "o": [
+        "Hemagglutinin, but no neuraminidase or fusion proteins present",
+        "Hemagglutinin, neuraminidase and fusion proteins present",
+        "Hemagglutinin and neuraminidase, but no fusion protein present",
+        "Neuraminidase, but no hemagglutinin protein present"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Respiratory syncytial virus (RSV) is most associated with which of the following syndromes:",
+      "o": [
+        "Bronchiolitis of young adults",
+        "Bronchiolitis of young infants",
+        "Upper lobe infiltrates of young adults",
+        "Upper lobe infiltrates of young children"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Choose the correct matches :",
+      "o": [
+        "Mumps-RA 27/3 strain",
+        "Rubella-Jeryl-Lynn strain",
+        "Measles - Edmonston zagreb strain",
+        "BCG-Danish 1331 strain"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Respiratory syncytial virus (RSV) causes one of the following syndromes:",
+      "o": [
+        "Bronchiolitis in adults",
+        "Bronchiolitis in infants",
+        "Upper lobe infiltrates of young adults",
+        "Upper lobe infiltrates of young children"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Class II exposure in animal bites includes the following:",
+      "o": [
+        "Scratches without oozing of blood",
+        "Licks on a fresh wound",
+        "Scratch with oozing of blood on palm",
+        "Bites from wild animals"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following statement is true about rabies virus :",
+      "o": [
+        "It is double stranded - RNA virus",
+        "Contains a DNA-dependent RNA polymerase",
+        "RNA has a negative polarity",
+        "Affects motor neurons"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which is true about arboviral disease",
+      "o": [
+        "Yellow fever is endemic in India",
+        "Dengue virus have only one serotype",
+        "KFD is transmitted by ticks",
+        "Japanese encphalitis is transmitted by Aedes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Regarding Rabies, true is",
+      "o": [
+        "Incubation period depends on the site of bite",
+        "Diagnosis is by eosinophilic intranuclear inclusion",
+        "It is a DNA virus",
+        "Caused only by dogs"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The antiviral used for treatment of severe respiratory syncytial disease (RSV) infection is:",
+      "o": [
+        "acyclovir",
+        "amantadine",
+        "ribavirin",
+        "immune globulin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True statement about rabies is :",
+      "o": [
+        "Rabies infection cause life long immunity",
+        "Rabies vaccine is always live attenuated",
+        "Rabies has various strains",
+        "Rabies is best diagnosed by immuno-florescence study"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Negri bodies are found in :",
+      "o": [
+        "Hypothalamus",
+        "Hippocampus",
+        "Midbrain",
+        "Medulla"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Mark true in following :",
+      "o": [
+        "Hanta virus pulmonary syndrome is caused by inhalation of rodent urine and feces",
+        "Kyansur forest disese is caused by bite of wild animal",
+        "Lyssa virus is transmitted by ticks",
+        "Chikugunya is caused by anophales"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "In India, human infections has been reported dengue virus type:",
+      "o": [
+        "Types I and 1",
+        "Types 1 and 3",
+        "Types 2 and 4",
+        "All 4 types"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which ARV has been recommended by WHO as the most effective :",
+      "o": [
+        "Duck cell vaccine",
+        "Chick fibroblast vaccine",
+        "HDCV",
+        "Sheep brain vaccine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Post exposure immunization is done for :",
+      "o": [
+        "Measles",
+        "Polio",
+        "Rabbies",
+        "Rabbies"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Subacute sclerosing panencephalitis is associated with :",
+      "o": [
+        "Chicken pox",
+        "Rabies",
+        "Measles virus",
+        "Measles virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which viral infection always causes clinical disease in human beings :",
+      "o": [
+        "Rubella",
+        "Poliomyelitis",
+        "Measles",
+        "Rabies"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Strain used in measles vaccine is",
+      "o": [
+        "Salk",
+        "Sabin",
+        "TAF",
+        "Edmonston jagreb"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "RSV causes :",
+      "o": [
+        "Bronchiolitis",
+        "Mumps",
+        "Croup",
+        "Bronchitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "True about influenza A is :",
+      "o": [
+        "Double strained segmented RNA",
+        "Pandemic are caused by antigenic drift",
+        "Nucleocapsid antibody is specific",
+        "Hexaminidase and Neuraminidase is type specific"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Epidemic hemorrhagic conjunctivtis is caused :",
+      "o": [
+        "HSV",
+        "HZV",
+        "HIV",
+        "Picorna virus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The congenital rubella syndrome :",
+      "o": [
+        "May be prevented by vaccination in early pregnancy",
+        "Causes intra uterine growth retardation",
+        "Causes cataracts",
+        "Causes deafness only if acquired before 16 weeks of gestation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Break bone fevers caused by which virus :",
+      "o": [
+        "Variola",
+        "Coxsackie",
+        "Arbo",
+        "Adeno virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "The nucleoprotein of the orthomyxoviruses is responsible for assignment of:",
+      "o": [
+        "Type classification",
+        "Subtype classification",
+        "Hemagglutinin classification",
+        "Neuraminidase classification"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microbiology Exam 2025-26",
+      "q": "Which of the following infects oropharynx, but not the intestine because the virus is sensitive to low pH?",
+      "o": [
+        "Rhinovirus",
+        "Poliovirus",
+        "Enterovirus 72",
+        "Coxsackievirus B"
+      ],
+      "c": 0
     }
   ]
 }
