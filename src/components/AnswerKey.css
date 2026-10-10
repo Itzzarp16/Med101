@@ -1,4 +1,4 @@
-/* Answer Key screen only — original Med101 black, glass and muted slate accent palette. */
+/* Answer Key screen only — matched to the Med101 screenshot: black, charcoal glass, and muted blue-slate accents. */
 .ak-num {
   flex-shrink: 0; min-width: 24px; margin-top: 2px;
   font-size: 12px; font-weight: 800; text-align: right;
@@ -15,23 +15,23 @@
 .ak-pdf-screen {
   --ak-accent: var(--cyan);
   --ak-accent-ink: #ffffff;
-  --ak-panel: #11120f;
-  --ak-panel-raised: #171813;
-  --ak-line: rgba(255,255,255,.09);
-  --ak-muted: #989b8e;
+  --ak-panel: #202020;
+  --ak-panel-raised: #292a30;
+  --ak-line: rgba(210,218,235,.16);
+  --ak-muted: #aebbd0;
   padding-bottom: 32px;
 }
 .ak-pdf-screen .sh-head { gap: 13px; margin-bottom: 22px; }
 .ak-pdf-screen .sh-title { color: var(--text); letter-spacing: -.045em; }
 .ak-pdf-screen .sh-sub { color: var(--ak-muted); }
 .ak-pdf-screen .sh-back {
-  background: #171813;
+  background: #222329;
   border: 1px solid var(--ak-line);
   border-radius: 14px;
-  color: #f4f5ed;
+  color: #eef4ff;
   transition: transform .18s ease, background .18s ease, border-color .18s ease;
 }
-.ak-pdf-screen .sh-back:hover { background: #22241b; border-color: rgba(var(--cyan-rgb),.35); }
+.ak-pdf-screen .sh-back:hover { background: #30323a; border-color: rgba(var(--cyan-rgb),.35); }
 .ak-pdf-screen .sh-back:active { transform: scale(.94); }
 
 .ak-hero {
@@ -44,17 +44,17 @@
   justify-content: space-between;
   gap: 14px;
   padding: 25px 23px 22px;
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid rgba(210,218,235,.20);
   border-radius: 25px;
   background:
-    radial-gradient(ellipse at 90% 5%, rgba(var(--cyan-rgb),.10), transparent 42%),
-    linear-gradient(135deg, #1c1e17 0%, #11120f 58%, #181a14 100%);
-  box-shadow: 0 18px 42px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.07);
+    radial-gradient(ellipse at 90% 5%, rgba(var(--cyan-rgb),.16), transparent 42%),
+    linear-gradient(135deg, #292a31 0%, #1d1e24 58%, #25262d 100%);
+  box-shadow: 0 18px 42px rgba(0,0,0,.18), inset 0 1px 0 rgba(210,218,235,.06);
 }
 .ak-hero-content { position: relative; z-index: 2; max-width: 340px; }
 .ak-eyebrow {
   display: flex; align-items: center; gap: 8px;
-  color: #c2c5b6; font: 700 9px/1.2 var(--font-mono, monospace);
+  color: #c4d0e4; font: 700 9px/1.2 var(--font-mono, monospace);
   letter-spacing: .18em;
 }
 .ak-eyebrow-dot {
@@ -63,18 +63,18 @@
 }
 .ak-hero-title {
   margin: 21px 0 8px;
-  color: #f5f6ef;
+  color: #eef4ff;
   font: 800 clamp(27px, 6vw, 37px)/1.03 var(--font-heading, sans-serif);
   letter-spacing: -.065em;
 }
 .ak-hero-title span { color: var(--ak-accent); }
 .ak-hero-copy {
   max-width: 260px; margin: 0;
-  color: #a9ac9f; font-size: 12.5px; line-height: 1.65;
+  color: #bdc9dc; font-size: 12.5px; line-height: 1.65;
 }
 .ak-hero-meta {
   display: flex; align-items: center; flex-wrap: wrap; gap: 10px;
-  margin-top: 20px; color: #b4b7a9; font-size: 10.5px; font-weight: 600;
+  margin-top: 20px; color: #c0cce0; font-size: 10.5px; font-weight: 600;
 }
 .ak-semester-pill {
   padding: 6px 10px; border-radius: 7px;
@@ -139,7 +139,7 @@
   position: relative; display: flex; align-items: center; gap: 13px;
   min-width: 0; padding: 15px 14px;
   border: 1px solid var(--border); border-radius: 18px;
-  background: linear-gradient(145deg, var(--surface) 0%, var(--bg2, #0a0a0a) 100%);
+  background: linear-gradient(145deg, #222329 0%, #17181d 100%);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.035);
   animation: ak-card-in .42s cubic-bezier(.2,.8,.2,1) both;
   animation-delay: calc(var(--ak-index, 0) * 45ms);
@@ -147,7 +147,7 @@
 }
 .ak-pdf-card:hover {
   border-color: rgba(var(--cyan-rgb),.3);
-  background: linear-gradient(145deg, var(--ak-panel-raised), var(--surface));
+  background: linear-gradient(145deg, #2b2c33, #202126);
   transform: translateY(-2px);
 }
 @keyframes ak-card-in {
@@ -260,15 +260,15 @@ body.light-mode .ak-pdf-screen {
   --ak-muted: #626657;
 }
 body.light-mode .ak-hero {
-  border-color: rgba(20,24,12,.13);
-  background: radial-gradient(ellipse at 90% 5%, rgba(var(--cyan-rgb),.13), transparent 42%), linear-gradient(135deg,#e7eadb,#f2f3e9 60%,#e8eadf);
-  box-shadow: 0 18px 42px rgba(20,24,12,.07), inset 0 1px 0 rgba(255,255,255,.8);
+  border-color: rgba(35,45,62,.15);
+  background: radial-gradient(ellipse at 90% 5%, rgba(var(--cyan-rgb),.13), transparent 42%), linear-gradient(135deg,#e8edf5,#f5f7fb 60%,#e9eef6);
+  box-shadow: 0 18px 42px rgba(35,45,62,.07), inset 0 1px 0 rgba(255,255,255,.8);
 }
-body.light-mode .ak-eyebrow { color: #5d6250; }
-body.light-mode .ak-hero-title { color: #171912; }
-body.light-mode .ak-hero-copy, body.light-mode .ak-hero-meta { color: #606451; }
+body.light-mode .ak-eyebrow { color: #56657a; }
+body.light-mode .ak-hero-title { color: #1b2432; }
+body.light-mode .ak-hero-copy, body.light-mode .ak-hero-meta { color: #526176; }
 body.light-mode .ak-hero-mark { background: rgba(var(--cyan-rgb),.22); }
-body.light-mode .ak-pdf-card { box-shadow: 0 5px 18px rgba(20,24,12,.035); }
+body.light-mode .ak-pdf-card { box-shadow: 0 5px 18px rgba(35,45,62,.035); }
 body.light-mode .ak-pdf-card:hover { background: linear-gradient(145deg,#fff,#f7f9fc); }
 body.light-mode .ak-viewer-toolbar { background: var(--surface); }
 
