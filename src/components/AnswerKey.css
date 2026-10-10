@@ -1,4 +1,4 @@
-/* Answer Key screen only — graphite, warm white and acid-lime accent. */
+/* Answer Key screen only — original Med101 black, glass and muted slate accent palette. */
 .ak-num {
   flex-shrink: 0; min-width: 24px; margin-top: 2px;
   font-size: 12px; font-weight: 800; text-align: right;
@@ -13,8 +13,8 @@
 .ak-topics { margin-top: -4px; }
 
 .ak-pdf-screen {
-  --ak-lime: #d6ff62;
-  --ak-lime-ink: #171b0b;
+  --ak-accent: var(--cyan);
+  --ak-accent-ink: #ffffff;
   --ak-panel: #11120f;
   --ak-panel-raised: #171813;
   --ak-line: rgba(255,255,255,.09);
@@ -31,7 +31,7 @@
   color: #f4f5ed;
   transition: transform .18s ease, background .18s ease, border-color .18s ease;
 }
-.ak-pdf-screen .sh-back:hover { background: #22241b; border-color: rgba(214,255,98,.35); }
+.ak-pdf-screen .sh-back:hover { background: #22241b; border-color: rgba(var(--cyan-rgb),.35); }
 .ak-pdf-screen .sh-back:active { transform: scale(.94); }
 
 .ak-hero {
@@ -47,7 +47,7 @@
   border: 1px solid rgba(255,255,255,.12);
   border-radius: 25px;
   background:
-    radial-gradient(ellipse at 90% 5%, rgba(214,255,98,.10), transparent 42%),
+    radial-gradient(ellipse at 90% 5%, rgba(var(--cyan-rgb),.10), transparent 42%),
     linear-gradient(135deg, #1c1e17 0%, #11120f 58%, #181a14 100%);
   box-shadow: 0 18px 42px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.07);
 }
@@ -59,7 +59,7 @@
 }
 .ak-eyebrow-dot {
   width: 7px; height: 7px; border-radius: 50%;
-  background: var(--ak-lime); box-shadow: 0 0 13px rgba(214,255,98,.45);
+  background: var(--ak-accent); box-shadow: 0 0 13px rgba(var(--cyan-rgb),.45);
 }
 .ak-hero-title {
   margin: 21px 0 8px;
@@ -67,7 +67,7 @@
   font: 800 clamp(27px, 6vw, 37px)/1.03 var(--font-heading, sans-serif);
   letter-spacing: -.065em;
 }
-.ak-hero-title span { color: var(--ak-lime); }
+.ak-hero-title span { color: var(--ak-accent); }
 .ak-hero-copy {
   max-width: 260px; margin: 0;
   color: #a9ac9f; font-size: 12.5px; line-height: 1.65;
@@ -78,8 +78,8 @@
 }
 .ak-semester-pill {
   padding: 6px 10px; border-radius: 7px;
-  color: var(--ak-lime); background: rgba(214,255,98,.09);
-  border: 1px solid rgba(214,255,98,.18);
+  color: var(--ak-accent); background: rgba(var(--cyan-rgb),.09);
+  border: 1px solid rgba(var(--cyan-rgb),.18);
 }
 .ak-meta-divider { width: 3px; height: 3px; border-radius: 50%; background: #676a5e; }
 .ak-hero-mark {
@@ -87,8 +87,8 @@
   align-self: center; flex-shrink: 0;
   width: 76px; height: 88px; margin: 0 7px 0 0;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
-  border: 1px solid rgba(214,255,98,.25); border-radius: 19px;
-  color: var(--ak-lime); background: rgba(214,255,98,.055);
+  border: 1px solid rgba(var(--cyan-rgb),.25); border-radius: 19px;
+  color: var(--ak-accent); background: rgba(var(--cyan-rgb),.055);
   transform: rotate(5deg);
   box-shadow: 0 12px 30px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.08);
 }
@@ -96,7 +96,7 @@
 .ak-hero-mark span { font: 800 9px/1 var(--font-mono, monospace); letter-spacing: .2em; }
 .ak-hero-orbit {
   position: absolute; z-index: 0; pointer-events: none;
-  width: 190px; height: 190px; border: 1px solid rgba(214,255,98,.075); border-radius: 50%;
+  width: 190px; height: 190px; border: 1px solid rgba(var(--cyan-rgb),.075); border-radius: 50%;
 }
 .ak-hero-orbit-one { right: -74px; top: -92px; }
 .ak-hero-orbit-two { right: -39px; top: -57px; width: 120px; height: 120px; }
@@ -121,7 +121,7 @@
   background: var(--surface); color: var(--text3);
   transition: border-color .2s, box-shadow .2s;
 }
-.ak-search:focus-within { border-color: rgba(214,255,98,.55); box-shadow: 0 0 0 3px rgba(214,255,98,.06); }
+.ak-search:focus-within { border-color: rgba(var(--cyan-rgb),.55); box-shadow: 0 0 0 3px rgba(var(--cyan-rgb),.06); }
 .ak-search > svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; flex-shrink: 0; }
 .ak-search input {
   width: 100%; min-width: 0; padding: 12px 0; border: 0; outline: 0;
@@ -146,7 +146,7 @@
   transition: border-color .2s, transform .2s, background .2s;
 }
 .ak-pdf-card:hover {
-  border-color: rgba(214,255,98,.3);
+  border-color: rgba(var(--cyan-rgb),.3);
   background: linear-gradient(145deg, var(--ak-panel-raised), var(--surface));
   transform: translateY(-2px);
 }
@@ -157,8 +157,8 @@
 .ak-pdf-icon {
   position: relative; flex: 0 0 48px; height: 54px;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  border-radius: 13px; color: var(--ak-lime);
-  background: rgba(214,255,98,.075); border: 1px solid rgba(214,255,98,.14);
+  border-radius: 13px; color: var(--ak-accent);
+  background: rgba(var(--cyan-rgb),.075); border: 1px solid rgba(var(--cyan-rgb),.14);
 }
 .ak-doc-svg { display: block; width: 21px; height: 24px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .ak-pdf-icon span { font: 800 7px/1 var(--font-mono, monospace); letter-spacing: .14em; }
@@ -171,7 +171,7 @@
   display: flex; align-items: center; flex-wrap: wrap; gap: 6px;
   margin-top: 6px; color: var(--text3); font-size: 10px; line-height: 1.4;
 }
-.ak-file-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ak-lime); opacity: .85; }
+.ak-file-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--ak-accent); opacity: .85; }
 .ak-subtitle-sep { color: var(--border2); }
 .ak-pdf-actions { display: flex; align-items: center; gap: 7px; flex-shrink: 0; }
 .ak-action {
@@ -182,21 +182,21 @@
 }
 .ak-action:active { transform: scale(.96); }
 .ak-action-primary {
-  padding: 0 12px; border: 1px solid var(--ak-lime);
-  color: var(--ak-lime-ink) !important; background: var(--ak-lime);
-  box-shadow: 0 4px 14px rgba(214,255,98,.08);
+  padding: 0 12px; border: 1px solid var(--ak-accent);
+  color: var(--ak-accent-ink) !important; background: var(--ak-accent);
+  box-shadow: 0 4px 14px rgba(var(--cyan-rgb),.08);
 }
-.ak-action-primary:hover { background: #e2ff8b; border-color: #e2ff8b; }
+.ak-action-primary:hover { background: var(--cyan2); border-color: var(--cyan2); }
 .ak-action-primary span { font-size: 14px; }
 .ak-action-secondary {
   width: 38px; padding: 0; border: 1px solid var(--border);
   color: var(--text2) !important; background: var(--surface2); font-size: 16px;
 }
-.ak-action-secondary:hover { color: var(--ak-lime) !important; border-color: rgba(214,255,98,.35); }
+.ak-action-secondary:hover { color: var(--ak-accent) !important; border-color: rgba(var(--cyan-rgb),.35); }
 .ak-pdf-btn { font-family: inherit; }
 .ak-pdf-btn[type="button"] { border: 0; cursor: pointer; }
 .ak-pdf-btn:focus-visible, .ak-action:focus-visible, .ak-search button:focus-visible, .ak-text-action:focus-visible {
-  outline: 2px solid var(--ak-lime); outline-offset: 3px;
+  outline: 2px solid var(--ak-accent); outline-offset: 3px;
 }
 
 .ak-loading-list { display: grid; gap: 10px; }
@@ -218,22 +218,22 @@
 .ak-state-compact { padding: 24px 18px; }
 .ak-state-icon {
   width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;
-  margin-bottom: 13px; border-radius: 15px; border: 1px solid rgba(214,255,98,.17);
-  color: var(--ak-lime); background: rgba(214,255,98,.07); font-size: 22px; font-weight: 700;
+  margin-bottom: 13px; border-radius: 15px; border: 1px solid rgba(var(--cyan-rgb),.17);
+  color: var(--ak-accent); background: rgba(var(--cyan-rgb),.07); font-size: 22px; font-weight: 700;
 }
 .ak-state-icon .ak-doc-svg { width: 22px; height: 25px; }
 .ak-state-card h3 { margin: 0; color: var(--text); font-size: 14px; font-weight: 800; }
 .ak-state-card p { max-width: 290px; margin: 7px 0 0; color: var(--text3); font-size: 11.5px; line-height: 1.6; }
 .ak-text-action {
-  margin-top: 14px; padding: 8px 12px; border: 1px solid rgba(214,255,98,.25);
-  border-radius: 9px; color: var(--ak-lime); background: rgba(214,255,98,.07);
+  margin-top: 14px; padding: 8px 12px; border: 1px solid rgba(var(--cyan-rgb),.25);
+  border-radius: 9px; color: var(--ak-accent); background: rgba(var(--cyan-rgb),.07);
   font-size: 11px; font-weight: 700; cursor: pointer;
 }
 .ak-footer-note {
   display: flex; align-items: center; justify-content: center; gap: 7px;
   margin: 20px 0 0; color: var(--text3); font-size: 10px; letter-spacing: .025em;
 }
-.ak-footer-note span { color: var(--ak-lime); font-size: 13px; }
+.ak-footer-note span { color: var(--ak-accent); font-size: 13px; }
 
 .ak-viewer-toolbar {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -245,7 +245,7 @@
   display: inline-flex; align-items: center; gap: 8px;
   color: var(--text3); font: 700 9px/1.2 var(--font-mono, monospace); letter-spacing: .12em;
 }
-.ak-viewer-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ak-lime); }
+.ak-viewer-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ak-accent); }
 .ak-viewer-frame-wrap {
   margin: 0 0 24px; padding: 7px; min-height: 68vh; height: calc(100dvh - 190px);
   border: 1px solid var(--border); border-radius: 18px; overflow: hidden;
@@ -255,21 +255,21 @@
 
 body.light-mode .ak-pdf-screen {
   --ak-panel: #f2f4e9;
-  --ak-panel-raised: #f8faef;
+  --ak-panel-raised: #f7f9fc;
   --ak-line: rgba(20,24,12,.1);
   --ak-muted: #626657;
 }
 body.light-mode .ak-hero {
   border-color: rgba(20,24,12,.13);
-  background: radial-gradient(ellipse at 90% 5%, rgba(214,255,98,.13), transparent 42%), linear-gradient(135deg,#e7eadb,#f2f3e9 60%,#e8eadf);
+  background: radial-gradient(ellipse at 90% 5%, rgba(var(--cyan-rgb),.13), transparent 42%), linear-gradient(135deg,#e7eadb,#f2f3e9 60%,#e8eadf);
   box-shadow: 0 18px 42px rgba(20,24,12,.07), inset 0 1px 0 rgba(255,255,255,.8);
 }
 body.light-mode .ak-eyebrow { color: #5d6250; }
 body.light-mode .ak-hero-title { color: #171912; }
 body.light-mode .ak-hero-copy, body.light-mode .ak-hero-meta { color: #606451; }
-body.light-mode .ak-hero-mark { background: rgba(214,255,98,.22); }
+body.light-mode .ak-hero-mark { background: rgba(var(--cyan-rgb),.22); }
 body.light-mode .ak-pdf-card { box-shadow: 0 5px 18px rgba(20,24,12,.035); }
-body.light-mode .ak-pdf-card:hover { background: linear-gradient(145deg,#fff,#f7f9ee); }
+body.light-mode .ak-pdf-card:hover { background: linear-gradient(145deg,#fff,#f7f9fc); }
 body.light-mode .ak-viewer-toolbar { background: var(--surface); }
 
 @media (max-width: 540px) {
