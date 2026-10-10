@@ -61,10 +61,88 @@
       "emoji": "📖",
       "desc": "",
       "accent": "var(--cyan)"
+    },
+    "Clinical Methods & Medical History": {
+      "emoji": "🩺",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "General Inspection, Constitution & BMI": {
+      "emoji": "📏",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Respiratory: Symptoms & Syndromes": {
+      "emoji": "🫁",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Cardiac Examination & Auscultation": {
+      "emoji": "🫀",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Digestive System Examination": {
+      "emoji": "🍽️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Endocrine System": {
+      "emoji": "🧪",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Laboratory & Imaging Diagnostics": {
+      "emoji": "🔬",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Musculoskeletal System": {
+      "emoji": "🦴",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Abdominal & Urological Examination": {
+      "emoji": "🩻",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Cardiology: ECG, Murmurs & CAD": {
+      "emoji": "📈",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Respiratory Examination": {
+      "emoji": "🫁",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Renal Physiology & Kidney Disease": {
+      "emoji": "🫘",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Hematology": {
+      "emoji": "🩸",
+      "desc": "",
+      "accent": "var(--cyan)"
     }
   },
   "subjectGroup": {
-    "Pharma": "Basic Pharmacology 1"
+    "Pharma": "Basic Pharmacology 1",
+    "Clinical Methods & Medical History": "Propedeutics of Internal Medicine 1",
+    "General Inspection, Constitution & BMI": "Propedeutics of Internal Medicine 1",
+    "Respiratory: Symptoms & Syndromes": "Propedeutics of Internal Medicine 1",
+    "Cardiac Examination & Auscultation": "Propedeutics of Internal Medicine 1",
+    "Digestive System Examination": "Propedeutics of Internal Medicine 1",
+    "Endocrine System": "Propedeutics of Internal Medicine 1",
+    "Laboratory & Imaging Diagnostics": "Propedeutics of Internal Medicine 1",
+    "Musculoskeletal System": "Propedeutics of Internal Medicine 1",
+    "Abdominal & Urological Examination": "Propedeutics of Internal Medicine 1",
+    "Cardiology: ECG, Murmurs & CAD": "Propedeutics of Internal Medicine 1",
+    "Respiratory Examination": "Propedeutics of Internal Medicine 1",
+    "Renal Physiology & Kidney Disease": "Propedeutics of Internal Medicine 1",
+    "Hematology": "Propedeutics of Internal Medicine 1"
   },
   "questions": [
     {
@@ -369,6 +447,3955 @@
         "The iliac blood vessels"
       ],
       "c": 0
+    },
+    {
+      "s": "Clinical Methods & Medical History",
+      "q": "What sections does diagnostics include?",
+      "o": [
+        "studying methods of examining a patient (medical diagnostic equipment)",
+        "studying issues of prevention of infectious and non-infectious diseases",
+        "studying the characteristics of the vital activity of microorganisms that cause pathological processes",
+        "studying the effect of drugs on the human body"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Clinical Methods & Medical History",
+      "q": "How are the main research methods divided?",
+      "o": [
+        "basic and additional",
+        "subjective and objective",
+        "laboratory and instrumental",
+        "invasive and non-invasive"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Clinical Methods & Medical History",
+      "q": "How are objective research methods divided?",
+      "o": [
+        "basic (physical) and additional",
+        "primary and secondary",
+        "laboratory and instrumental",
+        "invasive and non-invasive"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Clinical Methods & Medical History",
+      "q": "What do additional research methods include?",
+      "o": [
+        "medical history",
+        "auscultation",
+        "laboratory methods",
+        "topographic percussion"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Clinical Methods & Medical History",
+      "q": "What do instrumental methods include?",
+      "o": [
+        "measurement of height, weight, chest circumference",
+        "subjective research methods",
+        "non-parametric statistical research methods",
+        "invasive and non-invasive research methods"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Clinical Methods & Medical History",
+      "q": "What does anamnesis include?",
+      "o": [
+        "main complaints",
+        "physical examination",
+        "laboratory tests",
+        "instrumental examination"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Clinical Methods & Medical History",
+      "q": "Which research method involves questioning the patient?",
+      "o": [
+        "physical",
+        "subjective",
+        "objective",
+        "additional"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Clinical Methods & Medical History",
+      "q": "Anamnesis morbi includes clarification",
+      "o": [
+        "passport data",
+        "main complaints",
+        "dynamics of disease development",
+        "working and living conditions of the patient"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Clinical Methods & Medical History",
+      "q": "Anamnesis vitae includes",
+      "o": [
+        "questioning about the nature of the leading symptoms, the time and order of their appearance",
+        "information about examinations and consultations with medical workers regarding the present disease",
+        "information about the effectiveness of previous treatment prescribed for the present disease",
+        "information about hereditary predisposition to a certain pathology"
+      ],
+      "c": 3
+    },
+    {
+      "s": "General Inspection, Constitution & BMI",
+      "q": "If the patient is forced to lie in bed",
+      "o": [
+        "able to voluntarily and independently change body position",
+        "motionless because incapable of voluntary body movements",
+        "does not control the functions of the pelvic organs",
+        "is capable of active movements, but is forced to take a position that alleviates the condition"
+      ],
+      "c": 1
+    },
+    {
+      "s": "General Inspection, Constitution & BMI",
+      "q": "What is characteristic of the asthenic type of constitution?",
+      "o": [
+        "the predominance of the transverse dimensions of the body over the longitudinal ones",
+        "the predominance of longitudinal body dimensions over transverse ones",
+        "emphysematous chest",
+        "short limbs"
+      ],
+      "c": 1
+    },
+    {
+      "s": "General Inspection, Constitution & BMI",
+      "q": "What is characteristic of the hypersthenic type of constitution?",
+      "o": [
+        "paralytic form of the chest",
+        "long limbs",
+        "the predominance of the influences of the parasympathetic nervous system",
+        "the predominance of transverse dimensions of the body over longitudinal ones"
+      ],
+      "c": 3
+    },
+    {
+      "s": "General Inspection, Constitution & BMI",
+      "q": "What indicators does the normal Body Mass Index correspond to?",
+      "o": [
+        "18.5–24.9",
+        "25 – 29.9",
+        "30 – 34.9",
+        "35 – 39.9"
+      ],
+      "c": 0
+    },
+    {
+      "s": "General Inspection, Constitution & BMI",
+      "q": "What indicators corresponds to the Body Mass Index for overweight?",
+      "o": [
+        "20.0 – 24.9",
+        "25 – 29.9",
+        "30 – 34.9",
+        "35– 39.9"
+      ],
+      "c": 1
+    },
+    {
+      "s": "General Inspection, Constitution & BMI",
+      "q": "What indicators does the Body Mass Index correspond to for class II obesity?",
+      "o": [
+        "40 or more",
+        "20-25",
+        "35 – 39.9",
+        "30 – 34.9"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What causes central cyanosis to develop?",
+      "o": [
+        "slowing blood flow in the periphery",
+        "insufficient oxygenation of blood in the lungs",
+        "increasing oxygen extraction by tissues",
+        "disturbances of venous outflow"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What is the name of the protective reflex aimed at removing sputum and foreign bodies from the airways?",
+      "o": [
+        "hiccups",
+        "vomiting",
+        "cough",
+        "shortness of breath"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What is the name for a cough accompanied by sputum production?",
+      "o": [
+        "dry",
+        "wet",
+        "barking",
+        "reflex"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What is the cause of inspiratory dyspnea?",
+      "o": [
+        "reduction in the number of ventilated alveoli",
+        "the presence of an obstacle (narrowing of the upper respiratory tract)",
+        "accumulation of liquid or gas in the pleural cavity",
+        "narrowing of the lumen of small bronchi"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What syndrome is characterized by expiratory dyspnea?",
+      "o": [
+        "cavities in the lung",
+        "hydrothorax",
+        "bronchial obstruction",
+        "large-focal infiltration"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What is the distinctive feature of pleural pain?",
+      "o": [
+        "connection with food intake",
+        "connection with body position: weakening when the patient is positioned on the affected half of the chest",
+        "connection with the act of defecation",
+        "connection with dyspeptic disorders: belching, heartburn, etc."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "The chest is elongated, flattened in the anterior-posterior direction, symmetrical. Supraclavicular and subclavian fossae clearly defined. Epigastric angle acute. Shoulder blades wing-shaped. Muscles poorly developed. Diagnosis:",
+      "o": [
+        "asthenic shape of the chest",
+        "hypersthenic chest shape",
+        "emphysematous form of the chest",
+        "paralytic form of the chest"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "Ratio of anterior-posterior and transverse chest dimensions approaches one. Supraclavicular fossae bulge. Ribs horizontal. Intercostal spaces wide. Lower aperture open. Shoulder girdle raised. Neck short. Diagnosis:",
+      "o": [
+        "asthenic shape of the chest",
+        "normosthenic shape of the chest",
+        "hypersthenic chest shape",
+        "emphysematous form of the chest"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What is the lateral curvature of the spine called?",
+      "o": [
+        "lordosis",
+        "scoliosis",
+        "kyphosis",
+        "kyphoscoliosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What pathology is characterized by increased airiness of the lungs?",
+      "o": [
+        "atelectasis",
+        "pneumonia",
+        "pneumosclerosis",
+        "emphysema"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What is the name of the syndrome of air accumulation in the pleural cavity?",
+      "o": [
+        "hemothorax",
+        "hydrothorax",
+        "pneumothorax",
+        "emphysema"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What pathology is characterized by collapse of the pulmonary alveoli due to compression of the lung, bronchial obstruction, pneumonia?",
+      "o": [
+        "atelectasis",
+        "pneumonia",
+        "pneumosclerosis",
+        "emphysema"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "What is the name of the syndrome of accumulation of non-inflammatory fluid in the pleural cavity?",
+      "o": [
+        "hemothorax",
+        "hydrothorax",
+        "pneumothorax",
+        "exudative pleurisy"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "Voice tremors in cavity syndrome (above the cavity connected to the bronchus)",
+      "o": [
+        "intensifies",
+        "weakens",
+        "absent",
+        "does not change"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Respiratory: Symptoms & Syndromes",
+      "q": "Voice tremors in large focal infiltration syndrome",
+      "o": [
+        "intensifies",
+        "weakens",
+        "absent",
+        "does not change"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "During inspection of the precordium, which finding suggests right ventricular hypertrophy?",
+      "o": [
+        "Apical impulse displaced laterally",
+        "Visible pulsations at the left sternal border",
+        "Epigastric pulsations",
+        "Prominent jugular venous pulsations"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which maneuver is performed during palpation of the chest to assess for tactile fremitus?",
+      "o": [
+        "Deep inspiration and expiration",
+        "Percussion over the lung fields",
+        "Light tapping over the chest wall",
+        "Speaking the phrase \"ninety-nine\" repeatedly"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "When assessing for hepatojugular reflux, which action should the examiner perform?",
+      "o": [
+        "Applying pressure over the liver",
+        "Asking the patient to take deep breaths",
+        "Palpating the carotid pulse",
+        "Observing the jugular venous pulsations while pressing on the abdomen"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which percussion note is typically heard over a normal lung field?",
+      "o": [
+        "Dullness",
+        "Hyperresonance",
+        "Flatness",
+        "Resonance"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "During auscultation of the heart, the S1 heart sound is best heard:",
+      "o": [
+        "At the apex of the heart",
+        "At the left sternal border",
+        "At the base of the heart",
+        "Over the carotid arteries"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "A diaphragmatic \"scratching\" sound heard during auscultation of the precordium suggests:",
+      "o": [
+        "Pericardial friction rub",
+        "Mitral stenosis",
+        "Aortic regurgitation",
+        "Atrial fibrillation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which maneuver can accentuate the intensity of a murmur during auscultation?",
+      "o": [
+        "Having the patient sit upright and lean forward",
+        "Instructing the patient to take shallow breaths",
+        "Listening with the bell of the stethoscope",
+        "Auscultating immediately after exercise"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What is the classic auscultatory finding in a patient with aortic stenosis?",
+      "o": [
+        "Opening snap",
+        "Loud P2 component of the second heart sound",
+        "Mid-systolic click",
+        "Harsh crescendo-decrescendo systolic murmur"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which of the following conditions can cause a fixed split of the second heart sound?",
+      "o": [
+        "Atrial septal defect",
+        "Mitral regurgitation",
+        "Tricuspid stenosis",
+        "Ventricular septal defect"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "When assessing for orthopnea, how is the patient positioned?",
+      "o": [
+        "Sitting upright",
+        "Lying supine",
+        "Lying flat with legs elevated",
+        "Standing upright"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "During percussion of the cardiac borders, where is dullness normally appreciated?",
+      "o": [
+        "Over the entire precordium",
+        "Along the left sternal border",
+        "Over the apical impulse",
+        "Over the area of the heart's base"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What does paradoxical splitting of the second heart sound indicate?",
+      "o": [
+        "Aortic regurgitation",
+        "Left bundle branch block",
+        "Right bundle branch block",
+        "Atrial fibrillation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "A palpable systolic thrill is commonly associated with:",
+      "o": [
+        "Mitral valve prolapse",
+        "Aortic stenosis",
+        "Mitral regurgitation",
+        "Pulmonary embolism"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "When auscultating the chest, what sound is indicative of pleural effusion?",
+      "o": [
+        "Amphoric breath sounds",
+        "Bronchial breath sounds",
+        "Decreased breath sounds",
+        "Crackles"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which maneuver helps differentiate between pericardial friction rub and pleural friction rub?",
+      "o": [
+        "Having the patient cough",
+        "Asking the patient to hold their breath",
+        "Listening with the bell of the stethoscope",
+        "Auscultating while the patient changes position"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which of the following is a characteristic finding in a patient with cardiac tamponade?",
+      "o": [
+        "Kussmaul's sign",
+        "Beck's triad",
+        "Cannon A waves",
+        "Osler's nodes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What is the most common cause of a pericardial friction rub?",
+      "o": [
+        "Aortic dissection",
+        "Acute myocardial infarction",
+        "Pericarditis",
+        "Cardiogenic shock"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which finding on palpation of the chest suggests left ventricular hypertrophy?",
+      "o": [
+        "Sustained and localized apical impulse",
+        "Thrill felt at the left sternal border",
+        "Prominent pulsations at the epigastrium",
+        "Decreased tactile fremitus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "A mid-diastolic rumble heard best at the apex suggests:",
+      "o": [
+        "Mitral regurgitation",
+        "Mitral stenosis",
+        "Aortic regurgitation",
+        "Atrial septal defect"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What is the primary purpose of auscultating the heart during the Valsalva maneuver?",
+      "o": [
+        "To accentuate murmurs associated with aortic stenosis",
+        "To identify the presence of atrial fibrillation",
+        "To assess for changes in heart sounds associated with preload and afterload alterations",
+        "To evaluate the intensity of a pericardial friction rub"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "A diastolic murmur best heard at the left lower sternal border suggests:",
+      "o": [
+        "Aortic stenosis",
+        "Pulmonary stenosis",
+        "Tricuspid regurgitation",
+        "Mitral stenosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which finding during palpation suggests a pericardial effusion?",
+      "o": [
+        "Diminished apical impulse",
+        "Bilateral symmetry of chest expansion",
+        "Parasternal heave",
+        "Enlarged liver with pulsatile texture"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "A patient presents with jugular venous distension and a prominent Y descent on examination. What cardiac abnormality is most likely present?",
+      "o": [
+        "Right ventricular infarction",
+        "Tricuspid stenosis",
+        "Cardiac tamponade",
+        "Constrictive pericarditis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What is the typical characteristic of a pleural friction rub during auscultation?",
+      "o": [
+        "Synchronous with the heart sounds",
+        "Continuous during both inspiration and expiration",
+        "Loudest at the base of the lungs",
+        "Resolves with coughing"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "A palpable double impulse during cardiac examination is most commonly associated with:",
+      "o": [
+        "Aortic regurgitation",
+        "Hypertrophic cardiomyopathy",
+        "Atrial fibrillation",
+        "Right-sided heart failure"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which of the following is a common cause of diminished or absent breath sounds during lung examination?",
+      "o": [
+        "Pleural effusion",
+        "Pulmonary hypertension",
+        "Asthma exacerbation",
+        "Atelectasis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "When assessing for tenderness over the chest wall, which maneuver should be performed?",
+      "o": [
+        "Percussion",
+        "Auscultation",
+        "Palpation",
+        "Inspection"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What does the presence of a pericardial knock suggest during auscultation?",
+      "o": [
+        "Mitral stenosis",
+        "Acute myocardial infarction",
+        "Constrictive pericarditis",
+        "Aortic regurgitation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What is the characteristic sound of an opening snap during auscultation of the heart?",
+      "o": [
+        "High-pitched click",
+        "Low-pitched rumble",
+        "Loud systolic murmur",
+        "Sharp, early diastolic sound"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which condition is associated with a pulsus paradoxus?",
+      "o": [
+        "Cardiac tamponade",
+        "Aortic regurgitation",
+        "Mitral valve prolapse",
+        "Ventricular septal defect"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Complete absence of hydrochloric acid and pepsin in gastrointestinal juice is called:",
+      "o": [
+        "hyperchlorhydria",
+        "hypochlorhydria",
+        "achylia",
+        "achlorhydria"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Maximum inspirational mobility of the lower edge of the normal liver is:",
+      "o": [
+        "14 cm",
+        "10 cm",
+        "5 cm",
+        "4 cm"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Active resistance of the anterior abdominal wall is observed at:",
+      "o": [
+        "significant enlargement of the liver",
+        "large spleen",
+        "pregnancy",
+        "peritoneal irritation"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Location of the greater curvature of the stomach is more accurately defined by:",
+      "o": [
+        "percussion",
+        "deep sliding palpation",
+        "jerky palpation",
+        "auscultatory percussion"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Correct name of the method of palpation of the ascending and descending colon:",
+      "o": [
+        "deep sliding bilateral",
+        "deep sliding bimanual",
+        "deep indicative",
+        "jerky"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "The task of superficial sliding palpation with relaxed rectus abdominis muscles:",
+      "o": [
+        "assessment of the surface condition of the enlarged liver and (or) spleen",
+        "differentiate segments of the rectus abdominis muscles from enlarged internal organs",
+        "assessment of the condition of the muscular aponeurotic layer of the anterior abdominal wall",
+        "detection of fatty tissues and hernias of the white line of the abdomen"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "For an enlarged kidney palpable below the costal arch is characteristic:",
+      "o": [
+        "uneven edge, dense consistency",
+        "dull percussion sound",
+        "It is not possible to insert the fingers of the palpating hand between the organ and the costal arch",
+        "with bimanual palpation there is lumbar contact"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "When determining the lower limit of the large spleen to determine its size, palpation used is:",
+      "o": [
+        "jerky",
+        "diaphragmatic-inspiratory",
+        "surface sliding",
+        "deep sliding"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Patient complains of heaviness in the abdomen, which is significantly enlarged, abdominal wall elastic, palpation fails, percussion tympanitis in all areas. Characteristic of:",
+      "o": [
+        "significant enlargement of the liver and spleen",
+        "severe general obesity",
+        "giant cyst in the abdominal cavity",
+        "flatulence"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Patient complains of constant aching pain in the right iliac region. The doctor will examine him according to the plan:",
+      "o": [
+        "details of complaints, general examination, research on systems, starting with the digestive system",
+        "sequential questioning according to the scheme, general examination, examination of the gastrointestinal tract",
+        "sequential questioning according to the scheme, general inspection, research on systems, starting with the respiratory system",
+        "examination of the oral cavity and pharynx, examination and palpation of the abdomen and abdominal organs"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Sequence of surface orientation palpation of the abdomen is determined:",
+      "o": [
+        "belly size",
+        "once and for all established order",
+        "the patient complains of pain in any area of the abdomen",
+        "frequency of palpability of different parts of the colon"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Diastasis of the rectus abdominal muscles can always be determined with help of:",
+      "o": [
+        "one inspection",
+        "inspection and jerky palpation",
+        "examination and superficial sliding palpation for tense rectus muscles belly",
+        "superficial sliding palpation with relaxed rectus abdominis muscles"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Study of the digestive system starts with:",
+      "o": [
+        "identifying the main complaints",
+        "identifying complaints typical of gastrointestinal tract damage",
+        "examination of the oral cavity and pharynx",
+        "examination of the abdomen in different positions of the patient"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "General passive resistance of the abdomen is observed when:",
+      "o": [
+        "peritonitis",
+        "hepatosplenomegaly",
+        "large ascites",
+        "large pancreatic cyst"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Clear tympanitis in the suprapubic region in a woman, not a complaint, may be due to:",
+      "o": [
+        "a full bladder",
+        "enlarged uterus",
+        "loops of small intestines",
+        "sigmoid colon"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "A flattened umbilicus in an enlarged abdomen indicates:",
+      "o": [
+        "bloating",
+        "presence of ascites",
+        "pronounced intestinal flatulence",
+        "very thin layer of subcutaneous fat"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Teeth prints on the edges of the tongue can explain:",
+      "o": [
+        "gum disease (gingivitis)",
+        "variant of the norm",
+        "hypertrophy of the tongue papillae",
+        "swelling of the tongue"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Properties of the normal liver edge during diaphragmal-inspiratory palpation:",
+      "o": [
+        "sharp, thin, soft",
+        "rounded, thickened, elastic",
+        "rounded, thickened, dense",
+        "sharp, thin, scalloped"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "The most effective way to determine large volume free fluid in the abdominal cavity is:",
+      "o": [
+        "inspection and approximate palpation",
+        "percussion of the abdomen in different positions of the patient",
+        "fluctuation detection method",
+        "jerky palpation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Task of palpation of the liver with a fixed hand, definition:",
+      "o": [
+        "peritoneal friction",
+        "mobility of the anterior inferior edge of the liver",
+        "local soreness",
+        "local resistance"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "In the left upper quadrant there is a passive resistance zone. If caused by an enlarged spleen, then:",
+      "o": [
+        "it is possible to insert the fingers of the palpating hand between the organ and the costal arch",
+        "a tympanic sound is detected above it",
+        "the spleen has a rounded contour with a thickened edge",
+        "with bimanual palpation, lumbar contact is determined"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "With rapid increase of the liver, superficial testing palpation reveals:",
+      "o": [
+        "muscle tension",
+        "general passive resistance of the abdomen with its significant increase",
+        "absence of pain below the right costal arch and in the epigastric region",
+        "passive resistance and pain in the right hypochondrium and epigastric region areas"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Left kidney is enlarged, well palpated:",
+      "o": [
+        "with the patient lying on his back, it moves downward and medially when inhaling",
+        "with bimanual jerky palpation there is no balloting",
+        "a peritoneal friction sound is heard",
+        "intestines may be palpable on its surface"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Right direct size of the liver according to Kurlov, the normal is:",
+      "o": [
+        "9±1 cm",
+        "11±1 cm",
+        "13±1 cm",
+        "6±1 cm"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Symptom of \"floating ice\" is characteristic for:",
+      "o": [
+        "chronic cholecystitis",
+        "hemolytic anemia",
+        "cirrhosis of the liver",
+        "cholelithiasis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Positive symptom of Phrenicus is:",
+      "o": [
+        "pain when tapping in the epigastric region",
+        "pain when tapping on the rib arcs",
+        "pain when pressing between the legs of the sternocleidomastoid muscle",
+        "pain when pressing at the point of the gallbladder while inhaling"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "When carrying out superficial orientation palpation the area not examined is:",
+      "o": [
+        "ileum",
+        "periumbilical",
+        "suprapubic",
+        "lateral flank of the abdomen"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "When percussing the abdomen in a healthy person, the following is heard:",
+      "o": [
+        "dull sound",
+        "boxed sound",
+        "pulmonary sound",
+        "tympanic sound"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Rumbling on palpation of the ascending and transverse colon assumes:",
+      "o": [
+        "normal phenomenon",
+        "the presence of free fluid in the abdominal cavity",
+        "presence of pyloric stenosis",
+        "excess liquid contents and gases in the large intestine (e.g., acute enteritis)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "During duodenal sounding, signs detected in portion \"B\" indicate:",
+      "o": [
+        "inflammation of the gallbladder",
+        "peptic ulcer",
+        "inflammation of the duodenum",
+        "inflammation of the pancreas"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which of the following is a common physical sign of hyperthyroidism?",
+      "o": [
+        "Weight gain",
+        "Bradycardia",
+        "Exophthalmos",
+        "Cold intolerance"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "A swelling or enlargement of the thyroid gland is known as:",
+      "o": [
+        "Thyrotoxicosis",
+        "Goiter",
+        "Addison's disease",
+        "Cushing's syndrome"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "What is the primary purpose of the Trousseau sign in endocrine examination?",
+      "o": [
+        "Assess adrenal function",
+        "Detect thyroid dysfunction",
+        "Evaluate parathyroid activity",
+        "Examine pancreatic function"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which technique is commonly used to assess adrenal function and cortisol levels?",
+      "o": [
+        "Trousseau sign",
+        "Babinski reflex",
+        "Dexamethasone suppression test",
+        "Romberg test"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "A characteristic feature of acromegaly is:",
+      "o": [
+        "Enlarged hands and feet",
+        "Short stature",
+        "Excessive weight loss",
+        "Sunken eyes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "In endocrine examination, what does the term \"Cushingoid\" refer to?",
+      "o": [
+        "Symptoms of hyperthyroidism",
+        "Physical features resembling Cushing's syndrome",
+        "Signs of adrenal insufficiency",
+        "Characteristics of diabetes mellitus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which of the following is a common symptom of hypothyroidism in the skin?",
+      "o": [
+        "Excessive sweating",
+        "Warm and moist skin",
+        "Dry and coarse skin",
+        "Flushing"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "The Chvostek sign is associated with abnormalities in which endocrine gland?",
+      "o": [
+        "Thyroid",
+        "Parathyroid",
+        "Adrenal",
+        "Pancreas"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "A hump-like appearance on the upper back is often seen in individuals with:",
+      "o": [
+        "Hypothyroidism",
+        "Cushing's syndrome",
+        "Hyperparathyroidism",
+        "Acromegaly"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "The presence of palpable, tender nodules in the thyroid gland is suggestive of:",
+      "o": [
+        "Thyroid cancer",
+        "Hashimoto's thyroiditis",
+        "Graves' disease",
+        "Simple goiter"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which laboratory technique combines antibodies and enzymatic reactions for detection and quantification of hormones?",
+      "o": [
+        "Polymerase Chain Reaction (PCR)",
+        "Liquid Chromatography-Mass Spectrometry (LC-MS)",
+        "Immunoassays",
+        "Gas Chromatography-Mass Spectrometry (GC-MS)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "What imaging method is commonly used to visualize endocrine glands such as the thyroid and adrenal glands?",
+      "o": [
+        "Magnetic Resonance Imaging (MRI)",
+        "Computed Tomography (CT) Scan",
+        "Ultrasound Imaging",
+        "Dual-Energy X-ray Absorptiometry (DEXA)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which technique is specifically useful for assessing bone density and its relation to hormones?",
+      "o": [
+        "Polymerase Chain Reaction (PCR)",
+        "Electrochemiluminescence Immunoassay (ECLIA)",
+        "Dual-Energy X-ray Absorptiometry (DEXA)",
+        "Radioimmunoassay (RIA)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "What method combines chromatography and mass spectrometry for the separation and identification of hormones?",
+      "o": [
+        "Radioimmunoassay (RIA)",
+        "Liquid Chromatography-Mass Spectrometry (LC-MS)",
+        "Gas Chromatography-Mass Spectrometry (GC-MS)",
+        "Magnetic Resonance Imaging (MRI)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which technique utilizes electrical and chemical processes for detecting and quantifying hormones with high sensitivity?",
+      "o": [
+        "Electrochemiluminescence Immunoassay (ECLIA)",
+        "Polymerase Chain Reaction (PCR)",
+        "Immunoassays",
+        "Gas Chromatography-Mass Spectrometry (GC-MS)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "What joint is primarily responsible for flexion and extension movements in the arm?",
+      "o": [
+        "Knee",
+        "Hip",
+        "Elbow",
+        "Shoulder"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which of the following is NOT a component of the axial skeleton?",
+      "o": [
+        "Skull",
+        "Spine",
+        "Pelvis",
+        "Radius"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "The rotator cuff in the shoulder stabilizes which joint?",
+      "o": [
+        "Knee",
+        "Elbow",
+        "Hip",
+        "Shoulder"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "What is the main function of the Achilles tendon?",
+      "o": [
+        "Flex the knee",
+        "Extend the hip",
+        "Dorsiflex the ankle",
+        "Plantarflex the ankle"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which type of joint allows the greatest range of motion?",
+      "o": [
+        "Hinge joint",
+        "Pivot joint",
+        "Ball and socket joint",
+        "Gliding joint"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "The carpals are bones found in which part of the body?",
+      "o": [
+        "Hand",
+        "Foot",
+        "Spine",
+        "Leg"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "What is the primary function of the biceps brachii muscle?",
+      "o": [
+        "Extend the forearm",
+        "Flex the elbow",
+        "Extend the knee",
+        "Flex the wrist"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which ligament connects the femur to the tibia and helps stabilize the knee joint?",
+      "o": [
+        "ACL (Anterior Cruciate Ligament)",
+        "PCL (Posterior Cruciate Ligament)",
+        "MCL (Medial Collateral Ligament)",
+        "LCL (Lateral Collateral Ligament)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "The vertebral column is composed of how many vertebrae?",
+      "o": [
+        "24",
+        "26",
+        "30",
+        "33"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which muscle is responsible for abducting the arm at the shoulder joint?",
+      "o": [
+        "Pectoralis major",
+        "Latissimus dorsi",
+        "Deltoid",
+        "Trapezius"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which imaging technique is commonly used to visualize soft tissues, ligaments, and tendons in the musculoskeletal system?",
+      "o": [
+        "X-ray",
+        "Ultrasound",
+        "CT scan",
+        "PET scan"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "What is the primary advantage of MRI in musculoskeletal diagnostics?",
+      "o": [
+        "Low cost",
+        "Minimal radiation exposure",
+        "Rapid imaging",
+        "High spatial resolution"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Dual-energy X-ray absorptiometry (DEXA) is commonly used to assess:",
+      "o": [
+        "Joint flexibility",
+        "Bone mineral density",
+        "Muscle strength",
+        "Tendon integrity"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "In nuclear medicine, which radiopharmaceutical is often used to evaluate bone metabolism?",
+      "o": [
+        "Technetium-99m",
+        "Iodine-131",
+        "Fluorine-18",
+        "Gallium-67"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "What does arthroscopy involve in musculoskeletal examinations?",
+      "o": [
+        "Recording electrical activity in muscles",
+        "Direct visualization of joint interiors",
+        "Measuring bone density",
+        "Monitoring blood flow in tissues"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "During inspection of the abdomen, which finding suggests urinary retention?",
+      "o": [
+        "Flank tenderness",
+        "Suprapubic distension",
+        "CVA tenderness",
+        "Mass in the iliac fossa"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which maneuver is performed during palpation of the kidney to assess for tenderness?",
+      "o": [
+        "Percussion",
+        "Deep inspiration and expiration",
+        "Murphy's maneuver",
+        "Costovertebral angle (CVA) percussion"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "When performing CVA percussion, what sound would suggest kidney pathology?",
+      "o": [
+        "Hyperresonance",
+        "Dullness",
+        "Tympany",
+        "Resonance"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which condition may present with shifting dullness during abdominal percussion?",
+      "o": [
+        "Urinary tract infection (UTI)",
+        "Renal calculi",
+        "Ascites",
+        "Acute pyelonephritis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "During auscultation of the abdomen, bowel sounds are characterized by:",
+      "o": [
+        "High-pitched tinkling sounds",
+        "Absence of sounds",
+        "Low-pitched gurgling sounds",
+        "Musical sounds"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "What does a bruit over the renal artery suggest?",
+      "o": [
+        "Renal vein thrombosis",
+        "Renal artery stenosis",
+        "Nephrolithiasis",
+        "Pyelonephritis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which technique is used to assess bladder volume?",
+      "o": [
+        "Cystoscopy",
+        "Percussion",
+        "Bladder scan",
+        "Pelvic examination"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "During inspection of the urethral meatus, which finding is abnormal?",
+      "o": [
+        "Presence of clear discharge",
+        "Smooth and patent meatus",
+        "Edema or inflammation",
+        "Absence of discharge"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "What is the purpose of a digital rectal examination (DRE) in the assessment of urinary tract disorders?",
+      "o": [
+        "To assess for bladder distension",
+        "To evaluate the prostate gland",
+        "To detect urethral strictures",
+        "To assess for ureteral obstruction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "When assessing for bladder distension, which technique involves tapping the bladder and listening to the sound?",
+      "o": [
+        "Percussion",
+        "Palpation",
+        "Auscultation",
+        "Inspection"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "What is the expected finding on palpation of a normal bladder?",
+      "o": [
+        "Soft and non-palpable",
+        "Firm and non-tender",
+        "Distended and tender",
+        "Fluctuant and mobile"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which is a common finding in acute cystitis on percussion?",
+      "o": [
+        "Hyperresonance",
+        "Dullness",
+        "Tympany",
+        "Resonance"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "What does a positive Murphy's sign suggest during palpation?",
+      "o": [
+        "Cholecystitis",
+        "Pyelonephritis",
+        "Renal calculi",
+        "Acute pancreatitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which condition may result in decreased or absent bowel sounds on auscultation?",
+      "o": [
+        "Urinary retention",
+        "Renal colic",
+        "Ileus",
+        "Ureteral stricture"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which maneuver is performed to assess for flank pain associated with kidney stones?",
+      "o": [
+        "Jump test",
+        "Costovertebral angle (CVA) percussion",
+        "Murphy's maneuver",
+        "Psoas sign"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "A patient presents with suprapubic tenderness on palpation. Which condition is most likely?",
+      "o": [
+        "Ureteral obstruction",
+        "Renal artery stenosis",
+        "Cystitis",
+        "Urethral stricture"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "What is the primary indication for performing auscultation of the kidneys?",
+      "o": [
+        "To detect renal artery bruits",
+        "To assess for renal masses",
+        "To evaluate for bladder distension",
+        "To detect urinary tract infection (UTI)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "During inspection of the genitalia, which finding suggests urethral trauma or infection?",
+      "o": [
+        "Presence of penile papules",
+        "Redness and swelling at the meatus",
+        "Absence of foreskin",
+        "Normal distribution of pubic hair"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which is a characteristic finding on palpation of the bladder in a patient with urinary retention?",
+      "o": [
+        "Distended and tender",
+        "Soft and non-palpable",
+        "Firm and non-tender",
+        "Fluctuant and mobile"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "A positive Phalen's maneuver during renal palpation suggests:",
+      "o": [
+        "Pyelonephritis",
+        "Renal artery stenosis",
+        "Renal vein thrombosis",
+        "Renal cyst"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "What is the expected finding on palpation of a normal kidney?",
+      "o": [
+        "Easily palpable mass",
+        "Fluctuant and tender",
+        "Non-tender and non-palpable",
+        "Mobile and firm"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "What is the characteristic sound of a bruit over the renal artery?",
+      "o": [
+        "High-pitched swooshing",
+        "Low-pitched gurgling",
+        "Musical tinkling",
+        "Absent sound"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which condition may present with costovertebral angle (CVA) tenderness on palpation?",
+      "o": [
+        "Appendicitis",
+        "Renal colic",
+        "Gallstones",
+        "Pancreatitis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "During inspection of the abdomen, what finding suggests ascites?",
+      "o": [
+        "Periumbilical ecchymosis",
+        "Shifting dullness",
+        "Positive Murphy's sign",
+        "Epigastric bruit"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which is a common finding on palpation of a distended bladder?",
+      "o": [
+        "Soft and non-palpable",
+        "Firm and non-tender",
+        "Distended and tender",
+        "Fluctuant and mobile"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which maneuver is used to assess bladder distension by tapping and listening for the resulting sound?",
+      "o": [
+        "Murphy's maneuver",
+        "Percussion",
+        "Auscultation",
+        "Palpation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "What is the expected finding on palpation of a normal bladder?",
+      "o": [
+        "Soft and non-tender",
+        "Firm and tender",
+        "Distended and tender",
+        "Fluctuant and mobile"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "A patient presents with flank pain radiating to the groin. Which maneuver is used to assess for renal colic?",
+      "o": [
+        "Jump test",
+        "Costovertebral angle (CVA) percussion",
+        "Murphy's maneuver",
+        "Psoas sign"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "Which technique is used to assess bladder volume without invasive procedures?",
+      "o": [
+        "Cystoscopy",
+        "Percussion",
+        "Bladder scan",
+        "Pelvic examination"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Abdominal & Urological Examination",
+      "q": "During inspection of the urethral meatus, which finding is normal?",
+      "o": [
+        "Presence of discharge",
+        "Redness and swelling",
+        "Smooth and patent meatus",
+        "Absence of meatus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Upon ECG, leads II, III and aVF are abnormal. Which vessel is blocked?",
+      "o": [
+        "Left coronary artery",
+        "Left anterior descending",
+        "Right coronary artery",
+        "Right circumflex artery"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Pulsus paradoxus is seen in:",
+      "o": [
+        "Cardiac tamponade",
+        "Mitral regurgitation",
+        "Aortic regurgitation",
+        "Mitral stenosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Mid diastolic murmur is seen in which of the following?",
+      "o": [
+        "Aortic stenosis",
+        "Mitral stenosis",
+        "Tricuspid regurgitation",
+        "Mitral regurgitation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Carvallo's sign is seen in:",
+      "o": [
+        "Tricuspid regurgitation",
+        "Mitral stenosis",
+        "Aortic stenosis",
+        "Aortic regurgitation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "During cardiac imaging the phase of minimum motion of the heart is:",
+      "o": [
+        "Late systole",
+        "Mid systole",
+        "Late diastole",
+        "Mid diastole"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "All of the following murmurs may be heard in aortic regurgitation except:",
+      "o": [
+        "High-pitched decrescendo diastolic murmur",
+        "Soft, low-pitched mid-diastolic rumbling murmur",
+        "Mid-systolic ejection flow murmur",
+        "Pansystolic murmur"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "All are true about physiological murmur except:",
+      "o": [
+        "Only diastolic murmur",
+        "Mid systolic murmur",
+        "Present in child with anemia",
+        "Not audible without stethoscope"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Systolic murmur is associated with:",
+      "o": [
+        "Ejection click",
+        "S4",
+        "Opening snap",
+        "Pericardial knock"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "All of the following arteries are common sites of occlusion by a thrombus except:",
+      "o": [
+        "Left anterior descending",
+        "Right coronary artery",
+        "Circumflex coronary artery",
+        "Marginal artery"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "ROSE questionnaire is used for:",
+      "o": [
+        "Alcohol addiction",
+        "Sex addiction",
+        "Angina assessment",
+        "Deep vein thrombosis assessment"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Hypertensive patient with BP 220/130 mmHg and headache, no CNS deficit. What is the goal BP?",
+      "o": [
+        "200/150",
+        "160/90",
+        "180/110",
+        "140/90"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Most common cause of secondary hypertension is:",
+      "o": [
+        "Renovascular disease",
+        "Pheochromocytoma",
+        "Renal parenchymal disease",
+        "Hyperthyroidism"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Usual duration of chest pain in chronic stable angina is:",
+      "o": [
+        "1-3 minutes",
+        "15 minutes",
+        "5-10 minutes",
+        "30 minutes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "ST elevation is seen in all of the following except:",
+      "o": [
+        "Myocardial infarction",
+        "Coronary artery spasm",
+        "Constrictive pericarditis",
+        "Ventricular aneurysm"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "All of the following are risk factors for atherosclerosis except:",
+      "o": [
+        "Increased waist-hip ratio",
+        "Hyperhomocysteinemia",
+        "Decreased fibrinogen levels",
+        "Decreased HDL levels"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Which is the best marker to predict future cardiac events?",
+      "o": [
+        "hs CRP",
+        "Interleukin-6",
+        "Homocysteine",
+        "LDL"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Most important predictor of coronary artery disease is:",
+      "o": [
+        "LDL",
+        "VLDL",
+        "Chylomicron",
+        "LDL/HDL"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Which is not seen in mitral stenosis?",
+      "o": [
+        "Loud S1",
+        "Opening snap",
+        "Mid diastolic murmur",
+        "S3"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "The severity of mitral stenosis is assessed by:",
+      "o": [
+        "Left atrial enlargement",
+        "Loudness of S1",
+        "Loudness of opening snap",
+        "A2-OS gap"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Blood pressure is difficult to measure in a patient with:",
+      "o": [
+        "Mitral stenosis",
+        "Aortic stenosis",
+        "Complete heart block",
+        "Atrial fibrillation"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Area of mitral orifice in adults is:",
+      "o": [
+        "6-8 cm²",
+        "2-5 cm²",
+        "4-6 cm²",
+        "1-4 cm²"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "QT prolongation is seen in all, except:",
+      "o": [
+        "Hypothermia",
+        "Digitalis toxicity",
+        "Hypocalcemia",
+        "Romano-Ward syndrome"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "Inverted T waves are seen in:",
+      "o": [
+        "Hyperkalemia",
+        "Wellens syndrome",
+        "Hyperthermia",
+        "Coronary syndrome X"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "The following ECG findings are seen in hypokalemia:",
+      "o": [
+        "Increased PR interval with ST depression",
+        "Increased PR interval with peaked T wave",
+        "Prolonged QT interval with T wave inversion",
+        "Decreased QT interval with ST depression"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Which is the correct order of respiratory examination?",
+      "o": [
+        "Percussion → Palpation → Inspection → Auscultation",
+        "Inspection → Palpation → Percussion → Auscultation",
+        "Palpation → Inspection → Auscultation → Percussion",
+        "Auscultation → Percussion → Inspection → Palpation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Increased tactile fremitus is usually found in:",
+      "o": [
+        "Pleural effusion",
+        "Pneumothorax",
+        "Lung consolidation",
+        "Emphysema"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Decreased chest expansion on one side suggests:",
+      "o": [
+        "Consolidation",
+        "Pneumonia",
+        "Atelectasis or pleural effusion",
+        "Bronchitis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "A dull percussion note indicates:",
+      "o": [
+        "Air trapping",
+        "Fluid or solid tissue",
+        "Hyperinflation",
+        "Normal lungs"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Hyperresonance is characteristic of:",
+      "o": [
+        "Pleural fibrosis",
+        "Pneumothorax",
+        "Consolidation",
+        "Pulmonary edema"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Vesicular breath sounds are normally heard:",
+      "o": [
+        "Over the trachea",
+        "Over most lung fields",
+        "Over the manubrium",
+        "Over areas of consolidation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Bronchial breath sounds over the lung periphery indicate:",
+      "o": [
+        "Normal finding",
+        "Pleural effusion",
+        "Lung consolidation",
+        "Pneumothorax"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Crepitations (crackles) are commonly associated with:",
+      "o": [
+        "Emphysema",
+        "Pneumonia",
+        "Pneumothorax",
+        "Asthma attack"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Wheezing is caused by:",
+      "o": [
+        "Fluid in alveoli",
+        "Narrowed airways",
+        "Collapsed lung tissue",
+        "Pleural calcification"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Pleural friction rub is heard in:",
+      "o": [
+        "Emphysema",
+        "Pleural inflammation",
+        "Pneumonia",
+        "Pulmonary embolism (without pleurisy)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "In pleural effusion, tactile fremitus is typically:",
+      "o": [
+        "Increased",
+        "Normal",
+        "Decreased",
+        "Absent in upper lungs only"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "A patient with emphysema typically has:",
+      "o": [
+        "Barrel-shaped chest",
+        "Dullness to percussion",
+        "Increased fremitus",
+        "Bronchial breathing"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Orthopnea refers to:",
+      "o": [
+        "Difficulty breathing when lying flat",
+        "Rapid breathing",
+        "Painful breathing",
+        "Shortness of breath at rest"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Whispered pectoriloquy is increased in:",
+      "o": [
+        "Pleural effusion",
+        "Consolidation",
+        "Pneumothorax",
+        "Obstructive lung disease"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Which condition shows tracheal deviation toward the affected side?",
+      "o": [
+        "Tension pneumothorax",
+        "Large pleural effusion",
+        "Lung collapse (atelectasis)",
+        "Massive consolidation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Cyanosis indicates:",
+      "o": [
+        "Low hemoglobin",
+        "Elevated CO₂",
+        "Reduced oxygen saturation",
+        "Increased red cell count"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Clubbing of fingers is characteristic of:",
+      "o": [
+        "Acute bronchitis",
+        "Lobar pneumonia",
+        "Lung cancer or chronic hypoxia",
+        "Pneumothorax"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "A stony dull sound on percussion suggests:",
+      "o": [
+        "Normal resonance",
+        "Consolidation",
+        "Pleural effusion",
+        "Pneumothorax"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Which is a normal respiratory rate for an adult?",
+      "o": [
+        "6–10/min",
+        "12–20/min",
+        "24–30/min",
+        "Over 30/min"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Accessory muscle use is a sign of:",
+      "o": [
+        "Mild bronchitis",
+        "Respiratory distress",
+        "Normal aging",
+        "Pleural fibrosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Decreased diaphragmatic excursion occurs in:",
+      "o": [
+        "Emphysema",
+        "Pneumonia",
+        "Pulmonary embolism",
+        "Bronchitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Percussion of a consolidated lung will reveal:",
+      "o": [
+        "Hyperresonance",
+        "Tympany",
+        "Dullness",
+        "Resonance"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Stridor is caused by obstruction of the:",
+      "o": [
+        "Small bronchioles",
+        "Pleural cavity",
+        "Upper airway",
+        "Alveoli"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Intercostal retractions suggest:",
+      "o": [
+        "Increased airway resistance",
+        "Pleural effusion",
+        "Pulmonary fibrosis",
+        "Normal effort"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Respiratory Examination",
+      "q": "Which finding is typical for a tension pneumothorax?",
+      "o": [
+        "Increased fremitus",
+        "Dull percussion note",
+        "Tracheal deviation away from affected side",
+        "Crackles over the affected area"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "The correct order of abdominal examination is:",
+      "o": [
+        "Palpation → Percussion → Inspection → Auscultation",
+        "Auscultation → Inspection → Palpation → Percussion",
+        "Inspection → Auscultation → Percussion → Palpation",
+        "Inspection → Palpation → Percussion → Auscultation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "A distended abdomen with shifting dullness suggests:",
+      "o": [
+        "Intestinal obstruction",
+        "Ascites",
+        "Peritonitis",
+        "Pneumoperitoneum"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Rebound tenderness is a sign of:",
+      "o": [
+        "Gastritis",
+        "Liver failure",
+        "Peritoneal irritation",
+        "Duodenal ulcer"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "A positive Murphy's sign indicates pathology of the:",
+      "o": [
+        "Stomach",
+        "Gallbladder",
+        "Pancreas",
+        "Spleen"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "A fluid wave test is used to detect:",
+      "o": [
+        "Masses",
+        "Free intraperitoneal air",
+        "Ascites",
+        "Deep tenderness"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Hyperactive, \"high-pitched\" bowel sounds are typical for:",
+      "o": [
+        "Normal peristalsis",
+        "Late paralytic ileus",
+        "Early intestinal obstruction",
+        "Ascites"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Cullen's sign refers to:",
+      "o": [
+        "Ecchymosis around the umbilicus",
+        "Pain on deep inspiration",
+        "Palpable liver edge",
+        "Rigid abdominal muscles"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Grey-Turner's sign appears as:",
+      "o": [
+        "Blue spots on lower abdomen",
+        "Flank ecchymosis",
+        "Perioral cyanosis",
+        "Petechiae around the umbilicus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Pain of gastric ulcer typically:",
+      "o": [
+        "Decreases after eating",
+        "Increases after eating",
+        "Occurs only at night",
+        "Is relieved by lying down"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "The liver span is normally measured by:",
+      "o": [
+        "Palpation only",
+        "Percussion",
+        "Auscultation",
+        "Visible inspection"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "The most accurate sign of splenomegaly is:",
+      "o": [
+        "Tenderness on palpation",
+        "Palpable lower pole on inspiration",
+        "Tympany on percussion",
+        "Bruit over left flank"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "\"Board-like\" abdominal rigidity suggests:",
+      "o": [
+        "Simple gastritis",
+        "Pneumonia",
+        "Perforated peptic ulcer",
+        "Hepatitis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Caput medusae is associated with:",
+      "o": [
+        "Pancreatitis",
+        "Portal hypertension",
+        "Cholecystitis",
+        "Appendicitis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "McBurney's point is located in the:",
+      "o": [
+        "Left upper quadrant",
+        "Epigastric region",
+        "Right lower quadrant",
+        "Suprapubic area"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "A positive Rovsing's sign indicates:",
+      "o": [
+        "Cholecystitis",
+        "Appendicitis",
+        "Peritonitis due to ulcer",
+        "Pancreatitis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Hepatojugular reflux is a test for:",
+      "o": [
+        "Acute hepatitis",
+        "Portal vein obstruction",
+        "Right-sided heart failure",
+        "Gastric outlet obstruction"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "A tympanic note on percussion usually indicates:",
+      "o": [
+        "Fluid accumulation",
+        "Solid organ",
+        "Gas-filled bowel loops",
+        "Enlarged liver"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "The spleen enlarges in the direction of:",
+      "o": [
+        "Upward and left",
+        "Downward and right",
+        "Medially only",
+        "Upward and forward"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digestive System Examination",
+      "q": "Melena is described as:",
+      "o": [
+        "Fresh blood in stool",
+        "Bright red blood on toilet paper",
+        "Black, tarry stool",
+        "Occult microscopic blood"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Which structure is the functional unit of the kidney?",
+      "o": [
+        "Glomerulus",
+        "Nephron",
+        "Renal pelvis",
+        "Collecting duct"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Which blood vessel brings blood into the glomerulus?",
+      "o": [
+        "Efferent arteriole",
+        "Renal vein",
+        "Afferent arteriole",
+        "Renal artery"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "The primary process occurring in the glomerulus is:",
+      "o": [
+        "Reabsorption",
+        "Filtration",
+        "Secretion",
+        "Concentration of urine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Which hormone increases water reabsorption in the collecting ducts?",
+      "o": [
+        "Aldosterone",
+        "ADH (antidiuretic hormone)",
+        "Renin",
+        "Erythropoietin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Aldosterone mainly increases the reabsorption of:",
+      "o": [
+        "Potassium",
+        "Sodium",
+        "Glucose",
+        "Urea"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Which part of the nephron is most important for glucose reabsorption?",
+      "o": [
+        "Loop of Henle",
+        "Distal convoluted tubule",
+        "Proximal convoluted tubule",
+        "Collecting duct"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Proteinuria is primarily associated with:",
+      "o": [
+        "Distal tubule dysfunction",
+        "Glomerular damage",
+        "Dehydration",
+        "Pancreatic disease"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "A common symptom of lower urinary tract infection (cystitis) is:",
+      "o": [
+        "Flank pain",
+        "Polyuria",
+        "Dysuria",
+        "Hematemesis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Costovertebral angle (CVA) tenderness is typically a sign of:",
+      "o": [
+        "Cystitis",
+        "Pyelonephritis",
+        "Urethritis",
+        "Bladder stones"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Which test is used to estimate kidney filtration function?",
+      "o": [
+        "ALT test",
+        "Serum creatinine",
+        "Amylase",
+        "Hemoglobin count"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "The normal color of urine is mainly due to the pigment:",
+      "o": [
+        "Urea",
+        "Creatinine",
+        "Urobilin",
+        "Bilirubin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Oliguria refers to urine output less than:",
+      "o": [
+        "500 mL/day",
+        "400 mL/day",
+        "300 mL/day",
+        "200 mL/day"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Which electrolyte imbalance is most commonly associated with kidney failure?",
+      "o": [
+        "Hypocalcemia",
+        "Hyperkalemia",
+        "Hypokalemia",
+        "Hypernatremia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Edema in kidney disease is mainly due to:",
+      "o": [
+        "Increased urine output",
+        "Increased plasma proteins",
+        "Decreased oncotic pressure from low albumin",
+        "Increased erythropoietin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Hematuria means:",
+      "o": [
+        "Protein in urine",
+        "Blood in urine",
+        "Glucose in urine",
+        "Pus in urine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "The primary role of the loop of Henle is to:",
+      "o": [
+        "Filter blood",
+        "Reabsorb amino acids",
+        "Concentrate urine",
+        "Produce renin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "Which hormone is produced by the kidneys to stimulate red blood cell formation?",
+      "o": [
+        "Renin",
+        "Aldosterone",
+        "Insulin",
+        "Erythropoietin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "In renal colic, pain typically radiates to the:",
+      "o": [
+        "Left shoulder",
+        "Perineum or groin",
+        "Right upper quadrant",
+        "Chest"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "A common cause of nephrotic syndrome is:",
+      "o": [
+        "Kidney stones",
+        "Glomerular basement membrane damage",
+        "Bladder infection",
+        "Hypertension alone"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Renal Physiology & Kidney Disease",
+      "q": "The presence of nitrites in urine usually indicates:",
+      "o": [
+        "Viral infection",
+        "Bacterial infection",
+        "Kidney stones",
+        "Dehydration"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which gland is known as the \"master gland\"?",
+      "o": [
+        "Thyroid gland",
+        "Pituitary gland",
+        "Adrenal gland",
+        "Pancreas"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone regulates basal metabolic rate?",
+      "o": [
+        "Cortisol",
+        "Thyroxine (T4)",
+        "Insulin",
+        "Prolactin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone is produced by the adrenal medulla?",
+      "o": [
+        "Aldosterone",
+        "Cortisol",
+        "Epinephrine",
+        "Androgens"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Insulin is secreted by which pancreatic cells?",
+      "o": [
+        "Alpha cells",
+        "Beta cells",
+        "Delta cells",
+        "F cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "A deficiency of ADH leads to:",
+      "o": [
+        "Cushing's syndrome",
+        "Diabetes insipidus",
+        "Hyperthyroidism",
+        "Addison's disease"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone increases blood calcium levels?",
+      "o": [
+        "Calcitonin",
+        "Parathyroid hormone (PTH)",
+        "Insulin",
+        "Growth hormone"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which condition is characterized by exophthalmos?",
+      "o": [
+        "Hypothyroidism",
+        "Hyperthyroidism (Graves' disease)",
+        "Cushing's disease",
+        "Addison's disease"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone stimulates milk production?",
+      "o": [
+        "Oxytocin",
+        "Estrogen",
+        "Prolactin",
+        "Progesterone"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "The adrenal cortex produces all of the following except:",
+      "o": [
+        "Cortisol",
+        "Aldosterone",
+        "Epinephrine",
+        "Androgens"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which electrolyte is primarily regulated by aldosterone?",
+      "o": [
+        "Sodium",
+        "Calcium",
+        "Phosphate",
+        "Magnesium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Goiter is most commonly associated with:",
+      "o": [
+        "Growth hormone deficiency",
+        "Adrenal insufficiency",
+        "Diabetes",
+        "Thyroid disorders"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone increases glucose uptake by cells?",
+      "o": [
+        "Insulin",
+        "Glucagon",
+        "Cortisol",
+        "Thyroxine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "A classic sign of Cushing's syndrome is:",
+      "o": [
+        "Moon face",
+        "Weight loss",
+        "Bradycardia",
+        "Hypotension"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Low cortisol and low aldosterone levels are characteristic of:",
+      "o": [
+        "Hyperthyroidism",
+        "Cushing's syndrome",
+        "Addison's disease",
+        "Acromegaly"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which gland secretes melatonin?",
+      "o": [
+        "Thyroid gland",
+        "Pancreas",
+        "Thymus",
+        "Pineal gland"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which of the following is a symptom of hypothyroidism?",
+      "o": [
+        "Heat intolerance",
+        "Tachycardia",
+        "Weight gain",
+        "Anxiety"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Excess growth hormone in adults leads to:",
+      "o": [
+        "Gigantism",
+        "Hyperparathyroidism",
+        "Dwarfism",
+        "Acromegaly"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "What is the primary function of glucagon?",
+      "o": [
+        "Stimulate glycogen breakdown",
+        "Lower blood sugar",
+        "Decrease protein synthesis",
+        "Increase fat storage"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Hyperparathyroidism often results in:",
+      "o": [
+        "Hypocalcemia",
+        "Hyponatremia",
+        "Hypoglycemia",
+        "Hypercalcemia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone stimulates uterine contractions during labor?",
+      "o": [
+        "Prolactin",
+        "Progesterone",
+        "Estrogen",
+        "Oxytocin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "The thyroid gland requires which mineral to function properly?",
+      "o": [
+        "Iron",
+        "Zinc",
+        "Iodine",
+        "Calcium"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which condition is associated with bronze skin pigmentation?",
+      "o": [
+        "Cushing's syndrome",
+        "Diabetes mellitus",
+        "Hyperthyroidism",
+        "Addison's disease"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone is responsible for the \"fight-or-flight\" response?",
+      "o": [
+        "Cortisol",
+        "ADH",
+        "Epinephrine",
+        "Melatonin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "A common symptom of diabetes mellitus is:",
+      "o": [
+        "Hypotension",
+        "Polyuria",
+        "Bradycardia",
+        "Weight gain"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone promotes bone formation by lowering blood calcium levels?",
+      "o": [
+        "Calcitonin",
+        "PTH",
+        "Cortisol",
+        "Insulin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which endocrine disorder is associated with truncal obesity and purple striae?",
+      "o": [
+        "Cushing's syndrome",
+        "Addison's disease",
+        "Hypothyroidism",
+        "Graves' disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Excess insulin administration can cause:",
+      "o": [
+        "Hyperglycemia",
+        "Ketoacidosis",
+        "Hypoglycemia",
+        "Hyponatremia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone is secreted in response to low blood pressure?",
+      "o": [
+        "Insulin",
+        "Melatonin",
+        "Calcitonin",
+        "Renin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which endocrine gland atrophies with age?",
+      "o": [
+        "Thyroid",
+        "Pancreas",
+        "Thymus",
+        "Adrenal"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which is a classical sign of Graves' disease?",
+      "o": [
+        "Thickened skin folds",
+        "Exophthalmos",
+        "Hypotension",
+        "Hypoglycemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hematology",
+      "q": "Which organ is the primary site of hematopoiesis in adults?",
+      "o": [
+        "Bone marrow",
+        "Spleen",
+        "Bone marrow",
+        "Thymus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hematology",
+      "q": "Which cell is the precursor of all blood cell lines?",
+      "o": [
+        "Myeloblast",
+        "Megakaryocyte",
+        "Hematopoietic stem cell",
+        "Reticulocyte"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hematology",
+      "q": "Hemoglobin is responsible for transporting:",
+      "o": [
+        "Glucose",
+        "Electrolytes",
+        "Hormones",
+        "Oxygen"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hematology",
+      "q": "Which vitamin is essential for normal red blood cell formation?",
+      "o": [
+        "Vitamin B12",
+        "Vitamin C",
+        "Vitamin D",
+        "Vitamin K"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hematology",
+      "q": "Leukocytes are primarily responsible for:",
+      "o": [
+        "Blood clotting",
+        "Oxygen transport",
+        "Immune defense",
+        "pH balance"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hematology",
+      "q": "Which type of leukocyte is most abundant in normal blood?",
+      "o": [
+        "Neutrophils",
+        "Eosinophils",
+        "Basophils",
+        "Monocytes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hematology",
+      "q": "Platelets are fragments of which large cell?",
+      "o": [
+        "Myeloblast",
+        "Reticulocyte",
+        "Lymphoblast",
+        "Megakaryocyte"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hematology",
+      "q": "Anemia is defined as a decrease in:",
+      "o": [
+        "Platelet count",
+        "White blood cell count",
+        "Hemoglobin or RBC count",
+        "Plasma proteins"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hematology",
+      "q": "Which condition is characterized by an increased number of immature white blood cells?",
+      "o": [
+        "Leukopenia",
+        "Leukocytosis",
+        "Leukemia",
+        "Thrombocytopenia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hematology",
+      "q": "The normal lifespan of a red blood cell is approximately:",
+      "o": [
+        "10 days",
+        "30 days",
+        "60 days",
+        "120 days"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hematology",
+      "q": "Which organ removes old or damaged red blood cells?",
+      "o": [
+        "Pancreas",
+        "Thyroid",
+        "Spleen",
+        "Kidney"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hematology",
+      "q": "Iron is primarily stored in the body as:",
+      "o": [
+        "Hemoglobin",
+        "Ferritin",
+        "Myosin",
+        "Albumin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hematology",
+      "q": "Which type of anemia is associated with neurological symptoms?",
+      "o": [
+        "Iron-deficiency anemia",
+        "Hemolytic anemia",
+        "Pernicious anemia",
+        "Aplastic anemia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hematology",
+      "q": "Erythropoietin is produced mainly by the:",
+      "o": [
+        "Liver",
+        "Kidneys",
+        "Spleen",
+        "Lungs"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hematology",
+      "q": "Which laboratory test measures the percentage of red blood cells in blood?",
+      "o": [
+        "Hematocrit",
+        "Hemoglobin",
+        "ESR",
+        "Coagulation time"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hematology",
+      "q": "A high ESR typically indicates:",
+      "o": [
+        "Hyperthyroidism",
+        "Dehydration",
+        "Inflammation",
+        "Bleeding disorder"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hematology",
+      "q": "Thrombocytopenia refers to:",
+      "o": [
+        "Low hemoglobin",
+        "Low platelet count",
+        "Low white blood cell count",
+        "High RBC count"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hematology",
+      "q": "Which blood type is considered the universal donor?",
+      "o": [
+        "AB+",
+        "O+",
+        "O−",
+        "AB−"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hematology",
+      "q": "Hemophilia is primarily a disorder of:",
+      "o": [
+        "Red cells",
+        "White cells",
+        "Clotting factors",
+        "Platelet shape"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hematology",
+      "q": "Which symptom is commonly associated with anemia?",
+      "o": [
+        "Hypertension",
+        "Bradycardia",
+        "Hyperactivity",
+        "Fatigue and pallor"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which gland produces antidiuretic hormone (ADH)?",
+      "o": [
+        "Thyroid gland",
+        "Pancreas",
+        "Posterior pituitary",
+        "Adrenal cortex"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "A patient with exophthalmos and heat intolerance most likely has:",
+      "o": [
+        "Hyperthyroidism",
+        "Hypothyroidism",
+        "Adrenal insufficiency",
+        "Type 2 diabetes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which of the following is a hallmark of Addison's disease?",
+      "o": [
+        "Hyperglycemia",
+        "Weight gain",
+        "Hyperpigmentation of the skin",
+        "Hypertension"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which condition is characterized by insulin resistance?",
+      "o": [
+        "Type 1 diabetes",
+        "Type 2 diabetes",
+        "Addison's disease",
+        "Hyperparathyroidism"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which symptom is typical of hypothyroidism?",
+      "o": [
+        "Tachycardia",
+        "Heat intolerance",
+        "Weight loss",
+        "Cold intolerance"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which test is most commonly used to evaluate long-term blood glucose control?",
+      "o": [
+        "Fasting blood glucose",
+        "Oral glucose tolerance test",
+        "HbA1c",
+        "C-peptide level"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Rapid heartbeat, anxiety, unintentional weight loss; decreased TSH and elevated T4. Most likely diagnosis?",
+      "o": [
+        "Primary hypothyroidism",
+        "Secondary hypothyroidism",
+        "Graves' disease",
+        "Hashimoto's thyroiditis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which enzyme deficiency causes congenital adrenal hyperplasia (CAH) with salt-wasting?",
+      "o": [
+        "11β-hydroxylase",
+        "17α-hydroxylase",
+        "21-hydroxylase",
+        "Aromatase"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Endocrine System",
+      "q": "What is the classic triad of pheochromocytoma?",
+      "o": [
+        "Hypertension, hypoglycemia, polyuria",
+        "Fatigue, hypotension, hyperpigmentation",
+        "Weight gain, cold intolerance, bradycardia",
+        "Headache, sweating, tachycardia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Endocrine System",
+      "q": "A 45-year-old woman has hyperpigmentation, hypotension, and hyponatremia. Which lab test would confirm the diagnosis?",
+      "o": [
+        "Serum cortisol",
+        "Serum TSH",
+        "Serum calcium",
+        "Serum insulin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which pituitary hormone stimulates the adrenal cortex to produce cortisol?",
+      "o": [
+        "ACTH",
+        "TSH",
+        "GH",
+        "LH"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Endocrine System",
+      "q": "Which hormone increases both gluconeogenesis and protein catabolism in the liver and muscle?",
+      "o": [
+        "Insulin",
+        "Epinephrine",
+        "Glucagon",
+        "Cortisol"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which type of joint allows the greatest range of motion?",
+      "o": [
+        "Hinge joint",
+        "Ball-and-socket joint",
+        "Pivot joint",
+        "Saddle joint"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Swelling, redness and pain in the right knee after a minor trauma. What is the first diagnostic procedure?",
+      "o": [
+        "X-ray",
+        "MRI",
+        "Bone scintigraphy",
+        "Arthroscopy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "The examiner performs the Thomas test. What is being assessed?",
+      "o": [
+        "Hip flexion contracture",
+        "Shoulder rotator cuff integrity",
+        "Knee ligament stability",
+        "Lumbar spine flexibility"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which fracture is a break across the bone at a right angle to its long axis?",
+      "o": [
+        "Oblique fracture",
+        "Spiral fracture",
+        "Transverse fracture",
+        "Comminuted fracture"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "What is the normal range for lumbar spine flexion (Schober test) in adults?",
+      "o": [
+        "3–5 cm",
+        "5–7 cm",
+        "10–15 cm",
+        "15–20 cm"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Morning stiffness lasting more than 30 minutes, symmetric joint swelling, and fatigue indicate:",
+      "o": [
+        "Osteoarthritis",
+        "Septic arthritis",
+        "Gout",
+        "Rheumatoid arthritis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Painful shoulder and difficulty lifting the arm above 90°. Which pathology is most likely?",
+      "o": [
+        "Rotator cuff tear",
+        "Frozen shoulder (adhesive capsulitis)",
+        "Glenohumeral dislocation",
+        "Bursitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which test is used to detect meniscus injury in the knee?",
+      "o": [
+        "Lachman test",
+        "McMurray test",
+        "Anterior drawer test",
+        "Patrick (FABER) test"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "A 65-year-old has bone pain, kyphosis, and fractures after minor trauma. Which condition is most probable?",
+      "o": [
+        "Osteoporosis",
+        "Osteoarthritis",
+        "Paget's disease",
+        "Osteomalacia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "The Lachman test is used to evaluate:",
+      "o": [
+        "Medial collateral ligament",
+        "Lateral collateral ligament",
+        "Anterior cruciate ligament",
+        "Meniscus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which is a sign of a positive Trendelenburg test?",
+      "o": [
+        "Hip drops on the stance leg side",
+        "Pain in the knee joint",
+        "Limited dorsiflexion",
+        "Swelling of the ankle"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which nerve is tested by asking a patient to dorsiflex the foot?",
+      "o": [
+        "Tibial nerve",
+        "Sciatic nerve",
+        "Peroneal (fibular) nerve",
+        "Femoral nerve"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "The Thompson test assesses:",
+      "o": [
+        "Achilles tendon rupture",
+        "Patellar ligament integrity",
+        "Biceps tendon rupture",
+        "Medial collateral ligament injury"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which fracture is most common in elderly patients with osteoporosis?",
+      "o": [
+        "Spiral fracture",
+        "Comminuted fracture",
+        "Greenstick fracture",
+        "Colles' fracture"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "A Monteggia fracture involves:",
+      "o": [
+        "Distal radius and ulna",
+        "Proximal ulna and dislocation of the radial head",
+        "Femoral neck",
+        "Tibial shaft"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "The mechanism of a \"boxer's fracture\" typically involves:",
+      "o": [
+        "Falling on an outstretched hand",
+        "Direct blow to the 5th metacarpal",
+        "Twisting injury to the wrist",
+        "Compression of the humerus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Which radiological sign indicates a scaphoid fracture?",
+      "o": [
+        "Empty snuffbox",
+        "Step-off in the distal radius",
+        "Calcification of the lunate",
+        "Displacement of metacarpal head"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Heberden's nodes are characteristic of:",
+      "o": [
+        "Rheumatoid arthritis",
+        "Gout",
+        "Osteoarthritis",
+        "Psoriatic arthritis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Bouchard's nodes affect which joints?",
+      "o": [
+        "Distal interphalangeal",
+        "Wrist joints",
+        "Metacarpophalangeal",
+        "Proximal interphalangeal"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Morning stiffness lasting less than 30 minutes is most typical for:",
+      "o": [
+        "Osteoarthritis",
+        "Rheumatoid arthritis",
+        "Ankylosing spondylitis",
+        "Gout"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Gout commonly affects which joint first?",
+      "o": [
+        "Knee",
+        "Elbow",
+        "Metatarsophalangeal joint of the big toe",
+        "Shoulder"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Scoliosis is a lateral curvature of the spine exceeding:",
+      "o": [
+        "5°",
+        "10°",
+        "15°",
+        "20°"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Normal shoulder abduction in adults is:",
+      "o": [
+        "90°",
+        "120°",
+        "150°",
+        "180°"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Musculoskeletal System",
+      "q": "Normal elbow flexion ranges from:",
+      "o": [
+        "0–90°",
+        "0–120°",
+        "0–150°",
+        "0–180°"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which electrolyte imbalance is commonly seen in Addison's disease?",
+      "o": [
+        "Hypernatremia",
+        "Hyperkalemia",
+        "Hypokalemia",
+        "Hypocalcemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "HbA1c reflects:",
+      "o": [
+        "Daily glucose fluctuations",
+        "Liver function",
+        "Average blood glucose over 2–3 months",
+        "Kidney function"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which lab parameter is elevated in bacterial infections?",
+      "o": [
+        "CRP",
+        "Albumin",
+        "Sodium",
+        "Hemoglobin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Leukocytosis with a left shift usually indicates:",
+      "o": [
+        "Viral infection",
+        "Bacterial infection",
+        "Anemia",
+        "Renal failure"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which lab test is most specific for acute pancreatitis?",
+      "o": [
+        "AST",
+        "ALT",
+        "Amylase",
+        "Bilirubin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Elevated BNP is a marker for:",
+      "o": [
+        "Liver failure",
+        "Heart failure",
+        "Renal failure",
+        "Diabetes mellitus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "The first-line imaging modality for suspected pneumonia is:",
+      "o": [
+        "MRI",
+        "Ultrasound",
+        "CT scan",
+        "Chest X-ray"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which imaging method is most sensitive for detecting pulmonary embolism?",
+      "o": [
+        "Chest X-ray",
+        "CT pulmonary angiography",
+        "MRI",
+        "Ultrasound"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Echocardiography is primarily used to assess:",
+      "o": [
+        "Heart structure and function",
+        "Lung function",
+        "Liver size",
+        "Kidney perfusion"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which imaging modality uses ionizing radiation?",
+      "o": [
+        "MRI",
+        "Ultrasound",
+        "CT scan",
+        "ECG"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "MRI is especially useful for:",
+      "o": [
+        "Lung evaluation",
+        "Soft tissue and brain imaging",
+        "Bone fractures",
+        "Chest X-ray replacement"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Colonoscopy is primarily used for:",
+      "o": [
+        "Examination of the colon",
+        "Liver imaging",
+        "Heart evaluation",
+        "Kidney assessment"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which non-invasive test evaluates myocardial ischemia?",
+      "o": [
+        "ECG",
+        "MRI",
+        "Echocardiography",
+        "Stress test (exercise ECG)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which imaging is preferred for detecting kidney stones?",
+      "o": [
+        "Abdominal X-ray",
+        "Ultrasound",
+        "Non-contrast CT scan",
+        "MRI"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which test is used to detect deep vein thrombosis?",
+      "o": [
+        "MRI",
+        "Doppler ultrasound",
+        "X-ray",
+        "CT scan"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Hypokalemia can cause which ECG changes?",
+      "o": [
+        "Flattened T waves and U waves",
+        "Peaked T waves",
+        "ST elevation",
+        "Widened QRS"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Hypernatremia is most commonly associated with:",
+      "o": [
+        "Dehydration",
+        "Heart failure",
+        "Liver failure",
+        "Nephrotic syndrome"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Elevated ALT > AST is typical for:",
+      "o": [
+        "Alcoholic hepatitis",
+        "Viral hepatitis",
+        "Hemolysis",
+        "Myocardial infarction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Low hemoglobin, low MCV, and low ferritin. What is the most probable diagnosis?",
+      "o": [
+        "Iron deficiency anemia",
+        "Vitamin B12 deficiency",
+        "Hemolytic anemia",
+        "Aplastic anemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which lab test is used to evaluate thyroid function?",
+      "o": [
+        "TSH, T3, T4",
+        "ALT, AST",
+        "CRP, ESR",
+        "CK-MB"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Elevated troponin with normal CK-MB indicates:",
+      "o": [
+        "Chronic kidney disease",
+        "Liver injury",
+        "Early myocardial infarction",
+        "Pulmonary embolism"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which test is most useful for evaluating chronic liver disease?",
+      "o": [
+        "Liver ultrasound",
+        "Serum bilirubin and albumin",
+        "Liver biopsy",
+        "All of the above"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which lab finding is typical for nephrotic syndrome?",
+      "o": [
+        "Proteinuria > 3.5 g/day",
+        "Hematuria",
+        "Hypernatremia",
+        "Leukocytosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Laboratory & Imaging Diagnostics",
+      "q": "Which test is the gold standard for diagnosing pulmonary tuberculosis?",
+      "o": [
+        "Chest X-ray",
+        "Sputum culture for Mycobacterium tuberculosis",
+        "CT scan",
+        "Mantoux test"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "A parasternal heave (or lift) on palpation suggests:",
+      "o": [
+        "Left ventricular hypertrophy",
+        "Pericardial effusion",
+        "Right ventricular hypertrophy",
+        "Aortic stenosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which heart sound corresponds to the closure of the aortic and pulmonary valves?",
+      "o": [
+        "S1",
+        "S2",
+        "S3",
+        "S4"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What does a \"gallop rhythm\" refer to in cardiac auscultation?",
+      "o": [
+        "Only S1 is heard",
+        "Presence of S3 or S4 in addition to S1 and S2",
+        "Only a murmur is heard",
+        "Absence of heart sounds"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "When auscultating the apex, where should the stethoscope be placed?",
+      "o": [
+        "On the right 2nd intercostal space",
+        "At the left midclavicular line, 5th intercostal space",
+        "On the sternum",
+        "On the epigastrium"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "Which maneuver increases the intensity of the mitral stenosis diastolic murmur?",
+      "o": [
+        "Valsalva strain",
+        "Handgrip",
+        "Squatting",
+        "Leaning forward in expiration"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "The apex beat is displaced laterally (towards the axilla). This suggests:",
+      "o": [
+        "Left ventricular dilation",
+        "Right ventricular hypertrophy",
+        "Pulmonary embolism",
+        "Mitral stenosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What does a bounding (strong) carotid pulse suggest?",
+      "o": [
+        "Hypovolemia",
+        "Bradycardia",
+        "Aortic regurgitation or increased stroke volume",
+        "Mitral stenosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What sign indicates a raised jugular venous pressure (JVP) during inspection?",
+      "o": [
+        "Carotid artery pulsation visible in the neck",
+        "Displaced apex beat",
+        "Thrill on palpation of carotid artery",
+        "A-wave in JVP waveform above the sternal angle > 3 cm"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What finding on the lower limbs is commonly associated with chronic heart failure?",
+      "o": [
+        "Pitting edema",
+        "Splinter hemorrhages",
+        "Clubbing of fingers",
+        "Cyanosis of lips only"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "When auscultating the lungs in suspected heart failure, what abnormal sound may you hear?",
+      "o": [
+        "Wheezes",
+        "Stridor",
+        "Bronchial breath sounds in the base",
+        "Crackles (rales)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cardiac Examination & Auscultation",
+      "q": "What does a \"bounding pulse with water-hammer character\" suggest?",
+      "o": [
+        "Aortic stenosis",
+        "Aortic regurgitation",
+        "Mitral stenosis",
+        "Heart block"
+      ],
+      "c": 1
     }
   ]
 }
