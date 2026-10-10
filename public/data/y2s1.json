@@ -181,6 +181,91 @@
       "emoji": "🧪",
       "desc": "",
       "accent": "var(--cyan)"
+    },
+    "Cell Injury, Necrosis & Apoptosis": {
+      "emoji": "🧫",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Adaptations, Calcification & Metabolic Disorders": {
+      "emoji": "🧪",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Acute Inflammation & Mediators": {
+      "emoji": "🔥",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Chronic Inflammation & Wound Healing": {
+      "emoji": "🩹",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Hypersensitivity & Autoimmune Diseases": {
+      "emoji": "🛡️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Transplant Rejection": {
+      "emoji": "🫀",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Amyloidosis": {
+      "emoji": "🧬",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Neoplasia Basics": {
+      "emoji": "🔬",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "HIV & Immunodeficiency": {
+      "emoji": "🎗️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Oncogenes & Tumour Suppressor Genes": {
+      "emoji": "🧬",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Carcinogenesis": {
+      "emoji": "☢️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Tumour Markers & Paraneoplastic Syndromes": {
+      "emoji": "🔬",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Genetic Disorders": {
+      "emoji": "🧬",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Congenital Anomalies & Teratogenesis": {
+      "emoji": "👶",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Neonatal & Perinatal Pathology": {
+      "emoji": "🍼",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Paediatric Tumours": {
+      "emoji": "🧸",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Digital Pathology": {
+      "emoji": "💻",
+      "desc": "",
+      "accent": "var(--cyan)"
     }
   },
   "subjectGroup": {
@@ -210,7 +295,24 @@
     "Herpes, Pox, HPV & Other DNA Viruses": "Microbiology",
     "Oncogenic Viruses & Prions": "Microbiology",
     "Bacteriophages": "Microbiology",
-    "General Virology": "Microbiology"
+    "General Virology": "Microbiology",
+    "Cell Injury, Necrosis & Apoptosis": "Pathology 1",
+    "Adaptations, Calcification & Metabolic Disorders": "Pathology 1",
+    "Acute Inflammation & Mediators": "Pathology 1",
+    "Chronic Inflammation & Wound Healing": "Pathology 1",
+    "Hypersensitivity & Autoimmune Diseases": "Pathology 1",
+    "Transplant Rejection": "Pathology 1",
+    "Amyloidosis": "Pathology 1",
+    "Neoplasia Basics": "Pathology 1",
+    "HIV & Immunodeficiency": "Pathology 1",
+    "Oncogenes & Tumour Suppressor Genes": "Pathology 1",
+    "Carcinogenesis": "Pathology 1",
+    "Tumour Markers & Paraneoplastic Syndromes": "Pathology 1",
+    "Genetic Disorders": "Pathology 1",
+    "Congenital Anomalies & Teratogenesis": "Pathology 1",
+    "Neonatal & Perinatal Pathology": "Pathology 1",
+    "Paediatric Tumours": "Pathology 1",
+    "Digital Pathology": "Pathology 1"
   },
   "questions": [
     {
@@ -16267,6 +16369,5457 @@
         "Poliovirus",
         "Enterovirus 72",
         "Coxsackievirus B"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "A pathological reaction is:",
+      "o": [
+        "a variety of diseases;",
+        "short-term unusual reaction of the body to any effect;",
+        "unusual result of laboratory analysis;",
+        "the body's protective reaction to adverse external influences."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Coagulative necrosis is found in which infection?",
+      "o": [
+        "TB",
+        "Sarcoidosis",
+        "Gangrene",
+        "Fungal infection"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Organelle which plays a pivotal role in apoptosis is:",
+      "o": [
+        "Cytoplasm",
+        "Golgi complex",
+        "Mitochondria",
+        "Nucleus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Which of the following is an anti-apoptotic gene?",
+      "o": [
+        "C-myc",
+        "P53",
+        "Bcl-2",
+        "Bax"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Most pathognomic sign of irreversible cell injury:",
+      "o": [
+        "Amorphous densities in mitochondria",
+        "Swelling of the cell membrane",
+        "Ribosomes detached from endoplasmic reticulum",
+        "Clumping of nuclear chromatin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Programmed cell death TS known as:",
+      "o": [
+        "Cytolysis",
+        "Apoptosis",
+        "Necrosis",
+        "Proptosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Morphological changes of apoptosis include:",
+      "o": [
+        "Cytoplasmic blebs",
+        "Inflammation",
+        "Nuclear fragmentation",
+        "Spindle formation",
+        "Cell swelling"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Inhibitor of apoptosis is:",
+      "o": [
+        "p53",
+        "Ras",
+        "Myc",
+        "Bcl-2"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Irreversible injury in cell is:",
+      "o": [
+        "Deposition of Ca in mitochondria",
+        "Swelling",
+        "Mitotic figure",
+        "Ribosomal detachment"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "First cellular change in hypoxia:",
+      "o": [
+        "Decreased oxidative phosphorylation in mitochondria",
+        "Cellular swelling",
+        "Alteration in cellular membrane permeability",
+        "Clumping of nuclear chromatin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Liquefactive necrosis is seen in:",
+      "o": [
+        "Heart",
+        "Brain",
+        "Lung",
+        "Spleen"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Which of the following induces apoptosis in a cell?",
+      "o": [
+        "Oleic acid",
+        "Isoprenoids",
+        "Myristic acid",
+        "Glucocorticoids"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Which of the following is not seen is apoptosis?",
+      "o": [
+        "Chromatin condensation",
+        "DNA fragmentation",
+        "Inflammation",
+        "Cell membrane shrinkage"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "What `is the common change in cell death associated with both apoptosis and necrosis?",
+      "o": [
+        "Cell shrinkage",
+        "Bleb formation",
+        "Chromatin condensation",
+        "Presence of inflammation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Caseous necrosis is seen in which of the following:",
+      "o": [
+        "CMV infection",
+        "Staphylococcal infection",
+        "Treponemal infection",
+        "HSV infection"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Apoptotic bodies are:",
+      "o": [
+        "Clumped chromatin bodies",
+        "Pyknot ic nucleus without organelles",
+        "Cell membrane bound with organelles",
+        "No nucleus with organells"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Pathological condition:",
+      "o": [
+        "it is a special type of disease;",
+        "is the initial period of the disease;",
+        "may occur as a result of a previously transmitted disease;",
+        "is a short-term unusual reaction to external stimuli."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Pathogenesis is:",
+      "o": [
+        "the section of pathology that studies the mechanisms of disease development;",
+        "the same as the pathological process;",
+        "a certain type of disease;",
+        "the cause of the disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Etiology is:",
+      "o": [
+        "the doctrine of the causes and conditions of the occurrence and development of diseases;",
+        "the doctrine of the mechanisms of disease development;",
+        "the outcome of the disease;",
+        "the cause and mechanism of the pathological process."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Cell Injury, Necrosis & Apoptosis",
+      "q": "Caspases are seen in which of the following?",
+      "o": [
+        "Cell division",
+        "Apoptosis",
+        "Necrosis",
+        "Inflammation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Both hyperplasia and hypertrophy are seen in?",
+      "o": [
+        "Breast enlargement during lactation",
+        "Uterus during pregnancy",
+        "Skeletal muscle enlargement during exercise",
+        "Left ventricular hypertrophy during heart failure"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Which of the following is not a common site for metastatic calcification?",
+      "o": [
+        "Gastric mucosa",
+        "Kidney",
+        "Parathyroid",
+        "Lung"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Calcification of soft tissues without any disturbance of calcium metabolism is called:",
+      "o": [
+        "Inot rophic calcification",
+        "Monot rophic calcification",
+        "Dystrophic calcification",
+        "Calcium induced calcification"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Dystrophic calcification is seen in:",
+      "o": [
+        "Rickets",
+        "Hyperparathyroidism",
+        "Atheromatous plaque",
+        "Vitamin A intoxication"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "The type of necrosis that develops from exposure to low and high temperatures:",
+      "o": [
+        "indirect;",
+        "toxic;",
+        "trophoneurotic;",
+        "direct;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Heterotopic calcification occurs in:",
+      "o": [
+        "Ankylosing spondylitis",
+        "Reiter' S syndrome",
+        "Gouty arthritis",
+        "Rheumatoid arthritis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "\"Russell's body\", are accumulations of:",
+      "o": [
+        "Cholesterol",
+        "Immunoglobulins",
+        "Lipoproteins",
+        "Phospholipids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Dystrophic calcification is seen in:",
+      "o": [
+        "Atheroma",
+        "Paget's disease",
+        "Renal osteodystrophy",
+        "Milk-alkali syndrome"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Brown atrophy is due to:",
+      "o": [
+        "Fatty necrosis",
+        "Hemosiderin",
+        "Lipofuscin",
+        "Ceruloplasmin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Transformation of one epithelium to other epithelium is known as:",
+      "o": [
+        "Dysplasia",
+        "Hyperplasia",
+        "Neoplasia",
+        "Metaplasia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Metastatic calcification is most often seen in:",
+      "o": [
+        "Lymph nodes",
+        "Lungs",
+        "Kidney",
+        "Liver"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Russell bodies are seen in:",
+      "o": [
+        "Lymphocytes",
+        "Neutrophils",
+        "Macrophages",
+        "Plasma cells"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the tissue in which metaplasia is most common:",
+      "o": [
+        "nervous;",
+        "renal;",
+        "epithelial;",
+        "cardiac;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Define the term \"dystrophy\":",
+      "o": [
+        "metabolic disorder leading to damage to cellular structures;",
+        "disruption of oxygen supply to cells and tissues;",
+        "local necrosis of cells and tissues;",
+        "restoration of lost structures;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Hyalinosis is characterized by the following sign:",
+      "o": [
+        "develops in the cells of parenchymal organs;",
+        "often develops with myocardial infarction;",
+        "it is common in hypertension and diabetes mellitus.",
+        "the phenomenon of metachromasia is characteristic;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the changes that the presence of kidney stones leads to:",
+      "o": [
+        "tuberculosis;",
+        "hydronephrosis;",
+        "kidney cancer;",
+        "polycystic kidney disease;",
+        "primary shrunken kidney."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Define the concept of \"atrophy\":",
+      "o": [
+        "fat reduction;",
+        "restoration of tissue to replace the lost one;",
+        "sclerosis;",
+        "lifetime reduction in the size of organs, tissues, cells;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the pathological process that often occurs against the background of epithelial metaplasia:",
+      "o": [
+        "inflammation;",
+        "necrosis;",
+        "cancer;",
+        "amyloidosis;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "The development of the following thesaurismosis is associated with a violation of carbohydrate metabolism:",
+      "o": [
+        "phenylketonuria;",
+        "Wilson-Konovalov disease;",
+        "Gaucher's disease;",
+        "Gierke's disease;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "The basis for the development of rickets is a metabolic disorder:",
+      "o": [
+        "sodium;",
+        "copper;",
+        "phosphorus;",
+        "potassium;",
+        "iron."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Extracellular deposits of misfolded proteins that aggregate to from insoluble fibrils",
+      "o": [
+        "viral replication of B cells",
+        "amyloidosis",
+        "intracellular mutation of T cells",
+        "recognition inability of integral proteins."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Define the concept of \"hyperplasia\":",
+      "o": [
+        "decrease in the volume of cells, tissues;",
+        "stroma overgrowth in place of parenchyma;",
+        "restoration of tissue to replace the lost one;",
+        "an increase in the number of structural elements of tissue, cells;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the organ in which the development of vicar hypertrophy is possible:",
+      "o": [
+        "liver;",
+        "pituitary gland;",
+        "the spleen;",
+        "kidney;",
+        "testicles."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Define the concept of \"vicarious hypertrophy\":",
+      "o": [
+        "hypertrophy of one of the paired organs when the second one is removed;",
+        "hypertrophy of the organ with increased work;",
+        "hypertrophy of an organ when a part of it is replaced by a scar;",
+        "neurohumoral hypertrophy;",
+        "hypertrophic growths."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "A morphological sign of a change in the heart in obesity is:",
+      "o": [
+        "a \"tiger\" heart;",
+        "adipose tissue under the endocardium;",
+        "the \"hairy\" heart;",
+        "adipose tissue under the epicardium;",
+        "relative insufficiency of valvesю"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "The level of calcium in the blood during metastatic calcification:",
+      "o": [
+        "not changed;",
+        "downgraded;",
+        "increased;",
+        "hesitates;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the morphological type of obesity:",
+      "o": [
+        "alimentary;",
+        "hypertrophic;",
+        "upper.",
+        "symmetrical;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "The level of calcium in the blood during dystrophic calcification:",
+      "o": [
+        "not changed;",
+        "downgraded;",
+        "increased;",
+        "hesitates;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Parenchymal lipidoses are associated with metabolic disorders:",
+      "o": [
+        "cholesterol;",
+        "neutral fat;",
+        "hemoglobin;",
+        "cytoplasmic fat;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the cause of rickets:",
+      "o": [
+        "hypercalcemia;",
+        "hypophosphatemia;",
+        "vitamin D deficiency;",
+        "excess vitamin D;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the changes that the presence of kidney stones leads to:",
+      "o": [
+        "tuberculosis;",
+        "hydronephrosis;",
+        "kidney cancer;",
+        "polycystic kidney disease;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the disease, which is based on a violation of copper metabolism:",
+      "o": [
+        "Gaucher disease;",
+        "hemochromatosis;",
+        "Wilson-Konovalov disease;",
+        "melanosis;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the disease in which hypokalemia develops:",
+      "o": [
+        "Addison's disease;",
+        "periodic paralysis;",
+        "Wilson-Konovalov disease;",
+        "Gaucher's disease;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name the hormone that regulates calcium metabolism in the body:",
+      "o": [
+        "insulin;",
+        "adrenocorticotropic hormone;",
+        "STG;",
+        "calcitonin;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Adaptations, Calcification & Metabolic Disorders",
+      "q": "Name a disease in which a violation of nucleoprotein metabolism does not develop:",
+      "o": [
+        "malaria;",
+        "gout;",
+        "uric acid diathesis;",
+        "urolithiasis;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "In acute inflammation endothelial retraction leads to:",
+      "o": [
+        "Delayed transient increase in permeability",
+        "Immediate transient increase in permeability",
+        "Delayed prolonged increase in permeability",
+        "Immediate transient decrease in permeability"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which among the following is the hallmark of acute inflammation?",
+      "o": [
+        "Vasoconstriction",
+        "Stasis",
+        "Vasodilation and increase in permeability",
+        "Leukocyte margination"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Main feature of chemotaxis is:",
+      "o": [
+        "Increased random movement of neutrophils",
+        "Increase adhesiveness to intima",
+        "Increased phagocytosis",
+        "Unidirectional locomotion of the neutrophils"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "6. Characteristic of acute inflammation is:",
+      "o": [
+        "Vasodilation and increased vascular permeability",
+        "Vasoconstriction",
+        "Platelet aggregation",
+        "Infiltration by neutrophils"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following tumors is associated with tuberous sclerosis?",
+      "o": [
+        "Cardiac rhabdomyoma",
+        "Neuroblastoma",
+        "Wilms tumor",
+        "Retinoblastoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following is not true?",
+      "o": [
+        "NADPH oxidase generate superoxide ion",
+        "MPO kills by OC1-",
+        "Chediak-Higashi syndrome is due to defective phagolysosome formation",
+        "In Bruton's disease there is normal opsonization"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "In acute inflammation due to the contraction o endothelial cell cytoskeleton, which of the following results?",
+      "o": [
+        "Delayed transient increase in permeability",
+        "Early transient increase",
+        "Delayed permanent increase",
+        "Early permanent increase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Diapedesis is:",
+      "o": [
+        "Immigration of leukocytes through the basemen membrane",
+        "Immigration of the leukocytes through the vessel wall to the site of inflammation",
+        "Aggregation of platelets at the site of bleeding",
+        "Auto digestion of the cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Endothelium leukocyte interaction during inflammation is mediated by/due to",
+      "o": [
+        "Selectins",
+        "Integrins",
+        "Defensins",
+        "Endothelin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Most important for diapedesis?",
+      "o": [
+        "PECAM",
+        "Selectin",
+        "Integrin",
+        "Mucin like glycoprotein"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following is not a mediator of acute inflammation?",
+      "o": [
+        "Angiotensin",
+        "Prostaglandin E2",
+        "Kallikrein",
+        "C3a"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "The function common to neutrophils, monocytes, and macrophages is:",
+      "o": [
+        "Immune response is reduced",
+        "Phagocytosis",
+        "Liberation of histamine",
+        "Destruction of old erythrocytes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "The role of bradykinin in process of inflammation is:",
+      "o": [
+        "Vasoconstriction",
+        "Bronchodilation",
+        "Pain",
+        "Increased vascular permeability"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following is not an inflammatory mediator?",
+      "o": [
+        "Tumor Necrosis Factor",
+        "Myeloperoxidase",
+        "Interterons",
+        "Interleukin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "To which of the following family of chemical mediators of inflammation, the Lipoxins belong?",
+      "o": [
+        "Kinin system",
+        "Cytokines",
+        "Chemokines",
+        "Arachidonic acid metabolites"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Most important mediator of chemotaxis is:",
+      "o": [
+        "C3b",
+        "C5a",
+        "C5-7",
+        "C2"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Histamine causes:",
+      "o": [
+        "Hypertension",
+        "Vasoconstriction",
+        "Vasodilation",
+        "Tachycardia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "In inflammatory process, the prostaglandin E1 and E2 cause:",
+      "o": [
+        "Vasodilatation",
+        "Increased gastric output",
+        "Decreased body temperature",
+        "Vasoconstriction"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Inflammatory mediator of generalized inflammation is:",
+      "o": [
+        "IL-1",
+        "IL-2",
+        "Interferon alpha",
+        "TNF"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "To which of the following family of chemical mediators of inflammation do the lipoxins belong?",
+      "o": [
+        "Kinin system",
+        "Cytokines",
+        "Chemokines",
+        "Arachidonic acid metabolites"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Slow mediators of inflammation are:",
+      "o": [
+        "Leukotrienes",
+        "Prostaglandins",
+        "Interleukins",
+        "Vasoactive amines"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Systemic inflammatory response syndrome, false is:",
+      "o": [
+        "Leucopenia",
+        "Fever",
+        "Leukocytosis",
+        "Hypoglycemia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Prostaglandins are synthesized from:",
+      "o": [
+        "Linoleic acid",
+        "Linolenic acid",
+        "Arachidonic acid",
+        "Butyric acid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Fever occurs due to:",
+      "o": [
+        "Endorphin",
+        "IL-1",
+        "Enkephalin",
+        "Histamine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following is secondary mediator of the anaphylaxis is?",
+      "o": [
+        "Histamine",
+        "Proteases",
+        "Eosinophilic chemotactic factor",
+        "Leukotriene B4"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following is NOT a classical symptom of acute inflammation?",
+      "o": [
+        "Redness",
+        "Swelling",
+        "Loss of consciousness",
+        "Pain"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "The primary cellular mediator causing vasodilation in acute inflammation is:",
+      "o": [
+        "Histamine",
+        "Interleukin-1",
+        "Thromboxane A2",
+        "Leukotriene B4"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following processes is the first step in vascular changes during acute inflammation?",
+      "o": [
+        "Increased vascular permeability",
+        "Blood stasis",
+        "Transient vasoconstriction",
+        "Leukocyte emigration"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which type of morphological inflammation is characterized by the formation of purulent exudate?",
+      "o": [
+        "Serous inflammation",
+        "Fibrinous inflammation",
+        "Purulent (suppurative) inflammation",
+        "Hemorrhagic inflammation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following mediators is derived from arachidonic acid and involved in inflammation?",
+      "o": [
+        "Prostaglandin E2",
+        "Histamine",
+        "Serotonin",
+        "Bradykinin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following is NOT a possible outcome of acute inflammation?",
+      "o": [
+        "Resolution (complete recovery)",
+        "Progression to chronic inflammation",
+        "Scar formation",
+        "Metastasis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following mediators is a chemotactic factor for neutrophils?",
+      "o": [
+        "Leukotriene B4",
+        "Prostacyclin (Prostaglandin I2)",
+        "Histamine",
+        "Nitric oxide"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which feature is most characteristic of acute rather than chronic inflammation?",
+      "o": [
+        "Proliferation of fibroblasts",
+        "Infiltration by lymphocytes",
+        "Predominance of neutrophils at the inflammation site",
+        "Formation of granulomas"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which process describes the movement of leukocytes through the vessel wall into the tissue during inflammation?",
+      "o": [
+        "Chemotaxis",
+        "Phagocytosis",
+        "Diapedesis (transmigration)",
+        "Adhesion"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following factors contributes to increased vascular permeability during acute inflammation?",
+      "o": [
+        "Bradykinin",
+        "Adrenaline",
+        "Angiotensin II",
+        "Aldosterone"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following cellular elements is the first to arrive at the site of acute inflammation?",
+      "o": [
+        "Monocytes",
+        "Neutrophils",
+        "Lymphocytes",
+        "Plasma cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which inflammatory mediator is a complement derivative and has chemotactic activity?",
+      "o": [
+        "C3a",
+        "C5a",
+        "C4b",
+        "C1q"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following processes enhances leukocyte adhesion to the endothelium?",
+      "o": [
+        "Release of adrenaline",
+        "Expression of selectins on endothelium",
+        "Decreased vascular permeability",
+        "Reduction of integrin expression"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which outcome of acute inflammation results from significant tissue damage and inability to regenerate?",
+      "o": [
+        "Complete resolution",
+        "Abscess formation",
+        "Regeneration",
+        "Scar formation (fibrosis)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following mediators causes pain during acute inflammation?",
+      "o": [
+        "Prostaglandin E2",
+        "Histamine",
+        "Interleukin-10",
+        "Leukotriene C4"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following is a systemic sign of acute inflammation?",
+      "o": [
+        "Fever",
+        "Erythema (redness)",
+        "Swelling",
+        "Localized pain at the injury site"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following processes is not characteristic of acute inflammation?",
+      "o": [
+        "Exudation of plasma",
+        "Neutrophil infiltration",
+        "Angiogenesis",
+        "Increased vascular permeability"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which complement component is responsible for opsonization during inflammation?",
+      "o": [
+        "C3b",
+        "C5a",
+        "C4a",
+        "C1q"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acute Inflammation & Mediators",
+      "q": "Which of the following molecules is an anti-inflammatory cytokine that reduces the inflammatory response?",
+      "o": [
+        "Interleukin-1",
+        "Interleukin-6",
+        "Interleukin-10",
+        "Tumor necrosis factor-alpha (TNF-α)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "The main cell type involved in chronic inflammation is:",
+      "o": [
+        "Neutrophils",
+        "Eosinophils",
+        "Lymphocytes",
+        "Platelets"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which of the following features is not characteristic of chronic inflammation?",
+      "o": [
+        "Vascular proliferation",
+        "Accumulation of macrophages",
+        "Formation of granulomas",
+        "Predominance of exudation"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which of the following is not a systemic effect of inflammation?",
+      "o": [
+        "Fever",
+        "Leukocytosis",
+        "Scar formation",
+        "Increased levels of acute-phase proteins"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Macrophages in chronic inflammation belong to which type of cells?",
+      "o": [
+        "Post-mitotic cells",
+        "Labile cells",
+        "Stable cells",
+        "Cells of the mononuclear phagocyte system"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which of the following mediators plays a key role in activating macrophages during chronic inflammation?",
+      "o": [
+        "Interferon-gamma",
+        "Histamine",
+        "Bradykinin",
+        "Prostacyclin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "What is the primary cause of granulomatous inflammation among the following?",
+      "o": [
+        "Bacterial toxins",
+        "Foreign bodies",
+        "Allergic reactions",
+        "Viral infections"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which type of cells are predominant in granulomas in tuberculosis?",
+      "o": [
+        "Langhans giant multinucleated cells",
+        "Plasma cells",
+        "Neutrophils",
+        "Eosinophils"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which of the following statements is true regarding the systemic effects of inflammation?",
+      "o": [
+        "Decreased levels of C-reactive protein",
+        "Increased red blood cell count",
+        "Increased levels of acute-phase proteins",
+        "Decreased heart rate"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which cytokine is responsible for fever during inflammation?",
+      "o": [
+        "Interleukin-1",
+        "Interleukin-4",
+        "Interleukin-10",
+        "Interleukin-2"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which of the following is not a stage in wound healing by secondary intention?",
+      "o": [
+        "Formation of granulation tissue",
+        "Formation of a large scar",
+        "Minimal tissue loss",
+        "Wound contraction"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which factor can delay the wound healing process?",
+      "o": [
+        "Infection",
+        "Good blood supply",
+        "Proper nutrition",
+        "Minimal tissue damage"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which type of cells are capable of constant regeneration under normal conditions?",
+      "o": [
+        "Neurons",
+        "Hepatocytes",
+        "Epithelial skin cells",
+        "Cardiomyocytes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which growth factor plays a crucial role in angiogenesis during tissue repair?",
+      "o": [
+        "Vascular Endothelial Growth Factor (VEGF)",
+        "Epidermal Growth Factor (EGF)",
+        "Platelet-Derived Growth Factor (PDGF)",
+        "Fibroblast Growth Factor (FGF)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "What is most characteristic of the process of organization in chronic inflammation?",
+      "o": [
+        "Accumulation of exudate",
+        "Formation of granulation tissue",
+        "Tissue necrosis",
+        "Neutrophil infiltration"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which factor contributes to the progression from acute to chronic inflammation?",
+      "o": [
+        "Rapid elimination of the injurious agent",
+        "Presence of resistant microbes",
+        "Effective immune response",
+        "Minimal tissue damage"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which cells play a key role in fibrosis during chronic inflammation?",
+      "o": [
+        "Fibroblasts",
+        "Neutrophils",
+        "Basophils",
+        "Erythrocytes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which of the following is a systemic sign of chronic inflammation?",
+      "o": [
+        "Decreased erythrocyte sedimentation rate (ESR)",
+        "Anemia of chronic disease",
+        "Lymphopenia",
+        "Hypothermia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which vitamin is necessary for normal collagen synthesis during wound healing?",
+      "o": [
+        "Vitamin A",
+        "Vitamin C",
+        "Vitamin D",
+        "Vitamin K"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which process is characteristic of tissue regeneration?",
+      "o": [
+        "Replacement of damaged tissue with scar tissue",
+        "Restoration of tissue structure and function",
+        "Abscess formation",
+        "Calcification"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Chronic Inflammation & Wound Healing",
+      "q": "Which of the following is not a cause of impaired wound healing?",
+      "o": [
+        "Diabetes mellitus",
+        "Vitamin C deficiency",
+        "Good nutrition",
+        "Immunodeficiency"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which cell type plays a key role in the humoral immune response?",
+      "o": [
+        "Macrophages",
+        "T-lymphocytes",
+        "B-lymphocytes",
+        "Neutrophils"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "To which category of hypersensitivity does anaphylactic shock belong?",
+      "o": [
+        "Type I (immediate hypersensitivity)",
+        "Type II (cytotoxic)",
+        "Type III (immune complex-mediated)",
+        "Type IV (delayed-type hypersensitivity)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which immunoglobulin is predominantly involved in Type I hypersensitivity reactions?",
+      "o": [
+        "IgA",
+        "IgG",
+        "IgE",
+        "IgM"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following is an example of an autoimmune disease?",
+      "o": [
+        "Influenza",
+        "Systemic lupus erythematosus",
+        "Tuberculosis",
+        "Malaria"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "What mechanism underlies Type II hypersensitivity?",
+      "o": [
+        "Antibodies against cellular or tissue antigens",
+        "Formation of immune complexes",
+        "Activation of delayed-type T-cells",
+        "Release of histamine from mast cells"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following cytokines is secreted by Th1 helper T-cells and involved in macrophage activation?",
+      "o": [
+        "Interleukin-4 (IL-4)",
+        "Interleukin-10 (IL-10)",
+        "Interferon-gamma (IFN-γ)",
+        "Interleukin-17 (IL-17)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following conditions is an example of Type III hypersensitivity?",
+      "o": [
+        "Post-streptococcal glomerulonephritis",
+        "Iron-deficiency anemia",
+        "Myasthenia gravis",
+        "Contact dermatitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following components of the immune system is part of innate immunity?",
+      "o": [
+        "Neutrophils",
+        "T-lymphocytes",
+        "B-lymphocytes",
+        "Antibodies"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which cell is primarily involved in Type IV hypersensitivity reactions?",
+      "o": [
+        "Basophils",
+        "T-lymphocytes",
+        "B-lymphocytes",
+        "Eosinophils"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which immunodeficiency is associated with a lack of antibodies?",
+      "o": [
+        "DiGeorge syndrome",
+        "Bruton's agammaglobulinemia",
+        "Chronic granulomatous disease",
+        "Severe combined immunodeficiency (SCID)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following is not a function of antibodies?",
+      "o": [
+        "Neutralization of toxins",
+        "Opsonization of pathogens",
+        "Activation of complement",
+        "Phagocytosis of pathogens"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which marker is present on the surface of all T-lymphocytes?",
+      "o": [
+        "CD4",
+        "CD8",
+        "CD3",
+        "CD19"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "What mechanism underlies autoimmune diseases?",
+      "o": [
+        "Viral infections",
+        "Breakdown of tolerance to self-antigens",
+        "Immunoglobulin deficiency",
+        "Excessive complement production"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which feature is characteristic of Type IV hypersensitivity?",
+      "o": [
+        "Formation of immune complexes",
+        "Delayed-type reaction involving T-cells",
+        "Complement activation by antibodies",
+        "Release of histamine from mast cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which method is used to assess cellular immunity in vivo?",
+      "o": [
+        "Tuberculin skin test (Mantoux test)",
+        "Measurement of serum immunoglobulin levels",
+        "Blood culture for sterility",
+        "Chest X-ray"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following is an example of Type II hypersensitivity?",
+      "o": [
+        "Hemolytic disease of the newborn",
+        "Hay fever",
+        "Rheumatoid arthritis",
+        "Contact dermatitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which complement component is key in forming the membrane attack complex (MAC)?",
+      "o": [
+        "C3a",
+        "C5a",
+        "C9",
+        "C1q"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which cytokine promotes the differentiation of helper T-cells into Th2 cells?",
+      "o": [
+        "Interleukin-4 (IL-4)",
+        "Interleukin-12 (IL-12)",
+        "Interferon-gamma (IFN-γ)",
+        "Tumor necrosis factor-alpha (TNF-α)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "What characterizes severe combined immunodeficiency (SCID)?",
+      "o": [
+        "Defect in both humoral and cellular immunity",
+        "Isolated IgA deficiency",
+        "Neutrophil deficiency",
+        "Thymic hyperplasia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which immunoglobulin is capable of crossing the placental barrier?",
+      "o": [
+        "IgA",
+        "IgG",
+        "IgM",
+        "IgE"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "What are autoimmune diseases?",
+      "o": [
+        "Diseases caused by viruses",
+        "Diseases associated with immune deficiency",
+        "Diseases where the immune system attacks the body's own tissues",
+        "Infectious diseases transmitted by airborne droplets"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following organs is most commonly affected in systemic lupus erythematosus (SLE)?",
+      "o": [
+        "Lungs",
+        "Kidneys",
+        "Pancreas",
+        "Intestines"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which laboratory test is most specific for diagnosing systemic lupus erythematosus?",
+      "o": [
+        "Elevated C-reactive protein level",
+        "Presence of antinuclear antibodies (ANA)",
+        "Decreased hemoglobin level",
+        "Elevated glucose level"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Rheumatoid arthritis is characterized by the involvement of:",
+      "o": [
+        "Joints with the development of chronic inflammation",
+        "Heart with the formation of defects",
+        "Kidneys leading to nephritis",
+        "Skin with the appearance of rashes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following mechanisms underlies autoimmune diseases?",
+      "o": [
+        "Genetic mutations in immune cells",
+        "Breakdown of immune tolerance to self-antigens",
+        "Deficiency of vitamins and trace elements",
+        "Infection by specific bacteria"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following is an example of an organ-specific autoimmune disease?",
+      "o": [
+        "Systemic scleroderma",
+        "Type 1 diabetes mellitus",
+        "Systemic lupus erythematosus",
+        "Rheumatoid arthritis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "In which disease do antibodies form against thyroid-stimulating hormone receptors, leading to hyperthyroidism?",
+      "o": [
+        "Hashimoto's thyroiditis",
+        "Graves' disease (diffuse toxic goiter)",
+        "Addison's disease",
+        "Pernicious anemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which type of hypersensitivity is most commonly involved in the pathogenesis of autoimmune diseases?",
+      "o": [
+        "Type I (immediate hypersensitivity)",
+        "Type III (immune complex-mediated hypersensitivity)",
+        "Type II (antibody-dependent cytotoxicity)",
+        "Type IV (delayed-type hypersensitivity)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following factors may contribute to the development of autoimmune diseases?",
+      "o": [
+        "Genetic predisposition",
+        "Regular physical exercise",
+        "Balanced nutrition",
+        "Low stress levels"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following symptoms is characteristic of systemic scleroderma?",
+      "o": [
+        "Thickening and hardening of the skin due to excessive collagen production",
+        "Increased joint mobility",
+        "Decreased blood pressure",
+        "Hyperpigmentation of the skin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Myasthenia gravis is associated with the formation of antibodies against:",
+      "o": [
+        "Myelin sheath of nerve fibers",
+        "Acetylcholine receptors at neuromuscular junctions",
+        "Insulin-producing cells of the pancreas",
+        "Thyroid gland cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following diseases is characterized by demyelination in the central nervous system?",
+      "o": [
+        "Guillain-Barré syndrome",
+        "Multiple sclerosis",
+        "Addison's disease",
+        "Psoriasis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following is not an autoimmune disease?",
+      "o": [
+        "Rheumatoid arthritis",
+        "Systemic lupus erythematosus",
+        "Infectious mononucleosis",
+        "Hashimoto's thyroiditis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "The primary pathogenetic mechanism in type 1 diabetes mellitus involves:",
+      "o": [
+        "Damage to insulin receptors",
+        "Destruction of pancreatic β-cells by autoantibodies",
+        "Increased production of glucagon",
+        "Deficiency of glucose in the diet"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following laboratory indicators is often elevated in autoimmune diseases?",
+      "o": [
+        "Blood glucose level",
+        "Erythrocyte sedimentation rate (ESR)",
+        "Platelet count",
+        "Calcium level"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following treatments is most commonly used for autoimmune diseases?",
+      "o": [
+        "Immunosuppressive therapy",
+        "Antibiotic therapy",
+        "Chemotherapy",
+        "Radiation therapy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "In Hashimoto's thyroiditis, there is:",
+      "o": [
+        "Autoimmune destruction of thyroid tissue leading to hypothyroidism",
+        "Increased thyroid function",
+        "Adrenal gland involvement",
+        "Development of diabetes mellitus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following features is most characteristic of serous inflammation?",
+      "o": [
+        "Formation of purulent exudate",
+        "Accumulation of clear, watery fluid",
+        "Deposition of fibrin on surfaces",
+        "Tissue necrosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which of the following is a common symptom in many autoimmune diseases?",
+      "o": [
+        "Hypertension",
+        "Chronic fatigue and fever",
+        "Increased appetite",
+        "Weight loss"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hypersensitivity & Autoimmune Diseases",
+      "q": "Which factor can trigger an autoimmune response through the mechanism of molecular mimicry?",
+      "o": [
+        "Certain viral and bacterial infections",
+        "Influenza vaccination",
+        "Antibiotic use",
+        "Vitamin intake"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Hyperacurate rejection is due to:",
+      "o": [
+        "Preformed antibodies",
+        "Cytotoxic T-lymphocyte mediated injury",
+        "Circulating macrophage mediated injury",
+        "Endothelitis caused by donor antibodies"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "All are affected in Graft-Versus host reaction:",
+      "o": [
+        "Skin",
+        "GIT",
+        "Liver",
+        "Lung"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Preformed antibodies cause:",
+      "o": [
+        "Hyperacute rejection",
+        "Acute rejection",
+        "Chronic rejection",
+        "Acute humoral rejection"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Transfer of the graft of different species are called as:",
+      "o": [
+        "Isograft",
+        "Allograft",
+        "Homograft",
+        "Xenograft"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Principal cause of death in renal transplant patient is:",
+      "o": [
+        "Uraemia",
+        "Malignancy",
+        "Rejection",
+        "Infection"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Preformed antibodies cause:",
+      "o": [
+        ", Hyperacute rejection",
+        "Acute rejection",
+        "Chronic rejection",
+        "Acute humoral rejection"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Which of these complement factor is a marker of humoral rejection?",
+      "o": [
+        "C3d",
+        "С5а",
+        "СЗb",
+        "C4d"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "The commonest type of graft rejection is:",
+      "o": [
+        "Hyperacute rejection",
+        "Acute rejection",
+        "Chronic rejection",
+        "All are equal in incidence"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Organ with least chance of rejection is:",
+      "o": [
+        "Blood",
+        "Liver",
+        "Kidney",
+        "Heart"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Runt disease is associated with:",
+      "o": [
+        "Acute rejection",
+        "Hyperacute rejection",
+        "Chronic rejection",
+        "Graft versus host disease"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Prior immune suppression is not helpful in which type of graft rejection:",
+      "o": [
+        "Acute rejection",
+        "Hyperacute rejection",
+        "Chronic rejection",
+        "GVHD"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Which of the following is true about GVHD?",
+      "o": [
+        "Occurs when host is immunocompetent",
+        "Occurs when donor cells are immunocompetent",
+        "Most common organ involved is lung",
+        "Most common in renal transplant"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Microcytotoxicity is used for:",
+      "o": [
+        "Tissue typing",
+        "Drug allergy",
+        "Infection Susceptibility",
+        "Substance toxicity"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "Acute graft rejection occurs within:",
+      "o": [
+        "3 hours",
+        "3 days",
+        "3 months",
+        "3 years"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Transplant Rejection",
+      "q": "The best investigation for the diagnosis of amyloidosis is:",
+      "o": [
+        "Colonoscopy",
+        "Rectal biopsy",
+        "Upper GI endoscopy",
+        "CT scan"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Which type of amyloidosis is caused by mutations in transthyretin gene?",
+      "o": [
+        "Familial Mediterranean fever",
+        "Familial amyloidosis polyneuropathy",
+        "Dialysis associated amyloidosis",
+        "Prion protein associated amyloidosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Bone marrow in AL amyloidosis shows:",
+      "o": [
+        "Bone marrow plasmacytosis",
+        "Granulomatous reaction",
+        "Fibrosis",
+        "Giant cell formation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "What is the best method for confirming amyloidosis?",
+      "o": [
+        "Colonoscopy",
+        "Sigmoidoscopy",
+        "Rectal biopsy",
+        "Tongue biopsy"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Neointimal hyperplasia causes vascular graft failure as a result of hypertrophy of:",
+      "o": [
+        "Endothelial cells",
+        "Collagen fibers",
+        "Smooth muscle cells",
+        "Elastic fibers"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Familial amyloidotic polyneuropathy is due to amyloidosis of nerves caused by deposition of:",
+      "o": [
+        "Amyloid associated protein",
+        "Mutant calcitonin",
+        "Mutant transthyretin",
+        "Normal transthyretin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Gingival biopsy is useful in the diagnosis of:",
+      "o": [
+        "Sarcoidosis",
+        "Amyloidosis",
+        "Histoplasmosis",
+        "Scurvy"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Amyloid is:",
+      "o": [
+        "Mucopolysaccharide",
+        "Lipoprotein",
+        "Glycoprotein",
+        "Intermediate filament"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Serum amyloid associated protein is found in:",
+      "o": [
+        "Alzheimer's disease",
+        "Chronic inflammatory states",
+        "Chronic renal failure",
+        "Malignant hypertension"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Most common site of biopsy in amyloidosis:",
+      "o": [
+        "Liver",
+        "Spleen",
+        "Kidney",
+        "Lung"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Which of the following is the most serious organ involvement in amyloidosis?",
+      "o": [
+        "Cardiac tissue",
+        "Renal tissue",
+        "Splenic tissue",
+        "Hepatic tissue"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Which type of amyloidosis is caused by mutation of the transthyretin protein?",
+      "o": [
+        "Familial Mediterranean fever",
+        "Familial amyloidosis polyneuropathy",
+        "Dialysis associated amyloidosis",
+        "Prion protein associated amyloidosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Cause of death in amyloidosis involving kidney:",
+      "o": [
+        "Cardiac failure",
+        "Renal failure",
+        "Sepsis",
+        "Liver failure"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Secondary amyloidosis complicates which of the following:",
+      "o": [
+        "Pneumonia",
+        "Chronic glomerulonephritis",
+        "Irritable bowel syndrome",
+        "Chronic osteomyelitis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "On Congo- red staining, amyloid is seen as:",
+      "o": [
+        "Dark brown color",
+        "Blue color",
+        "Brilliant pink color",
+        "Khaki color"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Excessive accumulation of which hormone protein causes organ dysfunction:",
+      "o": [
+        "Growth hormone",
+        "Prolactin",
+        "Calcitonin",
+        "Parathormone"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Amyloidosis",
+      "q": "Serum amyloid associated protein is increased in:",
+      "o": [
+        "Alzheimer's disease",
+        "Ankylosing spondylitis",
+        "Chronic renal failure",
+        "Malignant hypertension"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Which of the following carcinoma most frequently metastasizes to brain?",
+      "o": [
+        "Small cell carcinoma of lung",
+        "Prostate cancer",
+        "Rectal carcinoma",
+        "Endometrial cancer"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Chemotherapeutic drugs can cause:",
+      "o": [
+        "Only necrosis",
+        "Only apoptosis",
+        "Both necrosis and apoptosis",
+        "Anoikis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Reversible loss of polarity with abnormality in size and shape of cells is known as:",
+      "o": [
+        "Metaplasia",
+        "Dysplasia",
+        "Hyperplasia",
+        "Anaplasia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "A strong propensity for vascular invasion is seen in:",
+      "o": [
+        "Prostatic carcinoma",
+        "Hepatocellular carcinoma",
+        "Bronchogenic carcinoma",
+        "Gastric carcinoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Earliest changes of neoplastic transformation as seen at a microscopic level is called:",
+      "o": [
+        "Hyperplasia",
+        "Metaplasia",
+        "Dysplasia",
+        "Carcinoma in situ"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Squamous cell carcinoma spreads by:",
+      "o": [
+        "Hematogenous route",
+        "Lymphatic route",
+        "Direct invasion",
+        "Expansion"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Which one of the following tumors does not cause bony metastasis?",
+      "o": [
+        "Renal cell carcinoma",
+        "Gastric carcinoma",
+        "Thyroid carcinoma",
+        "Breast carcinoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Hamartoma is:",
+      "o": [
+        "Proliferation of cells in foreign site",
+        "Proliferation of native cells in tissue",
+        "Malignant condition",
+        "Acquired condition"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Sure sign of malignancy is:",
+      "o": [
+        "Mitoses",
+        "Polychromasia",
+        "Nuclear pleomorphism",
+        "Metastasis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Malignancy is typically associated with disordered differentiation and maturation. Which of the following mentioned options best describes anaplasia?",
+      "o": [
+        "Hepatic tumor cells synthesizing bile",
+        "Skin tumor cells producing keratin pearls",
+        "Bronchial epithelial cells producing keratin pearls",
+        "Muscle tumor cells forming giant cells"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Which of the following criteria can be used to determine if a pheochromocytoma lesion is benign or malignant?",
+      "o": [
+        "Blood vessel invasion",
+        "Cannot be determined by microscopic examination",
+        "Hemorrhage and necrosis",
+        "Nuclear pleomorphism"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Which one is not the pre cancerous condition?",
+      "o": [
+        "Crohn's disease",
+        "Ulcerative colitis",
+        "Leukoplakia",
+        "Xeroderma pigmentosum"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Which of the following features differentiates invasive carcinoma from carcinoma in situ?",
+      "o": [
+        "Anaplasia",
+        "Number of mitosis",
+        "Basement membrane invasion",
+        "Pleomorphism"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Cell-matrix adhesions are mediated by?",
+      "o": [
+        "Cadherins",
+        "Integrins",
+        "Selectins",
+        "Calmodulin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Which of the following is not a labile cell?",
+      "o": [
+        "Bone marrow",
+        "Epidermal cells",
+        "Small intestine mucosa",
+        "Hepatocytes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Which of the following is most reliable feature of malignant transformation of pheochromocytoma?",
+      "o": [
+        "Presence of mitotic figures",
+        "Presence of metastasis to other organs",
+        "Vascular/ capsular invasion",
+        "Absence of metastasis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Overgrowth of a skin structure at a localised region is:",
+      "o": [
+        "Hamartoma",
+        "Choristoma",
+        "Malignant tumor",
+        "Polyp"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Molecular study is important in the management of which malignancy?",
+      "o": [
+        "Multiple myeloma",
+        "Renal cell carcinoma",
+        "Seminoma",
+        "Basal cell carcinoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Tumor cells secrete which of the following?",
+      "o": [
+        "Tyrosine kinase",
+        "Collagenase IV",
+        "Catenins",
+        "E-cadherins"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Substance playing a role in tumor metastasis cascade is?",
+      "o": [
+        "Collagenase IV",
+        "TNF-alpha",
+        "CD99",
+        "NM23"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Carcinoma with no or minimal metastasis is?",
+      "o": [
+        "Squamous cell carcinoma",
+        "Basal cell carcinoma",
+        "Melanoma",
+        "Leydig's cell carcinoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neoplasia Basics",
+      "q": "Which of the following cell types is not a target for initiation and maintenance of HIV infection?",
+      "o": [
+        "CD4 T cell",
+        "Dendritic cell",
+        "Macrophage",
+        "Neutrophil"
+      ],
+      "c": 3
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Most common site for lymphoma in AIDS patients is:",
+      "o": [
+        "CNS lesions",
+        "Spleen",
+        "Thymus",
+        "Abdomen"
+      ],
+      "c": 0
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "HIV affects which of the following most commonly?",
+      "o": [
+        "Helper cells",
+        "Suppressor cell",
+        "RBCs",
+        "Platelets"
+      ],
+      "c": 0
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which of the following lesions/conditions shows most specific anatomic changes in HIV infection?",
+      "o": [
+        "Lymph nodes",
+        "Opportunistic infections",
+        "CNS lesions",
+        "Kaposi's sarcoma (blood vessels)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Risk of HIV transmission is not seen with:",
+      "o": [
+        "Whole blood",
+        "Platelets",
+        "Plasma derived Hepatitis B vaccine",
+        "Leucocytes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Mantoux test reading of less than 5 mm indicates:",
+      "o": [
+        "Tuberculous infections",
+        "Disseminated TB",
+        "Susceptibility to TB",
+        "Immunity to TB"
+      ],
+      "c": 2
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which of these is an immune-privileged site?",
+      "o": [
+        "Area postrema",
+        "Loop of Henle",
+        "Optic nerve",
+        "Seminiferous tubules"
+      ],
+      "c": 3
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which region of the world has the highest prevalence of HIV?",
+      "o": [
+        "Europe",
+        "Sub-Saharan Africa",
+        "North America",
+        "Southeast Asia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What is the name of the test that measures the amount of HIV RNA in the blood?",
+      "o": [
+        "Viral load test",
+        "CD4 count test",
+        "Western blot",
+        "Immunofluorescence assay"
+      ],
+      "c": 0
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What is the function of reverse transcriptase in HIV?",
+      "o": [
+        "Integration of viral DNA into the host genome",
+        "Conversion of viral RNA into DNA",
+        "Assembly of viral particles",
+        "Binding to CD4 receptors"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What is the main goal of antiretroviral therapy (ART)?",
+      "o": [
+        "Cure HIV infection",
+        "Prevent progression to AIDS",
+        "Eliminate all viral particles",
+        "Reduce CD4 T-cell coun"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What is the most common opportunistic infection in AIDS patients?",
+      "o": [
+        "Pneumocystis pneumonia (PCP)",
+        "Influenza",
+        "Hepatitis C",
+        "Tetanus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which stage of HIV infection is characterized by opportunistic infections?",
+      "o": [
+        "Acute infection",
+        "Latent phase",
+        "AIDS",
+        "Seroconversion"
+      ],
+      "c": 2
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What is the primary mode of HIV transmission?",
+      "o": [
+        "Airborne droplets",
+        "Contaminated food",
+        "Blood and body fluids",
+        "Skin-to-skin contact"
+      ],
+      "c": 2
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which cells are the main target of HIV?",
+      "o": [
+        "B-cells",
+        "CD4 T-cells",
+        "Natural killer cells",
+        "Macrophages"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What is the primary cause of acquired immunodeficiency syndrome (AIDS)?",
+      "o": [
+        "Hepatitis B virus",
+        "Human papillomavirus (HPV)",
+        "Human immunodeficiency virus (HIV)",
+        "Epstein-Barr virus (EBV)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What is the significance of a CD4 T-cell count below 200 cells/µL in HIV patients?",
+      "o": [
+        "Indication of acute infection",
+        "Progression to AIDS",
+        "Complete immune recovery",
+        "Ineffectiveness of ART"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which HIV subtype is most common worldwide?",
+      "o": [
+        "HIV-1 Group M",
+        "HIV-2",
+        "HIV-1 Group N",
+        "HIV-1 Group O"
+      ],
+      "c": 0
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which of the following is an example of a post-exposure prophylaxis (PEP) strategy?",
+      "o": [
+        "Pre-exposure vaccination",
+        "Antiretroviral therapy within 72 hours of exposure",
+        "Use of immunosuppressants",
+        "Regular use of antibiotics"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What is the average time for untreated HIV to progress to AIDS?",
+      "o": [
+        "1-2 years",
+        "5-10 years",
+        "15-20 years",
+        "It does not progress"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What is the most effective strategy for preventing mother-to-child transmission of HIV?",
+      "o": [
+        "Antiretroviral therapy during pregnancy",
+        "Avoidance of breastfeeding",
+        "Caesarean delivery",
+        "Use of antibiotics"
+      ],
+      "c": 0
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which test is used to assess T-lymphocyte function?",
+      "o": [
+        "Degranulation test",
+        "Delayed-type hypersensitivity reaction",
+        "Nitroblue tetrazolium test",
+        "IgA level analysis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which immunodeficiency is associated with chronic skin and lung infections and elevated IgE levels?",
+      "o": [
+        "Hyper IgE syndrome",
+        "Hyper IgM syndrome",
+        "Ataxia-telangiectasia",
+        "Wiskott-Aldrich syndrome"
+      ],
+      "c": 0
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which disease is characterized by impaired DNA repair?",
+      "o": [
+        "Ataxia-telangiectasia",
+        "Chronic granulomatous disease",
+        "Hyper IgM syndrome",
+        "Job syndrome"
+      ],
+      "c": 0
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which disease is caused by impaired neutrophil migration?",
+      "o": [
+        "Wiskott-Aldrich syndrome",
+        "Leukocyte adhesion deficiency (LAD)",
+        "Ataxia-telangiectasia",
+        "Bruton disease"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "What mechanism is impaired in chronic granulomatous disease?",
+      "o": [
+        "Cytokine secretion",
+        "Production of reactive oxygen species",
+        "Antibody synthesis",
+        "Complement activation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which immunoglobulin is most commonly reduced in primary immunodeficiencies?",
+      "o": [
+        "IgA",
+        "IgG",
+        "IgM",
+        "IgE"
+      ],
+      "c": 0
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Which of the following cells is most important for cellular immunity?",
+      "o": [
+        "B-lymphocyte",
+        "T-lymphocyte",
+        "Macrophage",
+        "Neutrophil"
+      ],
+      "c": 1
+    },
+    {
+      "s": "HIV & Immunodeficiency",
+      "q": "Most common vascular tumor in AIDS patients is:",
+      "o": [
+        "Kaposi's sarcoma",
+        "Angiosarcoma",
+        "Lymphangioma",
+        "Lymphoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "The presence of Flexner-Wintersteiner rosettes is characteristic of which tumor?",
+      "o": [
+        "Retinoblastoma",
+        "Neuroblastoma",
+        "Medulloblastoma",
+        "Ewing sarcoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "HER2/neu receptor plays a role in",
+      "o": [
+        "Predicting therapeutic response",
+        "Diagnosis of breast cancer",
+        "Screening of breast cancer",
+        "Recurrence of tumor"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "The most common secondary malignancy in a patient having retinoblastoma is:",
+      "o": [
+        "Osteosarcoma",
+        "Renal cell carcinoma",
+        "Pineoblastoma",
+        "Osteoblastoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Regarding Fanconi anemia, the wrong statement is:",
+      "o": [
+        "Autosomal dominant",
+        "Bone marrow show pancytopenia",
+        "Usually aplastic anemia",
+        "It is due to defective DNA repair"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "True statements about p53 gene are all except:",
+      "o": [
+        "Arrests cell cycle at G1 phase",
+        "Product is 53 kD protein",
+        "Located on chromosome 17",
+        "Wild/non-mutated form is associated with in-creased risk of childhood tumors"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Growth factor oncogene is:",
+      "o": [
+        "Myc",
+        "Sis",
+        "Fos",
+        "Jun"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Rosettes are characteristically seen in:",
+      "o": [
+        "Retinoblastoma",
+        "Melanoma",
+        "Dysgerminoma",
+        "Lymphoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Which of the following is a characteristic feature of Langerhans cell histiocytosis?",
+      "o": [
+        "Birbeck granules",
+        "Homer-Wright rosettes",
+        "Flexner-Wintersteiner rosettes",
+        "Pseudorosettes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "An example of a tumor suppressor gene is:",
+      "o": [
+        "myc",
+        "fos",
+        "ras",
+        "Rb"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Lynch syndrome is associated with cancers of the:",
+      "o": [
+        "Breast, colon, ovary",
+        "Breast, endometrium, ovary",
+        "Breast, colon, endometrium",
+        "Colon, endometrium, ovary"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Loss of heterozygosity associated with:",
+      "o": [
+        "Acute myeloid leukemia",
+        "ALL",
+        "Retinoblastoma",
+        "Promyelocytic leukemia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Which is not a tumor suppressor gene?",
+      "o": [
+        "WT-1",
+        "Rb",
+        "p53",
+        "ras"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "The inheritance pattern of familial Retinoblastoma is:",
+      "o": [
+        "Autosomal recessive",
+        "Autosomal dominant",
+        "X-linked dominant",
+        "X-linked recessive"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Which of the following is known as the \"guardian of the genome\"?",
+      "o": [
+        "p53",
+        "Mdm2",
+        "p14",
+        "ATM"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "In the mitogen activated protein kinase pathway, the activation of RAS is counteracted by:",
+      "o": [
+        "Protein kinase C",
+        "GTPase activating protein",
+        "Phosphatidyl inositol",
+        "Inositol triphosphate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "True about oncogene is:",
+      "o": [
+        "Present in normal cell",
+        "They are of viral origin",
+        "They are transduced from virus infected cells",
+        "P53 is most common oncogene mutation causing malignancy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Xeroderma pigmentosum is caused due to a group of closely related abnormalities in:",
+      "o": [
+        "Mismatch repair",
+        "Base excision repair",
+        "Nucleotide excision repair",
+        "SOS repair"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Increased expression of which of the following causes oncogenesis",
+      "o": [
+        "IGF receptor",
+        "EGF receptor",
+        "GH receptor",
+        "Aldosterone receptor"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Which pediatric tumor is associated with amplification of the MYCN oncogene?",
+      "o": [
+        "Neuroblastoma",
+        "Wilms tumor",
+        "Retinoblastoma",
+        "Hepatoblastoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Angiogenesis is:",
+      "o": [
+        "Formation of the new blood vessels",
+        "Repair by connective tissues",
+        "Formation of the blood clot",
+        "All of the above"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Medullary carcinoma of thyroid is associated with mutation in:",
+      "o": [
+        "RET",
+        "RAS",
+        "NF",
+        "Rb"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "APC gene is located on which chromosome:",
+      "o": [
+        "Chromosome 5",
+        "Chromosome 6",
+        "Chromosome 9",
+        "Chromosome 11"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Endometrial carcinoma is associated with which of the following tumor suppression gene mutation?",
+      "o": [
+        "P53",
+        "Rb",
+        "PTEN",
+        "АРС"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Histopathologically, rosettes are not seen in:",
+      "o": [
+        "Retinoblastoma",
+        "Neurocysticercosis",
+        "PNET",
+        "Medulloblastoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "The tumor suppressor gene p 53 induces cell cycle arrest at:",
+      "o": [
+        "G2 - M phase",
+        "G1 - S phase",
+        "S - G2 phase",
+        "GO phase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "A child presents with abdominal swelling and hematuria. Imaging reveals a renal mass. The most likely diagnosis is:",
+      "o": [
+        "Neuroblastoma",
+        "Wilms tumor",
+        "Hepatoblastoma",
+        "Rhabdomyosarcoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "MYC gene is:",
+      "o": [
+        "Protein kinase inhibitor",
+        "Growth factor inhibitor",
+        "GTPase",
+        "Transcription activator"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Retinoblastoma is associated with which of the following tumours?",
+      "o": [
+        "Osteoclastoma",
+        "Hepatocellular cancer",
+        "Squamous cell cancer",
+        "Osteosarcoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "RET gene mutation is associated with which malignancy?",
+      "o": [
+        "Pheochromocytoma",
+        "Medullary carcinoma thyroid",
+        "Lymphoma",
+        "Renal cell carcinoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "An example of a tumour suppressor gene is:",
+      "o": [
+        "Myc",
+        "Fos",
+        "Ras",
+        "RB"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Which of the following is DNA repair defect?",
+      "o": [
+        "Retinoblastoma",
+        "Neurofibromatosis",
+        "Xeroderma pigmentosum",
+        "MEN-1"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "An example of a tumor suppressor gene is:",
+      "o": [
+        "Myc",
+        "Fos",
+        "Ras",
+        "Rb"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Knudson two hit hypothesis is seen with",
+      "o": [
+        "Melanoma",
+        "Retinoblastoma",
+        "Ulcerative colitis",
+        "Crohn disease"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Retinoblastomas arising in the context of germ-line mutations not only may be bilateral, but also may be associated with (so called \"trilateral\"retinoblastoma)",
+      "o": [
+        "Medulloblastoma",
+        "Pinealoblastoma",
+        "Neuroblastoma",
+        "Hemangioblastoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "HER-2/neu gene causes breast carcinoma due to?",
+      "o": [
+        "Overexpression",
+        "Suppression",
+        "Mutation",
+        "Translocation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Gene involved in medullary carcinoma thyroid is:",
+      "o": [
+        "Ret proto oncogene",
+        "FAP gene",
+        "Rb gene",
+        "BRCA 1 gene"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Which chromosome mutation is associated with medulloblastoma?",
+      "o": [
+        "Chromosome 16",
+        "Chromosome 17",
+        "Chromosome 18",
+        "Chromosome 19"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "VHL syndrome is associated most commonly with which carcinoma?",
+      "o": [
+        "Lung carcinoma",
+        "Renal cell carcinoma",
+        "Endometrial carcinoma",
+        "Hepatocellular carcinoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Post transplant lymphoma is caused by which of the following?",
+      "o": [
+        "CMV",
+        "EBV",
+        "Herpes simplex",
+        "HHV-6"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "H. pylori infection is associated with development of which malignancy:",
+      "o": [
+        "MALToma",
+        "Atherosclerosis",
+        "Sarcoma",
+        "Gastrointestinal stromal tumor (GIST)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Which of the following is a common site for metastasis of neuroblastoma?",
+      "o": [
+        "Lungs",
+        "Bone marrow",
+        "Brain",
+        "Colon"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Which of the following is essential for tumor metastasis?",
+      "o": [
+        "Angiogenesis",
+        "Tumorogenesis",
+        "Apoptosis",
+        "Inhibition of tyrosine kinase activity"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Which of the following statements about carcinogenesis is false?",
+      "o": [
+        "Asbestos exposure increases the incidence of lung cancer",
+        "Papilloma viruses produce tumors in animals but not in humans",
+        "Exposure to aniline dyes predisposes to cancer of the urinary bladder",
+        "Hepatitis B virus has been implicated in hepatocel-lular carcinoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Which of the following is an oncogenic RNA virus?",
+      "o": [
+        "Hepatitis B virus",
+        "Human papilloma virus",
+        "Epstein Barr virus",
+        "Hepatitis C virus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "LMP-1 gene plays a role in oncogenesis induced by:",
+      "o": [
+        "Human T cell leukemia virus type I",
+        "Hepatitis B virus",
+        "Epstein-Barr virus",
+        "Human papilloma virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Skin cancers develop due to sunlight exposure induced by:",
+      "o": [
+        "UVA rays",
+        "UVB rays",
+        "UVC rays",
+        "UVD rays"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Most radiosensitive tumor is:",
+      "o": [
+        "Renal cell carcinoma",
+        "Carcinoma colon",
+        "Hepatocellular carcinoma",
+        "Testicular seminoma"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Smoking is a risk factor for all carcinomas, except:",
+      "o": [
+        "Oral",
+        "Bronchial",
+        "Bladder",
+        "Thyroid"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Workers exposed to polyvinyl chloride may develop following liver malignancy:",
+      "o": [
+        "Cholangiocarcinoma",
+        "Fibrolamellar carcinoma",
+        "Angiosarcoma",
+        "Carcinoma colon"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Hybridoma refers to",
+      "o": [
+        "Collision tumor",
+        "A tumor of brown fat",
+        "A hamartoma",
+        "A technique for raising monoclonal antibodies"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "One of the following leukemia almost never develops after radiation?",
+      "o": [
+        "Acute myeloblastic leukemia",
+        "Chronic myeloid leukemia",
+        "Acute lumphoblastic leukemia",
+        "Chronic lymphocytic leukemia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "The following parasitic infections predispose to malig-nancies?",
+      "o": [
+        "Paragonimus westermani",
+        "Guinea worm infection",
+        "Clonorchiasis",
+        "Schistosomiasis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Kaposi's sarcoma is seen with:",
+      "o": [
+        "HCV",
+        "HSV",
+        "HPV",
+        "HHV"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "UV radiation has which of the following effects on the cells?",
+      "o": [
+        "Prevents formation of pyrimidine dimers",
+        "Stimulates formation of pyrimidine dimers",
+        "Prevents formation of purine dimers",
+        "Chemical exposure"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Thorium induced tumor is which of the following?",
+      "o": [
+        "Renal cell carcinoma",
+        "Lymphoma",
+        "Angiosarcoma of liver",
+        "Astrocytoma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Radiation exposure during infancy has been linked to which one of the following carcinoma?",
+      "o": [
+        "Breast",
+        "Melanoma",
+        "Thyroid",
+        "Lung"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "The most radiosensitive cells are:",
+      "o": [
+        "Neutrophils",
+        "Lymphocytes",
+        "Erythrocytes",
+        "Megakaryocytes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "The SI unit of radiation absorbed dose is",
+      "o": [
+        "Rad",
+        "Becquerel",
+        "Gray",
+        "Sievert"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Tropical spastic paraparesis is caused by:",
+      "o": [
+        "Human T-cell Lymphotropic Virus",
+        "Hepatitis B virus",
+        "Human Immunodeficiency virus",
+        "Epstein Barr Virus"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Which of the following does not predispose to leukemia?",
+      "o": [
+        "Genetic disorder",
+        "Alcohol",
+        "Smoking",
+        "Chemical exposure"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "HPV oncogene expression is due to:",
+      "o": [
+        "E1E2",
+        "E1E3",
+        "E3E5",
+        "E6E7"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Hematological malignancies are commonly linked to which of the following:",
+      "o": [
+        "Nicotine",
+        "Lithium",
+        "Benzene",
+        "Alcohol"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "Which of the following has tumor promoting effect?",
+      "o": [
+        "BRAC",
+        "myc",
+        "RB",
+        "p16"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Carcinogenesis",
+      "q": "All are true about chromosomal instability syndrome except?",
+      "o": [
+        "DNA repair defects",
+        "AD inheritance",
+        "Increased risk of malignancy",
+        "May be associated with immunodeficiency"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "BRCA1 gene is associated with:",
+      "o": [
+        "Lobular carcinoma",
+        "Medullary carcinoma",
+        "Tubular carcinoma",
+        "Papillary carcinoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "PTEN gene mutation is seen in:",
+      "o": [
+        "Ovarian carcinoma",
+        "Li-Fraumeni syndrome",
+        "Endometrial carcinoma",
+        "MEN2A"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Oncogenes & Tumour Suppressor Genes",
+      "q": "Wilm's tumor gene is located on chromosome?",
+      "o": [
+        "13q2.3",
+        "17p21",
+        "17q21",
+        "11p13"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "A 20 year old female was diagnosed with granulose cell tumor of the ovary. Which of the following bio markers would be most useful for follow-up of patient?",
+      "o": [
+        "CA 19-9",
+        "CA50",
+        "Inhibin",
+        "Neuron - specific enolase"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "Alpha fetoprotein is a marker of:",
+      "o": [
+        "Hepatoblastoma",
+        "Seminoma",
+        "Renal cell carcinoma",
+        "Choriocarcinoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "Which of the following is Not associated with thymoma?",
+      "o": [
+        "SIADH",
+        "Myasthenia gravis",
+        "Polymyositis",
+        "Hypogammaglobinemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "Which of the following is not true about Neuroblastoma?",
+      "o": [
+        "Most common extracranial solid tumor in childhood",
+        ">50% patients present with metastasis at time of diagnosis",
+        "Lung metastases are common",
+        "Involve aorta and its branches early"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "Migratory thrombophlebitis is associated with all of the following malignancies, except:",
+      "o": [
+        "Prostate",
+        "Lung",
+        "GIT",
+        "Pancreas"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "HMB 45 is a tumor marker for:",
+      "o": [
+        "Neuroblastoma",
+        "Neurofibroma",
+        "Malignant melanoma",
+        "Angiosarcoma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "AFP is a marker of:",
+      "o": [
+        "Hepatoblastoma",
+        "Seminoma",
+        "Sertoli-Leydig cell tumor",
+        "Choriocarcinoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "An undifferentiated malignant tumor on immunohisto-chemical stain shows cytoplasmic positivity of most of the tumor cells for cytokeratin. The most probable diagnosis of the tumor is:",
+      "o": [
+        "Sarcoma",
+        "Carcinoma",
+        "Lymphoma",
+        "Malignant melanoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "For which one of the following tumors Gastrin is a biochemical marker?",
+      "o": [
+        "Medullary carcinoma of thyroid",
+        "Pancreatic neuroendocrine tumor",
+        "Pheochromocytoma",
+        "Gastrointestinal stromal tumor"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "The presence of Homer-Wright rosettes on histology is indicative of which tumor?",
+      "o": [
+        "Neuroblastoma",
+        "Retinoblastoma",
+        "Medulloblastoma",
+        "Ewing sarcoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "Which of the following tumors have an increased elevation of placental alkaline phosphatase in the serum as well as a positive immunohistochemical staining for placental alkaline phosphatase?",
+      "o": [
+        "Seminoma",
+        "Hepatoblastoma",
+        "Hepatocellular carcinoma",
+        "Peripheral neuroectodermal tumor"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "Which of the following is a common presentation of retinoblastoma?",
+      "o": [
+        "Proptosis",
+        "Leukocoria",
+        "Strabismus",
+        "Nystagmus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "Which of the following is the most common malignant tumor in children?",
+      "o": [
+        "Neuroblastoma",
+        "Wilms tumor",
+        "Leukemia",
+        "Retinoblastoma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Tumour Markers & Paraneoplastic Syndromes",
+      "q": "Which of the following is a characteristic feature of complex multigenic disorders?",
+      "o": [
+        "Single gene mutation",
+        "Chromosomal deletion",
+        "Interaction of multiple genes and environmental factors",
+        "Mitochondrial inheritance"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Trisomy 21 is commonly known as:",
+      "o": [
+        "Edwards syndrome",
+        "Patau syndrome",
+        "Down syndrome",
+        "Turner syndrome"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which genetic disorder is associated with a deletion on chromosome 22q11?",
+      "o": [
+        "DiGeorge syndrome",
+        "Marfan syndrome",
+        "Cystic fibrosis",
+        "Huntington disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Marfan syndrome is caused by mutations in which gene?",
+      "o": [
+        "FBN1",
+        "CFTR",
+        "HTT",
+        "RB1"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is an autosomal recessive disorder?",
+      "o": [
+        "Huntington disease",
+        "Neurofibromatosis type 1",
+        "Sickle cell anemia",
+        "Marfan syndrome"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "A female with a 45,X karyotype is diagnosed with:",
+      "o": [
+        "Klinefelter syndrome",
+        "Turner syndrome",
+        "Triple X syndrome",
+        "Down syndrome"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which enzyme deficiency leads to phenylketonuria (PKU)?",
+      "o": [
+        "Hexosaminidase A",
+        "Phenylalanine hydroxylase",
+        "Glucocerebrosidase",
+        "Alpha-galactosidase A"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "The Philadelphia chromosome results from a translocation between which chromosomes?",
+      "o": [
+        "9 and 22",
+        "8 and 14",
+        "15 and 17",
+        "11 and 22"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following disorders is characterized by trinucleotide repeat expansions?",
+      "o": [
+        "Cystic fibrosis",
+        "Fragile X syndrome",
+        "Sickle cell anemia",
+        "Marfan syndrome"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "In autosomal dominant disorders, what is the likelihood that an affected individual will transmit the disorder to their offspring?",
+      "o": [
+        "25%",
+        "50%",
+        "75%",
+        "100%"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is a common feature of cytogenetic disorders involving sex chromosomes?",
+      "o": [
+        "Severe mental retardation",
+        "High mortality rate",
+        "Subtle, chronic problems related to sexual development",
+        "Early onset of symptoms in infancy"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "A patient presents with tall stature, long limbs, and lens dislocation. Which genetic disorder is most likely?",
+      "o": [
+        "Ehlers-Danlos syndrome",
+        "Marfan syndrome",
+        "Osteogenesis imperfecta",
+        "Achondroplasia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is an example of a mitochondrial inheritance disorder?",
+      "o": [
+        "Leber hereditary optic neuropathy",
+        "Duchenne muscular dystrophy",
+        "Hemophilia A",
+        "Tay-Sachs disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "The presence of an extra chromosome 13 results in:",
+      "o": [
+        "Down syndrome",
+        "Edwards syndrome",
+        "Patau syndrome",
+        "Turner syndrome"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which genetic disorder is associated with a defect in the NF1 gene on chromosome 17?",
+      "o": [
+        "Neurofibromatosis type 1",
+        "Neurofibromatosis type 2",
+        "Tuberous sclerosis",
+        "von Hippel-Lindau disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is a characteristic of autosomal recessive disorders?",
+      "o": [
+        "Both parents are usually affected",
+        "The disorder appears in every generation",
+        "Siblings have a 25% chance of being affected",
+        "Males are more frequently affected than females"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "A male patient with an extra X chromosome (47,XXY) is diagnosed with:",
+      "o": [
+        "Turner syndrome",
+        "Klinefelter syndrome",
+        "XYY syndrome",
+        "Androgen insensitivity syndrome"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which enzyme deficiency is responsible for Tay-Sachs disease?",
+      "o": [
+        "Glucocerebrosidase",
+        "Hexosaminidase A",
+        "Sphingomyelinase",
+        "Alpha-galactosidase A"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is a feature of Prader-Willi syndrome?",
+      "o": [
+        "Hyperphagia leading to obesity",
+        "Progressive muscle weakness",
+        "Severe immunodeficiency",
+        "Cardiac malformations"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which genetic disorder results from a deletion on the maternal copy of chromosome 15q11-q13?",
+      "o": [
+        "Angelman syndrome",
+        "Prader-Willi syndrome",
+        "Williams syndrome",
+        "Cri-du-chat syndrome"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is an example of a disorder caused by genomic imprinting?",
+      "o": [
+        "Huntington disease",
+        "Angelman syndrome",
+        "Marfan syndrome",
+        "Cystic fibrosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "A patient with macroorchidism, large ears, and intellectual disability is likely to have:",
+      "o": [
+        "Down syndrome",
+        "Fragile X syndrome",
+        "Klinefelter syndrome",
+        "Turner syndrome"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is a characteristic feature of autosomal dominant disorders?",
+      "o": [
+        "Onset typically in childhood",
+        "Complete penetrance is common",
+        "Both males and females are affected equally",
+        "Parents are usually unaffected carriers"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is characteristic of complex multigenic disorders?",
+      "o": [
+        "Caused by mutations in a single gene",
+        "Inherited in a Mendelian fashion",
+        "Result from the combined effect of multiple genes and environmental factors",
+        "Always present at birth"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Down syndrome is an example of which type of genetic disorder?",
+      "o": [
+        "Single-gene disorder",
+        "Cytogenetic disorder",
+        "Mitochondrial disorder",
+        "Complex multigenic disorder"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is a characteristic feature of autosomal dominant disorders?",
+      "o": [
+        "Both alleles must be mutated for disease manifestation",
+        "Typically manifest in homozygous individuals",
+        "Often involve gain-of-function mutations",
+        "Usually result from enzyme deficiencies"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which cytogenetic disorder is characterized by the presence of an extra chromosome 21?",
+      "o": [
+        "Turner syndrome",
+        "Klinefelter syndrome",
+        "Down syndrome",
+        "Edwards syndrome"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is an example of a single-gene disorder with nonclassic inheritance?",
+      "o": [
+        "Cystic fibrosis",
+        "Marfan syndrome",
+        "Fragile X syndrome",
+        "Sickle cell anemia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Mitochondrial inheritance is characterized by:",
+      "o": [
+        "Transmission from both parents",
+        "Maternal transmission only",
+        "Paternal transmission only",
+        "Equal transmission from both parents"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is a common feature of autosomal recessive disorders?",
+      "o": [
+        "Manifestation in heterozygous individuals",
+        "Often involve structural proteins",
+        "Parents are usually asymptomatic carriers",
+        "High penetrance with variable expressivity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "The Philadelphia chromosome is associated with which disorder?",
+      "o": [
+        "Chronic myelogenous leukemia",
+        "Acute lymphoblastic leukemia",
+        "Burkitt lymphoma",
+        "Hodgkin lymphoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is true regarding X-linked recessive disorders?",
+      "o": [
+        "Affected males transmit the disorder to all sons",
+        "Affected females are common",
+        "Sons of carrier females have a 50% chance of being affected",
+        "Daughters of affected males are always affected"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which genetic disorder is characterized by a defect in fibrillin-1?",
+      "o": [
+        "Ehlers-Danlos syndrome",
+        "Marfan syndrome",
+        "Osteogenesis imperfecta",
+        "Achondroplasia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Genetic Disorders",
+      "q": "Which of the following is the most common cause of neonatal mortality?",
+      "o": [
+        "Congenital anomalies",
+        "Infections",
+        "Prematurity",
+        "Sudden infant death syndrome"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "Anatomic defects present at birth are referred to as:",
+      "o": [
+        "Deformations",
+        "Disruptions",
+        "Malformations",
+        "Dysplasias"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "Which of the following is an example of a disruption?",
+      "o": [
+        "Polydactyly",
+        "Amniotic band syndrome",
+        "Clubfoot",
+        "Cleft lip"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "Extrinsic disturbance in morphogenesis due to mechanical forces is termed:",
+      "o": [
+        "Malformation",
+        "Disruption",
+        "Deformation",
+        "Dysplasia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "The most common factor underlying fetal deformations is:",
+      "o": [
+        "Genetic mutations",
+        "Uterine constraint",
+        "Teratogenic exposure",
+        "Maternal infections"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "A sequence of anomalies resulting from a single initiating event is called a:",
+      "o": [
+        "Syndrome",
+        "Sequence",
+        "Malformation",
+        "Disruption"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "Oligohydramnios can lead to which of the following sequences?",
+      "o": [
+        "Potter sequence",
+        "Pierre Robin sequence",
+        "VACTERL association",
+        "CHARGE syndrome"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "Which of the following is a characteristic feature of Potter sequence?",
+      "o": [
+        "Micrognathia",
+        "Rocker-bottom feet",
+        "Pulmonary hypoplasia",
+        "Polydactyly"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "A constellation of anomalies that cannot be explained by a single initiating defect is termed a:",
+      "o": [
+        "Sequence",
+        "Syndrome",
+        "Malformation",
+        "Disruption"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "Which of the following is a known teratogen that can cause congenital anomalies?",
+      "o": [
+        "Folic acid",
+        "Thalidomide",
+        "Vitamin D",
+        "Penicillin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "The period of highest susceptibility to teratogenic agents during pregnancy is:",
+      "o": [
+        "0-2 weeks",
+        "3-9 weeks",
+        "10-15 weeks",
+        "16-20 weeks"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "Which of the following infections is part of the TORCH complex?",
+      "o": [
+        "Hepatitis B",
+        "Rubella",
+        "HIV",
+        "Influenza"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Congenital Anomalies & Teratogenesis",
+      "q": "A newborn presents with cataracts, deafness, and cardiac defects. Which prenatal infection is most likely responsible?",
+      "o": [
+        "Cytomegalovirus",
+        "Toxoplasmosis",
+        "Rubella",
+        "Herpes simplex virus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "Which of the following is a common complication of prematurity?",
+      "o": [
+        "Necrotizing enterocolitis",
+        "Congenital heart disease",
+        "Cystic fibrosis",
+        "Spina bifida"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "A premature infant develops abdominal distension, bloody stools, and pneumatosis intestinalis. The most likely diagnosis is:",
+      "o": [
+        "Hirschsprung disease",
+        "Intussusception",
+        "Necrotizing enterocolitis",
+        "Pyloric stenosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "Which of the following is a risk factor for necrotizing enterocolitis?",
+      "o": [
+        "Full-term birth",
+        "Formula feeding",
+        "Maternal diabetes",
+        "Cesarean delivery"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "The fundamental defect in neonatal respiratory distress syndrome is:",
+      "o": [
+        "Airway obstruction",
+        "Surfactant deficiency",
+        "Pulmonary hypoplasia",
+        "Diaphragmatic hernia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "Which cells are responsible for producing pulmonary surfactant?",
+      "o": [
+        "Type I pneumocytes",
+        "Type II pneumocytes",
+        "Alveolar macrophages",
+        "Clara cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "A newborn presents with jaundice, hepatosplenomegaly, and generalized edema. Which condition is most likely?",
+      "o": [
+        "Neonatal sepsis",
+        "Immune hydrops",
+        "Congenital syphilis",
+        "Galactosemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "Which of the following is a common cause of immune hydrops?",
+      "o": [
+        "ABO incompatibility",
+        "Rh incompatibility",
+        "Maternal hypertension",
+        "Fetal infections"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "Kernicterus is a complication of:",
+      "o": [
+        "Hyperglycemia",
+        "Hyperbilirubinemia",
+        "Hypercalcemia",
+        "Hypernatremia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "Which of the following is a characteristic finding in sudden infant death syndrome (SIDS)?",
+      "o": [
+        "Evidence of trauma",
+        "Signs of infection",
+        "Unexplained death after thorough investigation",
+        "Congenital anomalies"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "A newborn with a deficiency in phenylalanine hydroxylase is diagnosed with:",
+      "o": [
+        "Galactosemia",
+        "Maple syrup urine disease",
+        "Phenylketonuria",
+        "Homocystinuria"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "Which of the following is a common manifestation of cystic fibrosis in newborns?",
+      "o": [
+        "Meconium ileus",
+        "Congenital heart disease",
+        "Neural tube defects",
+        "Cleft palate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Neonatal & Perinatal Pathology",
+      "q": "The most common lethal genetic disease affecting Caucasians is:",
+      "o": [
+        "Sickle cell anemia",
+        "Cystic fibrosis",
+        "Tay-Sachs disease",
+        "Hemophilia A"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "A child presents with a rapidly enlarging mass in the jaw. Biopsy reveals a \"starry sky\" appearance. The most likely diagnosis is:",
+      "o": [
+        "Burkitt lymphoma",
+        "Rhabdomyosarcoma",
+        "Neuroblastoma",
+        "Ewing sarcoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which of the following is a characteristic feature of fetal alcohol syndrome?",
+      "o": [
+        "Macrocephaly",
+        "Micrognathia",
+        "Smooth philtrum",
+        "Hyperactivity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which of the following is a characteristic feature of Ewing sarcoma?",
+      "o": [
+        "t(11;22) translocation",
+        "WT1 mutation",
+        "MYCN amplification",
+        "RB1 mutation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which of the following is a risk factor for developing hepatoblastoma?",
+      "o": [
+        "Prematurity",
+        "Low birth weight",
+        "Beckwith-Wiedemann syndrome",
+        "Maternal diabetes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "A child with a history of retinoblastoma is at increased risk for developing which secondary malignancy?",
+      "o": [
+        "Osteosarcoma",
+        "Leukemia",
+        "Neuroblastoma",
+        "Hepatoblastoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which of the following is the most common malignant tumor in children?",
+      "o": [
+        "Neuroblastoma",
+        "Wilms tumor",
+        "Leukemia",
+        "Retinoblastoma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Neuroblastomas most commonly arise in which part of the body?",
+      "o": [
+        "Brain",
+        "Adrenal medulla",
+        "Liver",
+        "Kidney"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which genetic mutation is commonly associated with retinoblastoma?",
+      "o": [
+        "TP53",
+        "RB1",
+        "NF1",
+        "WT1"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "A child presents with a white pupillary reflex (leukocoria). Which tumor should be highly suspected?",
+      "o": [
+        "Neuroblastoma",
+        "Wilms tumor",
+        "Retinoblastoma",
+        "Medulloblastoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "The \"small round blue cell\" appearance on histology is characteristic of which pediatric tumor?",
+      "o": [
+        "Hepatoblastoma",
+        "Neuroblastoma",
+        "Osteosarcoma",
+        "Rhabdomyosarcoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which of the following is a common paraneoplastic syndrome associated with neuroblastoma?",
+      "o": [
+        "Hypertension",
+        "Hypercalcemia",
+        "Opsoclonus-myoclonus",
+        "Polycythemia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Wilms tumor is associated with mutations in which gene?",
+      "o": [
+        "WT1",
+        "NF2",
+        "APC",
+        "BRCA1"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which syndrome is characterized by Wilms tumor, aniridia, genitourinary anomalies, and mental retardation?",
+      "o": [
+        "Beckwith-Wiedemann syndrome",
+        "WAGR syndrome",
+        "Denys-Drash syndrome",
+        "Li-Fraumeni syndrome"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which of the following is a benign tumor commonly found in infants?",
+      "o": [
+        "Hemangioma",
+        "Neuroblastoma",
+        "Wilms tumor",
+        "Retinoblastoma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which tumor marker is often elevated in patients with hepatoblastoma?",
+      "o": [
+        "Alpha-fetoprotein (AFP)",
+        "Carcinoembryonic antigen (CEA)",
+        "Beta-human chorionic gonadotropin (β-hCG)",
+        "Prostate-specific antigen (PSA)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "Which of the following tumors is derived from primitive muscle cells?",
+      "o": [
+        "Neuroblastoma",
+        "Rhabdomyosarcoma",
+        "Osteosarcoma",
+        "Ewing sarcoma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Paediatric Tumours",
+      "q": "The \"blueberry muffin\" baby appearance is associated with which condition?",
+      "o": [
+        "Congenital rubella",
+        "Neuroblastoma with skin metastases",
+        "Hemangioma",
+        "Langerhans cell histiocytosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Digital pathology primarily involves:",
+      "o": [
+        "Manual slide reading",
+        "Computerized image analysis of digitized slides",
+        "Using microscopes only",
+        "DNA extraction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Whole-slide imaging (WSI) refers to:",
+      "o": [
+        "Scanning entire glass slides into digital images",
+        "Viewing slides under a light microscope",
+        "Collecting frozen sections",
+        "Photocopying slides"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The key component of digital pathology is:",
+      "o": [
+        "Virtual slide scanner",
+        "Centrifuge",
+        "Spectrophotometer",
+        "Flow cytometer"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Artificial intelligence (AI) in pathology mainly helps to:",
+      "o": [
+        "Replace all doctors",
+        "Assist in image analysis and pattern recognition",
+        "Perform blood grouping",
+        "Measure blood glucose"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Deep learning is a subset of:",
+      "o": [
+        "Artificial intelligence",
+        "Biotechnology",
+        "Chemistry",
+        "Genetics"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The main advantage of AI in pathology is:",
+      "o": [
+        "Reduced accuracy",
+        "Faster and more consistent diagnosis",
+        "Increased manual labor",
+        "Limited storage"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Which of the following is an example of a machine learning model?",
+      "o": [
+        "Microscope",
+        "Convolutional neural network (CNN)",
+        "Staining solution",
+        "Tissue processor"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Telepathology allows:",
+      "o": [
+        "Slide sharing and remote diagnosis",
+        "Tissue staining",
+        "Autopsy procedure",
+        "Chemical fixation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Which of the following improves diagnostic accuracy in pathology?",
+      "o": [
+        "Manual counting",
+        "AI-based image classification",
+        "Naked eye examination",
+        "Hand drawings"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Metadata in digital pathology refers to:",
+      "o": [
+        "Patient demographic and technical slide information",
+        "DNA sequence",
+        "Chemical reagents",
+        "Staining intensity"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Organoids are:",
+      "o": [
+        "Miniature 3D organ-like structures grown from stem cells",
+        "Dead tissue sections",
+        "Bacteria",
+        "Viral particles"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Organoids are formed using:",
+      "o": [
+        "Differentiated adult cells",
+        "Stem or progenitor cells",
+        "Dead cells",
+        "Neutrophils"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Organoid cultures mimic:",
+      "o": [
+        "The structure and function of real organs",
+        "Flat 2D cell lines",
+        "Bacterial colonies",
+        "Blood smears"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The main advantage of organoid models is:",
+      "o": [
+        "High cost",
+        "Better replication of physiological conditions",
+        "Inaccuracy",
+        "Non-viability"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Organoid cultures are maintained in:",
+      "o": [
+        "Air",
+        "Nutrient medium with growth factors",
+        "Dry chambers",
+        "Plain saline"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "A common matrix used in organoid cultures is:",
+      "o": [
+        "Agar",
+        "Matrigel",
+        "Gelatin",
+        "Starch"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Organoid models can be used for:",
+      "o": [
+        "Drug testing and disease modeling",
+        "Fossil reconstruction",
+        "Bacterial growth",
+        "Stone analysis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "3D tissue cultures differ from 2D cultures because they:",
+      "o": [
+        "Allow spatial cell organization",
+        "Are grown on glass slides",
+        "Are faster but less accurate",
+        "Lack any extracellular matrix"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The key benefit of 3D cell cultures is:",
+      "o": [
+        "Better mimicry of in vivo cell behavior",
+        "Reduced nutrient supply",
+        "Faster apoptosis",
+        "Lower gene expression"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Organoids differ from simple spheroids because:",
+      "o": [
+        "Organoids self-organize into complex structures",
+        "Spheroids are multicellular only",
+        "Organoids are 2D",
+        "Both are identical"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Bioengineering in pathology means:",
+      "o": [
+        "Applying engineering principles to biological systems",
+        "Chemical testing",
+        "Manual dissection",
+        "Autopsy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The main goal of tissue bioengineering is:",
+      "o": [
+        "Destruction of tissues",
+        "Regeneration or replacement of damaged tissues",
+        "Cloning animals",
+        "DNA sequencing"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "3D bioprinting helps in:",
+      "o": [
+        "Creating tissue scaffolds and organ models",
+        "Scanning pathology slides",
+        "Viewing cells",
+        "Preparing chemicals"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "In organoid culture, the nutrient medium provides:",
+      "o": [
+        "Energy and growth signals",
+        "Fixation",
+        "DNA denaturation",
+        "Slide cleaning"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "A bioreactor in tissue culture is used for:",
+      "o": [
+        "Maintaining controlled growth conditions",
+        "Fixing tissues",
+        "Section cutting",
+        "Staining slides"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "AI improves pathology by:",
+      "o": [
+        "Speeding up image interpretation",
+        "Replacing laboratory microscopes",
+        "Preventing staining",
+        "Avoiding imaging"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The brain-inspired structure of AI networks is called:",
+      "o": [
+        "Artificial neural network (ANN)",
+        "Ribosome",
+        "Endosome",
+        "Chromosome"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The main data type used in AI pathology is:",
+      "o": [
+        "Digital image data",
+        "Chemical formulae",
+        "Audio recordings",
+        "Handwritten notes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "AI algorithms must be trained using:",
+      "o": [
+        "Labeled datasets",
+        "Unrelated data",
+        "Random text",
+        "Physical slides only"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Validation in AI means:",
+      "o": [
+        "Testing model performance on new data",
+        "Training data repetition",
+        "Deleting records",
+        "Re-labeling"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "One limitation of AI in pathology is:",
+      "o": [
+        "Need for large, high-quality datasets",
+        "Reduced accuracy",
+        "Limited image resolution",
+        "Lack of automation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Digital pathology enables:",
+      "o": [
+        "Remote consultations",
+        "Manual record keeping",
+        "No data sharing",
+        "Slide destruction"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "In AI-based image analysis, feature extraction means:",
+      "o": [
+        "Identifying patterns or characteristics in images",
+        "Random image editing",
+        "Manual viewing",
+        "Cutting tissues"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Deep learning in pathology mainly uses:",
+      "o": [
+        "Convolutional neural networks (CNNs)",
+        "Gene cloning",
+        "DNA sequencing",
+        "PCR amplification"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "AI can assist pathologists by:",
+      "o": [
+        "Quantifying cell nuclei and mitotic figures",
+        "Mixing reagents",
+        "Cleaning slides",
+        "Performing autopsies"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Organoid technology is important because it:",
+      "o": [
+        "Bridges the gap between cell culture and real tissues",
+        "Eliminates pathology labs",
+        "Studies viruses only",
+        "Creates fossil replicas"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Bioengineering supports pathology research by:",
+      "o": [
+        "Developing disease models and testing materials",
+        "Reducing sample collection",
+        "Creating stains",
+        "Fixing slides"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The main limitation of organoid models is:",
+      "o": [
+        "Lack of complete vascularization",
+        "Low cost",
+        "Easy scaling",
+        "2D structure"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "3D cell cultures promote:",
+      "o": [
+        "Realistic cell–cell and cell–matrix interactions",
+        "Random growth",
+        "Flat arrangements",
+        "Reduced differentiation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The role of scaffolds in bioengineering is to:",
+      "o": [
+        "Provide support for tissue growth",
+        "Fix tissues",
+        "Stop cell division",
+        "Stain slides"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "AI stands for:",
+      "o": [
+        "Artificial Intelligence",
+        "Applied Informatics",
+        "Analytical Imaging",
+        "Advanced Integration"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Machine learning differs from traditional programming because it:",
+      "o": [
+        "Learns patterns from data automatically",
+        "Requires manual coding of every rule",
+        "Doesn’t use data",
+        "Ignores outputs"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "AI can detect which histologic feature automatically?",
+      "o": [
+        "Mitotic figures",
+        "RBC count",
+        "Organ weight",
+        "Patient age"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Organoids can model:",
+      "o": [
+        "Cancer and genetic diseases",
+        "Viruses only",
+        "Chemical compounds",
+        "Elements"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "A common use of AI in histopathology is:",
+      "o": [
+        "Tumor grading",
+        "Tissue embedding",
+        "Specimen labeling",
+        "Fixation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "3D cultures are commonly grown using:",
+      "o": [
+        "Hydrogels",
+        "Glass slides",
+        "Agar plates",
+        "Wooden frames"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Bioengineering involves which combination?",
+      "o": [
+        "Biology and engineering",
+        "Pathology and mathematics",
+        "Physics and chemistry",
+        "Botany and zoology"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "AI in pathology primarily helps to:",
+      "o": [
+        "Enhance workflow efficiency",
+        "Replace staining",
+        "Limit automation",
+        "Decrease diagnosis accuracy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Organoids can be used in:",
+      "o": [
+        "Personalized medicine",
+        "Metallurgy",
+        "Physics",
+        "Astronomy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "AI in pathology is transforming:",
+      "o": [
+        "Diagnostic accuracy and workflow",
+        "Histology staining",
+        "Dissection methods",
+        "None of the above"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Digital pathology primarily involves:",
+      "o": [
+        "Chemical testing of tissues",
+        "Computer-based analysis of digitized slides",
+        "Manual microscopy",
+        "Physical slide filing"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The process of converting glass slides into digital images is called:",
+      "o": [
+        "Slide scanning",
+        "Staining",
+        "Fixation",
+        "Labeling"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Whole-slide imaging (WSI) produces:",
+      "o": [
+        "Low-resolution photos",
+        "Complete digital scans of entire tissue sections",
+        "3D organ models",
+        "Paper copies of slides"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The main device used in digital pathology is:",
+      "o": [
+        "Centrifuge",
+        "Whole-slide scanner",
+        "Microtome",
+        "Water bath"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Which of the following is not a component of digital pathology?",
+      "o": [
+        "Slide scanner",
+        "Image viewer",
+        "Chemical pipette",
+        "Image storage system"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The most common output of a digital pathology scanner is a:",
+      "o": [
+        "Virtual slide",
+        "X-ray film",
+        "Frozen section",
+        "Wet mount"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The main purpose of digital pathology is to:",
+      "o": [
+        "Replace tissue staining",
+        "Facilitate digital image analysis",
+        "Eliminate laboratory staff",
+        "Produce histograms"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Virtual microscopy allows:",
+      "o": [
+        "Viewing slides on a computer screen",
+        "Viewing only physical slides",
+        "Growing cells",
+        "Performing autopsies"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "A major advantage of digital pathology is:",
+      "o": [
+        "Slower diagnosis",
+        "Remote slide sharing",
+        "Increased errors",
+        "More reagent use"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "“Telepathology” refers to:",
+      "o": [
+        "Pathology at the bedside",
+        "Remote diagnosis using digital slides",
+        "Virtual autopsy",
+        "None of the above"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Whole-slide imaging helps in:",
+      "o": [
+        "Storing physical slides",
+        "Automated quantitative analysis",
+        "Fixing tissues",
+        "Visualizing only H&E stains"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The main benefit of digitizing slides is:",
+      "o": [
+        "Easier sharing and storage",
+        "Harder analysis",
+        "Slide degradation",
+        "Poor resolution"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Digital pathology improves diagnostic:",
+      "o": [
+        "Speed and reproducibility",
+        "Error rate",
+        "Manual steps",
+        "Cost"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Bioengineering in pathology primarily focuses on:",
+      "o": [
+        "Developing chemical stains",
+        "Applying engineering principles to biological tissues",
+        "Recording case histories",
+        "Preparing autopsy reports"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "A disadvantage of digital pathology is:",
+      "o": [
+        "High initial equipment cost",
+        "Low accuracy",
+        "Lack of image detail",
+        "No storage option"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Image annotation in digital pathology is:",
+      "o": [
+        "Labeling regions of interest for analysis",
+        "Slide cutting",
+        "Tissue embedding",
+        "Sample mixing"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The role of metadata in digital slides is to:",
+      "o": [
+        "Provide patient and technical information",
+        "Contain only color codes",
+        "Store audio data",
+        "Print results"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "In digital pathology, calibration ensures:",
+      "o": [
+        "Color accuracy of scanned images",
+        "Faster staining",
+        "Thicker slides",
+        "DNA extraction"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Artificial intelligence (AI) is often integrated with digital pathology for:",
+      "o": [
+        "Automated image interpretation",
+        "Manual data entry",
+        "Slide staining",
+        "Specimen labeling"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "A limitation of WSI(Whole-slide imaging) is:",
+      "o": [
+        "Large file size",
+        "Lack of color",
+        "Low magnification",
+        "Poor resolution"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "A major challenge in tissue bioengineering is:",
+      "o": [
+        "Achieving proper vascularization",
+        "Lack of microscopes",
+        "Low cell survival in all cases",
+        "High chemical contamination"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The process of ensuring scanned images match glass slides in color and detail is called:",
+      "o": [
+        "Validation",
+        "Staining",
+        "Annotation",
+        "Archiving"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Storage of digital slides requires:",
+      "o": [
+        "Large-capacity servers",
+        "Microscopes",
+        "Pipettes",
+        "Printers"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Pathologists can access digital slides via:",
+      "o": [
+        "Secure cloud-based systems",
+        "Local microscopes only",
+        "Physical storage rooms",
+        "Fax machines"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Image compression in digital pathology is used to:",
+      "o": [
+        "Reduce file size",
+        "Blur images",
+        "Destroy data",
+        "Increase resolution"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Which of the following is a challenge in implementing digital pathology?",
+      "o": [
+        "High data storage requirements",
+        "Lack of internet",
+        "Lack of tissue",
+        "No pathologists available"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Digital pathology supports:",
+      "o": [
+        "Computer-aided diagnosis",
+        "Manual labeling",
+        "Slide duplication",
+        "Fixative preparation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The term “digital workflow” in pathology refers to:",
+      "o": [
+        "Entirely paperless diagnostic process",
+        "Manual case recording",
+        "Printing slides",
+        "Tissue washing"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "A common use of AI in digital pathology is:",
+      "o": [
+        "Tumor grading",
+        "Organ weighing",
+        "Dissection",
+        "Fixation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Digital pathology improves research by:",
+      "o": [
+        "Enabling quantitative data analysis",
+        "Reducing sample accuracy",
+        "Limiting access",
+        "Removing data"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Which of the following is a hardware component of digital pathology?",
+      "o": [
+        "Slide scanner",
+        "Database",
+        "Mouse",
+        "Monitor"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Whole-slide images are often stored on:",
+      "o": [
+        "Dedicated pathology servers",
+        "Flash drives only",
+        "Microtomes",
+        "Label printers"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Digital pathology has become more important due to:",
+      "o": [
+        "AI and machine learning integration",
+        "Fewer microscopes",
+        "Higher costs",
+        "Reduced training"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The digital viewer in pathology helps in:",
+      "o": [
+        "Navigating large images",
+        "Staining slides",
+        "Fixing tissues",
+        "Labeling specimens"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Quality control in digital pathology ensures:",
+      "o": [
+        "Proper image resolution and color balance",
+        "Slide cracking",
+        "Dehydration of tissue",
+        "Thicker sections"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "A major application of digital pathology is:",
+      "o": [
+        "Teaching and training",
+        "Manual slide handling",
+        "Fixative testing",
+        "DNA sequencing"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "In a virtual slide, the magnification is adjusted by:",
+      "o": [
+        "Digital zoom",
+        "Objective lens",
+        "Physical rotation",
+        "Focus knob"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "AI in digital pathology can identify:",
+      "o": [
+        "Cellular morphology and tissue patterns",
+        "Patient age",
+        "Organ weights",
+        "Fixation time"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "One advantage of digital archiving is:",
+      "o": [
+        "No physical storage required",
+        "Limited access",
+        "Frequent damage",
+        "Manual cataloguing"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The basic components required for tissue engineering include:",
+      "o": [
+        "Cells, scaffolds, and growth factors",
+        "DNA and lipids only",
+        "Enzymes and hormones",
+        "Water and proteins only"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The transition to digital pathology helps with:",
+      "o": [
+        "Remote collaborations",
+        "Manual counting",
+        "Local-only diagnosis",
+        "Slide burning"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Which of the following can be integrated with digital pathology systems?",
+      "o": [
+        "Laboratory Information Systems (LIS)",
+        "Autoclaves",
+        "Micropipettes",
+        "Ovens"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Cloud-based pathology allows:",
+      "o": [
+        "Global access to slides",
+        "Only local review",
+        "Slower sharing",
+        "Reduced image quality"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Image analysis algorithms can measure:",
+      "o": [
+        "Nuclear size and staining intensity",
+        "Smell of slides",
+        "Fixation time",
+        "Temperature"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The first step in digital pathology workflow is:",
+      "o": [
+        "Slide scanning",
+        "Diagnosis",
+        "Reporting",
+        "Printing"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Digital pathology helps reduce:",
+      "o": [
+        "Manual workload",
+        "Accuracy",
+        "Speed",
+        "Efficiency"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Which term refers to computer-based detection of abnormalities?",
+      "o": [
+        "Computer-aided diagnosis (CAD)",
+        "Clinical evaluation",
+        "Autopsy",
+        "Biopsy"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Validation of digital pathology systems ensures:",
+      "o": [
+        "Performance equivalent to light microscopy",
+        "Image deletion",
+        "Color loss",
+        "Tissue shrinkage"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "Digital pathology enables:",
+      "o": [
+        "Real-time consultation between experts",
+        "Manual transport of slides",
+        "Slow diagnosis",
+        "Image distortion"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Digital Pathology",
+      "q": "The future of pathology will likely include:",
+      "o": [
+        "Fully integrated AI-assisted digital workflows",
+        "Elimination of all microscopes",
+        "No tissue diagnosis",
+        "Manual record-keeping"
       ],
       "c": 0
     }
