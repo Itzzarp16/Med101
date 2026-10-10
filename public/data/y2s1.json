@@ -25218,6 +25218,18 @@
     },
     {
       "s": "Individual amino acid metabolism",
+      "q": "An example of the oxidative deamination is",
+      "o": [
+        "Glutamate = hexanoic acid + NH",
+        "Aspartate + α-ketoglutarate = Glutamate + Oxaloacetate",
+        "Glutamate = α-ketoglutarate + NH",
+        "Aspartate + Hexanoic acid = Glutamate + Oxaloacetate"
+      ],
+      "c": 2,
+      "n": 30
+    },
+    {
+      "s": "Individual amino acid metabolism",
       "q": "A ketogenic amino acid is one which degrades to",
       "o": [
         "Keto-sugars",
@@ -25565,6 +25577,18 @@
       "n": 59
     },
     {
+      "s": "Individual amino acid metabolism",
+      "q": "Branched chain keto acids are excreted in urine in large quantities in:",
+      "o": [
+        "Phenylketonuria",
+        "Maple syrup urine diseases",
+        "Tyrosinosis",
+        "Hartnupˈs disease"
+      ],
+      "c": 1,
+      "n": 60
+    },
+    {
       "s": "Metabolism of purines and pyrimidines",
       "q": "End product of purine metabolism in non-primate mammals is:",
       "o": [
@@ -25755,6 +25779,18 @@
       ],
       "c": 1,
       "n": 16
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "A substrate for enzymes of pyrimidine nucleotide biosynthesis is",
+      "o": [
+        "Allopurinol",
+        "Tetracylin",
+        "Chloramphenicol",
+        "Puromycin"
+      ],
+      "c": 0,
+      "n": 17
     },
     {
       "s": "Metabolism of purines and pyrimidines",
@@ -28557,6 +28593,18 @@
     },
     {
       "s": "Mineral metabolism and abnormalities",
+      "q": "The absorption of iron is increased 2–10 times of normal in",
+      "o": [
+        "Iron deficiency anemia",
+        "Pregnancy",
+        "Spherocytosis",
+        "Sickle cell anemia"
+      ],
+      "c": 0,
+      "n": 14
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
       "q": "Wilson’s disease is a condition of toxicosis of",
       "o": [
         "Iron",
@@ -28940,6 +28988,18 @@
     },
     {
       "s": "Mineral metabolism and abnormalities",
+      "q": "Chronic consumption of excess selenium can lead to",
+      "o": [
+        "Brittle hair and nails",
+        "Muscle weakness",
+        "TPN",
+        "Diarrhea"
+      ],
+      "c": 0,
+      "n": 47
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
       "q": "Which of the following vitamin is essential for the absorption of calcium from the intestinal tract? Vitamin D",
       "o": [
         "Vitamin D",
@@ -29203,6 +29263,18 @@
     },
     {
       "s": "Mineral metabolism and abnormalities",
+      "q": "Prolonged vomiting of stomach contents will result in",
+      "o": [
+        "Metabolic acidosis",
+        "Metabolic alkalosis",
+        "Respiratory acidosis",
+        "Respiratory alkalosis"
+      ],
+      "c": 1,
+      "n": 70
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
       "q": "Once alkalosis has occurred, which of the following would you expect tohappen?",
       "o": [
         "Increased respiratory rate",
@@ -29418,6 +29490,18 @@
     },
     {
       "s": "Mineral metabolism and abnormalities",
+      "q": "Colloid osmotic pressure of intracellular fluid is",
+      "o": [
+        "Equal to that of plasma",
+        "More than that of plasma",
+        "More than that of plasma",
+        "Nearly zero"
+      ],
+      "c": 1,
+      "n": 89
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
       "q": "Bohr effect is",
       "o": [
         "Shifting of oxyhemoglobin dissociation curve to the right",
@@ -29511,6 +29595,18 @@
       ],
       "c": 1,
       "n": 97
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "In primary dehydration",
+      "o": [
+        "Intracellular fluid volume is reduced",
+        "Intracellular fluid volume remains normal",
+        "Extracellular fluid volume is much reduced",
+        "Extracellular fluid volume is much increased"
+      ],
+      "c": 0,
+      "n": 98
     },
     {
       "s": "Mineral metabolism and abnormalities",
