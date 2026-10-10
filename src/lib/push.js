@@ -32,8 +32,21 @@ export const pushPermission = () => ('Notification' in window ? Notification.per
 
 export const pushEnabled = () => pushPermission() === 'granted' && !!localStorage.getItem(TOKEN_KEY);
 
-async function callApi(path, body) {
-  const idToken = await auth.currentUser.getIdToken();
+const SIGNED_OUT_MESSAGE = 'Your sign-in has expired on this device. Please log out and log in again, then turn notifications on.';
+
+// A fresh ID token for the signed-in student. Waits for Firebase Auth to
+// finish restoring the session first, and turns "no user" into a readable
+// message instead of a raw "Cannot read properties of null (reading
+// 'getIdToken')" TypeError.
+async function getIdTokenOrThrow() {
+  try { await auth.authStateReady?.(); } catch { /* older SDKs: fall through to currentUser */ }
+  const user = auth.currentUser;
+  if (!user) throw new Error(SIGNED_OUT_MESSAGE);
+  return user.getIdToken();
+}
+
+async function callApi(path, body, idTokenIn) {
+  const idToken = idTokenIn || (await getIdTokenOrThrow());
   const res = await fetch(path, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
@@ -55,11 +68,17 @@ async function fetchToken() {
 // and registers it against the signed-in account.
 export async function enablePush() {
   if (!pushConfigured()) throw new Error('Notifications are not set up yet.');
+  // Get the sign-in token FIRST. The permission pop-up and the service worker
+  // can take a while (and the page may be hidden meanwhile), so the session is
+  // checked up front and the token is kept, instead of being looked up again
+  // at the very end. If the student isn't really signed in, we find out
+  // before asking for permission.
+  const idToken = await getIdTokenOrThrow();
   const permission = await Notification.requestPermission();
   if (permission !== 'granted') throw new Error('Notifications are blocked. Allow them in your browser settings, then try again.');
   const token = await fetchToken();
   if (!token) throw new Error('Could not get a notification token on this device.');
-  await callApi('/api/push/register', { action: 'register', token });
+  await callApi('/api/push/register', { action: 'register', token }, idToken);
   localStorage.setItem(TOKEN_KEY, token);
 }
 
