@@ -81,21 +81,10 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
         Your revision library
       </ScreenHeader>
 
-      <section className="ak-hero" aria-label="Answer key library">
-        <div className="ak-hero-orbit ak-hero-orbit-one" />
-        <div className="ak-hero-orbit ak-hero-orbit-two" />
-        <div className="ak-hero-content">
-          <div className="ak-eyebrow"><span className="ak-eyebrow-dot" /> STUDY LIBRARY</div>
-          <h2 className="ak-hero-title">Revise smarter<span>.</span></h2>
-          <p className="ak-hero-copy">Your answer keys, organised and ready when you are.</p>
-          <div className="ak-hero-meta">
-            <span className="ak-semester-pill">{semesterLabel}</span>
-            <span className="ak-meta-divider" />
-            <span>{loading ? 'Loading library…' : `${semesterPdfs.length} ${semesterPdfs.length === 1 ? 'document' : 'documents'}`}</span>
-          </div>
-        </div>
-        <div className="ak-hero-mark" aria-hidden="true"><DocumentMark /><span>AK</span></div>
-      </section>
+      <div className="ak-simple-heading">
+        <h2>{semesterLabel}</h2>
+        <p>Answer keys</p>
+      </div>
 
       <div className="ak-library-heading">
         <div>
@@ -165,7 +154,6 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
           ))}
         </section>
       )}
-      <div className="ak-footer-note"><span>✳</span> Small steps. Stronger recall.</div>
     </div>
   );
 }
