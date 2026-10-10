@@ -341,6 +341,81 @@
       "emoji": "🔊",
       "desc": "",
       "accent": "var(--cyan)"
+    },
+    "Metabolism of lipids": {
+      "emoji": "🧈",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "β-Oxidation of fatty acids": {
+      "emoji": "🔥",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Ketone bodies": {
+      "emoji": "⚗️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Fatty acid synthesis": {
+      "emoji": "🧪",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "General amino acid metabolism": {
+      "emoji": "🧬",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Individual amino acid metabolism": {
+      "emoji": "🔬",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Metabolism of purines and pyrimidines": {
+      "emoji": "🧫",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Plasma proteins": {
+      "emoji": "🩸",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Hemoglobin": {
+      "emoji": "🩸",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Liver and gastric function tests": {
+      "emoji": "🫀",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Biochemistry of kidney": {
+      "emoji": "🫘",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Glomerular function of kidney": {
+      "emoji": "💧",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Electrolyte and water balance": {
+      "emoji": "💧",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Acid-base balance and pH": {
+      "emoji": "⚖️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Mineral metabolism and abnormalities": {
+      "emoji": "🧂",
+      "desc": "",
+      "accent": "var(--cyan)"
     }
   },
   "subjectGroup": {
@@ -402,7 +477,22 @@
     "Child & School Hygiene": "Community Medicine",
     "Hospital Hygiene & Nosocomial Infection": "Community Medicine",
     "Occupational Health": "Community Medicine",
-    "Noise, Vibration & Illumination": "Community Medicine"
+    "Noise, Vibration & Illumination": "Community Medicine",
+    "Metabolism of lipids": "Clinical Biochemistry",
+    "β-Oxidation of fatty acids": "Clinical Biochemistry",
+    "Ketone bodies": "Clinical Biochemistry",
+    "Fatty acid synthesis": "Clinical Biochemistry",
+    "General amino acid metabolism": "Clinical Biochemistry",
+    "Individual amino acid metabolism": "Clinical Biochemistry",
+    "Metabolism of purines and pyrimidines": "Clinical Biochemistry",
+    "Plasma proteins": "Clinical Biochemistry",
+    "Hemoglobin": "Clinical Biochemistry",
+    "Liver and gastric function tests": "Clinical Biochemistry",
+    "Biochemistry of kidney": "Clinical Biochemistry",
+    "Glomerular function of kidney": "Clinical Biochemistry",
+    "Electrolyte and water balance": "Clinical Biochemistry",
+    "Acid-base balance and pH": "Clinical Biochemistry",
+    "Mineral metabolism and abnormalities": "Clinical Biochemistry"
   },
   "questions": [
     {
@@ -27382,6 +27472,4769 @@
         "Geographical latitude; Climate zone; Building characteristic"
       ],
       "c": 0
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "In fats, the number of OH groups can be expressed as",
+      "o": [
+        "Reichert-Meissil number",
+        "Polenske number",
+        "Iodine number",
+        "Acetyl number"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "Rancidity of lipids of lipid-rich foodstuff is because of",
+      "o": [
+        "Reduction of fatty acids",
+        "Hydrogenation of unsaturated fatty acids",
+        "Dehydrogenation of saturated fatty acids",
+        "Oxidation of fatty acids"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "The acetyl CoA is produced in the mitochondria and must be transported into cytosol for synthesis of fatty acid. Which of the following is true regarding its transport?",
+      "o": [
+        "Acetyl CoA is diffused from mitochondrial membrane",
+        "acetyl CoA is transported by its specific transporter protein",
+        "acetyl CoA is converted into pyruvate, enters into cytosol and acetyl CoA is regenerated",
+        "acetyl CoA is converted into citrate, enters into cytosol and acetyl CoA is regenerated"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "Which is the largest and which is the smallest of the lipoprotein family?",
+      "o": [
+        "VLDL and Lp (a)",
+        "Chylomicrons and HDL",
+        "VLDL and HDL",
+        "VLDL and Lp (a)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "Low-density lipoproteins (LDL) are the principle transport vehicles for in the blood.",
+      "o": [
+        "Glucose",
+        "Triglycerides",
+        "Cholesterol",
+        "amino acids"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "What are the most active organs in the animal body that can synthesize triacylglycerol?",
+      "o": [
+        "Liver and intestines",
+        "Kidney and intestines",
+        "Gall bladder and kidneys",
+        "Pancreas and intestines"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "What is the precursor for fatty acid synthesis",
+      "o": [
+        "Acetyl CoA",
+        "Propionyl CoA",
+        "Succinyl CoA",
+        "Acetoacetyl CoA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "The conversion of acetyl CoA to malonyl CoA is the rate limiting step in fatty acid synthesis. Which of the following enzyme catalyzes the above mentioned reaction?",
+      "o": [
+        "Acetyl CoA carboxylase",
+        "Acetyl CoA decarboxylase",
+        "Malonyl CoA synthetase",
+        "Malonyl CoA synthase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "Which of the following is the best marker for the diagnosis of Acute pancreatitis?",
+      "o": [
+        "Lactase",
+        "Amylase",
+        "Cholesteryl esterse",
+        "γ-glytamyltrans peptidase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "A gall stone the blocked the upper part of the bile duct would cause an-",
+      "o": [
+        "Incomplete lipid digestion and absorption",
+        "Increased recycled of bile salts",
+        "Increased excretion of bile salts",
+        "decreased excretion of fats in the feces"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "Which of the following is monoenolic acid:",
+      "o": [
+        "arachidonic acid",
+        "linoleic acid",
+        "Oleic acid",
+        "linolenic acid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "Hydrogenation of fatty acid is:",
+      "o": [
+        "Hydrolysis by Alkali",
+        "Auto- oxidation of PUFA",
+        "Addition of hydrogen to unsaturated fatty acid",
+        "Addition of hydrogen to saturated fatty acid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "Autooxidation is seen in-",
+      "o": [
+        "Cholesterol",
+        "Arachidonic acid",
+        "Stearic acid",
+        "Palmitic acid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "What will you to stop chyluria in diet?",
+      "o": [
+        "Small chain FA",
+        "Medium chain FA",
+        "Long chain FA",
+        "Omega-3 unsaturated FA"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "In what compartment does the de novo fatty acid synthesis occur?",
+      "o": [
+        "Mitochondria",
+        "Peroxisome",
+        "Endoplasmic reticulum",
+        "Cytosol"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "Which of the followinhg events inactivates acetyl CoA carboxylase",
+      "o": [
+        "ADP-Ribosylation",
+        "Glycosylation",
+        "Phosphorylation",
+        "Farnesylation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "What is the allosteric regulator of acetyl-CoA carboxylase?",
+      "o": [
+        "Fatty acid",
+        "ATP",
+        "Citrate",
+        "Acetyl-CoA"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Metabolism of lipids",
+      "q": "The acetyl-CoA is produced in the mitochondria and must be transported into cytosol for synthesis of fatty acid. Which of the following is true regardinhg its transport?",
+      "o": [
+        "acetyl-CoA is diffused from mitochondrial membrane",
+        "acetyl-CoA is transpoted by its specific transporter protein",
+        "Acetyl-CoA is converted into pyruvate, enters into cytosol and acetyl CjA is regenerated",
+        "Acetyl-CoA is converted into citrate, enters into cytosol and acetyl-CoA is regenerated"
+      ],
+      "c": 3
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "Free fatty acid produced in adipose tissue is transported by-",
+      "o": [
+        "Globin",
+        "Albumin",
+        "Ceruloplasmin",
+        "None"
+      ],
+      "c": 1
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "Major metabolism of saturated fatty acids in the mitochondria is called as-",
+      "o": [
+        "β-oxidation",
+        "α-oxidation",
+        "ω-oxidation",
+        "None of the above"
+      ],
+      "c": 0
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "Long chain fatty acid is transported into inner mitochondria is called as-",
+      "o": [
+        "Acyl carrier protein",
+        "Acyl carnitine",
+        "Simple diffusion",
+        "Energy mediated"
+      ],
+      "c": 1
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "In beta oxidation of fatty acids carnitine is required for-",
+      "o": [
+        "Conversion of chain fatty acids to long chain fatty acids",
+        "Transport of long chain fatty acid to mitochondrial inner layer",
+        "Transport of long chain fatty acid to cytoplasm",
+        "Conversion of long chain fatty acids to short chain fatty acids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "ATP yield in stearic acid oxidation-",
+      "o": [
+        "146 ATP",
+        "142 ATP",
+        "129 ATP",
+        "139 ATP"
+      ],
+      "c": 0
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "Oxidation of palmitic acid forms how many ATP molecules-",
+      "o": [
+        "94 ATP",
+        "108 ATP",
+        "122 ATP",
+        "none"
+      ],
+      "c": 1
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "In well fed state, the carnitine palmitate acyl transferase on the outer mitochondrial membrane is most potently inhibited by-",
+      "o": [
+        "Glucose",
+        "palmityol CoA",
+        "Malonyl CoA",
+        "Acetyl CoA"
+      ],
+      "c": 2
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "Omega oxidation of fatty acids occur-",
+      "o": [
+        "Endoplasmic reticulum",
+        "Mitochondria",
+        "cytosol",
+        "None"
+      ],
+      "c": 0
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "β-oxidation of very long chain fatty acids occurs-",
+      "o": [
+        "Endoplasmic reticulum",
+        "Peroxisomes",
+        "Lysosome",
+        "Golgi apparatus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "In Zellweger syndrome, there is-",
+      "o": [
+        "Accumulation of long chain fatty acids",
+        "Accumulation of short chain fatty acids",
+        "Accumulation of verylong chain fatty acids",
+        "Accumulation of medium chain fatty acids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "β-oxidation in peroxisome is differentiated from that occurring in mitochondria by -",
+      "o": [
+        "Acetyl CoA",
+        "H O formed",
+        "Different enzymes are found in different sites",
+        "NADH is required"
+      ],
+      "c": 1
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "Fatty acid metabolism gives-",
+      "o": [
+        "acetyl-CoA",
+        "Malonyl CoA",
+        "Ketone bodies",
+        "Cholesterol"
+      ],
+      "c": 0
+    },
+    {
+      "s": "β-Oxidation of fatty acids",
+      "q": "A patient with high rate of obesity was advised to use carnitine as a food additive in * order to enhance “fat burning”. What is the role of carnitine in the process of fat oxidation?",
+      "o": [
+        "Transport of FFA (free fatty acids) from cytosol to the mitochondria",
+        "Transport of FFA from fat to the tissues",
+        "FFA activation",
+        "It takes part in one reactions of FFA beta-oxidation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Ketone bodies",
+      "q": "Ketone bodies utilized by conversion of:",
+      "o": [
+        "Acetoacetate to acetacetyl CoA",
+        "Series of changes leads to pyruvate",
+        "Alphaketo glutaric acid",
+        "Succinyl CoA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Ketone bodies",
+      "q": "Insulin inhibits ketogenesis by all except:",
+      "o": [
+        "Decreased acetyl-CoA",
+        "Increased β-oxidation",
+        "Decreased lipolysis",
+        "Decreased fatty acid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Ketone bodies",
+      "q": "In a person fasting overnight wih carnitine deficiency, following chemicals increase in quantity in blood:",
+      "o": [
+        "Glucose",
+        "Fatty acids",
+        "Amino acids",
+        "Ketone bodies"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Ketone bodies",
+      "q": "A destitute woman is admitted to the hospital with altered sensorium and dehydration; urine analysis shows mild proteinuria and sugar; what other test would be desirable:",
+      "o": [
+        "Fouchet",
+        "Pothera",
+        "Hays",
+        "Benedicts"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Ketone bodies",
+      "q": "All the following statements correctly describe ketone bodies, except:",
+      "o": [
+        "They may result from starvation",
+        "They are present at high levels in uncontrolled diabetes",
+        "They include—OH β-butyrate and acetone",
+        "They are utilized by the liver during long term starvation"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Ketone bodies",
+      "q": "Which of the following organs do not utilize ketone bodies?",
+      "o": [
+        "Brain, RBC",
+        "RBC, liver",
+        "Muscle, heart",
+        "Heart, brain"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Ketone bodies",
+      "q": "The immediate precursor in the formation of acetoacetate from acetyl CoA in the liver is:",
+      "o": [
+        "Mevalonate",
+        "HMG CoA",
+        "Acetoacetyl CoA",
+        "3-hydroxy-butyryl CoA"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Ketone bodies",
+      "q": "In a well fed state, acetyl CoA obtained from diet least used in the synthesis of:",
+      "o": [
+        "Palmotoyl CoA",
+        "Citrate",
+        "Acetoacetate",
+        "Oxalosussinate"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Ketone bodies",
+      "q": "Common enzyme in cholesterol and Ketone body metabolism:",
+      "o": [
+        "HMG CoA reductase",
+        "HMG CoA lyase",
+        "HMG CoA synthase",
+        "Thiolase"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Fatty acid synthesis",
+      "q": "1st acetyl droup donor in fatty acid synthesis is –",
+      "o": [
+        "Malonyl CoA",
+        "Acetyl CoA",
+        "Palmitate",
+        "Citrate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Fatty acid synthesis",
+      "q": "The end product of cytosol fatty acid synthetase in humans is-",
+      "o": [
+        "Oleic acid",
+        "Palmitic acid",
+        "arachidonic acid",
+        "linoleic acid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Fatty acid synthesis",
+      "q": "Important intermediate product of biosynthesis of fatty acid is-",
+      "o": [
+        "Cholesterol",
+        "Acetyl CoA",
+        "Malonyl CoA",
+        "Thioesterases"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Fatty acid synthesis",
+      "q": "The fist step in fatty acid synthesis involves-",
+      "o": [
+        "Acetyl CoA carboxylase",
+        "Acetyl CoA dehydrogenase",
+        "β-Hydroxy CoA dehydrogenase",
+        "Pyruvate kinase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Fatty acid synthesis",
+      "q": "Rate limiting step in fatty acid synthesis is-",
+      "o": [
+        "Production of acetyl CoA",
+        "Production of malonyl-CoA",
+        "Prodution of oxaloacetate",
+        "Production of citrate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Fatty acid synthesis",
+      "q": "Allosteric inhibitor of fatty acid synthehase is-",
+      "o": [
+        "Citrate",
+        "ATP",
+        "Long chain acyl CoA",
+        "NAD"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Fatty acid synthesis",
+      "q": "NADPH is required for:",
+      "o": [
+        "Gluconeogenesis",
+        "Fatty acids synthesis",
+        "Glycolysis",
+        "Glycogenolysis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "In the reaction, what is product formed?",
+      "o": [
+        "Glutamate",
+        "Glutamine",
+        "Oxaloacetate",
+        "Aspartate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "This compound is derived from which amino acid?",
+      "o": [
+        "Tyrosine",
+        "Histidine",
+        "Tryptophan",
+        "Leucine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "The amino acid which serves as a carrier of ammonia from skeletal muscle to liver is:",
+      "o": [
+        "Alanine",
+        "Methionine",
+        "Arginine",
+        "Glutamine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "Glutamine in blood acts as:",
+      "o": [
+        "NH transporter",
+        "Toxic element",
+        "Stored energy",
+        "Abnormal metabolite"
+      ],
+      "c": 0
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "The second and final enzymatic step in the reaction pathway shown is most correctly described as:",
+      "o": [
+        "Amination",
+        "Aminotrasfer",
+        "Transamination",
+        "Oxidative deamination"
+      ],
+      "c": 3
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "In which of the following condition there is increased level of ammonia in blood?",
+      "o": [
+        "ornithine transcarbamoylase deficiency",
+        "Galactocemia",
+        "Histidinemia",
+        "Phenyl ketonuria"
+      ],
+      "c": 0
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "Enzyme involved in nonoxidative deamination is:",
+      "o": [
+        "L-amino acid oxidase",
+        "Glutamate dehydrogenase",
+        "Glutaminase",
+        "Amino acid dehydrases"
+      ],
+      "c": 3
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "Which of the amino acid produces a vasodilator on decarboxylation?",
+      "o": [
+        "Glutamin acid",
+        "Histidine",
+        "Ornithine",
+        "Cysteine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "Accumulation of trytophan in blood is known as",
+      "o": [
+        "Pompe’s disease",
+        "Wilson’s disease",
+        "Wolman’s disease",
+        "Hartnup’s disease"
+      ],
+      "c": 3
+    },
+    {
+      "s": "General amino acid metabolism",
+      "q": "Xanthoproteic test is positive in proteins containing",
+      "o": [
+        "Sulphur amino acids",
+        "α-Amino acids",
+        "Aromatic amino acids",
+        "Aliphatic amino acids"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "The amino acid that can be converted into a vitamin:",
+      "o": [
+        "Clycine",
+        "Tryptophan",
+        "Phenylalanine",
+        "Lysine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Guanidoacetic acid is formed in…….from …….",
+      "o": [
+        "Kidney; Arginine + Glycine",
+        "Liver; Cysteine + Arginine",
+        "Liver; Methionine + Glycine",
+        "Muscle; Citrulline + Aspartate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Nitric oxide synthesized from?",
+      "o": [
+        "Arginine",
+        "Citrilline",
+        "Alanine",
+        "Cysteine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Histidine load test is used for:",
+      "o": [
+        "Folate Deficiency",
+        "Histidine Deficiency",
+        "Histamine",
+        "Serotonine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Cysteine is abundantly found in:",
+      "o": [
+        "Keratin",
+        "Chondroitin sulfate",
+        "Creature",
+        "Spermine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "N-acetyl-cysteine replenishes:",
+      "o": [
+        "Glutathione",
+        "Glycine",
+        "Glutamate",
+        "GABA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "During the formation of hydroxyl proline and hydroxyl lysine? The essential factors required is are:",
+      "o": [
+        "Pyridoxal phosphate",
+        "Ascorbic acid",
+        "Thiamine pyrophosphate",
+        "Biotin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "In the carbon metabolism, Serine loses which carbon atom?",
+      "o": [
+        "Alpha",
+        "Beta",
+        "Gamma",
+        "Delta"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "In mammalian tissues serine can be a biosynthetic precursor of",
+      "o": [
+        "Methionine",
+        "Glycine",
+        "Tryptophan",
+        "Phenylalanine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Non essential amino acids",
+      "o": [
+        "Are not components of tissue proteins",
+        "May be synthesized in the body from essential amino acids",
+        "Have no role in the metabolism",
+        "May be synthesized in the body in diseased states"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Which of the following is a tripeptide?",
+      "o": [
+        "Anserine",
+        "Oxytocin",
+        "Glutathione",
+        "Kallidin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "An example of metalloprotein is",
+      "o": [
+        "Casein",
+        "Ceruloplasmin",
+        "Gelatin",
+        "Salmine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "A dietary deficiency of tryptophan and nicotinate leads to",
+      "o": [
+        "Beri Beri",
+        "Xerophthalmia",
+        "Anemia",
+        "Pellegra"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Histidine is degraded to α-ketoglutarate and is described as a:",
+      "o": [
+        "Gluco amino acid",
+        "Glucogenic amino acid",
+        "Ketogenic amino acid",
+        "Keto-gluco amino acid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "A person with phenylketonuria cannot convert",
+      "o": [
+        "Phenylalanine to tyrosine",
+        "Phenol into ketones",
+        "Phenylalanine to isoleucine",
+        "Phenylalanine to lysine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Oxidative deamination is the conversion of an amino",
+      "o": [
+        "Group from an amino acid to a keto acid",
+        "Acid to a keto acid plus ammonia",
+        "Acid to a carboxylic acid plus ammonia",
+        "Group from an amino acid to a carboxylic acid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "An example of a transamination process is",
+      "o": [
+        "Glutamate = hexanoic acid + NH",
+        "Aspartate + hexanoic acid = glutamate + oxaloacetate",
+        "Aspartate + α ketoglutarate = glutamate + oxaloacetate",
+        "Glutamate = α-ketoglutarate + NH"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Transamination is the process where",
+      "o": [
+        "Carboxyl group is transferred from amino acid",
+        "α-amino group is removed from the amino acid",
+        "Polymerisation of amino acid takes place",
+        "Glutamate = α-ketoglutarate + NH"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Tyrosine is degraded to acetoacetyl CoA and fumarate and is described as a",
+      "o": [
+        "Glucogenic amino acid",
+        "Ketogenic and glucogenic amino acid",
+        "Ketogenic amino acid",
+        "Keto-gluco amino acid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "A ketogenic amino acid is one which degrades to",
+      "o": [
+        "Keto-sugars",
+        "Either acetyl CoA or acetoacetyl CoA",
+        "Pyruvate or citric acid cycle intermediates",
+        "Multiple intermediates including pyruvate or citric acid cycle intermediates and acetyl CoA or acetoacetyl CoA"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "A person suffering from phenylketonuria on consumption food containing high phenylalanine may lead to the accumulation of",
+      "o": [
+        "Phenylalanine",
+        "Tyrosine",
+        "Phenylpyruvate",
+        "Isoleucine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "The nitrogen atoms of urea produced in the urea cycle are derived from",
+      "o": [
+        "Nitrate",
+        "Nitrite",
+        "Ammonia and aspartic acid",
+        "Ammonia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Which of the following amino acids is a precursor to cysteine?",
+      "o": [
+        "Threonine",
+        "Phenylalanine",
+        "Methionine",
+        "Lysine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Coenzyme for transamination is:",
+      "o": [
+        "Thiamine pyrophosphate",
+        "FAD",
+        "Pyridoxal phosphate",
+        "Cyanocobalamin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "If the amino group and a carboxylic group of the amino acid are attached to same carbon atom, the amino acid is called as",
+      "o": [
+        "Alpha",
+        "Beta",
+        "Gamma",
+        "Epsilon"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Histidine is degraded to α-ketoglutarate and is described as a",
+      "o": [
+        "gluco amino acid",
+        "ketogenic amino acid",
+        "glucogenic amino acids",
+        "keto-gluco amino acid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Which one of the following statements concerning a one-week-old male infant with undetected classic phenylketonuria is correct?",
+      "o": [
+        "Tyrosine is a non-essential amino acid for the infant",
+        "High levels of phenylpyruvate appear in the urine",
+        "A diet devoid of phenylalanine should be initiated immediately",
+        "Therapy must begin within the first year of life"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "The phenylalanine metabolism is blocked in the metabolic disease phenylketonuria. Which of the following product is formed during the normal metabolism of phenylalanine by phenylalanine hydroxylase?",
+      "o": [
+        "Tyrosine",
+        "Phenylacetate",
+        "Phenylpyruvate",
+        "Phenyl lactate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "The conversion of serine to glycine is catalyzed by an enzyme serine hydroxymethyltransferase. The co-substrate required for this reaction is:",
+      "o": [
+        "Biotin",
+        "Tetrahydrobiopterin",
+        "Pyridoxal Phosphate",
+        "Tetrahydrofolate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Ammonia is trapped in brain by:",
+      "o": [
+        "Glutamine synthetase reaction",
+        "urea synthesis cycle",
+        "Clutaminase reaction",
+        "Glutamate dehydrogenase reaction"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Pyridoxal phosphate is the coenzymes of which reactions?",
+      "o": [
+        "Transamination reactions",
+        "L-amino acid oxidase",
+        "Glutamate dehydrogenase",
+        "Formimino glutamic acid to glutamate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Creatine is synthesized from the following amino acids, expert:",
+      "o": [
+        "Arginine",
+        "Aspartic acid",
+        "Glycine",
+        "Methionine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "The sources of oxalic acid in urine are:",
+      "o": [
+        "Ornitine and Citrulline",
+        "Oxalosuccinat and formic acid",
+        "Oxaloacetate and aspartic acid",
+        "Ascorbic acid and glycine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Urine of a 12 years old boy gave a positive cyanide nitroprusside test. He had renal stones. He is likely to have:",
+      "o": [
+        "Homocystinuria",
+        "Hartnup disease",
+        "Cystinosis",
+        "Renal glycosuria"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Ammonia is very toxic substance, especially for nervous system. What substance takes * the most active part in ammonia detoxication in brain tissues?",
+      "o": [
+        "Glutamic acid",
+        "Lysine",
+        "proline",
+        "Histidine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "A patient has pellagra. Interrogation that he had lived mostly on maize for a long time * and eaten little meat. This disease had been caused by the deficit of the following substance in the maize:",
+      "o": [
+        "Tryptophan",
+        "Tyrosine",
+        "Proline",
+        "Alanine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Albinos cant stand sun impact – they don’t acquire sun0tan but get sunburns. * Disturbed metabolism of what amino acid underlies this phenomenon?",
+      "o": [
+        "Phenylalanine",
+        "Methionine",
+        "Tryptophan",
+        "Glutamic acid"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Glycine is used for synthesis of all the following compounds, except:",
+      "o": [
+        "Serine",
+        "Cytosine",
+        "Pyrimidine ring",
+        "Heme"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "In the body, glycine is used for synthesis of all the following substances, except:",
+      "o": [
+        "Guanine",
+        "Glutamine",
+        "Glutathione",
+        "Creatinine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Normal serum creatinine level is:",
+      "o": [
+        "0.2-0.4mg/dL",
+        "0.3-0.6mg/dL",
+        "0.7-1.4mg/dL",
+        "1.4-2.8mg/dL"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Serine is a precursor of all the following, except:",
+      "o": [
+        "Methionine",
+        "Glycine",
+        "Choline",
+        "Cysteine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "The methyl donor in methyl transfer reaction is:",
+      "o": [
+        "Methyl cobalamin",
+        "Methylmalonyl-CoA",
+        "S-adenosyl methionine",
+        "S-adenosyl homocysteine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Name the defective enzyme in cystathionuria:",
+      "o": [
+        "Cystathionase",
+        "Phenylalanine hydroxylase",
+        "Homogentisic oxidase",
+        "Para-hydroxyphenylpyruvate oxidase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "The urine of a patient with homocystinuria will be positive for:",
+      "o": [
+        "Benedictˈs test",
+        "Ferric chloride test",
+        "Rotheraˈs test",
+        "Cyanide- nitroprusside test"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Alanine on transamination gives rise to:",
+      "o": [
+        "Pyruvic acid",
+        "Para-hydroxyphenylpyruvate",
+        "Phenylpyruvate",
+        "Hydroxypyruvte"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Transamination of glutamic acid leads to:",
+      "o": [
+        "Glutamine",
+        "Alpha-ketoglutaric acid",
+        "Beta- hydroxyl beta methyl glutaric acid",
+        "Gamma-aminobutyric acid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Lysine is:",
+      "o": [
+        "Deficient in cereals (rice, wheat)",
+        "Deficient in pulses (dal, bengal gram)",
+        "Mainly glucogenic",
+        "A nonessential amino acid"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Individual amino acid metabolism",
+      "q": "Alpha amino group of aspartic acid is incorporated into all the following compounds, except:",
+      "o": [
+        "Adenine",
+        "Cytosine",
+        "Urea",
+        "Creatine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "End product of purine metabolism in non-primate mammals is:",
+      "o": [
+        "Uric acid",
+        "Ammonia",
+        "Urea",
+        "Allantoin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "Deoxyribonucleic acid is formed from:",
+      "o": [
+        "Ribonuclease",
+        "Ribonucleotide monophosphate",
+        "Ribonucleotide diphosphate",
+        "Rubonucleotide triphosphate"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "What is involved in formation of d-TMP from d-UMP?",
+      "o": [
+        "N5, N10-methylene tetrahydrofolate",
+        "From iminofolate",
+        "N5 formylfolate",
+        "Dihydrofolate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "Inosinic acid is biological precursor:",
+      "o": [
+        "Uracil and thymine",
+        "Purines and thymine",
+        "Adenylic acid and guanylic acid",
+        "Orotic acid and uridylic acid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "False regarding gout is:",
+      "o": [
+        "Due to increased metabolism of pyrimidines",
+        "Due to increased metabolism of purines",
+        "Uric acid levels may not be elevated",
+        "Has a predilection for the great toe"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "The enzyme deficient in Lesch-Nyhan syndrome is:",
+      "o": [
+        "GTRT",
+        "Glutaminase",
+        "Transcarboxylase",
+        "HGPRTase"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "A 10-year-old child presents with history of rashes self mutilation family history positive which of the following investigations do you think may be suggestive of valuable for diagnosis:",
+      "o": [
+        "Lead",
+        "Alkaline phosphatase",
+        "L D H",
+        "Uric acid"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "A ten-year-old child with aggressive behavior and poor concentration is brought with presenting complaints of joint pain and reduced urinary output. Mother gives history of self-mutilate his finger. Which of the following enzymes is likely to be deficient in this child:",
+      "o": [
+        "HGPRTase",
+        "Adenosine deaminase",
+        "APRTase",
+        "Acid maltase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "A patient with increased Hypoxanthine and Xanthine in blood with hypouricemia which enzyme is deficient?",
+      "o": [
+        "HGPRTase",
+        "Xanthine oxidase",
+        "Adenosine deaminase",
+        "APRtase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "Choose the incorrect statement. Lesch-Nyhan Syndrome:",
+      "o": [
+        "Affects young boys",
+        "Presents with gouty arthritis",
+        "The enzyme defect enhances the reutilizationof purine bases",
+        "Bizarre behavior of self-mutilation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "Hyperuricemia is not found in:",
+      "o": [
+        "Cancer",
+        "Psoriasis",
+        "Von Gierke’s disease",
+        "Xanthinuria"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "Pyrimidine biosynthesis begins with the formation from glutamine, ATP and CO2, of",
+      "o": [
+        "Carbamoyl aspartate",
+        "Orotate",
+        "Carbamoyl phosphate",
+        "Dihydroorotate"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "The two nitrogen of the pyrimidine ring are contributed by",
+      "o": [
+        "Ammonia and glycine",
+        "Asparate and carbamoyl phosphate",
+        "Glutamine and ammonia",
+        "Aspartate and ammonia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "Conversion of inosine monophosphate to xanthine monophosphate is catalysed by",
+      "o": [
+        "IMP dehydrogenase",
+        "Formyl transferase",
+        "Xanthine-guanine phosphoribosyl transferase",
+        "Adenine phosphoribosyl transferase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "Blood of a 12-year-old boy presents low concentration of uric acid and accumulation of xanthine and hypoxanthine. This child has genetic defect of the following enzyme:",
+      "o": [
+        "Xanthine oxidase",
+        "Arginase",
+        "Urease",
+        "Ornithine carbamoyl transferase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "An experiment proved that UV-radiated cells of patients with xeroderma pigmentosum * restore the native DNA structure slower than cells of healthy individuals as a result of reparation enzyme defection. What enzyme helps this process?",
+      "o": [
+        "Endonuclease",
+        "RNA ligase",
+        "Primase",
+        "DNA polymerase III"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "A 48-year-old patient complained about intense pain, slight swelling and reddening of * skin over the joints, temperature rise up to 380C. Blood analysis revealed high concentration of urates. This condition might be caused by disturbed metabolism of:",
+      "o": [
+        "Purines",
+        "Collagen",
+        "Pyrimidines",
+        "Carbohydrates"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Metabolism of purines and pyrimidines",
+      "q": "Cyanide is a poison that causes instant death of the organism. What enzymes found in * mitochondria are affected by cyanide?",
+      "o": [
+        "Cytochrome oxidase (aa3)",
+        "Flavin enzymes",
+        "Cytochrome B5",
+        "NAD+- dependent dehydroganese"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Researchers isolated 5 isoenzymes forms of lactate dehydrogenase from the human blood * serum and studied their propertied. What property indicates that the isoenzymatic forms were isolated from the same enzyme?",
+      "o": [
+        "Catalyzation of same reaction",
+        "the same molecular weight",
+        "the same physicochemical properties",
+        "tissue localization"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Plasma albumin performs the following functions:",
+      "o": [
+        "Osmotic;",
+        "Transport;",
+        "Nutritive;",
+        "All of them;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "The immunoglobulin present in most abundant guantity;",
+      "o": [
+        "IgG;",
+        "IgM;",
+        "IgA;",
+        "IgE;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "The following anticoagulant binds with Ca2+ and prevents blood clotting:",
+      "o": [
+        "Heparin;",
+        "Oxalate;",
+        "protein;",
+        "all of them."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Normal level of albumin in blood is:",
+      "o": [
+        "1.5 – 2.5 mg/dL",
+        "2.5 – 3.5 mg/dL",
+        "2.5 – 3.5 mg/dL",
+        "3.5 – 5.0 mg/dL"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Hypoalbuminemia is seen in all the following conditions, expert:",
+      "o": [
+        "Cirrhosis of liver",
+        "Hephrotic syndrome",
+        "Malnutrition",
+        "acute infections"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Hemopexin carries:",
+      "o": [
+        "Free hemoglobin",
+        "Free bilirubin",
+        "free heme",
+        "free iron"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "All the following are acute phase reastant proteins, except:",
+      "o": [
+        "C-reactive protein CRP)",
+        "HDL",
+        "ceruloplasmin",
+        "Haptoglobin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Polymorphism is exhibited by all the following proteins, expert:",
+      "o": [
+        "Haptoglobin",
+        "Transferrin",
+        "albumin",
+        "ceruloplasmin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Wilson's hepatolenticular degeneration is characterized by:",
+      "o": [
+        "ceruloplasmin level in blood is increased",
+        "copper accumulated in liver to produce cirrhosis",
+        "coppr is deposited in skin to produce bronze color",
+        "autosomal dominant inheritance"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "All are true with regard to alpha-1 antitrypsin (AAT), expert:",
+      "o": [
+        "it is a protease inhibitor",
+        "in shows polymorphism",
+        "deficiency leads to emphysema in lungs",
+        "deficiency is associated with Edema"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Albumin level in blood is estimated by:",
+      "o": [
+        "Jaffe's picric acid reaction",
+        "Bromo cresol green reaction",
+        "diacetyl monoxine method",
+        "Chromatography"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Which reaction takes place exclusively in liver:",
+      "o": [
+        "Cluconeogenesis",
+        "Clycolysis",
+        "Clycogen sunthesis",
+        "Albimun synthesis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "In blood, allarebound with albumin, expert:",
+      "o": [
+        "Non-esterified fatty acids",
+        "Bilirubin",
+        "Iron",
+        "salicylate"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Electrophoretic separation of proteins is of diagnostic value in all conditions, expert:",
+      "o": [
+        "Hephrotic syndrome",
+        "Multiple myeloma",
+        "alpha-1 antitrypsin deficiency",
+        "acquired immunodeficiency syndrome"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Edema due to hypoproteinemia may be seen in all the following clinical conditions, expert:",
+      "o": [
+        "Rheumatoid arthritis",
+        "Cirrhosis liver",
+        "Malnutrition",
+        "Nephrotic syndrome"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Heme biosynthesis do not occur in:",
+      "o": [
+        "Osteocyte",
+        "Liver",
+        "RBC",
+        "Erythroid cells of bone marrow"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "In lead poisoning which of the following is seen in urine:",
+      "o": [
+        "delta ALA",
+        "uroporphyrin",
+        "coproporphyrin",
+        "protoporphyrin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "In HbS, Clutamic acid replaced by valine. What will be its electrophoretic mobility?",
+      "o": [
+        "Incresed",
+        "Decreased",
+        "No change",
+        "Depends on level of concentration of HbS"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Which of the following porpyrias does not present with photosensitryvity:",
+      "o": [
+        "urophophyrin decarboxylase",
+        "HMG synthase",
+        "protophophrinogen oxidase",
+        "Coproproporphyrinogen oxidase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Identy the structure given below?",
+      "o": [
+        "Porphyrin",
+        "Heme",
+        "Chlorophyll",
+        "Pyrrole"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "A 10-year-old boy present with increased serum bilirubin, increased bilirubin in urine and no urobilinogen. Diagnosis is:",
+      "o": [
+        "Gilbert Syndrome",
+        "Hemolytic jaundice",
+        "Viral hepatitis",
+        "Obstructive jaundice"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Which Vitamin is required for carboxylation of clotting factors?",
+      "o": [
+        "Vitamin A",
+        "Vitamin D",
+        "Vitamin E",
+        "Vitamin K"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Electrophoretic separation of proteins is of diagnostic value in all conditions, except:",
+      "o": [
+        "Nephrotic syndrome",
+        "Multiple myeloma",
+        "Alpha-1 antitrypsin deficiency",
+        "Acquired immunodeficiency syndrome"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Normal level of albumin in blood is:",
+      "o": [
+        "1,5-2,5 md/dl",
+        "2,5-3,5 md/dl",
+        "2,5-3,5 g/dl",
+        "3,5-5 g/dl"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Wilson's hepatolenticular degeneration is characterized by:",
+      "o": [
+        "Ceruloplasmin level in blood is increased",
+        "Copper is accumulated in liver to produce cirrhosis",
+        "Copper is deposited in skin to produce bronze color",
+        "Autosomal dominant interitance"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "One of the plasma proteins listed below is not a transport protein (carrier protein):",
+      "o": [
+        "Transferrin",
+        "Haptoglobin",
+        "Albumin",
+        "alpha-1-antitrypsin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "The protein present in highest concentration in plasma is:",
+      "o": [
+        "Fibrinogen",
+        "Albumin",
+        "Gamma globulins",
+        "Alpha globulins"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Which of the following is not transported by albumin?",
+      "o": [
+        "Calcium",
+        "Sodium",
+        "Copper",
+        "Aspirin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "A patient has an increased pyruvate concentration in blood. A large amount of it is exreted with the urine. Which vitamin is lacking in this patient?",
+      "o": [
+        "B1",
+        "E",
+        "B3",
+        "B6"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "a 62-year-old female patient has developed a cataract (lenticular opacity) secondary to * the diabetes mellitus? What type of protein modification is observed in case of diabetic cataract?",
+      "o": [
+        "Glycosylation",
+        "Phosphorylation",
+        "ADP-ribosylation",
+        "Methylation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Plasma proteins",
+      "q": "Untrained people often have muscle pain after sprints as a result of lactate accumulation. This might be caused by intensification of the following biochemical process:",
+      "o": [
+        "Glycolysis",
+        "Gluconeogenesis",
+        "pentose phosphate pathway",
+        "Lipogenesis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "When oxygen binds to a heme-containing protein, the two open coordination bonds of Fe2+ are occurpied by:",
+      "o": [
+        "One O atom and one amino acid atom",
+        "One O molecule and one heme atom",
+        "One O molecule and one amino acid atom",
+        "Two O atoms"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "In Hemoglobin, the transition from T state to R state (low to high affinity) is triggered by:",
+      "o": [
+        "Fe binding",
+        "Oxyden binding",
+        "Heme binding",
+        "Subunt dissociation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Myoglobin and the subunits of hemoglobin have",
+      "o": [
+        "No obvious structural relationship",
+        "Very different primary and tertiary structures",
+        "Very similar primary and tertiary structures",
+        "Very similar tertiary structures, but different primary structures"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "What contains 2 alpha chains and 2 beta chains that assume a quaternary higher order conformation?",
+      "o": [
+        "Maternal hemoglobin",
+        "Immunoglobin",
+        "Myoglobin",
+        "Fetal hemoglobin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "If iron in hemoglobin is oxidized to 3+, what disease may occur?",
+      "o": [
+        "Sickle cell anemia",
+        "Carbon monoxide poisoning",
+        "Methemoglobinemia",
+        "Cystic fibrosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "When will hemoglobin have the highest affinity for oxygen?",
+      "o": [
+        "When pH is low",
+        "At high elevations",
+        "When carbon monoxide levels are high",
+        "When 2,3-bisphosphoglycerate levels are low"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "What phenomen occurs when decreased pH causes hemoglobin to release oxygen into tissues?",
+      "o": [
+        "Allosteric effect",
+        "Bohr shift",
+        "Elisa",
+        "Western blotting"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "What consists of 2 alpha chains and 2 gamma chains?",
+      "o": [
+        "Maternal hemoglobin",
+        "Immunoglobin",
+        "Myoglobin",
+        "Fetal hemoglobin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "What has the highest affinity for oxygen?",
+      "o": [
+        "Maternal hemoglobin without 2,3-bisphophoglycerate",
+        "Myoglobin",
+        "Maternal hemoglobin with 2,3-biphosphoglycerate",
+        "Fetal hemoglobin with 2,3-bisphosphoglycerate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Foetal haeoglobin contais",
+      "o": [
+        "Two α and two γ chains",
+        "Both (A) and (B)",
+        "Two β and two γ chains",
+        "None of these"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Abnormal chain of amino acids in sickle cell anemia is",
+      "o": [
+        "Alpha chain",
+        "Delta chain",
+        "Beta chain",
+        "Gama chain"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Cyanmethemoglobin can be formed from",
+      "o": [
+        "Oxy Hb",
+        "Met Hb",
+        "Carboxy Hb",
+        "All of these"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "In Thalassemia, an amino acid is substituted in",
+      "o": [
+        "Alpha chain",
+        "Beta chain",
+        "Alpha and beta chains",
+        "Any chain"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "The amino acid substitution of Val for Glu in Hemoglobin S results in aggregation of the protein because of interactions between molecules.",
+      "o": [
+        "Covalent",
+        "Disulphide",
+        "Hydrogen bonding",
+        "hydrophobic"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "The fundamental cause of sickle-cell disease is a change in the stricture of",
+      "o": [
+        "Blood",
+        "Capillaries",
+        "Hemoglobin",
+        "Red cells"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "A point mutation in beta-globin gene changing the codon from glutamate to valine will likelt cause what disease?",
+      "o": [
+        "Sickle cell anemia",
+        "Methemoglobinemia",
+        "Carbon monoxide poisoning",
+        "Cystic fibrosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Which one of the following statements concerning the hemoglobin is correct?",
+      "o": [
+        "HbA is the most abundant hemoglobin in normal adults",
+        "Fetal blood has a lower affinity for oxygen than does adult blood because HbF has an increased affinity for 2,3-biphosphoglycerate",
+        "The globin chain composition of HbF is α2δ2",
+        "HbA1c differs from HbA by a single, genetically determined amino acid substation."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Which one the following statements concerning ability of acidosis to precipitate a crisis in sickle cell anemia is correct?",
+      "o": [
+        "Acidosis decreases the solubility of HbS",
+        "Acidosis increases the oxygen affinity of hemoglobin",
+        "Acidosis favors the conversion of hemoglobin from the taut to the relaxed conformation",
+        "Acidosis shifts the oxygen-dissociation curve to the left"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "β-Lysine 82 in HbA is important for the binding of 2,3-biphosphoglycerate. In Hb Helsinki, this amino acid has been replaced by methionine. Which of the following should be true concerning Hb Helsinki?",
+      "o": [
+        "It should be stabilized in the taut, rather than the relaxed, form",
+        "It should have increased oxygen affinity and consequently, decreased oxygen delivery to tissues",
+        "Its oxygen-dissociation curve should be shifted to the right relative to HbA",
+        "It results in anemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "A 67-year-old man presented to the emergency department with a 1-week history of angina and shortness of breath. He complained that his face and extremities had taken on a blue color. His medical history included chronic stable angina treated with isosorbide dinitrate and nitroglycerin. Blood obtained for analysis was brown. Which one of the following is the most likely diagnosis?",
+      "o": [
+        "Carboxyhemoglobinemia",
+        "Hemoglobin SC disease",
+        "Methemoglobimia",
+        "Sickle cell anemia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "A 27-year-old firefighter is brought to the emergency room after being exposed to smoke during a training exercise. He clutching his head and exhibits an altered mental status. On examination, you note that he appears red, and his pulse oximetry reads 100%. You suspect carbon monoxide toxicity. What is true of the oxygen saturation curve during carbon monoxide toxicity?",
+      "o": [
+        "The oxygen saturation curve is shifted to the left",
+        "The oxygen saturation curve is shifted to the right",
+        "The effect of carbon monoxide on hemoglobin is similar to that of a low pH state",
+        "The effect of carbon monoxide on hemoglobin is similar to that of an increased temperature state"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "In deoxyhemoglobin (Hb), the Fe (II) is 5-coordinated to:",
+      "o": [
+        "Four nitrogen of heme and to the proximal His. Of Hb",
+        "Four nitrogen of heme and to a iater molecule",
+        "Four nitrogen of heme and to an O molecule",
+        "Two nitrogen of heme and to three water molecules"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "In sickle cell anemia, the basis of the malfunction of the hemoglobin molecule",
+      "o": [
+        "Incorrect secondary structure",
+        "Substitution of a single amino acid",
+        "Faulty binding of the heme groups",
+        "Reduced affinity for oxygen"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Hemoglobin has a high content of this amino acid",
+      "o": [
+        "Proline",
+        "Leucine",
+        "Arginine",
+        "Histidine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "A 7-year-old African Amercan male is admitted to the hospital with severe abdominal pain. A blood workup indicated anemia, and an abnormal blood smear (see below). The molecular event triggering this disease is which of the following?",
+      "o": [
+        "A loss of quaternary structure of the hemoglobin molecule",
+        "An increase in oxygen binding to hemoglobin",
+        "A gain of ionic interactions, stabilizing the “T” form of hemoglobin",
+        "An increase in hydrophobic interactions between deoxyhemoglobin molecules"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "The pigment in red blood cells that carries oxygen is:",
+      "o": [
+        "Erytropoietin",
+        "Hemoglobin",
+        "Melatonin",
+        "Urobilinogen"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Each heme unit is derived from:",
+      "o": [
+        "4 molecules of glycine + 4 molecules of succinyl CoA",
+        "8 molecules of glycine + 8 molecules of succinyl CoA",
+        "4 molecules of glycine + 8 molecules of succinyl CoA",
+        "8molecules of glycine + 4 molecules of succinyl CoA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "δ-aminolevilonic acid (ALA) synthase is located in:",
+      "o": [
+        "Mitochondria",
+        "Nucleus",
+        "Cytosol",
+        "Lysosomes"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Vitamin K is required for activation of the following except:",
+      "o": [
+        "Prothrombin",
+        "Factor IX",
+        "Factor VI",
+        "Product of growth arrest specific gene Gas6"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Diagnosis of Wilson's disease include the following except:",
+      "o": [
+        "Kayser-Fleischer ring present",
+        "Serum Ceruloplasmin increased",
+        "24-hour Urinary Copper>100 pg/24 h",
+        "3 methyl histidine excretion is reduced in urine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "In case of atrophic gastritis, a combination of intrinsic factor and vit B12 is used for treatment of:",
+      "o": [
+        "Iron deficiency anemia",
+        "Hemolytic anemia",
+        "Pernicious anemia",
+        "Aplastic anemia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Hb electrophoresis is the slandered test for diagnosis of",
+      "o": [
+        "Iron deficiency anemia",
+        "Thalassemia",
+        "Anemia of chronic disease",
+        "A Transferrinemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Causes of iron deficiency anemia include:",
+      "o": [
+        "Acute blood loss",
+        "Chronic blood loss",
+        "Acute hemolysis",
+        "All of the above"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "The antibody that is fist formed after infection is:",
+      "o": [
+        "IgG",
+        "IgM",
+        "IgA",
+        "IgE"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Hepatitis has led to the development of hepatic failure. Mechanism of Edema formation is activated by the impairment of the following liver function:",
+      "o": [
+        "Protein-synthetic",
+        "Barrier",
+        "Chologenetic",
+        "Antitoxic"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "Hemoglobin catabolism results in release of iron which is transported to the bone marrow by a certain transfer protein and used again for the synthesis of hemoglobin. Specify this transfer protein:",
+      "o": [
+        "Transferrin (siderophilin)",
+        "Transcobalamin",
+        "Haptoglobin",
+        "Ceruloplasmin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "An infectious disease unit admitted a patient with signs of jaundice caused by hepatitis virus. Select an indicator that is specific only for parenchymatous jaundice:",
+      "o": [
+        "Increase in ALT and AST rate",
+        "Hyperbilirubinemia",
+        "Bilirubinuria",
+        "Cholaemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hemoglobin",
+      "q": "A 20-year-old patient complains of general weakness, dizziness, quick fatgability. Blood analysis results: Hb-80 g/",
+      "o": [
+        "Microscopical e[amination results: erythrocytes are of modified form. This condition might be caused by:",
+        "Sickle-cell anemia",
+        "Hepatocellular jaundice",
+        "acute intermittent porphyria",
+        "Addison’s disease"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "All enzymes are elevated in obstructive liver disease, expert:",
+      "o": [
+        "Gamma-glutamyltransferase (GGT)",
+        "5-nucleotidase (NTP)",
+        "Alkaline phosphatase (ALP)",
+        "Lactate dehydrogenase (LDH)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "All are features of obstructive jaundice, expert:",
+      "o": [
+        "Increased level of conjugated bilirubin in blood",
+        "Clay colored stools",
+        "Present of bile salts in urine",
+        "Increased excretion of urobilinogen in urine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "A patient with infective hepatits is likely to have all the flowing, expert:",
+      "o": [
+        "Hyperbilirubinemia",
+        "Bilirubinemia",
+        "Absence of bile salts in urine",
+        "Elevated AST"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "An increase in serum unconjugated bilirubin occurs in:",
+      "o": [
+        "Hemolytic jaundice",
+        "Obstructive jaundice",
+        "Defect in intestinal absorption",
+        "Glomerulonephritis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Conjugated hyperbilibinemia with raised alkaline phosphatase levels are characteristic of:",
+      "o": [
+        "Hemolytic jaundice",
+        "Obstructive jaundice",
+        "Viral hepatits",
+        "Physiological jaundice"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Which of the following is the nonfunctional plasma enzymes increased in alcoholic subjects?",
+      "o": [
+        "Alkaline phosphatase",
+        "Acid Phosphatase",
+        "Lactate dehydrogenase",
+        "Gamma-glutamyltransferase"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Hypoacidity is found in all the following conditions, except:",
+      "o": [
+        "Pernicious anemia",
+        "Carcinoma of stomach",
+        "Insulinoma",
+        "Atrophic gastritis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "All the following biochemical parameters are indices of liver function, except:",
+      "o": [
+        "Bilirubin",
+        "Cholesterol",
+        "Albumin",
+        "Creatinine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "A patient with infective hepatitis is likely to have all the following findings, except:",
+      "o": [
+        "Hyperbilirubinemia",
+        "Bilirubinuria",
+        "Absence of bile salts in urine",
+        "Evevated AST"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Which enzyme test is more specific for parenchymal (hepatocellular) liver disease?",
+      "o": [
+        "Acid phosphatase",
+        "Alainine aminotransferase (ALT)",
+        "Lactate dehydrogenase (LDH)",
+        "Amylase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Which hormone has no effect on gastric acid secretion?",
+      "o": [
+        "Cholecystokinin",
+        "Secretin",
+        "Gastrin",
+        "Somatomedin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Which of the following tests is not indicated in a patient with generalized edema?",
+      "o": [
+        "Liver function test",
+        "Renal function test",
+        "Thyroid function test",
+        "Pancreatic function test"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Which of the following biochemical findings does not agree with acute hepatic failure?",
+      "o": [
+        "Respiratory alkalosis",
+        "Hyperammonemia",
+        "Lactic acidosis",
+        "Uremia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "The laboratory data that is against a diagnosis of obstructive jaundice is:",
+      "o": [
+        "High alkaline phosphatase level",
+        "Increased excretion of urobilinogen in urine",
+        "Elevated serum cholesterol level",
+        "Direct positive van den Bergh reaction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Disease of the ________ is a common cause of obstructive jaundice.",
+      "o": [
+        "Pancreas",
+        "Gallbladder",
+        "Heart",
+        "Liver"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "________ is responsible for the yellow coloring in jaundice.",
+      "o": [
+        "Urobilinogen",
+        "Carotene",
+        "Bilirubin",
+        "AST"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "________ is a group of enzymes found mainly in bone, liver, intestines, and placenta.",
+      "o": [
+        "AST",
+        "ALT",
+        "SGPT",
+        "ALP"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "________ transports unconjugated bilirubin to the liver.",
+      "o": [
+        "Globulin",
+        "Albumin",
+        "AST",
+        "ALP"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Jaundice caused by an obstructive pathology of the biliary tree, is known as ________",
+      "o": [
+        "Prehepatic",
+        "Post hepatic",
+        "Hepatic",
+        "Splenohepatic"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Highest elevations with AST is seen in viral ________.",
+      "o": [
+        "Hepatitis",
+        "Meningitis",
+        "Influenza",
+        "Pneumonia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "A patient present with jaundice, abdominal pain, and nausea. Clinical laboratory * results show in serum conjugated bilirubin, presence of urinary bilirubin bur absence of urine urobilinogen. What is the most likely cause of the jaundice?",
+      "o": [
+        "Desreased hepatic conjuation",
+        "Decreased secretion of bile into the intenstine",
+        "Decreased hepatic uptake",
+        "Increased hemolysis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "is responsible for the yellow coloring in jaundice.",
+      "o": [
+        "Bilirubin",
+        "Urobilinogen",
+        "urobilin",
+        "stercobilin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "An important fuiction the liver carries out in the human body is detoxification. Which * of the following best describes what happens in detoxification?",
+      "o": [
+        "Ammonia is converted into urine and excreted",
+        "Harmful or toxic substances in the body broken down or neutralized",
+        "Bile is produced to detoxify excess stomach acid",
+        "Excess carbon dioxide is broken down into its components: carbon and oxygen"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Which of the following is an example of a toxic substance that is broken dawn by the cells in the cells in the liver?",
+      "o": [
+        "Bile",
+        "Erytrocytes",
+        "pepsin",
+        "Ethanol"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "An important function the liver has in the human body is to carrt out the deamination * of amino acids. What happens to an avino acid undergoing deamination?",
+      "o": [
+        "It gas an amino acid group added",
+        "It gas an amino acid group removed",
+        "It is converted into ammonia",
+        "It reacts with ammonia to from carbon dioxide"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "The liver is vital for excretion in humans. Which of the following best explains excretion?",
+      "o": [
+        "Excretion is the removel of excess water and food from the body",
+        "Excretion is the removel of excess water and food from the body",
+        "Excretion is the production of sweat from the sweat glands in the skin",
+        "Excretion is the prosess by which easte products are converted into useful compounts for the body"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "A 37 year old patient suffering from obliterating vascular endarteritis of lower limbs * takes daily 60 microgram/kilogram of phenylin. Because of presentations of convulsive disorder (craniocerebral trauma in anamnesis) he was prescribed phenobarbital. Withholding this drug caused nasal hemorhage. What is this complication connected with?",
+      "o": [
+        "Induction of enzymes of microsomal oxidation in liver caused by phenobarbital;",
+        "Aliphatic hydroxylation of phenobarbital;",
+        "Conjugation of phenylin with glucuronic acid;",
+        "Oxidative deamination of phenylin",
+        "Inhibition of microsomal oxidation in liver caused by phenobarbital;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "During starvation muscle proteinsa break up into free amino acids. These compounds * will be the most probably involved into the followinhg process:",
+      "o": [
+        "gluconeogenesis in liver",
+        "synthesis of higher fatty acids",
+        "cluconeogenesis in muccles",
+        "glycogenolysis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "A 3 yaer old child with fever was given aspirin. It resulted in intensified eryrtrocyte * haemolysis. Hemolytic anemia might have been caused by condenital insufficiency of the following enzyme:",
+      "o": [
+        "Glucose-6-phosphate dehydrogenase",
+        "glucose-6-phosphatase",
+        "Glygen phosphorylase",
+        "Glycerol phoshate dehydrogenase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "The normal concentration of the serum bilirubin is",
+      "o": [
+        "0,2-1 mg/dl",
+        "1-2 mg/dl",
+        "0,2-0,4 mg/dl",
+        "2-3 mg/dl"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "The condition in which the colour of the sclera od the eye and skin become yellow is * termed as:",
+      "o": [
+        "Juandice",
+        "Plague",
+        "yellow fever",
+        "Congo fever"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "High level of the biliribin is observed in",
+      "o": [
+        "Gallstone",
+        "Plague",
+        "Chronic hepatits",
+        "Both A and B"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "The excretory functions of the liver include",
+      "o": [
+        "bile pigment secretion",
+        "excretion of the cholesterol",
+        "bile salt secretion",
+        "all of above"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "the major site for the detoxification of the xenobiotic is",
+      "o": [
+        "kidney",
+        "stomach",
+        "intestine",
+        "liver"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "The increased activity of the alkaline phosphatase, alanine transvbinase and aspartate * transaminase may result in",
+      "o": [
+        "Haemolytic jaundise",
+        "hepatic jaundice",
+        "none of above",
+        "obstructive jaundice"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "The process of the phagocytosis to eliminate foreign compounds is done by",
+      "o": [
+        "Kupffer cells of liver",
+        "Epithellal cells",
+        "oxyntic cells",
+        "Metabolic cells"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Best explained pathogenesis of fatty liver in alcoholic liver disease",
+      "o": [
+        "Increased hydrolysis of fat from adipocytes",
+        "Decreased synthesis of fatty acids",
+        "Decreased [NADH]/[NAD+] ratio",
+        "Impaired beta oxidation of fatty acids"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "After consumption of rish food, a patient has nausea and heartburn, steatorrhea. This * condition might be caused by:",
+      "o": [
+        "bile acid deficiency",
+        "increased lipase secretion",
+        "amylase deficuency",
+        "disturbed phospholioase synthesis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "Characteristic sign of glycogenesis is muscle pain during physical work. Blood examination reveals usully hypoglycemia. This pathology is caused by congenital deficiency of the following enzyme:",
+      "o": [
+        "Glycogen phosphorylase",
+        "Clucose 6-phoosphate dehydrogenase",
+        "Alpha amylase",
+        "Gamma amylase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Liver and gastric function tests",
+      "q": "A 46-yaer-old woman suffering from chololithasis developed jaundice. Her urine became dark-yellow and feces became colourless. Blood serum will have the highest concentration of the following substance:",
+      "o": [
+        "Conjugated bilirubin",
+        "unconjugated bilirubin",
+        "Biliveridin",
+        "Mesobilirubin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "The amino acid producing ammonia in kidney is",
+      "o": [
+        "Glutamine",
+        "Alanine",
+        "Methionine",
+        "Glycine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Kidney is an excretory organ. It also performs another function of releasing the hormones. What are there hormones?",
+      "o": [
+        "Renin",
+        "Erythropoietin",
+        "calcicitrol",
+        "all of these"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Which of the following components of blood does not enter the nephron?",
+      "o": [
+        "Ions",
+        "Plasma proteins",
+        "glucose",
+        "urea"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "The process that pushes out water and dissolved materials from in the glomerulus is",
+      "o": [
+        "Dialysis",
+        "Secretion",
+        "ultrafiltration",
+        "not dialysis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Which of the following parts of nephron is least permeable to water?",
+      "o": [
+        "Proximal tubule",
+        "Ascending limps of loop of Nenle",
+        "collecting duct",
+        "descending limps of loop of Nenle"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Chronic kidney disease increase the risk of",
+      "o": [
+        "Heart attacks and strokes",
+        "skin troubles",
+        "Malaria",
+        "diabetes and eye problems"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Diuresis is the condition which",
+      "o": [
+        "the excretory volumes of urine increases",
+        "the kidney fait to exrete urine",
+        "the water balance of the body is disturbed",
+        "the excretory volumes of urine decreases"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "In the presence of vasopressin, the greatest fraction filtrated water is absorbed in",
+      "o": [
+        "Loop of Henle",
+        "collecting tubule",
+        "proximal convoluted tubule",
+        "distal convoluted tubule"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Podocytes are the cells present in",
+      "o": [
+        "cortex of nephron",
+        "unner wall of Bowman’s capsule",
+        "outer wal of Bowman’s capsule",
+        "wall of glomerular capillaries"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Fluid within the loop of Henle is most concentrated in",
+      "o": [
+        "ascending limbo",
+        "descending limb",
+        "Hairpin bend",
+        "Bend between the ascending limb and the distal tubule"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Surgical removal of both the kidneys would result in death because",
+      "o": [
+        "water will accumulate in blood",
+        "immune response will be suppressed",
+        "glucose will be lost from the body",
+        "urea will not be excreted"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "All the following statements are true of the H+ secreted into the lumen of the distal nephron except:",
+      "o": [
+        "can combine with NH +",
+        "can combine with HCO",
+        "can combine with HPO",
+        "can remains as free H"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Amino acids are almost completely reabsorbed from the glomerular filtrate via active transport in the:",
+      "o": [
+        "Proximal tubule",
+        "loop of Henle",
+        "Dustal tubule",
+        "collecting duct"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Ammonia is an affective important urinary buffer for which of the following reasons:",
+      "o": [
+        "its production in the kidney decrease during chronic acidosis",
+        "the walls of the renal tubules are impermeable to NH",
+        "the walls of the renal tubules are impermeable to NH",
+        "its acid base reaction has a low pK a"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "An increase in the concentration of plasma potassium causes increase in",
+      "o": [
+        "release of renin",
+        "secretion of aldosterone",
+        "secretion of ADH",
+        "release of natriuretic hormone"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Which indicates an abnormal renal function?",
+      "o": [
+        "blood urea 30 mg/dl",
+        "GFR = 125 ml/min",
+        "Serum creatinine 8 mg/dl",
+        "Urine pH = 6.8"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Normal specific gravity of urine is:",
+      "o": [
+        "1.003-1.010",
+        "1.010-1.015",
+        "1.015-1.025",
+        "1.025-1.035"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Specific gravity of urine increses in:",
+      "o": [
+        "Chronic glomerulonephritis",
+        "Diabetes mellitus",
+        "Liver diseases",
+        "Intake of vegetables"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Renal plasma flow is measured by:",
+      "o": [
+        "Creatinine clearance",
+        "Inulin clearance",
+        "Para-aminohippurate clearance",
+        "Urine output"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Urea clearance is lowered in:",
+      "o": [
+        "Acute nephritis",
+        "Chronic liver failure",
+        "Benign hypertension",
+        "Congestive cardiac failure"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Failure of concentrating capacity of urine is assessed by:",
+      "o": [
+        "Urea clearance",
+        "Water deprivation test",
+        "Specific gravity of urine after giving water",
+        "Creatinine level in urine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Urine will have abnormal color in all the following conditions,except:",
+      "o": [
+        "Melanuria",
+        "Porphyria",
+        "Creatinuria",
+        "Alkoptonuria"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "All of the following statements regarding glomerular filtration is correct, except:",
+      "o": [
+        "GFR is approximately equal to endogenous creatinine clearance",
+        "Measurement of GFR is a test of renal tubular function",
+        "Glomerular filtrate has a specific gravity of 1010",
+        "Glomerulara filtrate is formed by ultrafiltration of plasma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "All are functions of the kidney, except:",
+      "o": [
+        "Excretion of hydrogen ions",
+        "Detoxification of alcohol",
+        "Stimulation of erythropoiesis",
+        "Formation of 1.25 DHCC"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "To calculate the creatinine clearance, all the following data are required, except:",
+      "o": [
+        "Plasma creatinine level",
+        "Patientˈs height and weight",
+        "Daily urine output",
+        "Specific gravity of urine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "All the following laboratory data are suggestive of acute renal failure, except:",
+      "o": [
+        "Plasma sodium-150mmol/L",
+        "Plasma potassium-5.6mmol/L",
+        "Urea-220mg/dL",
+        "Creatinine-3.2 mg/dL"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Which ion is decreased in renal failure?",
+      "o": [
+        "Phosphate",
+        "Potassium",
+        "Bicarbonate",
+        "Hydrogen ions"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Plasma urea is increased but creatinine is normal in all the following,except:",
+      "o": [
+        "High protein intake",
+        "Gastrointestinal bleeding",
+        "Starvation",
+        "Muscle wasting"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "Which substance is not normally present in urine?",
+      "o": [
+        "Creatinine",
+        "Glucose",
+        "Uric acid",
+        "Urobilinogen"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Biochemistry of kidney",
+      "q": "The level of creatinine in urine is influenced by:",
+      "o": [
+        "Protein content of diet",
+        "Rate of cellular turn over",
+        "Muscle mass",
+        "Patency of urinary tract"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "The following are the endocrine function of the kidney, except:",
+      "o": [
+        "Erythropoietin secretion",
+        "Synthesis of Vit D3",
+        "Synthesis of Prostaglandins",
+        "Synthesis of Angiotensin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "Normally, proteins with a molecular weight higher than 65kda are retained in the plasma, Some small size protein is filtered through the kidney by which of the following mechanism:",
+      "o": [
+        "Protein channels",
+        "Endocytosis",
+        "Cotransport with Na+",
+        "None of the above"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "The rate of filtration in the kidney depends on",
+      "o": [
+        "Glomerular Permeability",
+        "Capillary hydrostatic pressure",
+        "Oncotic pressure",
+        "All of the above"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "Which of the following factor increases the glomerular filtration rate (GFR)?",
+      "o": [
+        "Antidiuretic hormone",
+        "Arterial Natriuretic peptide",
+        "Nitric oxide",
+        "Dopamine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "Under the normal condition, the glomerular filtrate in the Bowmans capsule of nephron consists of the following EXCEPT:",
+      "o": [
+        "Major electrolytes such as sodium, chloride, potassium, bicarbonate",
+        "Metabolic waste products such as urea, creatinine",
+        "Amino Acids, Glucose, Organic Acids",
+        "Proteins such as albumin and globulin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "The glomerular filtration rate is the rate at which fluid is filtered into Bowman's capsule and it is expressed in ml/min or liter/day. The GFR for healthy adults is 180 L/day which is quivalent to approximately",
+      "o": [
+        "90 ml/min",
+        "120 ml/min",
+        "150 ml/min",
+        "180 ml/min"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "The glomerular filtration rate is determined by the balance of hydrostatic and colloidal * osmotic pressure. Which of the following promote the glomerular filtration?",
+      "o": [
+        "hydrostatic pressure of glomerular capillary",
+        "oncotic pressure of the glomerular capillary",
+        "hydrostatic pressure of Bowman's capsule",
+        "Oncotic pressure of Bowman's capsule"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "Increase in glomerular hydrostatic pressure and GFR is determined by",
+      "o": [
+        "Increased arterial pressure",
+        "Decreased afferent arterial resistance",
+        "The moderate increase in efferent arterial resistance",
+        "All of the above"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "Which of the following hormones or autocoids increases the glomerular filtration rate * by decreasing vascular resistance",
+      "o": [
+        "Norepinephrine",
+        "Endothelin",
+        "Prostaglandin",
+        "Epinephrine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "The Renal Plasma flow is best measured by….",
+      "o": [
+        "Inulin Clearance Test",
+        "GFR estimation",
+        "Para-amino hippuric acid Test",
+        "Creatinine Clearance"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "Creatinine Clearance",
+      "o": [
+        "Is a sensitive marker for urolithiasis",
+        "Is a sensitive marker of tubular function",
+        "Is a sensitive marker of glomerular function",
+        "Is a sensitive marker for measurement of skeletal muscle mass"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "Presence of myoglobin in urine signifies",
+      "o": [
+        "Overload proteinuria",
+        "Tubular proteinuria",
+        "Glomerular proteinuria",
+        "Postrenal proteinuria"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "The blood flow through the kidney is autoregulated with a myogenic response * and tubuloglomerular feedback mechanism. The following statement is false regarding tubuloglomerular feedback:",
+      "o": [
+        "Increased mean arterial pressure lead to an increase in renal blood flow and GFR",
+        "",
+        "Decrease delivery of sodium ion in macula densa increases renal blow flow and GFR",
+        "All of the above"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Glomerular function of kidney",
+      "q": "The stimulation of sympathetic neurons to the kidney causes the vasoconstriction of arterioles and has a greater effect on afferent arterioles. Which of the following are not the consequences of sympathetic neuron activation?",
+      "o": [
+        "Decreased renal plasma flow and GFR",
+        "Decreased Plasma oncotic pressure",
+        "Decreased the hydrostatic pressure of glomerular capillaries",
+        "Increased Filtration fraction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The presence of 2 extra pairs of electrons on the oxygen in water molecule results in-",
+      "o": [
+        "Maks water a non-polar solvent",
+        "Forms covalent bonds in the ice",
+        "electronegative charge on the water molecule",
+        "Electropositive charge on water molecule"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The buffering capacity of a buffer is maximum at pit equal to-",
+      "o": [
+        "0.5 pKa",
+        "pKa",
+        "pKa+1",
+        "2pKa"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "When there is of deficiency of ADH (anti-diuretic hormone):",
+      "o": [
+        "ECF volume expands;",
+        "plasma osmolarity increases",
+        "sodium depletion occurs",
+        "Thirst sensation is suppressed"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Hypotonic expansion of extracellular fluid occurs:",
+      "o": [
+        "Hyperaldosteronism",
+        "Inappropriate secretion of ADH",
+        "Cushin's syndrome",
+        "Intravenous with normal saline"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "From pairs of diseases and associated abnormalities, pick out the mismatched pair:",
+      "o": [
+        "Maple syrup urine disease and metabolic acidosis",
+        "Connis syndrome and metabolic alkalosis",
+        "SIADH and hypertonic expansion",
+        "Waldenstrom's macroglobulnemia and hyperviscosity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "A patient with diarrhea may have all the following abnormalities, except:",
+      "o": [
+        "Metabolic acidosis",
+        "Isotonic contraction of ECF",
+        "Hypertonic contraction of ECF",
+        "Urine with a high specific gravity"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Which of the following has NO effect on ECF volume?",
+      "o": [
+        "ADH",
+        "Aldosterone",
+        "Calcitriol",
+        "Renin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Which of the following causes hypokamia:",
+      "o": [
+        "Hemolysis",
+        "Polycytemia",
+        "Leukemia",
+        "Alkalosis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Vasopressin (ADH)",
+      "o": [
+        "Enhance facultative reabsorption of water",
+        "Decreases reabsorption of water",
+        "Increases excretion of calcium",
+        "Decreases excretion of calcium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "An important cause of water intoxication is",
+      "o": [
+        "Nephrogenic diabetes insipidus",
+        "Renal failure",
+        "Gastroenteritis",
+        "Fanconi syndrome"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Urine examination in secondary dehydration shows",
+      "o": [
+        "Ketonuria",
+        "Low specific gravity",
+        "High specific gravity",
+        "Albuminuria"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The element needed in quantities greater than 100 mg for human beings is",
+      "o": [
+        "Calcium",
+        "Zinc",
+        "Selenium",
+        "Cobalt"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The mineral present in the human body in larger amounts than any other cation is",
+      "o": [
+        "Sodium",
+        "Calcium",
+        "Potassium",
+        "Iron"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The physiologically active form of calcium is",
+      "o": [
+        "Protein bond",
+        "Ionised",
+        "Complexed with citrate",
+        "Complexed with carbonate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Renal ricket is caused by renal tubular defect (usually inherited) which interferes with reabsorption of",
+      "o": [
+        "Calcium",
+        "Phosphorous",
+        "Sodium",
+        "Chloride"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "After operative removal of the parathyroid glands resulting into hypoparathyroidism the concentration of the serum calcium may drop below",
+      "o": [
+        "11 mg",
+        "10 mg",
+        "9 mg",
+        "7 mg"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "One of the principal cations of soft tissue and body fluids is",
+      "o": [
+        "Mg",
+        "S",
+        "Mn",
+        "Co"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Hypernatremia may occur in",
+      "o": [
+        "Diabetes insipidus",
+        "Diuretic medication",
+        "Heavy sweating",
+        "Kidney disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Intestinal absorption of magnesium is increased in",
+      "o": [
+        "Calcium deficient diet",
+        "High calcium diet",
+        "High oxalate diet",
+        "High phytate diet"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Deficiency of magnesium may occur with",
+      "o": [
+        "Alcoholism",
+        "Diabetes mellitus",
+        "Hypothyroidism",
+        "Advanced renal failure"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "A decrease in serum sodium may occur in",
+      "o": [
+        "Adrenocortical insufficiency",
+        "Hypoparathyroidism",
+        "Hyperparathyroidism",
+        "Thyrotoxicosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "An important cause of secondary dehydration is",
+      "o": [
+        "Dysphagia",
+        "Oesophageal varices",
+        "Oesophageal varices",
+        "Gastroenteritis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The exclusive function of iron in the body is confined to the process of",
+      "o": [
+        "Muscular contraction",
+        "Nerve excitation",
+        "Cellular respiration",
+        "Blood coagulation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Hypokalemia with an accompanying hypochloremic alkalosis may be observed in",
+      "o": [
+        "Cushing’s syndrome",
+        "Addison’s disease",
+        "Hyptothyroidism",
+        "Malnutrition"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Important buffer system of extracellular fluid is",
+      "o": [
+        "Bicarbonate/carbonic acid",
+        "Disodium hydrogen phosphate/sodium dihydrogen phosphate",
+        "Plasma proteins",
+        "Organic Phosphate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The pH of body fluids is stabilized by buffer systems. The compound which will be the most effective buffer at physiologic pH is",
+      "o": [
+        "Na HPO pKa = 12.32",
+        "Na HPO pKa = 7.21 2 4 2 4",
+        "NH OH pKa = 7.24",
+        "Citric acid pKa = 3.09"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "All the following conditions produce isotonic expansion of extracellular fliud volume, except:",
+      "o": [
+        "Congestive cardiac failure",
+        "Infusion with normal saline",
+        "Hyperaldesteronism",
+        "Pulmonary edema"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Isotonic expansion of ECF:",
+      "o": [
+        "Hematocrit value",
+        "Osmolality of urine",
+        "Specific gravity of urine",
+        "Urinary pH"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "All the following hormones affect fluid and electrolyte balance, except:",
+      "o": [
+        "Aldosterone",
+        "Antidiuretic hormone",
+        "Cortisone",
+        "Thyroxine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The type of fluid electrolyte imbalance seen in a case of diabetic insipidus is:",
+      "o": [
+        "Isotonic expansion",
+        "Hypotonic contraction",
+        "Hypertonic contraction",
+        "Hypertonic expansion"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The major difference between intracellular fluid (ICF) and extracellular fluid (ECF) is that:",
+      "o": [
+        "ECF has a lower protein concentration than ICF",
+        "Chloride level is higher in ECP",
+        "Sodium concentration is lower in ECF",
+        "Phosphates form the major anion of ECF"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Secretion of ADH is stimulated by all, except:",
+      "o": [
+        "Increased sodium in serum",
+        "High osmolality of plasma",
+        "Inability to retain sodium",
+        "Contraction of ECF volume"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "A patient with diarrhea may have all the following abnormalities, except:",
+      "o": [
+        "Metabolic acidosis",
+        "Isotonic contraction of ECF",
+        "Hypertonic contraction of ECF",
+        "Urine with a specific gravity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "The incorrect statement regarding osmolality of ECF is:",
+      "o": [
+        "Mainly contributed by proteins",
+        "Regulated by kidney",
+        "Dependent on sodium level",
+        "Sensed by thirst center"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Electrolyte and water balance",
+      "q": "Hyponatremia is seen in:",
+      "o": [
+        "Addisonˈs disease",
+        "Connˈs disease",
+        "Diabetes insipidus",
+        "Compulsive water drinking"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "All are true for renal handling of acids in metabolic acidosis, except:",
+      "o": [
+        "Hydrogen ion secretion is increased",
+        "Bicarbonate reabsorption is decreased",
+        "Urinary acidity is increased",
+        "Urinary ammonia is increased"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Ventilation increases and more carbon dioxide is removed from the blood:",
+      "o": [
+        "pCO2 will increase",
+        "hydrogen ion concentration of the blood will decrease",
+        "blood pH will decrease",
+        "hydrogen ion concentration of the blood will decrease"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "A person was admitted in a coma. Analysis of the arterial blood gave the following values: PCO 16 mm Hg, HCO - 5 mmol/l and pH 7.1. What is the underlying acid-base disorder?",
+      "o": [
+        "Metabolic Acidosis",
+        "Metabolic Alkalosis",
+        "Respiratory Acidosis",
+        "Respiratory Alkalosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "In a man undergoing surgery, it was necessary to aspirate the contents of the upper gastrointestinal tract. After surgery, the following values were obtained from an arterial blood sample: pH 7.55, PCO2 52 mm Hg and HCO3 - 40 mmol/",
+      "o": [
+        "What is the underlying disorder?",
+        "Metabolic Acidosis",
+        "Metabolic Alkalosis",
+        "Respiratory Acidosis",
+        "Respiratory Alkalosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "A young woman is found comatose, having taken an unknown number of sleeping pills an unknown time before. An arterial blood sample yields the following values: pH – 6.90, HCO - 13 meq/liter, PaCO 68 mmHg. This patient’s acid-base status is most accurately described as:",
+      "o": [
+        "Uncompensated metabolic acidosis",
+        "uncompensated respiratory acidosis",
+        "simultaneous respiratory and metabolic acidosis",
+        "respiratory acidosis with partial renal compensation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "A student is nervous for a big exam and is breathing rapidly, what do you expect out of the followings:",
+      "o": [
+        "Metabolic Acidosis",
+        "Metabolic Alkalosis",
+        "Respiratory Acidosis",
+        "Respiratory Alkalosis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "A 45- year-old female with renal failure, missed her dialysis and was feeling sick, what could be the reason?",
+      "o": [
+        "Metabolic Acidosis",
+        "Metabolic Alkalosis",
+        "Respiratory Acidosis",
+        "Respiratory Alkalosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "An 80-year-old man had a bad cold. After two weeks he said, “It went in to my chest, I am feeling tightness in my chest, I am coughing, suffocated and unable to breathe!” What could be the possible reason?",
+      "o": [
+        "Metabolic Acidosis",
+        "Metabolic Alkalosis",
+        "Respiratory Acidosis",
+        "Respiratory Alkalosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "A post operative surgical patient had a naso gastric tube in for three days. The nurse caring for the patient stated that there was much drainage from the tube that is why she felt so sick. What could be the reason?",
+      "o": [
+        "Metabolic Acidosis",
+        "Metabolic Alkalosis",
+        "Respiratory Acidosis",
+        "Respiratory Alkalosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "The pH of the body fluids is stabilized by buffer systems. Which of the following compounds is the most effective buffer system at physiological pH?",
+      "o": [
+        "Bicarbonate buffer",
+        "Phosphate buffer",
+        "Protein buffer",
+        "All of the above"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Which of the following laboratory results below indicates compensated metabolic alkalosis?",
+      "o": [
+        "Low p CO , normal bicarbonate and, high pH",
+        "Low p CO , low bicarbonate, low pH",
+        "High p CO , normal bicarbonate and, low p H",
+        "High pCO , high bicarbonate and High pH"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "The greatest buffering capacity at physiological p H would be provided by a protein rich in which of the following amino acids?",
+      "o": [
+        "Lysine",
+        "Histidine",
+        "Aspartic acid",
+        "Leucine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Which of the following is most appropriate for a female suffering from Insulin dependent diabetes mellitus with a pH of 7.2, HCO -17 mmol/L and pCO -20 mm HG:",
+      "o": [
+        "Metabolic Acidosis",
+        "Metabolic Alkalosis",
+        "Respiratory Acidosis",
+        "Respiratory Alkalosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "All are true about metabolic alkalosis, except one:",
+      "o": [
+        "Associated with hyperkalemia",
+        "Associated with decreased ionic calcium concentration",
+        "Can be caused due to Primary hyperaldosteronism",
+        "Can be caused due to Renin secreting tumor"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "What is the normal range of bicarbonate ion (HCO -) in arterial blood?",
+      "o": [
+        "35-45",
+        "22-26",
+        "7.35-7.45",
+        "Not listed"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Hyperventilation (breathing in and out more air than normal) during a panic attack causes an increase in blood .",
+      "o": [
+        "partial pressure of CO2 and H+",
+        "pH",
+        "H+",
+        "partial pressure of CO2"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Causes of metabolic alkalosis include the following, except˸",
+      "o": [
+        "Prolonged vomiting",
+        "Continuous gastric aspiration",
+        "Hyperventilation",
+        "Ingestion of antacids"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Biochemical findings in diabetic ketoacidosis include the following , except˸",
+      "o": [
+        "pCO2 is lowered or normal",
+        "Increased anion gap",
+        "Lowered bicarbonate level",
+        "Elevation of plasma chloride"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "In respiratory acidosis, patient will show which of the following features?",
+      "o": [
+        "A low pCO2",
+        "Lowered plasma bicarbonate",
+        "Reduced rate and depth of respiration",
+        "Decreased hydrogen ion concentration in plasma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Administration of diuretics cause loss of potassium, which may lead to:",
+      "o": [
+        "Metabolic acidosis",
+        "Respiratory acidosis",
+        "Metabolic alkalosis",
+        "Respiratory alkalosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Which of the following conditions will produce a high anion gap acidosis?",
+      "o": [
+        "Diarrhea",
+        "Renal tubular acidosis",
+        "Renal failure",
+        "Ureterosigmoidostomy"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Metabolic alkalosis is characterized by:",
+      "o": [
+        "High hydrogen ion concentration in plasma",
+        "Increased pCO2",
+        "Elevated chloride level in serum",
+        "Low potassium level"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Respiratory acidosis can result from all the following, except:",
+      "o": [
+        "Bronchial asthma",
+        "Narcotic poisoning",
+        "Poliomyelitis",
+        "Artificial ventilation"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Nonrespiratory alkalosis can result from:",
+      "o": [
+        "Persistent vomiting",
+        "Salicylate poisoning",
+        "Chronic renal failure",
+        "Cyanotic heart disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "When pH falls by 1 unit, the hydrogen ion concentration",
+      "o": [
+        "Decreases 10 times",
+        "Increases two fold",
+        "Changes by 7 times",
+        "Increases 10 times"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Acid-base balance and pH",
+      "q": "Rapid correction of acidosis in a patient with hypoxia leads to:",
+      "o": [
+        "Improvement of pO2",
+        "Decreased tissue oxygenation",
+        "Decreased affinity of hemoglobin for oxygen",
+        "Exaggerated 2,3 BPG effect"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "When ATP forms AMP",
+      "o": [
+        "Inorganic pyrophosphate is produced",
+        "Inorganic phosphorous is produced",
+        "Phsophagen is produced",
+        "No energy is produced"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Calcium is excreted by",
+      "o": [
+        "Kidney",
+        "Kidney and intestine",
+        "Kidney and liver",
+        "Kidney and pancreas"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Alcohol dehydrogenase from liver contains",
+      "o": [
+        "Sodium",
+        "Copper",
+        "Zinc",
+        "Magnesium"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Sodium is involved in the active uptake of",
+      "o": [
+        "D-Glucose",
+        "D-Galactose",
+        "L-Amino acids",
+        "All of these"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Magnesium ions are required in the reactions involving",
+      "o": [
+        "NAD",
+        "FAD",
+        "ATP",
+        "CoA"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "An increase in carbohydrate metabolism is accompanied by temporary decrease in serum:",
+      "o": [
+        "Calcium",
+        "Phosphate",
+        "Iron",
+        "Sodium"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The normal serum level of phosphorus in human adult is",
+      "o": [
+        "1–2 mg",
+        "2–3 mg",
+        "3–4.5 mg",
+        "5–7 mg"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "An inherited or acquired renal tubular defect in the reabsorption of phosphate (Vit D resistant ricket) is characterized with",
+      "o": [
+        "Normal serum Phosphate",
+        "High serum phosphate",
+        "A low blood phosphorous with elevated alkaline Phosphate",
+        "A high blood phosphorous with decreased alkaline phosphatase"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "A rise in blood calcium may indicate",
+      "o": [
+        "Paget’s disease",
+        "Rickets",
+        "Osteomalacia",
+        "Hypervitaminosis D"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "In iron deficiency anemia",
+      "o": [
+        "The plasma bound iron is low",
+        "The plasma bound iron is high",
+        "Total iron binding capacity is low",
+        "Both the plasma bound iron and total iron binding capacity are low"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "In hepatic diseases",
+      "o": [
+        "Both the bound iron and total iron binding capacity of the plasma may be low",
+        "Both the bound iron and total iron binding capacity of the plasma may be high",
+        "Only bound iron may be high",
+        "Only the total iron binding capacity may be high"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "A hypochromic microcytic anemia with increased iron stores in the bone marrow may be",
+      "o": [
+        "Iron responsive",
+        "Pyridoxine responsive",
+        "Vitamin B12 responsive",
+        "Folate responsive"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "An increased serum iron and decreased iron binding capacity is found in",
+      "o": [
+        "Fe deficiency anemia",
+        "Sideroblastic anemia",
+        "Folate deficiency anemia",
+        "Sickle cell anemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Wilson’s disease is a condition of toxicosis of",
+      "o": [
+        "Iron",
+        "Copper",
+        "Chromium",
+        "Molybdenum"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "In Wilson’s disease",
+      "o": [
+        "Copper fails to be excreted in the bile",
+        "Copper level in plasma is decreased",
+        "Ceruloplasmin level is increased",
+        "Intestinal absorption of copper is decreased"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Richest source of chromium is",
+      "o": [
+        "Brewer’s yease",
+        "Milk and milk products",
+        "Yellow vegetables",
+        "Green vegetables"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Selenium is a constituent of the enzyme:",
+      "o": [
+        "Glutathione peroxidase",
+        "Homogentisate oxidase",
+        "Tyrosine hydroxylase",
+        "Phenylalanin hydroxylase"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Sulphur is made available to the body by the amino acids:",
+      "o": [
+        "Cystine and methionine",
+        "Taurine and alanine",
+        "Proline and hydroxyproline",
+        "Arginine and lysine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Sulphur containing coenzyme is",
+      "o": [
+        "NAD",
+        "FAD",
+        "Pyridoxal phosphate",
+        "Biotin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following mineral deficiency may result into impaired growth and development, skin lesions and loss of appetite?",
+      "o": [
+        "Zinc",
+        "Cobalt",
+        "Iron",
+        "Magnesium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following carbohydrate is effective in promoting the calcium absorption?",
+      "o": [
+        "Lactose",
+        "Maltose",
+        "Sucrose",
+        "Xylose"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "What condition is caused by iodine deficiency during pregnancy and is characterized by stunted growth, deafness, and mental retardation?",
+      "o": [
+        "Cretinism",
+        "Keshan disease",
+        "Multiple sclerosis",
+        "Crohn's disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Wilson's disease is an example of and Menkes' syndrome is an example of .",
+      "o": [
+        "Zinc deficiency; zinc toxicity",
+        "Zinc toxicity; zinc deficiencyC) Copper deficiency; copper toxicity",
+        "Copper toxicity; copper deficiency"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following statement is correct?",
+      "o": [
+        "Sodium and chloride are the chief extracellular ions of the body",
+        "Sodium and chloride are primarily involved in maintaining osmotic equilibrium and body fluid volume.",
+        "Chloride ion is necessary for the production of hydrochloric acid of gastric juice.",
+        "All of these"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Respiratory acidosis is caused by",
+      "o": [
+        "Increase in carbonic acid relative to bicarbonate",
+        "Decrease in bicarbonate fraction",
+        "Increase in bicarbonate fraction",
+        "Decrease in the carbonic acid fraction"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Metabolic acidosis is caused in",
+      "o": [
+        "Uncontrolled diabetes with ketosis",
+        "Pneumonia",
+        "Intestinal Obstruction",
+        "Hepatic coma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Excretion of conjugated bilirubin from liver cells into biliary canaliculi is defective in",
+      "o": [
+        "Gilbert’s disease",
+        "Crigler-Najjar syndrome",
+        "Lucey-Driscoll syndrome",
+        "Rotor’s syndrome"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The correct statement about serum inorganic phosphorous concentration is",
+      "o": [
+        "It is higher in men than in women",
+        "It is higher in women than in men",
+        "It is higher in adults than in children",
+        "It is higher in children than in adults"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "A high plasma calcium level decreases intestinal absorption of calcium by",
+      "o": [
+        "Stimulating the secretion of parathormone",
+        "Inhibiting the secretion of parathormone",
+        "Decreasing the synthesis of cholecalciferol",
+        "Inhibiting the secretion of thyrocalcitonin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Haemoglobin contains about",
+      "o": [
+        "30% of the total body iron",
+        "50% of the total body iron",
+        "75% of the total body iron",
+        "90% of the total body iron"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "All the following statements about ceruloplasmin are correct except",
+      "o": [
+        "It is a copper-containing protein",
+        "It possesses oxidase activity",
+        "It is synthesised in intestinal mucosa",
+        "Its plasma level is decreased inWilson’s disease"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Zinc deficiency occurs commonly in",
+      "o": [
+        "Acrodermatitis enteropathica",
+        "Wilson’s disease",
+        "Xeroderma pigmentosum",
+        "Menke’s disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "All the following statements regarding calcium are correct except",
+      "o": [
+        "It diffuses as a divalent cation",
+        "It freely diffuses across the endoplasmic reticulum of muscle cells",
+        "It can exist in the blood as ionic form and also protein bound",
+        "It is found in high concentration in bones"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Transferrin is a type of",
+      "o": [
+        "Albumin",
+        "α-globulin",
+        "β1 globulin",
+        "γ-globulin"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "In case of wilson’s disease, the features include all of the following except",
+      "o": [
+        "Progressive hepatic cirrhosis",
+        "Keyser Fleisher ring",
+        "Aminoaciduria",
+        "Urinary excretion of Cu is decreased"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The active transport of ‘Ca’ is regulated by which is synthesized in kidnyes.",
+      "o": [
+        "Cholecalciferol",
+        "Ergosterol",
+        "25-OH cholecalciferol",
+        "1, 25-di OH-Cholecalciferol"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "What is the normal level of K+ in the serum ?",
+      "o": [
+        "137–148 mEq/L",
+        "120–160 mEq/L",
+        "3.9–5.0 mEq/L",
+        "0.3–0.59 mEq/L"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The general functions of minerals are",
+      "o": [
+        "The structural components of body tissues",
+        "In the regulation of body fluids",
+        "In acid-base balance",
+        "All of these"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Ferritin is",
+      "o": [
+        "Coenzyme",
+        "One of the component of photophosphorylation",
+        "It is the stored form of iron",
+        "Non-protein moiety"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "What is the primary function of electrolytes in the body?",
+      "o": [
+        "To synthesize ATP from glucose",
+        "To regulate the body's temperature",
+        "To carry an electric charge in various processes",
+        "To produce hormones in the endocrine system"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The following are the functions of copper:",
+      "o": [
+        "Constituent of cytochromes",
+        "Catalase",
+        "Tyrosinase",
+        "All of these"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The normal serum inorganic phosphorous level is",
+      "o": [
+        "1.5–2.5 mg/100 ml",
+        "2.5–4.5 mg/100 ml",
+        "4.5–6.5 mg/100 ml",
+        "0.5–1.5 mg/100 m"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which group is most often affected with copper deficiency?",
+      "o": [
+        "Elderly woman",
+        "Alcoholics",
+        "Active toddlers with limited",
+        "Preterm infants food variety"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Parathyroid hormone directly causes",
+      "o": [
+        "Decalcification of bone",
+        "Increased intestinal absorption of calcium",
+        "Enhanced calcium excretion by kidneys",
+        "Calcification of bone"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Normal glucose metabolism requires",
+      "o": [
+        "Chromium",
+        "Manganese",
+        "Magnesium",
+        "Calcium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following vitamin is essential for the absorption of calcium from the intestinal tract? Vitamin D",
+      "o": [
+        "Vitamin D",
+        "Vitamin E",
+        "Vitamin B12",
+        "Vitamin B6"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Selenium deficiency leads to",
+      "o": [
+        "Liver necrosis",
+        "Diarrhea",
+        "Multiple sclerosis",
+        "Crohn's disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Adding to a breakfast of cereal will help your body absorb iron.",
+      "o": [
+        "Milk",
+        "Orange juice",
+        "Coffee",
+        "Water"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The predominant extracellular cation is",
+      "o": [
+        "Bicarbonate",
+        "Sodium",
+        "Potassium",
+        "Chloride"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Extracellular fluid has a",
+      "o": [
+        "Higher protein content than intracellular fluid",
+        "Higher potassium content that intracellular fluid",
+        "Higher sodium content than intracellular fluid",
+        "Higher number of large organic molecules than intracellular fluid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Serum electrolyte concentrations are most often expressed as",
+      "o": [
+        "mg%",
+        "mmHg",
+        "mg/dl",
+        "mEq/l"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following events occurs last?",
+      "o": [
+        "Release of renin by the kidney",
+        "Release of aldosterone by the adrenal cortex",
+        "Sodium reabsorption by the kidney tubules",
+        "Angiotensin I→ Angiotensin II"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The primary regulator of plasma sodium concentration is",
+      "o": [
+        "Renin",
+        "Atrial natriuretic hormone",
+        "Insulin",
+        "Antidiuretic hormone (ADH)"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following would be expected to cause hyponatremia?",
+      "o": [
+        "High intake of sodium",
+        "Increased aldosterone production",
+        "Increased ADH production",
+        "Increased urine output"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Oversecretion of aldosterone causes",
+      "o": [
+        "Hyperkalemia",
+        "Hypercalcemia",
+        "Hypernatremia",
+        "Increased urine volume"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Oversecretion of aldosterone causes",
+      "o": [
+        "Decreased secretion of calcium by the kidney",
+        "Increased secretion of potassium by the kidney",
+        "Increased reabsorption of phosphate ions by the kidney",
+        "Decreased reabsorption of sodium by the kidney"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following is correctly matched?",
+      "o": [
+        "Alkalosis- hypokalemia",
+        "Cell destruction- hypokalemiaC) Increased secretion of aldosterone- hyperkalemia",
+        "Acidosis- hypokalemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Calcium balance is influenced by",
+      "o": [
+        "ADH and parathyroid hormone levels",
+        "ADH and aldosterone levels",
+        "Parathyroid hormone and vitamin D levels",
+        "Insulin and glucagon"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Angiotensin II increases blood volume by stimulating",
+      "o": [
+        "Thirst",
+        "Water movement into the cells",
+        "Renal excretion of sodium",
+        "Vasodilatation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following substances releases hydrogen ions into a solution?",
+      "o": [
+        "Acids",
+        "Bases",
+        "Salts",
+        "Water"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "pH",
+      "o": [
+        "Increases with acidity",
+        "Is measured on a scale of 0 to 10",
+        "Reflects sodium content of body fluids",
+        "Is a measure of the hydrogen ion concentration"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "If the hydrogen ion concentration in the blood increases, bicarbonate ions act as a buffers by",
+      "o": [
+        "Removing excess hydrogen ions from the plasma",
+        "Releasing hydrogen ions into the plasma",
+        "Combining with chloride ions",
+        "Combining with hemoglobin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following is not a buffer system of the body?",
+      "o": [
+        "Bicarbonate buffer system",
+        "Phosphate buffer system",
+        "Protein buffer system",
+        "NaCl buffer system"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Body fluid pH will rise dramatically when",
+      "o": [
+        "Sodium is excreted by the kidney",
+        "Large amounts of bicarbonate are ingested",
+        "Carbonic acid is formed",
+        "Carbon dioxide levels increase"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "As a result of hyperventilation",
+      "o": [
+        "The body pH decreases",
+        "The parsial CO level decreaes",
+        "The kidney will increase the rate of hydrogen ion excretion",
+        "The plasma PCO level increses"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "An increase in blood CO levels is followed by a (n) in H ions and a (n) in blood pH.",
+      "o": [
+        "Decrease, decrease",
+        "Decrease, increase",
+        "Increase. Increase",
+        "Increase,decrease"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Respiratory alkalosis can occur as a result of",
+      "o": [
+        "Asphyxia",
+        "Asthma",
+        "Hyperventilation",
+        "Severe emphysema"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Once alkalosis has occurred, which of the following would you expect tohappen?",
+      "o": [
+        "Increased respiratory rate",
+        "Retention of hydrogen ions by the kidney",
+        "A plasma pH less than 7.40",
+        "Secretion of hydrogen ions by the kidney"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following individuals would have the largest percentage as water?",
+      "o": [
+        "A small 7-year –old female",
+        "A lean 35-year –old male athlete",
+        "A chunky 52-year-old male athlete",
+        "An adult female marathon runner"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following people would be most severely affected by prolonged vomiting?",
+      "o": [
+        "3-year- old male",
+        "15-year-old male",
+        "35-year-old female",
+        "50-year-old male"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The predominant intracellular cation is",
+      "o": [
+        "Potassium",
+        "Sodium",
+        "Calcium",
+        "Magnesium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "One difference between the plasma and intestinal fluid is that the plasma has significantly more than intestinal fluid.",
+      "o": [
+        "Protein",
+        "Chloride",
+        "Water volume",
+        "Hydrogen ions"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Receptors sensitive to changes in the osmolality of extracellular fluid are the.",
+      "o": [
+        "Baroreceptors",
+        "Chemoreceptors",
+        "Osmoreceptors",
+        "Proprioreceptors"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Elevated blood pressure under resting conditions results in increased urinary output because",
+      "o": [
+        "Baroreceptors signal the hypothalamus to increase ADH secretion",
+        "Elevated blood pressure stimulates renin secretion",
+        "Baroreceptors signal the hypothalamus to decrease ADH secretion",
+        "The amount of angiotensin II formed is increased"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Urinary water loss is increased in",
+      "o": [
+        "Diabetes mellitus",
+        "Diabetes insipidus",
+        "Chronic aldosterone secretion",
+        "Unresponsiveness of osmoreceptors"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The water produced during metabolic reactions in an adult is about",
+      "o": [
+        "100 ml/day",
+        "300 ml/day",
+        "500 ml/day",
+        "700 ml/day"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Anion gap in plasma is because",
+      "o": [
+        "Of differential distribution of ions across cell membranes",
+        "Cations outnumber anions in plasma",
+        "Anions outnumber cations in plasma",
+        "Of unmeasured anions in plasma"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "All the following features are found in blood chemistry in uncompensated lactic acidosis except",
+      "o": [
+        "pH is decreased",
+        "Bicarbonate is decreased",
+        "pCO2 is normal",
+        "Anion gap is normal"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "All the following statements about renal tubular acidosis are correct except",
+      "o": [
+        "Renal tubules may be unable to reabsorb bicarbonate",
+        "Renal tubules may be unable to secrete hydrogen ions",
+        "Plasma chloride is elevated",
+        "Anion gap is decreased"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Which of the following features are present in blood chemistry in uncompensated metabolic alkalosis except? (A) Increased pH",
+      "o": [
+        "Increased bicarbonate",
+        "Normal chloride",
+        "Normal pCO2"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Respiratory acidosis results from",
+      "o": [
+        "Retention of carbon dioxide",
+        "Excessive elimination of carbon dioxide",
+        "Retention of bicarbonate",
+        "Excessive elimination of bicarbonate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Respiratory acidosis can occur in all of the following except",
+      "o": [
+        "Pulmonary oedema",
+        "Hysterical hyperventilation",
+        "Pneumothorax",
+        "Emphysema"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Buffering action of haemoglobin is mainly due to its",
+      "o": [
+        "Glutamine residues",
+        "Arginine residues",
+        "Histidine residues",
+        "Lysine residues"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Quantitatively, the most significant buffer system in plasma is",
+      "o": [
+        "Phosphate buffer system",
+        "Carbonic acid-bicarbonate buffer system",
+        "Lactic acid-lactate buffer system",
+        "Protein buffer system"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Obligatory reabsorption of water",
+      "o": [
+        "Is about 50% of the total tubular reabsorption of water",
+        "Is increased by antidiuretic hormone",
+        "Occurs in distal convoluted tubules",
+        "Is secondary to reabsorption of solutes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Bohr effect is",
+      "o": [
+        "Shifting of oxyhemoglobin dissociation curve to the right",
+        "Shifting of oxyhemoglobin dissociation curve to the left",
+        "Ability of hemoglobin to combine with O2",
+        "Exchange of chloride with carbonate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Osmotic pressure of plasma is",
+      "o": [
+        "80–100 milliosmole/litre",
+        "180–200 milliosmole/litre",
+        "280–300 milliosmole/litre",
+        "380–400 milliosmole/litre"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Oncotic pressure of plasma is due to",
+      "o": [
+        "Proteins",
+        "Chloride",
+        "Sodium",
+        "All of these"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Hypokalemia with an accompanying hypochloremic alkalosis may be observed in",
+      "o": [
+        "Cushing’s syndrome",
+        "Addison’s disease",
+        "Hyptothyroidism",
+        "Malnutrition"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The exclusive function of iron in the body is confined to the process of",
+      "o": [
+        "Muscular contraction",
+        "Nerve excitation",
+        "Cellular respiration",
+        "Blood coagulation"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "A high serum potassium, accompanied by a high intracellular potassium occurs in",
+      "o": [
+        "Adrenal insufficiency",
+        "Any illness",
+        "Gastrointestinal losses",
+        "Cushing’s syndrome"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Hypermagnesemia may be observed in",
+      "o": [
+        "Hyperparathyroidism",
+        "Diabetes mellitus",
+        "Kwashiorkar",
+        "Primary aldosteronism"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "An important cause of water intoxication is",
+      "o": [
+        "Nephrogenic diabetes insipidus",
+        "Renal failure",
+        "Gastroenteritis",
+        "Fanconi syndrome"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "The percentage of water contained in the body of an individual is less because of",
+      "o": [
+        "High fat content",
+        "Low fat content",
+        "High protein content",
+        "Low protein content"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Mineral metabolism and abnormalities",
+      "q": "Action of kinins is to",
+      "o": [
+        "Increase salt excretion",
+        "Decrease salt retention",
+        "Decrease water retention",
+        "Increase both salt and water excretion"
+      ],
+      "c": 3
     }
   ]
 }
