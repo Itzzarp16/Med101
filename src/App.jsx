@@ -1143,9 +1143,7 @@ export default function App() {
       {screen === 'answer-key' && (
         <Suspense fallback={<ScreenFallback />}>
           <AnswerKeyScreen
-            scopedQuestions={scopedQuestions}
-            subjectGroup={subjectGroup}
-            mainSubjectMeta={scopedMainSubjectMeta}
+            activeSemesterId={activeSemesterId}
             onBack={goBack}
           />
         </Suspense>
