@@ -16,7 +16,7 @@
   },
   "rewrites": [
     {
-      "source": "/((?!api/|assets/).*)",
+      "source": "/((?!api/|assets/|answer-keys/).*)",
       "destination": "/index.html"
     }
   ],
