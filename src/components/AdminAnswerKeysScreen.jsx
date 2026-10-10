@@ -22,9 +22,20 @@ function fileToBase64(file) {
 }
 
 export default function AdminAnswerKeysScreen({ semesters = [], semesterMainSubjects = {} }) {
-  const [semesterId, setSemesterId] = useState('y2s1');
+  const [semesterId, setSemesterId] = useState('y1s2');
   const [subject, setSubject] = useState('');
+  const [customSubject, setCustomSubject] = useState('');
   const subjectOptions = semesterMainSubjects?.[semesterId] || [];
+  const hasDashboardSubjects = subjectOptions.length > 0;
+  const selectedSubject = hasDashboardSubjects ? (subject === '__custom__' ? customSubject.trim() : subject) : customSubject.trim();
+  const semesterOptions = [
+    { id: 'y1s1', label: 'Semester 1' },
+    { id: 'y1s2', label: 'Semester 2' },
+    { id: 'y2s1', label: 'Semester 3' },
+    { id: 'y2s2', label: 'Semester 4' },
+    { id: 'y3s1', label: 'Semester 5' },
+    { id: 'y3s2', label: 'Semester 6' },
+  ];
   const [file, setFile] = useState(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -34,8 +45,8 @@ export default function AdminAnswerKeysScreen({ semesters = [], semesterMainSubj
     event.preventDefault();
     setError('');
     setSuccess(null);
-    if (!subject || !file) {
-      setError('Select a dashboard subject and choose a PDF file.');
+    if (!selectedSubject || !file) {
+      setError('Select a dashboard subject (or enter a subject name if none is listed) and choose a PDF file.');
       return;
     }
     if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
@@ -73,12 +84,13 @@ export default function AdminAnswerKeysScreen({ semesters = [], semesterMainSubj
       const response = await fetch('/api/upload-questions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
-        body: JSON.stringify({ uploadType: 'answerKey', semesterId, subject: subject.trim(), uploadId, chunkCount: chunks.length }),
+        body: JSON.stringify({ uploadType: 'answerKey', semesterId, subject: selectedSubject, uploadId, chunkCount: chunks.length }),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'Upload failed.');
       setSuccess(data);
       setSubject('');
+      setCustomSubject('');
       setFile(null);
       const input = document.getElementById('answer-key-pdf-file');
       if (input) input.value = '';
@@ -95,22 +107,35 @@ export default function AdminAnswerKeysScreen({ semesters = [], semesterMainSubj
       <div className="std-header">
         <h1 className="std-title">📄 Upload Answer-Key PDF</h1>
         <p className="std-sub">
-          Select a semester and a subject already listed on the student dashboard. The PDF filename is generated automatically from the subject, and the file is committed to that semester’s GitHub folder,
+          All six semesters are available. Subjects listed on the student dashboard appear in the dropdown; if a semester has no dashboard subjects, you can enter the subject name yourself. The PDF filename is generated automatically from the subject, and the file is committed to that semester’s GitHub folder,
           then appears on the student Answer Key page after Vercel deploys the new commit.
           No Firebase Storage is used.
         </p>
       </div>
       <form className="glass std-card" onSubmit={handleUpload}>
         <label className="auth-label" htmlFor="answer-key-semester">Semester</label>
-        <select id="answer-key-semester" className="auth-input" value={semesterId} onChange={(e) => { setSemesterId(e.target.value); setSubject(''); }}>
-          {semesters.map((semester) => <option key={semester.id} value={semester.id}>{semester.label || semester.id}</option>)}
+        <select id="answer-key-semester" className="auth-input" value={semesterId} onChange={(e) => { setSemesterId(e.target.value); setSubject(''); setCustomSubject(''); }}>
+          {semesterOptions.map((semester) => <option key={semester.id} value={semester.id}>{semester.label}</option>)}
         </select>
 
         <label className="auth-label" htmlFor="answer-key-subject">Subject</label>
-        <select id="answer-key-subject" className="auth-input" value={subject} onChange={(e) => setSubject(e.target.value)}>
-          <option value="">Select a dashboard subject…</option>
-          {subjectOptions.map((name) => <option key={name} value={name}>{name}</option>)}
-        </select>
+        {hasDashboardSubjects ? (
+          <>
+            <select id="answer-key-subject" className="auth-input" value={subject} onChange={(e) => setSubject(e.target.value)}>
+              <option value="">Select a dashboard subject…</option>
+              {subjectOptions.map((name) => <option key={name} value={name}>{name}</option>)}
+              <option value="__custom__">Other — enter subject name</option>
+            </select>
+            {subject === '__custom__' && (
+              <input className="auth-input" type="text" maxLength={120} placeholder="Enter subject name"
+                value={customSubject} onChange={(e) => setCustomSubject(e.target.value)} />
+            )}
+          </>
+        ) : (
+          <input id="answer-key-subject" className="auth-input" type="text" maxLength={120}
+            placeholder="No dashboard subjects available — enter subject name"
+            value={customSubject} onChange={(e) => setCustomSubject(e.target.value)} />
+        )}
 
         <label className="auth-label" htmlFor="answer-key-pdf-file">PDF file (max 15 MB)</label>
         <input id="answer-key-pdf-file" className="auth-input" type="file" accept="application/pdf,.pdf"
