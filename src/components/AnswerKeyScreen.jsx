@@ -17,6 +17,7 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
   const [pdfs, setPdfs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState(false);
+  const [viewingPdf, setViewingPdf] = useState(null);
 
   useEffect(() => {
     let alive = true;
@@ -39,6 +40,24 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
     () => pdfs.filter((pdf) => pdf.semesterId === activeSemesterId),
     [pdfs, activeSemesterId],
   );
+
+  if (viewingPdf) {
+    const viewerUrl = `${viewingPdf.path}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
+    return (
+      <div className="std-screen wf-screen ak-pdf-screen ak-pdf-viewer-screen">
+        <ScreenHeader onBack={() => setViewingPdf(null)} title={viewingPdf.subject}>
+          {semesterLabel} · Answer Key PDF
+        </ScreenHeader>
+        <div className="ak-viewer-toolbar">
+          <span className="ak-viewer-label"><span className="ak-viewer-dot" /> PDF DOCUMENT</span>
+          <a className="ak-pdf-btn ak-viewer-download" href={viewingPdf.path} download={viewingPdf.filename}>Download PDF</a>
+        </div>
+        <div className="ak-viewer-frame-wrap">
+          <iframe className="ak-viewer-frame" src={viewerUrl} title={`${viewingPdf.subject} answer key PDF`} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="std-screen wf-screen ak-pdf-screen">
@@ -72,7 +91,7 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
                 <div className="ak-pdf-subtitle">{semesterLabel} · PDF document</div>
               </div>
               <div className="ak-pdf-actions">
-                <a className="ak-pdf-btn" href={pdf.path} target="_blank" rel="noreferrer">View PDF</a>
+                <button className="ak-pdf-btn" type="button" onClick={() => setViewingPdf(pdf)}>View PDF</button>
                 <a className="ak-pdf-btn ak-pdf-btn-secondary" href={pdf.path} download={pdf.filename}>Download</a>
               </div>
             </article>
