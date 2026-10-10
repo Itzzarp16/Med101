@@ -154,8 +154,12 @@ class handler(BaseHTTPRequestHandler):
         # Persist in the in-app inbox even if this user has no push token.
         # A stable ID prevents duplicate inbox entries if the endpoint retries.
         inbox_id = f'{kind}-{invite_id}'
+        # The push text says "Open Med101..." because it is read from outside
+        # the app; the in-app inbox is already inside Med101, so it gets a
+        # neutral line (the app also shows Accept/Decline buttons inline).
+        inbox_body = 'Wants to connect with you on Med101.' if kind == 'friendRequest' else body
         user_ref.collection('notifications').document(inbox_id).set({
-            'title': title, 'body': body, 'screen': screen, 'kind': kind,
+            'title': title, 'body': inbox_body, 'screen': screen, 'kind': kind,
             'createdAt': firestore.SERVER_TIMESTAMP, 'read': False,
             'fromUid': decoded['uid'], 'sourceId': invite_id,
         }, merge=True)
