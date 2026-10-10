@@ -2,6 +2,12 @@
   "pdfs": [
     {
       "semesterId": "y2s1",
+      "subject": "Microbiology",
+      "filename": "microbiology.pdf",
+      "path": "/answer-keys/semester-3/microbiology.pdf"
+    },
+    {
+      "semesterId": "y2s1",
       "subject": "Physiology 2",
       "filename": "physiology-2.pdf",
       "path": "/answer-keys/semester-3/physiology-2.pdf"
