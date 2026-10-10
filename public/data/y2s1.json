@@ -266,6 +266,81 @@
       "emoji": "💻",
       "desc": "",
       "accent": "var(--cyan)"
+    },
+    "Hygiene Basics & Research Methods": {
+      "emoji": "🧪",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "History of Hygiene & Public Health": {
+      "emoji": "📜",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Health, Prevention & Risk Factors": {
+      "emoji": "🛡️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Vitamins": {
+      "emoji": "💊",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Proteins, Carbohydrates & Fats": {
+      "emoji": "🥩",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Nutrition & Diet": {
+      "emoji": "🍎",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Food Products & Food Poisoning": {
+      "emoji": "🍽️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Water Hygiene": {
+      "emoji": "💧",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Microclimate & Air Temperature": {
+      "emoji": "🌡️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Environmental & Air Pollution": {
+      "emoji": "🏭",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Soil Hygiene": {
+      "emoji": "🌱",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Child & School Hygiene": {
+      "emoji": "🏫",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Hospital Hygiene & Nosocomial Infection": {
+      "emoji": "🏥",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Occupational Health": {
+      "emoji": "⚒️",
+      "desc": "",
+      "accent": "var(--cyan)"
+    },
+    "Noise, Vibration & Illumination": {
+      "emoji": "🔊",
+      "desc": "",
+      "accent": "var(--cyan)"
     }
   },
   "subjectGroup": {
@@ -312,7 +387,22 @@
     "Congenital Anomalies & Teratogenesis": "Pathology 1",
     "Neonatal & Perinatal Pathology": "Pathology 1",
     "Paediatric Tumours": "Pathology 1",
-    "Digital Pathology": "Pathology 1"
+    "Digital Pathology": "Pathology 1",
+    "Hygiene Basics & Research Methods": "Community Medicine",
+    "History of Hygiene & Public Health": "Community Medicine",
+    "Health, Prevention & Risk Factors": "Community Medicine",
+    "Vitamins": "Community Medicine",
+    "Proteins, Carbohydrates & Fats": "Community Medicine",
+    "Nutrition & Diet": "Community Medicine",
+    "Food Products & Food Poisoning": "Community Medicine",
+    "Water Hygiene": "Community Medicine",
+    "Microclimate & Air Temperature": "Community Medicine",
+    "Environmental & Air Pollution": "Community Medicine",
+    "Soil Hygiene": "Community Medicine",
+    "Child & School Hygiene": "Community Medicine",
+    "Hospital Hygiene & Nosocomial Infection": "Community Medicine",
+    "Occupational Health": "Community Medicine",
+    "Noise, Vibration & Illumination": "Community Medicine"
   },
   "questions": [
     {
@@ -21820,6 +21910,5385 @@
         "Elimination of all microscopes",
         "No tissue diagnosis",
         "Manual record-keeping"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Choose the correct answer, hygiene is a science:",
+      "o": [
+        "the science that studies the influence of the conditions in which there is a person, on his health and developing measures for the prevention of diseases, ensuring optimal conditions, maintaining health.",
+        "the science of the essence of the living, life in normal and pathological conditions",
+        "the science concerned with microscopic beings called microorganisms.",
+        "the science of living beings and their interaction with the environment."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Indicate what the word \"hygieinos\" means when translated from Greek:",
+      "o": [
+        "healthy",
+        "life",
+        "well-being",
+        "external environment"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Select the answer, where one of the hygiene tasks is indicated:",
+      "o": [
+        "development of preventive and current sanitary supervision",
+        "timely therapeutic assistance to the population",
+        "development of methods for diagnosing and treating infectious diseases",
+        "study of the patterns of the emergence of life"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Hygiene as a science is differentiated into general and particular. Specify sections of private hygiene:",
+      "o": [
+        "occupational health, nutrition, hygiene of children and adolescents",
+        "methodology, theoretical foundations of hygiene",
+        "hygienic regulation",
+        "hygienic toxicology"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "What section of private hygiene studies environmental hygiene, hygiene of housing and populated areas, hygiene of health care organizations and the impact on the health of the population of atmospheric air, water and soil, living conditions and accommodation, the environment of hospital and outpatient organizations:",
+      "o": [
+        "communal hygiene",
+        "food hygiene",
+        "occupational health",
+        "radiation hygiene"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "What section of private hygiene studies the impact of working conditions on the health of workers:",
+      "o": [
+        "occupational health",
+        "hygiene of children and adolescents",
+        "military hygiene",
+        "food hygiene"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Indicate the section of private hygiene that develops the issues of maintaining and strengthening the health of a particular person.",
+      "o": [
+        "personal hygiene",
+        "public hygiene",
+        "space hygiene",
+        "radiation hygiene"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Specify the main methods of hygienic research:",
+      "o": [
+        "method of sanitary examination and description, physical, chemical, biological methods, methods of sanitary examination.",
+        "epidemiological, sanitary-statistical, clinical methods, cultural method",
+        "serological method, molecular biological method",
+        "microscopic method, bacteriological method"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Determine which method of hygienic research refers to the study of living conditions in populated areas (housing, industrial, domestic):",
+      "o": [
+        "sanitary description method",
+        "physical method",
+        "biological method",
+        "chemical method"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Determine what research method is used to characterize temperature, humidity, movement speed, electrical state of air, barometric pressure, all types of radiant energy:",
+      "o": [
+        "using the physical method",
+        "using the epidemiological method",
+        "using the clinical method",
+        "using the cultural method"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Determine what the chemical method of hygienic research is used for:",
+      "o": [
+        "to determine the chemical composition of air",
+        "to assess the climate of populated areas",
+        "to characterize meteorological conditions in production",
+        "to evaluate various types of radiation"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Biological research methods should be understood as:",
+      "o": [
+        "",
+        "studies of environmental objects, during which the presence of micro- and macro organisms and substances of animal and plant origin is determined",
+        "a study that allows you to study the health of a team or the population of a city, district, region by analyzing certain accounting and reporting medical documents",
+        "study of the chemical composition of air, water, food",
+        "study of the health status of the population exposed to various environmental factors."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "define a method based on a combination of methods for studying the health status of the population under the influence of various endogenous (genetic, age-related, etc.) or exogenous (social, natural) factors:",
+      "o": [
+        "epidemiological method",
+        "biological method",
+        "cultural method",
+        "clinical method"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "What method does the study of the processes of accumulation of harmful chemicals in soil and plants refer to in laboratory facilities:",
+      "o": [
+        "laboratory experiment method",
+        "epidemiological method",
+        "physical method",
+        "chemical method"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hygiene Basics & Research Methods",
+      "q": "Specify the indicators required for the sanitary-statistical method:",
+      "o": [
+        "physical development, disability levels, mortality",
+        "pollution of water, soil",
+        "air pollution, food",
+        "housing, living and working conditions of life"
+      ],
+      "c": 0
+    },
+    {
+      "s": "History of Hygiene & Public Health",
+      "q": "Indicate the founder of medical knowledge in Greece, who is the author of the treatise \"On the air, waters and places\":",
+      "o": [
+        "Hippocrates",
+        "Abu Ali Ibn Sina",
+        "",
+        "Ramazzini",
+        "P. Frank"
+      ],
+      "c": 0
+    },
+    {
+      "s": "History of Hygiene & Public Health",
+      "q": "In the 15th-16th century, a manuscript entitled “The Canon of Medicine” was published in Asia, in which instructions were given on the hygiene of the home, clothing, nutrition for children and the elderly, and health protection. Specify the scientific physician, the author of this manuscript:",
+      "o": [
+        "Abu Ali Ibn Sina",
+        "L. Paster",
+        "C.I.I. Mechnikov",
+        "Claudius Galen"
+      ],
+      "c": 0
+    },
+    {
+      "s": "History of Hygiene & Public Health",
+      "q": "In 1797, the German scientist Hufeland published a book in which he highlighted the issues of personal hygiene. What was the name of the book:",
+      "o": [
+        "",
+        "\"Microbiotics, or the art of life extension\"",
+        "\"Discourse on the diseases of artisans\"",
+        "\"Complete Medical Police System\"",
+        "\"The Canon of Medicine\""
+      ],
+      "c": 0
+    },
+    {
+      "s": "History of Hygiene & Public Health",
+      "q": "Specify the founder of experimental hygiene:",
+      "o": [
+        "M. Pettenkofer",
+        "Commoner",
+        "A.P. Dobroslavin",
+        "F.F. Erisman"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What is the main biological role of carnitine?",
+      "o": [
+        "Transfers amine groups",
+        "Promotes the transport of fatty acids in mitochondria",
+        "Participates in the construction of membranes",
+        "Participates in the biosynthesis of cholesterol",
+        "Has an antioxidant effect"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "Which links of metabolism are disrupted with B3-hypovitaminosis?",
+      "o": [
+        "Deamination and transamination of amino acids.",
+        "Decarboxylation of amino acids.",
+        "Oxidation and biosynthesis of fatty acids.",
+        "Glycogen breakdown.",
+        "Glycogen synthesis."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Which of the listed substances are vitamins soluble in fats?",
+      "o": [
+        "Thiamine, pyridoxine",
+        "Folic acid, F-tocopherol",
+        "Naphthoquinone, retinol",
+        "Nicotinamide, riboflavin",
+        "Biotin, carnitine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Which of the listed disorders are not characteristic of hypovitaminosis E?",
+      "o": [
+        "Loss of reproductive function",
+        "Degeneration of skeletal muscles and myocardium",
+        "Nervous system disorders",
+        "Activation of the floor",
+        "Increase in the content of Ca and P"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Which of the following products are a source of tocopherol for humans?",
+      "o": [
+        "Liver of marine fish",
+        "Egg yolk",
+        "Egg white",
+        "Vegetable oils",
+        "Animal fats"
+      ],
+      "c": 3
+    },
+    {
+      "s": "History of Hygiene & Public Health",
+      "q": "In what century did the scientific and experimental period in the development of hygiene begin:",
+      "o": [
+        "from the middle of the XIX century.",
+        "at the beginning of the XVIII century.",
+        "at the end of the XVII century.",
+        "XV-XVI-cc."
+      ],
+      "c": 0
+    },
+    {
+      "s": "History of Hygiene & Public Health",
+      "q": "Indicate the head of the Military Medical Service of the Soviet Army, who studied the issues of military hygiene, occupational diseases, working conditions at industrial enterprises, the organization of medical care for workers, as well as the activities of a rural district doctor.",
+      "o": [
+        "Z.P. Solovyov",
+        "A.V. Molkov",
+        "N.F. Galanin",
+        "A.A. Letavet"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "The complex of elements of a physical, chemical, biological, psychological, economic, cultural and ethnic nature that make up a single, continuously changing ecosystem is called:",
+      "o": [
+        "Environment",
+        "Health",
+        "Hygiene",
+        "Healthy lifestyle"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "The system of measures aimed at creating the most favorable conditions for individual and collective life that fully meet the physiological needs of people is called:",
+      "o": [
+        "prevention",
+        "sanitary standard",
+        "health legislation",
+        "hygienic standard"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "What does community prevention include:",
+      "o": [
+        "activities systematically carried out by state bodies, organizations and institutions aimed at creating favorable conditions for collective life, ensuring a high level of public health and eliminating the causes of diseases",
+        "contains activities that the person himself carries out",
+        "contains a complex of medical measures and services based on the personal interest of the patient, aimed at reducing the likelihood of diseases.",
+        "contains a set of measures aimed at improving the quality of infrastructure"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Improvement of the living environment includes legislative, technological, sanitary, planning and organizational measures. What are the sanitary measures aimed at:",
+      "o": [
+        "for the treatment of harmful emissions into the atmosphere, discharges into water bodies and waste to the soil using treatment devices",
+        "for zoning the territory of populated areas, their landscaping",
+        "to limit environmental pollution through the development and creation of closed technological processes, waste-free technologies",
+        "to develop laws, by-laws, and norms and regulations for the environment"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Improvement of the living environment includes legislative, technological, sanitary, planning and organizational measures. Which measure includes the implementation of emissions and discharges of pollutants at different times of the day, limiting the time of emissions and discharges of pollutants, shift operation of process equipment:",
+      "o": [
+        "technology event",
+        "sanitary measure",
+        "planning event",
+        "organizational event"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Improvement of the living environment includes legislative, technological, sanitary, planning and organizational measures. What event does the zoning of the territory of populated areas, their landscaping include:",
+      "o": [
+        "planning",
+        "legislature",
+        "technological",
+        "sanitary technical"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "The conscious need for constant implementation of the rules and methods of maintaining and strengthening health, combined with a reasonable attitude towards the environment, is called:",
+      "o": [
+        "healthy lifestyle",
+        "health",
+        "incidence",
+        "addiction"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Specify one of the components of a healthy lifestyle.",
+      "o": [
+        "regular physical and motor activity, optimal motor mode",
+        "smoking, alcohol abuse",
+        "sedentary lifestyle",
+        "irregular sleep patterns"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Sanitation is a set of practical measures aimed at implementing the requirements of hygiene. There are the following types of sanitation:",
+      "o": [
+        "school, industrial, housing and communal and food sanitation.",
+        "primary and secondary",
+        "individual and social",
+        "private and general"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Specify the general name of the factors that are not the direct cause of a certain disease, but increase the likelihood of its occurrence:",
+      "o": [
+        "risk factors",
+        "health factors",
+        "factors that determine a healthy lifestyle",
+        "factors that shape the health of the population"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Risk factors due to genetic and characteristics of the human body acquired in the process of ontogenesis include:",
+      "o": [
+        "Biological risk factor",
+        "Social risk factor",
+        "Environmental risk factor",
+        "Physiological risk factor"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Indicate which population group does not belong to the main risk groups:",
+      "o": [
+        "people with genetic diseases",
+        "old people",
+        "children",
+        "pregnant"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Medical prevention:",
+      "o": [
+        "",
+        "a set of state, social and medical measures aimed at preserving and strengthening the health of citizens, raising a healthy young generation, and increasing working longevity;",
+        "a set of measures aimed at the improvement of medical and preventive organizations;",
+        "a set of measures aimed at the improvement of populated areas;",
+        "a set of measures aimed at treating the disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Primary prevention aims to:",
+      "o": [
+        "elimination of the cause of the disease by organizing a healthy lifestyle;",
+        "environmental protection;",
+        "protection of motherhood and childhood;",
+        "prevention of relapses and complications of diseases;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Secondary prevention:",
+      "o": [
+        "is aimed at identifying premorbid (premorbid) prenosological conditions by monitoring the health of people who have an increased risk of developing diseases;",
+        "is carried out among healthy people who are not at risk of developing the disease;",
+        "is carried out among sick people;",
+        "is aimed at preventing relapses and complications of diseases;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Tertiary prevention consists of:",
+      "o": [
+        "in the prevention of complications of already developed diseases;",
+        "in the formation of healthy lifestyle skills among various population groups;",
+        "in the examination of healthy people in order to prevent the development of the disease;",
+        "in the improvement of the environment;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "How many levels of health are distinguished:",
+      "o": [
+        "3",
+        "2",
+        "4",
+        "5"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Determine the level of health, determined by the genetic characteristics of this person, lifestyle:",
+      "o": [
+        "individual level",
+        "group level",
+        "social level",
+        "personal level"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "In an individual assessment of the state of health of the population, 5 main groups are distinguished. Which group do patients with frequent acute illnesses (more than 4 cases and 40 days of disability per year) belong to?",
+      "o": [
+        "3",
+        "4",
+        "5",
+        "1"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "In an individual assessment of the state of health of the population, 5 main groups are distinguished. Define the fifth group:",
+      "o": [
+        "patients with exacerbation of a long-term disease (subcompensatory state)",
+        "healthy individuals (not ill for a year or rarely visiting a doctor without a disability)",
+        "practically healthy individuals with functional and some morphological changes or rarely ill during the year",
+        "patients with long-term chronic diseases"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "The following types of environmental factors are determined: physical, chemical, biological, social factors and factors of human activity. Specify the physical factors of the environment:",
+      "o": [
+        "vibroacoustics, dust, lighting, ionizing radiation, microclimate",
+        "chemical elements, pesticides, organic compounds, complex chemicals",
+        "microorganisms, parasites, insects, antibiotics",
+        "culture, poverty, politics, economics"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "The following types of environmental factors are determined: physical, chemical, biological, social factors and factors of human activity. Specify the factors of human activity:",
+      "o": [
+        "daily routine, severity and intensity of labor",
+        "vibroacoustics, dust, lighting, ionizing radiation, microclimate",
+        "chemical elements, pesticides, organic compounds, complex chemicals",
+        "microorganisms, parasites, insects, antibiotics"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "The active form of vitamin D (1,25-dihydroxycholecalciferol) maintains a constant level of content in the body:",
+      "o": [
+        "Potassium and phosphorus",
+        "Calcium and phosphorus",
+        "Iron and calcium",
+        "Iron and magnesium",
+        "Magnesium and manganese"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "An analogue of vitamin K, which takes part in tissue respiration, is:",
+      "o": [
+        "Vikasol",
+        "Ubiquinone",
+        "Naphthoquinone",
+        "Tocopherol",
+        "Cytochrome"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "Vitamin K anti-vitamin is:",
+      "o": [
+        "Vikasol",
+        "Cholecalciferol",
+        "Dicumarol",
+        "Thiamine",
+        "Choline"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Anti—vitamins are substances that:",
+      "o": [
+        "",
+        "Inhibit the action of vitamins",
+        "Enhance the effect of vitamins",
+        "Cause hypervitaminosis",
+        "Are precursors of vitamins",
+        "Are metabolites of vitamins"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "For the absorption of vitamins by the body, a number of conditions are necessary. For the absorption of which vitamin is the Castle factor (glycoprotein, which is produced by stomach cells) necessary?",
+      "o": [
+        "Vitamin B12",
+        "Vitamin E",
+        "Vitamin C",
+        ".Vitamin B5",
+        "Vitamin B6"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "Fat- and water-soluble vitamins have a number of functional differences, except:",
+      "o": [
+        "",
+        "Have provitamins",
+        "They are coenzymes",
+        "Both groups are characterized by hypervitaminosis",
+        "Both groups are characterized by hypovitaminosis",
+        "Are modulators of cell membranes"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Fat-soluble vitamins perform numerous functions. From the re-read functions, name the one that is not inherent in them:",
+      "o": [
+        "Are not part of enzymes",
+        "",
+        "They are part of enzymes",
+        "Exhibit antioxidant properties",
+        "Have precursors — provitamins",
+        "Cause hypervitaminosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "What was vitamin B15 isolated from?",
+      "o": [
+        "From the liver of marine fish",
+        "From the spleen of animals",
+        "From plant seeds",
+        "From oblipikhovogo oil",
+        "From yeast"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Prostaglandins belong to substances that have numerous biological effects in different tissues. What substances are the precursors of prostaglandins?",
+      "o": [
+        "Plasma membrane glycoproteins",
+        "Saturated non-esterified fatty acids",
+        "Polyenic fatty acids of membrane phospholipids",
+        "Non-esterified cholesterol",
+        "Serum globulins"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "To which class of complex proteins does rhodopsin belong?",
+      "o": [
+        "Chromoproteins",
+        "Nucleoproteins",
+        "Lipoproteins",
+        "Phosphoproteins",
+        "Glycoproteins"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "How to make sure that the body is provided with vitamin B1?",
+      "o": [
+        "Determine the content of PVC in urine.",
+        "Conduct a Ratner test.",
+        "To do the Roberts-Stolnikov analysis.",
+        "Determine the content of ketone bodies in urine.",
+        "Determine the pH of the blood."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "What kind of disease develops with vitamin C deficiency?",
+      "o": [
+        "Take-take;",
+        "Rickets;",
+        "Itsenko-cushing;",
+        "Addison-birmer;",
+        "scurvy;"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Vitamins",
+      "q": "Which of the listed disorders are not characteristic of hypovitaminosis E?",
+      "o": [
+        "Loss of reproductive function",
+        "Degeneration of skeletal muscles and myocardium",
+        "Nervous system disorders",
+        "Activation of the floor",
+        "Increase in the content of Ca and P"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What substance should be constantly injected with orotaciduria — \"pyridine hunger\"?",
+      "o": [
+        "Trypsin",
+        "Methionine",
+        "Uridine",
+        "Adenine",
+        "Lysine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "What other name does lipoic acid have?",
+      "o": [
+        "Vitamin B8",
+        "Vitamin C",
+        "Vitamin E",
+        "Vitamin N",
+        "Vitamin G"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "What is the chemical name of vitamin B9?",
+      "o": [
+        "Pantothenic acid.",
+        "",
+        ". Ascorbic acid.",
+        ". Folic acid.",
+        "Pangamic acid.",
+        "Lipoic acid."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Which of the listed names has nothing to do with vitamin K?",
+      "o": [
+        "Antihemorrhagic",
+        "Growth Vitamin",
+        "Vitamin coagulation",
+        "Naphthoquinone",
+        "Filoquinone"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "Name vitamin B12 for its physiological action:",
+      "o": [
+        "Antihemorrhagic;",
+        "Antineuritic;",
+        "Anti - anemic;",
+        "Antixerophthalmic;",
+        "Antisclerotic."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Name the disease that occurs with B3-hypovitaminosis.",
+      "o": [
+        "Take-take.",
+        "Addison-Birmer.",
+        "Pellagra.",
+        "Bronze disease.",
+        "Gout."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Name vitamin A by its chemical nature and physiological action:",
+      "o": [
+        "Retinol, antipellagric",
+        "",
+        "Riboflavin, antixerophthalmic",
+        "Retinol, antixerophthalmic",
+        "Tocopherol, antihemorrhagic",
+        "Retinal, antiseborrheic"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Name vitamin B4 by its chemical name:",
+      "o": [
+        "Carnitine",
+        "Lipoic acid",
+        "Methionine",
+        "Choline",
+        "Anserin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Orotic acid is:",
+      "o": [
+        "Vitamin B10",
+        "Vitamin B15",
+        "Vitamin B13",
+        "Vitamin W",
+        "Vitamin B2"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Orotic acid stimulates a number of processes in the body, except:",
+      "o": [
+        "Synthesis of ketone bodies",
+        "Protein synthesis",
+        "Cell division",
+        "Growth and development of animal organisms",
+        "Growth and development of plant organisms"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "From which word does the name vitamin U come?",
+      "o": [
+        "From the word \"urine\" — urine",
+        "From the word \"ulcus\" — ulcer",
+        "From the word \"ubiguinone\" — everywhere present",
+        "From the word \"uracyl\" — is a derivative of uracil",
+        "From the word \"urea\" — sechovina"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "Pyridine-dependent dehydrogenases are the primary acceptor of hydrogen during tissue respiration. Which of the vitamins is necessary for the formation of the corresponding coenzyme (NAD)?",
+      "o": [
+        "Vitamin C",
+        "Vitamin PP",
+        "Vitamin B1",
+        "Vitamin B2",
+        "Vitamin B6"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "By origin, hypovitaminoses are divided:",
+      "o": [
+        "Natural and artificial",
+        "Simple and complex",
+        "Non-mediated and mediated",
+        "Exogenous and endogenous",
+        "Enzymatic and non-enzymatic"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "With vitamin deficiency, relative to which vitamin can the activity of serum transaminases significantly decrease?",
+      "o": [
+        "B6 (peridoxin).",
+        "B1 (thiamine).",
+        "B2 (riboflavin).",
+        "B5 (nicotinamide.)",
+        "Bc (folic acid)."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "Vitamin derivatives are part of the respiratory chain coenzymes. The coenzyme form of which vitamin is NAD?",
+      "o": [
+        "B2",
+        "B6",
+        "B1",
+        "PP",
+        "B3"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Vitamins",
+      "q": "The condition of vitamin deficiency develops:",
+      "o": [
+        "As a result of non-absorption of vitamins in the body",
+        "As a result of insufficient intake of vitamins in the body",
+        "When vitamins do not come at all and are not synthesized in the body",
+        "When mainly plant-based products enter the body",
+        "When only fats enter the body"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "The daily requirement of vitamin B1.",
+      "o": [
+        "2-3 mcg;",
+        "2-3mg;",
+        "20-30 mg;",
+        "20-30 mg;",
+        "75-100 mg."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "The daily requirement of vitamin B8 for humans:",
+      "o": [
+        "100-150 g",
+        "1.0-1.5 g",
+        "1.0-1.5 mg",
+        "15-25 g",
+        "150-180 mcg"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Daily requirement of vitamin D for children:",
+      "o": [
+        "2-3 mg",
+        "2-3 mcg",
+        "70-100 mg",
+        "",
+        "10-15 mcg",
+        "",
+        "10-12 g"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Average daily protein requirement of an adult",
+      "o": [
+        "30-45 g",
+        "50-75 g",
+        "80-100 g",
+        "() 110-150 g"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "The greatest amount of fiber is contained in:",
+      "o": [
+        "() pasta",
+        "in cookies",
+        "in raspberries",
+        "in beans"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "The daily requirement of a healthy person in carbohydrates:",
+      "o": [
+        "() 300 - 400 g",
+        "400 - 500 g",
+        "600 - 700 g",
+        "200-300 g"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Specify the type of fat that has the lowest digestibility.",
+      "o": [
+        "pork;",
+        "fishy;",
+        "deer;",
+        "beef."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "What is the role of fiber in the body?",
+      "o": [
+        "dissolution in water and complete assimilation;",
+        "stimulation of intestinal motility;",
+        "creating conditions for suppressing the development of beneficial bacteria;",
+        "dissolution in water."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Name the product with a high content of phytoncides.",
+      "o": [
+        "onion.",
+        "strawberry.",
+        "butter.",
+        "Lemon"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Which systems are affected by magnesium?",
+      "o": [
+        "nervous, muscular;",
+        "cardiac, nervous, muscular;",
+        "muscular, cardiac;",
+        "cardiac, nervous."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Name the product with the highest magnesium content.",
+      "o": [
+        "meat;",
+        "fish;",
+        "milk;",
+        "bread."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What type of nutrient is needed by the body and must be supplied by foods?",
+      "o": [
+        "nutraceutical.",
+        "metabolic nutrient",
+        "organic nutrient",
+        "essential nutrient",
+        "phytonutrient."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "By chemical analysis, what nutrient is present in the highest amounts in most foods?",
+      "o": [
+        "fats",
+        "water",
+        "proteins",
+        "carbohydrates",
+        "vitamins and minerals"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Which nutrient is an example of a macronutrient?",
+      "o": [
+        "proteins",
+        "minerals",
+        "water-soluble vitamins",
+        "fat-soluble vitamins",
+        "water"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Which nutrient is classified as a micronutrient?",
+      "o": [
+        "minerals",
+        "proteins",
+        "alcohols",
+        "carbohydrates",
+        "fats"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Which of the following products is a source of complete protein?",
+      "o": [
+        "pasta;",
+        "sunflower oil;",
+        "raspberries;",
+        "milk."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Name the main function of carbohydrates.",
+      "o": [
+        "creation of biologically important compounds;",
+        "providing the body with energy;",
+        "replenishment of vitamin deficiency;",
+        "improvement of oxygen metabolism."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Name a product with a high phosphorus content.",
+      "o": [
+        "halva;",
+        "irga;",
+        "cheese;",
+        "gooseberries."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What is digestion?",
+      "o": [
+        "obtaining and using useful trace elements obtained from food;",
+        "enzymatic cleavage of large organic compounds into smaller ones;",
+        "chemical cleavage of organic compounds into a number of inorganic;",
+        "mechanical fragmentation of food into small fragments."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What does not contribute to the proper digestibility of food?",
+      "o": [
+        "pronounced aroma;",
+        "lack of a constant eating regime;",
+        "culinary processing;",
+        "taste properties."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Name the processes that consume the energy of the main exchange.",
+      "o": [
+        "respiration and heat exchange;",
+        "physical activity;",
+        "functioning of internal organs, heat exchange, physical activity;",
+        "heat exchange and functioning of internal organs."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What kind of reaction is created in the body when potassium, magnesium and sodium are combined?",
+      "o": [
+        "oxidizing;",
+        "neutral;",
+        "alkaline;",
+        "neutral-alkaline."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Antixerophthalmic vitamin is a vitamin:",
+      "o": [
+        "Sun",
+        "B2",
+        "B1",
+        "A"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "An anti-scurvy vitamin is a vitamin:",
+      "o": [
+        "V12",
+        "E",
+        "K3",
+        "C"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Properties of Retinol Acetate oil solution:",
+      "o": [
+        "greenish oily liquid",
+        "colorless transparent oily liquid",
+        "oily liquid of dark yellow color",
+        "oily liquid of light yellow color"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Retinol – vitamin:",
+      "o": [
+        "C",
+        "B2",
+        "E",
+        "A"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Thiamine is a vitamin:",
+      "o": [
+        "Sun",
+        "B12",
+        "B5",
+        "B1"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Properties of riboflavin:",
+      "o": [
+        "green powder",
+        "oily liquid",
+        "yellow-orange powder",
+        "transparent liquid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Pantothenic acid is a vitamin:",
+      "o": [
+        "B1",
+        "B2",
+        "B5",
+        "B4"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Choline is a vitamin:",
+      "o": [
+        "B1",
+        "B2",
+        "B3",
+        "B4"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Where is cyanocobalamin absorbed?",
+      "o": [
+        "small intestine",
+        "large intestine",
+        "stomach",
+        "duodena intestine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "Which of the vitamins directly stimulates hematopoiesis?",
+      "o": [
+        "choline 3) tocopherol",
+        "cyanocobalamin",
+        "tocopherol",
+        "calciferol"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "Which of the vitamins ensures the synthesis of prothrombin and thromboplastin in the liver?",
+      "o": [
+        "filoquinone",
+        "ergocalciferol",
+        "tocopherol",
+        "choline"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What determines the biological value of poultry meat?",
+      "o": [
+        "Lack of attendance",
+        "The content of essential amino acids",
+        "The content of extractive substances",
+        "The content of trace elements"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "The content of B vitamins",
+      "o": [
+        "24. What method is used to determine the contamination of food with microorganisms?",
+        "Organoleptic",
+        "Microscopic",
+        "Biological",
+        "Bacteriological",
+        "Physical"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Which products are the most valuable in terms of the content of balanced amino acid composition of proteins?",
+      "o": [
+        "Protein poultry",
+        "Fish meat",
+        "Cattle meat",
+        "Duck and goose meat",
+        "Mutton"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What determines the biological value of poultry meat?",
+      "o": [
+        "Lack of attendance",
+        "The content of essential amino acids",
+        "The content of extractive substances",
+        "The content of trace elements",
+        "The content of B vitamins"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What method is used to determine the contamination of food with microorganisms?",
+      "o": [
+        "Organoleptic",
+        "Microscopic",
+        "Biological",
+        "Bacteriological",
+        "Physical"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What methods are used to determine isotopes in food products?",
+      "o": [
+        "Chemical",
+        "Organoleptic",
+        "Biological",
+        "Radiometric",
+        "Microscopic"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "What determines the biological effectiveness of vegetable fats?",
+      "o": [
+        "The content of polyunsaturated fatty acids",
+        "High calorie content",
+        "Good organoleptic properties",
+        "High content of vitamins A and D",
+        "Good digestibility"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Schematic representation of the principles of healthy nutrition developed by nutritionists:",
+      "o": [
+        "food pyramid",
+        "food square",
+        "food circle",
+        "food diamond"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Experiments in the process of the circulation of substances in the biosphere:",
+      "o": [
+        "create organic substances from mineral",
+        "consume finished organic substances",
+        "decompose mineral substances",
+        "create inorganic substances from mineral"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "One of the food pyramid product groups:",
+      "o": [
+        "seafood",
+        "fats",
+        "vegetables and fruits",
+        "fats and vegetables"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "One of the food pyramid product groups:",
+      "o": [
+        "proteins",
+        "seafood",
+        "whole grain products",
+        "fats"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Fiber in the body:",
+      "o": [
+        "stimulates intestinal motility",
+        "dissolves in water and is completely absorbed by the body",
+        "creates conditions for suppressing the development of beneficial bacteria",
+        "creates conditions for the growth of beneficial bacteria"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Magnesium affects nervous, muscular, and cardiac activity. Most of it is contained in :",
+      "o": [
+        "meat",
+        "in fish",
+        "in bread",
+        "in fruits"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The functions of the oral cavity during digestion:",
+      "o": [
+        "the breakdown of proteins, fats, carbohydrates",
+        "mechanical processing and initial splitting of starch",
+        "digestion of fats",
+        "mechanical processing and initial cleavage of proteins"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Dessert vegetables include :",
+      "o": [
+        "rhubarb, asparagus, artichokes",
+        "lettuce, spinach, sorrel",
+        "leeks, shallots",
+        "lettuce, spinach and shallots"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Metabolism and energy are:",
+      "o": [
+        "assimilation process",
+        "dissimilation process",
+        "assimilation and dissimilation processes occurring simultaneously",
+        "assimilation and dissimilation processes occurring alternately"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Find the Wrong Vitamins :",
+      "o": [
+        "they are sources of energy",
+        "they support the protective properties of the body in the fight against infections",
+        "they are biological regulators of all vital processes in the human body",
+        "participates in the process of metabolism"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "In what order are the digestive organs located?",
+      "o": [
+        "oral cavity-esophagus-stomach-small intestine-colon-rectum",
+        "oral cavity-esophagus-stomach- colon- small intestine- rectum",
+        "oral cavity- stomach- esophagus- colon- small intestine- rectum"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Food is called assimilated:",
+      "o": [
+        "if it has been broken down in the gastrointestinal tract into simple components",
+        "if it was split in the gastrointestinal tract into simple components and absorbed into the blood",
+        "if it was split in the gastrointestinal tract into simple components, absorbed into the blood and used for physical functions and energy recovery",
+        "if it was split in the gastrointestinal tract into simple components, absorbed into the blood and used for physical functions."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Metabolism and energy is the process of :",
+      "o": [
+        "intake of substances into the body",
+        "removal of undigested residues from the body",
+        "consumption, transformation, use, accumulation and loss of substances and energy",
+        "consumption, transformation and loss of substances and energy"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Assimilation is:",
+      "o": [
+        "the process of accumulation of nutrients and energy in the body",
+        "the process of consumption of nutrients by the body",
+        "the process of accumulation and consumption of nutrients by the body",
+        "the process of accumulation and assimilation of nutrients by the body"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Find the mistake, Metabolism and energy increases:",
+      "o": [
+        "with hard physical work",
+        "after eating",
+        "during sleep",
+        "during sports"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "A rational balanced diet is :",
+      "o": [
+        "the distribution of food during the day by time, calorie content and volume",
+        "the food prescribed to the patient for the treatment of a particular disease",
+        "nutrition corresponding to the physiological needs of the body, taking into account working conditions, climate, age, gender, body weight, health status.",
+        "nutrition that meets the biological needs of the body, taking into account working conditions, climate, age, gender, body weight, health status."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Phytoncides:",
+      "o": [
+        "give fruits an astringent taste",
+        "give vegetables and fruits a sharp bitter taste",
+        "have bactericidal properties that have a detrimental effect on microorganisms",
+        "give vegetables and fruits a sweet taste"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Root crops include :",
+      "o": [
+        "radish, rutabaga, white roots, beetroot",
+        "potatoes, beets",
+        "kohlrabi cabbage",
+        "potatoes, beets, cabbage"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Fermentation is a method of canning based on the formation of:",
+      "o": [
+        "lactic acid",
+        "acetic acid",
+        "malic acid",
+        "amino acids"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The most important component of fish meat Answer options:",
+      "o": [
+        "water",
+        "proteins",
+        "carbohydrates",
+        "vitamins"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The main food substances include :",
+      "o": [
+        "proteins, fats, carbohydrates",
+        "proteins, fats, carbohydrates, minerals, vitamins, water",
+        "minerals, vitamins, water",
+        "proteins, fats, carbohydrates, minerals, water"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "The main function of carbohydrates is the answer options:",
+      "o": [
+        "providing the body with energy",
+        "participation in the formation of biologically important compounds",
+        "protection of the body from shocks"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "From the point of view of nutrition , the most important component of human food are :",
+      "o": [
+        "fats",
+        "proteins",
+        "carbohydrates",
+        "proteins and fats"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Fish oil is used in children's and dietary nutrition, as it contributes to:",
+      "o": [
+        "lowering cholesterol in the blood",
+        "increasing cholesterol in the blood",
+        "does not affect cholesterol in any way",
+        "maintain cholesterol stability"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The greatest amount of phosphorus is contained in:",
+      "o": [
+        "bread",
+        "cheese",
+        "caviar",
+        "fruit"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The essence of digestion in the body is : a) in the chemical cleavage of organic compounds into inorganic",
+      "o": [
+        "in the mechanical fragmentation of food into small particles",
+        "in the enzymatic cleavage of large organic compounds into smaller ones",
+        "in the chemical cleavage of inorganic compounds into organic"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Dissimilation is:",
+      "o": [
+        "the process of accumulation of nutrients and energy in the body",
+        "the process of consumption of nutrients by the body",
+        "the process of accumulation and consumption of nutrients by the body",
+        "the process of splitting nutrients by the body"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The daily energy consumption is determined by:",
+      "o": [
+        "to provide a person with vitamins",
+        "to provide a person with food corresponding to his energy costs and plastic processes",
+        "for scientific purposes",
+        "to provide a person with carbohydrates"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "According to balanced norms of food intake, the ratio of proteins, fats and carbohydrates should be:",
+      "o": [
+        "1:1:4",
+        "1:2:1",
+        "1:1:1",
+        "2:1:1"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The most important component of vegetables and fruits:",
+      "o": [
+        "carbohydrates",
+        "water",
+        "minerals",
+        "protein"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Due to the presence of potassium, magnesium and sodium, vegetables and fruits create in the body:",
+      "o": [
+        "acid reaction",
+        "alkaline reaction",
+        "neutral reaction",
+        "does not form a reaction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Salting is a method of canning based on education :",
+      "o": [
+        "tartaric acid",
+        "lactic acid",
+        "acetic acid",
+        "malic acid"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Proteins consist of...:",
+      "o": [
+        "Carbon, hydrogen, acids and nitrogen",
+        "Fats, carbohydrates, nitrogen",
+        "Vitamins, acids, carbohydrates",
+        "All answers are correct"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "The norms of protein intake per day are:",
+      "o": [
+        "300-500 gr. per 1 kg of weight",
+        "1.2-1.6 gr. per 1 kg of weight",
+        "0.6-0.46 gr. Per 1 kg of mass",
+        "From 5 to 8.5 g per 1 kg of weight"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "The largest amount of vitamin C is contained in :",
+      "o": [
+        "Seafood",
+        "Fruit",
+        "In meat",
+        "In a dry rosehip"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The physiological process occurring in the body with the participation of microorganisms:",
+      "o": [
+        "The breakdown of proteins",
+        "Digestion",
+        "Infection",
+        "Food poisoning"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "When eating food containing toxic substances, there are:",
+      "o": [
+        "Food infections",
+        "Digestion",
+        "Food poisoning",
+        "Allergy"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "An integral part of blood hemoglobin, which carries oxygen to cells and tissues :",
+      "o": [
+        "Vitamins",
+        "Fats",
+        "Water",
+        "Iron"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "the substance regulating the activity of the thyroid gland in the human body is ...",
+      "o": [
+        "Phosphorus",
+        "Calcium",
+        "Chlorine",
+        "Iodine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Living organisms are common in soil, air, and water..",
+      "o": [
+        "Microbes",
+        "Oxygen",
+        "Worms",
+        "Yeast"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "When there is a shortage of what substances in the body, there is a decrease in activity, and working capacity, vitamin deficiency?",
+      "o": [
+        "Fats",
+        "Proteins",
+        "Carbohydrates",
+        "Vitamins"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Helminthic include:",
+      "o": [
+        "Ascarids",
+        "Bull's chain",
+        "Trichinella",
+        "All answers are correct"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Infectious diseases include",
+      "o": [
+        "Dysentery, typhoid fever, cholera",
+        "Opisthorchis, tapeworm",
+        "Helminthic diseases",
+        "There is no correct answer"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "The daily rate of fat intake per 1 kg of weight ...",
+      "o": [
+        "1.2-1.6 g",
+        "From 5 to 8.5 g",
+        "1000mg g) 1.4-2.2g"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "What does not apply to vitamins?",
+      "o": [
+        "E, C, B",
+        "A,D",
+        "P",
+        "Fe"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "This substance is part of the tooth enamel- Answer options:",
+      "o": [
+        "Fluoride",
+        "Iron",
+        "Potassium",
+        "Copper"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Why do employees of catering establishments need sanitary clothing?",
+      "o": [
+        "To protect clothing from contamination",
+        "For a neat appearance",
+        "To protect food from infection by pathogens",
+        "All answers are correct"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "The sources of these vitamins are: rye bread, legumes, oatmeal, meat products.",
+      "o": [
+        "Vitamins B",
+        "Vitamin A",
+        "Vitamin C",
+        "Vitamin E"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Name the main source of energy.",
+      "o": [
+        "liquid;",
+        "edible oils and fats;",
+        "fatty acids;",
+        "food."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "Name the erroneous statement \"Vitamins are …",
+      "o": [
+        "useful elements that help maintain immunity in the fight against infectious diseases\";",
+        "energy source\";",
+        "biological regulators of vital processes of the human body\";",
+        "a source of useful substances.\""
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Name the processes characteristic of metabolism and energy.",
+      "o": [
+        "the intake of trace elements in the body;",
+        "excretion of undigested residues from the body;",
+        "consumption, transformation, use, accumulation, loss of substances and energy;",
+        "accumulation of useful trace elements."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Name the main food substances.",
+      "o": [
+        "proteins, useful trace elements, liquid, vitamins;",
+        "proteins, fats, carbohydrates;",
+        "useful trace elements, liquid, vitamins;",
+        "vitamins, useful trace elements."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Name the useful function of the product, fish oil.",
+      "o": [
+        "increased cholesterol levels in the blood;",
+        "lowering cholesterol levels in the blood;",
+        "improving immune system resistance;",
+        "purification and improvement of blood circulation."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What kind of food products combine potassium, magnesium and sodium?",
+      "o": [
+        "fermented milk;",
+        "seafood;",
+        "fruit and vegetable crops;",
+        "bakery products."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "What are the characteristics of bread and grain products?",
+      "o": [
+        "High in carbohydrates",
+        "High balanced content of essential amino acids",
+        "High in calcium",
+        "High content of B vitamins and vitamin PP",
+        "Lack of attendance"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "What is the biological activity of fish related to?",
+      "o": [
+        "High content of full-fledged proteins",
+        "Good organoleptic properties",
+        "The content of trace elements",
+        "Lack of attendance",
+        "The content of polyunsaturated fatty acids"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "What can be the reason for the change in the smell of milk?",
+      "o": [
+        "Putrefactive microflora",
+        "Pigment-forming bacteria",
+        "Storage in the vicinity of smelling substances",
+        "The nature of the feed",
+        "Animal disease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Which persons are NOT allowed to work at the food hall?",
+      "o": [
+        "persons who have had paratyphoid, dysentery, typhoid",
+        "persons with an active form of tuberculosis",
+        "persons with pustular skin lesions",
+        "persons with chronic diseases of the gastrointestinal tract",
+        "persons with hereditary diseases"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "What is the number of known amino acids involved in protein synthesis:",
+      "o": [
+        "20",
+        "30",
+        "100",
+        "200."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Which protein was the first to be synthesized artificially.",
+      "o": [
+        "insulin",
+        "catalase",
+        "hemoglobin",
+        "interferon"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "What chemical bond is used to connect amino acids to each other in the protein molecule of the primary structure?",
+      "o": [
+        "disulfide",
+        "peptide",
+        "hydrogen."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Which protein performs an enzymatic function.",
+      "o": [
+        "growth hormone",
+        "fibrin",
+        "insulin",
+        "actin",
+        "trypsin"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Where does protein synthesis occur?",
+      "o": [
+        "in chloroplasts",
+        "in mitochondria",
+        "in ribosomes",
+        "in the endoplasmic network."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Which of the following applies to amino acids?",
+      "o": [
+        "tubulin, collagen, lysozyme",
+        "lysine, tryptophan, alanine",
+        "cholesterol, progesterone, stearic acid",
+        "valine, maltase, keratin",
+        "sucrose, lactose, glycine",
+        "adenine, thymine, guanine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Which protein performs mainly a building function?",
+      "o": [
+        "keratin",
+        "lipase",
+        "catalase",
+        "growth hormone",
+        "nuclease"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Which protein performs a greater transport function?",
+      "o": [
+        "collagen",
+        "hemoglobin",
+        "keratin",
+        "myoglobin",
+        "fibrin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Which of these proteins performs an enzymatic function?",
+      "o": [
+        "catalase",
+        "glucagon",
+        "prothrombin",
+        "keratin",
+        "tubulin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "What is the main function of such proteins – keratin, collagen, tubulin?",
+      "o": [
+        "motor",
+        "transport",
+        "protective",
+        "construction",
+        "enzymatic"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "In which of these variants are all chemical compounds proteins?",
+      "o": [
+        "sucrose, insulin, uracil",
+        "phenylalanine, glucagon, pepsin",
+        "glucose, fructose, glycogen",
+        "catalase, glucagon, keratin",
+        "ribose, thymine, actin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Which of the following is hair protein?",
+      "o": [
+        "keratin",
+        "myosin",
+        "actin",
+        "tubulin",
+        "collagen",
+        "fibrin"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Select a protein consisting of several polypeptide chains.",
+      "o": [
+        "trypsin",
+        "myoglobin",
+        "pepsin",
+        "collagen"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Select all chemical groupings that are the same for all amino acids that make up natural proteins.",
+      "o": [
+        "only the amino group and the carboxyl group",
+        "hydrogen and radical",
+        "hydrogen, amino group and carboxyl group",
+        "radical, amino group and carboxyl group"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Protein loss of its natural spatial structure:",
+      "o": [
+        "spiralization",
+        "dispersion",
+        "condensation",
+        "repair",
+        "denaturation",
+        "degeneration"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Glucose in the human body:",
+      "o": [
+        "is a catalyst",
+        "performs a storage function",
+        "is an energy source",
+        "all answers are correct"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Specify the correct composition of carbohydrates?",
+      "o": [
+        "Oxygen, hydrogen, carbon",
+        "Hydrogen and carbon",
+        "Oxygen, hydrogen, nitrogen",
+        "Hydrogen and nitrogen"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Specify the compound that is a trisaccharide?",
+      "o": [
+        "ribose",
+        "xylose",
+        "raffinose",
+        "maltose"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Choose a bios?",
+      "o": [
+        "fructose",
+        "trehalose",
+        "raffinose",
+        "sucrose"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Choose a non-reducing disaccharide?",
+      "o": [
+        "sucrose",
+        "maltose",
+        "mannose",
+        "fructose"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Choose the glucose isomer:",
+      "o": [
+        "sucrose",
+        "lactose",
+        "starch",
+        "fructose"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Choose what is formed when glucose is oxidized with an ammonia solution of silver oxide?",
+      "o": [
+        "gluconic acid and water",
+        "ethanol and silver oxide (I)",
+        "sorbitol and metallic silver",
+        "ethanol and sorbitol"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Choose groups of carbohydrates?",
+      "o": [
+        "monosaccharides and polysaccharides",
+        "monosaccharides, disaccharides, polysaccharides",
+        "disaccharides and polysaccharides",
+        "polysaccharides"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Choose monosaccharides:",
+      "o": [
+        "fructose and cellulose",
+        "starch and sucrose",
+        "glucose and fructose",
+        "starch and cellulose"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "What colorless crystalline substance is called \"grape sugar\"?",
+      "o": [
+        "Sucrose",
+        "glucose",
+        "fructose",
+        "maltose"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "Osteoporosis is caused by vitamin deficiency",
+      "o": [
+        "A",
+        "B1",
+        "With",
+        "D",
+        "E"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "The main source of vitamin E in the diet",
+      "o": [
+        "vegetable oil",
+        "dairy products",
+        "fruits",
+        "vegetables"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Ration No. 1 is assigned for work related to",
+      "o": [
+        "with the production of amino and nitro compounds of benzene",
+        "with radioactive substances and ionizing radiation",
+        "with inorganic and organic lead compounds"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Ration No. 3 is prescribed for work related to",
+      "o": [
+        "with the production of amino and nitro compounds of benzene",
+        "with radioactive substances and ionizing radiation",
+        "with inorganic and organic compounds of lead"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Ration No. 4-a is prescribed for work related to",
+      "o": [
+        "with the production of phosphorus",
+        "with radioactive substances and ionizing radiation",
+        "with inorganic and organic lead compounds"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The purpose of the 4-a diet of therapeutic and preventive nutrition",
+      "o": [
+        "increase the antitoxic function of the liver and stimulate fat metabolism",
+        "weaken or slow down the processes of sensitization of the body",
+        "bind and remove toxic substances from the body",
+        "to strengthen the functional capabilities of the liver and hematopoietic organs"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "A distinctive feature of milk fat is the presence in its composition",
+      "o": [
+        "polyunsaturated fatty acids",
+        "cholesterol",
+        "monounsaturated fatty acids",
+        "low molecular weight fatty acids",
+        "phospholipids"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "A distinctive feature of milk protein is its connection with salts",
+      "o": [
+        "iron",
+        "magnesium",
+        "potassium",
+        "calcium"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The science of sanitary protection of food resources and ensuring the harmlessness of food products and food has been called:",
+      "o": [
+        "dietetics;",
+        "valeology;",
+        "ecology;",
+        "medical prevention;",
+        "food hygiene."
+      ],
+      "c": 4
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Rational nutrition is:",
+      "o": [
+        "nutrition of a sick person aimed at preventing relapses of the disease;",
+        "nutrition of a healthy person based on the specific effect of food to prevent the occurrence of alimentary diseases;",
+        "nutrition of workers in particularly harmful working conditions;",
+        "nutrition of residents of ecologically disadvantaged areas;",
+        "nutrition of patients in healthcare organizations."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Dietary nutrition is:",
+      "o": [
+        "nutrition of a sick person based on the pharmacological action of food to restore homeostasis disturbed by the disease;",
+        "nutrition of a healthy person aimed at the prevention of alimentary, cardiovascular, gastrointestinal, allergic and other diseases;",
+        "nutrition of workers in particularly harmful working conditions;",
+        "nutrition of residents of ecologically disadvantaged areas;",
+        "nutrition based on the nonspecific effect of food and aimed at preventing the occurrence of non-communicable diseases."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Therapeutic and preventive nutrition is:",
+      "o": [
+        "nutrition of a sick person aimed at preventing relapses of diseases or their transition to chronic forms;",
+        "nutrition of the population aimed at the prevention of alimentary diseases;",
+        "nutrition of organized groups;",
+        "nutrition of workers in particularly harmful working conditions;",
+        "nutrition of patients in healthcare organizations."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Milk cannot fully satisfy the needs of the child's body after 4 months",
+      "o": [
+        "in phosphorus",
+        "in manganese",
+        "in iron",
+        "in fluorine",
+        "in cobalt"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "As a result of the use of pasteurized milk obtained from mastitis animals, there may be",
+      "o": [
+        "botulism",
+        "staphylococcal toxicosis",
+        "yersiniosis",
+        "escherichiosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Nutrition status is an integral indicator covering:",
+      "o": [
+        "quantitative and qualitative aspects of nutrition;",
+        "the mental state of a person;",
+        "social status of a group of people;",
+        "features of national cuisine;",
+        "the frequency of alimentary diseases."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Which of the definitions corresponds to the concept of \"preventive nutrition\"?",
+      "o": [
+        "is the nutrition of healthy people working in unfavorable industrial conditions conditions or living in a difficult environmental situation;",
+        "this is the nutrition of a sick person, based on the pharmacological action of pi- shchi, capable of restoring the homeostasis disturbed by the disease;",
+        "this is the nutrition of a healthy person based on the specific ability of the pi- shchi to prevent the occurrence of alimentary diseases;",
+        "this is a diet characterized by an imbalance of nutrients in the diet, a shortage of macro- and micronutrients, the ability to aggravate the negative impact of harmful environmental factors;",
+        "is a preventive nutrition of healthy people belonging to risk groups, based on the nonspecific effect of nutrition that prevents the development and progression of non-communicable diseases."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The 1st group according to the severity of work includes workers:",
+      "o": [
+        "workers of light physical labor;",
+        "employees who have a coefficient of physical activity - CFA equal to 1.6;",
+        "doctors of surgical profile;",
+        "nurses and nurses;",
+        "teachers."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The 2nd group according to the severity of work includes workers:",
+      "o": [
+        "whose coefficient of physical activity - CFA is equal to 1.4;",
+        "mainly mental work;",
+        "teachers and students;",
+        "doctors (except surgical doctors);",
+        "nurses and nurses."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The qualitative side of the physiological norms of nutrition indicates:",
+      "o": [
+        "how much protein, fat, carbohydrates, vitamins, minerals and their ratio should be contained in the diet;",
+        "in what form should certain components of food come;",
+        "what proportion of the energy consumption of the body is the specific dynamic effect of food;",
+        "what proportion of the energy consumption of the body is the energy consumption in the process of labor activity;",
+        "the degree of their assimilation of proteins, fats, carbohydrates, vitamins, minerals in the body."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "The 3rd group according to the severity of work includes employees:",
+      "o": [
+        "mainly mental work;",
+        "in which the coefficient of physical activity - CFA is 1.6;",
+        "most of the agricultural workers (vegetable growers, milkmaids);",
+        "doctors of surgical profile;",
+        "nurses and nurses."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Forms of protein deficiency:",
+      "o": [
+        "Keshan's disease (alimentary cardiomyopathy);",
+        "kwashiorkor;",
+        "alimentary iron deficiency anemia;",
+        "endemic goiter;",
+        "desquamation of the epithelium, baldness."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Vitamins",
+      "q": "Symptoms of hypervitaminosis D:",
+      "o": [
+        "calcification of soft tissues and arteries;",
+        "headache, dizziness, diplopia;",
+        "desquamation of the epithelium, baldness;",
+        "vomiting;",
+        "rickets."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Cocancerogens include:",
+      "o": [
+        "fatty acids;",
+        "tocopherol;",
+        "dietary fiber;",
+        "vitamin C;",
+        "selenium."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Carcinogenesis inhibitors include:",
+      "o": [
+        "dietary fiber;",
+        "fatty acids;",
+        "nitrosamines;",
+        "zinc;",
+        "vitamins of group B."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "A disease associated with a lack of vitamins:",
+      "o": [
+        "kwashiorkor;",
+        "alimentary insanity;",
+        "rickets;",
+        "calcification of soft tissues and arteries;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Meat is mainly a source of:",
+      "o": [
+        "proteins;",
+        "carbs;",
+        "polyunsaturated fatty acids;",
+        "lactose;",
+        "dietary fiber and fiber."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "Food substances entering the body together with fats:",
+      "o": [
+        "dietary fiber;",
+        "lactose;",
+        "calcium salts;",
+        "fiber;",
+        "polyunsaturated fatty acids."
+      ],
+      "c": 4
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "The biological role of carbohydrates:",
+      "o": [
+        "energy;",
+        "psychological;",
+        "adsorption of water in the intestine;",
+        "source of vitamin C;",
+        "source of phosphatides and polyunsaturated fatty acids."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Proteins, Carbohydrates & Fats",
+      "q": "The main sources of carbohydrates are:",
+      "o": [
+        "meat;",
+        "sea cabbage;",
+        "fish;",
+        "vegetables and fruits;",
+        "fermented milk products."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Meat products can be considered as sources of minerals:",
+      "o": [
+        "calcium;",
+        "potassium;",
+        "iron;",
+        "iodine;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Nutritional and biological value of plant products:",
+      "o": [
+        "at least 50% of the daily energy value of food rations is created due to plant products;",
+        "vegetable proteins provide at least 40% of the daily protein requirement, contain all essential amino acids in an optimal proportion;",
+        "vegetable fats do not contain polyunsaturated fatty acids and tocopherols;",
+        "vegetable fats contain all fat-soluble vitamins;",
+        "fiber is the main carbohydrate of plants and creates the main caloric content of plant products."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Diseases of bread:",
+      "o": [
+        "only poorly baked bread is affected;",
+        "mainly rye bread is affected;",
+        "observed when storing freshly baked bread in dark, poorly entilated rooms;",
+        "are observed with low humidity of bread during its storage;",
+        "bread is suitable for consumption after the removal of signs of illness."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Vitamins",
+      "q": "Clinical symptoms of A-hypervitaminosis:",
+      "o": [
+        "liver enlargement;",
+        "constipation;",
+        "polyuria;",
+        "desquamation of the epithelium, hyperkeratosis, dermatitis;",
+        "enlargement of the thyroid gland."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Vitamins",
+      "q": "Clinical symptoms of C-hypervitaminosis:",
+      "o": [
+        "symptoms of general malaise;",
+        "agitation, insomnia;",
+        "enlargement of the thyroid gland;",
+        "constipation;",
+        "liver enlargement."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "The use of substandard milk and dairy products is associated with:",
+      "o": [
+        "botulism;",
+        "staphylococcal intoxication;",
+        "alimentary-toxic aleikia;",
+        "mycotoxicoses;",
+        "aflotoxicosis."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "The causative agents of food intoxication are:",
+      "o": [
+        "enterotoxigenic Staphylococcus and clostridium botulinum ;",
+        "vibrio cholerae;",
+        "mold fungi;",
+        "chemical impurities."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Food toxicoinfication is characterized by:",
+      "o": [
+        "sudden onset of the disease, mass;",
+        "contagiousness;",
+        "seasonality;",
+        "chronic course of the disease;",
+        "lack of connection of the disease with food intake"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Botulism is characterized by:",
+      "o": [
+        "violations of the act of swallowing and chewing, double vision, convulsions;",
+        "profuse vomiting, diarrhea;",
+        "the presence of blood and mucus in the feces;",
+        "sharp spastic abdominal pain;",
+        "decrease in pulse rate."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "When choosing a source of water supply for the population, preference should be given to waters:",
+      "o": [
+        "ground;",
+        "artesian;",
+        "surface flow;",
+        "superficial stagnant."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "The hardness of drinking water is due to the content in it:",
+      "o": [
+        "chlorides;",
+        "sulfates;",
+        "calcium and magnesium salts;",
+        "nitrates."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Osteochondrodystrophy can be caused by an increased content in drinking water:",
+      "o": [
+        "iodine;",
+        "selenium;",
+        "strontium;",
+        "iron."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "When chlorinating water, the most pronounced bactericidal effect is exerted by:",
+      "o": [
+        "hydrochloric acid;",
+        "hypochlorous acid;",
+        "molecular chlorine;",
+        "chloroform."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Geochemical endemic diseases of water origin include:",
+      "o": [
+        "brucellosis;",
+        "fluorosis;",
+        "dysentery;",
+        "hepatitis A."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Water with a hardness index of 3.5 to 7 mg∙eq / l is called:",
+      "o": [
+        "soft;",
+        "medium hardness;",
+        "hard;",
+        "very hard."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "With fresh (recent) contamination of a water source with organic substances, the water contains:",
+      "o": [
+        "carbonates;",
+        "bicarbonates;",
+        "ammonium salts;",
+        "nitrates."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Water is a factor in the transmission of pathogens of a bacterial disease:",
+      "o": [
+        "cholera;",
+        "poliomyelitis;",
+        "hepatitis A;",
+        "giardiasis."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "The presence of a triad of nitrogen compounds in the water of a water source indicates:",
+      "o": [
+        "the presence of deposits of mineral fertilizers in the given territory;",
+        "chernozem, humus soil;",
+        "constant pollution of water by organic substances;",
+        "constlant y water splashing."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Water is a factor in the transmission of pathogens of a viral disease:",
+      "o": [
+        "cholera;",
+        "paratyphoid A;",
+        "hepatitis A;",
+        "dysentery."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Chemical method of water purification:",
+      "o": [
+        "chlorination;",
+        "ozonation;",
+        "the use of silver ions;",
+        "coagulation."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "A special method that eliminates the smell of water:",
+      "o": [
+        "deodorization;",
+        "degassing;",
+        "deratization;",
+        "deactivation."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "To improve the quality of water in the process of water treatment, flocculants are used to:",
+      "o": [
+        "soften water;",
+        "deodorization;",
+        "acceleration of coagulation;",
+        "reduction of coagulatin."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Water chlorination with preammonization is used:",
+      "o": [
+        "for disinfection of water with reduced transparency;",
+        "to reduce the dose of disinfectants;",
+        "to eliminate the chlorophenol odor;",
+        "to accelerate the disinfection of water."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Increased hardness of drinking water:",
+      "o": [
+        "does not adversely affect the body;",
+        "disrupts the conduction of a nerve impulse;",
+        "causes the development of stones in the kidneys and bladder;",
+        "increases the cardiovascular morbidity of the population."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "The most active flocculant is:",
+      "o": [
+        "polyacrylamide;",
+        "alumina sulfate;",
+        "ferric chloride;",
+        "iron sulfate."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "When disinfecting water, the following disinfectants have the greatest disinfecting effect:",
+      "o": [
+        "chlorine;",
+        "fluorine;",
+        "ozone;",
+        "silver."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Microbiological indicator of water safety in epidemic terms:",
+      "o": [
+        "oxidizability;",
+        "ammonia nitrogen;",
+        "residual chlorine;",
+        "total microbial count."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Chemical method of water disinfection:",
+      "o": [
+        "ozonation;",
+        "fluorination:",
+        "coagulation;",
+        "filtration."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "The content of chlorides in drinking water is normalized according to the limiting indicator of harmfulness:",
+      "o": [
+        "organoleptic;",
+        "sanitary and toxicological;",
+        "epidemiological.",
+        "toxic"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Juvenile waters originate from:",
+      "o": [
+        "anthropogenic;",
+        "space;",
+        "volcanic,",
+        "underground."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Physical method of water disinfection:",
+      "o": [
+        "ozonation;",
+        "coagulation;",
+        "filtration;",
+        "boiling."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Consumption of water with a high concentration of arsenic causes:",
+      "o": [
+        "urolithiasis;",
+        "methemoglobinemia;",
+        "chondrodystrophy;",
+        "hyperkeratosis."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Consumption of water with a high concentration of calcium and magnesium causes:",
+      "o": [
+        "urolithiasis;",
+        "methemoglobinemia;",
+        "chondrodystrophy;",
+        "hyperkeratosis."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Consumption of water with a high concentration of nitrates causes:",
+      "o": [
+        "urolithiasis;",
+        "methemoglobinemia;",
+        "chondrodystrophy;",
+        "hyperkeratosis."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Reagent used for water coagulation:",
+      "o": [
+        "aluminum oxide;",
+        "polyacrylamide;",
+        "aluminum sulfate.",
+        "a and b."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "The reagent used to accelerate the coagulation of water:",
+      "o": [
+        "aluminum oxide;",
+        "polyacrylamide;",
+        "aluminum sulfate;",
+        "a and b."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "What is the characteristic that requires getting water in a person's life:",
+      "o": [
+        "pathophysiological;",
+        "life-supporting;",
+        "compensatory;",
+        "regulatory;",
+        "vitamin-forming."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "What are the hygiene requirements for drinking water:",
+      "o": [
+        "water should not appear saprophytic diseases;",
+        "water should be limited to organoleptic and accessible objects;",
+        "temperature must be allowed;",
+        "water must be hard;",
+        "must be water Possesses a specific smell."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "List the diseases that can be transmitted through water:",
+      "o": [
+        "fluorosis;",
+        "protein-energy deficiency;",
+        "poliomyelitis;",
+        "pneumoconiosis;",
+        "hypovitaminosis."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Name an infectious disease of a bacterial nature, which can be transmitted through water:",
+      "o": [
+        "endemic goiter;",
+        "tuberculosis;",
+        "typhoid fever;",
+        "poliomyelitis;",
+        "fluorosis."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Name a viral disease that can be transmitted through water:",
+      "o": [
+        "hepatitis A;",
+        "leptospirosis;",
+        "fluorosis;",
+        "dysentery;",
+        "endemic goiter."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Specify the main types of water supply sources:",
+      "o": [
+        "sea water;",
+        "surface water bodies;",
+        "melt water;",
+        "mineral water;",
+        "ocean water."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Name the diseases that are caused by the chemical composition of water:",
+      "o": [
+        "diseases that are caused by high or low water hardness;",
+        "hypovitaminosis;",
+        "protozoal diseases;",
+        "diseases caused by a violation of the regime of drinking water intake;",
+        "pneumoconiosis."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "For water supply in a settlement, water is used, which in its composition contains: chlorides",
+      "o": [
+        "50 mg/l, sulfates 240 mg/l, iron 0.3 mg/l, nitrates 45 mg/l, fluorine 0.26 mg/l, residual free chlorine 0.4 mg/l. With prolonged use of such water, the population may develop a disease:",
+        "methemoglobinemia;",
+        "caries;",
+        "fluorosis;",
+        "endemic goiter;",
+        "thyrotoxicosis."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Waterborne viral disease",
+      "o": [
+        "mumps",
+        "poliomyelitis",
+        "typhoid fever",
+        "tularemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Waterborne bacterial infection",
+      "o": [
+        "amoebic dysentery",
+        "diphtheria",
+        "cholera",
+        "hepatitis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Hard drinking water is one of the etiological factors in the development",
+      "o": [
+        "water-nitrate methemoglobinemia",
+        "endemic goiter",
+        "fluorosis",
+        "urolithiasis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Standard for chlorides in drinking water",
+      "o": [
+        "10 mg\\dm3",
+        "350 mg\\dm3",
+        "500 mg\\dm3",
+        "1000 mg\\dm3"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "Standard for sulfates in drinking water",
+      "o": [
+        "500 mg\\dm3",
+        "350 mg\\dm3",
+        "100 mg\\dm3",
+        "50 mg\\dm3"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "What types of environmental pollution are divided by origin?",
+      "o": [
+        "mechanical and physical",
+        "physical and natural",
+        "biological and anthropogenic",
+        "anthropogenic and natural"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Describe the type of microclimate if: air temperature - 10 ° C, relative humidity - 92%, air speed - 5.0 m/s",
+      "o": [
+        "comfortable;",
+        "heating;",
+        "cooling;",
+        "hardening;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Describe the type of microclimate if: air temperature - 30 ° C, relative humidity - 98%, air speed – 0,01 m/s.",
+      "o": [
+        "heating;",
+        "cooling;",
+        "stimulating;",
+        "overheating;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Which instrument is needed to measure atmospheric pressure?",
+      "o": [
+        "luxmeter;",
+        "thermometer;",
+        "catathermometer;",
+        "barometer;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Types of thermoregulation:",
+      "o": [
+        "chemical and physical;",
+        "biochemical, physiological and neurohumoral;",
+        "ontogenetic and phylogenetic;",
+        "systemic, organ, cellular;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Optimal temperature in living quarters in temperate climates:",
+      "o": [
+        "16-18 degrees",
+        "18-20 degrees",
+        "20-22 degrees",
+        "22-24 degrees",
+        "24-26 degrees"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Standard indicators of indoor air temperature depend on the climatic zone because:",
+      "o": [
+        "humans are homoiothermic species",
+        "the degree of pigmentation of the skin determines heat transfer",
+        "different heights above sea level",
+        "relative humidity affects heat transfer",
+        "radiative heat losses prevail"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Optimum relative humidity in living quarters:",
+      "o": [
+        "30-40%",
+        "30-60%",
+        "40-50%",
+        "50-60%"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Microclimate conditions under which the body is supercooled faster:",
+      "o": [
+        "high humidity and high temperature",
+        "low humidity and high temperature",
+        "high humidity and low temperature",
+        "high humidity and low atmospheric pressure"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "The cooling capacity of the medium is determined by the method:",
+      "o": [
+        "thermometry",
+        "anemometry",
+        "catathermometry",
+        "barometry"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Air pollution cause",
+      "o": [
+        "Global warming",
+        "Respiratiry system",
+        "Soil erosion",
+        "None of them"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "All are particular pollutants except",
+      "o": [
+        "smoke",
+        "dust",
+        "ozone",
+        "soot"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Fine organic or inorganic particles suspended in air is called",
+      "o": [
+        "particular polutants",
+        "gaseous polutant",
+        "aerosol",
+        "none of them"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Highest percentage of air consists of",
+      "o": [
+        "oxygen",
+        "carbin dioxide",
+        "nitrogen",
+        "argon"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "The percentage of nitrogen is",
+      "o": [
+        "21%",
+        "78%",
+        "12%",
+        "73%"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Carbon monoxide is a major pollutant of",
+      "o": [
+        "Water",
+        "Air",
+        "Noise",
+        "Soil"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Which one of the following fuels causes minimum air pollution",
+      "o": [
+        "Kerosene oil",
+        "Hydrogen",
+        "Coal",
+        "Diesel"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Chernobyl tragedy occured in",
+      "o": [
+        "26th May, 1966",
+        "26th April, 1986",
+        "6th Aug., 1947",
+        "9th May, 1945"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Which of the following pollutes the air of big cities?",
+      "o": [
+        "Copper",
+        "Lead",
+        "Chromium",
+        "Copper Oxide"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Most harmful pollutant is",
+      "o": [
+        "CO",
+        "",
+        "SO",
+        "",
+        "NO",
+        "",
+        "SO",
+        ""
+      ],
+      "c": 4
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "The pollutants emitted by jet aeroplanes in outer atmosphere flourocarbons are known as",
+      "o": [
+        "Smog",
+        "Photochemical oxidants",
+        "Aerosols",
+        "Loess"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "In India, acid rains are not common due to",
+      "o": [
+        "less SO in air",
+        "",
+        "factories with long chimneys",
+        "dust in air",
+        "rural areas"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Ozone layer is the part of",
+      "o": [
+        "ionosphere",
+        "stratosphere",
+        "troposphere",
+        "exosphere"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "INDICATORS OF PERMANENT ORGANIC POLLUTION OF SOIL ARE",
+      "o": [
+        "ammonia, sulfites, sulfates",
+        "ammonia, nitrites, sulfates",
+        "nitrates, sulfates, sulfites",
+        "ammonia, nitrites, sulfites",
+        "ammonia, nitrites, nitrates"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "ONE OF THE OBJECTIVES OF SANITARY PROTECTION OF THE SOIL OF POPULATED PLACES IS",
+      "o": [
+        "adding humus to the soil",
+        "improvement of places of rest",
+        "preservation of the natural properties of the soil",
+        "organization of sanitary protection zones",
+        "prevention of soil pollution by storm water"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "What main kind of pollution affects the health of plants?",
+      "o": [
+        "Mineral pollution",
+        "Roots",
+        "Soil Pollution",
+        "Plant Health"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "Where in the world do we see soil pollution?",
+      "o": [
+        "Canada, China, Australia",
+        "Everywhere",
+        "Africa, Australia, South Africa, Europe",
+        "US, Europe and Australia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "THERMAL WASTE DISINFECTION IS",
+      "o": [
+        "plowing fields, landfills, biochambers, compost heaps",
+        "waste incineration stations, factories",
+        "hydrolysis",
+        "waste separation"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "The main source of air pollution is:",
+      "o": [
+        "household waste",
+        "cars",
+        "building materials",
+        "acid rain"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "When is Word Environment Day celebrated?",
+      "o": [
+        "July",
+        "May",
+        "June",
+        "August 1"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "What pathogens are not found in contaminated soil?",
+      "o": [
+        "tetanus",
+        "botulism",
+        "gas gangrene",
+        "hepatitis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Clouds are present in-",
+      "o": [
+        "stratosphere",
+        "troposphere",
+        "mesosphere",
+        "thermosphere"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Environmental & Air Pollution",
+      "q": "Global warming is caused due to____ concentration of CO in the air",
+      "o": [
+        "",
+        "Decreased",
+        "Increased",
+        "Both (a) & (b)",
+        "None of these"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "What health group do children with chronic illnesses belong to stages of decompensation, disabled children:",
+      "o": [
+        "first;",
+        "second;",
+        "third;",
+        "- fourth;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "The processes of growth and development are most intensive at the age of:",
+      "o": [
+        "- infant;",
+        "preschool;",
+        "junior school;",
+        "teenage"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Somatometric signs of physical development include:",
+      "o": [
+        "- body weight;",
+        "vital capacity of the lungs;",
+        "degree of fat deposition;",
+        "sexual development."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Physiometric signs of physical development include:",
+      "o": [
+        "height;",
+        "body weight;",
+        "- muscle strength;",
+        "condition of the skin."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "Normalized levels of illumination of classrooms, not less than:",
+      "o": [
+        "500 lux;",
+        "- 300 lux;",
+        "150 lux;",
+        "100 lux;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Maximum permissible content of CO2 in class air (%):",
+      "o": [
+        "0.03;",
+        "0.07;",
+        "- 0.1;",
+        "0.2;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Optimal microclimate indicators for the school class:",
+      "o": [
+        "- air temperature 18°С, relative humidity 50%, movement speed air 0.2 m/s;",
+        "Air temperature 21°C, relative humidity 70%, travel speed air 0.6 m/s;",
+        "Air temperature 23°C, relative humidity 80%, travel speed air 0.7 m/s;",
+        "Air temperature 17°C, relative humidity 40%, travel speed air 0.7 m/s;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Relative humidity in a school building is measured:",
+      "o": [
+        "catathermometer;",
+        "- psychrometer;",
+        "anemometer;",
+        "thermometer;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "INDICATOR OF THE SOCIAL, SPIRITUAL AND CULTURAL DEVELOPMENT OF THE SOCIETY IS",
+      "o": [
+        "health status of children and adolescents",
+        "incidence rate",
+        "childhood disability rate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Socio-hygienic monitoring includes:",
+      "o": [
+        "development of a complex of health-improving and preventive measures for prevention and regulation elimination of adverse effects on the human body its habitat;",
+        "carrying out preventive medical examinations;",
+        "carrying out anti-epidemic measures;",
+        "hygienic of environmental factors."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "What are the indicators that characterize the size of the human body called?",
+      "o": [
+        "somatoscopic;",
+        "somatometric;",
+        "physiometric;",
+        "metrological."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Which group of indicators (features) characterizing physical development include height, body weight, chest circumference?",
+      "o": [
+        "somatoscopic;",
+        "somatometric;",
+        "physiometric;",
+        "integral."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Which group of indicators (features) characterizing physical development includes the color of visible mucous membranes, the nature of fat deposition, the shape of the chest, and secondary sexual characteristics?",
+      "o": [
+        "somatoscopic;",
+        "somatometric;",
+        "physiometric;",
+        "integral"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "The anthropometric method for studying physical development consists of:",
+      "o": [
+        "somatometry and somatoscopy;",
+        "somatoscopy and physiometry;",
+        "somatometry and physiometry;",
+        "somatometry, physiometry and somatoscopy."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Determine what research method is used to characterize temperature, humidity, movement speed, electrical state of air, barometric pressure, all types of radiant energy:",
+      "o": [
+        "using the physical method",
+        "using the epidemiological method",
+        "using the clinical method G. using the cultural method"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Vitamins",
+      "q": "Vitamin participates in the formation of bone tissue",
+      "o": [
+        "A",
+        "In",
+        "With",
+        "D",
+        "E"
+      ],
+      "c": 3
+    },
+    {
+      "s": "History of Hygiene & Public Health",
+      "q": "Specify the founder of social hygiene:",
+      "o": [
+        "N.",
+        "Semashko",
+        "S. I. Kaplun V. A. V. Molkov G. V. A. Ryazanov"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Please, indicate the standard size of the ward per 1 bed in the therapeutic and surgical departments:",
+      "o": [
+        "7 m2",
+        "9 m2",
+        "12 m2",
+        "16 m2"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Please, indicate the size of operating hall of general surgery department:",
+      "o": [
+        "24 m2",
+        "30 m2",
+        "36 m2",
+        "48 m2"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Indicate the area per bed in the ward of the infectious disease department for adults",
+      "o": [
+        "4 m2",
+        "6 m2",
+        "8 m2",
+        "10 m2"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "In operating units, the safe air environment is provided by:",
+      "o": [
+        "dilution to the sanitary standards of contaminated air with a cleaned supply",
+        "creation of imbalance in supply and exhaust ventilation",
+        "installation of air conditioning systems with a predominance of the influx",
+        "creating balance of supplied and aspirated air"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Correct placement of hospitals in the settlement provides for:",
+      "o": [
+        "alee against industrial sites",
+        "availability of convenient access roads",
+        "close to industrial zone",
+        "close to downtown"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Correct placement of hospitals in the settlement provides for:",
+      "o": [
+        "alee against industrial sites",
+        "close to industrial zone",
+        "close to downtown",
+        "remoteness from busy highways and railways to horns"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "What system of building hospitals is used most often, because it alleviates the shortcomings of others?",
+      "o": [
+        "decentralized",
+        "mixed",
+        "centralized",
+        "individual"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "One of the measures for the prevention of intrahospital infections:",
+      "o": [
+        "prohibition of work for personnel with hepatitis B",
+        "constant monitoring the health facility for compliance with the current sanitary and epidemiological regime by the administration with the use of express research methods",
+        "control over compliance with the current regime in the health care facility",
+        "proper schedulling the work of medical personnel"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "One of the measures for the prevention of intrahospital infections:",
+      "o": [
+        "prohibition of work for personnel with hepatitis B",
+        "control over compliance with the current regime in the health care facility",
+        "personnel examination for bacilli transport",
+        "proper schedulling the work of medical personnel"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "One of the measures in the health facility should be carried out in the event of an intrahospital infection (IHI):",
+      "o": [
+        "Preventive isolation of severe patients",
+        "The transfer of other patients to other wards and the isolation of the patient with IHI in the ward where he fell ill",
+        "No measures are required",
+        "Personnel examination for bacilli transport"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "One of the causes of intrahosptal infections is:",
+      "o": [
+        "biology of microorganisms changed in conditions of medical institutions",
+        "the absence of an incinerator in the territory of the hospital.",
+        "multidrug resitance of microorganisms",
+        "the use of chlorine to disinfect hospital premises"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "One of the causes of intrahosptal infections is:",
+      "o": [
+        "the absence of an incinerator in the territory of the hospital.",
+        "breaking sanitary and hygienic regime in the health facility",
+        "multidrug resitance of microorganisms",
+        "the use of chlorine to disinfect hospital premises"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "What zones should be in the territory of a hospital?",
+      "o": [
+        "Children playground",
+        "Surgical zone",
+        "Household and pathanatomy unit zones",
+        "Therapeutic zone"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "What zones should be in the territory of a hospital?",
+      "o": [
+        "Infectious diseases department zone",
+        "Children playground",
+        "Surgical zone",
+        "Therapeutic zone"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Landscaping of the hospital site should be not less than:",
+      "o": [
+        "4 0%",
+        "50%",
+        "60%",
+        "70%"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Where in the hospital territory the pathoanatomical department should be located?",
+      "o": [
+        "in the zone of medical buildings",
+        "in the zone of the household yard",
+        "in the garden and park area",
+        "in an independent ritual zone"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "How many beds the ward section in the somatic department is designed for?",
+      "o": [
+        "15-20 beds",
+        "20-25 beds",
+        "25-30 beds",
+        "30-35 beds"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The advantage of centralized building of hospitals is that:",
+      "o": [
+        "it improves the dietary conditions of patients",
+        "it does not contribute to the spread of intrahospital infecions",
+        "the cost of construction and maintenance of hospital is higher",
+        "the territory of the hospital is smaller than in decentralized system"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "A box is a complex of premises that includes:",
+      "o": [
+        "entrance vestibule from the street, bathroom, ward gateway",
+        "entrance vestibule from the street, bathroom with bathtub, entrance to the office through the central corridor to connect the staff with the patient",
+        "entrance vestibule from the street, bathroom with bathtub, ward, lock, entrance to the office through the central corridor for communication of the staff with the patient",
+        "the ward, a lock, a bathroom with a bathtub, an entrance to the department through the central corridor",
+        "an entrance vestibule from the street, a ward"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The windows of the operating room should be oriented to:",
+      "o": [
+        "the north",
+        "the south",
+        "the east",
+        "the west"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "List hospital building systems",
+      "o": [
+        "Centralized, decentralized, mixed",
+        "Combined, central block and mixed",
+        "Integrated",
+        "Centralized and block"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "What is a decentralized hospital construction system?",
+      "o": [
+        "With this system, the infectious diseases, children's and maternity wards are removed from the main building, which are located in separate buildings",
+        "With this system, individual buildings are connected by transitions to each other",
+        "With this system, all hospital departments are located in separate low-rise buildings",
+        "With this system, most of the hospital departments are located in one building, and the catering unit and the utility building are taken out separately"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "What is a mixed system of hospital construction?",
+      "o": [
+        "With this system, the infectious diseases, children's and maternity wards are removed from the main building, which are located in separate buildings",
+        "With this system, individual buildings are connected by transitions to each other",
+        "With this system, all hospital departments are located in separate low-rise buildings",
+        "With this system, most of the hospital departments are located in one building, and the catering unit and the utility building are taken out separately"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "What % of the territory of the hospital site should be occupied by green spaces?",
+      "o": [
+        "40%",
+        "50%",
+        "60%",
+        "70%"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "What departments are taken out of the main building in a mixed system of hospital construction?",
+      "o": [
+        "Reception department and administrative and economic part",
+        "Children's and maternity department",
+        "Admission department",
+        "Treatment and diagnostic departments"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The area of a two-bed ward in the therapeutic department should be at least ..",
+      "o": [
+        "14m2",
+        "16m2",
+        "18m2",
+        "20m2"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Which one of the following is correct regarding daily upper limit of noise without substantial damage to hearing ?",
+      "o": [
+        "50",
+        "70",
+        "75",
+        "85"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Which one of the following is included in pneumoconiosis ?",
+      "o": [
+        "Anthracosis",
+        "Sarcoidosis",
+        "Psittacosis",
+        "Aspergillosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Foundry workers may suffer from one of the following disease as a result of occupational exposure:",
+      "o": [
+        "Silicosis",
+        "Asbestosis",
+        "Stomach cancer",
+        "Anthracosis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Which one of the following is not an example of organic dust?",
+      "o": [
+        "Asbestos",
+        "Tobacco",
+        "Cotton dust",
+        "Grain dust"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Which one of the following is not true regarding Pneumoconiosis?",
+      "o": [
+        "Byssinosis is due to inhalation of cotton dust",
+        "Anthracosis is due to inhalation of anthrax spores",
+        "Baggassosis is an occupational hazard of workers in paper mills",
+        "Asbestosis predisposes to pleural mesothelioma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Which one of the following statements is not true regarding Lice?",
+      "o": [
+        "Lice belong to phylum arthropoda",
+        "It undergoes incomplete metamorphosis",
+        "Pediculosis is a viral disease transmitted by the bite of a body louse",
+        "Relapsing fever occurs when an infected louse is crushed on the skin containing 10 % DDT is effective"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Which one of following insecticides is the least toxic organ he compound for human beings?",
+      "o": [
+        "DDT",
+        "HCH",
+        "Dieldrin",
+        "Chlordane"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "A rubber industry worker presents with abdominal colic and severe anaemia. His blood examination reveals basophilic stippling of RBCs and microcytic anaemia. What is the likely diagnosis?",
+      "o": [
+        "Lead poisoning",
+        "Benzene poisoning",
+        "Radiation effects",
+        "Sideroblasticanaemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "A 35 years old man working in roofing industry presented to his primary care physician with complaints of dyspnea and chronic dry cough . Chest x - ray revealed pulmonary hyperinflation with honey - comb appearance and calcified pleural plaques . What is the likely diagnosis?",
+      "o": [
+        "Anthracosis",
+        "Asbestosis",
+        "Byssinosis",
+        "Silicosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "In the mica mines of Bihar , out of 329 miners examined , 34.1 % were found suffering with irritant cough , dyspnea on exertion and pain in the chest . On chest x - ray , there was snow storm appearance in the lung fields . What is the most likely diagnosis?",
+      "o": [
+        "Asbestosis",
+        "Anthracosis",
+        "Siderosis",
+        "Silicosis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Occupational Health",
+      "q": "An industrial worker presented with pulmonary TB . On chest x - ray , calcification and fibrosis were seen . The likely industry he had worked in is:",
+      "o": [
+        "Sand blasting",
+        "Poultry",
+        "Cotton",
+        "Agriculture"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "A general practitioner purchased BCG vaccine for his clinic. H should store this vaccine at his clinic in:",
+      "o": [
+        "A dark place",
+        "Deep freezer",
+        "Water carrier",
+        "Refrigerator"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Hospital administration wants to set up a method for safe disposal of infectious waste. They have enough expenses. What should be the best option for them?",
+      "o": [
+        "Single chamber incinerator",
+        "Double chamber pyrolytic incinerator",
+        "Microwave irradiation",
+        "Chemical disinfection"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "According to the clinical course, occupational diseases can be",
+      "o": [
+        "Only acute",
+        "Only chronic",
+        "Acute and chronic",
+        "No correct answer"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Chronic occupational disease (poisoning) is a disease that has arisen:",
+      "o": [
+        "after a single (during no more than one shift), exposure to harmful occupational factors",
+        "after repeated (during no more than one shift), exposure to harmful occupational factors",
+        "after repeated and prolonged (more than one work shift) exposure to harmful occupational factors",
+        "after double (during no more than one shift), exposure to harmful occupational factors"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Following occupational diseases are notifiable under the Indian Factory Act, 1976 except:",
+      "o": [
+        "Silicosis",
+        "Asbestosis",
+        "Byssinosis",
+        "Bagassosis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Indian constitution has declared that children less than _____ years should not be employed in factories where mines:",
+      "o": [
+        "10",
+        "12",
+        "14",
+        "16"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Lead poisoning in industries commonly occurs by:",
+      "o": [
+        "Inhalation",
+        "Ingestion",
+        "Skin absorption",
+        "Conjunctival route"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Inhalation of sugarcane dust cause:",
+      "o": [
+        "Bagassosis",
+        "Byssinosis",
+        "Tobacosis",
+        "Farmer’s lung"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "All are disease manifestation associated with Low Temperature except:",
+      "o": [
+        "Chilblains",
+        "Prickles",
+        "Frostbite",
+        "Trench foot"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Periodic Examination of factory workers is a type of:",
+      "o": [
+        "Primordial prevention",
+        "Primary prevention",
+        "Secondary prevention",
+        "Tertiary prevention"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "“White fingers” may result from which of the following occupational hazards:",
+      "o": [
+        "Heat",
+        "Cold",
+        "UV Radiation",
+        "Vibration"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Which of the following Pneumoconiosis is caused by Micropolyspora Faeni?",
+      "o": [
+        "Silicosis",
+        "Byssinosis",
+        "Farmer’s lung",
+        "Bagassosis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "All are true about Lead Poisoning except:",
+      "o": [
+        "Greatest source is drinking water from lead pipes",
+        "Can cause Blue line on gums",
+        "Measurement of CPU is a useful screening test",
+        "Basophilic stippling of RBCs is a sensitive parameter of hematological response"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Nearly 3/4th of occupational cancers are:",
+      "o": [
+        "Skin cancer",
+        "Lung cancer",
+        "Cancer bladder",
+        "Leukemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Occupational exposure to Benzol may lead to:",
+      "o": [
+        "Lung cancer",
+        "Leukemia",
+        "COPD",
+        "Neurofibromas"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Byssinosis is seen in :",
+      "o": [
+        "Cement factories",
+        "Textile industries",
+        "Iron factories",
+        "Grain fields"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Silicosis occurs with :",
+      "o": [
+        "Cotton",
+        "Sugarcane fibres",
+        "Carbon particles",
+        "Silica fibres"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Occupational Health",
+      "q": "“Snow-storm” appearance are seen in:",
+      "o": [
+        "Anthracosis",
+        "Silicosis",
+        "Byssinosis",
+        "Bagassosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Wrist drop may be caused as industrial hazard in:",
+      "o": [
+        "Battery industry",
+        "Gas industry",
+        "Asbestos industry",
+        "Aniline industry"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Dust particle in a industry is a:",
+      "o": [
+        "Biological hazards",
+        "Chemical hazards",
+        "Physical hazards",
+        "Mechanical hazards"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "A 40 - year - old man working in a coal mine since 15 years developed couth , dyspnoea on exertion and chest pain . His X - ray showed \" snow - storm \" appearance in lung fields . The most likely diagnosis is:.",
+      "o": [
+        "Anthracosis",
+        "Silicosis",
+        "Asbestosis",
+        "Siderosis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Which of the following is occupational lung disease but not pneumoconiosis?",
+      "o": [
+        "Brucellosis",
+        "Silicosis",
+        "Anthracosis",
+        "Byssinosis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Minimum duration to developing coal minor pneumoconiosis:",
+      "o": [
+        "2-4 years",
+        "4-6 years",
+        "8 years",
+        "10 years"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Which is not included in pneumoconiosis:",
+      "o": [
+        "Byssinosis",
+        "Bagassosis",
+        "Anthracosis",
+        "Psittacosis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Ergonomics is:",
+      "o": [
+        "Adjusting the worker to his job",
+        "Study of human behavior",
+        "Study of social mobility",
+        "Study of health of female workers"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "All are occupational cancers except:",
+      "o": [
+        "Lung cancer",
+        "Liver cancer",
+        "Bladder cancer",
+        "Breast cancer"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Green house gas includes",
+      "o": [
+        "CO2, ozone, methane",
+        "Only ozone",
+        "Ozone, methane",
+        "Methane, CO"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Occupational Health",
+      "q": "What diagnosis would you give, if the clinical picture shows the following: pain in the hands, increased sensitivity to cold, muscle weakness, whitening of the fingers, decreased sensitivity, changes in motoric and secretory function of the stomach, violation of the ovarian- menstrual cycle in women?",
+      "o": [
+        "Noise induced hearing loss",
+        "Silicosis",
+        "Vibration disease",
+        "Lead poisoning"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "What kind of dust causes Silicosis?",
+      "o": [
+        "Asbestos-containing",
+        "Carboniferous",
+        "Iron-bearing",
+        "Containing free silicon dioxide"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Occupational Health",
+      "q": "What is workability?",
+      "o": [
+        "It is a work performed per unit of time",
+        "It is the ability of a person to do some work for a certain time",
+        "It is the ability of a person to perform a certain work for a long time and productively",
+        "It is psychophysiological stability"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Factors affecting the level of workability:",
+      "o": [
+        "the presence of functional music",
+        "the air conditioning",
+        "factors of the work environment",
+        "degree of air pollution by saprophytic flora"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Factor of the labor process affecting the performance:",
+      "o": [
+        "social factors",
+        "degree of air pollution by saprophytic flora",
+        "air conditioning",
+        "monotonous work, work on the conveyor production"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Occupational Health",
+      "q": "Select a method used for assessment of workability among the following:",
+      "o": [
+        "echocardiography",
+        "definition of stability of attention",
+        "electromyography",
+        "ultrasound examination"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "Forms of vibration disease in severe stages:",
+      "o": [
+        "white and blue vibration disease forms",
+        "cerebro-vascular and amyotrophic vibration disease forms",
+        "colorectal and gastrointestinal vibration disease forms",
+        "angina pectoris"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Occupational Health",
+      "q": "What measure should be taken to prevent the effect of vibration on the body?",
+      "o": [
+        "conducting regular audiometry",
+        "the use of technical means against vibration",
+        "rationing personal diet",
+        "the use of earplugs and ear muffs"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "What effect has noise on the body?",
+      "o": [
+        "the development of hearing loss",
+        "decrease in the tactile sensitivity",
+        "the effect on urinary organs",
+        "the development of myopia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "Spectral composition of industrial noise:",
+      "o": [
+        "infrasound",
+        "ultrasound",
+        "high frequency sound",
+        "tonal and broadband"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "What is the threshold of audibility?",
+      "o": [
+        "the minimum intensity of sound that the hearing organ is able to perceive",
+        "the maximum intensity of sound that the auditory organ is able to perceive",
+        "the intensity of sound retained by the auditory analyzer",
+        "the intensity of sound that forms the pathological process in the auditory analyzer"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "What measure should be taken to prevent the effects of noise on the body?",
+      "o": [
+        "the use of protective cloths",
+        "listening functional music",
+        "the use of personal protective means (ear muffs and earplugs)",
+        "rational diet"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "What percentage of the visible rays of the solar spectrum reaches the Earth?",
+      "o": [
+        "60%",
+        "40%",
+        "30%",
+        "20%"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "The positive effect of ultraviolet radiation on the body is manifested by:",
+      "o": [
+        "improvement of reproductive function",
+        "acceleration of salivation",
+        "increased phagocytic activity of leukocytes",
+        "improvement in visual acuity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "The level of natural light in the room can be determined using:",
+      "o": [
+        "the light angle",
+        "the light brightness",
+        "the coefficient of natural illumination",
+        "the spectrum coefficient"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Noise, Vibration & Illumination",
+      "q": "Artificial light fixtures are considered optimal if they give:",
+      "o": [
+        "straight light",
+        "scattered light",
+        "reflected light",
+        "mixed light"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Maximum allowable height of the school building:",
+      "o": [
+        "3 floor",
+        "4 floor",
+        "5 floor",
+        "6 floor"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "When assessing the microclimate of a hospital ward, the following are taken into account:",
+      "o": [
+        "Air temperature and air mobility",
+        "Relative humidity",
+        "Barometric pressure",
+        "All are true"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "ndicate the universal sanitary indicator of anthropogenic air pollution in hospital wards:",
+      "o": [
+        "Carbon dioxide",
+        "Phenol",
+        "Indole",
+        "Air oxidizability"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "What indicators of the microclimate for the chambers of the therapeutic department are optimal?",
+      "o": [
+        "Temperature 18°C, relative humidity 45% and air movement 0.2 m/s.",
+        "Temperature 24°C, relative humidity 75% and air movement 0.4 m/s",
+        "Temperature 25°C, relative humidity 25% and air movement 0.5 m/s.",
+        "Temperature 18°C, relative humidity 80% and air movement 0.1 m/s."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "What layout provides good natural ventilation and illumination of the ward section?",
+      "o": [
+        "Single-corridor one-way",
+        "Single-corridor double-sided",
+        "Two-corridor",
+        "Compact"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Humidity in the workplace can be measured using",
+      "o": [
+        "anemometer",
+        "catathermometer",
+        "psychrometer",
+        "actinometer"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Hygienic standard for relative humidity in the room:",
+      "o": [
+        "40 - 60%",
+        "50 - 70%",
+        "20 - 30%",
+        "70 - 80%"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Nosocomial infection is:",
+      "o": [
+        "any clinically pronounced disease of microbial origin that affects the patient as a result of his stay in the hospital, as well as the disease of the hospital staff due to his work in this institution, regardless of the appearance of symptoms of the disease during the stay or after discharge from the hospital; .",
+        "any clinically pronounced disease of microbial origin that affects the patient as a result of his admission to the hospital or seeking medical help, as well as the disease of a hospital employee due to his work in this institution, regardless of the appearance of symptoms of the disease during the stay vaniya or after discharge from the hospital;",
+        "any clinically pronounced disease of microbial origin that affects the patient as a result of his admission to the hospital or seeking medical help, as well as the disease of the patient's relatives who became infected through contact with him.",
+        "non of them"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The complex of measures for the prevention of nosocomial infections in ophthalmic hospitals includes:",
+      "o": [
+        "designing rooms for no more than 6 beds;",
+        "layout of the operating room directly as part of the department;",
+        "preoperative bacteriological examination of patients;",
+        "obligatory preoperative prescription of broad-spectrum antibiotics for prophylactic purposes."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The most dangerous sources of nosocomial infections are:",
+      "o": [
+        "visitors to patients suffering from chronic tonsillitis and pharyngitis;",
+        "caring for seriously ill patients with inflammatory gynecological pathology;",
+        "medical personnel who went to work after suffering intestinal infections;",
+        "medical personnel who went to work after suffering ARVI;",
+        "long-term hospitalized patients."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Currently, the structure of nosocomial infections in medical institutions is dominated by:",
+      "o": [
+        "blood-borne viral hepatitis (B, C, D);",
+        "intestinal infections;",
+        "purulent-septic infections;",
+        "hospital mycoses;",
+        "tuberculosis;",
+        "diphtheria."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "An increased risk of nosocomial infections in general surgical departments is determined by:",
+      "o": [
+        "high frequency of surgical interventions carried out according to emergency indications;",
+        "a large number of intramuscular injections;",
+        "a large number of intravenous infusions given to patients;",
+        "the frequent need for patients to catheterize the bladder;",
+        "non-observance of space norms in the wards of most of the existing general surgical departments."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The leading route of transmission of surgical wound infections is:",
+      "o": [
+        "contact;",
+        "air-dust;",
+        "alimentary;",
+        "blood transfusion."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "An emergency notification of suspected food poisoning must be submitted to the State Sanitary and Epidemiological Surveillance Center within:",
+      "o": [
+        "12 hours;",
+        "1 day;",
+        "2 days;",
+        "at the discretion of the doctor who identified the patient"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Acute exposure to aflatoxins is characterized by the development of:",
+      "o": [
+        "toxic myocarditis;",
+        "glomerulonephritis;",
+        "toxic hepatitis;",
+        "meningoencephalitis."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Mycotoxicoses are characterized by:",
+      "o": [
+        "high incidence;",
+        "endemicity;",
+        "the primary lesion of adult young children;",
+        "the leading defeat of the urban population."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The area of specialized polyclinic rooms (surgeon, dermatovenereologist, oncologist, urologist) should be at least:",
+      "o": [
+        "12 m2;",
+        "18 m2;",
+        "20 m2;",
+        "30 m2."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The area standard of the dental office, taking into account the placement of one dental unit in it:",
+      "o": [
+        "14 m2;",
+        "18 m2;",
+        "20 m2;",
+        "30 m2"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The distance from the pathoanatomical building to the ward buildings and the catering unit must be at least:",
+      "o": [
+        "25 meters;",
+        "20 meters;",
+        "30 meters.",
+        "40 meters"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The maximum allowable number of beds in one ward of the general somatic department for adults:",
+      "o": [
+        "2 beds;",
+        "4 beds;",
+        "by decision of the hospital administration;",
+        "not standardized"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Wards for children under the age of seven and children's psychiatric departments (wards) should be located:",
+      "o": [
+        "on the fifth floor;",
+        "not higher than the second floor;",
+        "not standardized.",
+        "on the fourth floor"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "The maximum allowable number of beds in one ward of the observational obstetric department:",
+      "o": [
+        "2 beds;",
+        "4 beds;",
+        "by decision of the hospital administration;",
+        "not standardized."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Wastewater from medical institutions before being discharged into water bodies:",
+      "o": [
+        "undergo special mechanical cleaning;",
+        "must be subject to mandatory disinfection;",
+        "should not be cleaned and disinfected;",
+        "must be cleaned and disinfected."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Hospital Hygiene & Nosocomial Infection",
+      "q": "Wet cleaning of premises (treatment of floors, furniture, equipment, window sills, doors) should be carried out:",
+      "o": [
+        "at least 2 times a day;",
+        "at least 2 times a day, using detergents and disinfectants;",
+        "as needed;",
+        "at least once a day, using detergents and disinfectants."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "Sources of Cl. botulinum are:",
+      "o": [
+        "a person;",
+        "herbivores;",
+        "predatory animals.",
+        "pets"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "The method of laboratory diagnosis of escherichiosis is:",
+      "o": [
+        "a blood test in the complement fixation reaction;",
+        "isolating the culture of the pathogen from the feces of the patient;",
+        "isolating the culture of the pathogen from the patient's blood;",
+        "isolating the culture of the pathogen from the bile of the patient"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "The infection factor in food poisoning caused by Vibrio parahaemolyticus is:",
+      "o": [
+        "dishes from insufficiently thermally processed meat;",
+        "dishes from insufficiently thermally processed fish;",
+        "minced meat dishes;",
+        "powdered infant formula."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "The system of planned measures for the prevention of botulism does not include:",
+      "o": [
+        "delivery of fish for processing in frozen form",
+        "salting fish in a chilled state at a salt concentration of 8%;",
+        "prohibition of the sale of hermetically sealed home-prepared canned food in the markets;",
+        "slaughter of animals in specially designated sanitary slaughterhouses;",
+        "prohibition of domestic slaughter of animals without the permission of the veterinary service."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "The source of staphylococcal intoxication associated with cakes is:",
+      "o": [
+        "an employee of a cream shop with osteomyelitis;",
+        "a cream shop worker with conjunctivitis;",
+        "a cream shop worker with cholecystitis.",
+        "cream shop worker with cancer"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Food Products & Food Poisoning",
+      "q": "A prerequisite for the production and accumulation of botulinum toxin in a food product is:",
+      "o": [
+        "high temperature;",
+        "low temperature;",
+        "anaerobic conditions;",
+        "high protein content in the food product."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Acceleration of physical development is characterized by:",
+      "o": [
+        "- the onset of puberty at an earlier age;",
+        "increased immunity;",
+        "change in the blood formula;",
+        "motor acceleration"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Do you agree that there is a clear relationship between the number and the nature of violations in the state of health of schoolchildren on the volume and intensity of training loads:",
+      "o": [
+        "- yes;",
+        "no, it depends only on the amount of homework;",
+        "no, depends on the number of lessons each day;",
+        "no, it depends on the school curriculum;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Do you agree that about 50% of children have physical disabilities? and mental health:",
+      "o": [
+        "no, less than 10%;",
+        "no, 30-35%;",
+        "no, 60-65%;",
+        "no, 70-75%."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Do you agree with the fact that schoolchildren have 2 times an increase in the number of mental health disorders:",
+      "o": [
+        "yes;",
+        "mental health disorders do not occur;",
+        "no, 3 times;",
+        "- no, 4 times;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Is it true that 50% of school-age children have deviations in the development of the musculoskeletal system:",
+      "o": [
+        "- yes;",
+        "there are no deviations in the development of the musculoskeletal system;",
+        "no, 35%;",
+        "no, 55%;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Is it true that children have 3 times an increase in the number of visual and postural disorders:",
+      "o": [
+        "yes;",
+        "visual impairment and posture do not occur;",
+        "no, 3 times;",
+        "- no, 5 times;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "Is it true that children have 5 times an increase in the number of diseases of the digestive system:",
+      "o": [
+        "yes;",
+        "there is no increase in the number of diseases of the digestive system;",
+        "- no, 3 times;",
+        "no, 4 times;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "What percentage of children entering school already have chronic diseases:",
+      "o": [
+        "less than 10%;",
+        "10-20%;",
+        "20-40%;",
+        "- 30-35%"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "What percentage of children entering school suffer from hypokinesia:",
+      "o": [
+        "10%;",
+        "40%;",
+        "- 75%;",
+        "20%;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Child & School Hygiene",
+      "q": "In the daily routine of children 3-4 years old, sleep is provided for a duration of:",
+      "o": [
+        "9 hours;",
+        "8 hours;",
+        "11 o'clock;",
+        "- 12 noon."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Which of the following is essential micronutrient?",
+      "o": [
+        "Si",
+        "Po",
+        "Mg",
+        "U"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Which of the following is essential micronutrient?",
+      "o": [
+        "K",
+        "Tn",
+        "As",
+        "Po"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "Which of the following is true soil organisms (Euedaphic pathogenic organism)?",
+      "o": [
+        "Clostridium perferingens",
+        "E.coli",
+        "Streptococcus faecalis",
+        "Bifid bacterium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "Which of the following is true soil organisms (Euedaphic pathogenic organism)?",
+      "o": [
+        "Lactobacterium",
+        "Clostridium tetani",
+        "Corynebacterium diphtheriae",
+        "Enterovirus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "Which of the following is true soil organisms (Euedaphic pathogenic organism)?",
+      "o": [
+        "Corynebacterium diphtheriae",
+        "",
+        "coli",
+        "Rotavirus",
+        "Bacillus anthracis"
+      ],
+      "c": 4
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "Which of the following is true soil organisms (Euedaphic pathogenic organism)?",
+      "o": [
+        "Francisella tularensis",
+        "E.coli",
+        "Streptococcus faecalis",
+        "AIDS"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "Which of the following is source of soil pollution?",
+      "o": [
+        "rain",
+        "animals",
+        "agricultural activity",
+        "climate change"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "Which of the following is source of soil pollution?",
+      "o": [
+        "rain",
+        "contaminated air and water",
+        "animals",
+        "climate change"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "The most serious environmental effect posed by hazardous wastes is:",
+      "o": [
+        "air pollution",
+        "contamination of groundwater",
+        "increased use of land for landfills",
+        "destruction of habitat"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "Through what activity soil contaminants are spilled onto the surface?",
+      "o": [
+        "Traffic accidents",
+        "Rain falls",
+        "None of these",
+        "Microbes activity"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Soil Hygiene",
+      "q": "What serves as an important reservoir of Anthrax?",
+      "o": [
+        "Water",
+        "Soil",
+        "Air",
+        "None"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Microclimate conditions under which the body is overcooled more quickly:",
+      "o": [
+        "high humidity and low temperature",
+        "high humidity and high temperature",
+        "low humidity and high temperature",
+        "low temperature and low humidity"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "The optimum relative humidity in buildings is ranged between:",
+      "o": [
+        "30-40%",
+        "30-60%",
+        "50-60%",
+        "60-70%"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "With increase in altitude, atmospheric pressure:",
+      "o": [
+        "Increases",
+        "Decreases",
+        "Remains unchanged",
+        "Starts fluctuating"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "In what combination of microclimatic parameters the human body will become too cold?",
+      "o": [
+        "high temperature and high atmospheric pressure",
+        "high humidity and high atmospheric pressure",
+        "low temperature and low humidity",
+        "low temperature and high humidity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "In what combination of microclimatic parameters the human body will become too cold?",
+      "o": [
+        "high humidity and high atmospheric pressure",
+        "low temperature and low humidity",
+        "low temperature and high air speed",
+        "low temperature and low atmospheric pressure"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "The study of the microclimate of the classroom revealed that air temperature was 24 °C, horizontal temperature gradient - 2.0°C, vertical gradient - 2.5°C, relative humidity - 72%, air velocity - 0.1 m/sec. What microclimate parameters of the classroom does not meet hygiene standards?",
+      "o": [
+        "air temperature and air speed",
+        "air temperature and relative humidity",
+        "horizontal gradient of air temperature and relative humidity",
+        "vertical temperature gradient and air velocity"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "The mean air temperature in the ward of the adult somatic department is 22 C. Air temperature gradient in vertical - 4 C and horizontal gradient of air temperature is 2 C. Relative humidity is",
+      "o": [
+        "0% and air velocity - 0,01 m/s. What microclimate parameters in the hospital room does not meet hygiene requirements?",
+        "mean air temperature",
+        "vertical gradient of the air temperature",
+        "horizontal gradient of the air temperature",
+        "relative humidity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Climatic conditions in South India are such when a high temperature is very often combined with high air velocity. How does the increased speed of air movement on the human body at the air temperature above 35°C?",
+      "o": [
+        "it is favorable as a result of amplification of sweating",
+        "it contributes to the release of excess heat by convection",
+        "it contributes to overheating due to the termination of heat release by convection",
+        "it enhances heat transfer by conduction"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "The study of the microclimate of the classroom revealed that air temperature was 20 °C, horizontal temperature gradient - 4.0°C, vertical gradient - 2.5°C, relative humidity - 74%, air velocity - 0.1 m/sec. What microclimate parameters of the classroom does not meet hygiene standards?",
+      "o": [
+        "air temperature and air speed",
+        "air temperature and relative humidity",
+        "horizontal gradient of air temperature and relative humidity",
+        "vertical temperature gradient and air velocity"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "In a classroom, the air volume is regulated per 1 student. What is the minimum volume of space per person with a single exchange of air per hour in ordinary dwellings?",
+      "o": [
+        "air cube",
+        "physiological volume",
+        "ventilation volume",
+        "functional cube"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Please, indicate the standards of microclimate in living quarters",
+      "o": [
+        "temperature 16-18oС, relative humidity 30-40%, air velocity 0,5-1 m/s",
+        "temperature 23-25oС, air velocity 0.05-0.1 m/s, concentration of carbon dioxide 3%",
+        "temperature 18-20oС, relative humidity 40-60%, air velocity 0.2-0.4 m/s",
+        "concentration of carbon dioxide 1%, bacterial contamination of 5000 microorganisms in",
+        "m3, temperature 22-24oC, relative humidity 50-70%, air velocity 0.1-0.3 m/s"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Increased room air temperature adversely affects:",
+      "o": [
+        "Central nervous system",
+        "thermoregulation system",
+        "joints mobility",
+        "musculoskeletal system"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Increased room air temperature adversely affects:",
+      "o": [
+        "the digestive system",
+        "hearing and vision",
+        "reproductive system",
+        "musculoskeletal system"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Increased room air temperature adversely affects:",
+      "o": [
+        "joints mobility",
+        "hearing and vision",
+        "cardiovascular system",
+        "musculoskeletal system"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Increased room air temperature adversely affects:",
+      "o": [
+        "musculoskeletal system",
+        "joints mobility",
+        "hearing and vision",
+        "water-salt exchange"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Low air temperature adversely affects:",
+      "o": [
+        "peripheral nervous system (in the form of neuritis, myositis)",
+        "thermoregulation, reducing heat dissipation",
+        "joints mobility",
+        "hearing and vision"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Low air temperature adversely affects:",
+      "o": [
+        "thermoregulation, reducing heat dissipation",
+        "joints mobility",
+        "hearing and vision",
+        "the immune system"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "What does influence on comfort temperature value in a room is affected by:",
+      "o": [
+        "latitude",
+        "climatic zone",
+        "oxygen level in the air",
+        "the degree of body hardening"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "Normative values of air temperature in the room depend on the climatic zone because:",
+      "o": [
+        "humans belong to homoiothermic biological species",
+        "there are different altitudes above sea level",
+        "relative air humidity affects heat exchange",
+        "radiative heat losses prevail others"
       ],
       "c": 0
     }
