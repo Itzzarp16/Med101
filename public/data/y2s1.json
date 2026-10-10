@@ -27291,6 +27291,97 @@
         "radiative heat losses prevail others"
       ],
       "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "What is health:",
+      "o": [
+        "Health is a state of complete physical, mental and social well-being and not merely the absence of disease or infirmity.",
+        "Health is the absence of illness during the year.",
+        "Health is when nothing hurts",
+        "Health - a person's desire to improve health, develop physical qualities."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Health, Prevention & Risk Factors",
+      "q": "Types of sanitary supervision:",
+      "o": [
+        "state supervision;",
+        "departmental supervision;",
+        "professional supervision;",
+        "supervision of labor protection"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "What are the main functions that water performs in human life:",
+      "o": [
+        "pathophysiological;",
+        "household;",
+        "compensatory;",
+        "regulatory;",
+        "vitamin-forming.",
+        "Cl titer. perfingens - no more than 0.01."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "What is the main physiological function that water performs in human life:",
+      "o": [
+        "catalytic;",
+        "plastic;",
+        "compensatory;",
+        "regulatory;",
+        "vitamin-forming."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Nutrition & Diet",
+      "q": "Which of the following is essential micronutrient?",
+      "o": [
+        "He",
+        "Kr",
+        "Tc",
+        "Na"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "What are the indicators of drinking water quality: (select all correct)",
+      "o": [
+        "Entomological; Toxicological; Biochemical; Sanitary",
+        "Hydrobiological; Entomological; Biochemical; Sanitary",
+        "Hydrobiological; Toxicological; Biochemical; Sanitary",
+        "Hydrobiological; Entomological; Toxicological; Sanitary"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Water Hygiene",
+      "q": "What are the indicators of drinking water quality: (select all correct)",
+      "o": [
+        "Hydrobiological; Physical",
+        "Organoleptic; Physical",
+        "Physical; Biochemical",
+        "Physical; Entomological"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Microclimate & Air Temperature",
+      "q": "The value of the comfortable temperature in the room is affected by: (select all correct)",
+      "o": [
+        "Geographical latitude; Climate zone; Physical properties of air",
+        "Climate zone; Physical properties of air; Building characteristic",
+        "Geographical latitude; Physical properties of air; Building characteristic",
+        "Geographical latitude; Climate zone; Building characteristic"
+      ],
+      "c": 0
     }
   ]
 }
