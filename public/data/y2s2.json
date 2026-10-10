@@ -4396,6 +4396,17 @@
         "Heart block"
       ],
       "c": 1
+    },
+    {
+      "s": "Cardiology: ECG, Murmurs & CAD",
+      "q": "ST elevation is seen in all of the following except:",
+      "o": [
+        "Myocardial infarction",
+        "Coronary artery spasm",
+        "Constrictive pericarditis",
+        "Ventricular aneurysm"
+      ],
+      "c": 2
     }
   ]
 }
