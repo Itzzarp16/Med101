@@ -273,6 +273,115 @@ def has_second_factor(decoded):
     return (decoded.get('firebase') or {}).get('sign_in_second_factor') == 'totp'
 
 
+ANSWER_KEY_SEMESTERS = {
+    'y1s1': 'semester-1', 'y1s2': 'semester-2',
+    'y2s1': 'semester-3', 'y2s2': 'semester-4',
+    'y3s1': 'semester-5', 'y3s2': 'semester-6',
+}
+ANSWER_KEY_MANIFEST = 'public/answer-keys/manifest.json'
+
+
+def publish_answer_key(body):
+    """Use this existing function to publish a PDF into the GitHub static folder."""
+    semester_id = body.get('semesterId')
+    subject = ' '.join(str(body.get('subject') or '').split())[:120]
+    upload_id = str(body.get('uploadId') or '')
+    try:
+        chunk_count = int(body.get('chunkCount') or 0)
+    except (TypeError, ValueError):
+        chunk_count = 0
+    if semester_id not in ANSWER_KEY_SEMESTERS:
+        return 400, {'error': 'Choose one of the six valid semesters.'}
+    if not subject or not re.fullmatch(r'[0-9]+-[a-z0-9]+', upload_id) or not 1 <= chunk_count <= 30:
+        return 400, {'error': 'Semester, subject, and a valid PDF upload are required.'}
+
+    db = firestore.client()
+    refs = [db.collection('pdfUploadChunks').document(f'{upload_id}_{i}') for i in range(chunk_count)]
+    try:
+        snapshots = [ref.get() for ref in refs]
+        if not all(s.exists and (s.to_dict() or {}).get('uploadId') == upload_id for s in snapshots):
+            return 400, {'error': 'The uploaded PDF chunks are incomplete. Please try again.'}
+        pdf_bytes = base64.b64decode(''.join((s.to_dict() or {}).get('data', '') for s in snapshots), validate=True)
+    except Exception:
+        return 400, {'error': 'Could not reassemble the PDF upload. Please try again.'}
+    finally:
+        for ref in refs:
+            try:
+                ref.delete()
+            except Exception:
+                pass
+
+    if not pdf_bytes.startswith(b'%PDF-'):
+        return 400, {'error': 'The selected file is not a valid PDF.'}
+    if len(pdf_bytes) > 15 * 1024 * 1024:
+        return 413, {'error': 'PDFs must be 15 MB or smaller.'}
+    token = os.environ.get('GITHUB_TOKEN')
+    if not token:
+        return 503, {'error': 'GitHub upload is not configured yet. Add GITHUB_TOKEN in Vercel Environment Variables.'}
+
+    repo = os.environ.get('GITHUB_REPO', 'Itzzarp16/Med101')
+    branch = os.environ.get('GITHUB_BRANCH', 'react-rebuild')
+    folder = ANSWER_KEY_SEMESTERS[semester_id]
+    slug = re.sub(r'[^a-z0-9]+', '-', subject.lower()).strip('-')[:90].strip('-')
+    if not slug:
+        return 400, {'error': 'Please enter a valid subject name.'}
+    filename = slug + '.pdf'
+    relative_path = f'public/answer-keys/{folder}/{filename}'
+    root = f'https://api.github.com/repos/{repo}/contents/'
+    headers = {'Authorization': f'Bearer {token}', 'Accept': 'application/vnd.github+json',
+               'X-GitHub-Api-Version': '2022-11-28'}
+    try:
+        old_pdf_resp = requests.get(root + relative_path, headers=headers, params={'ref': branch}, timeout=25)
+        if old_pdf_resp.status_code == 404:
+            old_pdf = None
+        else:
+            old_pdf_resp.raise_for_status()
+            old_pdf = old_pdf_resp.json()
+        pdf_payload = {'message': f'Publish answer key: {subject} ({folder})',
+                       'content': base64.b64encode(pdf_bytes).decode('ascii'), 'branch': branch}
+        if old_pdf:
+            pdf_payload['sha'] = old_pdf['sha']
+        put_pdf = requests.put(root + relative_path, headers=headers, json=pdf_payload, timeout=45)
+        put_pdf.raise_for_status()
+
+        old_manifest_resp = requests.get(root + ANSWER_KEY_MANIFEST, headers=headers, params={'ref': branch}, timeout=25)
+        if old_manifest_resp.status_code == 404:
+            old_manifest, manifest = None, {'pdfs': []}
+        else:
+            old_manifest_resp.raise_for_status()
+            old_manifest = old_manifest_resp.json()
+            manifest = json.loads(base64.b64decode(old_manifest.get('content') or '').decode('utf-8'))
+        if not isinstance(manifest, dict) or not isinstance(manifest.get('pdfs'), list):
+            manifest = {'pdfs': []}
+        public_path = '/' + relative_path.removeprefix('public/')
+        item = {'semesterId': semester_id, 'subject': subject, 'filename': filename, 'path': public_path}
+        pdfs = [p for p in manifest['pdfs'] if not (
+            p.get('semesterId') == semester_id and p.get('filename') == filename)]
+        pdfs.append(item)
+        order = list(ANSWER_KEY_SEMESTERS)
+        pdfs.sort(key=lambda p: (order.index(p['semesterId']) if p.get('semesterId') in order else 99,
+                                 p.get('subject', '').lower()))
+        manifest_bytes = (json.dumps({'pdfs': pdfs}, ensure_ascii=False, indent=2) + '\\n').encode('utf-8')
+        manifest_payload = {'message': f'Update answer-key index: {subject} ({folder})',
+                            'content': base64.b64encode(manifest_bytes).decode('ascii'), 'branch': branch}
+        if old_manifest:
+            manifest_payload['sha'] = old_manifest['sha']
+        put_manifest = requests.put(root + ANSWER_KEY_MANIFEST, headers=headers, json=manifest_payload, timeout=45)
+        put_manifest.raise_for_status()
+    except requests.HTTPError as exc:
+        detail = ''
+        try:
+            detail = exc.response.text[:220]
+        except Exception:
+            pass
+        return 502, {'error': 'GitHub rejected the upload. Check GITHUB_TOKEN has Contents read/write permission. ' + detail}
+    except Exception as exc:
+        return 502, {'error': 'Could not publish the answer key to GitHub: ' + str(exc)[:220]}
+
+    return 200, {'success': True, 'subject': subject, 'semesterId': semester_id, 'path': public_path,
+                 'message': 'PDF committed to GitHub. It will appear after Vercel finishes deploying the new commit.'}
+
+
 class handler(BaseHTTPRequestHandler):
     def _send(self, status, body):
         payload = json.dumps(body).encode('utf-8')
@@ -321,6 +430,10 @@ class handler(BaseHTTPRequestHandler):
             return self._send(403, {'error': 'Admin access required.'})
         if not has_second_factor(decoded):
             return self._send(403, {'error': 'Two-step login required. Sign out, sign back in and enter your authenticator code.'})
+
+        if body.get('uploadType') == 'answerKey':
+            status, result = publish_answer_key(body)
+            return self._send(status, result)
 
         save_method = body.get('saveMethod') or 'firestore'
         if save_method not in ('firestore', 'github'):
