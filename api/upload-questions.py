@@ -361,7 +361,7 @@ def publish_answer_key(body):
         order = list(ANSWER_KEY_SEMESTERS)
         pdfs.sort(key=lambda p: (order.index(p['semesterId']) if p.get('semesterId') in order else 99,
                                  p.get('subject', '').lower()))
-        manifest_bytes = (json.dumps({'pdfs': pdfs}, ensure_ascii=False, indent=2) + '\\n').encode('utf-8')
+        manifest_bytes = (json.dumps({'pdfs': pdfs}, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
         manifest_payload = {'message': f'Update answer-key index: {subject} ({folder})',
                             'content': base64.b64encode(manifest_bytes).decode('ascii'), 'branch': branch}
         if old_manifest:
