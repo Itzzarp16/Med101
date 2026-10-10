@@ -250,28 +250,102 @@
 }
 
 /* ── Mobile: sidebar becomes a scrolling top strip ── */
+/* Mobile browsers: no permanent sidebar. A slim top bar carries the hamburger
+   and the sidebar becomes an off-canvas drawer. Desktop never sees any of it. */
+.admin-mobilebar, .admin-drawer-overlay, .admin-drawer-close { display: none; }
+
 @media (max-width: 860px) {
   .admin-portal { flex-direction: column; }
-  .admin-side {
+
+  .admin-mobilebar {
+    display: flex;
     position: sticky;
-    z-index: 11;
-    width: 100%;
-    height: auto;
-    flex-direction: row;
+    top: 0;
+    z-index: 30;
     align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    border-right: none;
+    gap: 10px;
+    padding: 10px 14px;
+    padding-top: calc(10px + env(safe-area-inset-top, 0px));
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--border);
-    overflow-x: auto;
   }
-  .admin-side-brand { padding: 0 6px 0 2px; font-size: 15px; }
-  .admin-side-name, .admin-nav-grouptitle, .admin-side-user { display: none; }
-  .admin-side-nav { display: flex; gap: 4px; flex: none; }
-  .admin-nav-group { margin: 0; }
-  .admin-nav-items { flex-direction: row; gap: 4px; }
-  .admin-nav-item { width: auto; white-space: nowrap; padding: 8px 12px; }
-  .admin-side-foot { border-top: none; padding: 0 0 0 6px; margin-left: auto; }
+  .admin-burger {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-content: center;
+    gap: 5px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--surface, transparent);
+    cursor: pointer;
+  }
+  .admin-burger span {
+    display: block;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--text);
+  }
+  .admin-mobilebar-name { font-size: 18px; }
+
+  .admin-drawer-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+    animation: admin-fade 0.2s ease both;
+  }
+  @keyframes admin-fade { from { opacity: 0; } to { opacity: 1; } }
+
+  /* the sidebar, re-used as the drawer */
+  .admin-side {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: min(300px, 84vw);
+    height: 100dvh;
+    z-index: 41;
+    overflow-y: auto;
+    padding-top: calc(16px + env(safe-area-inset-top, 0px));
+    transform: translateX(-104%);
+    visibility: hidden;
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s linear 0.28s;
+  }
+  .admin-side.open {
+    transform: none;
+    visibility: visible;
+    box-shadow: 0 0 70px rgba(0, 0, 0, 0.55);
+    transition: transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1), visibility 0s;
+  }
+  .admin-drawer-close {
+    display: grid;
+    place-items: center;
+    position: absolute;
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--text2, var(--text));
+    font-size: 14px;
+    cursor: pointer;
+  }
+
   .admin-portal-header { position: static; padding: 12px 16px; }
   .admin-page-title { font-size: 17px; }
+}
+
+@media (max-width: 860px) and (prefers-reduced-motion: reduce) {
+  .admin-side, .admin-side.open { transition: none; }
+  .admin-drawer-overlay { animation: none; }
 }

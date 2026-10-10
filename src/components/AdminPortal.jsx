@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../lib/AuthContext';
 import { isLightMode, setTheme } from '../lib/theme';
 import { useSemesterData } from '../lib/useSemesterData';
+import useLockBodyScroll from '../lib/useLockBodyScroll';
 import AdminNoticeScreen from './AdminNoticeScreen';
 import AdminBroadcastScreen from './AdminBroadcastScreen';
 import AdminCalendarScreen from './AdminCalendarScreen';
@@ -183,8 +184,25 @@ export default function AdminPortal() {
     setTheme(next ? 'light' : 'dark');
     setLight(next);
   };
+  // Phones (<= 860px, see AdminPortal.css) get a hamburger + slide-in drawer
+  // instead of the always-visible sidebar. On wider screens none of this shows.
+  const [menuOpen, setMenuOpen] = useState(false);
+  useLockBodyScroll(menuOpen);
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') setMenuOpen(false); };
+    const mq = window.matchMedia('(min-width: 861px)');
+    const onWide = () => { if (mq.matches) setMenuOpen(false); };
+    window.addEventListener('keydown', onKey);
+    mq.addEventListener('change', onWide);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      mq.removeEventListener('change', onWide);
+    };
+  }, [menuOpen]);
   const setTab = (id) => {
     setTabState(id);
+    setMenuOpen(false);
     window.history.replaceState(null, '', `#${id}`);
   };
   const { semesters, semesterMainSubjects } = useSemesterData();
@@ -233,7 +251,23 @@ export default function AdminPortal() {
 
   return (
     <div className="admin-portal">
-      <aside className="admin-side">
+      <div className="admin-mobilebar">
+        <button
+          className="admin-burger"
+          onClick={() => setMenuOpen(true)}
+          aria-label="Open menu"
+          aria-expanded={menuOpen}
+          aria-controls="admin-drawer"
+        >
+          <span /><span /><span />
+        </button>
+        <span className="admin-mobilebar-name topbar-logo">Med101</span>
+        <span className="admin-portal-badge">ADMIN</span>
+      </div>
+      {menuOpen && <div className="admin-drawer-overlay" onClick={() => setMenuOpen(false)} aria-hidden="true" />}
+
+      <aside id="admin-drawer" className={menuOpen ? 'admin-side open' : 'admin-side'}>
+        <button className="admin-drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">✕</button>
         <div className="admin-side-brand">
           <span className="admin-portal-badge">ADMIN</span>
           <span className="admin-side-name topbar-logo">Med101</span>
