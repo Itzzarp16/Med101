@@ -1162,20 +1162,53 @@ body.light-mode .menu-item:active {
   background: var(--bg);
   padding: 20px;
   z-index: 1000;
+  overflow: hidden;
+  /* One lockup size for the loading screen AND the intro film
+     (public/intro.html uses this exact clamp), so the logo never
+     changes size or position between the two. */
+  --lockup-fs: clamp(38px, 12.5vw, 96px);
+}
+
+/* Same soft glow backdrop as the intro film's .bg, so the loading
+   screen and the intro read as one continuous scene. */
+.app-loading-screen::before {
+  content: '';
+  position: absolute;
+  inset: -10%;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 30% at 20% 22%, rgba(var(--cyan-rgb), 0.2), transparent 70%),
+    radial-gradient(34% 28% at 82% 68%, rgba(var(--cyan-rgb), 0.14), transparent 70%),
+    radial-gradient(60% 40% at 50% 102%, rgba(var(--violet-rgb), 0.2), transparent 70%);
+  animation: app-loading-drift 14s ease-in-out infinite alternate;
+}
+body.light-mode .app-loading-screen::before { display: none; }
+
+@keyframes app-loading-drift {
+  to { transform: translate3d(2%, -2%, 0) scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-loading-screen::before { animation: none; }
 }
 
 .app-loading-logo-stack {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   line-height: 1;
   transform-origin: top left;
+  /* The intro film's lockup box is a touch wider (glyph padding + the
+     tagline's trailing tracking), which centres its wordmark ~0.076em
+     further left. Same offset here so the two wordmarks coincide. */
+  margin-right: calc(var(--lockup-fs, 2.4rem) * 0.152);
 }
 
 .app-loading-logo {
   font-family: 'Syne', sans-serif;
   font-weight: 800;
-  font-size: 2.4rem;
+  font-size: var(--lockup-fs, 2.4rem);
   line-height: 1;
   background: var(--logo-face);
   -webkit-background-clip: text;
@@ -1183,7 +1216,7 @@ body.light-mode .menu-item:active {
   background-clip: text;
   /* Matches .topbar-logo (the splash logo flies into the top bar). */
   text-shadow: none;
-  filter: drop-shadow(0 0 18px rgba(106, 168, 255, 0.32));
+  filter: drop-shadow(0 0 22px rgba(106, 168, 255, 0.35));
 }
 
 body.light-mode .app-loading-logo {
@@ -1202,18 +1235,34 @@ body.light-mode .app-loading-logo {
 }
 
 .app-loading-tagline {
-  margin-top: 2px;
+  margin-top: 0.05em;
   font-family: var(--font-body, sans-serif);
   /* Same proportions as .topbar-logo / .topbar-tagline (19px logo, 8px
      tagline, 0.06em tracking) scaled to the 2.4rem splash wordmark, so
      the splash stack shrinks into the top bar as one identical logo. */
-  font-size: calc(2.4rem * 8 / 19);
+  font-size: calc(var(--lockup-fs, 2.4rem) * 8 / 19);
   white-space: nowrap;
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--text3);
   text-align: left;
+}
+
+.app-loading-below {
+  /* Out of flow so the lockup itself is always centred on the screen,
+     exactly where the intro film puts it (no jump when the bar, the
+     quip or the stuck-help appear). */
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  /* half the lockup height (wordmark + tagline + gap) + 22px gap */
+  top: calc(50% + var(--lockup-fs, 2.4rem) * 0.72 + 22px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
 }
 
 .app-loading-bar-row {
