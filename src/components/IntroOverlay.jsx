@@ -8,6 +8,9 @@ import { markIntroSeen } from '../lib/intro';
 // a black screen.
 export default function IntroOverlay({ onDone }) {
   const [leaving, setLeaving] = useState(false);
+  // Invisible until the film reports ready, so the loading lockup beneath
+  // stays on screen (no black gap) and the film fades in over it.
+  const [shown, setShown] = useState(false);
   const finished = useRef(false);
 
   const finish = useCallback(() => {
@@ -22,7 +25,7 @@ export default function IntroOverlay({ onDone }) {
     let ready = false;
     const onMsg = (e) => {
       if (e.origin !== window.location.origin || !e.data) return;
-      if (e.data.type === 'med101-intro-ready') ready = true;
+      if (e.data.type === 'med101-intro-ready') { ready = true; setShown(true); }
       if (e.data.type === 'med101-intro-done') finish();
     };
     window.addEventListener('message', onMsg);
@@ -38,14 +41,15 @@ export default function IntroOverlay({ onDone }) {
   return (
     <div
       style={{
-        position: 'fixed', inset: 0, zIndex: 100000, background: '#030508',
-        opacity: leaving ? 0 : 1, transition: 'opacity 0.45s ease',
+        position: 'fixed', inset: 0, zIndex: 100000, background: '#050505',
+        opacity: leaving || !shown ? 0 : 1, transition: 'opacity 0.45s ease',
+        pointerEvents: shown && !leaving ? 'auto' : 'none',
       }}
     >
       <iframe
         title="Med101 intro"
         src="/intro.html?embed=1"
-        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, background: '#030508' }}
+        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', border: 0, background: '#050505' }}
       />
     </div>
   );
