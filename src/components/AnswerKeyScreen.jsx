@@ -11,6 +11,10 @@ const SEMESTER_LABELS = {
   y3s2: 'Semester 6',
 };
 
+// Muted accent set (RGB triples) so each subject card gets its own tint
+// from the same navy/slate/rose family the rest of the app uses.
+const ACCENTS = ['var(--cyan-rgb)', 'var(--violet-rgb)', 'var(--pink-rgb)', '70, 140, 130'];
+
 function DocumentMark() {
   return (
     <svg viewBox="0 0 28 32" aria-hidden="true" className="ak-doc-svg">
@@ -64,7 +68,7 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
         </ScreenHeader>
         <div className="ak-viewer-toolbar">
           <span className="ak-viewer-label"><span className="ak-viewer-dot" /> PDF DOCUMENT</span>
-          <a className="ak-action ak-action-primary" href={viewingPdf.path} download={viewingPdf.filename}>
+          <a className="ak-btn ak-btn-primary" href={viewingPdf.path} download={viewingPdf.filename}>
             <span aria-hidden="true">↓</span> Download
           </a>
         </div>
@@ -75,44 +79,49 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
     );
   }
 
+  const hasDocs = !loading && !loadError && semesterPdfs.length > 0;
+
   return (
     <div className="std-screen wf-screen ak-pdf-screen">
       <ScreenHeader onBack={onBack} title="Answer Key">
         Your revision library
       </ScreenHeader>
 
-      <div className="ak-simple-heading">
-        <h2>{semesterLabel}</h2>
-        <p>Answer keys</p>
-      </div>
-
-      <div className="ak-library-heading">
-        <div>
-          <h3>Available documents</h3>
-          <p>Choose a subject to open its answer key.</p>
+      <section className="ak-hero" aria-label={`${semesterLabel} answer keys`}>
+        <span className="ak-hero-orbit ak-hero-orbit-one" aria-hidden="true" />
+        <span className="ak-hero-orbit ak-hero-orbit-two" aria-hidden="true" />
+        <div className="ak-hero-body">
+          <span className="ak-eyebrow"><i /> ANSWER KEYS</span>
+          <h2 className="ak-hero-title">{semesterLabel}</h2>
+          <p className="ak-hero-copy">Check yourself fast. Open a key in the app or download it for offline revision.</p>
+          <div className="ak-hero-stats">
+            <span className="ak-stat"><b>{loading ? '–' : semesterPdfs.length}</b> {semesterPdfs.length === 1 ? 'subject' : 'subjects'}</span>
+            <span className="ak-stat"><b>PDF</b> format</span>
+          </div>
         </div>
-        {!loading && !loadError && semesterPdfs.length > 0 && (
-          <span className="ak-count">{filteredPdfs.length} / {semesterPdfs.length}</span>
-        )}
-      </div>
+        <div className="ak-hero-mark" aria-hidden="true"><DocumentMark /></div>
+      </section>
 
-      {!loading && !loadError && semesterPdfs.length > 0 && (
-        <label className="ak-search">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 5 5" /></svg>
-          <input
-            type="search"
-            value={searchQuery}
-            onChange={(event) => setSearchQuery(event.target.value)}
-            placeholder="Search subjects…"
-            aria-label="Search answer keys"
-          />
-          {searchQuery && <button type="button" onClick={() => setSearchQuery('')} aria-label="Clear search">×</button>}
-        </label>
+      {hasDocs && (
+        <div className="ak-toolbar">
+          <label className="ak-search">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 5 5" /></svg>
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
+              placeholder="Search subjects…"
+              aria-label="Search answer keys"
+            />
+            {searchQuery && <button type="button" onClick={() => setSearchQuery('')} aria-label="Clear search">×</button>}
+          </label>
+          <span className="ak-count" aria-live="polite">{filteredPdfs.length}<em>/</em>{semesterPdfs.length}</span>
+        </div>
       )}
 
       {loading ? (
-        <div className="ak-loading-list" aria-label="Loading answer keys">
-          {[1, 2, 3].map((item) => <div className="ak-skeleton" key={item}><span /><div><i /><i /></div><b /></div>)}
+        <div className="ak-grid" aria-label="Loading answer keys">
+          {[1, 2, 3].map((item) => <div className="ak-skeleton" key={item}><span /><div><i /><i /></div></div>)}
         </div>
       ) : loadError ? (
         <div className="ak-state-card">
@@ -134,20 +143,28 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
           <button className="ak-text-action" type="button" onClick={() => setSearchQuery('')}>Clear search</button>
         </div>
       ) : (
-        <section className="ak-pdf-list" aria-label={semesterLabel + ' answer-key PDFs'}>
+        <section className="ak-grid" aria-label={semesterLabel + ' answer-key PDFs'}>
           {filteredPdfs.map((pdf, index) => (
-            <article className="ak-pdf-card" key={pdf.semesterId + '-' + pdf.filename} style={{ '--ak-index': Math.min(index, 8) }}>
-              <div className="ak-pdf-icon"><DocumentMark /><span>PDF</span></div>
-              <div className="ak-pdf-info">
-                <div className="ak-pdf-title">{pdf.subject}</div>
-                <div className="ak-pdf-subtitle"><span className="ak-file-dot" /> {semesterLabel} <span className="ak-subtitle-sep">/</span> PDF document</div>
-              </div>
-              <div className="ak-pdf-actions">
-                <button className="ak-action ak-action-primary" type="button" onClick={() => setViewingPdf(pdf)}>
+            <article
+              className="ak-card"
+              key={pdf.semesterId + '-' + pdf.filename}
+              style={{ '--ak-index': Math.min(index, 8), '--ak-rgb': ACCENTS[index % ACCENTS.length] }}
+            >
+              <span className="ak-card-glow" aria-hidden="true" />
+              <button className="ak-card-head" type="button" onClick={() => setViewingPdf(pdf)} aria-label={`Open ${pdf.subject} answer key`}>
+                <span className="ak-tile"><DocumentMark /></span>
+                <span className="ak-card-info">
+                  <span className="ak-card-title">{pdf.subject}</span>
+                  <span className="ak-card-meta"><span className="ak-chip">PDF</span> {semesterLabel}</span>
+                </span>
+                <span className="ak-card-num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+              </button>
+              <div className="ak-card-actions">
+                <button className="ak-btn ak-btn-primary" type="button" onClick={() => setViewingPdf(pdf)}>
                   Open answer key <span aria-hidden="true">↗</span>
                 </button>
-                <a className="ak-action ak-action-secondary" href={pdf.path} download={pdf.filename} aria-label={`Download ${pdf.subject} answer key`}>
-                  <span aria-hidden="true">↓</span>
+                <a className="ak-btn ak-btn-ghost" href={pdf.path} download={pdf.filename} aria-label={`Download ${pdf.subject} answer key`}>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg>
                 </a>
               </div>
             </article>

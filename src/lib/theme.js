@@ -21,6 +21,10 @@ function apply(theme) {
   // sets it dark for the loader), so without this a light-mode page shows
   // a black strip wherever the body doesn't fill the viewport.
   document.documentElement.classList.toggle('light-mode', theme === 'light');
+  // The phone's status/address bar takes its colour from this tag, so keep it
+  // in step with the theme instead of leaving a light strip above a dark app.
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', theme === 'light' ? '#e9edf3' : '#050505');
 }
 
 // Switching themes cross-fades instead of flipping: the new theme fades in
