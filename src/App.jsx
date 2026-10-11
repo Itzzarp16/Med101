@@ -530,20 +530,36 @@ export default function App() {
           <div className="app-loading-logo">Med101</div>
           <div className="app-loading-tagline">Learn. Practice. Improve.</div>
         </div>
-        <div className="app-loading-bar-row">
-          <span className="app-loading-play">▶</span>
-          <div className="app-loading-track">
-            <div className="app-loading-fill app-loading-fill-indeterminate" />
+        <div className="app-loading-below">
+          <div className="app-loading-bar-row">
+            <span className="app-loading-play">▶</span>
+            <div className="app-loading-track">
+              <div className="app-loading-fill app-loading-fill-indeterminate" />
+            </div>
           </div>
+          <StuckLoaderHelp hint="signing in" />
         </div>
-        <StuckLoaderHelp hint="signing in" />
       </div>
     );
   }
 
   // Intro plays here: data keeps loading behind it (hooks above), and the
   // normal splash finish / login screen follow when it is done.
-  if (!introDone) return <IntroOverlay onDone={() => setIntroDone(true)} />;
+  // The loading lockup stays mounted underneath: the film fades in over it
+  // (and back out onto it), so the logo is the same one throughout.
+  if (!introDone) {
+    return (
+      <>
+        <div className="app-loading-screen" aria-hidden="true">
+          <div className="app-loading-logo-stack">
+            <div className="app-loading-logo">Med101</div>
+            <div className="app-loading-tagline">Learn. Practice. Improve.</div>
+          </div>
+        </div>
+        <IntroOverlay onDone={() => setIntroDone(true)} />
+      </>
+    );
+  }
 
   if (!user || needsGoogleProfileSetup) {
     return (
@@ -821,21 +837,23 @@ export default function App() {
           <div className="app-loading-logo">Med101</div>
           <div className="app-loading-tagline">Learn. Practice. Improve.</div>
         </div>
-        <div className="app-loading-bar-row">
-          <span className="app-loading-play">▶</span>
-          <div className="app-loading-track">
-            <div
-              className="app-loading-fill"
-              style={loaderPhase === 'loading'
-                ? { width: loaderBarArmed ? '94%' : '0%', transition: 'width 24s cubic-bezier(0.08, 0.6, 0.3, 1)' }
-                : { width: '100%', transition: 'width 0.35s ease' }}
-            />
+        <div className="app-loading-below">
+          <div className="app-loading-bar-row">
+            <span className="app-loading-play">▶</span>
+            <div className="app-loading-track">
+              <div
+                className="app-loading-fill"
+                style={loaderPhase === 'loading'
+                  ? { width: loaderBarArmed ? '94%' : '0%', transition: 'width 24s cubic-bezier(0.08, 0.6, 0.3, 1)' }
+                  : { width: '100%', transition: 'width 0.35s ease' }}
+              />
+            </div>
           </div>
+          {loaderPhase === 'loading' && <LoadingLine className="app-loading-quip" spinner={false} />}
+          {loaderPhase === 'loading' && (
+            <StuckLoaderHelp hint={semesterData.loading ? 'loading questions' : 'loading your semester'} />
+          )}
         </div>
-        {loaderPhase === 'loading' && <LoadingLine className="app-loading-quip" spinner={false} />}
-        {loaderPhase === 'loading' && (
-          <StuckLoaderHelp hint={semesterData.loading ? 'loading questions' : 'loading your semester'} />
-        )}
       </div>
   );
   if (loaderPhase === 'loading' || loaderPhase === 'completing') {
