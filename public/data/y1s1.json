@@ -32,7 +32,7 @@
     },
     "Bioorganic chemistry": {
       "emoji": "⚗️",
-      "desc": "Amino acids & organic chemistry – 79 questions",
+      "desc": "Biochemistry – 320 questions; Amino acids & organic chemistry – 79 questions",
       "accent": "var(--green)"
     },
     "Human anatomy 1": {
@@ -7426,6 +7426,3524 @@
     },
     {
       "s": "Bioorganic chemistry",
+      "q": "1. Which compounds enter addition reactions?",
+      "o": [
+        "Unsaturated hydrocarbons;",
+        "Saturated hydrocarbons;",
+        "Aromatic hydrocarbons;",
+        "Alcohols;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "2. Which of the following are homologues?",
+      "o": [
+        "Pentanoic acid and pentanedioic acid;",
+        "Butenedioic acid and butynedioic acid;",
+        "Butanoic acid and butanedioic acid;",
+        "Butanedioic acid and pentanedioic acid."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "3. What are the electronic effects of functional groups in the molecule of 4- hydroxybutanoic acid?",
+      "o": [
+        "–І;",
+        "+М;",
+        "+М, + І;",
+        "-М, - І;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "4. What is the pH in lysine water solution",
+      "o": [
+        "Basic;",
+        "Acidic;",
+        "Neutral;",
+        "Depends on conditions;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "5. Which reaction provides biological function of ATP?",
+      "o": [
+        "Esterification;",
+        "Hydrolysis;",
+        "Dehydration;",
+        "Transamination;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "6. Which molecule contains pyrrole ring?",
+      "o": [
+        "Nicotinic acid;",
+        "Uric acid;",
+        "Adenine;",
+        "Hemoglobine;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "7. π-π – conjugation has the structure:",
+      "o": [
+        "pentadiene - 1.3",
+        "pentadiene - 1.4",
+        "butanoic acid;",
+        "propanoic acid."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "8. Aromatic compounds are:",
+      "o": [
+        "cyclohexane;",
+        "cyclooctatetraene;",
+        "naphthalene;",
+        "butadiene"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "9. Energy of 2-chlorobutane in the eclipsed conformation more than gauche because in the eclipsed conformation:",
+      "o": [
+        "the other configuration of the molecule;",
+        "the greater torsional stress;",
+        "increased Van der Waals repulsion.",
+        "the molecule another electronic structure;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "10. The product of hydration reaction of aconitoic (3-carboxypentyl-2-dioic) acid, flowing through Markovnikov rule (in vivo) is:",
+      "o": [
+        "isocitric acid;",
+        "3-hydroxy-3-carboxypentanedioic acid;",
+        "acetoacetic acid;",
+        "2-hydroxy-3-carboxypentanedioic acid."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "11. Characteristic reaction for Benzene proceeds by following mechanisms:",
+      "o": [
+        "A ;",
+        "A ; N E",
+        "S ;",
+        "S ; N E"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "12. In initiation step:",
+      "o": [
+        "generation of radicals.",
+        "the step where the products of the reaction are formed.",
+        "radicals are removed from the reaction mixture.",
+        "generation of ions"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "13. By the alkaloid pyridine group include:",
+      "o": [
+        "quinine;",
+        "nicotine;",
+        "morphine;",
+        "cocaine;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "14. Tautomeric transformations are possible for the following heterocyclic compounds:",
+      "o": [
+        "furan;",
+        "pyridine;",
+        "pyrrole;",
+        "imidazole (1,3-diazole);"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "15. Structure of D-glucose configuration corresponds to the number of stereoisomers:",
+      "o": [
+        "four;",
+        "eight;",
+        "sixteen",
+        "thirtytwo;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "16. How many functional groups have D- glucose?",
+      "o": [
+        "1;",
+        "2;",
+        "3;",
+        "4."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "17. Phenol is a compound:",
+      "o": [
+        "acyclic;",
+        "carbocyclic;",
+        "heterocyclic;",
+        "saturated;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "18. 2-Isopropyl-5-methylcyclohexanol on carbon skeletal structure of the compound is:",
+      "o": [
+        "carbocyclic;",
+        "heterocyclic;",
+        "unsaturated and acyclic.;",
+        "aromatic;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "19. Give the systematic IUPAC name to the following compound NH – CH – CH - CH – CH -CH(NH )– 2 2 2 2 2 2 COOH",
+      "o": [
+        "2,6-diaminohexanoic acid",
+        "2,6-aminohexanoic acid",
+        "1,5-diaminohexanoic acid",
+        "3,6-diaminohexanoic acid"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "20. There is sp2 - hybrid atoms in molecule of:",
+      "o": [
+        "butane",
+        "propane;",
+        "pentane ;",
+        "ethene"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "21. p-π - conjugate has the structure:",
+      "o": [
+        "acetic acid;",
+        "2-propenal",
+        "ethylene glycol;",
+        "pyridine;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "22. The following compounds are not aromatic:",
+      "o": [
+        "pyridine;",
+        "cyclohexene-1;",
+        "anthracene;",
+        "furan."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "23. The conformations of 1-chloropropane with a torsion angle of 60˚ and 300˚ are degenerate, because in these conformations the molecule have:",
+      "o": [
+        "same configuration;",
+        "same chemical structure;",
+        "different conformational structure;",
+        "same torsion, Van der Waals and angular stresses;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "24. The weakest acid is:",
+      "o": [
+        "ethanamine;",
+        "ethanol;",
+        "phenol;",
+        "ethanoic acid;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "25. Heterolytic cleavage of chemical bonds is possible for the following compounds:",
+      "o": [
+        "2-chlorpropane;",
+        "ethane;",
+        "Br ;",
+        "benzene; 2"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "26. The product of the hydration of fumaric (butenedioic acid) in vivo is:",
+      "o": [
+        "citric acid;",
+        "malic acid;",
+        "2-hydroxybutanoic acid;",
+        "2,3-dihydroxybutanedioic acid;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "27. To conduct methylation reaction of benzene are needed the following conditions:",
+      "o": [
+        "acid catalyst;",
+        "concentrated alkali (NaOH, KOH);",
+        "catalyst FeCl . 3",
+        "ultraviolet radiation;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "28. In propagation step:",
+      "o": [
+        "generation of radicals.",
+        "the step where the products of the reaction are formed.",
+        "radicals are removed from the reaction mixture.",
+        "generation of ions"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "29. Iimidazole corresponds to the systematic name:",
+      "o": [
+        "1,3-diazole;",
+        "azine;",
+        "1,3-diazine;",
+        "azole;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "30. Tautomerism possible for the heterocyclic compounds whose molecules arepresent at the same time the reaction centers:",
+      "o": [
+        "two acidic;",
+        "acidic and basic;",
+        "two major",
+        "basic and electrophilic;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "31. Ability flow nucleophilic substitution (S ) N in a series of reactions of compounds decreases from left to right:",
+      "o": [
+        "pyridine, pyrimidine, pyridazine;",
+        "pyrrole, oxazole, benzene;",
+        "pyridine, benzene, pyrimidine;",
+        "pyridazine, pyridine, benzene."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "32. Carbon in organic compounds has a valence equal to ...",
+      "o": [
+        "IV",
+        "II",
+        "III",
+        "V."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "33. Benzoic acid is a compound:",
+      "o": [
+        "acyclic;",
+        "carbocyclic;",
+        "aromatic;",
+        "heterocyclic;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "34. 1,2,3-propanetriol is the compound of:",
+      "o": [
+        "heterofunctional;",
+        "aromatic;",
+        "unsaturated;",
+        "polyfunctional;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "35. Give the systematic IUPAC name to the following compound HOOC – CH – CH(OH) - CH – COOH 2 2",
+      "o": [
+        "3-hydroxypentanoic acid",
+        "hydroxypentanedioic acid",
+        "3-hydroxypentanedioic acid",
+        "2-hydroxypentanedioic acid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "36. There is sp - hybrid atoms in molecule of:",
+      "o": [
+        "butyne",
+        "propane;",
+        "pentane ;",
+        "ethane"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "37. π-π – conjugation has the structure:",
+      "o": [
+        "CH = CH – CH = CH 2 2",
+        "CH = CH 2 2",
+        "CH = CH – Cl 2",
+        "CH =CH – O -CH=CH 2 2"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "38. In the functional group has a negative mesomeric effect in the compound of:",
+      "o": [
+        "ethanol;",
+        "glycerol;",
+        "acetone;",
+        "butyen 2-al-1;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "39. The molecule 1,2 - dimethylcyclohexane has the maximum amount of energy, if:",
+      "o": [
+        "both methyl substituents in the equatorial bonds;",
+        "both methyl substituents in the axial connections;",
+        "one of the two substituents on the axial connection",
+        "the one of the two substituents on the equatorial bond;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "40. The most strong acidic properties of the compound shown in:",
+      "o": [
+        "acetic acid;",
+        "propanoic acid;",
+        "2-methylpropanoic acid;",
+        "2,2,2-trichloroethanoic acid;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "41. The nucleophilic reagents include:",
+      "o": [
+        "Na+",
+        "C H NH , OH; 3 7 2",
+        "ammonium ion;",
+        "CH ; 4"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "42. The product of the reaction of hydration of 2-propenal is:",
+      "o": [
+        "2-hydroxypropanal;",
+        "propanoic acid;",
+        "acetal;",
+        "3-hydroxypropanal;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "43. The product of bromination of phenol is:",
+      "o": [
+        "2-bromophenol;",
+        "3-bromophenol;",
+        "2,4,6 tribromphenol;",
+        "3,3-dibromophenol;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "44. In termination step:",
+      "o": [
+        "generation of radicals;",
+        "the step where the products of the reaction are formed;",
+        "radicals are removed from the reaction мixture;",
+        "generation of ions;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "45. Pyrimidine corresponds to the systematic name:",
+      "o": [
+        "diazole 1.3;",
+        "1,3-diazine;",
+        "1,4-diazepine;",
+        "azine;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "46. The basic properties of heterocyclic compounds are shown in their reactions:",
+      "o": [
+        "with bases;",
+        "with acids;",
+        "with bicarbonates;",
+        "halogenated hydrocarbons;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "47. The ability of the reactions of nucleophilic substitution (SN) is maximal among aromatic compounds, characterized by:",
+      "o": [
+        "the electronic structure of benzene;",
+        "π-electron structure insufficient;",
+        "the electronic structure of furan;",
+        "π-electron structure of the excess;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "48. D-glucose and L-glucose relate to each other as:",
+      "o": [
+        "enantiomers;",
+        "diastereomers;",
+        "epimers;",
+        "anomers"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "49. Hexane is a compound:",
+      "o": [
+        "cyclic;",
+        "carbocyclic;",
+        "heterocyclic;",
+        "saturated;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "50. According to functional groups 4 – hydroxy - 3 - ethoxybenzaldehyde is:",
+      "o": [
+        "phenol, aldehyde, ether,",
+        "acid, Na+;",
+        "ester;",
+        "alcohol."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "51. By the IUPAC nomenclature the following compound is; HC≡C - CH –CH 2 3",
+      "o": [
+        "butyne-1",
+        "butyne–2",
+        "butane",
+        "butene"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "52. There is no sp - hybrid atoms in molecule of:",
+      "o": [
+        "butyne",
+        "propyne;",
+        "pentyne ;",
+        "ethane"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "53. p-π - conjugate has the structure:",
+      "o": [
+        "CH = CH – CH = CH 2 2",
+        "CH = CH 2 2",
+        "CH = CH – Cl 2",
+        "CH = CH – CH = CH- CH 2 3"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "54. In the functional group has a negative inductive effect only in compound of:",
+      "o": [
+        "phenol;",
+        "acetic acid;",
+        "methylphenylketone;",
+        "ethanedioic acid;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "55. The chiral molecule is:",
+      "o": [
+        "glycine (2-aminoetanoic acid);",
+        "serine, (2-amino-3-hydroxypropanoic acid);",
+        "aminoethanol;",
+        "1-butanol;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "56. Electrophilic particles are:",
+      "o": [
+        "cations: H+, NO +, SO H+, Men+; 2 3 2 ) molecules with lone electron pairs (Lewis bases)",
+        "compounds with multiply bonds >C=C<, -C≡C-.;",
+        "anions: OH-, Hal-, HSO -, RS-; 3"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "57. Electrophilic reagents are:",
+      "o": [
+        "NH ;",
+        "Br+, cation nitro; 3",
+        "C H OH;",
+        "ethanal. 2 5"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "58. For propene hydration reaction is necessary to establish the following conditions:",
+      "o": [
+        "anhydrous conditions;",
+        "the ultraviolet radiation;",
+        "acid catalyst;",
+        "catalyst;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "59. Product of mononitration of benzaldehyde is:",
+      "o": [
+        "2-nitrobenzaldehyde;",
+        "3-nitrobenzaldehyde;",
+        "4-nitrobenzaldehyde;",
+        "3, 3-dinitrobenzaldegid;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "60. Characteristic reaction for unsaturated compounds:",
+      "o": [
+        "radical substitution",
+        "electrophilic addition",
+        "electrophilic substitution",
+        "nucleophilic substitution"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "61. Reactions of acetoacetic ester with bromine water and iron (III) chloride (FeCl allow us to prove:",
+      "o": [
+        "",
+        "p-π-conjugation;",
+        "The keto-enol tautomerism of acetoacetic ester;",
+        "π-π-conjugation in the molecule;",
+        "ester group;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "62. In reactions with bases under normal conditions of uric acid (2,6,8- trihydroxypurine) forms a salt:",
+      "o": [
+        "ammonium salts;",
+        "barbiturates;",
+        "the salts of nitrogenous bases;",
+        "acid and urate average;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "63. The rate of electrophilic substit nution reactions (S ) is reduced to a series of E compounds from left to right:",
+      "o": [
+        "pyridine, pyrrol, benzene;",
+        "benzene, pyrrole, pyridine;",
+        "benzene, pyridine, pyrrole;",
+        "pyrrole, benzene, pyridine."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "64. D-glucose and D-galactose relate to each other as:",
+      "o": [
+        "enantiomers;",
+        "diastereomers;",
+        "structural isomers;",
+        "anomers"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "65. Ethylene is a compound:",
+      "o": [
+        "acyclic;",
+        "carbocyclic;",
+        "heterocyclic;",
+        "unsaturated;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "66. How many functional groups have 2 – hydroxy - 4 – methyl benzoic acid?",
+      "o": [
+        "1;",
+        "2;",
+        "3;",
+        "4;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "67. By the IUPAC nomenclature the following compound is; H C – C ≡ C – 3 CH 3",
+      "o": [
+        "butyne-1",
+        "butyne–2",
+        "butane",
+        "butene"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "68. π-π – conjugation has the structure:",
+      "o": [
+        "propanoic acid.",
+        "pentadiene - 1.4",
+        "butanoic acid;",
+        "pentadiene - 1.3"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "69. All are electron withdrawing functional groups in the compounds:",
+      "o": [
+        "2-aminoethanol-1;",
+        "2-hydroxybenzoic acid;",
+        "4-aminobenzoyl sulfonic acid.",
+        "4-hydroxy-3-methoxybenzaldehyde;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "70. The chiral molecule is:",
+      "o": [
+        "D - glucose ;",
+        "Glycerol",
+        "2 - aminoethanol;",
+        "2-hydroxypronane;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "71. Nucleophiles are:",
+      "o": [
+        "cations: H+, NO +, SO H+, Men+; 2 3",
+        "molecules with vacant orbitals (Lewis acids)",
+        "Molecules which contain atoms with low electron density;",
+        "anions: OH-, Hal-, HSO -, RS-; 3"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "72. As a electrophilic substrate can serve the following compounds:",
+      "o": [
+        "ethanoic acid;",
+        "propene;",
+        "methanamine;",
+        "hydrochloric acid;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "73. The product of the reaction of 1-butene and HBr is:",
+      "o": [
+        "1 brombutan;",
+        "2 brombutan;",
+        "butane;",
+        "1,3-butadiene;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "74. Product of monomethylation of benzoic acid is:",
+      "o": [
+        "2- metilbenzoic acid;",
+        "3- metilbenzoic acid;",
+        "4-metilbenzoic acid;",
+        "2,4,6-trimetilbenzoic acid;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "75. Characteristic reaction for saturated compounds:",
+      "o": [
+        "radical substitution",
+        "electrophilic addition",
+        "electrophilic substitution",
+        "nucleophilic addition"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "76. Upon heating of lactic acid (2- hydroxypropanoic) are formed:",
+      "o": [
+        "anhydride and H O; 2",
+        "H O and lactide; 2",
+        "lactam and H O; 2",
+        "diketopiperazine and H O; 2"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "77. The reaction of formation of salts with bases uric acid (2,6,8-trihydroxypurine) behaves like:",
+      "o": [
+        "monobasic acid;",
+        "dibasic acid;",
+        "tribasic acid;",
+        "can not form salts with bases;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "78. Electrophilic substitution reactions (S ) E with a minimum flow rate from:",
+      "o": [
+        "toluene (methylbenzene);",
+        "pyrimidine (1,3-diazine",
+        "pyridine; 4. furan;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "79. D-glucose and D-fructose are related to each other as:",
+      "o": [
+        "enantiomers;",
+        "diastereomers;",
+        "epimers;",
+        "structural isomers"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "80. By the IUPAC nomenclature the following compound is; H C - CH = CH –CH 3 3",
+      "o": [
+        "butyne-2",
+        "butene–1",
+        "butane",
+        "butene - 2"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "81. Butane is a compound:",
+      "o": [
+        "acyclic;",
+        "carbocyclic;",
+        "heterocyclic;",
+        "saturated"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "82. There is sp3 - hybrid atoms in molecule of:",
+      "o": [
+        "butyne",
+        "propane;",
+        "pentyne ;",
+        "ethene"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "83. What is the kind of conjugation in the molecule of aniline (aminobenzene) between functional group and aromatic ring?",
+      "o": [
+        "p,π",
+        "π,π",
+        "p,p",
+        "there is no conjugated system"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "84. In the functional group has a negative inductive effect only in compound of:",
+      "o": [
+        "phenol;",
+        "ethanedioic acid;",
+        "methylphenylketone;",
+        "acetic acid;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "85. 2-aminopropanoic acid has the following stereoisomers:",
+      "o": [
+        "1;",
+        "2;",
+        "3;",
+        "4;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "86. Nucleophiles are:",
+      "o": [
+        "H+",
+        "NH +, 4",
+        "OH-,",
+        "Na+"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "87. The characteristic reaction of alkenes is proceeding following mechanisms:",
+      "o": [
+        "A ;",
+        "A E N",
+        "S ;",
+        "S ; E N"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "88. Carbocations are……..",
+      "o": [
+        "particles, which contain positively, charged carbon atoms.",
+        "particles, which contain negatively, charged carbon atoms.",
+        "particles, which contain unpaired electrons.",
+        "particles, which contain positively and negatively, charged carbon atoms."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "89. Characteristic reaction for aromatic compounds:",
+      "o": [
+        "radical substitution",
+        "electrophilic addition",
+        "electrophilic substitution",
+        "nucleophilic substitution"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "90. The acidic properties of imidazole (1,3- diazole) expressed more than:",
+      "o": [
+        "barbituric acid;",
+        "2,4-dihydroxypyrimidine;",
+        "sulfuric acid;",
+        "pyrrole;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "91. Electrophilic substitution reactions (S ) E with a maximum flow rate in most soft conditions the compounds:",
+      "o": [
+        "benzene and its homologues;",
+        "π-excessive aromatic heterocyclic rings;",
+        "alkanes and cycloalkanes;",
+        "π-deficient aromatic heterocycles;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "92. The reaction of hydrogen removal is called ...",
+      "o": [
+        "dehydrogenation",
+        "hydrogenation",
+        "dehydration",
+        "hydration"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "93. Pyridine is a compound:",
+      "o": [
+        "acyclic;",
+        "carbocyclic;",
+        "heterocyclic;",
+        "saturated;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "94. 2-aminobutanoic acid is the compound of:",
+      "o": [
+        "heterofunctional;",
+        "aromatic;",
+        "unsaturated;",
+        "polyfunctional;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "95. There is sp2 - hybrid atoms in molecule of:",
+      "o": [
+        "butene;",
+        "propane;",
+        "pentyne ;",
+        "acetylene"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "96. p-π - conjugate has the structure:",
+      "o": [
+        "ethylene glycol;",
+        "2-propenal;",
+        "acetic acid;",
+        "pyridine;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "97. Newman projection formula is written to show the differences of:",
+      "o": [
+        "chemical structure of the compounds;",
+        "conformations and configuration of the molecule;",
+        "structural isomers;",
+        "geometric structure;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "98. 2, 3, 4-trihydroxybutanoic acid corresponds to the following stereoisomers:",
+      "o": [
+        "6;",
+        "2;",
+        "9;",
+        "4;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "99. Electrophilic particles are:",
+      "o": [
+        "H",
+        "H-",
+        "H+",
+        "Br-"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "100. Alkane characterized by the following reaction:",
+      "o": [
+        "A ;",
+        "A ; E N",
+        "S ;",
+        "S ; N R"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "101. The chlorination reaction of following compounds proceeds by a mechanism of radical substitution when exposed ultraviolet radiation:",
+      "o": [
+        "cyclohexane;",
+        "benzene;",
+        "acetylene;",
+        "1,3-butadiene"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "102. Conjugated systems are :",
+      "o": [
+        "Thermodynamically stable",
+        "Very reactive",
+        "Thermodynamically unstable",
+        "Very unreactive"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "103. Characteristic reaction for unsaturated compounds:",
+      "o": [
+        "radical substitution",
+        "electrophilic addition",
+        "electrophilic substitution",
+        "nucleophilic substitution"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "104. The reaction, which releazed water, is",
+      "o": [
+        "dehydrogenation",
+        "hydrogenation",
+        "dehydration",
+        "hydration"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "105. Cyclohexane is a compound:",
+      "o": [
+        "acyclic;",
+        "carbocyclic;",
+        "heterocyclic;",
+        "saturated;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "106. Furan is the compound of:",
+      "o": [
+        "heterofunctional;",
+        "heterocyclic;",
+        "unsaturated;",
+        "polyfunctional;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "107. There is sp - hybrid atoms in molecule of:",
+      "o": [
+        "butene",
+        "propane;",
+        "pentane ;",
+        "acetylene"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "108. π-π – conjugation has the structure:",
+      "o": [
+        "propanoic acid.",
+        "pentadiene - 1.4",
+        "butanoic acid;",
+        "butadiene - 1.3"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "109. Energy of propanol-1 in the anti- conformation is less than gauche conformation, because in the anti- conformation:",
+      "o": [
+        "less angular tension;",
+        "configuration has changed;",
+        "decreased Van der Waals repulsion;",
+        "was less torsional stress;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "110. The following conditions for the reaction of chlorination of butane are needed:",
+      "o": [
+        "room temperature;",
+        "exposure to ultraviolet radiation (hn);",
+        "cooling",
+        "catalyst FeCl ; 3"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "111. A major product of reaction (equimolecular ratio of mixture) of 2- methylpentane with bromine (when exposed to ultraviolet radiation) is:",
+      "o": [
+        "1-bromo-2-methylpentane;",
+        "2-bromo-2-methylpentane;",
+        "1,2-dibromo-2-methylpentane;",
+        "3-bromo-2-methylpentane;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "112. Radicals are……..",
+      "o": [
+        "particles, which contain positively, charged carbon atoms.",
+        "particles, which contain negatively, charged carbon atoms.",
+        "particles, which contain unpaired electrons.",
+        "particles, which contain positively and negatively, charged carbon atoms."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "113. Characteristic reaction for saturated compounds:",
+      "o": [
+        "radical substitution",
+        "electrophilic addition",
+        "electrophilic substitution",
+        "nucleophilic addition"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "114. The structure of 2-amino-3- methylbutanoic acid is a natural α-amino acid:",
+      "o": [
+        "leucine;",
+        "isoleucine;",
+        "valine;",
+        "tyrosine;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "115. Macromolecules peptides and proteins are constructed from residues:",
+      "o": [
+        "α-amino acids;",
+        "oxocarboxylic acids;",
+        "β-amino acids;",
+        "γ-amino acids;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "116. Pyrimidine nucleotide nitrogenous bases mentioned in the examples:",
+      "o": [
+        "birbiturovaya acid;",
+        "guanine;",
+        "thymine;",
+        "adenine;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "117. The lipids are:",
+      "o": [
+        "low molecular weight well water- soluble substances;",
+        "high molecular weight (polymer) water-soluble substances;",
+        "bio polymers, low solubility in water;",
+        "low molecular weight insoluble substances;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "118. Which compound enters addition reactions?",
+      "o": [
+        "CH -CH -NH ; 3 2 2",
+        "CH -CH - CH -CH ; 3 2 2 3",
+        "CH -CH -OH; 3 2",
+        "CH -CH=CH-CH – CH ; 3 2 3"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "119. D-glucose and D-fructose are related to each other as:",
+      "o": [
+        "enantiomers;",
+        "diastereomers;",
+        "epimers;",
+        "structural isomers"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "120. Under the action of strong oxidants in acid medium (dilute nitric acid) monosaccharides form:",
+      "o": [
+        "gluconic acid;",
+        "glucaric acid;",
+        "glucuronic acid;",
+        "glycolic acid;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "121. The non-reducing disaccharide is:",
+      "o": [
+        "D-glucose;",
+        "amylopectin;",
+        "maltose;",
+        "sucrose."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "122. In the present structure of the cellulose glycosidic bonds:",
+      "o": [
+        "Only β-(1 → 4);",
+        "α- (1 → 4) and α-(1 → 6);",
+        "β- (1 → 4) and α- (1 → 4);",
+        "β- (1 → 4), β- (1 → 3);"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "123. The primary structure of DNA is represented by:",
+      "o": [
+        "linear polypeptide chain;",
+        "helical polysaccharide chain;",
+        "double-stranded polynucleotide of the structure;",
+        "structure of single-stranded polynucleotide;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "124. The structure of 2-amino-3- hydroxybutanoic acid is a natural α- amino acid:",
+      "o": [
+        "threonine;",
+        "valine;",
+        "phenylalanine;",
+        "tryptophan;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "125. The isoelectric point of the tripeptide Ser-His-Asn is in the medium:",
+      "o": [
+        "acidic;",
+        "basic;",
+        "neutral;",
+        "can not be determined."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "126. Pyrimidine nucleotide nitrogenous bases mentioned in the examples:",
+      "o": [
+        "uracil;",
+        "uric acid;",
+        "adenine;",
+        "guanine;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "127. The reaction of adenine with nitrous acid is formed:",
+      "o": [
+        "2-amino-6-hydroxypurin;",
+        "2,6-dihydroxypurin;",
+        "2 hydroxypurin;",
+        "6 hydroxypurin;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "128. The lipids are classified according to their molecules to hydrolytic degradation:",
+      "o": [
+        "α-amino acids, peptides and proteins;",
+        "saponifiable and unsaponifiable;",
+        "mono-, oligo- and polysaccharides;",
+        "nucleosides and nucleotides;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "129. The products of fat hydrolysis in alkaline medium by heating are:",
+      "o": [
+        "glycerol and salts, usually higher carboxylic acids (soap);",
+        "salt of a higher carboxylic acids and higher monohydric alcohol;",
+        "glycerol, higher carboxylic acid salts and phosphoric acid salts;",
+        "salts of higher carboxylic acids and higher alcohol;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "130. Parental steroids hydrocarbon group of female sex hormones are:",
+      "o": [
+        "cardenolides;",
+        "estrane;",
+        "cholestane;",
+        "pregnan;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "131. D-glucose and D-galactose relate to each other as:",
+      "o": [
+        "enantiomers;",
+        "diastereomers;",
+        "structural isomers;",
+        "anomers;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "132. The open form of D-glucose is a chemical nature:",
+      "o": [
+        "Only an aldehyde;",
+        "Only polyhydric alcohol;",
+        "The aldehyde and polyhydric alcohol;",
+        "hemiacetal and polyhydric alcohol;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "133. The structure of maltose is reflected in the title:",
+      "o": [
+        "β-D-glyucopyranozil- (1 → 4)-D- glucopyranose;",
+        "α-D-glucopyranosyl-(1→4)-D- glucopyranose;",
+        "β-D-galactopyranosyl- (1 → 4) -D- glucopyranose;",
+        "δ-D-glucopyranosyl- (1 → 6) -β-D- glucopyranose;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "134. In the present structure of glycogen glycoside bonds:",
+      "o": [
+        "Only β- (1 → 4);",
+        "α- (1 → 4) and α- (1 → 6);",
+        "β- (1 → 4) and α- (1 → 4);",
+        "β- (1 → 4), β- (1 → 3);"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "135. In the dipeptide Ser-Arg in aqueous medium:",
+      "o": [
+        "neutral;",
+        "sour;",
+        "alkaline;",
+        "weak"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "136. The structure of 2-amino-4- methylpentanoic acid is a natural α- amino acid:",
+      "o": [
+        "isoleucine;",
+        "glutamine;",
+        "cysteine;",
+        "leucine;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "137. According to the chemical nature of proteins and peptides are:",
+      "o": [
+        "polyesters;",
+        "polyamides;",
+        "polyglycosides;",
+        "polynucleotides;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "138. Qualitative reaction on the peptide bond:",
+      "o": [
+        "ninhydrin;",
+        "xantoprotein;",
+        "biuret;",
+        "with formaldehyde;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "139. The purine nucleotide nitrogenous bases mentioned in the examples:",
+      "o": [
+        "guanine; adenine;",
+        "uracil;",
+        "thymine;",
+        "cytosine."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "140. As part of the DNA complementary to thymine:",
+      "o": [
+        "adenine;",
+        "cytosine;",
+        "1-N-methylguanine;",
+        "guanine;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "141. By the chemical nature saponified lipids are:",
+      "o": [
+        "isoprenoids;",
+        "sterane derivatives (rutting);",
+        "esters;",
+        "polyamides;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "142. Saponifiable lipids as esters can be hydrolyzed by heating:",
+      "o": [
+        "Only under acidic conditions;",
+        "Only in alkaline medium;",
+        "both in acidic and in alkaline medium;",
+        "incorrect, hydrolysis is generally impossible,"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "143. In the context of the body saponifiable lipid oxidation in unsaturated acyl residues occurs by the mechanism:",
+      "o": [
+        "hydroxylation;",
+        "peroxidation;",
+        "β-enzymatic oxidation;",
+        "oxidation under these conditions is absent;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "144. Cyclohexane – is a parent structure for many natural compounds. What kind of substance is it?",
+      "o": [
+        "carbocyclic",
+        "heterocyclic",
+        "aromatic",
+        "alkene"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "145. D-glucose and L-glucose relate to each other as:",
+      "o": [
+        "enantiomers;",
+        "diastereomers;",
+        "epimers;",
+        "anomers;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "146. Pyranose and / or furanose form D- glucose on the chemical nature, are:",
+      "o": [
+        "Only an aldehyde;",
+        "Only ketone;",
+        "Only a polyhydric alcohol;",
+        "a polyhydric alcohol and a cyclic hemiacetal;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "147. Which of the following are homologues?",
+      "o": [
+        "Propanal and butanal",
+        "Propanal and propanol",
+        "Propanal and propanoic acid",
+        "Propanal and propanone"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "148. The structure of the lactose is reflected in the title:",
+      "o": [
+        "β-D-glucopyranosyl- (1 → 4) -D- glucopyranose;",
+        "α-D-glucopyranosyl- (1 → 5) -D- glucopyranose;",
+        "β-D-galactopyranosyl-(1 → 4)-D- glucopyranose;",
+        "α-D-glucopyranosyl-(1 → 6)-D- glucopyranose;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "149. In the present structure of heparin glycoside bonds:",
+      "o": [
+        "Only β- (1 → 4);",
+        "α- (1 → 4) and α- (1 → 6);",
+        "β- (1 → 4) and α- (1 → 4)",
+        "β- (1 → 4), β- (1 → 3);"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "150. α-amino acids in reactions with aldehydes to form:",
+      "o": [
+        "substituted imines (reaction products of the amino group);",
+        "carboxylic acid salt;",
+        "esters (the reaction products of the carboxylic group);",
+        "amine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "151. The structure of 2-amino-3- (1H-3- indolyl) propionic acid is a natural α- amino acid:",
+      "o": [
+        "histidine;",
+        "proline;",
+        "tryptophan;",
+        "aspartic acid;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "152. The primary structure of the tetrapeptide prolylargenylserylglycine recorded in this example:",
+      "o": [
+        "Pro-Gly-Ser-Arg;",
+        "Pro-Arg-Ser-Gly;",
+        "Pro-Asp-Ser-Gly;",
+        "Pro-Asp-Ser-Gln;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "153. The types of bonds that establish α-helix peptides and proteins:",
+      "o": [
+        "ion;",
+        "hydrogen;",
+        "glycoside;",
+        "peptide;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "154. Lactim form uracil corresponds to the systematic name:",
+      "o": [
+        "2,4-dihydroxy-5-methylpyrimidine;",
+        "4-amino-2-hydroxypyrimidine;",
+        "2,4-dihydroxypyrimidine;",
+        "6-aminopurine;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "155. As part of the DNA guanine is complementary to:",
+      "o": [
+        "adenine;",
+        "cytosine;",
+        "thymine;",
+        "6-N-methyladenine;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "156. By the chemical structure the following molecule unsaponifiable lipids are:",
+      "o": [
+        "esters;",
+        "polyesters;",
+        "polyamides;",
+        "isoprenoids;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "157. The mandatory components of the bilayer cell membranes due to their amphiphilic structure are:",
+      "o": [
+        "solid fats;",
+        "glycerophospholipids.;",
+        "waxes;",
+        "terpenoids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "158. Which bond undergoes homolytic fission preferentially?",
+      "o": [
+        "covalent nonpolar",
+        "covalent polar",
+        "ionic",
+        "hydrogen"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "159. Structure of D-glucose configuration corresponds to the number of stereoisomers:",
+      "o": [
+        "four;",
+        "eight;",
+        "sixteen",
+        "thirtytwo;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "160. The configuration of the anomeric carbon atom at the a-anomer same configuration:",
+      "o": [
+        "The second carbon atom in the molecule of a monosaccharide;",
+        "The last chiral center, defining a monosaccharide belonging to D- or L- series.",
+        "The penultimate chiral center in the molecule of a monosaccharide;",
+        "any chiral center;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "161. Non stereoisomers (achiral molecule) the natural α-amino acid:",
+      "o": [
+        "glutamine;",
+        "isoleucine;",
+        "proline;",
+        "glycine;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "162. Amino-lactim form cytosine corresponds to the systematic name:",
+      "o": [
+        "2,4-dihydroxy-5-methylpyrimidine;",
+        "4-amino-2-hydroxypyrimidine;",
+        "2,4-dihydroxypyrimidine; ‘",
+        "6-aminopurine;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "163. Hydrolysis of nucleoside occurs:",
+      "o": [
+        "in water;",
+        "in an aqueous acid medium;",
+        "in an aqueous basic medium;",
+        "in concentrated solutions of bases;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "164. Saponified lipids are classified into:",
+      "o": [
+        "esters and isoprenoids",
+        "monomers and polymer compounds;",
+        "terpenes (terpenoids) and steroids;",
+        "simple and complex;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "165. By the chemical nature glycerophospholipid are:",
+      "o": [
+        "higher carboxylic acids;",
+        "polyhydric alcohols;",
+        "glycerol ethers, and higher monohydric alcohols;",
+        "esters of L-phosphatidic acid;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "166. Most of the known terpenes and terpenoids:",
+      "o": [
+        "compounds are not natural and synthetically obtained;",
+        "is a natural compound of animal origin;",
+        "This natural compound of vegetable origin;",
+        "prepared by modification of natural compounds;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "167. What is the characteristic of aromatic system?",
+      "o": [
+        "It is a closed conjugated system which carries (4n +2) electrons",
+        "It has flat cycle",
+        "It contains heteroatom",
+        "It is a heterocyclic compound"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "168. D-fructose may be classified as:",
+      "o": [
+        "monosaccharide;",
+        "polysaccharide;",
+        "aldohexoses;",
+        "aldopentoza;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "169. Only glycoside formed by the reaction of a monosaccharide from:",
+      "o": [
+        "C H -Cl / NaOH; 2 5",
+        "C H -OH / HCl (dry); 2 5",
+        "S N SOCl; 2 5",
+        "C H NH / HCl (dry); 3 8 2"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "170. D-glucose reaction gives \"silver mirror\" in the conditions:",
+      "o": [
+        "Br2 / H2O",
+        "HNO3 (dil.)",
+        "Cu(OH)2 / NaOH, to",
+        "Ag(NH3)2OH, to"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "171. The structure of sucrose is reflected in the title:",
+      "o": [
+        "β-D-glucopyranosyl- (1 → 4) -D- glucopyranose;",
+        "β-D-galactopyranosyl- (1 → 4) -D- glucopyranose;",
+        "a-D-glucopyranosyl- (1 → 6) -D- glucopyranose;",
+        "a-D-glucopyranosyl- (1 → 2) -D- fructofuranoside."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "172. The secondary structure of amylose is:",
+      "o": [
+        "sequence of residues α-D- glucopyranose linked α- (1 → 4) bond -glycoside;",
+        "helical conformation;",
+        "linear conformation;",
+        "β-structure (conformation of the folded sheet);"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "173. Phenylalanine- 2-amino-3- phenylpropanoic acid forms an ester by reaction with:",
+      "o": [
+        "sulfuric acid;",
+        "ethanol in the presence of an acid catalyst;",
+        "sodium hydroxide;",
+        "formaldehyde;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "174. The isoelectric point of the tripeptide Glu-Thr-Cys is in the medium:",
+      "o": [
+        "basic;",
+        "neutral;",
+        "acid;",
+        "weakly basic;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "175. β-sheet structure of macromolecular peptides and proteins in fixed space relation:",
+      "o": [
+        "peptide;",
+        "disulfide;",
+        "ion;",
+        "hydrogen;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "176. A more stable tautomeric form of guanine in a body is:",
+      "o": [
+        "lactim;",
+        "imino-lactim;",
+        "lactam;",
+        "amino-lactam;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "177. Unsaponifiable lipids are classified into:",
+      "o": [
+        "simple and complex lipids;",
+        "fats, waxes, phospholipids;",
+        "proteins and peptides;",
+        "terpenes (terpenoids) and steroids."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "178. For complex saponified lipids are:",
+      "o": [
+        "fats;",
+        "glycerophospholipids;",
+        "oil;",
+        "steroids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "179. The number of carbon atoms in the molecules of monoterpenes is:",
+      "o": [
+        "5",
+        "10;",
+        "15;",
+        "20;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "180. D-ribose can be classified as:",
+      "o": [
+        "oligosaccharide;",
+        "monosaccharide;",
+        "polysaccharide;",
+        "aldohexoses;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "181. The product was D-glucose with acetic anhydride should be classified as:",
+      "o": [
+        "ether;",
+        "ester;",
+        "acetal;",
+        "hemiacetal and ether;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "182. Maltose can be classified as:",
+      "o": [
+        "monosaccharide;",
+        "reducing disaccharide;",
+        "non-reducing disaccharide;",
+        "oligopeptide;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "183. The secondary structure of cellulose is:",
+      "o": [
+        "sequence of residues 1 a-D- glucopyranose linked a- (1 → 4) bond -glycoside;",
+        "helical conformation;",
+        "linear conformation;",
+        "β-structure (conformation of the folded sheet);"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "184. The types of bonds that establish α-helix peptides and proteins:",
+      "o": [
+        "ion;",
+        "hydrogen;",
+        "glycoside;",
+        "peptide;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "185. The reaction employed for protection of carboxyl groups in the artificial peptide synthesis:",
+      "o": [
+        "esterification;",
+        "salt formation;",
+        "acylation carbobenzoxy chloride (benzyl chloroformate ester);",
+        "acid hydrolysis;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "186. To protect the α-amino group of the artificial peptide synthesis reaction is used:",
+      "o": [
+        "acid hydrolysis;",
+        "salt formation",
+        "acylation carbobenzoxy chloride;",
+        "esterification with ethanol;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "187. Adenine corresponds to the systematic name:",
+      "o": [
+        "2,4-dihydroxy-5-methylpyrimidine;",
+        "4-amino-2-hydroxypyrimidine;",
+        "2,4-dihydroxypyrimidine;",
+        "6-aminopurine;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "188. For complex saponified lipids include:",
+      "o": [
+        "terpenes and terpenoids;",
+        "steroids;",
+        "phospholipids;",
+        "fats (solid fats and oils);"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "189. As part of the molecules of liquid fats (oils) are dominated by the remains:",
+      "o": [
+        "unsaturated fatty acids;",
+        "stearic acid;",
+        "palmitic acid;",
+        "saturated fatty acids;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "190. The number of carbon atoms in the molecules diterpenes is:",
+      "o": [
+        "5;",
+        "10;",
+        "15;",
+        "20;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "191. The repeating units of proteins are",
+      "o": [
+        "Glucose units",
+        "Amino acids",
+        "Fatty acids",
+        "Peptides"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "192. D-glucose can be classified as:",
+      "o": [
+        "monosaccharide;",
+        "oligosaccharide;",
+        "aldopentoza;",
+        "polysaccharide;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "193. When recovering D-xylose is produced:",
+      "o": [
+        "sorbitol;",
+        "xylitol;",
+        "acid;",
+        "xylonic acid;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "194. The lactose may be classified as:",
+      "o": [
+        "monosaccharide;",
+        "reducing disaccharide;",
+        "The non-reducing disaccharide;",
+        "oligopeptide;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "195. In response α-maltose with acetic anhydride is formed:",
+      "o": [
+        "mixture of α- and β-O-ethyl- maltoside;",
+        "mixture of α and β-O-ethyl-D- glucopyranoside;",
+        "octa ethyl-maltose;",
+        "α-octa acethyl-maltose;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "196. Blue complex with iodine forms:",
+      "o": [
+        "D-mannose;",
+        "maltose;",
+        "cellulose;",
+        "starch;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "197. As a result, α-amino acid reaction with nitrous acid (NaNO + HCl), typically: 2",
+      "o": [
+        "amine salt is formed;",
+        "diazonium salt is formed;",
+        "nitrogen gas and alcohol is formed;",
+        "N-nitro derivative is formed;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "198. Upon heating β-amino acids commonly occurs:",
+      "o": [
+        "decarboxylation;",
+        "The formation of lactones;",
+        "formation conjugated unsaturated acid;",
+        "The formation of deketopiperazine;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "199. The isoelectric point of the tripeptide Met-Arg-Tyr is in the environment:",
+      "o": [
+        "acidic;",
+        "basic",
+        "weakly acidic;",
+        "neutral;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "200. Amino-lactim form guanine corresponds to the systematic name:",
+      "o": [
+        "2,4-dihydroxy-5-methylpyrimidine;",
+        "4-amino-2-hydroxypyrimidine;",
+        "2,4-dihydroxypyrimidine;",
+        "2-amino-6-hydroxypurin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "201. A more stable tautomeric form uracil in terms of the body is:",
+      "o": [
+        "lactim;",
+        "imino-lactim;",
+        "lactam;",
+        "amino-lactam;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "202. As part of the fat molecules of solid residues prevail:",
+      "o": [
+        "unsaturated fatty acids;",
+        "oleic acid;",
+        "linoleic acid;",
+        "saturated fatty acids;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "203. For the structure of saturated fatty acid molecules are characterized by the following features:",
+      "o": [
+        "sistema conjugated double bonds;",
+        "double not conjugate relation, they are separated by sp3-hybrid carbon atom;",
+        "zigzag conformation of the carbon chain;",
+        "cis- configuration of each double bond;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "204. The number of carbon atoms in the molecules tetraterpenes is:",
+      "o": [
+        "20;",
+        "40;",
+        "60;",
+        "80;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "205. β-carotene should be classified as:",
+      "o": [
+        "monoterpenes acyclic;",
+        "bicyclic monoterpenes;",
+        "diterpenes;",
+        "tetraterpenes;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "206. What is the heaviest of the twenty amino acids?",
+      "o": [
+        "Phenylalanine",
+        "Tryptophan",
+        "Tyrosine",
+        "Histidine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "207. Carbohydrates are classified into:",
+      "o": [
+        "monosaccharides, oligosaccharides, polysaccharide;",
+        "pyrimidenes, purines, glucose;",
+        "fatty acids, oils, triacylglycerols;",
+        "nucleosides, nucleotides, polynucleotides;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "208. Sucrose can be classified as:",
+      "o": [
+        "monosaccharide;",
+        "oligopeptide;",
+        "polysaccharide;",
+        "non-reducing disaccharide."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "209. The reaction product α-lactose with methyl iodide in an alkaline medium is:",
+      "o": [
+        "octa acethyl lactose;",
+        "octa methyl lactose;",
+        "lactobionic acid;",
+        "mixture of α and β-O-methylmaltose;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "210. D-Alanine and L-Alanine are technically known as",
+      "o": [
+        "anomers",
+        "enantiomers",
+        "epimers",
+        "polymer"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "211. Which particle is carbocation?",
+      "o": [
+        "(CH -CH )+; 3 2",
+        "(CH -NH )+; 3 3",
+        "CH COO-; 3",
+        "C H ; 6 6"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "212. Which compound enters addition reactions?",
+      "o": [
+        "CH -CH=CH ; 3 2",
+        "CH -CH -CH ; 3 3",
+        "CH -CH -OH; 3 2",
+        "CH -CH -NH ; 3 2 2"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "213. Which reaction occurs with the breaking of π-bond:",
+      "o": [
+        "Exothermic;",
+        "Substitution;",
+        "Decomposition;",
+        "Addition;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "215. What are the intermediates in lipids peroxide oxidation?",
+      "o": [
+        "Free radicals;",
+        "Cations;",
+        "Anions;",
+        "Atoms;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "216. Which reaction is typical for aromatic hydrocarbons?",
+      "o": [
+        "Substitution;",
+        "Addition;",
+        "Decomposition;",
+        "Neutralization"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "217. Electrophilic reagents are:",
+      "o": [
+        "Positively charged particles;",
+        "Particles having a pair of electrons on the external level;",
+        "Atoms or groups of atoms having unpaired electron;",
+        "Negatively charged particles."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "218. In order for a reagent to behave as a nucleophile it must possess. 1. an overall positive charge 2. an overall negative charge 3. an unpaired electron 4. an unshared pair of electrons 5. π-bond",
+      "o": [
+        "13",
+        "245",
+        "24",
+        "45 ."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "219. Which of the following series contains only nucleophiles:",
+      "o": [
+        "AlCl , BF , NO +, NH 3 3 2 3",
+        "AlCl , NH , H O, I 3 3 2",
+        "AlCl , BF , H O, NH 3 3 2 3",
+        "NH , H O, CN- , I- 3 2"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "220. Pyrrole is a compound:",
+      "o": [
+        "acyclic;",
+        "carbocyclic;",
+        "heterocyclic, and aromatic;",
+        "saturated;"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "221. Ethylene glycol is the compound of:",
+      "o": [
+        "heterofunctional;",
+        "aromatic;",
+        "unsaturated;",
+        "polyfunctional;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "222. Give the systematic names to the following organic compounds: NH – CH – CH – OH 2 2 2",
+      "o": [
+        "acetic acid",
+        "1-aminoethanol-1",
+        "2-aminoethanol-1",
+        "ethylene glycol"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "223. There is no sp2 - hybrid atoms in molecule of:",
+      "o": [
+        "acetic acid",
+        "propanoic acid;",
+        "butane;",
+        "ethene"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "224. What are the products of primary alcohols oxidation?",
+      "o": [
+        "Aldehydes;",
+        "Saturated hydrocarbones;",
+        "Unaturated hydrocarbones;",
+        "Halogen derivatives;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "225. Which compound participates in polymerization reaction?",
+      "o": [
+        "H C=CH-CH=CH ; 2 2",
+        "CH -CH -CH -CH ; 3 2 2 3",
+        "CH -CH -CH -CH -OH; 3 2 2 2",
+        "CH -CH -CH -CH -NH 3 2 2 2 2"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "226. Which α-amino acid gives biogenic amine histamine on decarboxylation?",
+      "o": [
+        "Glycine;",
+        "Histidine;",
+        "Thyrosine;",
+        "Serine;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "226. Xanthoprotein reaction is a qualitative reaction for:",
+      "o": [
+        "Peptide bond;",
+        "Sulfur containing amino acids;",
+        "Aromatic amino acids;",
+        "Dibasic amino acids."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "227. Which reagent is needed to convert liquid lipid into solid fat? a); Sodium hydroxide solution;",
+      "o": [
+        "Potassium permanganate solution;",
+        "Water with concentrated sulfuric acid;",
+        "Hydrogen"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "228. What are the products of basic hydrolysis of fats?",
+      "o": [
+        "Glycerine and soap;",
+        "Glycerine and carboxylic acid;",
+        "Water and carboxylic acid;",
+        "Glycerine and water;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "229. What is the mechanism of imine formation from pyruvic acid and amine?",
+      "o": [
+        "Aldol condensation;",
+        "Nucleophilic substitution;",
+        "Nucleophilic addition;",
+        "Electrophilic substitution."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "230. Amides are products of interaction of:",
+      "o": [
+        "Aldehydes with amines;",
+        "Acid chlorides with amines;",
+        "Carboxylic acids with amines;",
+        "Water with ammonia;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "231. Which molecule contains pyridine ring?",
+      "o": [
+        "nicotinic acid;",
+        "hemoglobine;",
+        "adenine;",
+        "histidine;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "232. Vitamin В1 (thiamin) – is a derivative of:",
+      "o": [
+        "pyridine;",
+        "pyrrole;",
+        "imidazole;",
+        "thiazole;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "233. Vitamin В6 (pyridoxal phosphate) – is a derivative of:",
+      "o": [
+        "pyrrole;",
+        "pyridine;",
+        "pyrimidine;",
+        "purine;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "234. Uric acid is the final product of nucleic acids catabolism. Uric acid - is a derivative of:",
+      "o": [
+        "purine;",
+        "pyrimidine",
+        "pyrrole;",
+        "pyridine;"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "235. Histidine and histamine are derivatives of imidazole;",
+      "o": [
+        "pyrrole;",
+        "quinoline;",
+        "indole;",
+        "pyridine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "236. Which acid forms ester bond with hydroxyl group of monosaccharide in the composition of mononucleotide?",
+      "o": [
+        "Nitrous;",
+        "Nitric;",
+        "Phosphoric;",
+        "Sulphurous."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "237. Which is the most favorable conformation for kolamine (2- aminoethan-1-ol)?",
+      "o": [
+        "Staggered;",
+        "Eclipsed;",
+        "Gauche 600;",
+        "Gauche 200."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "238. The strongest base is:",
+      "o": [
+        "2-aminoethanol;",
+        "ethanamine;",
+        "methylamine;",
+        "dimethylamine;"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "239. Homolytic cleavage of chemical bonds characteristic of the following compounds:",
+      "o": [
+        "HCl;",
+        "Cl , CH ; 2 4",
+        "Na+;",
+        "NaOH;"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "240. Which of the following processes yields in formation of DNA primary structure?",
+      "o": [
+        "Polycondensation of mononucleotides;",
+        "Polymerization of mononucleotides;",
+        "Isomerization of mononucleotides;",
+        "Hydrolysis of mononucleotides."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "241. Which of the following statements about salicylic acid is correct?",
+      "o": [
+        "Salicylic acid is a homofunctional compound.",
+        "Salicylic acid is an inorganic compound.",
+        "Salicylic acid is a heterofunctional compound.",
+        "Salicylic acid is only used as a cosmetic ingredient."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "242. Which of the following is a common use of aspirin?",
+      "o": [
+        "Treatment of high blood pressure",
+        "Pain relief and anti-inflammatory effects",
+        "Treatment of bacterial infections",
+        "Prevention of hair loss"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "243. In heterofunctional compounds, the functional groups typically determine:",
+      "o": [
+        "The color of the compound.",
+        "The physical properties and reactivity of the compound.",
+        "The boiling point only.",
+        "The density and mass."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "244. Which of the following ketone bodies is the primary source of energy during prolonged fasting or starvation?",
+      "o": [
+        "Acetoacetate",
+        "Acetone",
+        "β-Hydroxybutyrate",
+        "Pyruvate"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "245. Which of the following is the primary mechanism of action of aspirin?",
+      "o": [
+        "Inhibition of cyclooxygenase (COX) enzymes",
+        "Inhibition of monoamine oxidase (MAO)",
+        "Blockade of histamine receptors",
+        "Activation of prostaglandin synthesis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "246. Which of the following is NOT a catecholamine?",
+      "o": [
+        "Dopamine",
+        "Norepinephrine",
+        "Epinephrine",
+        "Serotonin"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "247. During ketogenesis, which organ is primarily responsible for the production of ketone bodies?",
+      "o": [
+        "Brain",
+        "Liver",
+        "Kidney",
+        "Muscle"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "248. Aspirin is commonly used to reduce fever and inflammation. Which of the following side effects is commonly associated with aspirin?",
+      "o": [
+        "Gastric ulcers",
+        "Liver damage",
+        "Hypoglycemia",
+        "Respiratory depression"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "249. Which of the following is the precursor amino acid for the synthesis of catecholamines?",
+      "o": [
+        "Tyrosine",
+        "Tryptophan",
+        "Glutamine",
+        "Phenylalanine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "250. The coenzyme NAD+ is involved in redox reactions in metabolic processes. It is classified as:",
+      "o": [
+        "Polyfunctional compound",
+        "Heterofunctional compound",
+        "Single-functional compound",
+        "Non-functional compound"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "251. Which compound, important in the urea cycle, contains both an amino group and a carbamoyl group, making it a heterofunctional compound?",
+      "o": [
+        "Ornithine",
+        "Citrulline",
+        "Arginine",
+        "Aspartate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "252. Which of the following describes a heterofunctional compound?",
+      "o": [
+        "A compound containing only one functional group.",
+        "A compound that contains multiple identical functional groups.",
+        "A compound containing two or more different functional groups.",
+        "A compound with no functional groups."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "253. Which of the following is an example of a heterofunctional compound?",
+      "o": [
+        "Methane",
+        "Acetone",
+        "Ethanol",
+        "Acetohydroxamic acid"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "254. Which of the following compounds is considered heterofunctional?",
+      "o": [
+        "Benzene",
+        "Acetylsalicylic acid (Aspirin)",
+        "Methanol",
+        "Butane"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "255. Which of the following compounds is an example of a heterofunctional organic molecule?",
+      "o": [
+        "Formaldehyde",
+        "Ethyl alcohol",
+        "2-Acetamido-3-chloropropane",
+        "Octane"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "256. What is the primary use of Novocain (procaine) in clinical settings?",
+      "o": [
+        "Pain management through local anesthesia",
+        "Treatment of bacterial infections",
+        "Blood pressure regulation",
+        "Antipyretic effect"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "257. Which condition can lead to excessive production of ketone bodies?",
+      "o": [
+        "Hypothyroidism",
+        "Uncontrolled diabetes mellitus",
+        "Hyperthyroidism",
+        "Anemia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "258. Which of the following is a polyfunctional compound involved in cellular metabolism?",
+      "o": [
+        "Glucose",
+        "ATP",
+        "Cholesterol",
+        "Acetyl-CoA"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "259. Which of the following compounds is considered heterofunctional in metabolism due to having both amine and carboxyl groups?",
+      "o": [
+        "Urea",
+        "Glutamate",
+        "Glycogen",
+        "Lactate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "260. The coenzyme NAD+ is involved in redox reactions in metabolic processes. It is classified as:",
+      "o": [
+        "Polyfunctional compound",
+        "Heterofunctional compound",
+        "Single-functional compound",
+        "Non-functional compound"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "261. Which of the following compounds plays a critical role in the citric acid cycle and acts as both a donor and acceptor of acyl groups?",
+      "o": [
+        "Pyruvate",
+        "Acetyl-CoA",
+        "NADH",
+        "FADH2"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "262. In amino acid metabolism, which polyfunctional compound is involved in both transamination and decarboxylation reactions?",
+      "o": [
+        "Pyruvate",
+        "Glutamate",
+        "Alanine",
+        "Aspartate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "263. Which of the following molecules is both a carrier of electrons and a source of energy in metabolic processes?",
+      "o": [
+        "NAD+",
+        "ATP",
+        "Coenzyme A",
+        "FAD."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "264. A compound with both hydroxyl and carbonyl functional groups that plays an important role in the breakdown of glucose is:",
+      "o": [
+        "Glyceraldehyde-3-phosphate",
+        "Acetyl-CoA",
+        "Phosphoenolpyruvate",
+        "Glucose-6-phosphate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "265. Which polyfunctional compound is used to transfer phosphate groups in metabolic reactions, such as phosphorylation of glucose?",
+      "o": [
+        "ATP",
+        "NADPH",
+        "Coenzyme A",
+        "Acetyl-CoA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "266. Which of the following heterofunctional compounds is involved in the synthesis of nucleotides in cells?",
+      "o": [
+        "AMP",
+        "ATP",
+        "Phosphoenolpyruvate",
+        "NADH"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "267. Indole is a heterocyclic compound that consists of a benzene ring fused to which other ring structure?",
+      "o": [
+        "Pyrrole",
+        "Imidazole",
+        "Thiazole",
+        "Tetrahydrofuran"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "268. Which of the following is a key feature of imidazole's structure?",
+      "o": [
+        "It contains a five-membered ring with two nitrogen atoms.",
+        "It contains a six-membered ring with one nitrogen atom.",
+        "It contains a six-membered ring with two oxygen atoms.",
+        "It is composed of a five-membered ring with a sulfur atom."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "269. Which compound is commonly found in the structure of biopolymers like heme and chlorophyll?",
+      "o": [
+        "Pyrrole",
+        "Imidazole",
+        "Thiazole",
+        "Coumarin."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "270. Which of the following properties is most associated with coumarin compounds?",
+      "o": [
+        "Strong aromaticity",
+        "High fluorescence properties",
+        "A pleasant odor and use in perfumes",
+        "Strong acidity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "271. Tetrapyrroles are a class of compounds that contain which kind of rings in their structure?",
+      "o": [
+        "Four six-membered carbon rings",
+        "Four five-membered heterocyclic rings",
+        "Four nitrogen-containing rings",
+        "Four fused benzene rings"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "272. Which of the following is a common example of a tetrapyrrole?",
+      "o": [
+        "Hemoglobin",
+        "Pyrrole",
+        "Imidazole",
+        "Thiazole"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "273. Which heterocyclic compound is known for being a precursor in the biosynthesis of histamine?",
+      "o": [
+        "Imidazole",
+        "Pyrrole",
+        "Coumarin",
+        "Thiazole"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "274. Which of the following compounds contains a sulfur atom in its heterocyclic ring?",
+      "o": [
+        "Pyrrole",
+        "Imidazole",
+        "Thiazole",
+        "Indole"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "275. Which of the following compounds is a key intermediate in the synthesis of certain drugs and natural products due to its strong fluorescence properties?",
+      "o": [
+        "Pyrrole",
+        "Coumarin",
+        "Tetrapyrroles",
+        "Thiazole"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "276. Which of the following statements about tetrapyrroles is incorrect?",
+      "o": [
+        "They are involved in oxygen transport and storage in animals.",
+        "They consist of four pyrrole rings linked together.",
+        "They are typically colorless compounds.",
+        "They are important for photosynthesis in plants."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "277. What is the primary function of carbohydrates in the human body?",
+      "o": [
+        "To provide structural support for cells",
+        "To act as a source of energy",
+        "To aid in protein synthesis",
+        "To regulate body temperature"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "278. What is the primary source of dietary fiber in the human diet?",
+      "o": [
+        "Proteins",
+        "Carbohydrates",
+        "Fats",
+        "Vitamins"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "279. Which carbohydrate is commonly found in plant cell walls?",
+      "o": [
+        "Glucose",
+        "Glycogen",
+        "Cellulose",
+        "Fructose"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "280. Which of the following is an example of an essential amino acid?",
+      "o": [
+        "Glutamine",
+        "Glycine",
+        "Valine",
+        "Alanine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "281. What is the function of amino acids in the body?",
+      "o": [
+        "They are primarily used for energy storage.",
+        "They are the building blocks of proteins.",
+        "They regulate blood sugar levels.",
+        "They serve as the body's primary source of vitamins."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "282. Which of the following is an example of a non-essential amino acid?",
+      "o": [
+        "Methionine",
+        "Histidine",
+        "Serine",
+        "Leucine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "283. What is the primary role of amino acids in protein synthesis?",
+      "o": [
+        "To produce energy",
+        "To transport oxygen in the blood",
+        "To form peptide bonds and build proteins",
+        "To regulate enzyme activity"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "284. Which classification of amino acids includes those that can be synthesized by the human body?",
+      "o": [
+        "Essential amino acids",
+        "Non-essential amino acids",
+        "Branched-chain amino acids",
+        "Aromatic amino acids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "285. Which of the following amino acids is involved in the synthesis of neurotransmitters?",
+      "o": [
+        "Glutamine",
+        "Proline",
+        "Threonine",
+        "Tyrosine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "286. What is the primary function of lipids in the body?",
+      "o": [
+        "To provide structural support to cells",
+        "To serve as a source of energy and store energy",
+        "To regulate blood pressure",
+        "To facilitate digestion"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "287. Which of the following is a major characteristic of lipids?",
+      "o": [
+        "They are water-soluble",
+        "They contain carbon, hydrogen, and oxygen, but in different proportions than carbohydrates",
+        "They are composed of amino acids",
+        "They are not involved in energy storage"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "288. Which type of lipid is a major component of cell membranes?",
+      "o": [
+        "Triglycerides",
+        "Phospholipids",
+        "Cholesterol",
+        "Waxes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "289. Which of the following lipids is essential for the production of hormones and vitamin D?",
+      "o": [
+        "Phospholipids",
+        "Triglycerides",
+        "Cholesterol",
+        "Waxes"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "290. What is the primary role of triglycerides in the body?",
+      "o": [
+        "To form cell membranes",
+        "To store energy",
+        "To regulate cholesterol levels",
+        "To act as enzymes"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "291. Which of the following lipids is most commonly found in plants?",
+      "o": [
+        "Phospholipids",
+        "Waxes",
+        "Cholesterol",
+        "Unsaturated fatty acids"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "292. What is the main function of waxes in organisms?",
+      "o": [
+        "To store energy",
+        "To protect surfaces and prevent water loss",
+        "To serve as a source of vitamins",
+        "To act as hormones"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "293. Which of the following lipids are classified as simple lipids?",
+      "o": [
+        "Steroids",
+        "Phospholipids",
+        "Triglycerides",
+        "Glycolipids"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "294. What is the primary function of nucleic acids in the body?",
+      "o": [
+        "To provide structural support to cells",
+        "To store and transmit genetic information",
+        "To aid in digestion",
+        "To produce energy for muscle contraction"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "295. Which of the following types of RNA carries the genetic code from DNA to the ribosome for protein synthesis?",
+      "o": [
+        "mRNA",
+        "rRNA",
+        "tRNA",
+        "miRNA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "296. Which type of nucleic acid is found in the mitochondria and plays a role in cellular energy production? DNA",
+      "o": [
+        "DNA",
+        "mRNA",
+        "tRNA",
+        "rRNA"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "297. What is the main function of ribosomal RNA (rRNA)?",
+      "o": [
+        "To transport amino acids to the ribosome",
+        "To decode the genetic information from mRNA",
+        "To make up the structure of ribosomes, where protein synthesis occurs",
+        "To carry genetic information from the nucleus to the cytoplasm"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "298. Which of the following is a key role of nucleic acids in medical genetics?",
+      "o": [
+        "Nucleic acids are involved in metabolic pathways only.",
+        "Nucleic acids carry the instructions for making proteins, and mutations in these molecules can lead to genetic disorders.",
+        "Nucleic acids help in the digestion and absorption of nutrients.",
+        "Nucleic acids play no role in heredity."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "299. Which of the following is a characteristic feature of proteins?",
+      "o": [
+        "Proteins are made up of sugars and lipids.",
+        "Proteins are composed of one or more polypeptides folded into a specific three- dimensional structure.",
+        "Proteins are used only for energy storage.",
+        "Proteins contain only carbon and oxygen."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "300. What is the primary structure of a protein?",
+      "o": [
+        "The sequence of amino acids in a polypeptide chain",
+        "The coiled or pleated structure formed by hydrogen bonding",
+        "The folding of the polypeptide into a three- dimensional shape",
+        "The combination of multiple polypeptide chains"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "301. Which type of bond is responsible for maintaining the secondary structure of proteins?",
+      "o": [
+        "Ionic bonds",
+        "Hydrogen bonds",
+        "Disulfide bonds",
+        "Peptide bonds"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "302. Which of the following describes the tertiary structure of a protein?",
+      "o": [
+        "The linear sequence of amino acids",
+        "The folding of the polypeptide into a specific three-dimensional shape",
+        "The arrangement of multiple polypeptide chains",
+        "The regular folding into alpha-helices and beta-pleated sheets"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "303. Which of the following is NOT a function of proteins?",
+      "o": [
+        "Catalyzing biochemical reactions (enzymes)",
+        "Transporting molecules across cell membranes",
+        "Storing genetic information",
+        "Providing structural support to cells and tissues"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "304. What is the classification of proteins based on their shape and structure?",
+      "o": [
+        "Simple proteins and conjugated proteins",
+        "Structural proteins and functional proteins",
+        "Fibrous proteins and globular proteins",
+        "Primary and secondary proteins"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "305. Which of the following is an example of a fibrous protein?",
+      "o": [
+        "Hemoglobin",
+        "Collagen",
+        "Enzymes",
+        "Insulin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "306. What is the function of enzymes, which are a type of protein?",
+      "o": [
+        "They store genetic information",
+        "They catalyze biochemical reactions by lowering the activation energy",
+        "They provide structural support in the cell",
+        "They transport oxygen in the blood"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "307. What are alkaloids?",
+      "o": [
+        "Plant-based carbohydrates",
+        "Organic compounds derived from amino acids",
+        "Naturally occurring inorganic substances",
+        "Synthetic chemicals used in pharmaceuticals"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "308. What is a common characteristic of most alkaloids?",
+      "o": [
+        "They are typically acidic in nature",
+        "They are used as industrial chemicals",
+        "They have physiological effects on humans and animals",
+        "They are always colorless and odorless"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "309. Alkaloids are primarily known for which of the following properties?",
+      "o": [
+        "Their ability to react with metals",
+        "Their bitter taste and potential toxicity",
+        "Their ability to produce sweet fragrances",
+        "Their high solubility in water"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "310. Alkaloids are often used in medicine for which of the following purposes?",
+      "o": [
+        "To treat infections and pain",
+        "To enhance the color of food",
+        "To preserve fruits and vegetables",
+        "To create synthetic fragrances"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "311. Which of the following alkaloids is known for its antimalarial properties?",
+      "o": [
+        "Morphine",
+        "Quinine",
+        "Theobromine",
+        "Strychnine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "312. What is the main effect of caffeine, an alkaloid found in coffee and tea?",
+      "o": [
+        "It acts as a depressant",
+        "It acts as a stimulant",
+        "It acts as an anesthetic",
+        "It acts as a diuretic"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "313. What is the primary purpose of antibiotics?",
+      "o": [
+        "To treat viral infections",
+        "To treat bacterial infections",
+        "To treat fungal infections",
+        "To boost the immune system"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "314. Which of the following is a common side effect of antibiotics?",
+      "o": [
+        "Increased energy",
+        "Allergic reactions",
+        "Weight loss",
+        "Hair growth"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "315. Antibiotics are effective against which type of pathogens?",
+      "o": [
+        "Viruses",
+        "Bacteria",
+        "Fungi",
+        "Protozoa"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "316. Which class of antibiotics is commonly used to treat tuberculosis (TB)?",
+      "o": [
+        "Tetracyclines",
+        "Penicillins",
+        "Rifamycins",
+        "Aminoglycosides"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "317. What is antibiotic resistance?",
+      "o": [
+        "When antibiotics become more effective",
+        "When bacteria evolve to resist the effects of antibiotics",
+        "When antibiotics become toxic to humans",
+        "When antibiotics fail to treat viral infections"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "318. Which of the following antibiotics is commonly used to treat urinary tract infections (UTIs)?",
+      "o": [
+        "Amoxicillin",
+        "Ciprofloxacin",
+        "Penicillin",
+        "Erythromycin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "319. What is the main reason why overuse and misuse of antibiotics can lead to antibiotic resistance?",
+      "o": [
+        "Antibiotics stop working immediately",
+        "Bacteria can mutate and adapt to resist antibiotics",
+        "Antibiotics only target healthy cells",
+        "Antibiotics kill the immune cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "320. Which of the following is a common mechanism by which antibiotics work to fight bacterial infections?",
+      "o": [
+        "They stimulate the growth of bacteria",
+        "They break down the cell walls of bacteria",
+        "They enhance the immune system's ability to fight viruses",
+        "They prevent the replication of human cells"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
       "q": "1. Which of the following statements is NOT correct for α-amino acids?",
       "o": [
         "α-amino acids form zwitter-ions",
@@ -8242,7 +11760,7 @@
     },
     {
       "s": "Bioorganic chemistry",
-      "q": "75. The main structural lipid component of biological membranes is:",
+      "q": "76. The main structural lipid component of biological membranes is:",
       "o": [
         "Triglycerides",
         "Phospholipids",
@@ -8253,7 +11771,7 @@
     },
     {
       "s": "Bioorganic chemistry",
-      "q": "76. A laboratory test detects protein in urine using the biuret reaction. What chemical feature is being detected?",
+      "q": "77. A laboratory test detects protein in urine using the biuret reaction. What chemical feature is being detected?",
       "o": [
         "Free carboxyl groups",
         "Peptide bonds",
@@ -8264,7 +11782,7 @@
     },
     {
       "s": "Bioorganic chemistry",
-      "q": "77. Which vitamin contains a heterocyclic ring with cobalt as a central atom?",
+      "q": "78. Which vitamin contains a heterocyclic ring with cobalt as a central atom?",
       "o": [
         "Vitamin A",
         "Vitamin C",
@@ -8275,7 +11793,7 @@
     },
     {
       "s": "Bioorganic chemistry",
-      "q": "78. The secondary structure of proteins is stabilized mainly by:",
+      "q": "79. The secondary structure of proteins is stabilized mainly by:",
       "o": [
         "Ionic bonds only",
         "Hydrogen bonds",
@@ -8286,7 +11804,7 @@
     },
     {
       "s": "Bioorganic chemistry",
-      "q": "79. A patient with myasthenia gravis is treated with a plant-derived alkaloid that inhibits acetylcholinesterase. This alkaloid belongs to which class?",
+      "q": "80. A patient with myasthenia gravis is treated with a plant-derived alkaloid that inhibits acetylcholinesterase. This alkaloid belongs to which class?",
       "o": [
         "Tropane alkaloids",
         "Indole alkaloids",
