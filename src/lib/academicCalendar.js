@@ -63,10 +63,11 @@ export function subscribeToAcademicCalendar(callback) {
 //
 // `availableSemesterIds`, when passed, keeps this from ever advancing
 // a student into a semester whose content hasn't actually been added
-// yet (e.g. a placeholder/real calendar date arrives before the admin
-// has uploaded that semester's questions) - it just holds them on the
-// latest semester that does have content, rather than dead-ending them
-// on "Content coming soon" for something that's simply not ready.
+// yet (e.g. a calendar date arrives before the admin has uploaded that
+// semester's questions) - it holds them on the latest semester that does
+// have content. It never skips OVER a semester without content: a student
+// enrolled in a semester that has none yet stays on it and sees "Content
+// coming soon" (so Semester 1 never shows Semester 2's material).
 export function resolveCurrentSemester(enrolledYearSemester, calendar, now = new Date(), availableSemesterIds = null) {
   const startIdx = Math.max(0, SEMESTER_ORDER.indexOf(enrolledYearSemester));
   let current = SEMESTER_ORDER[startIdx] || SEMESTER_ORDER[0];
@@ -78,6 +79,12 @@ export function resolveCurrentSemester(enrolledYearSemester, calendar, now = new
     if (new Date(startDate) <= now) {
       if (!availableSemesterIds || availableSemesterIds.includes(semId)) {
         current = semId;
+      } else {
+        // This semester has started but has no content yet. Stop here
+        // rather than skipping over it: a Semester 1 student must see
+        // "Content coming soon" for Semester 1, not be jumped on to
+        // Semester 2's subjects and questions just because those exist.
+        break;
       }
     } else {
       break;
