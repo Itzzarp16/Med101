@@ -1,0 +1,52 @@
+{
+  "id": "y1s1",
+  "label": "Semester 1",
+  "desc": "Coming up",
+  "emoji": "📘",
+  "accent": "var(--cyan)",
+  "mainSubjectMeta": {
+    "Kyrgyz language": {
+      "emoji": "🇰🇬",
+      "desc": "Content coming soon",
+      "accent": "#f59e0b"
+    },
+    "Foreign and Latin language": {
+      "emoji": "🌐",
+      "desc": "Content coming soon",
+      "accent": "var(--violet)"
+    },
+    "History and Culture of Kyrgyzstan": {
+      "emoji": "🏔️",
+      "desc": "Content coming soon",
+      "accent": "var(--pink)"
+    },
+    "Information Technology and Mathematics": {
+      "emoji": "💻",
+      "desc": "Content coming soon",
+      "accent": "var(--cyan)"
+    },
+    "Medical Biology, Parasitology and Ecology": {
+      "emoji": "🧫",
+      "desc": "Content coming soon",
+      "accent": "#34d399"
+    },
+    "Bioorganic chemistry": {
+      "emoji": "⚗️",
+      "desc": "Content coming soon",
+      "accent": "var(--green)"
+    },
+    "Human anatomy 1": {
+      "emoji": "🦴",
+      "desc": "Content coming soon",
+      "accent": "#f59e0b"
+    },
+    "Histology and cytology": {
+      "emoji": "🔬",
+      "desc": "Content coming soon",
+      "accent": "var(--violet)"
+    }
+  },
+  "subjectMeta": {},
+  "subjectGroup": {},
+  "questions": []
+}
