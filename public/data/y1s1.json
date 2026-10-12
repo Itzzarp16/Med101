@@ -32,7 +32,7 @@
     },
     "Bioorganic chemistry": {
       "emoji": "⚗️",
-      "desc": "Content coming soon",
+      "desc": "Amino acids & organic chemistry – 79 questions",
       "accent": "var(--green)"
     },
     "Human anatomy 1": {
@@ -7421,6 +7421,877 @@
         "L. Ligeti",
         "V.V.Radloff",
         "V. Munkachi."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "1. Which of the following statements is NOT correct for α-amino acids?",
+      "o": [
+        "α-amino acids form zwitter-ions",
+        "the pH at which the amino acid shows no tendency to migrate when placed in an electric field is known as its isoelectric point",
+        "the net charge of amino acids at its isoelectric point (pI) is equal to zero (0)",
+        "α-amino acid release water under the heating"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "2. Which of the following statements is NOT correct for α-amino acids of proteins?",
+      "o": [
+        "α-amino acids are water soluble, crystalic compounds",
+        "not all of α-amino acids are synthesized in the organisms",
+        "α-amino acids are heterofunctional compounds",
+        "not all of neutral α-amino acids are form bipolar ions in solutions"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "3. Which of the following α-amino acids are essential? 1. valine 2. phenylalanine 3. tyrosine 4. isoleucine 5. lysine",
+      "o": [
+        "all",
+        "14",
+        "1245",
+        "23"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "4. Which of the following names corresponds to amino acid isoleucine?",
+      "o": [
+        "2-amino-3-hydroxypentanoic acid",
+        "2-amino-3-methylbutanoic acid",
+        "2-amino-3-methylhexanoic acid",
+        "2-amino-3-methylpentanoic acid"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "5. Which of the following amino acids have two asymmetric carbons? 1. leucine 2. isoleucine 3. threonine 4. methionine 5. proline",
+      "o": [
+        "all",
+        "12",
+        "15",
+        "23"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "6. Which of the following statements are correct for decarboxylation of α- amino acids? 1. decarboxylation of aspartic acid leads to α-alanine formation 2. complete decarboxylation of aspartic acid leads to ethylamine formation 3. one of the conformational isomers of product of threonine decarboxylation is: H CH3 NH2 OH H H 4. γ-aminobutyric acid is the product of lysine decarboxylation 5. the product of decarboxylation of ornitine (2,5-diaminopentanoic acid) is 1,4-butanediamin",
+      "o": [
+        "123",
+        "235",
+        "45",
+        "all"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "7. Which of the following statements are NOT correct for desamination of α-amino acids? 1. the products of oxidative desamination of α-amino acids are α,β - unsaturated carboxylic acids 2. oxidative desamination of α-amino acids is enzymatic process, coenzyme of enzyme is NAD+ 3. reaction of threonine with nitrous acid leads to the desamination of threonine and 2,3-dihydroxybutanoic acid (diol fragment) formation 4. oxidative desamination of glutamic acid leads to α–ketoglutaric acid formation 5. the process of oxidative desamination of equimolar quantities of lysine and leucine leads to the equimolar volumes of gaseous nitrogen formation",
+      "o": [
+        "15",
+        "245",
+        "34",
+        "234"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "8. Which of the following statements are correct for peptide synthesis? 1. from the mixture of two different amino acids three different peptides is possible to synthesize 2. from the mixture of three different amino acids six different peptides is possible to synthesize 3. for the synthesis of dipeptide Ala-Val it is necessary to protect carboxyl group of alanine and amino group of valine 4. for the synthesis of dipeptide Ala-Val it is necessary to protect amino group of alanine and carboxyl group of valine 5. carboxyl group of amino acid could be activated by transformation (convertion) into anhydride",
+      "o": [
+        "all",
+        "123",
+        "124",
+        "245"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "9. Which of the following statements are correct for proteins? 1. in an organism all proteins consist of α-amino acids 2. non polar radicals of α-amino acids are in depth of an protein molecule 3. non polar radicals of α-amino acids cause hydrophobic interactions in a molecule of protein 4. ionogene groups of α-amino acids cause electrostatic interactions in a molecule of protein 5. salt bridges participate in formation of tertiary structure of proteins",
+      "o": [
+        "123",
+        "12 4",
+        "345",
+        "all"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "10. The isoelectric point of a protein is:",
+      "o": [
+        "the pH at which the protein molecule has no charges on its surface)",
+        "the pH at which a protein in solution has an equal number of positive and negative charges.",
+        "the electric charge under isothermal conditions",
+        "None of these)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "11. The α-Helix is a common form of:",
+      "o": [
+        "primary structure",
+        "tertiary structure",
+        "secondary structure",
+        "none of these"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "12. A protein solution on warming with concentrated HNO3 may turn yellow. This test is called:",
+      "o": [
+        "xanthoproteic test",
+        "ninhydrin test",
+        "biuret test",
+        "Millton's test"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "13. Monosaccharides are classified according to: 1. the number of carbon atoms in the molecule) 2. whether they contain an aldehyde or a ketone group. 3. their configurational relationship to glyceraldehydes. 4. their conformation",
+      "o": [
+        "all",
+        "123",
+        "12",
+        "234"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "14. The principal sugar in blood is",
+      "o": [
+        "fructose",
+        "glucose",
+        "sucrose",
+        "galactose"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "15. Which of the following statements are correct about α -D-glucose? 1. it has a pyranose ring 2. it is a hemiacetal 3. it shows mutarotation 4. it is the purest form of table sugar 5. it is polyhydroxyketone",
+      "o": [
+        "123",
+        "45",
+        "12",
+        "234",
+        "235"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "16. Mutarotation is a term related to:",
+      "o": [
+        "interconversion of anomers",
+        "relationship of d- and l- families",
+        "hydrolysis of sucrose",
+        "number of monosaccharides in a carbohydrate"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "17. The reagent that can be used to differentiate an aldose and a ketose is:",
+      "o": [
+        "bromine water",
+        "Fehling's solution",
+        "Tollens'reagent",
+        "none of these"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "18. Which of the following statements are correct for disaccharides? 1. easily undergo hydrolysis in basic medium 2. they are O-glycosides 3. they are acetals 4. in reducing disaccharides monosaccharides residues are joined with glycosidic bond through their anomeric carbons 5. in reducing disaccharides glycosidic bonds are formed presumably with OH-groups of C-4 and C-6",
+      "o": [
+        "all",
+        "14",
+        "235",
+        "13"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "19. Which of the following compounds are heteropolysaccharides? 1. cellulose 2. glycogen 3. hialuronic acid 4. heparin",
+      "o": [
+        "24",
+        "12",
+        "134",
+        "34"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "20. The correct name of lactose is:",
+      "o": [
+        "α- D-glucopyranosyl-1,2- β-D-fructofuranoside",
+        "β- D-galactopyranosyl- 1-4 - β-D- glucopyranose",
+        "β - D-glucopyranosyl-1,4- β-D-galactopyranose",
+        "β - D-glucopyranosyl-1,2- β-D-galactopyranoside"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "21. Which of the following heterocyclic compounds is not aromatic ?",
+      "o": [
+        "pyridine",
+        "pyrrole",
+        "furan",
+        "piperidine"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "22. In sickle cell anemia, a mutation alters the primary structure of hemoglobin. Which bond remains intact despite denaturation?",
+      "o": [
+        "Hydrogen bonds",
+        "Ionic bonds",
+        "Peptide bonds",
+        "Hydrophobic interactions"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "23. Which of following pair of bases cannot link complementary strands of DNA by hydrogen bonding :",
+      "o": [
+        "A-G",
+        "T-A",
+        "G-C",
+        "A-T"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "24. Which of the following statements are correct for heterocyclic compounds? 1. in aromatic heterocycles valence angles of chemical bonds strictly differ from the valence angle of sp2– hybrydized carbon 2. lactones and lactams are heterocyclic compounds 3. ethylene oxide is heterocyclic compound 4. reactions of trimembered heterocyclic compounds proceed with ring opening 5. heteroatoms violate, interfere conjugation in aromatic rings, destabilize molecules",
+      "o": [
+        "all",
+        "234",
+        "15",
+        "23"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "25. Which of the following statements are correct for pyrrole? 1. it is a five membered heterocyclic compound 2. complete hydrogenation leads to secondary cyclic amine, pyrollydine, formation 3. it is a “π - excess” heterocycle 4. possesses (reveals) basic properties due to unshared pair of electrons of nitrogen 5. the most reactive site in the molecule is α -position",
+      "o": [
+        "all",
+        "345",
+        "125",
+        "1235"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "26. Which of the following statements is NOT correct for purine? 1. it is a fused ring system 2. the purine ring is a combination of a pyrimidine ring with imidazole 3. it is heterocyclic aromatic system 4. 12 electrons are involved (participate) in the conjugation 5. it is amphoteric compound",
+      "o": [
+        "all",
+        "134",
+        "12",
+        "1235"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "27. Which of the following statements are correct for mononucleotides? 1. mononucleotides consist of three constitutional parts 2. heterocycle is linked with pentose by O-glycosidic bond 3. hydroxyl groups of pentose at C-5 and C-3 could be esterified by phosphoric acid 4. ribose exist in its furanose form 5. the anomer carbon of pentose has β - configuration",
+      "o": [
+        "all",
+        "134",
+        "12",
+        "1345 LIPIDS"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "28. Fatty acids are",
+      "o": [
+        "unsaturated dicarboxylic acids",
+        "long-chain alkanoic acids",
+        "aromatic carboxylic acids",
+        "aromatic dicarboxylic acids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "29. Which of the following statements is NOT correct:",
+      "o": [
+        "both stearic acid and linoleic acid have 18 carbons.",
+        "linoleic acid is unsaturated",
+        "stearic acid is saturated",
+        "the melting point of stearic acid is lower than linoleic acid"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "30. . An RNA virus uses RNA as genetic material. Which sugar is present in its nucleotides?",
+      "o": [
+        "Deoxyribose",
+        "Ribose",
+        "Glucose",
+        "Fructose"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "31. A membrane phospholipid contains a polar head and two fatty acid tails. What type of bonds link fatty acids to glycerol?",
+      "o": [
+        "Glycosidic bonds",
+        "Ester bonds",
+        "Peptide bonds",
+        "Phosphodiester bonds"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "32. The basic hydrolysis of which of the following triacylglycerols produces only polyunsaturated fatty acids?",
+      "o": [
+        "glyceryl trioleate",
+        "glyceryl tristearate",
+        "glyceryl linoleate dioleate",
+        "glyceryl trilinolenate"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "33. The structural components of lecithins are:",
+      "o": [
+        "glycerol, fatty acids, phosphoric acid, choline",
+        "glycerol, fatty acids, phosphoric acid, ethanolamine",
+        "glycerol, fatty acids, phosphoric acid, serine",
+        "glycerol, fatty acids, phosphoric acid, betaine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "34. The structural components of phosphatide acids are:",
+      "o": [
+        "glycerol, fatty acids, phosphoric acid",
+        "glycerol, fatty acids, phosphoric acid, glucose",
+        "glycerol, fatty acids, phosphoric acid, galactose",
+        "glyceraldehyde, fatty acids, phosphoric acid"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "35. Saponification is a measure of:",
+      "o": [
+        "unsaturation in fat",
+        "average molecular weight of fatty acid",
+        "rancidity",
+        "acid number"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "36. Which of the following statements is NOT correct?",
+      "o": [
+        "triacylglycerols are neutral fats",
+        "a simple triacylglycerols (triglycerides) are acylated with the same carboxylic acids",
+        "a mixed triacylglycerols are acylated with the different carboxylic acids",
+        "the iodine number is the number of mols of iodine that would add to carbon-carbon double bonds present in 100 grams of the fat or oil"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "37. Which of the following statements is NOT correct for glycerophospholipids?",
+      "o": [
+        "glycerophospholipids are derivatives of 3- glycerophosphate",
+        "glycerophospholipids are derivatives of phosphatidic acids",
+        "phosphatidic acid is an ester of glycerol and phosphoric acid",
+        "there is an asymmetric carbon atom in the molecule of phosphatidic acid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "38. A patient consumes excessive caffeine. Caffeine is structurally classified as:",
+      "o": [
+        "A purine (xanthine) alkaloid",
+        "A tropane alkaloid",
+        "A pyridine derivative",
+        "A steroid compound"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "39. During DNA replication, DNA polymerase adds nucleotides to which functional group of the growing chain?",
+      "o": [
+        "5'-phosphate group",
+        "3'-hydroxyl group",
+        "Nitrogenous base",
+        "2'-hydroxyl group"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "40. A qualitative test shows decolorization of bromine water in a lipid sample. This indicates the presence of:",
+      "o": [
+        "Saturated fatty acids",
+        "Double bonds in unsaturated fatty acids",
+        "Phosphate groups",
+        "Amino groups"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "41. Alkaloids are primarily natural compounds containing in their structure:",
+      "o": [
+        "only oxygen",
+        "a nitrogen atom, most often in a heterocyclic system",
+        "only sulfur",
+        "phosphorus and nitrogen simultaneously"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "42. Most alkaloids exhibit the chemical character of:",
+      "o": [
+        "strong acids",
+        "neutral substances",
+        "bases (alkaline character)",
+        "amphoteric compounds without predominance"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "43. The alkaloid belonging to pyrrolidine (or pyrrolidine) derivatives is:",
+      "o": [
+        "nicotine",
+        "morphine",
+        "caffeine",
+        "quinine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "44. Which alkaloid belongs to purine derivatives (xanthine alkaloids)?",
+      "o": [
+        "Atropine",
+        "Caffeine",
+        "Codeine",
+        "Ephedrine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "45. Morphine and codeine, according to chemical classification, are alkaloids of the:",
+      "o": [
+        "tropane series",
+        "isoquinoline series",
+        "indole series",
+        "quinoline series"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "46. Atropine and cocaine belong to the group of alkaloids derived from:",
+      "o": [
+        "quinoline",
+        "tropane (tropine alcohol)",
+        "purine",
+        "phenanthrene"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "47. Which of the listed alkaloids does not belong to true alkaloids (according to strict classification, it contains nitrogen outside a heterocycle)?",
+      "o": [
+        "ephedrine",
+        "nicotine",
+        "quinine",
+        "strychnine"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "48. Quinine is a representative of alkaloids of the:",
+      "o": [
+        "pyrrolidine series",
+        "quinoline series",
+        "isoquinoline series",
+        "indole series"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "49. Which general chemical property is characteristic of almost all alkaloids?",
+      "o": [
+        "good solubility in water",
+        "formation of precipitates with general alkaloid precipitation reagents (Dragendorff’s, Mayer’s, Wagner’",
+        "",
+        "acidic reaction of aqueous solutions",
+        "lack of optical activity"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "50. Which of the listed alkaloids belongs to the indole series?",
+      "o": [
+        "Papaverine",
+        "Reserpine",
+        "Cocaine",
+        "Theobromine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "51. Lactam–lactim tautomerism is characteristic of the following nitrogenous bases:",
+      "o": [
+        "Adenine and guanine",
+        "Thymine, uracil, and cytosine",
+        "Guanine only",
+        "Adenine only"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "52. In a DNA molecule, the phosphodiester bond is formed between:",
+      "o": [
+        "The 1'-carbon of the sugar and the nitrogenous base",
+        "The 3'-hydroxyl of one nucleotide and the 5'-phosphate of the next",
+        "The 2'- and 3'-hydroxyl groups of ribose",
+        "The phosphate group and the nitrogenous base"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "53. A minor (rare) base frequently found in tRNA and involved in the anticodon is:",
+      "o": [
+        "5-methylcytosine",
+        "Pseudouridine",
+        "Hypoxanthine",
+        "Xanthine"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "54. ATP belongs to the class of:",
+      "o": [
+        "Nucleosides",
+        "Nucleoside monophosphates",
+        "Nucleoside triphosphates",
+        "Dinucleotides"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "55. Unlike DNA, RNA molecules are typically:",
+      "o": [
+        "Double-stranded and contain thymine",
+        "Single-stranded, contain uracil, and have ribose",
+        "Double-stranded and contain deoxyribose",
+        "Single-stranded but always contain thymine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "56. The complementary base pair in DNA held together by three hydrogen bonds is:",
+      "o": [
+        "Adenine – Thymine",
+        "Guanine – Cytosine",
+        "Adenine – Uracil",
+        "Guanine – Thymine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "57. Which statement is true only for RNA (and not for DNA)?",
+      "o": [
+        "It contains deoxyribose",
+        "It can function as a ribozyme (catalytic activity)",
+        "It stores genetic information in the nucleus of most cells",
+        "It has a strictly double-stranded structure"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "58. During DNA replication, the new strand is synthesized in the direction:",
+      "o": [
+        "3' → 5'",
+        "5' → 3'",
+        "Both directions simultaneously",
+        "Depends on the cell type"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "59. The glycosidic bond in a nucleotide connects:",
+      "o": [
+        "Phosphate and sugar",
+        "Nitrogenous base and the 1'-carbon of the pentose",
+        "3'- and 5'-carbons of sugars in adjacent nucleotides",
+        "Purine and pyrimidine bases"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "60. The biuret reaction is used to detect in a solution:",
+      "o": [
+        "Only free α-amino acids",
+        "Peptide bonds in proteins and polypeptides",
+        "Aromatic amino acids",
+        "Reducing sugars"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "61. When performing the xanthoproteic reaction on a protein, the following is observed:",
+      "o": [
+        "Violet coloration",
+        "Yellow or orange coloration after heating with HNO₃",
+        "Raspberry-red coloration",
+        "Black PbS precipitate"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "62. The Folin reaction (lead sulfide precipitate) is specific for proteins containing residues of:",
+      "o": [
+        "Tyrosine",
+        "Arginine",
+        "Cysteine or cystine (sulfur-containing amino acids)",
+        "Tryptophan"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "63. The ninhydrin reaction gives a blue-violet coloration when reacting with:",
+      "o": [
+        "Only proteins",
+        "α-Amino acids and peptides (free amino groups)",
+        "Reducing sugars",
+        "Unsaturated fatty acids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "64. The Molisch reaction is a classic qualitative test for:",
+      "o": [
+        "Proteins",
+        "All carbohydrates (including polysaccharides)",
+        "Lipids",
+        "Nucleic acids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "65. To detect reducing sugars (glucose, maltose, etc.), the most commonly used reaction is:",
+      "o": [
+        "With Fehling’s reagent (formation of red Cu₂O precipitate)",
+        "With ninhydrin",
+        "With Dragendorff’s reagent",
+        "With iodine (blue coloration)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "66. The reaction with Lugol’s iodine (iodine in KI) gives a blue-violet coloration with:",
+      "o": [
+        "Glucose",
+        "Starch (amylose)",
+        "Sucrose",
+        "Glycogen (weak red coloration)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "67. The qualitative test for unsaturated fatty acids or lipids (decolorization of bromine water or KMnO₄ solution) indicates the presence of:",
+      "o": [
+        "Double bonds",
+        "Ester bonds",
+        "Alcohol groups",
+        "Carboxyl groups"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "68. For the quantitative determination of protein using the Lowry method or the biuret method, the following is measured:",
+      "o": [
+        "Optical density of the colored complex",
+        "Volume of gas released",
+        "Mass of the precipitate",
+        "Change in pH of the solution"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "69. Heterocyclic compounds are cyclic molecules in which the ring contains:",
+      "o": [
+        "Only carbon and hydrogen atoms",
+        "At least one heteroatom (N, O, S, etc.) other than carbon",
+        "Only nitrogen atoms",
+        "Only double bonds"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "70. Pyrrole belongs to the group of:",
+      "o": [
+        "Six-membered heterocycles with one heteroatom",
+        "Five-membered aromatic heterocycles with one heteroatom",
+        "Saturated heterocycles",
+        "Condensed systems with two heteroatoms"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "71. The peptide bond is formed between:",
+      "o": [
+        "Two carboxyl groups",
+        "Amino group of one amino acid and carboxyl group of another",
+        "Two amino groups",
+        "Hydroxyl groups of amino acids"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "72. Denaturation of proteins leads primarily to:",
+      "o": [
+        "Destruction of primary structure",
+        "Loss of secondary and tertiary structure",
+        "Formation of new peptide bonds",
+        "Conversion into carbohydrates"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "73. A DNA mutation results in substitution of guanine with cytosine. How many hydrogen bonds will form in the new complementary pair?",
+      "o": [
+        "One",
+        "Two",
+        "Three",
+        "Four"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "74. A patient has scurvy due to vitamin C deficiency. Vitamin C chemically belongs to which class of compounds?",
+      "o": [
+        "Steroids",
+        "Heterocyclic lactones",
+        "Amino acids",
+        "Purine derivatives"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "75. The main structural lipid component of biological membranes is:",
+      "o": [
+        "Triglycerides",
+        "Phospholipids",
+        "Waxes",
+        "Steroids only"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "76. A laboratory test detects protein in urine using the biuret reaction. What chemical feature is being detected?",
+      "o": [
+        "Free carboxyl groups",
+        "Peptide bonds",
+        "Aromatic rings only",
+        "Sulfhydryl groups"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "77. Which vitamin contains a heterocyclic ring with cobalt as a central atom?",
+      "o": [
+        "Vitamin A",
+        "Vitamin C",
+        "Vitamin B12",
+        "Vitamin D"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "78. The secondary structure of proteins is stabilized mainly by:",
+      "o": [
+        "Ionic bonds only",
+        "Hydrogen bonds",
+        "Covalent peptide bonds",
+        "Disulfide bonds only"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Bioorganic chemistry",
+      "q": "79. A patient with myasthenia gravis is treated with a plant-derived alkaloid that inhibits acetylcholinesterase. This alkaloid belongs to which class?",
+      "o": [
+        "Tropane alkaloids",
+        "Indole alkaloids",
+        "Alkaloids containing a tertiary nitrogen capable of reversible inhibition",
+        "Purine alkaloids"
       ],
       "c": 2
     }
