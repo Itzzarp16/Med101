@@ -555,6 +555,14 @@ export default function App() {
             <div className="app-loading-logo">Med101</div>
             <div className="app-loading-tagline">Learn. Practice. Improve.</div>
           </div>
+          <div className="app-loading-below">
+            <div className="app-loading-bar-row">
+              <span className="app-loading-play">▶</span>
+              <div className="app-loading-track">
+                <div className="app-loading-fill app-loading-fill-indeterminate" />
+              </div>
+            </div>
+          </div>
         </div>
         <IntroOverlay onDone={() => setIntroDone(true)} />
       </>

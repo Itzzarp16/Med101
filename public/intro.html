@@ -24,7 +24,7 @@ html,body{background:#050505}
 #stage{position:fixed;inset:0;overflow:hidden;touch-action:none}
 .bg{position:absolute;inset:-10%;background:radial-gradient(40% 30% at 20% 22%,rgba(var(--cyan-rgb),.20),transparent 70%),radial-gradient(34% 28% at 82% 68%,rgba(var(--cyan-rgb),.14),transparent 70%),radial-gradient(60% 40% at 50% 102%,rgba(var(--violet-rgb),.20),transparent 70%);animation:drift 14s ease-in-out infinite alternate}
 .iv-lock{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1;font-size:clamp(38px,12.5vw,96px)}
-.iv-lock .app-loading-logo{font-size:1em;padding:0 .04em;text-shadow:none;filter:drop-shadow(0 0 .18em rgba(106,168,255,.32))}
+.iv-lock .app-loading-logo{font-size:1em;padding:0 .04em;text-shadow:none;filter:drop-shadow(0 0 22px rgba(106,168,255,.35))}
 .iv-lock .app-loading-tagline{font-size:calc(1em*8/19);margin-top:.05em}
 .iv-k{font:700 clamp(28px,8.4vw,62px)/1.14 var(--font-display);letter-spacing:-.02em;max-width:13em;color:var(--text)}
 .iv-k .w{display:inline-block;will-change:transform,filter,opacity}
@@ -218,7 +218,7 @@ html.embed .btn-glow,html.embed .url,html.embed .replay{display:none}
   const dev = $('dev'), scrs = [...document.querySelectorAll('.iv-scr')];
   const ITEMS = '.stg,.dashboard-greeting,.subj-card,.resume-card,.qm-head,.mode-card,.qmode-settings-card,.q-card,.qchips,.opt-btn,.ai-chip-btn,.lb-panel,.lb-my-rank,.lb-pod,.lb-row';
   const scrItems = scrs.map((sc) => [...sc.querySelectorAll(ITEMS)]);
-  let cur = -1, devScale = 1;
+  let cur = -1, devScale = 1, endFitDone = false;
   // Tagline letter-spacing solved so it is exactly as wide as the wordmark (same as the site's lockup.js).
   const textW = (el) => { const r = document.createRange(); r.selectNodeContents(el); return r.getBoundingClientRect().width; };
   function fitLocks() {
@@ -228,7 +228,8 @@ html.embed .btn-glow,html.embed .url,html.embed .replay{display:none}
       const sc = box.getBoundingClientRect().width / box.offsetWidth || 1;
       tg.style.letterSpacing = '0px';
       const ls = (textW(mark) - textW(tg)) / Math.max(1, tg.textContent.length - 1) / sc;
-      if (Number.isFinite(ls)) tg.style.letterSpacing = Math.max(0, ls).toFixed(3) + 'px';
+      // Negative spacing allowed on purpose: the site's lockup.js (loading screen) does the same, so the tagline is exactly as wide as the wordmark in both.
+      if (Number.isFinite(ls)) tg.style.letterSpacing = ls.toFixed(3) + 'px';
     });
   }
 
@@ -446,6 +447,9 @@ html.embed .btn-glow,html.embed .url,html.embed .replay{display:none}
     // End card
     const e = easeOut(clamp((t - OUT) / 0.8));
     setScene(sEnd, e);
+    // Re-solve the tagline spacing while the end lockup is on screen / fading in, so it is
+    // exactly as wide as the wordmark (what the loading screen shows) whatever the font timing.
+    if (t >= OUT - 0.1 && !endFitDone) { fitLocks(); if (e >= 1) endFitDone = true; }
     wm2.style.transform = `scale(${(1.04 - 0.04 * e).toFixed(3)})`;
     cta.style.pointerEvents = t >= OUT + 0.4 ? 'auto' : 'none';
     sEnd.style.pointerEvents = t >= OUT + 0.4 ? 'auto' : 'none';
@@ -478,7 +482,13 @@ html.embed .btn-glow,html.embed .url,html.embed .replay{display:none}
   });
   $('replay').addEventListener('click', () => play(0));
   window.addEventListener('resize', () => { resize(); render(t); });
-  if (document.fonts) document.fonts.ready.then(() => { fitLocks(); });
+  if (document.fonts) {
+    document.fonts.ready.then(() => { fitLocks(); });
+    // Inter / Syne can finish after the first fit; re-solve the tagline spacing
+    // whenever a font lands so the tagline always ends exactly where the wordmark does.
+    if (document.fonts.addEventListener) document.fonts.addEventListener('loadingdone', () => { fitLocks(); });
+  }
+  setTimeout(fitLocks, 300); setTimeout(fitLocks, 1200); setTimeout(fitLocks, 3000);
   // Testing helper: window.__seek(seconds)
   window.__seek = (s) => { cancelAnimationFrame(raf); playing = false; A.stop(); t = s; render(t); };
 

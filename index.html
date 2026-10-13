@@ -6,6 +6,16 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="theme-color" content="#e9edf3" />
+    <script>
+      /* Apply the saved theme before first paint (light is the default), so the
+         placeholder loader and the browser bar already match the real app. */
+      try {
+        var dark = localStorage.getItem('med101_theme') === 'dark';
+        if (!dark) document.documentElement.classList.add('light-mode');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#050505' : '#e9edf3');
+      } catch (e) {}
+    </script>
+    <link rel="preload" href="/fonts/Syne-ExtraBold.ttf" as="font" type="font/ttf" crossorigin />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Med101" />
@@ -50,7 +60,16 @@
          screens rather than one continuous one. If the real loader's
          look changes, update both places. */
       html, body { background: #050505; margin: 0; }
+      html.light-mode, html.light-mode body { background: #e9edf3; }
+      /* Same Syne file the intro film embeds, so the loading wordmark and
+         the film's wordmark are drawn with identical glyphs from the very
+         first paint (the Google Fonts copy can arrive late or not at all). */
+      @font-face { font-family: 'Syne'; font-weight: 800; font-display: block; src: url('/fonts/Syne-ExtraBold.ttf') format('truetype'); }
       #initial-loader {
+        /* One lockup size for this placeholder, the React loader AND the intro
+           film (public/intro.html uses this exact clamp). */
+        --lockup-fs: clamp(38px, 12.5vw, 96px);
+        --il-cyan: #4a6f94; --il-cyan-rgb: 74, 111, 148; --il-violet-rgb: 107, 111, 138; --il-text3: #8aaed0;
         position: fixed;
         inset: 0;
         display: flex;
@@ -60,39 +79,75 @@
         gap: 22px;
         background: #050505;
         padding: 20px;
+        z-index: 1000;
+        overflow: hidden;
       }
+      html.light-mode #initial-loader {
+        background: #e9edf3;
+        --il-cyan: #3d5c7d; --il-cyan-rgb: 61, 92, 125; --il-violet-rgb: 91, 95, 125; --il-text3: #4f647c;
+      }
+      /* Same soft glow backdrop as .app-loading-screen::before and the film's .bg. */
+      #initial-loader::before {
+        content: '';
+        position: absolute;
+        inset: -10%;
+        pointer-events: none;
+        background:
+          radial-gradient(40% 30% at 20% 22%, rgba(var(--il-cyan-rgb), 0.2), transparent 70%),
+          radial-gradient(34% 28% at 82% 68%, rgba(var(--il-cyan-rgb), 0.14), transparent 70%),
+          radial-gradient(60% 40% at 50% 102%, rgba(var(--il-violet-rgb), 0.2), transparent 70%);
+        animation: initial-drift 14s ease-in-out infinite alternate;
+      }
+      html.light-mode #initial-loader::before { display: none; }
+      @keyframes initial-drift { to { transform: translate3d(2%, -2%, 0) scale(1.06); } }
       #initial-loader .logo-stack {
+        position: relative;
+        z-index: 1;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         line-height: 1;
+        /* same wordmark centring offset as .app-loading-logo-stack */
+        margin-right: calc(var(--lockup-fs) * 0.152);
       }
       #initial-loader .logo {
         font-family: 'Syne', sans-serif;
         font-weight: 800;
-        font-size: 2.4rem;
+        font-size: var(--lockup-fs);
         line-height: 1;
-        background: linear-gradient(90deg, #1e3a5f, #3d5875, #64748b);
+        background: linear-gradient(180deg, #f4f8ff 0%, #a9c8f0 55%, #6f93bd 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        /* Kept in sync with .app-loading-logo's dark-mode-default
-           embossed rim (tokens.css) - this placeholder always shows on
-           the #050505 background below regardless of the user's actual
-           theme preference, same as that dark-mode-default rule. */
-        text-shadow: -1px -1px 0 rgba(255, 255, 255, 0.3), 1px 1px 0 rgba(0, 0, 0, 0.7),
-          2px 2px 0 rgba(0, 0, 0, 0.7), 3px 3px 6px rgba(0, 0, 0, 0.4);
+        filter: drop-shadow(0 0 22px rgba(106, 168, 255, 0.35));
+      }
+      html.light-mode #initial-loader .logo {
+        filter: drop-shadow(0.9px 0 0 #1e3a5f) drop-shadow(-0.9px 0 0 #1e3a5f) drop-shadow(0 0.9px 0 #1e3a5f)
+          drop-shadow(0 -0.9px 0 #1e3a5f) drop-shadow(0 3px 4px rgba(12, 28, 48, 0.35));
       }
       #initial-loader .tagline {
-        margin-top: 2px;
+        margin-top: 0.05em;
         font-family: 'Inter', 'Space Grotesk', sans-serif;
-        font-size: calc(2.4rem * 8 / 19);
+        font-size: calc(var(--lockup-fs) * 8 / 19);
         white-space: nowrap;
         font-weight: 600;
         letter-spacing: 0.06em;
         text-transform: uppercase;
-        color: #8aaed0;
+        color: var(--il-text3);
         text-align: left;
+      }
+      /* Out of flow, like .app-loading-below, so the lockup is always centred
+         exactly where the film puts it. */
+      #initial-loader .below {
+        position: absolute;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        top: calc(50% + var(--lockup-fs) * 0.72 + 22px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 20px;
       }
       #initial-loader .bar-row {
         display: flex;
@@ -101,7 +156,7 @@
         width: 220px;
       }
       #initial-loader .play {
-        color: #4a6f94;
+        color: var(--il-cyan);
         font-size: 15px;
         flex-shrink: 0;
       }
@@ -112,12 +167,13 @@
         background: rgba(255, 255, 255, 0.12);
         overflow: hidden;
       }
+      html.light-mode #initial-loader .track { background: rgba(30, 58, 95, 0.12); }
       #initial-loader .fill {
         position: relative;
         height: 100%;
         width: 40%;
         border-radius: 999px;
-        background: linear-gradient(90deg, #1e3a5f, #3d5875);
+        background: linear-gradient(90deg, #1e3a5f, #3d5875, #64748b);
         animation: initial-sweep 1.3s ease-in-out infinite;
       }
       @keyframes initial-sweep {
@@ -126,7 +182,7 @@
         100% { margin-left: 100%; width: 40%; }
       }
       @media (prefers-reduced-motion: reduce) {
-        #initial-loader .fill { animation: none; }
+        #initial-loader .fill, #initial-loader::before { animation: none; }
       }
       /* Shown only if the app still hasn't started after a long time. */
       #initial-loader .stuck { display: none; margin-top: 4px; text-align: center; color: #8aa0b8; font: 13px/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; }
@@ -139,13 +195,15 @@
         <div class="logo">Med101</div>
         <div class="tagline">Learn. Practice. Improve.</div>
       </div>
-      <div class="bar-row">
-        <span class="play">▶</span>
-        <div class="track"><div class="fill"></div></div>
-      </div>
-      <div class="stuck" id="initial-stuck">
-        <div>The app didn't start. Check your connection.</div>
-        <button onclick="location.reload()">Reload</button>
+      <div class="below">
+        <div class="bar-row">
+          <span class="play">▶</span>
+          <div class="track"><div class="fill"></div></div>
+        </div>
+        <div class="stuck" id="initial-stuck">
+          <div>The app didn't start. Check your connection.</div>
+          <button onclick="location.reload()">Reload</button>
+        </div>
       </div>
     </div></div>
     <script>
