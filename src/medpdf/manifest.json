@@ -1,0 +1,26 @@
+[
+  {
+    "type": "folder",
+    "id": "1st Year",
+    "name": "1st Year",
+    "children": []
+  },
+  {
+    "type": "folder",
+    "id": "2nd Year",
+    "name": "2nd Year",
+    "children": []
+  },
+  {
+    "type": "folder",
+    "id": "3rd Year",
+    "name": "3rd Year",
+    "children": []
+  },
+  {
+    "type": "folder",
+    "id": "4th Year",
+    "name": "4th Year",
+    "children": []
+  }
+]

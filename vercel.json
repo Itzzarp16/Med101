@@ -16,6 +16,10 @@
   },
   "rewrites": [
     {
+      "source": "/medpdf",
+      "destination": "/medpdf/index.html"
+    },
+    {
       "source": "/((?!api/|assets/|answer-keys/).*)",
       "destination": "/index.html"
     }

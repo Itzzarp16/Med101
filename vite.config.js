@@ -19,6 +19,15 @@ writeFileSync(resolve(__dirname, 'public/version.json'), JSON.stringify({ buildI
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  // Second page: the PDF library served at /medpdf (see src/medpdf/).
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, 'index.html'),
+        medpdf: resolve(__dirname, 'medpdf/index.html'),
+      },
+    },
+  },
   define: {
     __BUILD_ID__: JSON.stringify(BUILD_ID),
   },
