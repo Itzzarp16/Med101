@@ -45,13 +45,19 @@ export const app = initializeApp(firebaseConfig);
 // So App Check only starts if the reCAPTCHA script actually loads within a
 // few seconds; otherwise it is skipped and the app runs as if it were off.
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || '';
+// Keys made in the Google Cloud reCAPTCHA console are "Enterprise" keys and
+// need a different script + App Check provider than classic v3 keys. Set
+// VITE_RECAPTCHA_PROVIDER=enterprise in Vercel for those; leave it unset for
+// a classic v3 key. (Using the wrong one leaves the key "not protecting" your
+// site, which is what Google's "Almost there / finish setup" email is about.)
+const RECAPTCHA_ENTERPRISE = (import.meta.env.VITE_RECAPTCHA_PROVIDER || '').toLowerCase() === 'enterprise';
 
 function recaptchaReachable(siteKey, timeoutMs = 4000) {
   return new Promise((resolve) => {
     let done = false;
     const finish = (ok) => { if (!done) { done = true; resolve(ok); } };
     const s = document.createElement('script');
-    s.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(siteKey)}`;
+    s.src = `https://www.google.com/recaptcha/${RECAPTCHA_ENTERPRISE ? 'enterprise' : 'api'}.js?render=${encodeURIComponent(siteKey)}`;
     s.async = true;
     s.onload = () => finish(true);
     s.onerror = () => finish(false);
@@ -69,12 +75,14 @@ if (RECAPTCHA_SITE_KEY) {
     try {
       // Loaded only now (after the page is up) so the App Check SDK isn't in
       // the first-load download.
-      const { initializeAppCheck, ReCaptchaV3Provider } = await import('firebase/app-check');
+      const { initializeAppCheck, ReCaptchaV3Provider, ReCaptchaEnterpriseProvider } = await import('firebase/app-check');
       // Local dev can't pass reCAPTCHA; the SDK prints a debug token in the
       // console that you register under App Check > Apps > Manage debug tokens.
       if (import.meta.env.DEV) self.FIREBASE_APPCHECK_DEBUG_TOKEN = true;
       initializeAppCheck(app, {
-        provider: new ReCaptchaV3Provider(RECAPTCHA_SITE_KEY),
+        provider: RECAPTCHA_ENTERPRISE
+          ? new ReCaptchaEnterpriseProvider(RECAPTCHA_SITE_KEY)
+          : new ReCaptchaV3Provider(RECAPTCHA_SITE_KEY),
         isTokenAutoRefreshEnabled: true,
       });
     } catch (e) {
