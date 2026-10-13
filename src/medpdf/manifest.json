@@ -3,13 +3,57 @@
     "type": "folder",
     "id": "1st Year",
     "name": "1st Year",
-    "children": []
+    "children": [
+      {
+        "type": "folder",
+        "id": "1st Year/Anatomy",
+        "name": "Anatomy",
+        "children": []
+      },
+      {
+        "type": "folder",
+        "id": "1st Year/Biochemistry",
+        "name": "Biochemistry",
+        "children": []
+      },
+      {
+        "type": "folder",
+        "id": "1st Year/Physiology",
+        "name": "Physiology",
+        "children": []
+      }
+    ]
   },
   {
     "type": "folder",
     "id": "2nd Year",
     "name": "2nd Year",
-    "children": []
+    "children": [
+      {
+        "type": "folder",
+        "id": "2nd Year/Microbiology",
+        "name": "Microbiology",
+        "children": []
+      },
+      {
+        "type": "folder",
+        "id": "2nd Year/Pathology",
+        "name": "Pathology",
+        "children": []
+      },
+      {
+        "type": "folder",
+        "id": "2nd Year/Pharmacology",
+        "name": "Pharmacology",
+        "children": []
+      },
+      {
+        "type": "folder",
+        "id": "2nd Year/PSM",
+        "name": "PSM",
+        "children": []
+      }
+    ]
   },
   {
     "type": "folder",
