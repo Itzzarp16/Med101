@@ -21,22 +21,37 @@ function subjectsFor(year) {
   return list
 }
 
-const Icon = ({ d }) => (
-  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+const Icon = ({ d, size = 20 }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
     <path d={d} />
   </svg>
 )
 const FOLDER = 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'
 const FILE = 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5'
-const CHEV = 'M9 6l6 6-6 6'
+const ARROW = 'M5 12h14M13 6l6 6-6 6'
 
-function Row({ icon, title, sub, badge, onClick }) {
+// One heartbeat, repeated `beats` times across a 100-unit-wide strip per beat.
+const beat = (x) => `L${x + 30} 20 L${x + 36} 20 L${x + 42} 6 L${x + 50} 34 L${x + 57} 12 L${x + 62} 20 L${x + 100} 20`
+const ecg = (beats) => `M0 20 ${Array.from({ length: beats }, (_, i) => beat(i * 100)).join(' ')}`
+
+// A faint ECG trace with a bright segment travelling along it.
+function Pulse({ beats = 2, className = '' }) {
+  const d = ecg(beats)
   return (
-    <button className="row" onClick={onClick}>
-      <Icon d={icon} />
+    <svg className={'pulse ' + className} viewBox={`0 0 ${beats * 100} 40`} preserveAspectRatio="none" aria-hidden="true">
+      <path pathLength="100" className="base" d={d} />
+      <path pathLength="100" className="run" d={d} />
+    </svg>
+  )
+}
+
+function Row({ n, icon, title, sub, badge, onClick }) {
+  return (
+    <button className="row" style={{ '--n': Math.min(n, 10) }} onClick={onClick}>
+      <span className="ri"><Icon d={icon} /></span>
       <span className="rt"><b>{title}</b>{sub && <small>{sub}</small>}</span>
       {badge != null && <em>{badge}</em>}
-      <Icon d={CHEV} />
+      <Icon d={ARROW} size={18} />
     </button>
   )
 }
@@ -69,20 +84,19 @@ export default function App() {
     <>
       <header className="top">
         <a className="brand" href="/">Med101</a>
-        <span className="sep">/</span>
-        <button className="brand-sub" onClick={() => { home(); setQuery('') }}>PDFs</button>
+        <button className="tag" onClick={() => { home(); setQuery('') }}>PDFs</button>
         <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search PDFs" aria-label="Search PDFs" />
       </header>
 
       <main>
         {q ? (
-          <section className="fade" key="search">
-            <h1>{results.length} result{results.length === 1 ? '' : 's'}</h1>
+          <section key="search" className="view">
+            <h2 className="title">{results.length} result{results.length === 1 ? '' : 's'}</h2>
             {results.length === 0 && <p className="empty">Nothing matches “{query}”.</p>}
-            {results.map((f) => <Row key={f.id} icon={FILE} title={f.name} sub={f.trail.join(' / ')} onClick={() => setFile(f)} />)}
+            {results.map((f, i) => <Row key={f.id} n={i} icon={FILE} title={f.name} sub={f.trail.join(' / ')} onClick={() => setFile(f)} />)}
           </section>
         ) : subject ? (
-          <section className="fade" key={cur.id}>
+          <section key={cur.id} className="view" style={{ '--h': subject.hue }}>
             <nav className="crumbs" aria-label="Breadcrumb">
               <button onClick={home}>{year.name}</button>
               {trail.map((t, i) => (
@@ -92,36 +106,46 @@ export default function App() {
                 </span>
               ))}
             </nav>
-            <h1>{cur.name}</h1>
+            <h2 className="title big">{cur.name}</h2>
+            <p className="meta">{count(cur) ? plural(count(cur)) : 'No PDFs yet'}</p>
+            <Pulse beats={6} className="wide" />
             {cur.children.length === 0 && (
-              <p className="empty">No PDFs yet. Add files to <code>public/medpdf/pdfs/{year.name}/{trail.map((t) => t.name).join('/')}/</code></p>
+              <p className="empty">Add files to <code>public/medpdf/pdfs/{year.name}/{trail.map((t) => t.name).join('/')}/</code></p>
             )}
-            {cur.children.map((c) =>
-              c.type === 'folder' ? (
-                <Row key={c.id} icon={FOLDER} title={c.name} badge={count(c)} onClick={() => setTrail([...trail, c])} />
-              ) : (
-                <Row key={c.id} icon={FILE} title={c.name} onClick={() => setFile(c)} />
-              ),
-            )}
+            <div className="rows">
+              {cur.children.map((c, i) =>
+                c.type === 'folder' ? (
+                  <Row key={c.id} n={i} icon={FOLDER} title={c.name} badge={count(c)} onClick={() => setTrail([...trail, c])} />
+                ) : (
+                  <Row key={c.id} n={i} icon={FILE} title={c.name} onClick={() => setFile(c)} />
+                ),
+              )}
+            </div>
           </section>
         ) : (
           <>
-            <h1>PDF library</h1>
-            <div className="tabs" style={{ '--i': yearIdx }} role="tablist">
-              {manifest.map((y, i) => (
-                <button key={y.id} role="tab" aria-selected={i === yearIdx} onClick={() => setYearIdx(i)}>{y.name}</button>
-              ))}
-              <span className="bar" aria-hidden="true" />
-            </div>
-            <section className="grid fade" key={year.id}>
+            <section className="hero">
+              <h1><span className="ln"><span>Study PDFs,</span></span><span className="ln"><span>sorted by subject.</span></span></h1>
+              <Pulse beats={10} className="wide hero-ecg" />
+              <div className="years" style={{ '--i': yearIdx }} role="tablist">
+                <b className="pill" aria-hidden="true" />
+                {manifest.map((y, i) => (
+                  <button key={y.id} role="tab" aria-selected={i === yearIdx} onClick={() => setYearIdx(i)}>{y.name}</button>
+                ))}
+              </div>
+            </section>
+            <section className="grid" key={year.id}>
               {subjects.length === 0 && <p className="empty">Subjects for {year.name} are coming soon.</p>}
-              {subjects.map((s) => {
+              {subjects.map((s, i) => {
                 const n = count(s.folder)
                 return (
-                  <button key={s.name} className="card" onClick={() => open(s)}>
-                    <span className="dot" style={{ '--h': s.hue }} />
-                    <b>{s.name}</b>
-                    <small>{n ? plural(n) : 'No PDFs yet'}</small>
+                  <button key={s.name} className="card" style={{ '--h': s.hue, '--n': i }} onClick={() => open(s)}>
+                    <span className="cn">{s.name}</span>
+                    <Pulse />
+                    <span className="cf">
+                      <span className="cc">{n ? plural(n) : 'No PDFs yet'}</span>
+                      <span className="go"><Icon d={ARROW} size={18} /></span>
+                    </span>
                   </button>
                 )
               })}
@@ -136,7 +160,7 @@ export default function App() {
             <div className="vbar">
               <span>{file.name}</span>
               <a href={file.url} target="_blank" rel="noreferrer">Open in new tab</a>
-              <button onClick={() => setFile(null)} aria-label="Close">Close</button>
+              <button onClick={() => setFile(null)}>Close</button>
             </div>
             <iframe src={file.url} title={file.name} />
           </div>
