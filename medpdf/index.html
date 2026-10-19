@@ -2,13 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#080b12" />
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;700;800&family=Geist:wght@400;500;600&display=swap" rel="stylesheet" />
-    <title>Med PDFs · Med101</title>
+    <meta name="theme-color" content="#e9edf3" />
+    <script>
+      /* Same theme logic as the main app: light by default, dark if saved. */
+      try {
+        var dark = localStorage.getItem('med101_theme') === 'dark';
+        if (!dark) document.documentElement.classList.add('light-mode');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#050505' : '#e9edf3');
+      } catch (e) {}
+    </script>
+    <link rel="preload" href="/fonts/Syne-ExtraBold.ttf" as="font" type="font/ttf" crossorigin />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PDF Library · Med101</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style>
+      @font-face { font-family: 'Syne'; font-weight: 800; font-display: block; src: url('/fonts/Syne-ExtraBold.ttf') format('truetype'); }
+      html { background: #050505; }
+      html.light-mode { background: #e9edf3; }
+    </style>
   </head>
   <body>
     <div id="root"></div>
