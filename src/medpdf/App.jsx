@@ -1,73 +1,65 @@
 import { useEffect, useMemo, useState } from 'react'
-import ScreenHeader from '../components/ScreenHeader'
 import manifest from './manifest.json'
 import { SUBJECTS } from './subjects.js'
-
-// Same muted accent set the Answer Key screen uses.
-const ACCENTS = ['var(--cyan-rgb)', 'var(--violet-rgb)', 'var(--pink-rgb)', '70, 140, 130']
 
 const find = (nodes, name) => nodes.find((n) => n.type === 'folder' && n.name.toLowerCase() === name.toLowerCase())
 const count = (n) => (n.type === 'file' ? 1 : n.children.reduce((s, c) => s + count(c), 0))
 const flat = (nodes, trail = []) =>
   nodes.flatMap((n) => (n.type === 'file' ? [{ ...n, trail }] : flat(n.children, [...trail, n.name])))
-const pdfs = (n) => `${n} PDF${n === 1 ? '' : 's'}`
-const goHome = () => window.location.assign('/')
+const plural = (n) => `${n} PDF${n === 1 ? '' : 's'}`
 
 function subjectsFor(year) {
   const used = new Set()
   const list = (SUBJECTS[year.name] || []).map((c) => {
     const f = find(year.children, c.name)
     if (f) used.add(f.id)
-    return { name: c.name, folder: f || { type: 'folder', id: `${year.id}/${c.name}`, name: c.name, children: [] } }
+    return { ...c, folder: f || { type: 'folder', id: `${year.id}/${c.name}`, name: c.name, children: [] } }
   })
   year.children
     .filter((n) => n.type === 'folder' && !used.has(n.id))
-    .forEach((f) => list.push({ name: f.name, folder: f }))
+    .forEach((f) => list.push({ name: f.name, hue: 220, folder: f }))
   return list
 }
 
-const Mark = ({ folder }) => (
-  <svg viewBox="0 0 28 32" aria-hidden="true" className="ak-doc-svg">
-    {folder ? (
-      <path d="M3 9a2.5 2.5 0 0 1 2.5-2.5h5l3 3h9A2.5 2.5 0 0 1 25 12v11a2.5 2.5 0 0 1-2.5 2.5h-17A2.5 2.5 0 0 1 3 23Z" />
-    ) : (
-      <>
-        <path d="M5 1.5h11l7 7V28a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 5 28V4a2.5 2.5 0 0 1 2.5-2.5Z" />
-        <path d="M16 2v7h7M9 16h10M9 20h10M9 24h7" />
-      </>
-    )}
+const Icon = ({ d, size = 20 }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d={d} />
   </svg>
 )
+const FOLDER = 'M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z'
+const FILE = 'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8zM14 3v5h5'
+const ARROW = 'M5 12h14M13 6l6 6-6 6'
 
-function Card({ i, folder, title, chip, meta, onOpen, openLabel, href, download }) {
+// One heartbeat, repeated `beats` times across a 100-unit-wide strip per beat.
+const beat = (x) => `L${x + 30} 20 L${x + 36} 20 L${x + 42} 6 L${x + 50} 34 L${x + 57} 12 L${x + 62} 20 L${x + 100} 20`
+const ecg = (beats) => `M0 20 ${Array.from({ length: beats }, (_, i) => beat(i * 100)).join(' ')}`
+
+// A faint ECG trace with a bright segment travelling along it.
+function Pulse({ beats = 2, className = '' }) {
+  const d = ecg(beats)
   return (
-    <article className="ak-card" style={{ '--ak-index': Math.min(i, 8), '--ak-rgb': ACCENTS[i % ACCENTS.length] }}>
-      <span className="ak-card-glow" aria-hidden="true" />
-      <button className="ak-card-head" type="button" onClick={onOpen} aria-label={`${openLabel} ${title}`}>
-        <span className="ak-tile"><Mark folder={folder} /></span>
-        <span className="ak-card-info">
-          <span className="ak-card-title">{title}</span>
-          <span className="ak-card-meta"><span className="ak-chip">{chip}</span> {meta}</span>
-        </span>
-        <span className="ak-card-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-      </button>
-      <div className="ak-card-actions">
-        <button className="ak-btn ak-btn-primary" type="button" onClick={onOpen}>
-          {openLabel} <span aria-hidden="true">↗</span>
-        </button>
-        {href && (
-          <a className="ak-btn ak-btn-ghost" href={href} download={download} aria-label={`Download ${title}`}>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg>
-          </a>
-        )}
-      </div>
-    </article>
+    <svg className={'pulse ' + className} viewBox={`0 0 ${beats * 100} 40`} preserveAspectRatio="none" aria-hidden="true">
+      <path pathLength="100" className="base" d={d} />
+      <path pathLength="100" className="run" d={d} />
+    </svg>
+  )
+}
+
+function Row({ n, icon, title, sub, badge, onClick }) {
+  return (
+    <button className="row" style={{ '--n': Math.min(n, 10) }} onClick={onClick}>
+      <span className="ri"><Icon d={icon} /></span>
+      <span className="rt"><b>{title}</b>{sub && <small>{sub}</small>}</span>
+      {badge != null && <em>{badge}</em>}
+      <Icon d={ARROW} size={18} />
+    </button>
   )
 }
 
 export default function App() {
   const [yearIdx, setYearIdx] = useState(0)
   const [trail, setTrail] = useState([])
+  const [subject, setSubject] = useState(null)
   const [file, setFile] = useState(null)
   const [query, setQuery] = useState('')
 
@@ -77,159 +69,103 @@ export default function App() {
   const q = query.trim().toLowerCase()
   const results = q ? all.filter((f) => (f.trail.join(' ') + ' ' + f.name).toLowerCase().includes(q)) : []
   const cur = trail[trail.length - 1]
-  const yearTotal = count(year)
 
-  useEffect(() => { window.scrollTo(0, 0) }, [trail, file, yearIdx])
+  useEffect(() => {
+    const onKey = (e) => e.key === 'Escape' && setFile(null)
+    window.addEventListener('keydown', onKey)
+    document.body.style.overflow = file ? 'hidden' : ''
+    return () => window.removeEventListener('keydown', onKey)
+  }, [file])
 
-  const topbar = (
-    <div className="topbar">
-      <div className="topbar-left">
-        <div className="topbar-logo-stack">
-          <span className="topbar-logo">Med101</span>
-          <span className="topbar-tagline">Learn. Practice. Improve.</span>
-        </div>
-      </div>
-      <div className="topbar-right">
-        <button className="topbar-user mp-topbar-link" onClick={goHome}>Open app</button>
-      </div>
-    </div>
-  )
-
-  // ── Reader ───────────────────────────────────────────
-  if (file) {
-    return (
-      <>
-        {topbar}
-        <div className="std-screen ak-pdf-screen ak-pdf-viewer-screen">
-          <ScreenHeader onBack={() => setFile(null)} title={file.name}>{file.trail.join(' · ')}</ScreenHeader>
-          <div className="ak-viewer-toolbar">
-            <span className="ak-viewer-label"><span className="ak-viewer-dot" /> PDF DOCUMENT</span>
-            <a className="ak-btn ak-btn-primary" href={file.url} download>
-              <span aria-hidden="true">↓</span> Download
-            </a>
-          </div>
-          <div className="ak-viewer-frame-wrap">
-            <iframe className="ak-viewer-frame" src={`${file.url}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`} title={file.name} />
-          </div>
-        </div>
-      </>
-    )
-  }
-
-  const inSubject = trail.length > 0
-  const header = inSubject ? (
-    <ScreenHeader onBack={() => setTrail(trail.slice(0, -1))} title={cur.name}>
-      {[year.name, ...trail.slice(0, -1).map((t) => t.name)].join(' · ')}
-    </ScreenHeader>
-  ) : (
-    <ScreenHeader onBack={goHome} title="PDF Library">Your revision library</ScreenHeader>
-  )
-
-  const hero = inSubject ? (
-    <section className="ak-hero" key={cur.id} aria-label={cur.name}>
-      <span className="ak-hero-orbit ak-hero-orbit-one" aria-hidden="true" />
-      <span className="ak-hero-orbit ak-hero-orbit-two" aria-hidden="true" />
-      <div className="ak-hero-body">
-        <span className="ak-eyebrow"><i /> {year.name.toUpperCase()}</span>
-        <h2 className="ak-hero-title sm">{cur.name}</h2>
-        <p className="ak-hero-copy">Open a PDF in the app or download it for offline revision.</p>
-        <div className="ak-hero-stats">
-          <span className="ak-stat"><b>{count(cur)}</b> {count(cur) === 1 ? 'PDF' : 'PDFs'}</span>
-          <span className="ak-stat"><b>{cur.children.filter((c) => c.type === 'folder').length}</b> folders</span>
-        </div>
-      </div>
-      <div className="ak-hero-mark" aria-hidden="true"><Mark folder={trail.length === 1} /></div>
-    </section>
-  ) : (
-    <section className="ak-hero" aria-label={`${year.name} PDFs`}>
-      <span className="ak-hero-orbit ak-hero-orbit-one" aria-hidden="true" />
-      <span className="ak-hero-orbit ak-hero-orbit-two" aria-hidden="true" />
-      <div className="ak-hero-body">
-        <span className="ak-eyebrow"><i /> SUBJECT PDFS</span>
-        <h2 className="ak-hero-title">{year.name}</h2>
-        <p className="ak-hero-copy">Pick a subject. Open its PDFs in the app or download them for offline revision.</p>
-        <div className="ak-hero-stats">
-          <span className="ak-stat"><b>{subjects.length}</b> {subjects.length === 1 ? 'subject' : 'subjects'}</span>
-          <span className="ak-stat"><b>{yearTotal}</b> {yearTotal === 1 ? 'PDF' : 'PDFs'}</span>
-        </div>
-      </div>
-      <div className="ak-hero-mark" aria-hidden="true"><Mark /></div>
-    </section>
-  )
-
-  let body
-  if (q) {
-    body = results.length === 0 ? (
-      <div className="ak-state-card ak-state-compact">
-        <div className="ak-state-icon">⌕</div>
-        <h3>No matching PDFs</h3>
-        <p>Try another search term.</p>
-        <button className="ak-text-action" type="button" onClick={() => setQuery('')}>Clear search</button>
-      </div>
-    ) : (
-      <section className="ak-grid" key={'q' + q}>
-        {results.map((f, i) => (
-          <Card key={f.id} i={i} title={f.name} chip="PDF" meta={f.trail.join(' · ')} openLabel="Open PDF" onOpen={() => setFile(f)} href={f.url} download />
-        ))}
-      </section>
-    )
-  } else if (inSubject) {
-    body = cur.children.length === 0 ? (
-      <div className="ak-state-card">
-        <div className="ak-state-icon"><Mark /></div>
-        <h3>Your library is getting ready</h3>
-        <p>PDFs for {cur.name} will appear here as soon as they’re uploaded.</p>
-      </div>
-    ) : (
-      <section className="ak-grid" key={cur.id}>
-        {cur.children.map((c, i) =>
-          c.type === 'folder' ? (
-            <Card key={c.id} i={i} folder title={c.name} chip={pdfs(count(c)).toUpperCase()} meta={cur.name} openLabel="Open folder" onOpen={() => setTrail([...trail, c])} />
-          ) : (
-            <Card key={c.id} i={i} title={c.name} chip="PDF" meta={cur.name} openLabel="Open PDF" onOpen={() => setFile({ ...c, trail: [year.name, ...trail.map((t) => t.name)] })} href={c.url} download />
-          ),
-        )}
-      </section>
-    )
-  } else {
-    body = subjects.length === 0 ? (
-      <div className="ak-state-card">
-        <div className="ak-state-icon"><Mark /></div>
-        <h3>Your library is getting ready</h3>
-        <p>Subjects for {year.name} will appear here soon.</p>
-      </div>
-    ) : (
-      <section className="ak-grid" key={year.id}>
-        {subjects.map((s, i) => (
-          <Card key={s.name} i={i} folder title={s.name} chip={pdfs(count(s.folder)).toUpperCase()} meta={year.name} openLabel="Open subject" onOpen={() => setTrail([s.folder])} />
-        ))}
-      </section>
-    )
-  }
+  const home = () => { setSubject(null); setTrail([]) }
+  const open = (s) => { setSubject(s); setTrail([s.folder]) }
 
   return (
     <>
-      {topbar}
-      <div className="std-screen ak-pdf-screen">
-        {header}
-        {hero}
-        {!inSubject && (
-          <div className="mp-years" role="tablist" aria-label="Year">
-            {manifest.map((y, i) => (
-              <button key={y.id} className="mp-year" role="tab" aria-selected={i === yearIdx} onClick={() => { setYearIdx(i); setQuery('') }}>{y.name}</button>
-            ))}
-          </div>
+      <header className="top">
+        <a className="brand" href="/">Med101</a>
+        <button className="tag" onClick={() => { home(); setQuery('') }}>PDFs</button>
+        <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search PDFs" aria-label="Search PDFs" />
+      </header>
+
+      <main>
+        {q ? (
+          <section key="search" className="view">
+            <h2 className="title">{results.length} result{results.length === 1 ? '' : 's'}</h2>
+            {results.length === 0 && <p className="empty">Nothing matches “{query}”.</p>}
+            {results.map((f, i) => <Row key={f.id} n={i} icon={FILE} title={f.name} sub={f.trail.join(' / ')} onClick={() => setFile(f)} />)}
+          </section>
+        ) : subject ? (
+          <section key={cur.id} className="view" style={{ '--h': subject.hue }}>
+            <nav className="crumbs" aria-label="Breadcrumb">
+              <button onClick={home}>{year.name}</button>
+              {trail.map((t, i) => (
+                <span key={t.id}>
+                  <i>/</i>
+                  {i === trail.length - 1 ? <b>{t.name}</b> : <button onClick={() => setTrail(trail.slice(0, i + 1))}>{t.name}</button>}
+                </span>
+              ))}
+            </nav>
+            <h2 className="title big">{cur.name}</h2>
+            <p className="meta">{count(cur) ? plural(count(cur)) : 'No PDFs yet'}</p>
+            <Pulse beats={6} className="wide" />
+            {cur.children.length === 0 && (
+              <p className="empty">Add files to <code>public/medpdf/pdfs/{year.name}/{trail.map((t) => t.name).join('/')}/</code></p>
+            )}
+            <div className="rows">
+              {cur.children.map((c, i) =>
+                c.type === 'folder' ? (
+                  <Row key={c.id} n={i} icon={FOLDER} title={c.name} badge={count(c)} onClick={() => setTrail([...trail, c])} />
+                ) : (
+                  <Row key={c.id} n={i} icon={FILE} title={c.name} onClick={() => setFile(c)} />
+                ),
+              )}
+            </div>
+          </section>
+        ) : (
+          <>
+            <section className="hero">
+              <h1><span className="ln"><span>Study PDFs,</span></span><span className="ln"><span>sorted by subject.</span></span></h1>
+              <Pulse beats={10} className="wide hero-ecg" />
+              <div className="years" style={{ '--i': yearIdx }} role="tablist">
+                <b className="pill" aria-hidden="true" />
+                {manifest.map((y, i) => (
+                  <button key={y.id} role="tab" aria-selected={i === yearIdx} onClick={() => setYearIdx(i)}>{y.name}</button>
+                ))}
+              </div>
+            </section>
+            <section className="grid" key={year.id}>
+              {subjects.length === 0 && <p className="empty">Subjects for {year.name} are coming soon.</p>}
+              {subjects.map((s, i) => {
+                const n = count(s.folder)
+                return (
+                  <button key={s.name} className="card" style={{ '--h': s.hue, '--n': i }} onClick={() => open(s)}>
+                    <span className="cn">{s.name}</span>
+                    <Pulse />
+                    <span className="cf">
+                      <span className="cc">{n ? plural(n) : 'No PDFs yet'}</span>
+                      <span className="go"><Icon d={ARROW} size={18} /></span>
+                    </span>
+                  </button>
+                )
+              })}
+            </section>
+          </>
         )}
-        <div className="ak-toolbar">
-          <label className="ak-search">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" /><path d="m16 16 5 5" /></svg>
-            <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search all PDFs…" aria-label="Search all PDFs" />
-            {query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search">×</button>}
-          </label>
-          <span className="ak-count" aria-live="polite">{q ? results.length : inSubject ? count(cur) : yearTotal}<em>/</em>{q ? all.length : inSubject ? count(year) : all.length}</span>
+      </main>
+
+      {file && (
+        <div className="viewer" onClick={() => setFile(null)}>
+          <div className="sheet" onClick={(e) => e.stopPropagation()}>
+            <div className="vbar">
+              <span>{file.name}</span>
+              <a href={file.url} target="_blank" rel="noreferrer">Open in new tab</a>
+              <button onClick={() => setFile(null)}>Close</button>
+            </div>
+            <iframe src={file.url} title={file.name} />
+          </div>
         </div>
-        {body}
-      </div>
+      )}
     </>
   )
 }
