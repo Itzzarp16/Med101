@@ -69,7 +69,7 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
         <div className="ak-viewer-toolbar">
           <span className="ak-viewer-label"><span className="ak-viewer-dot" /> PDF DOCUMENT</span>
           <a className="ak-btn ak-btn-primary" href={viewingPdf.path} download={viewingPdf.filename}>
-            <span aria-hidden="true">↓</span> Download
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg> Download
           </a>
         </div>
         <div className="ak-viewer-frame-wrap">
@@ -84,23 +84,9 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
   return (
     <div className="std-screen wf-screen ak-pdf-screen">
       <ScreenHeader onBack={onBack} title="Answer Key">
-        Your revision library
+        {semesterLabel}{hasDocs ? ` · ${semesterPdfs.length} ${semesterPdfs.length === 1 ? 'subject' : 'subjects'}` : ''}
       </ScreenHeader>
 
-      <section className="ak-hero" aria-label={`${semesterLabel} answer keys`}>
-        <span className="ak-hero-orbit ak-hero-orbit-one" aria-hidden="true" />
-        <span className="ak-hero-orbit ak-hero-orbit-two" aria-hidden="true" />
-        <div className="ak-hero-body">
-          <span className="ak-eyebrow"><i /> ANSWER KEYS</span>
-          <h2 className="ak-hero-title">{semesterLabel}</h2>
-          <p className="ak-hero-copy">Check yourself fast. Open a key in the app or download it for offline revision.</p>
-          <div className="ak-hero-stats">
-            <span className="ak-stat"><b>{loading ? '–' : semesterPdfs.length}</b> {semesterPdfs.length === 1 ? 'subject' : 'subjects'}</span>
-            <span className="ak-stat"><b>PDF</b> format</span>
-          </div>
-        </div>
-        <div className="ak-hero-mark" aria-hidden="true"><DocumentMark /></div>
-      </section>
 
       {hasDocs && (
         <div className="ak-toolbar">
@@ -150,23 +136,17 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
               key={pdf.semesterId + '-' + pdf.filename}
               style={{ '--ak-index': Math.min(index, 8), '--ak-rgb': ACCENTS[index % ACCENTS.length] }}
             >
-              <span className="ak-card-glow" aria-hidden="true" />
-              <button className="ak-card-head" type="button" onClick={() => setViewingPdf(pdf)} aria-label={`Open ${pdf.subject} answer key`}>
+              <button className="ak-row" type="button" onClick={() => setViewingPdf(pdf)} aria-label={`Open ${pdf.subject} answer key`}>
                 <span className="ak-tile"><DocumentMark /></span>
                 <span className="ak-card-info">
                   <span className="ak-card-title">{pdf.subject}</span>
                   <span className="ak-card-meta"><span className="ak-chip">PDF</span> {semesterLabel}</span>
                 </span>
-                <span className="ak-card-num" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+                <span className="ak-chev" aria-hidden="true">›</span>
               </button>
-              <div className="ak-card-actions">
-                <button className="ak-btn ak-btn-primary" type="button" onClick={() => setViewingPdf(pdf)}>
-                  Open answer key <span aria-hidden="true">↗</span>
-                </button>
-                <a className="ak-btn ak-btn-ghost" href={pdf.path} download={pdf.filename} aria-label={`Download ${pdf.subject} answer key`}>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg>
-                </a>
-              </div>
+              <a className="ak-dl" href={pdf.path} download={pdf.filename} aria-label={`Download ${pdf.subject} answer key`}>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 19.5h14" /></svg>
+              </a>
             </article>
           ))}
         </section>
