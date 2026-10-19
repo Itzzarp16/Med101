@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import ScreenHeader from './ScreenHeader';
+import PdfPages from './PdfPages';
 import './AnswerKey.css';
 
 const SEMESTER_LABELS = {
@@ -60,7 +61,6 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
   }, [semesterPdfs, searchQuery]);
 
   if (viewingPdf) {
-    const viewerUrl = `${viewingPdf.path}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
     return (
       <div className="std-screen wf-screen ak-pdf-screen ak-pdf-viewer-screen">
         <ScreenHeader onBack={() => setViewingPdf(null)} title={viewingPdf.subject}>
@@ -73,7 +73,7 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
           </a>
         </div>
         <div className="ak-viewer-frame-wrap">
-          <iframe className="ak-viewer-frame" src={viewerUrl} title={`${viewingPdf.subject} answer key PDF`} />
+          <PdfPages key={viewingPdf.path} url={viewingPdf.path} />
         </div>
       </div>
     );
