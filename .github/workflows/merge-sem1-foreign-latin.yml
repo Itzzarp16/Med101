@@ -1,0 +1,74 @@
+name: Merge Semester 1 Foreign and Latin questions
+
+on:
+  push:
+    branches: [react-rebuild]
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: react-rebuild
+          fetch-depth: 1
+
+      - name: Merge questions into the existing y1s1.json
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('public/data/y1s1.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
+
+          questions = []
+          for name in ('foreign-latin-1.json', 'foreign-latin-2.json', 'foreign-latin-3.json', 'foreign-latin-4.json'):
+              p = Path('public/data') / name
+              if p.exists():
+                  part = json.loads(p.read_text(encoding='utf-8'))
+                  questions.extend(part.get('questions', []))
+
+          # Remove any previous copy of these two subtopics so the merge is
+          # idempotent if this workflow is triggered more than once.
+          data['questions'] = [
+              q for q in data.get('questions', [])
+              if q.get('s') not in {'Latin Language', 'Foreign Language'}
+          ] + questions
+
+          data.setdefault('mainSubjectMeta', {})['Foreign and Latin language'] = {
+              'emoji': '🌐',
+              'desc': 'Latin Language & Foreign Language – 389 questions',
+              'accent': 'var(--violet)'
+          }
+          data.setdefault('subjectMeta', {})['Latin Language'] = {
+              'emoji': '📜',
+              'desc': 'Latin Language – 201 questions',
+              'accent': 'var(--violet)'
+          }
+          data.setdefault('subjectMeta', {})['Foreign Language'] = {
+              'emoji': '🇬🇧',
+              'desc': 'Foreign Language – 188 questions',
+              'accent': 'var(--cyan)'
+          }
+          data.setdefault('subjectGroup', {})['Latin Language'] = 'Foreign and Latin language'
+          data.setdefault('subjectGroup', {})['Foreign Language'] = 'Foreign and Latin language'
+
+          path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(f'Merged {len(questions)} Foreign/Latin questions into {path}')
+          PY
+
+      - name: Commit merged y1s1.json and clean up temporary files
+        run: |
+          rm -f public/data/foreign-latin-1.json public/data/foreign-latin-2.json public/data/foreign-latin-3.json public/data/foreign-latin-4.json public/data/y1s1-foreign-latin.gz.b64
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/y1s1.json
+          git rm -f .github/workflows/merge-sem1-foreign-latin.yml || true
+          git add -u public/data
+          git diff --cached --quiet && exit 0
+          git commit -m 'Add Foreign and Latin Language questions to Semester 1'
+          git push origin react-rebuild
