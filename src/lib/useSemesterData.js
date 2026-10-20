@@ -15,13 +15,30 @@ const SEMESTER_MANIFEST = [
   { id: 'y2s2', file: '/data/y2s2.json' },
 ];
 
+// Semester 1's Foreign and Latin Language question bank is kept as a
+// compressed static supplement so the existing 287 KB y1s1 JSON does not
+// need to be rewritten every time this bank changes. It contains the
+// Latin Language and Foreign Language questions from the supplied exam file.
+async function loadY1S1ForeignLatinSupplement() {
+  const res = await fetch('/data/y1s1-foreign-latin.gz.b64', { cache: 'no-store' });
+  if (!res.ok) throw new Error(`Foreign/Latin supplement responded ${res.status}`);
+  const b64 = (await res.text()).trim();
+  const binary = atob(b64);
+  const bytes = Uint8Array.from(binary, (ch) => ch.charCodeAt(0));
+  if (typeof DecompressionStream === 'undefined') {
+    throw new Error('This browser does not support gzip decompression for the Foreign/Latin question bank');
+  }
+  const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'));
+  return JSON.parse(await new Response(stream).text());
+}
+
 // Questions mainly come from the static JSON files above, PLUS one
 // Firestore document read PER SEMESTER (uploadedQuestions/{semesterId})
 // - the live target for api/upload-questions.py (the admin PDF-upload
 // parser). This is deliberately ONE doc per semester rather than one
 // doc per upload/subtopic: reading a whole collection here would mean
-// the read cost per app load grows with how much content has ever
-// been uploaded (exactly the Firestore-cost problem the old "migrated
+// the read cost per app load grows with how much content has ever been
+// uploaded (exactly the Firestore-cost problem the old "migrated
 // subjects" system had, which is why it was removed). Fetching by a
 // known doc ID instead keeps this fixed at exactly
 // SEMESTER_MANIFEST.length reads, no matter how many subtopics end up
@@ -103,6 +120,25 @@ export function useSemesterData() {
           emoji: data.emoji,
           accent: data.accent,
         });
+
+        // Semester 1 also has the supplied Foreign and Latin Language exam
+        // bank. Load it as a static supplement and merge it into the same
+        // subject/subtopic model used by every other question set.
+        if (entry.id === 'y1s1') {
+          try {
+            const supplement = await loadY1S1ForeignLatinSupplement();
+            const taggedQuestions = (supplement.questions || []).map((q) => ({ ...q, term: entry.id }));
+            questions = questions.concat(taggedQuestions);
+            Object.assign(mainSubjectMeta, supplement.mainSubjectMeta || {});
+            Object.assign(subjectMeta, supplement.subjectMeta || {});
+            Object.assign(subjectGroup, supplement.subjectGroup || {});
+            semesterMainSubjects[data.id] = Object.keys(mainSubjectMeta).filter((name) => name === 'Foreign and Latin language' || (data.mainSubjectMeta || {})[name]);
+          } catch (err) {
+            // The core semester JSON remains usable if the optional
+            // Foreign/Latin supplement cannot be decoded or fetched.
+            console.warn('Could not load Semester 1 Foreign/Latin questions:', err);
+          }
+        }
 
         // One doc read for THIS semester's admin-uploaded questions
         // (see file header for why it's one doc, not a collection
