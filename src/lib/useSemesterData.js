@@ -9,13 +9,35 @@ const SEMESTER_MANIFEST = [
   { id: 'y2s2', file: '/data/y2s2.json' },
 ];
 
-// Semester 1 has an additional Foreign and Latin Language bank supplied
-// separately from the main y1s1 JSON. It uses the same {s,q,o,c,term}
-// question shape as the normal static question banks.
 async function loadY1S1ForeignLatinSupplement() {
-  const res = await fetch('/data/y1s1-foreign-latin.json', { cache: 'no-store' });
-  if (!res.ok) throw new Error(`Foreign/Latin supplement responded ${res.status}`);
-  return res.json();
+  const files = [
+    '/data/foreign-latin-1.json',
+    '/data/foreign-latin-2.json',
+    '/data/foreign-latin-3.json',
+    '/data/foreign-latin-4.json',
+  ];
+  const responses = await Promise.all(files.map((file) => fetch(file, { cache: 'no-store' })));
+  const bad = responses.find((res) => !res.ok);
+  if (bad) throw new Error(`Foreign/Latin supplement responded ${bad.status}`);
+  const parts = await Promise.all(responses.map((res) => res.json()));
+  return {
+    mainSubjectMeta: {
+      'Foreign and Latin language': {
+        emoji: '🌐',
+        desc: 'Latin Language & Foreign Language · 389 questions',
+        accent: 'var(--violet)',
+      },
+    },
+    subjectMeta: {
+      'Latin Language': { emoji: '📜', desc: '201 questions' },
+      'Foreign Language': { emoji: '🇬🇧', desc: '188 questions' },
+    },
+    subjectGroup: {
+      'Latin Language': 'Foreign and Latin language',
+      'Foreign Language': 'Foreign and Latin language',
+    },
+    questions: parts.flatMap((part) => part.questions || []),
+  };
 }
 
 export function useSemesterData() {
@@ -76,10 +98,6 @@ export function useSemesterData() {
           accent: data.accent,
         });
 
-        // IMPORTANT: y1s1 already contains the dashboard subject
-        // "Foreign and Latin language" as a placeholder. Merge the real
-        // question bank into that exact subject instead of creating a new
-        // subject. This makes the existing subject card open the questions.
         if (entry.id === 'y1s1') {
           try {
             const supplement = await loadY1S1ForeignLatinSupplement();
@@ -102,7 +120,6 @@ export function useSemesterData() {
           }
         }
 
-        // Admin-uploaded question bank: one known document per semester.
         try {
           const uploadSnap = await getDoc(doc(db, 'uploadedQuestions', entry.id));
           if (uploadSnap.exists()) {
