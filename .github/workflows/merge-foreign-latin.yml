@@ -1,0 +1,85 @@
+name: Merge Foreign and Latin questions
+
+on:
+  push:
+    branches: [react-rebuild]
+    paths:
+      - 'scripts/foreign-latin-source.txt'
+      - '.github/workflows/merge-foreign-latin.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Merge all 401 questions into y1s1.json in source order
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          source = Path('scripts/foreign-latin-source.txt').read_text(encoding='utf-8')
+          rows = []
+          for line in source.splitlines():
+              line = line.strip()
+              if not line or line.startswith('#') or line.startswith('='):
+                  continue
+              parts = line.split('|')
+              if len(parts) < 5:
+                  raise ValueError(f'Invalid question row: {line}')
+              answer = int(parts[-1])
+              options = parts[1:-1]
+              rows.append({"q": parts[0], "o": options, "c": answer})
+
+          if len(rows) != 401:
+              raise ValueError(f'Expected exactly 401 questions, got {len(rows)}')
+
+          latin = rows[:201]
+          foreign = rows[201:]
+          for q in latin:
+              q['s'] = 'Latin Language'
+          for q in foreign:
+              q['s'] = 'Foreign Language'
+          ordered = latin + foreign
+
+          path = Path('public/data/y1s1.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
+          old = data.get('questions', [])
+          subject_names = {'Latin Language', 'Foreign Language'}
+
+          # Replace the old Foreign/Latin block at its existing location.
+          # Everything else in y1s1 stays untouched.
+          first = next((i for i, q in enumerate(old) if q.get('s') in subject_names), len(old))
+          remaining = [q for q in old if q.get('s') not in subject_names]
+          # If the old block was not present, append to the end.
+          if first == len(old):
+              data['questions'] = remaining + ordered
+          else:
+              before_count = sum(1 for q in old[:first] if q.get('s') not in subject_names)
+              data['questions'] = remaining[:before_count] + ordered + remaining[before_count:]
+
+          data['mainSubjectMeta']['Foreign and Latin language']['desc'] = 'Latin Language & Foreign Language – 401 questions'
+          data['subjectMeta']['Latin Language']['desc'] = 'Latin Language – 201 questions'
+          data['subjectMeta']['Foreign Language']['desc'] = 'Foreign Language – 200 questions'
+          data['subjectGroup']['Latin Language'] = 'Foreign and Latin language'
+          data['subjectGroup']['Foreign Language'] = 'Foreign and Latin language'
+
+          path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+          actual = [q for q in data['questions'] if q.get('s') in subject_names]
+          if len(actual) != 401:
+              raise ValueError(f'Post-merge Foreign/Latin count is {len(actual)}, not 401')
+          if [q['q'] for q in actual] != [q['q'] for q in ordered]:
+              raise ValueError('Foreign/Latin question order changed during merge')
+          print('Verified:', len(actual), 'questions =', sum(q['s']=='Latin Language' for q in actual), 'Latin +', sum(q['s']=='Foreign Language' for q in actual), 'Foreign')
+          PY
+      - name: Commit merged y1s1.json
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/y1s1.json
+          git diff --cached --quiet || git commit -m 'Add all 401 Foreign and Latin questions to Semester 1'
+          git push
