@@ -83,3 +83,88 @@ How many letters has the Latin alphabet?|20|24|25|30|2
 Diphthong means:|One letter – one sound|One letter – two sounds|Two letters – two sounds|Two letters – one sound|2
 Consonant combination “ch” sounds as:|[h]|[tz]|[s]|[k]|0
 Which of them are gender endings?|-issim, -rim|-a, -us, -um|-re, -te, -nt, -tur|-i, -is, -orum|1
+Which initial and final roots mean tumor:|-oma, cancer, polypus, carcinoma|-cele, abscessus, cyst, hernia|-lithus, concrementum, calculus|-aemi, haem-, haemat-, lymph|0
+Find the Greek equivalent for Latin nasus:|rhin-|ophthalmo-|chiro-|ot-|0
+=90
+An abnormally slow rate of breathing|Bradycardia|Bradyphagia|Bradypnoe|tachypnoe|2
+Any disease of the skin|dermatosis|dermatitis|dermatomycosis|dermatologia|0
+Paralysis of one side of the body|hemiplegia|heminanopcia|hemicranias|hemisphere|0
+Paralysis of muscle or a condition in which muscular force is decreased|monoplegia|gastroplegia|myoplegia|hemiplegia|2
+Softening of bones|osteomalacia|osteopathia|cephalomalacia|arthropatia|0
+Abnormal intolerance to light|phlebocarcinoma|photophobia|physiologia|phythoterapia|1
+A rapid action of the heart|cardiologus|cardiogramma|tachycardia|tachypnoe|2
+An insane desire for poison|toxicomania|photophobia|hemophilia|osteomalacia|0
+X-ray examination of the urinary bladder|photographia|biographia|cystographia|cardiogramma|2
+Measuring of pelvis size in women|geometria|pelvimetria|craniometria|gastrotomia|1
+Internal examination of the rectum|proctologus|proctologia|proctoscopia|ophthalmoscopia|2
+Treatment by means of natural or artificial physical factors|thermoplegia|phytotherapia|physiotherapia|psychotherapia|2
+Results of quantitative and qualitative examination of blood|programma|cystogramma|haemogramma|mastogramma|2
+Lack of teeth|athrophia|aphagia|atrichia|adentia|3
+A condition in which the ability of swallowing is lacking|dysphagia|aphagia|atrichia|adentia|1
+Lack of sensibility or intelligence|immobilitas|insensibilis|encephalon|thermophillia|1
+Reduced saliva secretion:|hyposialia|asialia|acheilia|achylia|0
+=106
+Recession of the eyeball into the cavity of the orbit|enophthalmus|encephalogramma|enterospasmus|ophthalmoscopia|0
+Condition in which the passage of urine is difficult|dysphagia|dysuria|atrichia|adentia|1
+=107
+Accumulation of pus in a cavity|dysphagia|aphagia|enpyema|pyemia|2
+Find the correct noun and adjective agreement:|Oculus sinister|Oculus sinistra|Oculus sinistrum|Oculus sinistro|0
+“Hemi means”:|Small|One|Half|Big|2
+Which prefixes mean functional disorders?|a-, in-, im-, dys-|endo-, exo-, para-, peri-|hypo-, hyper-, sym-, syn-|mono-, di-, tri-, tetra-|0
+A congenital condition in which only one finger or toe is present on the hand or the foot|monoplegia|monodactylismus|dactyloscopia|polydactylia|1
+A periodic morbid condition with localized headaches|hemiplegia|hemianopcia|hemicrania|hemisphere|2
+=112
+A false joint formed between the fragments of a fractured bone which have failed to unite|angiopathia|physiologia|pseudarthrosis|phothophobia|2
+Spasmodic contraction of a finger or toe|sympathia|dactylospasmus|syndromum|myoplegia|1
+Any disease of blood vessels|angiopathia|arthrosis|Apathia|anthropologia|0
+Softening of joints|angiopathia|arthrosis|arthpomalacia|osteomalacia|2
+Difficulty swallowing|dysphagia|bradypnoe|stomatosis|monoplegia|0
+Which roots mean Greek prefixes?|Py-, lymph, transsudatum, exsudatum|Auto-, mono-, di-, hemi-|-itis, -itidis, pneumonia|Endo-, para-, peri-, exo-|1
+Find the Greek equivalent for Latin medicamentum:|Rhin-|Pharmac-|Physio-|Glyc-|1
+Find the Latin equivalent of “hair”|capillus|trich|caput|chach|0
+Which words mean the pathological fluids?|Blood, sweat, tear|Py-, lymph-, transsudatum|Urine, blood, pus|Water, tea, coffee|1
+Find the correct agreement for the noun “aqua, ae, f”:|purus|purum|pura|flavus|2
+Find the correct agreement for the noun “ganglion, i, n”:|sublingualis|sublinguale|dexter|dextra|1
+Latin words are mostly used in:|medical terminology|pharmacological terminology|clinical terminology|anatomical terminology|3
+Suturing the abdomen|pneumonorrhaphia|laparorrhaphia|splenorrhaphia|gastroectomia|1
+Bleeding from the ear:|otorhoea|otorrhagia|otopyorhoea|orthodontia|1
+Erroneous memory:|amnesia|paramnesia|anamnesis|asialia|1
+Toothache:|somatalgia|stomatalgia|odontalgia|odontorrhagia|2
+Non-inflammatory liver disease:|hepatitis|hepatoma|hepatosis|haematemesis|2
+Connective tissue tumor:|fibroma|osteoma|chondroma|cholaemia|0
+Inflammation of all arteries|osteomyelitis|panophthalmitis|panarteriitis|arthralgia|2
+Pustular skin disease:|dermatosis|dermatitis|pyodermia|desmurgia|2
+Inflammation of lungs:|bronchitis|pneumonia|pleuritis|pneumomalacia|1
+Non-inflammatory disease of the vertebrae:|arthrosis|spondylosis|osteoarthrosis|osteōma|1
+Radiography of the vein:|cardiographia|phlebographia|cholecystographia|osteographia|1
+Measurement of head:|stethometria|cephalometria|craniometria|metrorrhagia|1
+Low oxygen content in the blood:|hydraemia|hyperglykaemia|hypoxaemia|hyperaemia|2
+Eating disorder of tissues, organs, or the entire body|myatrophy|dystrophy|hypertrophy|dysphagia|1
+Disease of the spinal cord|myopathia|thyreopathia|myelopathia|myelocēle|2
+Brain disease in Latin:|encephalopathia|encephalogramma|encephalomalacia|cephalalgia|0
+Gallbladder disease in Latin:|cholecystotomia|cholecystopathia|cholecystitis|choledohus|1
+Which prefixes mean functional disorders?|a-, in-, im-, dys-|endo-, exo-, para-, peri-|hypo-, hyper-, sym-, syn-|mono-, di-, tri-, tetra-|0
+A false joint formed between the fragments of a fractured bone which have failed to unite|angiopathia|physiologia|pseudarthrosis|phothophobia|2
+Increasing the size of the limbs:|encephalomegalia|acromegalia|splenomegalia|acralgia|1
+Stop the bleeding|homeostasis|phlebostasis|haemostasis|haematemesis|2
+Operative release of the heart from scars:|cardiolysis|cardiographia|cardioectasia|cardiorrhēxis|0
+Kidney stone disease:|nephrolithiasis|nephrolithus|nephrolithotomia|nephroptōsis|0
+Paralysis of the tongue muscles:|glossītis|glossalgia|glossoptōsis|glossoplegia|3
+Vessel extension:|angiectomia|angisotomia|angiectasia|angiorrhēxi|2
+Loss, lack of movement, immobility|asphygmia|adynamia|akinesia|acrasia|2
+Painful swallowing:|poliphagia|dysphagia|odynophagia|aphagia|2
+Cyanosis of the limbs:|cyanosis|cyanoacria|acrocyanosis|cyanodermia|2
+Surgical dissection of the uterus:|metrectasia|metrotomia|metrectomia|metroptōsis|1
+Insufficient urination:|dysuria|polyuria|oliguria|uraemia|2
+Blood in the urine:|haematuria|chyluria|uraemia|urographia|0
+Abnormal dryness of the skin:|xerostomia|xerosis|xerodermia|xanthopsia|2
+Accumulation of fluid in the head:|hydraemia|hydrocephalia|hydrarthrosis|hydrocephalalgia|1
+Treatment of tuberculosis|physologia|psychiatria|phthisiatria|physician|2
+Inflammation of the pharynx:|laryngitis|tracheitis|pharyngitis|pharyngostŏma|2
+Inflammation of the meninges:|arteriitis|encephalitis|meningitis|cephalgia|2
+The process of registering signals or brain activity|encephalography|histography|tomography|cephalogram|0
+Short-head / round-head|macrocephalia|brachycephalia|hydrocephalia|olygocephalia|1
+Eating an abnormally large amount of food:|polyphagia|phagocytosis|oesophagitis|aphagia|0
+Reduced saliva secretion:|hyposialia|asialia|acheilia|achylia|0
+Mucous discharge from the nose|rhinorrhoea|rhinītis|rhinopathia|rhinologia|0
+Lack of sensitivity in the extremities:|acroanaesthesia|acroaesthesia|acrodermatītis|acropathia|0
