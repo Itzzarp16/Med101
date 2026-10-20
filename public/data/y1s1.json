@@ -12,7 +12,7 @@
     },
     "Foreign and Latin language": {
       "emoji": "🌐",
-      "desc": "Latin Language & Foreign Language – 389 questions",
+      "desc": "Latin Language & Foreign Language – 401 questions",
       "accent": "var(--violet)"
     },
     "History and Culture of Kyrgyzstan": {
@@ -74,7 +74,7 @@
     },
     "Foreign Language": {
       "emoji": "🇬🇧",
-      "desc": "Foreign Language – 188 questions",
+      "desc": "Foreign Language – 200 questions",
       "accent": "var(--cyan)"
     }
   },
@@ -11838,7 +11838,6 @@
       "c": 2
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term in which the letter “c” is read like [ts]:",
       "o": [
         "plicae",
@@ -11846,10 +11845,10 @@
         "chiasma",
         "calyx"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term in which the letter “s” is read like [z]:",
       "o": [
         "accessorius",
@@ -11857,10 +11856,10 @@
         "adiposus",
         "ossis"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Find the noun that belongs to the 3rd declension:",
       "o": [
         "Facies, ei f",
@@ -11868,10 +11867,10 @@
         "Tempus, oris n",
         "Collum, i n"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Find the noun that belongs to the 4th declension:",
       "o": [
         "Nervus, i m",
@@ -11879,10 +11878,10 @@
         "Facies, ei f",
         "Tractus, us m"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term in which “ti” is read like [tsi]:",
       "o": [
         "spatium",
@@ -11890,10 +11889,10 @@
         "digestio",
         "mixtio"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the correct answer: cervical septum – septum cervical…",
       "o": [
         "-er",
@@ -11901,10 +11900,10 @@
         "-is",
         "-e"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the correct answer: wing shaped",
       "o": [
         "mastoideus",
@@ -11912,10 +11911,10 @@
         "alaris",
         "pterygoideus"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with non-agreed attribute:",
       "o": [
         "ostium venae",
@@ -11923,10 +11922,10 @@
         "membrana tectoria",
         "tuberculum gracile"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Adjective for “bone under the tongue”: os…",
       "o": [
         "hypoglossum",
@@ -11934,10 +11933,10 @@
         "submandibulare",
         "sublinguale"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Adjective for “nerve under the tongue”: nervus…",
       "o": [
         "hyoepiglotticus",
@@ -11945,10 +11944,10 @@
         "hyoideus",
         "hypoglossus"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the proper ending: transverse axis – axis transvers…",
       "o": [
         "-a",
@@ -11956,10 +11955,10 @@
         "-is",
         "-um"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "To which declension does “regio, onis f” belong?",
       "o": [
         "1st",
@@ -11967,10 +11966,10 @@
         "4th",
         "2nd"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Which noun has the form of Gen. Sing.?",
       "o": [
         "Ductus",
@@ -11978,10 +11977,10 @@
         "Cartilago",
         "Sutura"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Which noun has the form of Nom. Pl.?",
       "o": [
         "Marginis",
@@ -11989,10 +11988,10 @@
         "Bursa",
         "Ossa"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Lack of color vision",
       "o": [
         "anopia",
@@ -12000,10 +11999,10 @@
         "anophthalmia",
         "achromatopsia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Lack of secretion of gastric juice enzymes",
       "o": [
         "acheilia",
@@ -12011,10 +12010,10 @@
         "asphygmia",
         "agastria"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Developmental anomaly: absence of a spinal cord",
       "o": [
         "ahypnognosia",
@@ -12022,10 +12021,10 @@
         "atonia",
         "amyelia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Non-recognition of objects and phenomena",
       "o": [
         "agnosia",
@@ -12033,10 +12032,10 @@
         "anophthalmia",
         "asthenia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Common name of mental disorders",
       "o": [
         "psychosis",
@@ -12044,10 +12043,10 @@
         "schizophrenia",
         "dysphrenia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Hypalgia",
       "o": [
         "senseless footsteps",
@@ -12055,10 +12054,10 @@
         "lack of feeling in body",
         "reduced pain sensitivity"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Kakosmia",
       "o": [
         "unpleasant smell sensation",
@@ -12066,10 +12065,10 @@
         "lack of emotion",
         "lack of sense of smell"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Micromania",
       "o": [
         "delirium of self-deprecation",
@@ -12077,10 +12076,10 @@
         "small minded person",
         "following bliss, one small desire at a time"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Narcologia",
       "o": [
         "the section of psychiatry that studies mental illnesses of adults",
@@ -12088,10 +12087,10 @@
         "attraction to taking narcotic substances",
         "the section of psychiatry that studies the manifestations of alcoholism, drug addiction and substance abuse"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Microphonia",
       "o": [
         "weakness of the voice",
@@ -12099,10 +12098,10 @@
         "low voice",
         "tangible voice"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Recurrent skin inflammation of a neuro-allergic nature",
       "o": [
         "eczema",
@@ -12110,10 +12109,10 @@
         "anathema",
         "dermatitis"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Schizophrenia",
       "o": [
         "small minded",
@@ -12121,10 +12120,10 @@
         "mental illness: split personality; a section of psychiatry that studies the diseases of elderly and senile people",
         "mental illness: split personality"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "A decrease in the supply of tissue or organ due to weakening of arterial blood supply",
       "o": [
         "olygoaemia",
@@ -12132,10 +12131,10 @@
         "haematostasis",
         "ischaemia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Progeria",
       "o": [
         "premature aging",
@@ -12143,10 +12142,10 @@
         "aging of the skin",
         "disorders in older people"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Oligodipsia",
       "o": [
         "the body's need for a small amount of fluid",
@@ -12154,10 +12153,10 @@
         "occurrence, course and outcome of diseases",
         "underdevelopment of distal parts of body"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Obsessive biting of nails and lips",
       "o": [
         "cheilophagia",
@@ -12165,10 +12164,10 @@
         "onychocheilophagia",
         "cheiloaphagia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Non-recognition of objects and phenomena",
       "o": [
         "agnosia",
@@ -12176,10 +12175,10 @@
         "aplasia",
         "athymia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Anomaly of development: underdevelopment and occlusion of the language",
       "o": [
         "glossoptōsis",
@@ -12187,10 +12186,10 @@
         "aglossia",
         "glossopathia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Inflammation of the skin or mucous membrane, with clusters of deep-seated",
       "o": [
         "herpes",
@@ -12198,10 +12197,10 @@
         "psoriasis",
         "pyoderma"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Mass of coagulated blood (internal or under the skin)",
       "o": [
         "hyperaemesis",
@@ -12209,10 +12208,10 @@
         "hyperaemia",
         "hematoma"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The condition in which the urine contains lymph",
       "o": [
         "lymphauria",
@@ -12220,10 +12219,10 @@
         "chyluria",
         "ischuria"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Indifference to other people and events",
       "o": [
         "depression",
@@ -12231,10 +12230,10 @@
         "asthenia",
         "apathia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Depression, decreased mood and mental activity",
       "o": [
         "barythymia",
@@ -12242,10 +12241,10 @@
         "dysthymia",
         "athymia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Treatment of root canals of teeth",
       "o": [
         "endodontic",
@@ -12253,10 +12252,10 @@
         "dentatherapia",
         "odontopexia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Elevated mood",
       "o": [
         "hypersthenia",
@@ -12264,10 +12263,10 @@
         "polysthemia",
         "hyperthimia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Delirium of greatness",
       "o": [
         "megalocrania",
@@ -12275,10 +12274,10 @@
         "megalophrenia",
         "megalomania"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Age-related sclerosis",
       "o": [
         "sclerōsis focālis",
@@ -12286,10 +12285,10 @@
         "osteosclerōsis",
         "panchydermia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Compaction of the convolutions of the brain",
       "o": [
         "pancephalia",
@@ -12297,10 +12296,10 @@
         "pachyencephalia",
         "pachygyria"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Expansion of the heart cavities",
       "o": [
         "cardiomegalia",
@@ -12308,10 +12307,10 @@
         "macrocardia",
         "dilatation cardia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Congenital or acquired organ displacement",
       "o": [
         "ectopia",
@@ -12319,10 +12318,10 @@
         "amputatio",
         "ruptūra"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Decrease in size or wasting away of a cell, tissue, organ or part",
       "o": [
         "hypoplasia",
@@ -12330,10 +12329,10 @@
         "microplasia",
         "atrophia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Purulent inflammation of the kidney",
       "o": [
         "neuritis",
@@ -12341,10 +12340,10 @@
         "nephromatitis",
         "pyelonephritis"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Heterogēnus",
       "o": [
         "uterus development",
@@ -12352,10 +12351,10 @@
         "formation of the uterus",
         "developing from the cartilaginous tissue"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Ailurophobia",
       "o": [
         "fear of snakes",
@@ -12363,10 +12362,10 @@
         "fear of spiders",
         "fear of cats"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Pathological lack of desires and motives for activity",
       "o": [
         "asthenia",
@@ -12374,10 +12373,10 @@
         "athymia",
         "atonia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Developmental anomaly: absence of eyelids",
       "o": [
         "abscessotomia",
@@ -12385,10 +12384,10 @@
         "acheilia",
         "ablepharia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Non-recognition of objects and phenomena",
       "o": [
         "agraphia",
@@ -12396,10 +12395,10 @@
         "amyelia",
         "agnosia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Congenital absence of an organ or body part",
       "o": [
         "aplasia",
@@ -12407,10 +12406,10 @@
         "acardia",
         "cranium"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Bathophobia",
       "o": [
         "fear of bathing",
@@ -12418,10 +12417,10 @@
         "fear of depth",
         "fear of open spaces"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Unusually deep breathing",
       "o": [
         "bathypnoë",
@@ -12429,10 +12428,10 @@
         "apnoe",
         "hyperpnoe"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The content of bile in the blood",
       "o": [
         "cholaemia",
@@ -12440,10 +12439,10 @@
         "hemophilia",
         "anemia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “anosmia”:",
       "o": [
         "absence of taste",
@@ -12451,10 +12450,10 @@
         "absence of appetite",
         "disorder of taste"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “panotitis”:",
       "o": [
         "inflammation of whole ear",
@@ -12462,10 +12461,10 @@
         "inflammation of whole nose",
         "disease of cartilages"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “gastrostomia”:",
       "o": [
         "artificial opening of stomach",
@@ -12473,10 +12472,10 @@
         "disease of stomach",
         "inflammation of stomach"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “podalgia”:",
       "o": [
         "pain of face",
@@ -12484,10 +12483,10 @@
         "pain of tooth",
         "blood in urine"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “adenoma”:",
       "o": [
         "tumor of head",
@@ -12495,10 +12494,10 @@
         "tumor of muscle",
         "tumor of spleen"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “pyuria”:",
       "o": [
         "pain of kidney",
@@ -12506,10 +12505,10 @@
         "disease of kidney with pus",
         "pus in blood"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “disease”:",
       "o": [
         "myorrhexis",
@@ -12517,10 +12516,10 @@
         "periodontitis",
         "empyema"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “tumor”:",
       "o": [
         "psychosis",
@@ -12528,10 +12527,10 @@
         "adenoma",
         "salpingitis"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “rupturing”:",
       "o": [
         "neuroraphia",
@@ -12539,10 +12538,10 @@
         "pyelectasia",
         "myorrhexis"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “disorder”:",
       "o": [
         "cytopenia",
@@ -12550,10 +12549,10 @@
         "dystrophia",
         "osteomalacia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “excision”:",
       "o": [
         "mastopathia",
@@ -12561,10 +12560,10 @@
         "mammographia",
         "mastodynia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “measurements of the abdominal circumference”:",
       "o": [
         "laparometria",
@@ -12572,10 +12571,10 @@
         "laparotomia",
         "laparoectomia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “examination of the interior of the abdomen”:",
       "o": [
         "laparometria",
@@ -12583,10 +12582,10 @@
         "laparotomia",
         "laparoectomia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “inflammation of the larynx”:",
       "o": [
         "laryngostenōsis",
@@ -12594,10 +12593,10 @@
         "laryngītis",
         "laryngographia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “laryngītis”:",
       "o": [
         "inflammation of the larynx",
@@ -12605,10 +12604,10 @@
         "narrowing or stricture of the larynx",
         "surgical incision into the larynx"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “elevated number of white cells in the blood”:",
       "o": [
         "leucocyturia",
@@ -12616,10 +12615,10 @@
         "leucopathia",
         "leucopenia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “abnormally low number of white blood cells in the circulating blood”:",
       "o": [
         "leucocyturia",
@@ -12627,10 +12626,10 @@
         "leucopathia",
         "leucopenia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “lipaemia”:",
       "o": [
         "increased amounts of lipids in the blood",
@@ -12638,10 +12637,10 @@
         "lipids in the urine",
         "greasy hair"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “inflammation of the lymph vessels”:",
       "o": [
         "lymphocytōsis",
@@ -12649,10 +12648,10 @@
         "lymphopenia",
         "lymphadenographia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “lymphorrhoea”:",
       "o": [
         "tumor of the lymph nodes",
@@ -12660,10 +12659,10 @@
         "flow of lymph from cut or ruptured lymph vessels",
         "stoppage of lymph flow"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “abnormal largeness of the head”:",
       "o": [
         "macrocephalia",
@@ -12671,10 +12670,10 @@
         "macrodontia",
         "macrodontia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “macroglossia”:",
       "o": [
         "abnormal enlargement of the heart",
@@ -12682,10 +12681,10 @@
         "abnormally enlarged tongue",
         "abnormally large teeth"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “uterine bleeding”:",
       "o": [
         "metrographia",
@@ -12693,10 +12692,10 @@
         "metrorrhagia",
         "metritis"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “microglossia”:",
       "o": [
         "any lesions in small blood vessels (microangiopathy)",
@@ -12704,10 +12703,10 @@
         "abnormal smallness of the stomach",
         "abnormally small tongue"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The meaning of the term “myectomia”:",
       "o": [
         "muscular pain",
@@ -12715,10 +12714,10 @@
         "lack of muscular tonus",
         "inflammation of the heart muscle"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the term with the meaning “abnormal spinal cord development”:",
       "o": [
         "myelocēle",
@@ -12726,10 +12725,10 @@
         "myelographia",
         "myelotherapia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "How many letters has the Latin alphabet?",
       "o": [
         "20",
@@ -12737,10 +12736,10 @@
         "25",
         "30"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Diphthong means:",
       "o": [
         "One letter – one sound",
@@ -12748,10 +12747,10 @@
         "Two letters – two sounds",
         "Two letters – one sound"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Consonant combination “ch” sounds as:",
       "o": [
         "[h]",
@@ -12759,10 +12758,10 @@
         "[s]",
         "[k]"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Which of them are gender endings?",
       "o": [
         "-issim, -rim",
@@ -12770,10 +12769,10 @@
         "-re, -te, -nt, -tur",
         "-i, -is, -orum"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Which initial and final roots mean tumor:",
       "o": [
         "-oma, cancer, polypus, carcinoma",
@@ -12781,10 +12780,10 @@
         "-lithus, concrementum, calculus",
         "-aemi, haem-, haemat-, lymph"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Find the Greek equivalent for Latin nasus:",
       "o": [
         "rhin-",
@@ -12792,10 +12791,10 @@
         "chiro-",
         "ot-"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "An abnormally slow rate of breathing",
       "o": [
         "Bradycardia",
@@ -12803,10 +12802,10 @@
         "Bradypnoe",
         "tachypnoe"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Any disease of the skin",
       "o": [
         "dermatosis",
@@ -12814,10 +12813,10 @@
         "dermatomycosis",
         "dermatologia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Paralysis of one side of the body",
       "o": [
         "hemiplegia",
@@ -12825,10 +12824,10 @@
         "hemicranias",
         "hemisphere"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Paralysis of muscle or a condition in which muscular force is decreased",
       "o": [
         "monoplegia",
@@ -12836,10 +12835,10 @@
         "myoplegia",
         "hemiplegia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Softening of bones",
       "o": [
         "osteomalacia",
@@ -12847,10 +12846,10 @@
         "cephalomalacia",
         "arthropatia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Abnormal intolerance to light",
       "o": [
         "phlebocarcinoma",
@@ -12858,10 +12857,10 @@
         "physiologia",
         "phythoterapia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "A rapid action of the heart",
       "o": [
         "cardiologus",
@@ -12869,10 +12868,10 @@
         "tachycardia",
         "tachypnoe"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "An insane desire for poison",
       "o": [
         "toxicomania",
@@ -12880,10 +12879,10 @@
         "hemophilia",
         "osteomalacia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "X-ray examination of the urinary bladder",
       "o": [
         "photographia",
@@ -12891,10 +12890,10 @@
         "cystographia",
         "cardiogramma"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Measuring of pelvis size in women",
       "o": [
         "geometria",
@@ -12902,10 +12901,10 @@
         "craniometria",
         "gastrotomia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Internal examination of the rectum",
       "o": [
         "proctologus",
@@ -12913,10 +12912,10 @@
         "proctoscopia",
         "ophthalmoscopia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Treatment by means of natural or artificial physical factors",
       "o": [
         "thermoplegia",
@@ -12924,10 +12923,10 @@
         "physiotherapia",
         "psychotherapia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Results of quantitative and qualitative examination of blood",
       "o": [
         "programma",
@@ -12935,10 +12934,10 @@
         "haemogramma",
         "mastogramma"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Lack of teeth",
       "o": [
         "athrophia",
@@ -12946,10 +12945,10 @@
         "atrichia",
         "adentia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "A condition in which the ability of swallowing is lacking",
       "o": [
         "dysphagia",
@@ -12957,10 +12956,10 @@
         "atrichia",
         "adentia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Lack of sensibility or intelligence",
       "o": [
         "immobilitas",
@@ -12968,10 +12967,10 @@
         "encephalon",
         "thermophillia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Reduced saliva secretion:",
       "o": [
         "hyposialia",
@@ -12979,10 +12978,10 @@
         "acheilia",
         "achylia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Recession of the eyeball into the cavity of the orbit",
       "o": [
         "enophthalmus",
@@ -12990,10 +12989,10 @@
         "enterospasmus",
         "ophthalmoscopia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Condition in which the passage of urine is difficult",
       "o": [
         "dysphagia",
@@ -13001,10 +13000,10 @@
         "atrichia",
         "adentia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Accumulation of pus in a cavity",
       "o": [
         "dysphagia",
@@ -13012,10 +13011,10 @@
         "enpyema",
         "pyemia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Find the correct noun and adjective agreement:",
       "o": [
         "Oculus sinister",
@@ -13023,10 +13022,10 @@
         "Oculus sinistrum",
         "Oculus sinistro"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "“Hemi means”:",
       "o": [
         "Small",
@@ -13034,10 +13033,10 @@
         "Half",
         "Big"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Which prefixes mean functional disorders?",
       "o": [
         "a-, in-, im-, dys-",
@@ -13045,10 +13044,10 @@
         "hypo-, hyper-, sym-, syn-",
         "mono-, di-, tri-, tetra-"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "A congenital condition in which only one finger or toe is present on the hand or the foot",
       "o": [
         "monoplegia",
@@ -13056,10 +13055,10 @@
         "dactyloscopia",
         "polydactylia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "A periodic morbid condition with localized headaches",
       "o": [
         "hemiplegia",
@@ -13067,10 +13066,10 @@
         "hemicrania",
         "hemisphere"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "A false joint formed between the fragments of a fractured bone which have failed to unite",
       "o": [
         "angiopathia",
@@ -13078,10 +13077,10 @@
         "pseudarthrosis",
         "phothophobia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Spasmodic contraction of a finger or toe",
       "o": [
         "sympathia",
@@ -13089,10 +13088,10 @@
         "syndromum",
         "myoplegia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Any disease of blood vessels",
       "o": [
         "angiopathia",
@@ -13100,10 +13099,10 @@
         "Apathia",
         "anthropologia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Softening of joints",
       "o": [
         "angiopathia",
@@ -13111,10 +13110,10 @@
         "arthpomalacia",
         "osteomalacia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Difficulty swallowing",
       "o": [
         "dysphagia",
@@ -13122,10 +13121,10 @@
         "stomatosis",
         "monoplegia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Which roots mean Greek prefixes?",
       "o": [
         "Py-, lymph, transsudatum, exsudatum",
@@ -13133,10 +13132,10 @@
         "-itis, -itidis, pneumonia",
         "Endo-, para-, peri-, exo-"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Find the Greek equivalent for Latin medicamentum:",
       "o": [
         "Rhin-",
@@ -13144,10 +13143,10 @@
         "Physio-",
         "Glyc-"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Find the Latin equivalent of “hair”",
       "o": [
         "capillus",
@@ -13155,10 +13154,10 @@
         "caput",
         "chach"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Which words mean the pathological fluids?",
       "o": [
         "Blood, sweat, tear",
@@ -13166,10 +13165,10 @@
         "Urine, blood, pus",
         "Water, tea, coffee"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Find the correct agreement for the noun “aqua, ae, f”:",
       "o": [
         "purus",
@@ -13177,10 +13176,10 @@
         "pura",
         "flavus"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Find the correct agreement for the noun “ganglion, i, n”:",
       "o": [
         "sublingualis",
@@ -13188,10 +13187,10 @@
         "dexter",
         "dextra"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Latin words are mostly used in:",
       "o": [
         "medical terminology",
@@ -13199,10 +13198,10 @@
         "clinical terminology",
         "anatomical terminology"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Suturing the abdomen",
       "o": [
         "pneumonorrhaphia",
@@ -13210,10 +13209,10 @@
         "splenorrhaphia",
         "gastroectomia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Bleeding from the ear:",
       "o": [
         "otorhoea",
@@ -13221,10 +13220,10 @@
         "otopyorhoea",
         "orthodontia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Erroneous memory:",
       "o": [
         "amnesia",
@@ -13232,10 +13231,10 @@
         "anamnesis",
         "asialia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Toothache:",
       "o": [
         "somatalgia",
@@ -13243,10 +13242,10 @@
         "odontalgia",
         "odontorrhagia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Non-inflammatory liver disease:",
       "o": [
         "hepatitis",
@@ -13254,10 +13253,10 @@
         "hepatosis",
         "haematemesis"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Connective tissue tumor:",
       "o": [
         "fibroma",
@@ -13265,10 +13264,10 @@
         "chondroma",
         "cholaemia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Inflammation of all arteries",
       "o": [
         "osteomyelitis",
@@ -13276,10 +13275,10 @@
         "panarteriitis",
         "arthralgia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Pustular skin disease:",
       "o": [
         "dermatosis",
@@ -13287,10 +13286,10 @@
         "pyodermia",
         "desmurgia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Inflammation of lungs:",
       "o": [
         "bronchitis",
@@ -13298,10 +13297,10 @@
         "pleuritis",
         "pneumomalacia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Non-inflammatory disease of the vertebrae:",
       "o": [
         "arthrosis",
@@ -13309,10 +13308,10 @@
         "osteoarthrosis",
         "osteōma"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Radiography of the vein:",
       "o": [
         "cardiographia",
@@ -13320,10 +13319,10 @@
         "cholecystographia",
         "osteographia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Measurement of head:",
       "o": [
         "stethometria",
@@ -13331,10 +13330,10 @@
         "craniometria",
         "metrorrhagia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Low oxygen content in the blood:",
       "o": [
         "hydraemia",
@@ -13342,10 +13341,10 @@
         "hypoxaemia",
         "hyperaemia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Eating disorder of tissues, organs, or the entire body",
       "o": [
         "myatrophy",
@@ -13353,10 +13352,10 @@
         "hypertrophy",
         "dysphagia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Disease of the spinal cord",
       "o": [
         "myopathia",
@@ -13364,10 +13363,10 @@
         "myelopathia",
         "myelocēle"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Brain disease in Latin:",
       "o": [
         "encephalopathia",
@@ -13375,10 +13374,10 @@
         "encephalomalacia",
         "cephalalgia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Gallbladder disease in Latin:",
       "o": [
         "cholecystotomia",
@@ -13386,10 +13385,10 @@
         "cholecystitis",
         "choledohus"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Which prefixes mean functional disorders?",
       "o": [
         "a-, in-, im-, dys-",
@@ -13397,10 +13396,10 @@
         "hypo-, hyper-, sym-, syn-",
         "mono-, di-, tri-, tetra-"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "A false joint formed between the fragments of a fractured bone which have failed to unite",
       "o": [
         "angiopathia",
@@ -13408,10 +13407,10 @@
         "pseudarthrosis",
         "phothophobia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Increasing the size of the limbs:",
       "o": [
         "encephalomegalia",
@@ -13419,10 +13418,10 @@
         "splenomegalia",
         "acralgia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Stop the bleeding",
       "o": [
         "homeostasis",
@@ -13430,10 +13429,10 @@
         "haemostasis",
         "haematemesis"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Operative release of the heart from scars:",
       "o": [
         "cardiolysis",
@@ -13441,10 +13440,10 @@
         "cardioectasia",
         "cardiorrhēxis"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Kidney stone disease:",
       "o": [
         "nephrolithiasis",
@@ -13452,10 +13451,10 @@
         "nephrolithotomia",
         "nephroptōsis"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Paralysis of the tongue muscles:",
       "o": [
         "glossītis",
@@ -13463,10 +13462,10 @@
         "glossoptōsis",
         "glossoplegia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Vessel extension:",
       "o": [
         "angiectomia",
@@ -13474,10 +13473,10 @@
         "angiectasia",
         "angiorrhēxi"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Loss, lack of movement, immobility",
       "o": [
         "asphygmia",
@@ -13485,10 +13484,10 @@
         "akinesia",
         "acrasia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Painful swallowing:",
       "o": [
         "poliphagia",
@@ -13496,10 +13495,10 @@
         "odynophagia",
         "aphagia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Cyanosis of the limbs:",
       "o": [
         "cyanosis",
@@ -13507,10 +13506,10 @@
         "acrocyanosis",
         "cyanodermia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Surgical dissection of the uterus:",
       "o": [
         "metrectasia",
@@ -13518,10 +13517,10 @@
         "metrectomia",
         "metroptōsis"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Insufficient urination:",
       "o": [
         "dysuria",
@@ -13529,10 +13528,10 @@
         "oliguria",
         "uraemia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Blood in the urine:",
       "o": [
         "haematuria",
@@ -13540,10 +13539,10 @@
         "uraemia",
         "urographia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Abnormal dryness of the skin:",
       "o": [
         "xerostomia",
@@ -13551,10 +13550,10 @@
         "xerodermia",
         "xanthopsia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Accumulation of fluid in the head:",
       "o": [
         "hydraemia",
@@ -13562,10 +13561,10 @@
         "hydrarthrosis",
         "hydrocephalalgia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Treatment of tuberculosis",
       "o": [
         "physologia",
@@ -13573,10 +13572,10 @@
         "phthisiatria",
         "physician"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Inflammation of the pharynx:",
       "o": [
         "laryngitis",
@@ -13584,10 +13583,10 @@
         "pharyngitis",
         "pharyngostŏma"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Inflammation of the meninges:",
       "o": [
         "arteriitis",
@@ -13595,10 +13594,10 @@
         "meningitis",
         "cephalgia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The process of registering signals or brain activity",
       "o": [
         "encephalography",
@@ -13606,10 +13605,10 @@
         "tomography",
         "cephalogram"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Short-head / round-head",
       "o": [
         "macrocephalia",
@@ -13617,10 +13616,10 @@
         "hydrocephalia",
         "olygocephalia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Eating an abnormally large amount of food:",
       "o": [
         "polyphagia",
@@ -13628,10 +13627,10 @@
         "oesophagitis",
         "aphagia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Reduced saliva secretion:",
       "o": [
         "hyposialia",
@@ -13639,10 +13638,10 @@
         "acheilia",
         "achylia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Mucous discharge from the nose",
       "o": [
         "rhinorrhoea",
@@ -13650,10 +13649,10 @@
         "rhinopathia",
         "rhinologia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Lack of sensitivity in the extremities:",
       "o": [
         "acroanaesthesia",
@@ -13661,10 +13660,10 @@
         "acrodermatītis",
         "acropathia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Pain that occurs in a dream:",
       "o": [
         "hypnalgia",
@@ -13672,10 +13671,10 @@
         "hypnotherapia",
         "abulia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Facial pain in Latin",
       "o": [
         "prosopalgia",
@@ -13683,10 +13682,10 @@
         "micronychia",
         "facealgia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Morbid attraction to theft:",
       "o": [
         "cleptomania",
@@ -13694,10 +13693,10 @@
         "claustrophobia",
         "narcomania"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Impulsive attraction to arson:",
       "o": [
         "pyrophobia",
@@ -13705,10 +13704,10 @@
         "pyrognōsus",
         "pyromania"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Fear of loneliness:",
       "o": [
         "panophobia",
@@ -13716,10 +13715,10 @@
         "hypnophobia",
         "autophobia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Elevated mood:",
       "o": [
         "hyperthymia",
@@ -13727,10 +13726,10 @@
         "hypertensio",
         "euphoria"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Discharge from the ear:",
       "o": [
         "otorhoea",
@@ -13738,10 +13737,10 @@
         "otopyorhoea",
         "otītis"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Lip inflammation",
       "o": [
         "cheilītis",
@@ -13749,10 +13748,10 @@
         "cheilōsis",
         "cholaemia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Speech disorders:",
       "o": [
         "dysphonia",
@@ -13760,10 +13759,10 @@
         "dysplasia",
         "aglossia"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Obsessive fear—fear of red:",
       "o": [
         "panphobia",
@@ -13771,10 +13770,10 @@
         "nyctophobia",
         "erythrophobia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Congenital dementia:",
       "o": [
         "oligaemia",
@@ -13782,10 +13781,10 @@
         "oligophrenia",
         "oligodipsia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "False myopia:",
       "o": [
         "prosopometria",
@@ -13793,10 +13792,10 @@
         "pseudoptosis",
         "pseudomyopia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Lack of emotion:",
       "o": [
         "atonia",
@@ -13804,10 +13803,10 @@
         "athymia",
         "asplenia"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Developmental abnormality: excessively large fingers and / or toes",
       "o": [
         "macrodactylia",
@@ -13815,10 +13814,10 @@
         "macropsia",
         "macrographia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Sensitivity of one limb:",
       "o": [
         "monoaesthesia",
@@ -13826,10 +13825,10 @@
         "monocytopenia",
         "monocytopoēsis"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Common name of nail lesions:",
       "o": [
         "onychia",
@@ -13837,10 +13836,10 @@
         "onychatrophy",
         "onychophagia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Pain all over the body:",
       "o": [
         "pathia",
@@ -13848,10 +13847,10 @@
         "panaortītis",
         "panalgia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Purulent blood, septic blood poisoning:",
       "o": [
         "pyelītis",
@@ -13859,10 +13858,10 @@
         "pyelotomia",
         "pylorostensis"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Nasal mucus discharge:",
       "o": [
         "rhinitis",
@@ -13870,10 +13869,10 @@
         "rhinorrhoea",
         "meningitis"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Radiography of a certain layer of the object:",
       "o": [
         "tenorrhaphy",
@@ -13881,10 +13880,10 @@
         "radiography",
         "tomography"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Stagnation of urine in the urinary tract:",
       "o": [
         "urolithus",
@@ -13892,10 +13891,10 @@
         "uraemia",
         "urostăsis"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Weakness, fatigue increases:",
       "o": [
         "athymia",
@@ -13903,10 +13902,10 @@
         "dysthymia",
         "asthenia"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Select a term with the meaning “uterine bleeding”",
       "o": [
         "metrographia",
@@ -13914,10 +13913,10 @@
         "metrorrhagia",
         "metritis"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "What group of languages does Latin belong to?",
       "o": [
         "African",
@@ -13925,10 +13924,10 @@
         "Indo-European",
         "Romanian"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The Latin language got its name from a tribe who lived in Latium. Where was Latium located?",
       "o": [
         "In the south of Italy",
@@ -13936,10 +13935,10 @@
         "on the island of Sicily",
         "in west Africa"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Which language, along with Latin, contributed to the flourishing of the literary language of the ancient Romans?",
       "o": [
         "Spanish",
@@ -13947,10 +13946,10 @@
         "Greek",
         "German"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The appearance of Latin as a language is attributed to the middle … centuries.",
       "o": [
         "II",
@@ -13958,10 +13957,10 @@
         "IV",
         "V"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "For several centuries, up to the Arab conquest, the Latin language was widespread in …",
       "o": [
         "Australia",
@@ -13969,10 +13968,10 @@
         "Africa",
         "Italy"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "The language of which sciences is Latin?",
       "o": [
         "Economy",
@@ -13980,10 +13979,10 @@
         "Mathematics",
         "Natural sciences"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Latin was the language of science up to … centuries.",
       "o": [
         "12",
@@ -13991,10 +13990,10 @@
         "18",
         "19"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the political principle of the ancient Roman conquerors.",
       "o": [
         "Divide et impera",
@@ -14002,10 +14001,10 @@
         "Dura lex, sed lex",
         "Nota bene!"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Choose the main medical commandment.",
       "o": [
         "Nota bene!",
@@ -14013,10 +14012,10 @@
         "Fiat lux!",
         "Divide et impera!"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Who said “Veni, vidi, vici”?",
       "o": [
         "Markus Tullius Cicero",
@@ -14024,10 +14023,10 @@
         "Publiy Vergiliy Maron",
         "Aleksandr Makedonskiy"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Inflammation of the skin or mucous membrane, with clusters of deep-seated",
       "o": [
         "herpes",
@@ -14035,10 +14034,10 @@
         "psoriasis",
         "pyoderma"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Latin Language",
       "q": "Depression, decreased mood and mental activity",
       "o": [
         "barythymia",
@@ -14046,10 +14045,10 @@
         "dysthymia",
         "athymia"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Latin Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Classify the past tense verb ending “ed” by their pronunciation. She was vaccinated against smallpox as a child.",
       "o": [
         "Vaccinated, [id]",
@@ -14057,10 +14056,10 @@
         "Vaccinated, [t]",
         "Vaccinated, [it]"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Classify the past tense verb ending “ed” by their pronunciation. The doctor diagnosed him as having hepatitis B.",
       "o": [
         "Diagnosed, [id]",
@@ -14068,10 +14067,10 @@
         "Diagnosed, [t]",
         "Diagnosed, [it]"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Classify the past tense verb ending “ed” by their pronunciation. Her condition improved, so we reduced the dose.",
       "o": [
         "Improved [d]",
@@ -14079,10 +14078,10 @@
         "Improved [it]",
         "Improved [t]"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Classify the past tense verb ending “ed” by their pronunciation. He consulted a specialist, who recommended surgery.",
       "o": [
         "Consulted [it]",
@@ -14090,10 +14089,10 @@
         "Consulted [id]",
         "Consulted [t]"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Classify the past tense verb ending “ed” by their pronunciation. The patient coughed and sneezed all through the consultation.",
       "o": [
         "Coughed, [id]",
@@ -14101,10 +14100,10 @@
         "Coughed, [d]",
         "Coughed, [t]"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "These fumes are ___ if inhaled.",
       "o": [
         "Lethal",
@@ -14112,10 +14111,10 @@
         "Tender",
         "Acute"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The report was ___ of the state of aftercare provision.",
       "o": [
         "Mobile",
@@ -14123,10 +14122,10 @@
         "Critical",
         "Subjective"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "She had a ___ cough.",
       "o": [
         "Depressed",
@@ -14134,10 +14133,10 @@
         "Harmful",
         "Bedridden"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "My grandfather is quite ___ now.",
       "o": [
         "Infirm",
@@ -14145,10 +14144,10 @@
         "Inflamed",
         "Latent"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "A fetus is ___ by about the 28th week of the pregnancy.",
       "o": [
         "Deaf",
@@ -14156,10 +14155,10 @@
         "Tender",
         "Latent"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "___ Jack’s favorite game is, he will surely want you to play with him",
       "o": [
         "Billiard are",
@@ -14167,10 +14166,10 @@
         "Billiards are",
         "Billiard is"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The men’s ___ cheap and dirty.",
       "o": [
         "cloth was",
@@ -14178,10 +14177,10 @@
         "clothes was",
         "cloths were"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Many professional cooks have their own special ___.",
       "o": [
         "knifes",
@@ -14189,10 +14188,10 @@
         "knifs",
         "knive"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "In many labs ___ are used to test drugs and chemicals.",
       "o": [
         "mices",
@@ -14200,10 +14199,10 @@
         "mice",
         "mouses"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Alas, all our ___ for nothing.",
       "o": [
         "pain were",
@@ -14211,10 +14210,10 @@
         "pains was",
         "pain was"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "No ___ good news, or so they say.",
       "o": [
         "new are",
@@ -14222,10 +14221,10 @@
         "news is",
         "new is"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "How good are you at handling ___?",
       "o": [
         "Crisis",
@@ -14233,10 +14232,10 @@
         "Crisises",
         "Crises"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "What is the Past Tense form of “Show”?",
       "o": [
         "Show",
@@ -14244,10 +14243,10 @@
         "Showed",
         "Shown"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "What is the Past Tense form of “Read”?",
       "o": [
         "Read",
@@ -14255,10 +14254,10 @@
         "Reads",
         "Readen"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "What is the Past Tense form of “Withdraw”?",
       "o": [
         "Withdrawn",
@@ -14266,10 +14265,10 @@
         "Withdraw",
         "Withdraws"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "What does this sentence mean? I am living in London now.",
       "o": [
         "I will live there.",
@@ -14277,10 +14276,10 @@
         "I am in London only for a limited period of time.",
         "I am going to move to London soon."
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Look! The Millers are moving house. – What does this sentence mean?",
       "o": [
         "They are in the middle of the action.",
@@ -14288,10 +14287,10 @@
         "They will come back to this place one day.",
         "They were in this place early"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "We are meeting Tom tonight. – What does this sentence mean?",
       "o": [
         "The action is arranged for the near future",
@@ -14299,10 +14298,10 @@
         "The action might take place.",
         "The action have just taken"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Which word can be a signal word for an arranged action taking place in the near future?",
       "o": [
         "every Monday",
@@ -14310,10 +14309,10 @@
         "last Monday",
         "usually on Monday"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Which word is a signal word for an action taking place in the moment of speaking?",
       "o": [
         "Look!",
@@ -14321,10 +14320,10 @@
         "every Friday",
         "on Friday"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The London Dungeon lies in the oldest part of London –",
       "o": [
         "Present Progressive",
@@ -14332,10 +14331,10 @@
         "Simple Past",
         "Simple Present"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "I have been learning English for seven years now.",
       "o": [
         "Simple Present",
@@ -14343,10 +14342,10 @@
         "Present Perfect",
         "Present Perfect Progressive"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "She was waiting for a long time and then she ___ angry.",
       "o": [
         "Have gotten",
@@ -14354,10 +14353,10 @@
         "Gets",
         "Got"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Modal verbs: The patient ___ talk yesterday.",
       "o": [
         "Could not",
@@ -14365,10 +14364,10 @@
         "Have to",
         "cannot"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Modal verbs: She tells me that she ___ find a job.",
       "o": [
         "May",
@@ -14376,10 +14375,10 @@
         "Must",
         "Have"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Modal verbs: You ___ the team last month.",
       "o": [
         "Must to join",
@@ -14387,10 +14386,10 @@
         "Ought to join",
         "Should have joined"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Match the words with contextual meaning: No abnormal respiratory sounds means:",
       "o": [
         "iron supplement",
@@ -14398,10 +14397,10 @@
         "no stamina",
         "blood work"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Match the words with contextual meaning: iron supplement is:",
       "o": [
         "Tissue at the margin of the teeth",
@@ -14409,10 +14408,10 @@
         "A medicine (sometimes over-the-counter) containing iron",
         "A collection of tests performed on a blood sample"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Match the words with contextual meaning: blood work up means:",
       "o": [
         "More iron than in normal foods",
@@ -14420,10 +14419,10 @@
         "Light color / lacking normal color intensity",
         "A collection of tests performed on a blood sample"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Match the words with contextual meaning: draw your blood means:",
       "o": [
         "To make part of something",
@@ -14431,10 +14430,10 @@
         "No energy",
         "Blood tests"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Match the words with contextual meaning: Another name for high blood pressure",
       "o": [
         "Essential hypertension",
@@ -14442,10 +14441,10 @@
         "Diastolic pressure",
         "Systolic pressure"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Match the words with contextual meaning: The upper number in a blood pressure measurement",
       "o": [
         "Systolic pressure",
@@ -14453,10 +14452,10 @@
         "Essential hypertension",
         "Hypertension"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Match the words with contextual meaning: Contraction of the heart (ventricles)",
       "o": [
         "Receptor",
@@ -14464,10 +14463,10 @@
         "Systole",
         "Diastole"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Make meaningful sentences: Blood flowing in the deep veins",
       "o": [
         "Partially occlude the vessel.",
@@ -14475,10 +14474,10 @@
         "have very slow resting heart rates.",
         "of the legs is often very sluggish, especially if a person sits most of the day at a desk."
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Make meaningful sentences: Pulmonary embolism can result when clots that were",
       "o": [
         "formed during deep vein thrombosis break free from the vessel wall and enter the circulation.",
@@ -14486,10 +14485,10 @@
         "Partially occlude thevessel.",
         "receive prophylactic antibiotics before invasive dental procedures."
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Make meaningful sentences: Well-conditioned athletes often",
       "o": [
         "severe chest pain if they over exert themselves.",
@@ -14497,10 +14496,10 @@
         "have very slow resting heart rates.",
         "occluded it is necessary to either by-pass the artery or perform angioplasty followed by the insertion of a stint."
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Make meaningful sentences: The distended vessel was",
       "o": [
         "partially occlude the vessel.",
@@ -14508,10 +14507,10 @@
         "formed during deep vein thrombosis break free from the vessel wall and enter the circulation.",
         "major vessel and a large part of the right ventricle had become necrotic."
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Use the prepositions. Please take ___ your shirt so I can examine the skin ___ your back.",
       "o": [
         "to, to",
@@ -14519,10 +14518,10 @@
         "on, for",
         "in, to"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Can you lay down ___ the examination table ___ checking?",
       "o": [
         "to, to",
@@ -14530,10 +14529,10 @@
         "on, for",
         "in, to"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Is the skin ___ this area painful ___ touch?",
       "o": [
         "to, to",
@@ -14541,10 +14540,10 @@
         "on, for",
         "in, to"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "You will need to apply this cream ___ the infected area every 4 hours.",
       "o": [
         "to",
@@ -14552,10 +14551,10 @@
         "on, for",
         "in, to"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Have you noticed any change ___ the color ___ the mole ___ your arm?",
       "o": [
         "to, in, for",
@@ -14563,10 +14562,10 @@
         "in, of, on",
         "in, with, in"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "I want you to add this powder ___ your bath water and then soak ___ the bath tub ___ 20 minutes.",
       "o": [
         "to, in, for",
@@ -14574,10 +14573,10 @@
         "in, of, on",
         "in, with, in"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "I want you to apply this topical corticosteroid cream ___ the area of the lesion 3 times a day ___ 2 weeks.",
       "o": [
         "to, in, for",
@@ -14585,10 +14584,10 @@
         "in, of, on",
         "in, with, in"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Please take this medicine ___ full glass ___ water.",
       "o": [
         "to, to",
@@ -14596,10 +14595,10 @@
         "on, for",
         "in, to"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Please have a seat ___ the waiting room. I’ll be ___ you ___ about 5 minutes.",
       "o": [
         "to, in, for",
@@ -14607,10 +14606,10 @@
         "in, of, on",
         "in, with, in"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Medical phrases. Make meaningful phrase. Allergic",
       "o": [
         "pox",
@@ -14618,10 +14617,10 @@
         "reaction",
         "response"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Medical phrases. Make meaningful phrase. Hypodermic",
       "o": [
         "infectious",
@@ -14629,10 +14628,10 @@
         "lesional",
         "needle"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Medical phrases. Make meaningful phrase. Inflammatory",
       "o": [
         "reaction",
@@ -14640,10 +14639,10 @@
         "skin",
         "ulcer"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Medical phrases. Make meaningful phrase. Itchy",
       "o": [
         "needle",
@@ -14651,10 +14650,10 @@
         "pox",
         "rash"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Medical phrases. Make meaningful phrase. Local",
       "o": [
         "anesthetic",
@@ -14662,10 +14661,10 @@
         "burn(s)",
         "cancer"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Medical phrases. Make meaningful phrase. Skin",
       "o": [
         "irritating",
@@ -14673,10 +14672,10 @@
         "needle",
         "painful"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Medical phrases. Make meaningful phrase. Sun",
       "o": [
         "burn(s)",
@@ -14684,10 +14683,10 @@
         "condition",
         "dermatitis"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Medical phrases. Make meaningful phrase. Viral",
       "o": [
         "painful",
@@ -14695,10 +14694,10 @@
         "irritant",
         "lesion"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Medical phrases. Make meaningful phrase. Contact",
       "o": [
         "burn(s)",
@@ -14706,10 +14705,10 @@
         "condition",
         "dermatitis"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Infinitive and Gerund: We have ___ overtime.",
       "o": [
         "do",
@@ -14717,10 +14716,10 @@
         "did",
         "doing"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Infinitive and Gerund: Do you mind ___ the window?",
       "o": [
         "opened",
@@ -14728,10 +14727,10 @@
         "open",
         "to open"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Infinitive and Gerund: Catherine managed ___ an important customer.",
       "o": [
         "to acquire",
@@ -14739,10 +14738,10 @@
         "acquired",
         "acquire"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Infinitive and Gerund: Jane is busy ___ invitations for our company’s anniversary celebration.",
       "o": [
         "writing",
@@ -14750,10 +14749,10 @@
         "wrote",
         "write"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Infinitive and Gerund: Let me begin by ___ you something about our company’s history.",
       "o": [
         "to tell",
@@ -14761,10 +14760,10 @@
         "told",
         "tell"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Infinitive and Gerund: We risk ___ a lot of money.",
       "o": [
         "losing",
@@ -14772,10 +14771,10 @@
         "to losing",
         "lose"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. The patient gave himself daily ___ injections of insulin as treatment for his type I diabetes.",
       "o": [
         "harsh",
@@ -14783,10 +14782,10 @@
         "inflamed",
         "inoperable"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Some shampoos are extremely ___ and can make your scalp itch.",
       "o": [
         "harsh",
@@ -14794,10 +14793,10 @@
         "inflamed",
         "abrasive"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Because of extensive exposure to the sun, construction workers in the southwestern United States are ___ to developing skin cancers.",
       "o": [
         "painful",
@@ -14805,10 +14804,10 @@
         "inoperable",
         "bedridden"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Melanomas are very dangerous cancers because once they spread they become ___.",
       "o": [
         "inoperable",
@@ -14816,10 +14815,10 @@
         "severe",
         "painful"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Decubitus ulcers can develop quickly in ___ patients.",
       "o": [
         "painful",
@@ -14827,10 +14826,10 @@
         "inoperable",
         "predisposed"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. ___ skin is found in areas that undergo constant frictional stress.",
       "o": [
         "scaly",
@@ -14838,10 +14837,10 @@
         "callused",
         "dry"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. The skin making up the scalp is extremely ___ compared to most other areas of the body.",
       "o": [
         "swollen",
@@ -14849,10 +14848,10 @@
         "thin",
         "uncomfortable"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Chicken pox is a viral infection that produces ___ vesicles on scalp, face, chest and arms.",
       "o": [
         "dry",
@@ -14860,10 +14859,10 @@
         "fluid-filled",
         "swollen"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Even mild sunburns can remain ___ for several days.",
       "o": [
         "severe",
@@ -14871,10 +14870,10 @@
         "tender",
         "uncomfortable"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Shingles is often brought on by a ___ immune system.",
       "o": [
         "tender",
@@ -14882,10 +14881,10 @@
         "uncomfortable",
         "weakened"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Dry skin is usually very ___.",
       "o": [
         "thin",
@@ -14893,10 +14892,10 @@
         "harsh",
         "painful"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Cellulite can cause the skin over the thighs to look ___.",
       "o": [
         "swollen",
@@ -14904,10 +14903,10 @@
         "lumpy",
         "painful"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Dermatitis can be localized or very ___.",
       "o": [
         "dry",
@@ -14915,10 +14914,10 @@
         "fluid-filled",
         "harsh"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Working with strong irritating chemicals can produce ___ skin.",
       "o": [
         "harsh",
@@ -14926,10 +14925,10 @@
         "inflamed",
         "inoperable"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Hives appear as small ___ bumps on the skin.",
       "o": [
         "severe",
@@ -14937,10 +14936,10 @@
         "tender",
         "thin"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. As people age they often develop ___ skin.",
       "o": [
         "dry",
@@ -14948,10 +14947,10 @@
         "fluid-filled",
         "harsh"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Adjectives. Rubella is a mild infection in children, but can cause ___ birth defects if contracted by a woman while she is pregnant.",
       "o": [
         "severe",
@@ -14959,10 +14958,10 @@
         "tender",
         "extensive"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The first symptoms of an appendicitis are usually vague and not well ___.",
       "o": [
         "shift",
@@ -14970,10 +14969,10 @@
         "proceed",
         "defined"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "In addition to tenderness in the lower right quadrant, a patient with an appendicitis can ___ with many other symptoms as well; these include fever, nausea, vomiting, poor appetite, and ___.",
       "o": [
         "recovery / emanate",
@@ -14981,10 +14980,10 @@
         "present / constipation",
         "radiate / sharper"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The surgical ___ for appendicitis is generally ___ and takes about 15 minutes.",
       "o": [
         "procedure / uneventful",
@@ -14992,10 +14991,10 @@
         "acute / localized",
         "transition / overnight"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Hospital ___ following an appendectomy are usually short, either ___ or one additional day.",
       "o": [
         "procedure / uneventful",
@@ -15003,10 +15002,10 @@
         "proceed / localized",
         "transition / overnight"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Bolus is:",
       "o": [
         "inflammation of the gallbladder.",
@@ -15014,10 +15013,10 @@
         "to vomiting",
         "food that has been chewed and mixed with saliva and is ready for swallowing."
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Reflex is:",
       "o": [
         "A neural pathway that produces a fix response to a fix stimulus.",
@@ -15025,10 +15024,10 @@
         "Involuntary shaking of a part of the body.",
         "A collection of, general motor and sensory neurons that have been bundled together by connective tissue"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Soma is:",
       "o": [
         "Another commonly used name for a lumbar puncture.",
@@ -15036,10 +15035,10 @@
         "Involuntary shaking of a part of the body.",
         "A collection of, general motor and sensory neurons that have been bundled together by connective tissue"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “dentist”",
       "o": [
         "First syllable",
@@ -15047,10 +15046,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “dietitian”",
       "o": [
         "First syllable",
@@ -15058,10 +15057,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “gynecologist”",
       "o": [
         "First syllable",
@@ -15069,10 +15068,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “oncologist”",
       "o": [
         "First syllable",
@@ -15080,10 +15079,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “pharmacist”",
       "o": [
         "First syllable",
@@ -15091,10 +15090,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “phlebotomist”",
       "o": [
         "First syllable",
@@ -15102,10 +15101,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “psychiatrist”",
       "o": [
         "First syllable",
@@ -15113,10 +15112,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “technician”",
       "o": [
         "First syllable",
@@ -15124,10 +15123,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “registered nurse”",
       "o": [
         "First syllable",
@@ -15135,10 +15134,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “therapist”",
       "o": [
         "First syllable",
@@ -15146,10 +15145,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “surgeon”",
       "o": [
         "First syllable",
@@ -15157,10 +15156,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Where is the stress? “urologist”",
       "o": [
         "First syllable",
@@ -15168,10 +15167,10 @@
         "Third syllable",
         "Fourth syllable"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "A specialist in managing pregnancies …",
       "o": [
         "Gynecologist",
@@ -15179,10 +15178,10 @@
         "Obstetrician",
         "Neonatologist"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "A specialist trained to design, verify and fit eyeglass lenses and frames, contact lenses, and other devices to correct eyesight …",
       "o": [
         "Ophthalmologist",
@@ -15190,10 +15189,10 @@
         "Optician",
         "Surgeon"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "A specialist in female reproductive health …",
       "o": [
         "Gynecologist",
@@ -15201,10 +15200,10 @@
         "Obstetrician",
         "Neonatologist"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Complete with the Past Simple or Present Perfect: “Mrs. Purnell ___ in hospital for five days now.” (be)",
       "o": [
         "was",
@@ -15212,10 +15211,10 @@
         "has been",
         "used to be"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Complete with the Past Simple or Present Perfect: “How long ___ you ___ this pain now?” (have)",
       "o": [
         "Had",
@@ -15223,10 +15222,10 @@
         "Had … had",
         "Have … had"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Complete with the Past Simple or Present Perfect: “I ___ all the childhood illnesses at an early age.” (catch)",
       "o": [
         "catch",
@@ -15234,10 +15233,10 @@
         "have catched",
         "caught"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Circle the correct form. We rarely ___ operations like this under general anaesthetic.",
       "o": [
         "are performed",
@@ -15245,10 +15244,20 @@
         "are performing",
         "performed"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
+      "q": "Circle the correct form. The doctor ___ consent and then ___ the area.",
+      "o": [
+        "is obtaining / anaesthetizing",
+        "obtained / anaesthetized",
+        "is obtained / anaesthetize"
+      ],
+      "c": 1,
+      "s": "Foreign Language"
+    },
+    {
       "q": "Which hospital department would be most appropriate for a woman in diabetic coma?",
       "o": [
         "Accident & Emergency",
@@ -15256,10 +15265,10 @@
         "Intensive Care Unit (ICU) / assessment unit",
         "High Dependency Unit (HDU)"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Which hospital department would be most appropriate for a patient who is to have a skin lesion removed?",
       "o": [
         "Accident & Emergency",
@@ -15267,10 +15276,10 @@
         "Intensive Care Unit (ICU) / assessment unit",
         "High Dependency Unit (HDU)"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Which hospital department would be most appropriate for a man with a foreign body in his eye?",
       "o": [
         "Accident & Emergency",
@@ -15278,10 +15287,10 @@
         "Intensive Care Unit (ICU) / assessment unit",
         "High Dependency Unit (HDU)"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Write the common English name for a disease: “Papules and vesicles, first on trunk”",
       "o": [
         "Measles",
@@ -15289,10 +15298,10 @@
         "Chickenpox",
         "German measles"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Motor loss symptom and sign “abnormal gait”",
       "o": [
         "Loss of power",
@@ -15300,10 +15309,10 @@
         "Unusual manner of walking",
         "Complete loss of power"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Choose the medical term for the ordinary English word “graze”",
       "o": [
         "contusion",
@@ -15311,10 +15320,10 @@
         "linear abrasion",
         "penetrating wound"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Prepositions: “The lab results will not be back ___ 5 pm tomorrow.”",
       "o": [
         "around",
@@ -15322,10 +15331,10 @@
         "in",
         "to"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Prepositions: “When you spin a blood sample, the layer ___ the plasma is the buffy coat.”",
       "o": [
         "on",
@@ -15333,10 +15342,10 @@
         "between",
         "below"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Prepositions: “Polycythemia puts an extra strain ___ the heart.”",
       "o": [
         "on",
@@ -15344,10 +15353,10 @@
         "between",
         "below"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Write the medical equivalent of the common English term: Chickenpox",
       "o": [
         "morbilli / rubeola",
@@ -15355,10 +15364,10 @@
         "rubella",
         "pertussis"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Write the medical equivalent of the common English term: Measles",
       "o": [
         "Morbilli / rubeola",
@@ -15366,10 +15375,10 @@
         "rubella",
         "pertussis"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Put the correct preposition. It was nice ___ you to come and see me when I was ill.",
       "o": [
         "with",
@@ -15377,10 +15386,10 @@
         "to",
         "about"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Complete the sentence using a collocation: The ___ was ___ all night and it was raining, so I could not sleep.",
       "o": [
         "opportunity; arises",
@@ -15388,10 +15397,10 @@
         "evidence; suggests",
         "wind; howling"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Complete the sentence using a collocation: It was so cold I could not stop my ___ from ___.",
       "o": [
         "withstand; pressure",
@@ -15399,10 +15408,10 @@
         "disease; spreading",
         "smoke; rising"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Put the correct preposition: I can’t understand people who are cruel ___ animals.",
       "o": [
         "with",
@@ -15410,10 +15419,10 @@
         "to",
         "about"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Complete the sentence using a collocation: The machine has to be made of materials that can ___ from ___.",
       "o": [
         "withstand; pressure",
@@ -15421,10 +15430,10 @@
         "disease; spreading",
         "smoke; rising"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Complete the sentence using a collocation: Our survey shows that parents believe ___ have ___ at the school.",
       "o": [
         "evidence; suggests",
@@ -15432,10 +15441,10 @@
         "opportunity; arises",
         "standards; slipped"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Complete the sentence using a collocation: Oh, no! There is a fire. Look at the ___ ___.",
       "o": [
         "withstand; pressure",
@@ -15443,10 +15452,10 @@
         "disease; spreading",
         "smoke; rising"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "Complete the sentence using a collocation: You must accompany Mason on one of his business trips to Asia if the ___ ever.",
       "o": [
         "opportunity; arises",
@@ -15454,10 +15463,120 @@
         "evidence; suggests",
         "wind; howling"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
+      "q": "Which of these sentences containing adverbs is correct?",
+      "o": [
+        "I worked hardly.",
+        "He ran quickly.",
+        "I arrived lately for the meeting."
+      ],
+      "c": 1,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "Which of these sentences is correct?",
+      "o": [
+        "Do we have coffee enough?",
+        "Some students don’t sleep enough.",
+        "He’s not tall enough reach the top of the cupboard."
+      ],
+      "c": 1,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "Choose the correct tag: She’s got beautiful eyes, ___?",
+      "o": [
+        "…aren’t they?",
+        "…does she?",
+        "…hasn’t she?"
+      ],
+      "c": 2,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "I went to Oxford Street ___ some new clothes.",
+      "o": [
+        "for buy",
+        "to buy",
+        "for buying"
+      ],
+      "c": 1,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "Which sentence uses the present continuous correctly?",
+      "o": [
+        "“I think you’re telling me lies. I’m not believing you!”",
+        "“I’m not checking my email. I’m studying!”",
+        "“Please explain that to me again. I’m not understanding you.”"
+      ],
+      "c": 1,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "All these sentences contain the uncountable noun ‘happiness’, but only ONE is correct. Which?",
+      "o": [
+        "Money can’t buy you the happiness.",
+        "Money can’t buy you happiness.",
+        "Money can’t buy you a happiness."
+      ],
+      "c": 1,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "Which sentence uses ‘neither’ correctly?",
+      "o": [
+        "Neither wallet are mine.",
+        "Neither of these wallets aren’t mine.",
+        "Neither of these wallets is mine."
+      ],
+      "c": 2,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "Which reporting verb best fits the space? John ___ breaking the expensive porcelain vase.",
+      "o": [
+        "insisted on",
+        "suggested",
+        "apologized for"
+      ],
+      "c": 2,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "Which sentence uses the present perfect tense correctly?",
+      "o": [
+        "I have been to Japan last year.",
+        "I have lost my car keys!",
+        "We have got married in 2016."
+      ],
+      "c": 1,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "Which sentence uses the articles ‘a/an/the’ correctly?",
+      "o": [
+        "I saw a fox last night. The fox was looking in the rubbish for food.",
+        "You’re a best dad ever!",
+        "The sugar is bad for your teeth."
+      ],
+      "c": 0,
+      "s": "Foreign Language"
+    },
+    {
+      "q": "Which sentence using ‘unless’ is correct?",
+      "o": [
+        "What will you do unless you pass your exams?",
+        "Come to the pub after work, unless you’re too tired.",
+        "You wouldn’t have crashed your car unless you were driving carefully."
+      ],
+      "c": 1,
+      "s": "Foreign Language"
+    },
+    {
       "q": "If the patient’s temperature ___ above 38°C, we will administer antipyretics.",
       "o": [
         "rises",
@@ -15465,10 +15584,10 @@
         "would rise",
         "had risen"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient ___ severe chest pain, we would perform an ECG immediately.",
       "o": [
         "has",
@@ -15476,10 +15595,10 @@
         "will have",
         "had had"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the lab results had shown a high white blood cell count, we ___ antibiotics.",
       "o": [
         "prescribe",
@@ -15487,10 +15606,10 @@
         "would have prescribed",
         "prescribed"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "What will you do if the patient ___ respiratory distress?",
       "o": [
         "develops",
@@ -15498,10 +15617,10 @@
         "will develop",
         "had developed"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient ___ the medication as prescribed, they wouldn’t have experienced side effects.",
       "o": [
         "take",
@@ -15509,10 +15628,10 @@
         "had taken",
         "will take"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the doctor ___ more time, she would explain the diagnosis in detail.",
       "o": [
         "has",
@@ -15520,10 +15639,10 @@
         "will have",
         "had had"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If you apply pressure to the wound, the bleeding ___.",
       "o": [
         "stops",
@@ -15531,10 +15650,10 @@
         "will stop",
         "would stop"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient ___ a history of allergies, we would avoid using certain drugs.",
       "o": [
         "has",
@@ -15542,10 +15661,10 @@
         "were to have",
         "had had"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient ___ the symptoms earlier, the diagnosis wouldn’t have been delayed.",
       "o": [
         "report",
@@ -15553,10 +15672,10 @@
         "had reported",
         "will report"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient doesn’t respond to the initial treatment, we ___ further tests.",
       "o": [
         "conduct",
@@ -15564,10 +15683,10 @@
         "will conduct",
         "had conducted"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient ___ a healthy lifestyle, they would have reduced their risk of cardiovascular disease.",
       "o": [
         "maintain",
@@ -15575,10 +15694,10 @@
         "had maintained",
         "will maintain"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient ___ consent, we would proceed with the surgery.",
       "o": [
         "give",
@@ -15586,10 +15705,10 @@
         "had given",
         "will give"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient’s condition worsens, we ___ immediate intervention.",
       "o": [
         "require",
@@ -15597,10 +15716,10 @@
         "will require",
         "would require"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient ___ the rehabilitation program, they wouldn’t have suffered from muscle atrophy.",
       "o": [
         "complete",
@@ -15608,10 +15727,10 @@
         "had completed",
         "will complete"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "If the patient had followed the post-operative instructions, they ___ complications.",
       "o": [
         "avoid",
@@ -15619,10 +15738,10 @@
         "would have avoided",
         "will avoid"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The patient ___ symptoms include fever and cough was admitted to the hospital.",
       "o": [
         "who",
@@ -15630,10 +15749,10 @@
         "which",
         "that"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The medication ___ the doctor prescribed has shown positive results.",
       "o": [
         "who",
@@ -15641,10 +15760,10 @@
         "which",
         "where"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The surgeon ___ performed the operation is a renowned specialist.",
       "o": [
         "who",
@@ -15652,10 +15771,10 @@
         "which",
         "where"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The hospital ___ offers specialized cardiac care is located downtown.",
       "o": [
         "who",
@@ -15663,10 +15782,10 @@
         "which",
         "where"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The disease ___ causes inflammation of the joints is known as arthritis.",
       "o": [
         "who",
@@ -15674,10 +15793,10 @@
         "which",
         "where"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The nurse ___ duties include administering medication is highly skilled.",
       "o": [
         "who",
@@ -15685,10 +15804,10 @@
         "which",
         "where"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The patient ___ condition improved significantly was discharged from the ICU.",
       "o": [
         "who",
@@ -15696,10 +15815,10 @@
         "which",
         "that"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The laboratory ___ the blood samples are analyzed is equipped with state-of-the-art technology.",
       "o": [
         "who",
@@ -15707,10 +15826,10 @@
         "which",
         "where"
       ],
-      "c": 3
+      "c": 3,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The antibiotic ___ was prescribed for the infection is very effective.",
       "o": [
         "who",
@@ -15718,10 +15837,10 @@
         "which",
         "where"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The doctor ___ specializes in neurology is giving a lecture today.",
       "o": [
         "who",
@@ -15729,10 +15848,10 @@
         "which",
         "where"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The symptom ___ is characterized by severe headaches is called migraine.",
       "o": [
         "who",
@@ -15740,10 +15859,10 @@
         "which",
         "where"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The patient ___ blood pressure was dangerously high is now stable.",
       "o": [
         "who",
@@ -15751,10 +15870,10 @@
         "which",
         "where"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The therapy ___ focuses on improving mobility is known as physiotherapy.",
       "o": [
         "who",
@@ -15762,10 +15881,10 @@
         "which",
         "where"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The specialist ___ expertise is in pediatric care is highly respected.",
       "o": [
         "who",
@@ -15773,10 +15892,10 @@
         "which",
         "where"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The condition ___ affects the respiratory system is known as asthma.",
       "o": [
         "who",
@@ -15784,10 +15903,10 @@
         "which",
         "where"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The doctor ___ the patient’s blood pressure.",
       "o": [
         "measures",
@@ -15795,10 +15914,10 @@
         "was measured",
         "has been measured"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The patient ___ by the nurse.",
       "o": [
         "treats",
@@ -15806,10 +15925,10 @@
         "was treating",
         "has treated"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The surgeon ___ the operation successfully.",
       "o": [
         "performed",
@@ -15817,10 +15936,10 @@
         "is performing",
         "has been performing"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The medication ___ to the patient every four hours.",
       "o": [
         "gives",
@@ -15828,10 +15947,10 @@
         "gave",
         "has given"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The lab technician ___ the blood samples.",
       "o": [
         "analyze",
@@ -15839,10 +15958,10 @@
         "analyzed",
         "has been analyzed"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The diagnosis ___ by the specialist.",
       "o": [
         "makes",
@@ -15850,10 +15969,10 @@
         "made",
         "has made"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The hospital ___ new medical equipment.",
       "o": [
         "installs",
@@ -15861,10 +15980,10 @@
         "was installed",
         "has been installed"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The patient’s condition ___ closely.",
       "o": [
         "monitors",
@@ -15872,10 +15991,10 @@
         "monitored",
         "has monitored"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The pharmacist ___ the prescription.",
       "o": [
         "dispenses",
@@ -15883,10 +16002,10 @@
         "was dispensed",
         "has been dispensed"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The rehabilitation program ___ by the physical therapist.",
       "o": [
         "designs",
@@ -15894,10 +16013,10 @@
         "designed",
         "has designed"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The researchers ___ a new treatment for the disease.",
       "o": [
         "discover",
@@ -15905,10 +16024,10 @@
         "discovered",
         "has been discovered"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The vaccine ___ to prevent the spread of the virus.",
       "o": [
         "develops",
@@ -15916,10 +16035,10 @@
         "developed",
         "has developed"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The medical team ___ the emergency situation last time.",
       "o": [
         "handles",
@@ -15927,10 +16046,10 @@
         "handled",
         "has been handled"
       ],
-      "c": 2
+      "c": 2,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The patient’s medical history ___ carefully reviewed.",
       "o": [
         "reviews",
@@ -15938,10 +16057,10 @@
         "reviewed",
         "has reviewed"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The hospital ___ a new wing for the oncology department.",
       "o": [
         "builds",
@@ -15949,10 +16068,10 @@
         "was built",
         "has been built"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "The doctor said, “The patient’s condition is stable.” The doctor said that the patient’s condition ___ stable.",
       "o": [
         "is",
@@ -15960,10 +16079,10 @@
         "will be",
         "has been"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“Take this medication twice a day,” the nurse told the patient. The nurse told the patient ___ that medication twice a day.",
       "o": [
         "take",
@@ -15971,10 +16090,10 @@
         "took",
         "taking"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“I will need to run some tests,” the lab technician explained. The lab technician explained that he ___ need to run some tests.",
       "o": [
         "will",
@@ -15982,10 +16101,10 @@
         "has",
         "had"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“Have you experienced any chest pain?” the cardiologist asked. The cardiologist asked the patient ___ he had experienced any chest pain.",
       "o": [
         "if",
@@ -15993,10 +16112,10 @@
         "when",
         "which"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“We performed the surgery successfully,” the surgeon announced. The surgeon announced that they ___ performed the surgery successfully.",
       "o": [
         "have",
@@ -16004,10 +16123,10 @@
         "will",
         "are"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“The patient’s blood pressure is too high,” the resident doctor stated. The resident doctor stated that the patient’s blood pressure ___ too high.",
       "o": [
         "is",
@@ -16015,10 +16134,10 @@
         "has been",
         "will be"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“Please schedule a follow-up appointment,” the physician requested. The physician requested the patient ___ a follow-up appointment.",
       "o": [
         "schedule",
@@ -16026,10 +16145,10 @@
         "scheduling",
         "scheduled"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“I am administering the medication now,” the nurse reported. The nurse reported that she ___ administering the medication then.",
       "o": [
         "is",
@@ -16037,10 +16156,10 @@
         "will be",
         "has been"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“Did you take your medication this morning?” the doctor asked. The doctor asked the patient ___ he had taken his medication that morning.",
       "o": [
         "if",
@@ -16048,10 +16167,10 @@
         "when",
         "which"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“We will discharge the patient tomorrow,” the hospital administrator said. The hospital administrator said that they ___ discharge the patient the following day.",
       "o": [
         "will",
@@ -16059,10 +16178,10 @@
         "have",
         "had"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“The diagnosis is pneumonia,” the radiologist concluded. The radiologist concluded that the diagnosis ___ pneumonia.",
       "o": [
         "is",
@@ -16070,10 +16189,10 @@
         "has been",
         "will be"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“Stop smoking immediately,” the pulmonologist advised. The pulmonologist advised the patient ___ smoking immediately.",
       "o": [
         "stop",
@@ -16081,10 +16200,10 @@
         "stopping",
         "stopped"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“I am conducting a clinical trial,” the researcher explained. The researcher explained that he ___ conducting a clinical trial.",
       "o": [
         "is",
@@ -16092,10 +16211,10 @@
         "will be",
         "has been"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“Have you had any allergic reactions to medications?” the allergist asked. The allergist asked the patient ___ he had had any allergic reactions to medications.",
       "o": [
         "if",
@@ -16103,10 +16222,10 @@
         "when",
         "which"
       ],
-      "c": 0
+      "c": 0,
+      "s": "Foreign Language"
     },
     {
-      "s": "Foreign Language",
       "q": "“We will monitor the patient’s vital signs closely,” the ICU nurse stated. The ICU nurse stated that they ___ monitor the patient’s vital signs closely.",
       "o": [
         "will",
@@ -16114,7 +16233,8 @@
         "have",
         "had"
       ],
-      "c": 1
+      "c": 1,
+      "s": "Foreign Language"
     }
   ]
 }
