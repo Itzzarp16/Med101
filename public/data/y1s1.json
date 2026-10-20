@@ -12,7 +12,7 @@
     },
     "Foreign and Latin language": {
       "emoji": "🌐",
-      "desc": "Content coming soon",
+      "desc": "Latin Language & Foreign Language – 389 questions",
       "accent": "var(--violet)"
     },
     "History and Culture of Kyrgyzstan": {
@@ -66,13 +66,25 @@
       "emoji": "⚗️",
       "desc": "Amino acids & organic chemistry – 79 questions",
       "accent": "var(--purple)"
+    },
+    "Latin Language": {
+      "emoji": "📜",
+      "desc": "Latin Language – 201 questions",
+      "accent": "var(--violet)"
+    },
+    "Foreign Language": {
+      "emoji": "🇬🇧",
+      "desc": "Foreign Language – 188 questions",
+      "accent": "var(--cyan)"
     }
   },
   "subjectGroup": {
     "Information Technology and Mathematics": "Information Technology and Mathematics",
     "History and Culture of Kyrgyzstan": "History and Culture of Kyrgyzstan",
     "Biochemistry": "Bioorganic chemistry",
-    "Amino acids & organic chemistry": "Bioorganic chemistry"
+    "Amino acids & organic chemistry": "Bioorganic chemistry",
+    "Latin Language": "Foreign and Latin language",
+    "Foreign Language": "Foreign and Latin language"
   },
   "questions": [
     {
@@ -11824,6 +11836,4285 @@
         "Purine alkaloids"
       ],
       "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term in which the letter “c” is read like [ts]:",
+      "o": [
+        "plicae",
+        "auricular",
+        "chiasma",
+        "calyx"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term in which the letter “s” is read like [z]:",
+      "o": [
+        "accessorius",
+        "intumescentia",
+        "adiposus",
+        "ossis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Find the noun that belongs to the 3rd declension:",
+      "o": [
+        "Facies, ei f",
+        "Nervus, i m",
+        "Tempus, oris n",
+        "Collum, i n"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Find the noun that belongs to the 4th declension:",
+      "o": [
+        "Nervus, i m",
+        "Corpus, oris n",
+        "Facies, ei f",
+        "Tractus, us m"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term in which “ti” is read like [tsi]:",
+      "o": [
+        "spatium",
+        "diverticulus",
+        "digestio",
+        "mixtio"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the correct answer: cervical septum – septum cervical…",
+      "o": [
+        "-er",
+        "-a",
+        "-is",
+        "-e"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the correct answer: wing shaped",
+      "o": [
+        "mastoideus",
+        "thyreoideus",
+        "alaris",
+        "pterygoideus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with non-agreed attribute:",
+      "o": [
+        "ostium venae",
+        "tuber cinereum",
+        "membrana tectoria",
+        "tuberculum gracile"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Adjective for “bone under the tongue”: os…",
+      "o": [
+        "hypoglossum",
+        "hyoideum",
+        "submandibulare",
+        "sublinguale"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Adjective for “nerve under the tongue”: nervus…",
+      "o": [
+        "hyoepiglotticus",
+        "sublingualis",
+        "hyoideus",
+        "hypoglossus"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the proper ending: transverse axis – axis transvers…",
+      "o": [
+        "-a",
+        "-us",
+        "-is",
+        "-um"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "To which declension does “regio, onis f” belong?",
+      "o": [
+        "1st",
+        "3rd",
+        "4th",
+        "2nd"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Which noun has the form of Gen. Sing.?",
+      "o": [
+        "Ductus",
+        "Dens",
+        "Cartilago",
+        "Sutura"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Which noun has the form of Nom. Pl.?",
+      "o": [
+        "Marginis",
+        "Digitus",
+        "Bursa",
+        "Ossa"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Lack of color vision",
+      "o": [
+        "anopia",
+        "anopsia",
+        "anophthalmia",
+        "achromatopsia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Lack of secretion of gastric juice enzymes",
+      "o": [
+        "acheilia",
+        "achylia",
+        "asphygmia",
+        "agastria"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Developmental anomaly: absence of a spinal cord",
+      "o": [
+        "ahypnognosia",
+        "aniridia",
+        "atonia",
+        "amyelia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Non-recognition of objects and phenomena",
+      "o": [
+        "agnosia",
+        "amnesia",
+        "anophthalmia",
+        "asthenia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Common name of mental disorders",
+      "o": [
+        "psychosis",
+        "olygocrania",
+        "schizophrenia",
+        "dysphrenia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Hypalgia",
+      "o": [
+        "senseless footsteps",
+        "pain reduction during sleep",
+        "lack of feeling in body",
+        "reduced pain sensitivity"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Kakosmia",
+      "o": [
+        "unpleasant smell sensation",
+        "lack of salivation",
+        "lack of emotion",
+        "lack of sense of smell"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Micromania",
+      "o": [
+        "delirium of self-deprecation",
+        "self destruction",
+        "small minded person",
+        "following bliss, one small desire at a time"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Narcologia",
+      "o": [
+        "the section of psychiatry that studies mental illnesses of adults",
+        "study about acute nervousness, irritability",
+        "attraction to taking narcotic substances",
+        "the section of psychiatry that studies the manifestations of alcoholism, drug addiction and substance abuse"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Microphonia",
+      "o": [
+        "weakness of the voice",
+        "a small voice",
+        "low voice",
+        "tangible voice"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Recurrent skin inflammation of a neuro-allergic nature",
+      "o": [
+        "eczema",
+        "psoriasis",
+        "anathema",
+        "dermatitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Schizophrenia",
+      "o": [
+        "small minded",
+        "the development of congenital mind problem",
+        "mental illness: split personality; a section of psychiatry that studies the diseases of elderly and senile people",
+        "mental illness: split personality"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "A decrease in the supply of tissue or organ due to weakening of arterial blood supply",
+      "o": [
+        "olygoaemia",
+        "haematopenia",
+        "haematostasis",
+        "ischaemia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Progeria",
+      "o": [
+        "premature aging",
+        "premature aging of the brain",
+        "aging of the skin",
+        "disorders in older people"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Oligodipsia",
+      "o": [
+        "the body's need for a small amount of fluid",
+        "underdevelopment of a tissue, organ, body part or whole organism",
+        "occurrence, course and outcome of diseases",
+        "underdevelopment of distal parts of body"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Obsessive biting of nails and lips",
+      "o": [
+        "cheilophagia",
+        "onychophagia",
+        "onychocheilophagia",
+        "cheiloaphagia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Non-recognition of objects and phenomena",
+      "o": [
+        "agnosia",
+        "aphasia",
+        "aplasia",
+        "athymia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Anomaly of development: underdevelopment and occlusion of the language",
+      "o": [
+        "glossoptōsis",
+        "glossaplasia",
+        "aglossia",
+        "glossopathia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Inflammation of the skin or mucous membrane, with clusters of deep-seated",
+      "o": [
+        "herpes",
+        "exanthema",
+        "psoriasis",
+        "pyoderma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Mass of coagulated blood (internal or under the skin)",
+      "o": [
+        "hyperaemesis",
+        "hyperrrhagia",
+        "hyperaemia",
+        "hematoma"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "The condition in which the urine contains lymph",
+      "o": [
+        "lymphauria",
+        "urolimpha",
+        "chyluria",
+        "ischuria"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Indifference to other people and events",
+      "o": [
+        "depression",
+        "agonia",
+        "asthenia",
+        "apathia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Depression, decreased mood and mental activity",
+      "o": [
+        "barythymia",
+        "apathia",
+        "dysthymia",
+        "athymia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Treatment of root canals of teeth",
+      "o": [
+        "endodontic",
+        "odonthotherapia",
+        "dentatherapia",
+        "odontopexia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Elevated mood",
+      "o": [
+        "hypersthenia",
+        "hypermygia",
+        "polysthemia",
+        "hyperthimia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Delirium of greatness",
+      "o": [
+        "megalocrania",
+        "macrocephalia",
+        "megalophrenia",
+        "megalomania"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Age-related sclerosis",
+      "o": [
+        "sclerōsis focālis",
+        "sclerōsis praesenīlis",
+        "osteosclerōsis",
+        "panchydermia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Compaction of the convolutions of the brain",
+      "o": [
+        "pancephalia",
+        "hemicrania",
+        "pachyencephalia",
+        "pachygyria"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Expansion of the heart cavities",
+      "o": [
+        "cardiomegalia",
+        "dilatatio cordis",
+        "macrocardia",
+        "dilatation cardia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Congenital or acquired organ displacement",
+      "o": [
+        "ectopia",
+        "implantatio",
+        "amputatio",
+        "ruptūra"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Decrease in size or wasting away of a cell, tissue, organ or part",
+      "o": [
+        "hypoplasia",
+        "olygoplasia",
+        "microplasia",
+        "atrophia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Purulent inflammation of the kidney",
+      "o": [
+        "neuritis",
+        "nephritis",
+        "nephromatitis",
+        "pyelonephritis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Heterogēnus",
+      "o": [
+        "uterus development",
+        "different kind or type",
+        "formation of the uterus",
+        "developing from the cartilaginous tissue"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Ailurophobia",
+      "o": [
+        "fear of snakes",
+        "fear of dogs",
+        "fear of spiders",
+        "fear of cats"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Pathological lack of desires and motives for activity",
+      "o": [
+        "asthenia",
+        "abulia",
+        "athymia",
+        "atonia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Developmental anomaly: absence of eyelids",
+      "o": [
+        "abscessotomia",
+        "acephalia",
+        "acheilia",
+        "ablepharia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Non-recognition of objects and phenomena",
+      "o": [
+        "agraphia",
+        "ahypnognosia",
+        "amyelia",
+        "agnosia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Congenital absence of an organ or body part",
+      "o": [
+        "aplasia",
+        "atrophia",
+        "acardia",
+        "cranium"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Bathophobia",
+      "o": [
+        "fear of bathing",
+        "fear of food poisoning",
+        "fear of depth",
+        "fear of open spaces"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Unusually deep breathing",
+      "o": [
+        "bathypnoë",
+        "olygopnoe",
+        "apnoe",
+        "hyperpnoe"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "The content of bile in the blood",
+      "o": [
+        "cholaemia",
+        "haemorrhagia",
+        "hemophilia",
+        "anemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “anosmia”:",
+      "o": [
+        "absence of taste",
+        "absence of smell",
+        "absence of appetite",
+        "disorder of taste"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “panotitis”:",
+      "o": [
+        "inflammation of whole ear",
+        "inflammation of whole eye",
+        "inflammation of whole nose",
+        "disease of cartilages"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “gastrostomia”:",
+      "o": [
+        "artificial opening of stomach",
+        "operation of stomach",
+        "disease of stomach",
+        "inflammation of stomach"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “podalgia”:",
+      "o": [
+        "pain of face",
+        "pain of foot",
+        "pain of tooth",
+        "blood in urine"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “adenoma”:",
+      "o": [
+        "tumor of head",
+        "tumor of node",
+        "tumor of muscle",
+        "tumor of spleen"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “pyuria”:",
+      "o": [
+        "pain of kidney",
+        "operation of kidney",
+        "disease of kidney with pus",
+        "pus in blood"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “disease”:",
+      "o": [
+        "myorrhexis",
+        "arthrosis",
+        "periodontitis",
+        "empyema"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “tumor”:",
+      "o": [
+        "psychosis",
+        "heliosis",
+        "adenoma",
+        "salpingitis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “rupturing”:",
+      "o": [
+        "neuroraphia",
+        "myotomia",
+        "pyelectasia",
+        "myorrhexis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “disorder”:",
+      "o": [
+        "cytopenia",
+        "polyphagia",
+        "dystrophia",
+        "osteomalacia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “excision”:",
+      "o": [
+        "mastopathia",
+        "mastotomia",
+        "mammographia",
+        "mastodynia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “measurements of the abdominal circumference”:",
+      "o": [
+        "laparometria",
+        "laparoscopia",
+        "laparotomia",
+        "laparoectomia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “examination of the interior of the abdomen”:",
+      "o": [
+        "laparometria",
+        "laparoscopia",
+        "laparotomia",
+        "laparoectomia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “inflammation of the larynx”:",
+      "o": [
+        "laryngostenōsis",
+        "laryngoscopia",
+        "laryngītis",
+        "laryngographia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “laryngītis”:",
+      "o": [
+        "inflammation of the larynx",
+        "examination of the larynx",
+        "narrowing or stricture of the larynx",
+        "surgical incision into the larynx"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “elevated number of white cells in the blood”:",
+      "o": [
+        "leucocyturia",
+        "leucocytōsis",
+        "leucopathia",
+        "leucopenia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “abnormally low number of white blood cells in the circulating blood”:",
+      "o": [
+        "leucocyturia",
+        "leucocytōsis",
+        "leucopathia",
+        "leucopenia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “lipaemia”:",
+      "o": [
+        "increased amounts of lipids in the blood",
+        "benign tumor of fatty tissue",
+        "lipids in the urine",
+        "greasy hair"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “inflammation of the lymph vessels”:",
+      "o": [
+        "lymphocytōsis",
+        "lymphangiītis",
+        "lymphopenia",
+        "lymphadenographia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “lymphorrhoea”:",
+      "o": [
+        "tumor of the lymph nodes",
+        "inflammation of the lymph vessels",
+        "flow of lymph from cut or ruptured lymph vessels",
+        "stoppage of lymph flow"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “abnormal largeness of the head”:",
+      "o": [
+        "macrocephalia",
+        "macrocardia",
+        "macrodontia",
+        "macrodontia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “macroglossia”:",
+      "o": [
+        "abnormal enlargement of the heart",
+        "abnormal largeness of the lips",
+        "abnormally enlarged tongue",
+        "abnormally large teeth"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “uterine bleeding”:",
+      "o": [
+        "metrographia",
+        "metroptōsis",
+        "metrorrhagia",
+        "metritis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “microglossia”:",
+      "o": [
+        "any lesions in small blood vessels (microangiopathy)",
+        "abnormally small head",
+        "abnormal smallness of the stomach",
+        "abnormally small tongue"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "The meaning of the term “myectomia”:",
+      "o": [
+        "muscular pain",
+        "excision of a muscle",
+        "lack of muscular tonus",
+        "inflammation of the heart muscle"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the term with the meaning “abnormal spinal cord development”:",
+      "o": [
+        "myelocēle",
+        "myelītis",
+        "myelographia",
+        "myelotherapia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "How many letters has the Latin alphabet?",
+      "o": [
+        "20",
+        "24",
+        "25",
+        "30"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Diphthong means:",
+      "o": [
+        "One letter – one sound",
+        "One letter – two sounds",
+        "Two letters – two sounds",
+        "Two letters – one sound"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Consonant combination “ch” sounds as:",
+      "o": [
+        "[h]",
+        "[tz]",
+        "[s]",
+        "[k]"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Which of them are gender endings?",
+      "o": [
+        "-issim, -rim",
+        "-a, -us, -um",
+        "-re, -te, -nt, -tur",
+        "-i, -is, -orum"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Which initial and final roots mean tumor:",
+      "o": [
+        "-oma, cancer, polypus, carcinoma",
+        "-cele, abscessus, cyst, hernia",
+        "-lithus, concrementum, calculus",
+        "-aemi, haem-, haemat-, lymph"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Find the Greek equivalent for Latin nasus:",
+      "o": [
+        "rhin-",
+        "ophthalmo-",
+        "chiro-",
+        "ot-"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "An abnormally slow rate of breathing",
+      "o": [
+        "Bradycardia",
+        "Bradyphagia",
+        "Bradypnoe",
+        "tachypnoe"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Any disease of the skin",
+      "o": [
+        "dermatosis",
+        "dermatitis",
+        "dermatomycosis",
+        "dermatologia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Paralysis of one side of the body",
+      "o": [
+        "hemiplegia",
+        "heminanopcia",
+        "hemicranias",
+        "hemisphere"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Paralysis of muscle or a condition in which muscular force is decreased",
+      "o": [
+        "monoplegia",
+        "gastroplegia",
+        "myoplegia",
+        "hemiplegia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Softening of bones",
+      "o": [
+        "osteomalacia",
+        "osteopathia",
+        "cephalomalacia",
+        "arthropatia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Abnormal intolerance to light",
+      "o": [
+        "phlebocarcinoma",
+        "photophobia",
+        "physiologia",
+        "phythoterapia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "A rapid action of the heart",
+      "o": [
+        "cardiologus",
+        "cardiogramma",
+        "tachycardia",
+        "tachypnoe"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "An insane desire for poison",
+      "o": [
+        "toxicomania",
+        "photophobia",
+        "hemophilia",
+        "osteomalacia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "X-ray examination of the urinary bladder",
+      "o": [
+        "photographia",
+        "biographia",
+        "cystographia",
+        "cardiogramma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Measuring of pelvis size in women",
+      "o": [
+        "geometria",
+        "pelvimetria",
+        "craniometria",
+        "gastrotomia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Internal examination of the rectum",
+      "o": [
+        "proctologus",
+        "proctologia",
+        "proctoscopia",
+        "ophthalmoscopia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Treatment by means of natural or artificial physical factors",
+      "o": [
+        "thermoplegia",
+        "phytotherapia",
+        "physiotherapia",
+        "psychotherapia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Results of quantitative and qualitative examination of blood",
+      "o": [
+        "programma",
+        "cystogramma",
+        "haemogramma",
+        "mastogramma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Lack of teeth",
+      "o": [
+        "athrophia",
+        "aphagia",
+        "atrichia",
+        "adentia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "A condition in which the ability of swallowing is lacking",
+      "o": [
+        "dysphagia",
+        "aphagia",
+        "atrichia",
+        "adentia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Lack of sensibility or intelligence",
+      "o": [
+        "immobilitas",
+        "insensibilis",
+        "encephalon",
+        "thermophillia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Reduced saliva secretion:",
+      "o": [
+        "hyposialia",
+        "asialia",
+        "acheilia",
+        "achylia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Recession of the eyeball into the cavity of the orbit",
+      "o": [
+        "enophthalmus",
+        "encephalogramma",
+        "enterospasmus",
+        "ophthalmoscopia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Condition in which the passage of urine is difficult",
+      "o": [
+        "dysphagia",
+        "dysuria",
+        "atrichia",
+        "adentia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Accumulation of pus in a cavity",
+      "o": [
+        "dysphagia",
+        "aphagia",
+        "enpyema",
+        "pyemia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Find the correct noun and adjective agreement:",
+      "o": [
+        "Oculus sinister",
+        "Oculus sinistra",
+        "Oculus sinistrum",
+        "Oculus sinistro"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "“Hemi means”:",
+      "o": [
+        "Small",
+        "One",
+        "Half",
+        "Big"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Which prefixes mean functional disorders?",
+      "o": [
+        "a-, in-, im-, dys-",
+        "endo-, exo-, para-, peri-",
+        "hypo-, hyper-, sym-, syn-",
+        "mono-, di-, tri-, tetra-"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "A congenital condition in which only one finger or toe is present on the hand or the foot",
+      "o": [
+        "monoplegia",
+        "monodactylismus",
+        "dactyloscopia",
+        "polydactylia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "A periodic morbid condition with localized headaches",
+      "o": [
+        "hemiplegia",
+        "hemianopcia",
+        "hemicrania",
+        "hemisphere"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "A false joint formed between the fragments of a fractured bone which have failed to unite",
+      "o": [
+        "angiopathia",
+        "physiologia",
+        "pseudarthrosis",
+        "phothophobia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Spasmodic contraction of a finger or toe",
+      "o": [
+        "sympathia",
+        "dactylospasmus",
+        "syndromum",
+        "myoplegia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Any disease of blood vessels",
+      "o": [
+        "angiopathia",
+        "arthrosis",
+        "Apathia",
+        "anthropologia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Softening of joints",
+      "o": [
+        "angiopathia",
+        "arthrosis",
+        "arthpomalacia",
+        "osteomalacia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Difficulty swallowing",
+      "o": [
+        "dysphagia",
+        "bradypnoe",
+        "stomatosis",
+        "monoplegia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Which roots mean Greek prefixes?",
+      "o": [
+        "Py-, lymph, transsudatum, exsudatum",
+        "Auto-, mono-, di-, hemi-",
+        "-itis, -itidis, pneumonia",
+        "Endo-, para-, peri-, exo-"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Find the Greek equivalent for Latin medicamentum:",
+      "o": [
+        "Rhin-",
+        "Pharmac-",
+        "Physio-",
+        "Glyc-"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Find the Latin equivalent of “hair”",
+      "o": [
+        "capillus",
+        "trich",
+        "caput",
+        "chach"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Which words mean the pathological fluids?",
+      "o": [
+        "Blood, sweat, tear",
+        "Py-, lymph-, transsudatum",
+        "Urine, blood, pus",
+        "Water, tea, coffee"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Find the correct agreement for the noun “aqua, ae, f”:",
+      "o": [
+        "purus",
+        "purum",
+        "pura",
+        "flavus"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Find the correct agreement for the noun “ganglion, i, n”:",
+      "o": [
+        "sublingualis",
+        "sublinguale",
+        "dexter",
+        "dextra"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Latin words are mostly used in:",
+      "o": [
+        "medical terminology",
+        "pharmacological terminology",
+        "clinical terminology",
+        "anatomical terminology"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Suturing the abdomen",
+      "o": [
+        "pneumonorrhaphia",
+        "laparorrhaphia",
+        "splenorrhaphia",
+        "gastroectomia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Bleeding from the ear:",
+      "o": [
+        "otorhoea",
+        "otorrhagia",
+        "otopyorhoea",
+        "orthodontia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Erroneous memory:",
+      "o": [
+        "amnesia",
+        "paramnesia",
+        "anamnesis",
+        "asialia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Toothache:",
+      "o": [
+        "somatalgia",
+        "stomatalgia",
+        "odontalgia",
+        "odontorrhagia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Non-inflammatory liver disease:",
+      "o": [
+        "hepatitis",
+        "hepatoma",
+        "hepatosis",
+        "haematemesis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Connective tissue tumor:",
+      "o": [
+        "fibroma",
+        "osteoma",
+        "chondroma",
+        "cholaemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Inflammation of all arteries",
+      "o": [
+        "osteomyelitis",
+        "panophthalmitis",
+        "panarteriitis",
+        "arthralgia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Pustular skin disease:",
+      "o": [
+        "dermatosis",
+        "dermatitis",
+        "pyodermia",
+        "desmurgia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Inflammation of lungs:",
+      "o": [
+        "bronchitis",
+        "pneumonia",
+        "pleuritis",
+        "pneumomalacia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Non-inflammatory disease of the vertebrae:",
+      "o": [
+        "arthrosis",
+        "spondylosis",
+        "osteoarthrosis",
+        "osteōma"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Radiography of the vein:",
+      "o": [
+        "cardiographia",
+        "phlebographia",
+        "cholecystographia",
+        "osteographia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Measurement of head:",
+      "o": [
+        "stethometria",
+        "cephalometria",
+        "craniometria",
+        "metrorrhagia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Low oxygen content in the blood:",
+      "o": [
+        "hydraemia",
+        "hyperglykaemia",
+        "hypoxaemia",
+        "hyperaemia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Eating disorder of tissues, organs, or the entire body",
+      "o": [
+        "myatrophy",
+        "dystrophy",
+        "hypertrophy",
+        "dysphagia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Disease of the spinal cord",
+      "o": [
+        "myopathia",
+        "thyreopathia",
+        "myelopathia",
+        "myelocēle"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Brain disease in Latin:",
+      "o": [
+        "encephalopathia",
+        "encephalogramma",
+        "encephalomalacia",
+        "cephalalgia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Gallbladder disease in Latin:",
+      "o": [
+        "cholecystotomia",
+        "cholecystopathia",
+        "cholecystitis",
+        "choledohus"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Which prefixes mean functional disorders?",
+      "o": [
+        "a-, in-, im-, dys-",
+        "endo-, exo-, para-, peri-",
+        "hypo-, hyper-, sym-, syn-",
+        "mono-, di-, tri-, tetra-"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "A false joint formed between the fragments of a fractured bone which have failed to unite",
+      "o": [
+        "angiopathia",
+        "physiologia",
+        "pseudarthrosis",
+        "phothophobia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Increasing the size of the limbs:",
+      "o": [
+        "encephalomegalia",
+        "acromegalia",
+        "splenomegalia",
+        "acralgia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Stop the bleeding",
+      "o": [
+        "homeostasis",
+        "phlebostasis",
+        "haemostasis",
+        "haematemesis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Operative release of the heart from scars:",
+      "o": [
+        "cardiolysis",
+        "cardiographia",
+        "cardioectasia",
+        "cardiorrhēxis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Kidney stone disease:",
+      "o": [
+        "nephrolithiasis",
+        "nephrolithus",
+        "nephrolithotomia",
+        "nephroptōsis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Paralysis of the tongue muscles:",
+      "o": [
+        "glossītis",
+        "glossalgia",
+        "glossoptōsis",
+        "glossoplegia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Vessel extension:",
+      "o": [
+        "angiectomia",
+        "angisotomia",
+        "angiectasia",
+        "angiorrhēxi"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Loss, lack of movement, immobility",
+      "o": [
+        "asphygmia",
+        "adynamia",
+        "akinesia",
+        "acrasia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Painful swallowing:",
+      "o": [
+        "poliphagia",
+        "dysphagia",
+        "odynophagia",
+        "aphagia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Cyanosis of the limbs:",
+      "o": [
+        "cyanosis",
+        "cyanoacria",
+        "acrocyanosis",
+        "cyanodermia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Surgical dissection of the uterus:",
+      "o": [
+        "metrectasia",
+        "metrotomia",
+        "metrectomia",
+        "metroptōsis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Insufficient urination:",
+      "o": [
+        "dysuria",
+        "polyuria",
+        "oliguria",
+        "uraemia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Blood in the urine:",
+      "o": [
+        "haematuria",
+        "chyluria",
+        "uraemia",
+        "urographia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Abnormal dryness of the skin:",
+      "o": [
+        "xerostomia",
+        "xerosis",
+        "xerodermia",
+        "xanthopsia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Accumulation of fluid in the head:",
+      "o": [
+        "hydraemia",
+        "hydrocephalia",
+        "hydrarthrosis",
+        "hydrocephalalgia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Treatment of tuberculosis",
+      "o": [
+        "physologia",
+        "psychiatria",
+        "phthisiatria",
+        "physician"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Inflammation of the pharynx:",
+      "o": [
+        "laryngitis",
+        "tracheitis",
+        "pharyngitis",
+        "pharyngostŏma"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Inflammation of the meninges:",
+      "o": [
+        "arteriitis",
+        "encephalitis",
+        "meningitis",
+        "cephalgia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "The process of registering signals or brain activity",
+      "o": [
+        "encephalography",
+        "histography",
+        "tomography",
+        "cephalogram"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Short-head / round-head",
+      "o": [
+        "macrocephalia",
+        "brachycephalia",
+        "hydrocephalia",
+        "olygocephalia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Eating an abnormally large amount of food:",
+      "o": [
+        "polyphagia",
+        "phagocytosis",
+        "oesophagitis",
+        "aphagia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Reduced saliva secretion:",
+      "o": [
+        "hyposialia",
+        "asialia",
+        "acheilia",
+        "achylia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Mucous discharge from the nose",
+      "o": [
+        "rhinorrhoea",
+        "rhinītis",
+        "rhinopathia",
+        "rhinologia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Lack of sensitivity in the extremities:",
+      "o": [
+        "acroanaesthesia",
+        "acroaesthesia",
+        "acrodermatītis",
+        "acropathia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Pain that occurs in a dream:",
+      "o": [
+        "hypnalgia",
+        "hypobulia",
+        "hypnotherapia",
+        "abulia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Facial pain in Latin",
+      "o": [
+        "prosopalgia",
+        "nyctalgia",
+        "micronychia",
+        "facealgia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Morbid attraction to theft:",
+      "o": [
+        "cleptomania",
+        "claustromania",
+        "claustrophobia",
+        "narcomania"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Impulsive attraction to arson:",
+      "o": [
+        "pyrophobia",
+        "pyrometria",
+        "pyrognōsus",
+        "pyromania"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Fear of loneliness:",
+      "o": [
+        "panophobia",
+        "pyrophobia",
+        "hypnophobia",
+        "autophobia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Elevated mood:",
+      "o": [
+        "hyperthymia",
+        "hyperthermia",
+        "hypertensio",
+        "euphoria"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Discharge from the ear:",
+      "o": [
+        "otorhoea",
+        "otorrhagia",
+        "otopyorhoea",
+        "otītis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Lip inflammation",
+      "o": [
+        "cheilītis",
+        "cheilophagia",
+        "cheilōsis",
+        "cholaemia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Speech disorders:",
+      "o": [
+        "dysphonia",
+        "dysphasia",
+        "dysplasia",
+        "aglossia"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Obsessive fear—fear of red:",
+      "o": [
+        "panphobia",
+        "hypnophobia",
+        "nyctophobia",
+        "erythrophobia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Congenital dementia:",
+      "o": [
+        "oligaemia",
+        "oligopnia",
+        "oligophrenia",
+        "oligodipsia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "False myopia:",
+      "o": [
+        "prosopometria",
+        "pseudostenosis",
+        "pseudoptosis",
+        "pseudomyopia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Lack of emotion:",
+      "o": [
+        "atonia",
+        "atrophia",
+        "athymia",
+        "asplenia"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Developmental abnormality: excessively large fingers and / or toes",
+      "o": [
+        "macrodactylia",
+        "macrogenia",
+        "macropsia",
+        "macrographia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Sensitivity of one limb:",
+      "o": [
+        "monoaesthesia",
+        "monoanaesthesia",
+        "monocytopenia",
+        "monocytopoēsis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Common name of nail lesions:",
+      "o": [
+        "onychia",
+        "oncogenesis",
+        "onychatrophy",
+        "onychophagia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Pain all over the body:",
+      "o": [
+        "pathia",
+        "pancardītis",
+        "panaortītis",
+        "panalgia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Purulent blood, septic blood poisoning:",
+      "o": [
+        "pyelītis",
+        "pyaemia",
+        "pyelotomia",
+        "pylorostensis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Nasal mucus discharge:",
+      "o": [
+        "rhinitis",
+        "rhinorrhagia",
+        "rhinorrhoea",
+        "meningitis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Radiography of a certain layer of the object:",
+      "o": [
+        "tenorrhaphy",
+        "radiogram",
+        "radiography",
+        "tomography"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Stagnation of urine in the urinary tract:",
+      "o": [
+        "urolithus",
+        "uropoēsis",
+        "uraemia",
+        "urostăsis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Weakness, fatigue increases:",
+      "o": [
+        "athymia",
+        "dyspnea",
+        "dysthymia",
+        "asthenia"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Latin Language",
+      "q": "Select a term with the meaning “uterine bleeding”",
+      "o": [
+        "metrographia",
+        "metropolis",
+        "metrorrhagia",
+        "metritis"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "What group of languages does Latin belong to?",
+      "o": [
+        "African",
+        "Finno-Ugric",
+        "Indo-European",
+        "Romanian"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "The Latin language got its name from a tribe who lived in Latium. Where was Latium located?",
+      "o": [
+        "In the south of Italy",
+        "in the center of Italy",
+        "on the island of Sicily",
+        "in west Africa"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Which language, along with Latin, contributed to the flourishing of the literary language of the ancient Romans?",
+      "o": [
+        "Spanish",
+        "Italian",
+        "Greek",
+        "German"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "The appearance of Latin as a language is attributed to the middle … centuries.",
+      "o": [
+        "II",
+        "VI",
+        "IV",
+        "V"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "For several centuries, up to the Arab conquest, the Latin language was widespread in …",
+      "o": [
+        "Australia",
+        "North America",
+        "Africa",
+        "Italy"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "The language of which sciences is Latin?",
+      "o": [
+        "Economy",
+        "Roman law",
+        "Mathematics",
+        "Natural sciences"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Latin was the language of science up to … centuries.",
+      "o": [
+        "12",
+        "14",
+        "18",
+        "19"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the political principle of the ancient Roman conquerors.",
+      "o": [
+        "Divide et impera",
+        "Aut vincere",
+        "Dura lex, sed lex",
+        "Nota bene!"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Choose the main medical commandment.",
+      "o": [
+        "Nota bene!",
+        "Noli nocere!",
+        "Fiat lux!",
+        "Divide et impera!"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Who said “Veni, vidi, vici”?",
+      "o": [
+        "Markus Tullius Cicero",
+        "Galiy Yuliy Tcezar",
+        "Publiy Vergiliy Maron",
+        "Aleksandr Makedonskiy"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Latin Language",
+      "q": "Inflammation of the skin or mucous membrane, with clusters of deep-seated",
+      "o": [
+        "herpes",
+        "exanthema",
+        "psoriasis",
+        "pyoderma"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Latin Language",
+      "q": "Depression, decreased mood and mental activity",
+      "o": [
+        "barythymia",
+        "apathia",
+        "dysthymia",
+        "athymia"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Classify the past tense verb ending “ed” by their pronunciation. She was vaccinated against smallpox as a child.",
+      "o": [
+        "Vaccinated, [id]",
+        "Vaccinated, [d]",
+        "Vaccinated, [t]",
+        "Vaccinated, [it]"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Classify the past tense verb ending “ed” by their pronunciation. The doctor diagnosed him as having hepatitis B.",
+      "o": [
+        "Diagnosed, [id]",
+        "Diagnosed, [d]",
+        "Diagnosed, [t]",
+        "Diagnosed, [it]"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Classify the past tense verb ending “ed” by their pronunciation. Her condition improved, so we reduced the dose.",
+      "o": [
+        "Improved [d]",
+        "Improved [id]",
+        "Improved [it]",
+        "Improved [t]"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Classify the past tense verb ending “ed” by their pronunciation. He consulted a specialist, who recommended surgery.",
+      "o": [
+        "Consulted [it]",
+        "Consulted [d]",
+        "Consulted [id]",
+        "Consulted [t]"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Classify the past tense verb ending “ed” by their pronunciation. The patient coughed and sneezed all through the consultation.",
+      "o": [
+        "Coughed, [id]",
+        "Coughed, [it]",
+        "Coughed, [d]",
+        "Coughed, [t]"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "These fumes are ___ if inhaled.",
+      "o": [
+        "Lethal",
+        "Deaf",
+        "Tender",
+        "Acute"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The report was ___ of the state of aftercare provision.",
+      "o": [
+        "Mobile",
+        "Acute",
+        "Critical",
+        "Subjective"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "She had a ___ cough.",
+      "o": [
+        "Depressed",
+        "Persistent",
+        "Harmful",
+        "Bedridden"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "My grandfather is quite ___ now.",
+      "o": [
+        "Infirm",
+        "Premature",
+        "Inflamed",
+        "Latent"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "A fetus is ___ by about the 28th week of the pregnancy.",
+      "o": [
+        "Deaf",
+        "Premature",
+        "Tender",
+        "Latent"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "___ Jack’s favorite game is, he will surely want you to play with him",
+      "o": [
+        "Billiard are",
+        "Billiards is",
+        "Billiards are",
+        "Billiard is"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The men’s ___ cheap and dirty.",
+      "o": [
+        "cloth was",
+        "cloths was",
+        "clothes was",
+        "cloths were"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Many professional cooks have their own special ___.",
+      "o": [
+        "knifes",
+        "knives",
+        "knifs",
+        "knive"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "In many labs ___ are used to test drugs and chemicals.",
+      "o": [
+        "mices",
+        "mouse",
+        "mice",
+        "mouses"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Alas, all our ___ for nothing.",
+      "o": [
+        "pain were",
+        "pains were",
+        "pains was",
+        "pain was"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "No ___ good news, or so they say.",
+      "o": [
+        "new are",
+        "news are",
+        "news is",
+        "new is"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "How good are you at handling ___?",
+      "o": [
+        "Crisis",
+        "Crisiss",
+        "Crisises",
+        "Crises"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "What is the Past Tense form of “Show”?",
+      "o": [
+        "Show",
+        "Shows",
+        "Showed",
+        "Shown"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "What is the Past Tense form of “Read”?",
+      "o": [
+        "Read",
+        "Readed",
+        "Reads",
+        "Readen"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "What is the Past Tense form of “Withdraw”?",
+      "o": [
+        "Withdrawn",
+        "Withdrew",
+        "Withdraw",
+        "Withdraws"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "What does this sentence mean? I am living in London now.",
+      "o": [
+        "I will live there.",
+        "I have moved to London to stay there forever.",
+        "I am in London only for a limited period of time.",
+        "I am going to move to London soon."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Look! The Millers are moving house. – What does this sentence mean?",
+      "o": [
+        "They are in the middle of the action.",
+        "The action is going to take place next week.",
+        "They will come back to this place one day.",
+        "They were in this place early"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "We are meeting Tom tonight. – What does this sentence mean?",
+      "o": [
+        "The action is arranged for the near future",
+        "The action is taking place now.",
+        "The action might take place.",
+        "The action have just taken"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Which word can be a signal word for an arranged action taking place in the near future?",
+      "o": [
+        "every Monday",
+        "next Monday",
+        "last Monday",
+        "usually on Monday"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Which word is a signal word for an action taking place in the moment of speaking?",
+      "o": [
+        "Look!",
+        "two days ago",
+        "every Friday",
+        "on Friday"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The London Dungeon lies in the oldest part of London –",
+      "o": [
+        "Present Progressive",
+        "Present Perfect",
+        "Simple Past",
+        "Simple Present"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "I have been learning English for seven years now.",
+      "o": [
+        "Simple Present",
+        "Present Progressive",
+        "Present Perfect",
+        "Present Perfect Progressive"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "She was waiting for a long time and then she ___ angry.",
+      "o": [
+        "Have gotten",
+        "Get",
+        "Gets",
+        "Got"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Modal verbs: The patient ___ talk yesterday.",
+      "o": [
+        "Could not",
+        "Can have",
+        "Have to",
+        "cannot"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Modal verbs: She tells me that she ___ find a job.",
+      "o": [
+        "May",
+        "Had",
+        "Must",
+        "Have"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Modal verbs: You ___ the team last month.",
+      "o": [
+        "Must to join",
+        "Ought to be joint",
+        "Ought to join",
+        "Should have joined"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Match the words with contextual meaning: No abnormal respiratory sounds means:",
+      "o": [
+        "iron supplement",
+        "lungs sound clear",
+        "no stamina",
+        "blood work"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Match the words with contextual meaning: iron supplement is:",
+      "o": [
+        "Tissue at the margin of the teeth",
+        "No energy",
+        "A medicine (sometimes over-the-counter) containing iron",
+        "A collection of tests performed on a blood sample"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Match the words with contextual meaning: blood work up means:",
+      "o": [
+        "More iron than in normal foods",
+        "More bleeding than usual",
+        "Light color / lacking normal color intensity",
+        "A collection of tests performed on a blood sample"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Match the words with contextual meaning: draw your blood means:",
+      "o": [
+        "To make part of something",
+        "To take blood from a person",
+        "No energy",
+        "Blood tests"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Match the words with contextual meaning: Another name for high blood pressure",
+      "o": [
+        "Essential hypertension",
+        "Hypertension",
+        "Diastolic pressure",
+        "Systolic pressure"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Match the words with contextual meaning: The upper number in a blood pressure measurement",
+      "o": [
+        "Systolic pressure",
+        "Vasoconstriction",
+        "Essential hypertension",
+        "Hypertension"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Match the words with contextual meaning: Contraction of the heart (ventricles)",
+      "o": [
+        "Receptor",
+        "Resistance",
+        "Systole",
+        "Diastole"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Make meaningful sentences: Blood flowing in the deep veins",
+      "o": [
+        "Partially occlude the vessel.",
+        "detected with a cat scan.",
+        "have very slow resting heart rates.",
+        "of the legs is often very sluggish, especially if a person sits most of the day at a desk."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Make meaningful sentences: Pulmonary embolism can result when clots that were",
+      "o": [
+        "formed during deep vein thrombosis break free from the vessel wall and enter the circulation.",
+        "occluded it is necessary to either by-pass the artery or perform angioplasty followed by the insertion of a stint.",
+        "Partially occlude thevessel.",
+        "receive prophylactic antibiotics before invasive dental procedures."
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Make meaningful sentences: Well-conditioned athletes often",
+      "o": [
+        "severe chest pain if they over exert themselves.",
+        "Partially occlude the vessel.",
+        "have very slow resting heart rates.",
+        "occluded it is necessary to either by-pass the artery or perform angioplasty followed by the insertion of a stint."
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Make meaningful sentences: The distended vessel was",
+      "o": [
+        "partially occlude the vessel.",
+        "detected with a CAT scan.",
+        "formed during deep vein thrombosis break free from the vessel wall and enter the circulation.",
+        "major vessel and a large part of the right ventricle had become necrotic."
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Use the prepositions. Please take ___ your shirt so I can examine the skin ___ your back.",
+      "o": [
+        "to, to",
+        "off, on",
+        "on, for",
+        "in, to"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Can you lay down ___ the examination table ___ checking?",
+      "o": [
+        "to, to",
+        "off, on",
+        "on, for",
+        "in, to"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Is the skin ___ this area painful ___ touch?",
+      "o": [
+        "to, to",
+        "off, on",
+        "on, for",
+        "in, to"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "You will need to apply this cream ___ the infected area every 4 hours.",
+      "o": [
+        "to",
+        "off, on",
+        "on, for",
+        "in, to"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Have you noticed any change ___ the color ___ the mole ___ your arm?",
+      "o": [
+        "to, in, for",
+        "to, to, for",
+        "in, of, on",
+        "in, with, in"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "I want you to add this powder ___ your bath water and then soak ___ the bath tub ___ 20 minutes.",
+      "o": [
+        "to, in, for",
+        "to, to, for",
+        "in, of, on",
+        "in, with, in"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "I want you to apply this topical corticosteroid cream ___ the area of the lesion 3 times a day ___ 2 weeks.",
+      "o": [
+        "to, in, for",
+        "to, for",
+        "in, of, on",
+        "in, with, in"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Please take this medicine ___ full glass ___ water.",
+      "o": [
+        "to, to",
+        "with, of",
+        "on, for",
+        "in, to"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Please have a seat ___ the waiting room. I’ll be ___ you ___ about 5 minutes.",
+      "o": [
+        "to, in, for",
+        "to, to, for",
+        "in, of, on",
+        "in, with, in"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Medical phrases. Make meaningful phrase. Allergic",
+      "o": [
+        "pox",
+        "infectious",
+        "reaction",
+        "response"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Medical phrases. Make meaningful phrase. Hypodermic",
+      "o": [
+        "infectious",
+        "irritating",
+        "lesional",
+        "needle"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Medical phrases. Make meaningful phrase. Inflammatory",
+      "o": [
+        "reaction",
+        "response",
+        "skin",
+        "ulcer"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Medical phrases. Make meaningful phrase. Itchy",
+      "o": [
+        "needle",
+        "painful",
+        "pox",
+        "rash"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Medical phrases. Make meaningful phrase. Local",
+      "o": [
+        "anesthetic",
+        "blood flow",
+        "burn(s)",
+        "cancer"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Medical phrases. Make meaningful phrase. Skin",
+      "o": [
+        "irritating",
+        "lesion",
+        "needle",
+        "painful"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Medical phrases. Make meaningful phrase. Sun",
+      "o": [
+        "burn(s)",
+        "cancer",
+        "condition",
+        "dermatitis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Medical phrases. Make meaningful phrase. Viral",
+      "o": [
+        "painful",
+        "infection",
+        "irritant",
+        "lesion"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Medical phrases. Make meaningful phrase. Contact",
+      "o": [
+        "burn(s)",
+        "cancer",
+        "condition",
+        "dermatitis"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Infinitive and Gerund: We have ___ overtime.",
+      "o": [
+        "do",
+        "to do",
+        "did",
+        "doing"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Infinitive and Gerund: Do you mind ___ the window?",
+      "o": [
+        "opened",
+        "opening",
+        "open",
+        "to open"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Infinitive and Gerund: Catherine managed ___ an important customer.",
+      "o": [
+        "to acquire",
+        "acquiring",
+        "acquired",
+        "acquire"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Infinitive and Gerund: Jane is busy ___ invitations for our company’s anniversary celebration.",
+      "o": [
+        "writing",
+        "to write",
+        "wrote",
+        "write"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Infinitive and Gerund: Let me begin by ___ you something about our company’s history.",
+      "o": [
+        "to tell",
+        "telling",
+        "told",
+        "tell"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Infinitive and Gerund: We risk ___ a lot of money.",
+      "o": [
+        "losing",
+        "lost",
+        "to losing",
+        "lose"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. The patient gave himself daily ___ injections of insulin as treatment for his type I diabetes.",
+      "o": [
+        "harsh",
+        "hypodermic",
+        "inflamed",
+        "inoperable"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Some shampoos are extremely ___ and can make your scalp itch.",
+      "o": [
+        "harsh",
+        "ithchy",
+        "inflamed",
+        "abrasive"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Because of extensive exposure to the sun, construction workers in the southwestern United States are ___ to developing skin cancers.",
+      "o": [
+        "painful",
+        "predisposed",
+        "inoperable",
+        "bedridden"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Melanomas are very dangerous cancers because once they spread they become ___.",
+      "o": [
+        "inoperable",
+        "predisposed",
+        "severe",
+        "painful"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Decubitus ulcers can develop quickly in ___ patients.",
+      "o": [
+        "painful",
+        "bedridden",
+        "inoperable",
+        "predisposed"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. ___ skin is found in areas that undergo constant frictional stress.",
+      "o": [
+        "scaly",
+        "red",
+        "callused",
+        "dry"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. The skin making up the scalp is extremely ___ compared to most other areas of the body.",
+      "o": [
+        "swollen",
+        "tender",
+        "thin",
+        "uncomfortable"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Chicken pox is a viral infection that produces ___ vesicles on scalp, face, chest and arms.",
+      "o": [
+        "dry",
+        "red",
+        "fluid-filled",
+        "swollen"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Even mild sunburns can remain ___ for several days.",
+      "o": [
+        "severe",
+        "swollen",
+        "tender",
+        "uncomfortable"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Shingles is often brought on by a ___ immune system.",
+      "o": [
+        "tender",
+        "painfull",
+        "uncomfortable",
+        "weakened"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Dry skin is usually very ___.",
+      "o": [
+        "thin",
+        "itchy",
+        "harsh",
+        "painful"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Cellulite can cause the skin over the thighs to look ___.",
+      "o": [
+        "swollen",
+        "itchy",
+        "lumpy",
+        "painful"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Dermatitis can be localized or very ___.",
+      "o": [
+        "dry",
+        "extensive",
+        "fluid-filled",
+        "harsh"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Working with strong irritating chemicals can produce ___ skin.",
+      "o": [
+        "harsh",
+        "hypodermic",
+        "inflamed",
+        "inoperable"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Hives appear as small ___ bumps on the skin.",
+      "o": [
+        "severe",
+        "swollen",
+        "tender",
+        "thin"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. As people age they often develop ___ skin.",
+      "o": [
+        "dry",
+        "extensive",
+        "fluid-filled",
+        "harsh"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Adjectives. Rubella is a mild infection in children, but can cause ___ birth defects if contracted by a woman while she is pregnant.",
+      "o": [
+        "severe",
+        "swollen",
+        "tender",
+        "extensive"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The first symptoms of an appendicitis are usually vague and not well ___.",
+      "o": [
+        "shift",
+        "radiate",
+        "proceed",
+        "defined"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "In addition to tenderness in the lower right quadrant, a patient with an appendicitis can ___ with many other symptoms as well; these include fever, nausea, vomiting, poor appetite, and ___.",
+      "o": [
+        "recovery / emanate",
+        "stays / diagnosis",
+        "present / constipation",
+        "radiate / sharper"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The surgical ___ for appendicitis is generally ___ and takes about 15 minutes.",
+      "o": [
+        "procedure / uneventful",
+        "shift / uneventful",
+        "acute / localized",
+        "transition / overnight"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Hospital ___ following an appendectomy are usually short, either ___ or one additional day.",
+      "o": [
+        "procedure / uneventful",
+        "stays / overnight",
+        "proceed / localized",
+        "transition / overnight"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Bolus is:",
+      "o": [
+        "inflammation of the gallbladder.",
+        "inflammation of the colon",
+        "to vomiting",
+        "food that has been chewed and mixed with saliva and is ready for swallowing."
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Reflex is:",
+      "o": [
+        "A neural pathway that produces a fix response to a fix stimulus.",
+        "Paralysis of the lower limbs due to a lower spinal cord injury or disease.",
+        "Involuntary shaking of a part of the body.",
+        "A collection of, general motor and sensory neurons that have been bundled together by connective tissue"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Soma is:",
+      "o": [
+        "Another commonly used name for a lumbar puncture.",
+        "Another name for the cell body of a neuron.",
+        "Involuntary shaking of a part of the body.",
+        "A collection of, general motor and sensory neurons that have been bundled together by connective tissue"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “dentist”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “dietitian”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “gynecologist”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “oncologist”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “pharmacist”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “phlebotomist”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “psychiatrist”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “technician”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “registered nurse”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “therapist”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “surgeon”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Where is the stress? “urologist”",
+      "o": [
+        "First syllable",
+        "Second syllable",
+        "Third syllable",
+        "Fourth syllable"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "A specialist in managing pregnancies …",
+      "o": [
+        "Gynecologist",
+        "Pediatrician",
+        "Obstetrician",
+        "Neonatologist"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "A specialist trained to design, verify and fit eyeglass lenses and frames, contact lenses, and other devices to correct eyesight …",
+      "o": [
+        "Ophthalmologist",
+        "Optometrist",
+        "Optician",
+        "Surgeon"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "A specialist in female reproductive health …",
+      "o": [
+        "Gynecologist",
+        "Pediatrician",
+        "Obstetrician",
+        "Neonatologist"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Complete with the Past Simple or Present Perfect: “Mrs. Purnell ___ in hospital for five days now.” (be)",
+      "o": [
+        "was",
+        "is",
+        "has been",
+        "used to be"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Complete with the Past Simple or Present Perfect: “How long ___ you ___ this pain now?” (have)",
+      "o": [
+        "Had",
+        "Have",
+        "Had … had",
+        "Have … had"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Complete with the Past Simple or Present Perfect: “I ___ all the childhood illnesses at an early age.” (catch)",
+      "o": [
+        "catch",
+        "catched",
+        "have catched",
+        "caught"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Circle the correct form. We rarely ___ operations like this under general anaesthetic.",
+      "o": [
+        "are performed",
+        "perform",
+        "are performing",
+        "performed"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Which hospital department would be most appropriate for a woman in diabetic coma?",
+      "o": [
+        "Accident & Emergency",
+        "Day surgery unit",
+        "Intensive Care Unit (ICU) / assessment unit",
+        "High Dependency Unit (HDU)"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Which hospital department would be most appropriate for a patient who is to have a skin lesion removed?",
+      "o": [
+        "Accident & Emergency",
+        "Day surgery unit",
+        "Intensive Care Unit (ICU) / assessment unit",
+        "High Dependency Unit (HDU)"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Which hospital department would be most appropriate for a man with a foreign body in his eye?",
+      "o": [
+        "Accident & Emergency",
+        "Day surgery unit",
+        "Intensive Care Unit (ICU) / assessment unit",
+        "High Dependency Unit (HDU)"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Write the common English name for a disease: “Papules and vesicles, first on trunk”",
+      "o": [
+        "Measles",
+        "Scarlet fever",
+        "Chickenpox",
+        "German measles"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Motor loss symptom and sign “abnormal gait”",
+      "o": [
+        "Loss of power",
+        "Involuntary rhythmic movement, especially of the hands",
+        "Unusual manner of walking",
+        "Complete loss of power"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Choose the medical term for the ordinary English word “graze”",
+      "o": [
+        "contusion",
+        "abrasion",
+        "linear abrasion",
+        "penetrating wound"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Prepositions: “The lab results will not be back ___ 5 pm tomorrow.”",
+      "o": [
+        "around",
+        "until",
+        "in",
+        "to"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Prepositions: “When you spin a blood sample, the layer ___ the plasma is the buffy coat.”",
+      "o": [
+        "on",
+        "at",
+        "between",
+        "below"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Prepositions: “Polycythemia puts an extra strain ___ the heart.”",
+      "o": [
+        "on",
+        "at",
+        "between",
+        "below"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Write the medical equivalent of the common English term: Chickenpox",
+      "o": [
+        "morbilli / rubeola",
+        "varicella",
+        "rubella",
+        "pertussis"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Write the medical equivalent of the common English term: Measles",
+      "o": [
+        "Morbilli / rubeola",
+        "varicella",
+        "rubella",
+        "pertussis"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Put the correct preposition. It was nice ___ you to come and see me when I was ill.",
+      "o": [
+        "with",
+        "of",
+        "to",
+        "about"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Complete the sentence using a collocation: The ___ was ___ all night and it was raining, so I could not sleep.",
+      "o": [
+        "opportunity; arises",
+        "standards; slipped",
+        "evidence; suggests",
+        "wind; howling"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Complete the sentence using a collocation: It was so cold I could not stop my ___ from ___.",
+      "o": [
+        "withstand; pressure",
+        "teeth; chattering",
+        "disease; spreading",
+        "smoke; rising"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Put the correct preposition: I can’t understand people who are cruel ___ animals.",
+      "o": [
+        "with",
+        "of",
+        "to",
+        "about"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Complete the sentence using a collocation: The machine has to be made of materials that can ___ from ___.",
+      "o": [
+        "withstand; pressure",
+        "teeth; chattering",
+        "disease; spreading",
+        "smoke; rising"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Complete the sentence using a collocation: Our survey shows that parents believe ___ have ___ at the school.",
+      "o": [
+        "evidence; suggests",
+        "wind; howling",
+        "opportunity; arises",
+        "standards; slipped"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Complete the sentence using a collocation: Oh, no! There is a fire. Look at the ___ ___.",
+      "o": [
+        "withstand; pressure",
+        "teeth; chattering",
+        "disease; spreading",
+        "smoke; rising"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "Complete the sentence using a collocation: You must accompany Mason on one of his business trips to Asia if the ___ ever.",
+      "o": [
+        "opportunity; arises",
+        "standards; slipped",
+        "evidence; suggests",
+        "wind; howling"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient’s temperature ___ above 38°C, we will administer antipyretics.",
+      "o": [
+        "rises",
+        "rose",
+        "would rise",
+        "had risen"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient ___ severe chest pain, we would perform an ECG immediately.",
+      "o": [
+        "has",
+        "had",
+        "will have",
+        "had had"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the lab results had shown a high white blood cell count, we ___ antibiotics.",
+      "o": [
+        "prescribe",
+        "would prescribe",
+        "would have prescribed",
+        "prescribed"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "What will you do if the patient ___ respiratory distress?",
+      "o": [
+        "develops",
+        "developed",
+        "will develop",
+        "had developed"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient ___ the medication as prescribed, they wouldn’t have experienced side effects.",
+      "o": [
+        "take",
+        "took",
+        "had taken",
+        "will take"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the doctor ___ more time, she would explain the diagnosis in detail.",
+      "o": [
+        "has",
+        "had",
+        "will have",
+        "had had"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If you apply pressure to the wound, the bleeding ___.",
+      "o": [
+        "stops",
+        "stopped",
+        "will stop",
+        "would stop"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient ___ a history of allergies, we would avoid using certain drugs.",
+      "o": [
+        "has",
+        "had",
+        "were to have",
+        "had had"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient ___ the symptoms earlier, the diagnosis wouldn’t have been delayed.",
+      "o": [
+        "report",
+        "reported",
+        "had reported",
+        "will report"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient doesn’t respond to the initial treatment, we ___ further tests.",
+      "o": [
+        "conduct",
+        "conducted",
+        "will conduct",
+        "had conducted"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient ___ a healthy lifestyle, they would have reduced their risk of cardiovascular disease.",
+      "o": [
+        "maintain",
+        "maintained",
+        "had maintained",
+        "will maintain"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient ___ consent, we would proceed with the surgery.",
+      "o": [
+        "give",
+        "gave",
+        "had given",
+        "will give"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient’s condition worsens, we ___ immediate intervention.",
+      "o": [
+        "require",
+        "required",
+        "will require",
+        "would require"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient ___ the rehabilitation program, they wouldn’t have suffered from muscle atrophy.",
+      "o": [
+        "complete",
+        "completed",
+        "had completed",
+        "will complete"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "If the patient had followed the post-operative instructions, they ___ complications.",
+      "o": [
+        "avoid",
+        "avoided",
+        "would have avoided",
+        "will avoid"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The patient ___ symptoms include fever and cough was admitted to the hospital.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "that"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The medication ___ the doctor prescribed has shown positive results.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The surgeon ___ performed the operation is a renowned specialist.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The hospital ___ offers specialized cardiac care is located downtown.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The disease ___ causes inflammation of the joints is known as arthritis.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The nurse ___ duties include administering medication is highly skilled.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The patient ___ condition improved significantly was discharged from the ICU.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "that"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The laboratory ___ the blood samples are analyzed is equipped with state-of-the-art technology.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 3
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The antibiotic ___ was prescribed for the infection is very effective.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The doctor ___ specializes in neurology is giving a lecture today.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The symptom ___ is characterized by severe headaches is called migraine.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The patient ___ blood pressure was dangerously high is now stable.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The therapy ___ focuses on improving mobility is known as physiotherapy.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The specialist ___ expertise is in pediatric care is highly respected.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The condition ___ affects the respiratory system is known as asthma.",
+      "o": [
+        "who",
+        "whose",
+        "which",
+        "where"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The doctor ___ the patient’s blood pressure.",
+      "o": [
+        "measures",
+        "is measured",
+        "was measured",
+        "has been measured"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The patient ___ by the nurse.",
+      "o": [
+        "treats",
+        "is treated",
+        "was treating",
+        "has treated"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The surgeon ___ the operation successfully.",
+      "o": [
+        "performed",
+        "was performed",
+        "is performing",
+        "has been performing"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The medication ___ to the patient every four hours.",
+      "o": [
+        "gives",
+        "is given",
+        "gave",
+        "has given"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The lab technician ___ the blood samples.",
+      "o": [
+        "analyze",
+        "is analyzed",
+        "analyzed",
+        "has been analyzed"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The diagnosis ___ by the specialist.",
+      "o": [
+        "makes",
+        "is made",
+        "made",
+        "has made"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The hospital ___ new medical equipment.",
+      "o": [
+        "installs",
+        "is installed",
+        "was installed",
+        "has been installed"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The patient’s condition ___ closely.",
+      "o": [
+        "monitors",
+        "is monitored",
+        "monitored",
+        "has monitored"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The pharmacist ___ the prescription.",
+      "o": [
+        "dispenses",
+        "is dispensed",
+        "was dispensed",
+        "has been dispensed"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The rehabilitation program ___ by the physical therapist.",
+      "o": [
+        "designs",
+        "is designed",
+        "designed",
+        "has designed"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The researchers ___ a new treatment for the disease.",
+      "o": [
+        "discover",
+        "is discovered",
+        "discovered",
+        "has been discovered"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The vaccine ___ to prevent the spread of the virus.",
+      "o": [
+        "develops",
+        "is developed",
+        "developed",
+        "has developed"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The medical team ___ the emergency situation last time.",
+      "o": [
+        "handles",
+        "is handled",
+        "handled",
+        "has been handled"
+      ],
+      "c": 2
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The patient’s medical history ___ carefully reviewed.",
+      "o": [
+        "reviews",
+        "is reviewed",
+        "reviewed",
+        "has reviewed"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The hospital ___ a new wing for the oncology department.",
+      "o": [
+        "builds",
+        "is built",
+        "was built",
+        "has been built"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "The doctor said, “The patient’s condition is stable.” The doctor said that the patient’s condition ___ stable.",
+      "o": [
+        "is",
+        "was",
+        "will be",
+        "has been"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“Take this medication twice a day,” the nurse told the patient. The nurse told the patient ___ that medication twice a day.",
+      "o": [
+        "take",
+        "to take",
+        "took",
+        "taking"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“I will need to run some tests,” the lab technician explained. The lab technician explained that he ___ need to run some tests.",
+      "o": [
+        "will",
+        "would",
+        "has",
+        "had"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“Have you experienced any chest pain?” the cardiologist asked. The cardiologist asked the patient ___ he had experienced any chest pain.",
+      "o": [
+        "if",
+        "that",
+        "when",
+        "which"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“We performed the surgery successfully,” the surgeon announced. The surgeon announced that they ___ performed the surgery successfully.",
+      "o": [
+        "have",
+        "had",
+        "will",
+        "are"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“The patient’s blood pressure is too high,” the resident doctor stated. The resident doctor stated that the patient’s blood pressure ___ too high.",
+      "o": [
+        "is",
+        "was",
+        "has been",
+        "will be"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“Please schedule a follow-up appointment,” the physician requested. The physician requested the patient ___ a follow-up appointment.",
+      "o": [
+        "schedule",
+        "to schedule",
+        "scheduling",
+        "scheduled"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“I am administering the medication now,” the nurse reported. The nurse reported that she ___ administering the medication then.",
+      "o": [
+        "is",
+        "was",
+        "will be",
+        "has been"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“Did you take your medication this morning?” the doctor asked. The doctor asked the patient ___ he had taken his medication that morning.",
+      "o": [
+        "if",
+        "that",
+        "when",
+        "which"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“We will discharge the patient tomorrow,” the hospital administrator said. The hospital administrator said that they ___ discharge the patient the following day.",
+      "o": [
+        "will",
+        "would",
+        "have",
+        "had"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“The diagnosis is pneumonia,” the radiologist concluded. The radiologist concluded that the diagnosis ___ pneumonia.",
+      "o": [
+        "is",
+        "was",
+        "has been",
+        "will be"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“Stop smoking immediately,” the pulmonologist advised. The pulmonologist advised the patient ___ smoking immediately.",
+      "o": [
+        "stop",
+        "to stop",
+        "stopping",
+        "stopped"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“I am conducting a clinical trial,” the researcher explained. The researcher explained that he ___ conducting a clinical trial.",
+      "o": [
+        "is",
+        "was",
+        "will be",
+        "has been"
+      ],
+      "c": 1
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“Have you had any allergic reactions to medications?” the allergist asked. The allergist asked the patient ___ he had had any allergic reactions to medications.",
+      "o": [
+        "if",
+        "that",
+        "when",
+        "which"
+      ],
+      "c": 0
+    },
+    {
+      "s": "Foreign Language",
+      "q": "“We will monitor the patient’s vital signs closely,” the ICU nurse stated. The ICU nurse stated that they ___ monitor the patient’s vital signs closely.",
+      "o": [
+        "will",
+        "would",
+        "have",
+        "had"
+      ],
+      "c": 1
     }
   ]
 }
