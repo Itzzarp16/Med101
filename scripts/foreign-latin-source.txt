@@ -8,5 +8,78 @@ Choose the correct answer: wing shaped|mastoideus|thyreoideus|alaris|pterygoideu
 Choose the term with non-agreed attribute:|ostium venae|tuber cinereum|membrana tectoria|tuberculum gracile|0
 Adjective for “bone under the tongue”: os…|hypoglossum|hyoideum|submandibulare|sublinguale|1
 Adjective for “nerve under the tongue”: nervus…|hyoepiglotticus|sublingualis|hyoideus|hypoglossus|3
-To which declension does “regio, onis f” belong?|I|II|III|IV|2
 Choose the proper ending: transverse axis – axis transvers…|-a|-us|-is|-um|1
+To which declension does “regio, onis f” belong?|1st|3rd|4th|2nd|1
+Which noun has the form of Gen. Sing.?|Ductus|Dens|Cartilago|Sutura|0
+Which noun has the form of Nom. Pl.?|Marginis|Digitus|Bursa|Ossa|3
+Lack of color vision|anopia|anopsia|anophthalmia|achromatopsia|3
+Lack of secretion of gastric juice enzymes|acheilia|achylia|asphygmia|agastria|1
+Developmental anomaly: absence of a spinal cord|ahypnognosia|aniridia|atonia|amyelia|3
+Non-recognition of objects and phenomena|agnosia|amnesia|anophthalmia|asthenia|0
+Common name of mental disorders|psychosis|olygocrania|schizophrenia|dysphrenia|3
+Hypalgia|senseless footsteps|pain reduction during sleep|lack of feeling in body|reduced pain sensitivity|3
+Kakosmia|unpleasant smell sensation|lack of salivation|lack of emotion|lack of sense of smell|3
+Micromania|delirium of self-deprecation|self destruction|small minded person|following bliss, one small desire at a time|0
+Narcologia|the section of psychiatry that studies mental illnesses of adults|study about acute nervousness, irritability|attraction to taking narcotic substances|the section of psychiatry that studies the manifestations of alcoholism, drug addiction and substance abuse|3
+Microphonia|weakness of the voice|a small voice|low voice|tangible voice|0
+Recurrent skin inflammation of a neuro-allergic nature|eczema|psoriasis|anathema|dermatitis|0
+Schizophrenia|small minded|the development of congenital mind problem|mental illness: split personality; a section of psychiatry that studies the diseases of elderly and senile people|mental illness: split personality|3
+A decrease in the supply of tissue or organ due to weakening of arterial blood supply|olygoaemia|haematopenia|haematostasis|ischaemia|3
+Progeria|premature aging|premature aging of the brain|aging of the skin|disorders in older people|0
+Oligodipsia|the body's need for a small amount of fluid|underdevelopment of a tissue, organ, body part or whole organism|occurrence, course and outcome of diseases|underdevelopment of distal parts of body|0
+Obsessive biting of nails and lips|cheilophagia|onychophagia|onychocheilophagia|cheiloaphagia|2
+Non-recognition of objects and phenomena|agnosia|aphasia|aplasia|athymia|0
+Anomaly of development: underdevelopment and occlusion of the language|glossoptōsis|glossaplasia|aglossia|glossopathia|0
+Inflammation of the skin or mucous membrane, with clusters of deep-seated|herpes|exanthema|psoriasis|pyoderma|0
+Mass of coagulated blood (internal or under the skin)|hyperaemesis|hyperrrhagia|hyperaemia|hematoma|3
+The condition in which the urine contains lymph|lymphauria|urolimpha|chyluria|ischuria|2
+Indifference to other people and events|depression|agonia|asthenia|apathia|3
+Depression, decreased mood and mental activity|barythymia|apathia|dysthymia|athymia|0
+Treatment of root canals of teeth|endodontic|odonthotherapia|dentatherapia|odontopexia|0
+Elevated mood|hypersthenia|hypermygia|polysthemia|hyperthimia|3
+Delirium of greatness|megalocrania|macrocephalia|megalophrenia|megalomania|3
+Age-related sclerosis|sclerōsis focālis|sclerōsis praesenīlis|osteosclerōsis|panchydermia|1
+Compaction of the convolutions of the brain|pancephalia|hemicrania|pachyencephalia|pachygyria|3
+Expansion of the heart cavities|cardiomegalia|dilatatio cordis|macrocardia|dilatation cardia|1
+Congenital or acquired organ displacement|ectopia|implantatio|amputatio|ruptūra|0
+Decrease in size or wasting away of a cell, tissue, organ or part|hypoplasia|olygoplasia|microplasia|atrophia|3
+Purulent inflammation of the kidney|neuritis|nephritis|nephromatitis|pyelonephritis|3
+Heterogēnus|uterus development|different kind or type|formation of the uterus|developing from the cartilaginous tissue|1
+Ailurophobia|fear of snakes|fear of dogs|fear of spiders|fear of cats|3
+Pathological lack of desires and motives for activity|asthenia|abulia|athymia|atonia|1
+Developmental anomaly: absence of eyelids|abscessotomia|acephalia|acheilia|ablepharia|3
+Non-recognition of objects and phenomena|agraphia|ahypnognosia|amyelia|agnosia|3
+Congenital absence of an organ or body part|aplasia|atrophia|acardia|cranium|0
+Bathophobia|fear of bathing|fear of food poisoning|fear of depth|fear of open spaces|2
+Unusually deep breathing|bathypnoë|olygopnoe|apnoe|hyperpnoe|0
+The content of bile in the blood|cholaemia|haemorrhagia|hemophilia|anemia|0
+The meaning of the term “anosmia”:|absence of taste|absence of smell|absence of appetite|disorder of taste|1
+The meaning of the term “panotitis”:|inflammation of whole ear|inflammation of whole eye|inflammation of whole nose|disease of cartilages|0
+The meaning of the term “gastrostomia”:|artificial opening of stomach|operation of stomach|disease of stomach|inflammation of stomach|0
+The meaning of the term “podalgia”:|pain of face|pain of foot|pain of tooth|blood in urine|1
+The meaning of the term “adenoma”:|tumor of head|tumor of node|tumor of muscle|tumor of spleen|1
+The meaning of the term “pyuria”:|pain of kidney|operation of kidney|disease of kidney with pus|pus in blood|2
+Choose the term with the meaning “disease”:|myorrhexis|arthrosis|periodontitis|empyema|1
+Choose the term with the meaning “tumor”:|psychosis|heliosis|adenoma|salpingitis|2
+Choose the term with the meaning “rupturing”:|neuroraphia|myotomia|pyelectasia|myorrhexis|3
+Choose the term with the meaning “disorder”:|cytopenia|polyphagia|dystrophia|osteomalacia|2
+Choose the term with the meaning “excision”:|mastopathia|mastotomia|mammographia|mastodynia|1
+Choose the term with the meaning “measurements of the abdominal circumference”:|laparometria|laparoscopia|laparotomia|laparoectomia|0
+Choose the term with the meaning “examination of the interior of the abdomen”:|laparometria|laparoscopia|laparotomia|laparoectomia|1
+Choose the term with the meaning “inflammation of the larynx”:|laryngostenōsis|laryngoscopia|laryngītis|laryngographia|2
+The meaning of the term “laryngītis”:|inflammation of the larynx|examination of the larynx|narrowing or stricture of the larynx|surgical incision into the larynx|0
+Choose the term with the meaning “elevated number of white cells in the blood”:|leucocyturia|leucocytōsis|leucopathia|leucopenia|1
+Choose the term with the meaning “abnormally low number of white blood cells in the circulating blood”:|leucocyturia|leucocytōsis|leucopathia|leucopenia|3
+The meaning of the term “lipaemia”:|increased amounts of lipids in the blood|benign tumor of fatty tissue|lipids in the urine|greasy hair|0
+Choose the term with the meaning “inflammation of the lymph vessels”:|lymphocytōsis|lymphangiītis|lymphopenia|lymphadenographia|1
+The meaning of the term “lymphorrhoea”:|tumor of the lymph nodes|inflammation of the lymph vessels|flow of lymph from cut or ruptured lymph vessels|stoppage of lymph flow|2
+Choose the term with the meaning “abnormal largeness of the head”:|macrocephalia|macrocardia|macrodontia|macrodontia|0
+The meaning of the term “macroglossia”:|abnormal enlargement of the heart|abnormal largeness of the lips|abnormally enlarged tongue|abnormally large teeth|2
+Choose the term with the meaning “uterine bleeding”:|metrographia|metroptōsis|metrorrhagia|metritis|2
+The meaning of the term “microglossia”:|any lesions in small blood vessels (microangiopathy)|abnormally small head|abnormal smallness of the stomach|abnormally small tongue|3
+The meaning of the term “myectomia”:|muscular pain|excision of a muscle|lack of muscular tonus|inflammation of the heart muscle|1
+Choose the term with the meaning “abnormal spinal cord development”:|myelocēle|myelītis|myelographia|myelotherapia|0
+How many letters has the Latin alphabet?|20|24|25|30|2
+Diphthong means:|One letter – one sound|One letter – two sounds|Two letters – two sounds|Two letters – one sound|2
+Consonant combination “ch” sounds as:|[h]|[tz]|[s]|[k]|0
+Which of them are gender endings?|-issim, -rim|-a, -us, -um|-re, -te, -nt, -tur|-i, -is, -orum|1
