@@ -23,8 +23,8 @@ body{font-family:var(--font-body);color:var(--text)}
 html,body{background:#050505}
 #stage{position:fixed;inset:0;overflow:hidden;touch-action:none}
 .bg{position:absolute;inset:-10%;background:radial-gradient(40% 30% at 20% 22%,rgba(var(--cyan-rgb),.20),transparent 70%),radial-gradient(34% 28% at 82% 68%,rgba(var(--cyan-rgb),.14),transparent 70%),radial-gradient(60% 40% at 50% 102%,rgba(var(--violet-rgb),.20),transparent 70%);animation:drift 14s ease-in-out infinite alternate}
-.iv-lock{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1;font-size:clamp(38px,12.5vw,96px)}
-.iv-lock .app-loading-logo{font-size:1em;padding:0 .04em;text-shadow:none;filter:drop-shadow(0 0 22px rgba(106,168,255,.35))}
+.iv-lock{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1;font-size:clamp(38px,12.5vw,96px);margin-right:calc(1em*.152)}
+.iv-lock .app-loading-logo{font-size:1em;padding:0 .04em;margin:0 -.04em;text-shadow:none;filter:drop-shadow(0 0 22px rgba(106,168,255,.35))}
 .iv-lock .app-loading-tagline{font-size:calc(1em*8/19);margin-top:.05em}
 .iv-k{font:700 clamp(28px,8.4vw,62px)/1.14 var(--font-display);letter-spacing:-.02em;max-width:13em;color:var(--text)}
 .iv-k .w{display:inline-block;will-change:transform,filter,opacity}
@@ -227,7 +227,8 @@ html.embed .btn-glow,html.embed .url,html.embed .replay{display:none}
       if (!mark || !tg || !box.offsetWidth) return;
       const sc = box.getBoundingClientRect().width / box.offsetWidth || 1;
       tg.style.letterSpacing = '0px';
-      const ls = (textW(mark) - textW(tg)) / Math.max(1, tg.textContent.length - 1) / sc;
+      const prevTf = mark.style.transform; mark.style.transform = 'none'; const markW = textW(mark); mark.style.transform = prevTf;
+      const ls = (markW - textW(tg)) / Math.max(1, tg.textContent.length - 1) / sc;
       // Negative spacing allowed on purpose: the site's lockup.js (loading screen) does the same, so the tagline is exactly as wide as the wordmark in both.
       if (Number.isFinite(ls)) tg.style.letterSpacing = ls.toFixed(3) + 'px';
     });
