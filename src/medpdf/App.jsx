@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import manifest from './manifest.json'
 import { SUBJECTS } from './subjects.js'
+import PdfPages from '../components/PdfPages'
 
 const find = (nodes, name) => nodes.find((n) => n.type === 'folder' && n.name.toLowerCase() === name.toLowerCase())
 const count = (n) => (n.type === 'file' ? 1 : n.children.reduce((s, c) => s + count(c), 0))
@@ -160,9 +161,10 @@ export default function App() {
             <div className="vbar">
               <span>{file.name}</span>
               <a href={file.url} target="_blank" rel="noreferrer">Open in new tab</a>
+              <a href={file.url} download>Download</a>
               <button onClick={() => setFile(null)}>Close</button>
             </div>
-            <iframe src={file.url} title={file.name} />
+            <div className="pdfwrap"><PdfPages key={file.url} url={file.url} /></div>
           </div>
         </div>
       )}
