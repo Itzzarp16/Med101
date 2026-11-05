@@ -424,6 +424,16 @@ export default function PremiumScreen({ onBack }) {
             </Banner>
           ) : null}
 
+          {payFlowVisible && !hidePaymentFlow && config && !payIsFree && (
+            <div className="pm-notice" role="note">
+              <div className="pm-notice-icon" aria-hidden="true">⚠️</div>
+              <div className="pm-notice-text">
+                <div className="pm-notice-title">Please read before subscribing</div>
+                <p>If we don't get the correct answer key on time, we can't give any guarantee. We will always try our best to provide the latest questions to everyone on time.</p>
+              </div>
+            </div>
+          )}
+
           {payFlowVisible && !hidePaymentFlow && config && (
             <div className="pay-card">
               <div className="pay-card-inner">

@@ -211,6 +211,18 @@
 
 .pm-card { padding: 16px; margin-bottom: 12px; border-radius: 20px; }
 .pm-card-title { font-size: 15px; font-weight: 800; color: var(--text); margin-bottom: 10px; }
+/* Heads-up shown before the payment steps (no guarantee on answer-key timing) */
+.pm-notice {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 14px 16px; border-radius: 20px; margin-bottom: 12px;
+  background: color-mix(in srgb, var(--amber) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent);
+  animation: pm-in .6s cubic-bezier(.2,.8,.2,1) both;
+}
+.pm-notice-icon { font-size: 22px; line-height: 1.2; }
+.pm-notice-title { font-size: 14px; font-weight: 800; color: var(--amber); }
+.pm-notice-text p { margin: 4px 0 0; font-size: 13px; line-height: 1.55; color: var(--text2); }
+
 .pm-warn { font-size: 12.5px; color: var(--amber); line-height: 1.5; margin-bottom: 10px; }
 
 .pm-pill {
