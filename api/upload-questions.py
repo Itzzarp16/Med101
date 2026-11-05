@@ -71,6 +71,7 @@ import re
 import json
 import base64
 from http.server import BaseHTTPRequestHandler
+from datetime import datetime, timezone
 
 import fitz  # PyMuPDF
 import requests
@@ -354,7 +355,8 @@ def publish_answer_key(body):
         if not isinstance(manifest, dict) or not isinstance(manifest.get('pdfs'), list):
             manifest = {'pdfs': []}
         public_path = '/' + relative_path.removeprefix('public/')
-        item = {'semesterId': semester_id, 'subject': subject, 'filename': filename, 'path': public_path}
+        item = {'semesterId': semester_id, 'subject': subject, 'filename': filename, 'path': public_path,
+                'updatedAt': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')}
         pdfs = [p for p in manifest['pdfs'] if not (
             p.get('semesterId') == semester_id and p.get('filename') == filename)]
         pdfs.append(item)

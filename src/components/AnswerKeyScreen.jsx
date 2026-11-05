@@ -16,6 +16,13 @@ const SEMESTER_LABELS = {
 // from the same navy/slate/rose family the rest of the app uses.
 const ACCENTS = ['var(--cyan-rgb)', 'var(--violet-rgb)', 'var(--pink-rgb)', '70, 140, 130'];
 
+// "11 Oct 2026" in the reader's own timezone; empty when the entry has no date yet.
+function formatUpdated(iso) {
+  const d = iso ? new Date(iso) : null;
+  if (!d || Number.isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
 function DocumentMark() {
   return (
     <svg viewBox="0 0 28 32" aria-hidden="true" className="ak-doc-svg">
@@ -64,7 +71,7 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
     return (
       <div className="std-screen wf-screen ak-pdf-screen ak-pdf-viewer-screen">
         <ScreenHeader onBack={() => setViewingPdf(null)} title={viewingPdf.subject}>
-          {semesterLabel} · Answer Key
+          {semesterLabel} · Answer Key{formatUpdated(viewingPdf.updatedAt) ? ` · Updated ${formatUpdated(viewingPdf.updatedAt)}` : ''}
         </ScreenHeader>
         <div className="ak-viewer-toolbar">
           <span className="ak-viewer-label"><span className="ak-viewer-dot" /> PDF DOCUMENT</span>
@@ -140,7 +147,7 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
                 <span className="ak-tile"><DocumentMark /></span>
                 <span className="ak-card-info">
                   <span className="ak-card-title">{pdf.subject}</span>
-                  <span className="ak-card-meta"><span className="ak-chip">PDF</span> {semesterLabel}</span>
+                  <span className="ak-card-meta"><span className="ak-chip">PDF</span> {semesterLabel + (formatUpdated(pdf.updatedAt) ? ` · Updated ${formatUpdated(pdf.updatedAt)}` : '')}</span>
                 </span>
                 <span className="ak-chev" aria-hidden="true">›</span>
               </button>

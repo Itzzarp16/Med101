@@ -10,6 +10,7 @@ const TOC = [
   { id: 'account', title: 'Your Account' },
   { id: 'payments', title: 'Med101 Maxx Subscriptions & Payments' },
   { id: 'refunds', title: 'Cancellations & Refunds' },
+  { id: 'timing', title: 'Questions & Answer Keys: No Guarantee on Timing' },
   { id: 'content', title: 'Content & Intellectual Property' },
   { id: 'use', title: 'Acceptable Use' },
   { id: 'warranties', title: 'Disclaimer of Warranties' },
@@ -30,7 +31,7 @@ export default function TermsAndConditions() {
       current="terms"
       eyebrow="Legal"
       title="Terms & Conditions"
-      updated="4 October 2026"
+      updated="6 November 2026"
       toc={toc}
     >
       <p className="lp-intro">
@@ -89,6 +90,14 @@ export default function TermsAndConditions() {
         </ul>
       </Section>
       )}
+
+      <Section toc={toc} i={at('timing')}>
+    <p>
+          We will try our best to provide the latest questions to everyone
+          on time. However, if we don't get the correct answer key on time,
+          we can't offer any guarantee.
+        </p>
+      </Section>
 
       <Section toc={toc} i={at('content')}>
     <p>
