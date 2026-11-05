@@ -69,8 +69,16 @@ code{background:var(--surface);padding:2px 6px;border-radius:6px;font-size:.85em
 .vbar a{color:var(--muted);white-space:nowrap;transition:color .2s}
 .vbar a:hover{color:var(--text)}
 .vbar button{padding:7px 14px;border-radius:999px;background:var(--text);color:#06080e;font-weight:600}
-.pdfwrap{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;background:var(--bg)}
+.pdfwrap{flex:1;min-height:0;overflow:hidden;display:flex;flex-direction:column;background:var(--bg)}
 .ak-pdf-box{min-height:100%;padding:8px}
+.ak-pdf-viewer{position:relative;flex:1;min-height:0;display:flex;flex-direction:column}
+.ak-pdf-scroll{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.ak-pdf-tools{position:absolute;right:12px;bottom:12px;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:rgba(8,10,16,.84);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);color:#fff;font:600 12.5px/1 system-ui,sans-serif}
+.ak-pdf-tools button{min-width:34px;height:34px;padding:0 8px;border:0;border-radius:999px;background:transparent;color:#fff;font:inherit;font-size:18px;cursor:pointer;text-align:center}
+.ak-pdf-tools button:hover:not(:disabled){background:rgba(255,255,255,.14)}
+.ak-pdf-tools button:disabled{opacity:.35;cursor:default}
+.ak-pdf-tools .ak-pdf-pageno,.ak-pdf-tools .ak-pdf-pct{font-size:12.5px}
+
 .ak-pdf-pages{display:grid;gap:8px}
 .ak-pdf-page{width:100%;overflow:hidden;border-radius:8px;background:#fff}
 .ak-pdf-page canvas{display:block;width:100%;height:100%}

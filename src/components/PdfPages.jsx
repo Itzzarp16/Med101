@@ -1,10 +1,17 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 // Renders a PDF page by page onto canvases with pdf.js. Phone browsers (Android
 // Chrome, many in-app browsers) can't show a PDF inside an <iframe> - it just
-// stays blank - so this draws the pages ourselves. Pages render lazily when they
+// stays blank - so this draws the pages itself. Pages render lazily when they
 // scroll near the screen and are freed again when far away, which keeps memory
 // low even for 100+ page documents.
+//
+// Extras: zoom buttons (Fit -> 300%), a page counter, and it remembers the last
+// page you were on for each PDF (this device only, via localStorage).
+
+const ZOOMS = [1, 1.25, 1.5, 2, 2.5, 3];
+const GAP = 8; // px between pages, and the box padding
+const posKey = (url) => `med101_pdfpos:${url}`;
 
 function PageCanvas({ doc, n, width, ratio }) {
   const wrap = useRef(null);
@@ -47,13 +54,22 @@ function PageCanvas({ doc, n, width, ratio }) {
 
 export default function PdfPages({ url }) {
   const box = useRef(null);
-  const [width, setWidth] = useState(0);
+  const scroller = useRef(null);
+  const [width, setWidth] = useState(0); // fit-to-screen page width in px
   const [state, setState] = useState({ status: 'loading', progress: 0 });
+  const [zoomIdx, setZoomIdx] = useState(0);
+  const [page, setPage] = useState(1);
+  const pageRef = useRef(1);
+  const anchor = useRef(null);
+  const restored = useRef(false);
+  const saveTimer = useRef(null);
+  const raf = useRef(0);
+  const zoom = ZOOMS[zoomIdx];
 
   useEffect(() => {
     const el = box.current;
     let timer;
-    const measure = () => setWidth(Math.round(el.clientWidth));
+    const measure = () => setWidth(Math.max(0, Math.round(el.clientWidth) - GAP * 2));
     measure();
     const ro = new ResizeObserver(() => { clearTimeout(timer); timer = setTimeout(measure, 150); });
     ro.observe(el);
@@ -63,6 +79,10 @@ export default function PdfPages({ url }) {
   useEffect(() => {
     let alive = true;
     let task;
+    restored.current = false;
+    setZoomIdx(0);
+    setPage(1);
+    pageRef.current = 1;
     setState({ status: 'loading', progress: 0 });
     (async () => {
       try {
@@ -86,26 +106,113 @@ export default function PdfPages({ url }) {
     return () => { alive = false; if (task) task.destroy(); };
   }, [url]);
 
+  const pageHeight = () => (width * zoom) / (state.ratio || 0.707);
+
+  // Resume where the reader left off (once per PDF, after the pages are laid out).
+  useEffect(() => {
+    if (state.status !== 'ready' || !width || restored.current) return;
+    restored.current = true;
+    let saved = 0;
+    try { saved = parseInt(localStorage.getItem(posKey(url)), 10) || 0; } catch { /* storage unavailable */ }
+    if (saved > 1 && saved <= state.pages) {
+      setPage(saved);
+      pageRef.current = saved;
+      requestAnimationFrame(() => {
+        if (scroller.current) scroller.current.scrollTop = (saved - 1) * (pageHeight() + GAP);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state, width, url]);
+
+  const remember = (p) => {
+    try {
+      if (p > 1) localStorage.setItem(posKey(url), String(p));
+      else localStorage.removeItem(posKey(url));
+    } catch { /* storage unavailable */ }
+  };
+
+  const onScroll = () => {
+    if (raf.current) return;
+    raf.current = requestAnimationFrame(() => {
+      raf.current = 0;
+      const el = scroller.current;
+      if (!el || state.status !== 'ready') return;
+      const p = Math.min(state.pages, Math.max(1, Math.floor((el.scrollTop + el.clientHeight * 0.3) / (pageHeight() + GAP)) + 1));
+      if (p !== pageRef.current) {
+        pageRef.current = p;
+        setPage(p);
+      }
+      clearTimeout(saveTimer.current);
+      saveTimer.current = setTimeout(() => remember(pageRef.current), 400);
+    });
+  };
+
+  // Save on the way out so a quick close doesn't lose the last position.
+  useEffect(() => () => { clearTimeout(saveTimer.current); cancelAnimationFrame(raf.current); if (restored.current) remember(pageRef.current); },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [url]);
+
+  // Zoom around the centre of the screen: remember where we are, then put it back after layout.
+  const zoomTo = (idx) => {
+    const el = scroller.current;
+    const next = Math.min(ZOOMS.length - 1, Math.max(0, idx));
+    if (!el || next === zoomIdx) return;
+    anchor.current = {
+      x: (el.scrollLeft + el.clientWidth / 2) / el.scrollWidth,
+      y: (el.scrollTop + el.clientHeight / 2) / el.scrollHeight,
+    };
+    setZoomIdx(next);
+  };
+  useLayoutEffect(() => {
+    const a = anchor.current;
+    const el = scroller.current;
+    if (!a || !el) return;
+    anchor.current = null;
+    el.scrollTop = a.y * el.scrollHeight - el.clientHeight / 2;
+    el.scrollLeft = a.x * el.scrollWidth - el.clientWidth / 2;
+  }, [zoomIdx]);
+
+  const ready = state.status === 'ready';
+
   return (
-    <div ref={box} className="ak-pdf-box">
-      {state.status === 'loading' && (
-        <div className="ak-pdf-status" role="status">
-          <div>
-            Opening PDF… {state.progress ? `${state.progress}%` : ''}
-            <div className="ak-pdf-bar" style={{ '--p': `${state.progress}%` }}><i /></div>
-          </div>
+    <div className="ak-pdf-viewer">
+      <div className="ak-pdf-scroll" ref={scroller} onScroll={onScroll}>
+        <div ref={box} className="ak-pdf-box">
+          {state.status === 'loading' && (
+            <div className="ak-pdf-status" role="status">
+              <div>
+                Opening PDF… {state.progress ? `${state.progress}%` : ''}
+                <div className="ak-pdf-bar" style={{ '--p': `${state.progress}%` }}><i /></div>
+              </div>
+            </div>
+          )}
+          {state.status === 'error' && (
+            <div className="ak-pdf-status" role="alert">
+              <div>Couldn’t display this PDF here.<br />Use the Download button to open it.</div>
+            </div>
+          )}
+          {ready && (
+            <div className="ak-pdf-pages" style={zoom > 1 ? { width: `${zoom * 100}%` } : undefined}>
+              {Array.from({ length: state.pages }, (_, i) => (
+                <PageCanvas key={i} doc={state.doc} n={i + 1} width={Math.round(width * zoom)} ratio={state.ratio} />
+              ))}
+            </div>
+          )}
         </div>
-      )}
-      {state.status === 'error' && (
-        <div className="ak-pdf-status" role="alert">
-          <div>Couldn’t display this PDF here.<br />Use the Download button above to open it.</div>
-        </div>
-      )}
-      {state.status === 'ready' && (
-        <div className="ak-pdf-pages">
-          {Array.from({ length: state.pages }, (_, i) => (
-            <PageCanvas key={i} doc={state.doc} n={i + 1} width={width} ratio={state.ratio} />
-          ))}
+      </div>
+      {ready && (
+        <div className="ak-pdf-tools" role="group" aria-label="PDF controls">
+          <button
+            type="button"
+            className="ak-pdf-pageno"
+            onClick={() => { if (scroller.current) scroller.current.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            title="Back to page 1"
+          >
+            {page} / {state.pages}
+          </button>
+          <button type="button" onClick={() => zoomTo(zoomIdx - 1)} disabled={zoomIdx === 0} aria-label="Zoom out">−</button>
+          <button type="button" className="ak-pdf-pct" onClick={() => zoomTo(0)} title="Fit to screen" aria-label="Fit to screen">{Math.round(zoom * 100)}%</button>
+          <button type="button" onClick={() => zoomTo(zoomIdx + 1)} disabled={zoomIdx === ZOOMS.length - 1} aria-label="Zoom in">+</button>
         </div>
       )}
     </div>

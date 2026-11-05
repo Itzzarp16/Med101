@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin
+Disallow: /reset-password
+Disallow: /data/
+Disallow: /answer-keys/
+Disallow: /medpdf/pdfs/
+
+Sitemap: https://www.med101.space/sitemap.xml
