@@ -19,11 +19,11 @@ export async function fetchHomeNotice(semesterId) {
   try {
     if (semesterId) {
       const semSnap = await getDoc(doc(db, 'config', noticeDocId(semesterId)));
-      if (semSnap.exists() && semSnap.data()?.enabled) return semSnap.data();
+      if (semSnap.exists() && semSnap.data()?.enabled) return { ...semSnap.data(), scope: semesterId };
     }
     const snap = await getDoc(doc(db, 'config', 'homeNotice'));
     if (!snap.exists()) return null;
-    return snap.data(); // { text, enabled, updatedAt }
+    return { ...snap.data(), scope: '' }; // { text, enabled, updatedAt, scope } - scope: '' = default, else the semesterId
   } catch (e) {
     console.warn('Notice fetch failed:', e);
     return null;
