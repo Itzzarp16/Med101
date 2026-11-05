@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../lib/firebase';
 import { useAuth } from '../lib/AuthContext';
 import { changePassword, claimUsername, fetchMyUsername, updateDisplayName, uploadProfilePhoto } from '../lib/profile';
 import { buildUserDataExportPdf } from '../lib/dataExport';
 import { playTapSound } from '../lib/sounds';
+import useLockBodyScroll from '../lib/useLockBodyScroll';
 import './ProfileScreen.css';
 import { BackButton } from './ScreenHeader';
 import './ScreenHeader.css';
@@ -20,6 +22,14 @@ export default function ProfileScreen({ onBack }) {
   const [photoUploading, setPhotoUploading] = useState(false);
   const [photoMsg, setPhotoMsg] = useState(null);
   const fileInputRef = useRef(null);
+  const [viewPhoto, setViewPhoto] = useState(false);
+  useLockBodyScroll(viewPhoto);
+  useEffect(() => {
+    if (!viewPhoto) return undefined;
+    const onKey = (e) => { if (e.key === 'Escape') setViewPhoto(false); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [viewPhoto]);
 
   const [username, setUsername] = useState('');
   const [currentUsername, setCurrentUsername] = useState(null);
@@ -172,11 +182,11 @@ export default function ProfileScreen({ onBack }) {
         <div className="profile-avatar-wrap">
           <button
             type="button"
-            onClick={() => { playTapSound(); fileInputRef.current?.click(); }}
+            onClick={() => { playTapSound(); if (profile?.photoURL) setViewPhoto(true); else fileInputRef.current?.click(); }}
             disabled={photoUploading}
-            title="Change profile photo"
-            aria-label="Change profile photo"
-            className="profile-avatar-btn"
+            title={profile?.photoURL ? 'View profile photo' : 'Add profile photo'}
+            aria-label={profile?.photoURL ? 'View profile photo' : 'Add profile photo'}
+            className={`profile-avatar-btn${profile?.photoURL ? ' has-photo' : ''}`}
             style={profile?.photoURL ? { backgroundImage: `url(${profile.photoURL})` } : undefined}
           >
             {!profile?.photoURL && initial}
@@ -205,6 +215,21 @@ export default function ProfileScreen({ onBack }) {
             onChange={handlePhotoPicked}
             style={{ display: 'none' }}
           />
+          {viewPhoto && profile?.photoURL && createPortal(
+            <div className="profile-photo-viewer" onClick={() => setViewPhoto(false)} role="dialog" aria-modal="true" aria-label="Profile photo">
+              <button type="button" className="profile-photo-viewer-close" onClick={() => { playTapSound(); setViewPhoto(false); }} aria-label="Close">✕</button>
+              <img src={profile.photoURL} alt="Your profile" onClick={(e) => e.stopPropagation()} />
+              <button
+                type="button"
+                className="profile-photo-viewer-change"
+                onClick={(e) => { e.stopPropagation(); playTapSound(); setViewPhoto(false); fileInputRef.current?.click(); }}
+                disabled={photoUploading}
+              >
+                Change photo
+              </button>
+            </div>,
+            document.body,
+          )}
         </div>
 
         <h1 className="profile-name">{name || 'Your Name'}</h1>
