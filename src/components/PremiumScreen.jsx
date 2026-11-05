@@ -188,6 +188,7 @@ export default function PremiumScreen({ onBack }) {
   const [phone, setPhone] = useState('');
   const [utr, setUtr] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [ackTiming, setAckTiming] = useState(false); // "I understand" - no guarantee on answer-key timing
   const [submitMsg, setSubmitMsg] = useState(null);
 
   const [copied, setCopied] = useState(false);
@@ -314,6 +315,10 @@ export default function PremiumScreen({ onBack }) {
     e.preventDefault();
     playTapSound();
     setSubmitMsg(null);
+    if (!ackTiming) {
+      setSubmitMsg({ text: 'Please tick "I understand" before submitting.', type: 'error' });
+      return;
+    }
     if (!utr.trim()) {
       setSubmitMsg({ text: 'Enter the transaction ID (UTR) from your payment.', type: 'error' });
       return;
@@ -524,7 +529,12 @@ export default function PremiumScreen({ onBack }) {
               <input id="premium-transaction-id-utr" className="auth-input pm-mono" value={utr} onChange={(e) => setUtr(e.target.value)} placeholder="From your UPI app's payment history" />
               <p className="pm-hint">The UTR / reference number (usually 12 digits) shown on the payment success screen or in your UPI app's history.</p>
 
-              <button className="btn-glow std-save-btn" type="submit" disabled={submitting}>
+              <label className="pm-ack">
+                <input type="checkbox" checked={ackTiming} onChange={(e) => setAckTiming(e.target.checked)} />
+                <span>I have read the notice above and understand there is no guarantee if the correct answer key isn't available on time.</span>
+              </label>
+
+              <button className="btn-glow std-save-btn" type="submit" disabled={submitting || !ackTiming}>
                 {submitting ? 'Submitting…' : 'Submit for review'}
               </button>
               {submitMsg && <div className={`auth-msg ${submitMsg.type}`} style={{ display: 'block' }}>{submitMsg.text}</div>}
