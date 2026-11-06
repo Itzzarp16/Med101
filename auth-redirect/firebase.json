@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "redirects": [
+      { "source": "/", "destination": "https://med101.space/", "type": 301 }
+    ],
+    "headers": [
+      { "source": "**", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }] }
+    ]
+  }
+}
