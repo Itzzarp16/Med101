@@ -45,6 +45,7 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
   const [revokedFree, setRevokedFree] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
   const [showRejected, setShowRejected] = useState(false);
+  const [showExpired, setShowExpired] = useState(false); // collapsible 'Expired Codes' list (closed until tapped)
 
   useEffect(() => {
     setLoading(true);
@@ -121,6 +122,28 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
     }
   }
 
+  const expiredCodes = (codes || []).filter((c) => c.used && c.expiresAt && c.expiresAt.getTime() <= Date.now());
+
+  const renderCard = (c, i) => {
+    const expiry = expiryLabel(c);
+    return (
+      <div key={c.code} className="glass std-card stagger-in" style={{ marginTop: 10, '--stagger-i': Math.min(i, 8) }}>
+        <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
+        <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{c.studentEmail}</div>
+        <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
+          {c.bankingName && <span>Paid as: <strong>{c.bankingName}</strong></span>}
+          {c.phone && <span>Phone: <strong>{c.phone}</strong></span>}
+          {c.utr && <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.utr}</strong></span>}
+          <span>Code: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.code}</strong></span>
+          <span>Duration: <strong>{c.durationDays} days</strong></span>
+          <span>Issued: <strong>{fmtDate(c.createdAt)}</strong></span>
+          <span>Activated: <strong>{c.used ? fmtDate(c.usedAt) : 'Not yet'}</strong></span>
+        </div>
+        <div style={{ marginTop: 8, fontSize: 13, fontWeight: 700, color: expiry.color }}>{expiry.text}</div>
+      </div>
+    );
+  };
+
   return (
     <div className="std-screen">
       {!hideBack && (
@@ -175,7 +198,32 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
         >
           ✗ Rejected Requests {rejected ? `(${rejected.length})` : ''}
         </button>
+
+        <button
+          className="btn-ghost"
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8, width: 'auto',
+            padding: '10px 16px', fontSize: 13.5, fontWeight: 700,
+            borderColor: 'color-mix(in srgb, var(--amber) 40%, transparent)', color: 'var(--amber)',
+          }}
+          aria-expanded={showExpired}
+          onClick={() => { playTapSound(); setShowExpired((v) => !v); }}
+        >
+          ⌛ Expired Codes {codesLoading ? '' : `(${expiredCodes.length})`} <span aria-hidden="true">{showExpired ? '▴' : '▾'}</span>
+        </button>
       </div>
+
+      {showExpired && (
+        <div style={{ marginTop: 4 }}>
+          {codesLoading ? (
+            <div className="std-loading">Loading…</div>
+          ) : expiredCodes.length === 0 ? (
+            <div className="glass std-card" style={{ marginTop: 10, textAlign: 'center', color: 'var(--text3)' }}>No expired codes.</div>
+          ) : (
+            expiredCodes.map(renderCard)
+          )}
+        </div>
+      )}
 
       {showSettings && (
         <div
@@ -454,30 +502,9 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
       ) : (
         (() => {
           const notActivated = codes.filter((c) => !c.used);
-          const expired = codes.filter((c) => c.used && c.expiresAt && c.expiresAt.getTime() <= Date.now());
 
-          const renderCard = (c, i) => {
-            const expiry = expiryLabel(c);
-            return (
-              <div key={c.code} className="glass std-card stagger-in" style={{ marginTop: 10, '--stagger-i': Math.min(i, 8) }}>
-                <div style={{ fontWeight: 700, fontSize: 14 }}>{c.studentName}</div>
-                <div style={{ fontSize: 12.5, color: 'var(--text3)' }}>{c.studentEmail}</div>
-                <div style={{ fontSize: 12.5, color: 'var(--text2)', marginTop: 6, display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  {c.bankingName && <span>Paid as: <strong>{c.bankingName}</strong></span>}
-                  {c.phone && <span>Phone: <strong>{c.phone}</strong></span>}
-                  {c.utr && <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.utr}</strong></span>}
-                  <span>Code: <strong style={{ fontFamily: 'var(--font-mono)' }}>{c.code}</strong></span>
-                  <span>Duration: <strong>{c.durationDays} days</strong></span>
-                  <span>Issued: <strong>{fmtDate(c.createdAt)}</strong></span>
-                  <span>Activated: <strong>{c.used ? fmtDate(c.usedAt) : 'Not yet'}</strong></span>
-                </div>
-                <div style={{ marginTop: 8, fontSize: 13, fontWeight: 700, color: expiry.color }}>{expiry.text}</div>
-              </div>
-            );
-          };
-
-          if (notActivated.length === 0 && expired.length === 0) {
-            return <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No pending or expired codes. See the Subscribers tab for active ones.</div>;
+          if (notActivated.length === 0) {
+            return <div className="glass std-card" style={{ textAlign: 'center', color: 'var(--text3)' }}>No codes waiting to be activated. Expired ones are under the Expired Codes button above; active ones are in the Subscribers tab.</div>;
           }
 
           return (
@@ -486,13 +513,6 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                 <>
                   <div className="auth-label">⏳ Not Yet Activated ({notActivated.length})</div>
                   {notActivated.map(renderCard)}
-                </>
-              )}
-
-              {expired.length > 0 && (
-                <>
-                  <div className="auth-label" style={{ marginTop: 20 }}>Expired ({expired.length})</div>
-                  {expired.map(renderCard)}
                 </>
               )}
             </>
