@@ -1,0 +1,4 @@
+{
+  "_help": "Add PDFs hosted elsewhere (files over 100 MB can't go in GitHub). Each entry: path = Year/Subject/(optional folders)/Name shown in the app, url = a direct https link. Then commit; the next deploy lists them with your uploaded PDFs.",
+  "links": []
+}

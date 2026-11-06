@@ -57,6 +57,13 @@ function Row({ n, icon, title, sub, badge, onClick }) {
   )
 }
 
+// Hosts that don't allow their files to be read by the in-page PDF reader (no CORS):
+// those files get an "Open PDF" panel instead.
+const NO_EMBED = /(^|\.)(drive\.google\.com|docs\.google\.com|dropbox\.com|onedrive\.live\.com|1drv\.ms|mega\.nz|mediafire\.com)$/i
+function hostOf(url) {
+  try { return new URL(url).hostname.replace(/^www\./, '') } catch { return '' }
+}
+
 export default function App() {
   const [yearIdx, setYearIdx] = useState(0)
   const [trail, setTrail] = useState([])
@@ -164,7 +171,19 @@ export default function App() {
               <a href={file.url} download>Download</a>
               <button onClick={() => setFile(null)}>Close</button>
             </div>
-            <div className="pdfwrap"><PdfPages key={file.url} url={file.url} /></div>
+            <div className="pdfwrap">
+              {file.external && NO_EMBED.test(hostOf(file.url)) ? (
+                <div className="ak-pdf-status">
+                  <div>
+                    This PDF is hosted on {hostOf(file.url)}.<br />Open it there to read or download.
+                    <br />
+                    <a className="ext-open" href={file.url} target="_blank" rel="noreferrer">Open PDF ↗</a>
+                  </div>
+                </div>
+              ) : (
+                <PdfPages key={file.url} url={file.url} />
+              )}
+            </div>
           </div>
         </div>
       )}
