@@ -142,6 +142,9 @@ export default function SettingsScreen({ onBack, onProfile }) {
             />
           </div>
         )}
+        <button className="set-row set-link" onClick={() => { playTapSound(); window.location.assign('/?intro=1'); }}>
+          <span>🎬 Watch the intro again</span><span className="set-chev">›</span>
+        </button>
       </div>
         {pushMsg && <div className="auth-msg error" style={{ display: 'block', margin: '6px 0' }}>{pushMsg}</div>}
         {pushOk && pushPermission() === 'denied' && !pushOn && (

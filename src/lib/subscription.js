@@ -135,7 +135,8 @@ export async function submitPaymentRequest({
   bankingName,
   phone,
   utr,
-  yearSemester
+  yearSemester,
+  timingAckText
 }) {
   const cleanUtr = utr.trim();
 
@@ -167,6 +168,9 @@ export async function submitPaymentRequest({
     phone: phone || '',
     status: 'pending',
     createdAt: serverTimestamp(),
+    // Proof the student ticked "I understand" on the no-guarantee notice: when,
+    // and the exact wording they agreed to (the notice is admin-editable).
+    ...(timingAckText ? { timingAckAt: serverTimestamp(), timingAckText } : {}),
   });
 
   // Telegram notification

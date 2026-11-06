@@ -323,6 +323,8 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
               <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{req.utr}</strong></span>
               <span>Phone: <strong>{req.phone || '-'}</strong></span>
               {req.yearSemester && <span>Semester: <strong>{YEAR_SEMESTER_OPTIONS.find((o) => o.value === req.yearSemester)?.label || req.yearSemester}</strong></span>}
+              {req.timingAckAt && <span>Agreed to no-guarantee notice: <strong>{fmtDate(req.timingAckAt)}</strong></span>}
+              {req.timingAckText && <span style={{ fontSize: 11.5, color: 'var(--text3)' }}>“{req.timingAckText}”</span>}
             </div>
 
             {rejectingUtr === req.utr ? (
@@ -428,6 +430,8 @@ export default function AdminPaymentsScreen({ onBack, hideBack = false }) {
                     <span>UTR: <strong style={{ fontFamily: 'var(--font-mono)' }}>{req.utr}</strong></span>
                     <span>Phone: <strong>{req.phone || '-'}</strong></span>
                     <span>Rejected on: <strong>{fmtDate(req.reviewedAt)}</strong></span>
+                    {req.timingAckAt && <span>Agreed to no-guarantee notice: <strong>{fmtDate(req.timingAckAt)}</strong></span>}
+                    {req.timingAckText && <span style={{ fontSize: 11.5, color: 'var(--text3)' }}>“{req.timingAckText}”</span>}
                   </div>
                   <div style={{ marginTop: 8, fontSize: 13, color: 'var(--red)' }}>
                     Reason: {req.rejectionReason ? req.rejectionReason : <span style={{ color: 'var(--text3)' }}>(none given)</span>}

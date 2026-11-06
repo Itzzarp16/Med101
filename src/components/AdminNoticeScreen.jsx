@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 import { saveHomeNotice } from '../lib/homeNotice';
+import { DEFAULT_PREMIUM_WARNING, savePremiumWarning } from '../lib/premiumWarning';
 import { playTapSound } from '../lib/sounds';
 import LiquidSwitch from './LiquidSwitch';
 
@@ -9,6 +10,82 @@ import LiquidSwitch from './LiquidSwitch';
 // semesters/semesterMainSubjects (same shape useSemesterData() returns)
 // are optional - without them this just edits the "All semesters"
 // default, same as before per-semester notices existed.
+// Second card on this screen: the no-guarantee warning students see (and must tick)
+// before paying for Premium. Saved at config/premiumWarning.
+function PremiumWarningCard() {
+  const [text, setText] = useState(DEFAULT_PREMIUM_WARNING.text);
+  const [enabled, setEnabled] = useState(true);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    getDoc(doc(db, 'config', 'premiumWarning')).then((snap) => {
+      if (cancelled) return;
+      const d = snap.exists() ? snap.data() : null;
+      setText((d?.text || '').trim() || DEFAULT_PREMIUM_WARNING.text);
+      setEnabled(d?.enabled !== false);
+      setLoading(false);
+    }).catch(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, []);
+
+  async function handleSave() {
+    playTapSound();
+    setSaving(true);
+    setSaved(false);
+    try {
+      await savePremiumWarning(text.trim() || DEFAULT_PREMIUM_WARNING.text, enabled);
+      setSaved(true);
+    } catch (e) {
+      alert('Failed to save: ' + (e.message || e));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <>
+      <div className="std-header" style={{ marginTop: 28 }}>
+        <h2 className="std-title">⚠️ Premium Warning</h2>
+        <p className="std-sub">
+          Shown on the Premium page before students pay, with an &quot;I understand&quot; tick they
+          must select before they can submit. Each payment request keeps the time and the exact
+          wording they agreed to.
+        </p>
+      </div>
+      <div className="glass std-card">
+        {loading ? (
+          <div className="std-loading">Loading…</div>
+        ) : (
+          <>
+            <label className="auth-label">Warning Text</label>
+            <textarea
+              className="auth-input"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              rows={5}
+              style={{ resize: 'vertical', fontFamily: 'inherit' }}
+            />
+            <label className="qmode-toggle-row" style={{ cursor: 'pointer' }}>
+              <div>
+                <div className="qmode-toggle-title">Show warning and require the tick</div>
+                <div className="qmode-toggle-desc">Turn off to hide both the warning and the checkbox</div>
+              </div>
+              <LiquidSwitch on={enabled} onClick={() => setEnabled((v) => !v)} label="Show warning and require the tick" />
+            </label>
+            <button className="btn-glow std-save-btn" onClick={handleSave} disabled={saving}>
+              {saving ? 'Saving…' : 'Save Warning'}
+            </button>
+            {saved && <div className="auth-msg success" style={{ display: 'block' }}>Saved. Live on the Premium page now.</div>}
+          </>
+        )}
+      </div>
+    </>
+  );
+}
+
 export default function AdminNoticeScreen({ onBack, hideBack = false, semesters }) {
   const [semesterId, setSemesterId] = useState(''); // '' = All semesters (the default notice)
   const [text, setText] = useState('');
@@ -107,6 +184,8 @@ export default function AdminNoticeScreen({ onBack, hideBack = false, semesters 
           </>
         )}
       </div>
+
+      <PremiumWarningCard />
     </div>
   );
 }

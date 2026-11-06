@@ -12,6 +12,7 @@ import PremiumRejected from './PremiumRejected';
 import { buildInvoicePdf } from '../lib/dataExport';
 import './PremiumScreen.css';
 import LoadingLine from './LoadingLine';
+import { DEFAULT_PREMIUM_WARNING, loadCachedPremiumWarning, fetchPremiumWarning } from '../lib/premiumWarning';
 
 // Which rejected payment UTRs this student has already been shown the
 // rejection overlay for - persisted so a rejection they never saw
@@ -189,6 +190,13 @@ export default function PremiumScreen({ onBack }) {
   const [utr, setUtr] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [ackTiming, setAckTiming] = useState(false); // "I understand" - no guarantee on answer-key timing
+  // Admin-editable wording (Admin > Home Notice). Shows the cached/default text instantly, then refreshes.
+  const [warning, setWarning] = useState(() => loadCachedPremiumWarning() || DEFAULT_PREMIUM_WARNING);
+  useEffect(() => {
+    let alive = true;
+    fetchPremiumWarning().then((w) => { if (alive && w) setWarning(w); });
+    return () => { alive = false; };
+  }, []);
   const [submitMsg, setSubmitMsg] = useState(null);
 
   const [copied, setCopied] = useState(false);
@@ -315,7 +323,7 @@ export default function PremiumScreen({ onBack }) {
     e.preventDefault();
     playTapSound();
     setSubmitMsg(null);
-    if (!ackTiming) {
+    if (warning.enabled && !ackTiming) {
       setSubmitMsg({ text: 'Please tick "I understand" before submitting.', type: 'error' });
       return;
     }
@@ -333,6 +341,7 @@ export default function PremiumScreen({ onBack }) {
         uid: user.uid, email: user.email, displayName: user.displayName,
         username: profile?.username, amount: formatPrice(effectivePriceLabel),
         bankingName, phone, utr, yearSemester: paySemester,
+        timingAckText: warning.enabled && ackTiming ? warning.text : '',
       });
       setSubmitMsg({
         text: config?.activationMethod === 'code'
@@ -429,12 +438,12 @@ export default function PremiumScreen({ onBack }) {
             </Banner>
           ) : null}
 
-          {payFlowVisible && !hidePaymentFlow && config && !payIsFree && (
+          {payFlowVisible && !hidePaymentFlow && config && !payIsFree && warning.enabled && (
             <div className="pm-notice" role="note">
               <div className="pm-notice-icon" aria-hidden="true">⚠️</div>
               <div className="pm-notice-text">
                 <div className="pm-notice-title">Please read before subscribing</div>
-                <p>If we don't get the correct answer key on time, we can't give any guarantee. We will always try our best to provide the latest questions to everyone on time.</p>
+                <p>{warning.text}</p>
               </div>
             </div>
           )}
@@ -529,12 +538,14 @@ export default function PremiumScreen({ onBack }) {
               <input id="premium-transaction-id-utr" className="auth-input pm-mono" value={utr} onChange={(e) => setUtr(e.target.value)} placeholder="From your UPI app's payment history" />
               <p className="pm-hint">The UTR / reference number (usually 12 digits) shown on the payment success screen or in your UPI app's history.</p>
 
-              <label className="pm-ack">
-                <input type="checkbox" checked={ackTiming} onChange={(e) => setAckTiming(e.target.checked)} />
-                <span>I have read the notice above and understand there is no guarantee if the correct answer key isn't available on time.</span>
-              </label>
+              {warning.enabled && (
+                <label className="pm-ack">
+                  <input type="checkbox" checked={ackTiming} onChange={(e) => setAckTiming(e.target.checked)} />
+                  <span>I have read the notice above and understand there is no guarantee if the correct answer key isn't available on time.</span>
+                </label>
+              )}
 
-              <button className="btn-glow std-save-btn" type="submit" disabled={submitting || !ackTiming}>
+              <button className="btn-glow std-save-btn" type="submit" disabled={submitting || (warning.enabled && !ackTiming)}>
                 {submitting ? 'Submitting…' : 'Submit for review'}
               </button>
               {submitMsg && <div className={`auth-msg ${submitMsg.type}`} style={{ display: 'block' }}>{submitMsg.text}</div>}
