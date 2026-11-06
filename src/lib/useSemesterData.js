@@ -9,37 +9,6 @@ const SEMESTER_MANIFEST = [
   { id: 'y2s2', file: '/data/y2s2.json' },
 ];
 
-async function loadY1S1ForeignLatinSupplement() {
-  const files = [
-    '/data/foreign-latin-1.json',
-    '/data/foreign-latin-2.json',
-    '/data/foreign-latin-3.json',
-    '/data/foreign-latin-4.json',
-  ];
-  const responses = await Promise.all(files.map((file) => fetch(file, { cache: 'no-store' })));
-  const bad = responses.find((res) => !res.ok);
-  if (bad) throw new Error(`Foreign/Latin supplement responded ${bad.status}`);
-  const parts = await Promise.all(responses.map((res) => res.json()));
-  return {
-    mainSubjectMeta: {
-      'Foreign and Latin language': {
-        emoji: '🌐',
-        desc: 'Latin Language & Foreign Language · 389 questions',
-        accent: 'var(--violet)',
-      },
-    },
-    subjectMeta: {
-      'Latin Language': { emoji: '📜', desc: '201 questions' },
-      'Foreign Language': { emoji: '🇬🇧', desc: '188 questions' },
-    },
-    subjectGroup: {
-      'Latin Language': 'Foreign and Latin language',
-      'Foreign Language': 'Foreign and Latin language',
-    },
-    questions: parts.flatMap((part) => part.questions || []),
-  };
-}
-
 export function useSemesterData() {
   const [state, setState] = useState({
     loading: true,
@@ -114,28 +83,6 @@ export function useSemesterData() {
           emoji: data.emoji,
           accent: data.accent,
         });
-
-        if (entry.id === 'y1s1') {
-          try {
-            const supplement = await loadY1S1ForeignLatinSupplement();
-            const taggedQuestions = (supplement.questions || []).map((q) => ({
-              ...q,
-              term: entry.id,
-            }));
-            questions = questions.concat(taggedQuestions);
-            Object.assign(mainSubjectMeta, supplement.mainSubjectMeta || {});
-            Object.assign(subjectMeta, supplement.subjectMeta || {});
-            Object.assign(subjectGroup, supplement.subjectGroup || {});
-
-            if (supplement.mainSubjectMeta?.['Foreign and Latin language']) {
-              if (!semesterMainSubjects[data.id].includes('Foreign and Latin language')) {
-                semesterMainSubjects[data.id].push('Foreign and Latin language');
-              }
-            }
-          } catch (err) {
-            console.error('Could not load Semester 1 Foreign/Latin questions:', err);
-          }
-        }
 
         try {
           const uploadSnap = await getDoc(doc(db, 'uploadedQuestions', entry.id));
