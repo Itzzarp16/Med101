@@ -50,6 +50,7 @@ export function useSemesterData() {
     subjectGroup: {},
     semesterMainSubjects: {},
     questions: [],
+    subjectAddedAt: {},
   });
 
   const mountedRef = useRef(true);
@@ -65,6 +66,19 @@ export function useSemesterData() {
       const subjectGroup = {};
       const semesterMainSubjects = {};
       let questions = [];
+
+      // When questions were last ADDED, per main subject (newest wins). Three sources:
+      // 1) public/data/question-dates.json (backfilled from git history, scripts/question-dates.py),
+      // 2) subjectMeta[subtopic].addedAt (stamped when the admin saves questions to GitHub),
+      // 3) Firestore uploads (updatedAt on each uploaded subtopic).
+      const addedAtMs = {};
+      const bump = (subject, ms) => {
+        if (subject && Number.isFinite(ms) && ms > (addedAtMs[subject] || 0)) addedAtMs[subject] = ms;
+      };
+      try {
+        const r = await fetch('/data/question-dates.json', { cache: 'no-store' });
+        if (r.ok) Object.entries(await r.json()).forEach(([subject, iso]) => bump(subject, Date.parse(iso)));
+      } catch { /* optional file - dates just won't show */ }
 
       for (const entry of SEMESTER_MANIFEST) {
         let data = null;
@@ -89,6 +103,9 @@ export function useSemesterData() {
         Object.assign(mainSubjectMeta, data.mainSubjectMeta || {});
         Object.assign(subjectMeta, data.subjectMeta || {});
         Object.assign(subjectGroup, data.subjectGroup || {});
+        Object.entries(data.subjectMeta || {}).forEach(([sub, m]) => {
+          if (m?.addedAt) bump((data.subjectGroup || {})[sub], Date.parse(m.addedAt));
+        });
         semesterMainSubjects[data.id] = Object.keys(data.mainSubjectMeta || {});
         semesters.push({
           id: data.id,
@@ -128,6 +145,8 @@ export function useSemesterData() {
               const taggedQuestions = (u.questions || []).map((q) => ({ ...q, term: entry.id }));
               questions = questions.concat(taggedQuestions);
               subjectGroup[u.subtopic] = u.mainSubject;
+              const uploadedMs = u.updatedAt?.toMillis ? u.updatedAt.toMillis() : (u.updatedAt?.seconds || 0) * 1000;
+              if (uploadedMs) bump(u.mainSubject, uploadedMs);
               if (u.subtopicEmoji || u.subtopicDesc) {
                 subjectMeta[u.subtopic] = {
                   ...(subjectMeta[u.subtopic] || {}),
@@ -152,6 +171,7 @@ export function useSemesterData() {
           subjectGroup,
           semesterMainSubjects,
           questions,
+          subjectAddedAt: Object.fromEntries(Object.entries(addedAtMs).map(([k, ms]) => [k, new Date(ms).toISOString()])),
         });
       }
       return true;

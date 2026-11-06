@@ -341,3 +341,9 @@
   .subj-grid > .subj-card.subj-card--build,
   .subj-card--build * { animation: none !important; }
 }
+
+/* When this subject's questions were last added (dashboard cards) */
+.subj-added {
+  display: block; margin-top: 6px; color: var(--text3);
+  font: 500 10.5px/1.4 var(--font-mono, monospace); letter-spacing: .01em;
+}

@@ -197,7 +197,7 @@ function getGreeting(kgNow, questionsToday) {
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
 // header, then the scrolling notice, then a centered max-width subj-grid.
-export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, onRefresh, semesterId }) {
+export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, subjectAddedAt, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, onRefresh, semesterId }) {
   const { user, profile } = useAuth();
   // Exam dates for this semester: one card at the top plus a date line on each subject.
   const exams = useExams(semesterId);
@@ -306,6 +306,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, q
                 desc={hasQuestions ? '' : desc}
                 questionCount={subjectStats[name]?.questionCount}
                 topicCount={subjectStats[name]?.topicCount}
+                addedAt={subjectAddedAt?.[name]}
                 trace
                 build
                 hue={subjectHueIndex(name, mainSubjectMeta)}

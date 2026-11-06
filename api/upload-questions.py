@@ -146,6 +146,8 @@ def github_upsert_questions(semester_id, main_subject, subtopic, questions_out, 
         'emoji': emoji or existing_meta.get('emoji', '📖'),
         'desc': desc or existing_meta.get('desc', ''),
         'accent': existing_meta.get('accent', 'var(--cyan)'),
+        # When these questions were added; the dashboard shows the newest per subject.
+        'addedAt': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
     }
 
     new_content = json.dumps(data, ensure_ascii=False, indent=2) + '\n'

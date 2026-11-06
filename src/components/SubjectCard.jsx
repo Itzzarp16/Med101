@@ -174,7 +174,14 @@ function scrubRegister(el) {
 // Visually hidden but read by screen readers (the animated numbers are aria-hidden).
 const SR_ONLY = { position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)', whiteSpace: 'nowrap' };
 
-export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, trace, progress, exam, build, hideArrow, hue, onClick }) {
+// "5 Nov 2026, 10:42" in the reader's own timezone.
+function formatAdded(iso) {
+  const d = iso ? new Date(iso) : null;
+  if (!d || Number.isNaN(d.getTime())) return '';
+  return d.toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+export default function SubjectCard({ index, emoji, name, desc, questionCount, topicCount, addedAt, trace, progress, exam, build, hideArrow, hue, onClick }) {
   // `hue` (0-11) = this subject's own colour from styles/subjectTheme.css; falls back to the old hashed colour.
   const accent = trace ? (hue != null ? 'var(--hue)' : traceColorFor(name)) : null;
 
@@ -224,6 +231,10 @@ export default function SubjectCard({ index, emoji, name, desc, questionCount, t
             </span>
           )}
         </span>
+
+        {addedAt && questionCount > 0 && formatAdded(addedAt) && (
+          <span className="subj-added">Questions added {formatAdded(addedAt)}</span>
+        )}
 
         {progress && (
           <span className="subj-progress">

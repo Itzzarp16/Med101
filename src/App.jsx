@@ -1020,6 +1020,7 @@ export default function App() {
               ) : null}
               mainSubjectMeta={scopedMainSubjectMeta}
               subjectGroup={subjectGroup}
+              subjectAddedAt={semesterData.subjectAddedAt}
               questions={scopedQuestions}
               semesterId={activeSemesterId}
               onRefresh={semesterData.refresh}
