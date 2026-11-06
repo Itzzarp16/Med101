@@ -99,7 +99,7 @@ DEFAULT_CALENDAR = {
 }
 
 # Screen keys the app's deep-link handler (App.jsx) accepts.
-SCREENS = {'home', 'leaderboard', 'challenge', 'friends', 'weak-topics', 'history'}
+SCREENS = {'home', 'leaderboard', 'challenge', 'friends', 'weak-topics', 'history', 'answer-key'}
 
 # Exam reminders: Kyrgyzstan has no daylight saving (always UTC+6).
 KG = timezone(timedelta(hours=6))

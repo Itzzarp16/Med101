@@ -23,6 +23,12 @@ function formatUpdated(iso) {
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
 }
 
+// Keys updated within the last 7 days get a NEW badge.
+function isNew(iso) {
+  const t = iso ? new Date(iso).getTime() : NaN;
+  return Number.isFinite(t) && Date.now() - t < 7 * 24 * 60 * 60 * 1000;
+}
+
 function DocumentMark() {
   return (
     <svg viewBox="0 0 28 32" aria-hidden="true" className="ak-doc-svg">
@@ -147,7 +153,7 @@ export default function AnswerKeyScreen({ activeSemesterId, onBack }) {
                 <span className="ak-tile"><DocumentMark /></span>
                 <span className="ak-card-info">
                   <span className="ak-card-title">{pdf.subject}</span>
-                  <span className="ak-card-meta"><span className="ak-chip">PDF</span> {semesterLabel + (formatUpdated(pdf.updatedAt) ? ` · Updated ${formatUpdated(pdf.updatedAt)}` : '')}</span>
+                  <span className="ak-card-meta"><span className="ak-chip">PDF</span>{isNew(pdf.updatedAt) && <span className="ak-chip ak-chip-new">NEW</span>} {semesterLabel + (formatUpdated(pdf.updatedAt) ? ` · Updated ${formatUpdated(pdf.updatedAt)}` : '')}</span>
                 </span>
                 <span className="ak-chev" aria-hidden="true">›</span>
               </button>

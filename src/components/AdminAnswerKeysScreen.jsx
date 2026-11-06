@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { auth, db } from '../lib/firebase';
 import { doc, deleteDoc, setDoc } from 'firebase/firestore';
 
@@ -40,11 +40,60 @@ export default function AdminAnswerKeysScreen({ semesters = [], semesterMainSubj
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(null);
+  // Push to students about the new key. The key only appears in the app once Vercel has
+  // redeployed, so the button unlocks after a short wait (and can only be used once per upload).
+  const [notifyWait, setNotifyWait] = useState(0);
+  const [notifyBusy, setNotifyBusy] = useState(false);
+  const [notifySent, setNotifySent] = useState(false);
+  const [notifyMsg, setNotifyMsg] = useState(null); // { type: 'ok' | 'err', text }
+  useEffect(() => {
+    if (notifyWait <= 0) return undefined;
+    const t = setTimeout(() => setNotifyWait((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [notifyWait]);
+
+  async function handleNotify() {
+    if (!success?.semesterId || notifyBusy || notifyWait > 0 || notifySent) return;
+    const label = SEMESTERS.find((s) => s.id === success.semesterId)?.label || success.semesterId;
+    if (!window.confirm(`Send a push notification to ${label} students about the new ${success.subject} answer key?`)) return;
+    setNotifyBusy(true);
+    setNotifyMsg(null);
+    try {
+      const idToken = await auth.currentUser.getIdToken();
+      const res = await fetch('/api/admin/send-broadcast', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+        body: JSON.stringify({
+          action: 'send',
+          title: '📄 New answer key',
+          body: `${success.subject} answer key is updated. Tap to open it.`,
+          screen: 'answer-key',
+          audience: { type: 'semesters', semesters: [success.semesterId] },
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+      setNotifySent(true);
+      setNotifyMsg({
+        type: 'ok',
+        text: data.sent
+          ? `Sent to ${data.sent} device${data.sent === 1 ? '' : 's'}.`
+          : 'Nobody in this semester has notifications turned on yet, so nothing was sent.',
+      });
+    } catch (e) {
+      setNotifyMsg({ type: 'err', text: e.message || String(e) });
+    } finally {
+      setNotifyBusy(false);
+    }
+  }
 
   async function handleUpload(event) {
     event.preventDefault();
     setError('');
     setSuccess(null);
+    setNotifyMsg(null);
+    setNotifySent(false);
+    setNotifyWait(0);
     if (!selectedSubject || !file) {
       setError('Select a dashboard subject (or enter a subject name if none is listed) and choose a PDF file.');
       return;
@@ -88,7 +137,8 @@ export default function AdminAnswerKeysScreen({ semesters = [], semesterMainSubj
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(data.error || 'Upload failed.');
-      setSuccess(data);
+      setSuccess({ ...data, semesterId });
+      setNotifyWait(90);
       setSubject('');
       setCustomSubject('');
       setFile(null);
@@ -148,6 +198,19 @@ export default function AdminAnswerKeysScreen({ semesters = [], semesterMainSubj
         {success && <div className="auth-msg success" role="status" style={{ display: 'block' }}>
           <strong>{success.subject} saved.</strong> {success.message}
           <div style={{ marginTop: 8 }}><a href={success.path} target="_blank" rel="noreferrer">Open PDF after deployment</a></div>
+          <div style={{ marginTop: 14 }}>
+            <button type="button" className="btn-ghost" onClick={handleNotify} disabled={notifyBusy || notifyWait > 0 || notifySent}>
+              {notifySent ? '✅ Students notified'
+                : notifyBusy ? 'Sending…'
+                : notifyWait > 0 ? `🔔 Notify students (unlocks in ${notifyWait}s)`
+                : `🔔 Notify ${SEMESTERS.find((s) => s.id === success.semesterId)?.label || ''} students`}
+            </button>
+            <div style={{ fontSize: 12, color: 'var(--text3)', marginTop: 6 }}>
+              The key goes live once the site redeploys (about a minute), so this unlocks after a short wait.
+              Students with notifications on get a push that opens the Answer Key page.
+            </div>
+            {notifyMsg && <div className={`auth-msg ${notifyMsg.type === 'ok' ? 'success' : 'error'}`} style={{ display: 'block', marginTop: 8 }}>{notifyMsg.text}</div>}
+          </div>
         </div>}
       </form>
     </div>

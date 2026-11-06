@@ -52,6 +52,7 @@
 .ak-card-title { overflow-wrap: anywhere; color: var(--text); font: 800 16px/1.2 var(--font-heading, sans-serif); letter-spacing: -.03em; }
 .ak-card-meta { display: flex; align-items: center; gap: 8px; color: var(--text3); font-size: 11.5px; font-weight: 600; }
 .ak-chip { padding: 3px 6px; color: var(--text2); border-radius: 6px; background: var(--surface2); font: 800 9px/1 var(--font-mono, monospace); letter-spacing: .14em; }
+.ak-chip-new { color: var(--green); background: color-mix(in srgb, var(--green) 16%, transparent); }
 .ak-chev { flex-shrink: 0; color: var(--text3); font-size: 22px; line-height: 1; transition: transform .2s, color .2s; }
 .ak-card:hover .ak-chev { transform: translateX(3px); color: var(--text); }
 .ak-dl {

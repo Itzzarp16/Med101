@@ -24,10 +24,12 @@ const SCREENS = [
   { value: 'friends', label: 'Friends' },
   { value: 'weak-topics', label: 'Weak Topics' },
   { value: 'history', label: 'Quiz History' },
+  { value: 'answer-key', label: 'Answer Keys' },
 ];
 
 const TEMPLATES = [
   { icon: '📚', name: 'New questions', title: '📚 New questions added', body: 'Fresh questions are now live. Open Med101 and give them a try!', screen: 'home' },
+  { icon: '📄', name: 'New answer key', title: '📄 New answer key', body: 'A new answer key is up. Tap to open it.', screen: 'answer-key' },
   { icon: '📅', name: 'Exam reminder', title: '📅 Exam reminder', body: 'Your exam is coming up. A quick quiz today keeps the marks coming.', screen: 'home' },
   { icon: '🏆', name: 'Leaderboard', title: '🏆 Leaderboard is moving', body: 'Check where you rank this week and climb a few spots.', screen: 'leaderboard' },
   { icon: '⚔️', name: 'Challenge', title: '⚔️ Challenge a friend', body: 'Start a quiz room and see who scores higher.', screen: 'challenge' },
