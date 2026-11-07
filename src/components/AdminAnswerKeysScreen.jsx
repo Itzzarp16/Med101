@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { auth, db } from '../lib/firebase';
 import { doc, deleteDoc, setDoc } from 'firebase/firestore';
+import AdminPdfLinkCard from './AdminPdfLinkCard';
 
 const SEMESTERS = [
   { id: 'y1s1', label: 'Semester 1' },
@@ -213,6 +214,8 @@ export default function AdminAnswerKeysScreen({ semesters = [], semesterMainSubj
           </div>
         </div>}
       </form>
+
+      <AdminPdfLinkCard />
     </div>
   );
 }

@@ -386,6 +386,77 @@ def publish_answer_key(body):
                  'message': 'PDF committed to GitHub. It will appear after Vercel finishes deploying the new commit.'}
 
 
+PDF_LINKS_FILE = 'public/medpdf/pdfs/links.json'
+PDF_LINK_YEARS = ('1st Year', '2nd Year', '3rd Year', '4th Year')
+
+
+def publish_pdf_link(body):
+    """Add (or replace) one externally hosted PDF in public/medpdf/pdfs/links.json by committing
+    to GitHub - for files too big for the repo. The /medpdf library lists it after the redeploy."""
+    def clean(value, limit):
+        return ' '.join(str(value or '').split())[:limit]
+
+    year = clean(body.get('year'), 20)
+    subject = clean(body.get('subject'), 80)
+    name = clean(body.get('name'), 120)
+    url = str(body.get('url') or '').strip()
+    folders = [clean(part, 80) for part in str(body.get('folder') or '').split('/')]
+    folders = [f for f in folders if f]
+
+    if year not in PDF_LINK_YEARS:
+        return 400, {'error': 'Choose a valid year.'}
+    if not subject or not name:
+        return 400, {'error': 'Subject and a name for the PDF are required.'}
+    if '/' in subject or '/' in name:
+        return 400, {'error': 'Subject and name cannot contain "/". Use the Folder box for sub-folders.'}
+    if len(url) > 2000 or not re.fullmatch(r'https://[^\s]+', url):
+        return 400, {'error': 'The link must start with https:// and contain no spaces.'}
+    token = os.environ.get('GITHUB_TOKEN')
+    if not token:
+        return 503, {'error': 'GitHub upload is not configured yet. Add GITHUB_TOKEN in Vercel Environment Variables.'}
+
+    repo = os.environ.get('GITHUB_REPO', 'Itzzarp16/Med101')
+    branch = os.environ.get('GITHUB_BRANCH', 'react-rebuild')
+    path = '/'.join([year, subject, *folders, name])
+    api = f'https://api.github.com/repos/{repo}/contents/{PDF_LINKS_FILE}'
+    headers = {'Authorization': f'Bearer {token}', 'Accept': 'application/vnd.github+json',
+               'X-GitHub-Api-Version': '2022-11-28'}
+    try:
+        old_resp = requests.get(api, headers=headers, params={'ref': branch}, timeout=25)
+        if old_resp.status_code == 404:
+            old, data = None, {}
+        else:
+            old_resp.raise_for_status()
+            old = old_resp.json()
+            data = json.loads(base64.b64decode(old.get('content') or '').decode('utf-8'))
+        if not isinstance(data, dict):
+            data = {}
+        links = data.get('links') if isinstance(data.get('links'), list) else []
+        replaced = any(str(l.get('path', '')).lower() == path.lower() for l in links if isinstance(l, dict))
+        links = [l for l in links if isinstance(l, dict) and str(l.get('path', '')).lower() != path.lower()]
+        links.append({'path': path, 'url': url})
+        links.sort(key=lambda l: str(l.get('path', '')).lower())
+        data['links'] = links
+        content = (json.dumps(data, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
+        payload = {'message': f'{"Update" if replaced else "Add"} PDF link: {path}',
+                   'content': base64.b64encode(content).decode('ascii'), 'branch': branch}
+        if old:
+            payload['sha'] = old['sha']
+        requests.put(api, headers=headers, json=payload, timeout=45).raise_for_status()
+    except requests.HTTPError as exc:
+        detail = ''
+        try:
+            detail = exc.response.text[:220]
+        except Exception:
+            pass
+        return 502, {'error': 'GitHub rejected the change. Check GITHUB_TOKEN has Contents read/write permission. ' + detail}
+    except Exception as exc:
+        return 502, {'error': 'Could not save the link to GitHub: ' + str(exc)[:220]}
+
+    return 200, {'success': True, 'path': path, 'replaced': replaced,
+                 'message': 'Saved to GitHub. It will appear in the PDF library once Vercel finishes redeploying (about a minute).'}
+
+
 class handler(BaseHTTPRequestHandler):
     def _send(self, status, body):
         payload = json.dumps(body).encode('utf-8')
@@ -437,6 +508,10 @@ class handler(BaseHTTPRequestHandler):
 
         if body.get('uploadType') == 'answerKey':
             status, result = publish_answer_key(body)
+            return self._send(status, result)
+
+        if body.get('uploadType') == 'pdfLink':
+            status, result = publish_pdf_link(body)
             return self._send(status, result)
 
         save_method = body.get('saveMethod') or 'firestore'
