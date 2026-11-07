@@ -30,7 +30,7 @@ async function api(payload) {
 // "Add PDF link" - for PDFs too big to upload (GitHub's limit is 100 MB). The link is saved
 // to public/medpdf/pdfs/links.json through /api/upload-questions (uploadType 'pdfLink'),
 // and the /medpdf library lists it after the site redeploys.
-export default function AdminPdfLinkCard() {
+export default function AdminPdfLinkCard({ standalone = false }) {
   const [year, setYear] = useState(YEARS[0]);
   const [subject, setSubject] = useState('');
   const [customSubject, setCustomSubject] = useState('');
@@ -101,7 +101,7 @@ export default function AdminPdfLinkCard() {
 
   return (
     <>
-      <div className="std-header" style={{ marginTop: 28 }}>
+      <div className="std-header" style={{ marginTop: standalone ? 4 : 28 }}>
         <h2 className="std-title">🔗 Add PDF Link</h2>
         <p className="std-sub">
           For PDFs too big to upload (over 100 MB). Host the file somewhere else (Google Drive works: set sharing to

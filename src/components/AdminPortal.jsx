@@ -15,6 +15,7 @@ import AdminSubscribersScreen from './AdminSubscribersScreen';
 import AdminInvoicesScreen from './AdminInvoicesScreen';
 import AdminUploadQuestionsScreen from './AdminUploadQuestionsScreen';
 import AdminAnswerKeysScreen from './AdminAnswerKeysScreen';
+import AdminPdfLibraryScreen from './AdminPdfLibraryScreen';
 import AdminSecurityScreen from './AdminSecurityScreen';
 import AdminBackupScreen from './AdminBackupScreen';
 import { enrolledTotpFactors } from '../lib/mfa';
@@ -41,6 +42,7 @@ const NAV_GROUPS = [
     { id: 'exams', icon: '📅', label: 'Exam Schedule' },
     { id: 'upload', icon: '📤', label: 'Upload Questions' },
     { id: 'answer-keys', icon: '📄', label: 'Answer Keys' },
+    { id: 'pdf-library', icon: '📚', label: 'PDF Library' },
     { id: 'reports', icon: '🚩', label: 'Question Reports' },
   ] },
   { title: 'Students', tabs: [
@@ -70,6 +72,7 @@ function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
     case 'reports': return <AdminQuestionReportsScreen onBack={noop} hideBack />;
     case 'upload': return <AdminUploadQuestionsScreen onBack={noop} hideBack semesters={semesters} semesterMainSubjects={semesterMainSubjects} />;
     case 'answer-keys': return <AdminAnswerKeysScreen semesters={semesters} semesterMainSubjects={semesterMainSubjects} />;
+    case 'pdf-library': return <AdminPdfLibraryScreen />;
     case 'users': return <AdminUserDetailScreen onBack={noop} initialUid={null} hideBack />;
     case 'analytics': return <AdminAnalyticsScreen onBack={noop} hideBack semesterMainSubjects={semesterMainSubjects} />;
     case 'payments': return <AdminPaymentsScreen onBack={noop} hideBack />;
