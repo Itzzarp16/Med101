@@ -1,8 +1,31 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { auth } from '../lib/firebase';
 import { SUBJECTS } from '../medpdf/subjects.js';
 
 const YEARS = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+
+function hostOf(url) {
+  try { return new URL(url).hostname.replace(/^www\./, ''); } catch { return ''; }
+}
+
+// One call to the shared admin endpoint (same checks as the answer-key upload).
+async function api(payload) {
+  const user = auth.currentUser;
+  if (!user) throw new Error('Please sign in again.');
+  const idToken = await user.getIdToken();
+  const res = await fetch('/api/upload-questions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+    body: JSON.stringify(payload),
+  });
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    const err = new Error(data.error || `Request failed (${res.status})`);
+    err.data = data;
+    throw err;
+  }
+  return data;
+}
 
 // "Add PDF link" - for PDFs too big to upload (GitHub's limit is 100 MB). The link is saved
 // to public/medpdf/pdfs/links.json through /api/upload-questions (uploadType 'pdfLink'),
@@ -17,6 +40,38 @@ export default function AdminPdfLinkCard() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(null);
+  const [links, setLinks] = useState(null); // null = still loading
+  const [listError, setListError] = useState('');
+  const [removing, setRemoving] = useState('');
+  const [removedMsg, setRemovedMsg] = useState('');
+
+  useEffect(() => {
+    let alive = true;
+    api({ uploadType: 'pdfLinkList' })
+      .then((d) => { if (alive) setLinks(d.links || []); })
+      .catch((e) => { if (alive) { setListError(e.message || 'Could not load the current links.'); setLinks([]); } });
+    return () => { alive = false; };
+  }, []);
+
+  async function handleRemove(item) {
+    if (removing) return;
+    if (!window.confirm(`Remove "${item.path}" from the PDF library?\n\nThe file itself stays wherever it is hosted.`)) return;
+    setRemoving(item.path);
+    setError('');
+    setSuccess(null);
+    setListError('');
+    setRemovedMsg('');
+    try {
+      const d = await api({ uploadType: 'pdfLinkRemove', path: item.path });
+      setLinks(d.links || []);
+      setRemovedMsg(d.message || 'Removed.');
+    } catch (e) {
+      if (e.data?.links) setLinks(e.data.links);
+      setListError(e.message || 'Could not remove the link.');
+    } finally {
+      setRemoving('');
+    }
+  }
 
   const known = (SUBJECTS[year] || []).map((s) => s.name);
   const subjectValue = (known.length === 0 || subject === '__custom__' ? customSubject : subject).trim();
@@ -29,22 +84,12 @@ export default function AdminPdfLinkCard() {
       setError('Pick a subject, then enter a name and the link.');
       return;
     }
-    const user = auth.currentUser;
-    if (!user) {
-      setError('Please sign in again.');
-      return;
-    }
     setBusy(true);
+    setRemovedMsg('');
     try {
-      const idToken = await user.getIdToken();
-      const res = await fetch('/api/upload-questions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
-        body: JSON.stringify({ uploadType: 'pdfLink', year, subject: subjectValue, folder: folder.trim(), name: name.trim(), url: url.trim() }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(data.error || `Request failed (${res.status})`);
+      const data = await api({ uploadType: 'pdfLink', year, subject: subjectValue, folder: folder.trim(), name: name.trim(), url: url.trim() });
       setSuccess(data);
+      if (data.links) setLinks(data.links);
       setName('');
       setUrl('');
     } catch (err) {
@@ -106,6 +151,35 @@ export default function AdminPdfLinkCard() {
           </div>
         )}
       </form>
+
+      <div className="std-header" style={{ marginTop: 28 }}>
+        <h2 className="std-title">Links in the library{links ? ` (${links.length})` : ''}</h2>
+      </div>
+      <div className="glass std-card">
+        {links === null && <div className="std-loading">Loading…</div>}
+        {links && links.length === 0 && !listError && <div style={{ color: 'var(--text3)' }}>No external links yet.</div>}
+        {links && links.map((item) => (
+          <div key={item.path} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 0', borderTop: '1px solid var(--border)' }}>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <div style={{ fontWeight: 700, overflowWrap: 'anywhere' }}>{item.path.split('/').pop()}</div>
+              <div style={{ fontSize: 12, color: 'var(--text3)', overflowWrap: 'anywhere' }}>
+                {item.path.split('/').slice(0, -1).join(' › ')}{hostOf(item.url) ? ` · ${hostOf(item.url)}` : ''}
+              </div>
+            </div>
+            <button
+              type="button"
+              className="btn-ghost"
+              style={{ width: 'auto', padding: '8px 14px', color: 'var(--red, #ff6b6b)', borderColor: 'color-mix(in srgb, var(--red, #ff6b6b) 40%, transparent)' }}
+              disabled={!!removing}
+              onClick={() => handleRemove(item)}
+            >
+              {removing === item.path ? 'Removing…' : 'Remove'}
+            </button>
+          </div>
+        ))}
+        {listError && <div className="auth-msg error" role="alert" style={{ display: 'block' }}>{listError}</div>}
+        {removedMsg && <div className="auth-msg success" role="status" style={{ display: 'block' }}>{removedMsg}</div>}
+      </div>
     </>
   );
 }

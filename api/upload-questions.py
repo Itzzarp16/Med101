@@ -453,8 +453,61 @@ def publish_pdf_link(body):
     except Exception as exc:
         return 502, {'error': 'Could not save the link to GitHub: ' + str(exc)[:220]}
 
-    return 200, {'success': True, 'path': path, 'replaced': replaced,
+    return 200, {'success': True, 'path': path, 'replaced': replaced, 'links': links,
                  'message': 'Saved to GitHub. It will appear in the PDF library once Vercel finishes redeploying (about a minute).'}
+
+
+def manage_pdf_links(body):
+    """List ('pdfLinkList') or remove ('pdfLinkRemove') entries of public/medpdf/pdfs/links.json,
+    read straight from GitHub so the admin sees the real current state. Removing only deletes the
+    entry from the library - the file stays wherever it is hosted."""
+    token = os.environ.get('GITHUB_TOKEN')
+    if not token:
+        return 503, {'error': 'GitHub upload is not configured yet. Add GITHUB_TOKEN in Vercel Environment Variables.'}
+    repo = os.environ.get('GITHUB_REPO', 'Itzzarp16/Med101')
+    branch = os.environ.get('GITHUB_BRANCH', 'react-rebuild')
+    api = f'https://api.github.com/repos/{repo}/contents/{PDF_LINKS_FILE}'
+    headers = {'Authorization': f'Bearer {token}', 'Accept': 'application/vnd.github+json',
+               'X-GitHub-Api-Version': '2022-11-28'}
+    try:
+        resp = requests.get(api, headers=headers, params={'ref': branch}, timeout=25)
+        if resp.status_code == 404:
+            old, data = None, {}
+        else:
+            resp.raise_for_status()
+            old = resp.json()
+            data = json.loads(base64.b64decode(old.get('content') or '').decode('utf-8'))
+        if not isinstance(data, dict):
+            data = {}
+        links = [l for l in (data.get('links') if isinstance(data.get('links'), list) else [])
+                 if isinstance(l, dict) and l.get('path') and l.get('url')]
+        links.sort(key=lambda l: str(l['path']).lower())
+        if body.get('uploadType') == 'pdfLinkList':
+            return 200, {'links': links}
+
+        path = ' '.join(str(body.get('path') or '').split())
+        kept = [l for l in links if str(l['path']).lower() != path.lower()]
+        if not path or len(kept) == len(links):
+            return 404, {'error': 'That link was not found - it may already be removed.', 'links': links}
+        data['links'] = kept
+        content = (json.dumps(data, ensure_ascii=False, indent=2) + '\n').encode('utf-8')
+        payload = {'message': f'Remove PDF link: {path}',
+                   'content': base64.b64encode(content).decode('ascii'), 'branch': branch}
+        if old:
+            payload['sha'] = old['sha']
+        requests.put(api, headers=headers, json=payload, timeout=45).raise_for_status()
+    except requests.HTTPError as exc:
+        detail = ''
+        try:
+            detail = exc.response.text[:220]
+        except Exception:
+            pass
+        return 502, {'error': 'GitHub rejected the change. Check GITHUB_TOKEN has Contents read/write permission. ' + detail}
+    except Exception as exc:
+        return 502, {'error': 'Could not update the links on GitHub: ' + str(exc)[:220]}
+
+    return 200, {'success': True, 'path': path, 'links': kept,
+                 'message': 'Removed. It disappears from the PDF library once Vercel finishes redeploying (about a minute).'}
 
 
 class handler(BaseHTTPRequestHandler):
@@ -512,6 +565,10 @@ class handler(BaseHTTPRequestHandler):
 
         if body.get('uploadType') == 'pdfLink':
             status, result = publish_pdf_link(body)
+            return self._send(status, result)
+
+        if body.get('uploadType') in ('pdfLinkList', 'pdfLinkRemove'):
+            status, result = manage_pdf_links(body)
             return self._send(status, result)
 
         save_method = body.get('saveMethod') or 'firestore'
