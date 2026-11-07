@@ -1,4 +1,9 @@
 {
   "_help": "Add PDFs hosted elsewhere (files over 100 MB can't go in GitHub). Each entry: path = Year/Subject/(optional folders)/Name shown in the app, url = a direct https link. Then commit; the next deploy lists them with your uploaded PDFs.",
-  "links": []
+  "links": [
+    {
+      "path": "1st Year/Anatomy/Textbook/BD chaurasiya 10th edition vol. 1",
+      "url": "https://drive.google.com/file/d/1oGdkslnwGo5sU7hdEIAiJ3-fOoSiQnqs/view?usp=drivesdk"
+    }
+  ]
 }
