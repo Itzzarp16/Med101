@@ -63,6 +63,17 @@ const NO_EMBED = /(^|\.)(drive\.google\.com|docs\.google\.com|dropbox\.com|onedr
 function hostOf(url) {
   try { return new URL(url).hostname.replace(/^www\./, '') } catch { return '' }
 }
+// Google Drive share links -> the file id, so Drive's own viewer can be shown inside the panel.
+function driveFileId(url) {
+  try {
+    const u = new URL(url)
+    if (!/(^|\.)drive\.google\.com$/i.test(u.hostname)) return ''
+    const m = u.pathname.match(/\/file\/d\/([\w-]{10,})/)
+    if (m) return m[1]
+    const id = u.searchParams.get('id') || ''
+    return /^[\w-]{10,}$/.test(id) ? id : ''
+  } catch { return '' }
+}
 
 export default function App() {
   const [yearIdx, setYearIdx] = useState(0)
@@ -76,6 +87,8 @@ export default function App() {
   const all = useMemo(() => flat(manifest), [])
   const q = query.trim().toLowerCase()
   const results = q ? all.filter((f) => (f.trail.join(' ') + ' ' + f.name).toLowerCase().includes(q)) : []
+  const driveId = file?.external ? driveFileId(file.url) : ''
+  const blocked = !!file?.external && NO_EMBED.test(hostOf(file.url))
   const cur = trail[trail.length - 1]
 
   useEffect(() => {
@@ -167,12 +180,21 @@ export default function App() {
           <div className="sheet" onClick={(e) => e.stopPropagation()}>
             <div className="vbar">
               <span>{file.name}</span>
-              <a href={file.url} target="_blank" rel="noreferrer">Open in new tab</a>
-              <a href={file.url} download>Download</a>
+              {driveId ? (
+                <a href={file.url} target="_blank" rel="noreferrer">Open in Google Drive ↗</a>
+              ) : !blocked && (
+                <>
+                  <a href={file.url} target="_blank" rel="noreferrer">Open in new tab</a>
+                  <a href={file.url} download>Download</a>
+                </>
+              )}
               <button onClick={() => setFile(null)}>Close</button>
             </div>
+            {driveId && <div className="vhint">Preview from Google Drive. If it doesn&rsquo;t load, tap &ldquo;Open in Google Drive&rdquo;.</div>}
             <div className="pdfwrap">
-              {file.external && NO_EMBED.test(hostOf(file.url)) ? (
+              {driveId ? (
+                <iframe className="drive-frame" src={`https://drive.google.com/file/d/${driveId}/preview`} title={file.name} allow="autoplay" />
+              ) : blocked ? (
                 <div className="ak-pdf-status">
                   <div>
                     This PDF is hosted on {hostOf(file.url)}.<br />Open it there to read or download.

@@ -94,3 +94,5 @@ code{background:var(--surface);padding:2px 6px;border-radius:6px;font-size:.85em
 @media(max-width:520px){.years button{font-size:.8rem}}
 @media(prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
 .ext-open{display:inline-block;margin-top:16px;padding:11px 20px;border-radius:999px;background:var(--text);color:#06080e;font-weight:600;text-decoration:none}
+.vhint{padding:0 16px 10px;color:var(--muted);font-size:12px;line-height:1.4}
+.drive-frame{flex:1;width:100%;min-height:0;border:0;background:#fff}
