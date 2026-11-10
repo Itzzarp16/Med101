@@ -145,11 +145,10 @@ export default function App() {
   return (
     <>
       <header className="top">
-        <a className="topbar-logo-stack" href="/" title="Go to Home" aria-label="Med101 home">
-          <span className="topbar-logo">Med101</span>
-          <span className="topbar-tagline">Learn. Practice. Improve.</span>
-        </a>
-        <button className="tag" onClick={home}>PDFs</button>
+        <div className="mp-logo-stack">
+          <button className="mp-logo" onClick={home} title="MedPDF home" aria-label="MedPDF home">MedPDF</button>
+          <a className="mp-by" href="/" title="Go to Med101">by <b>Med101</b></a>
+        </div>
         <input type="search" value={query} onChange={onSearch} placeholder="Search PDFs" aria-label="Search PDFs" />
       </header>
 

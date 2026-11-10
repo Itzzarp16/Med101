@@ -96,8 +96,10 @@ code{background:var(--surface);padding:2px 6px;border-radius:6px;font-size:.85em
 .vhint{padding:0 16px 10px;color:var(--muted);font-size:12px;line-height:1.4}
 .drive-frame{flex:1;width:100%;min-height:0;border:0;background:#fff}
 
-/* Med101 logo lockup - copied from the main site's top bar (tokens.css) so it matches exactly */
+/* "MedPDF by Med101" lockup: same silver-blue Syne face as the main site's Med101 logo */
 :root{--logo-face:linear-gradient(180deg,#f4f8ff 0%,#a9c8f0 55%,#6f93bd 100%);--text3:#8aaed0;--font-body:'Inter','Space Grotesk',sans-serif}
-.topbar-logo-stack{display:flex;flex-direction:column;justify-content:center;line-height:1;flex-shrink:0;text-decoration:none}
-.topbar-logo{font-family:'Syne',sans-serif;font-size:19px;font-weight:800;background:var(--logo-face);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.01em;text-shadow:none;filter:drop-shadow(0 0 9px rgba(106,168,255,.28))}
-.topbar-tagline{font-family:var(--font-body);font-size:8px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text3);margin-top:1px;white-space:nowrap}
+.mp-logo-stack{display:flex;flex-direction:column;align-items:flex-start;line-height:1;flex-shrink:0}
+.mp-logo{padding:0;background:var(--logo-face);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font:800 22px/1 Syne,sans-serif;letter-spacing:-.01em;filter:drop-shadow(0 0 9px rgba(106,168,255,.28));cursor:pointer}
+.mp-by{margin-top:4px;color:var(--text3);font:600 10.5px/1 var(--font-body);letter-spacing:.04em;text-decoration:none;transition:color .2s}
+.mp-by b{font:800 10.5px/1 Syne,sans-serif;letter-spacing:0;background:var(--logo-face);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.mp-by:hover{color:var(--text)}
