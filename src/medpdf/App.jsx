@@ -145,7 +145,10 @@ export default function App() {
   return (
     <>
       <header className="top">
-        <a className="brand" href="/">Med101</a>
+        <a className="topbar-logo-stack" href="/" title="Go to Home" aria-label="Med101 home">
+          <span className="topbar-logo">Med101</span>
+          <span className="topbar-tagline">Learn. Practice. Improve.</span>
+        </a>
         <button className="tag" onClick={home}>PDFs</button>
         <input type="search" value={query} onChange={onSearch} placeholder="Search PDFs" aria-label="Search PDFs" />
       </header>
