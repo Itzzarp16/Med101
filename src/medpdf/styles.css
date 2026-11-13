@@ -160,3 +160,54 @@ footer a{color:var(--muted);text-decoration:none}footer a:hover{color:var(--text
   .mp-by{display:none}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ───── 3D layer ───── */
+.hero{position:relative;grid-template-columns:1fr;perspective:1200px}
+.hero>*:not(.scene){position:relative;z-index:1}
+.scene{position:absolute;right:-10px;top:-24px;width:min(46%,420px);height:340px;perspective:900px;z-index:0;touch-action:pan-y;
+  --rx:0deg;--ry:0deg;animation:fade 1s .3s backwards}
+.stack{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(calc(var(--rx) + 14deg)) rotateY(calc(var(--ry) - 24deg));
+  transition:transform .6s var(--ease);animation:float 7s ease-in-out infinite}
+.scene.tilting .stack{transition:transform .08s linear}
+.sheet3{position:absolute;left:50%;top:50%;width:190px;height:250px;margin:-125px 0 0 -95px;padding:22px 20px;border-radius:18px;
+  background:linear-gradient(150deg,var(--surface2),var(--surface));border:1px solid var(--line2);
+  box-shadow:0 30px 50px -20px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.12);display:flex;flex-direction:column;gap:11px}
+.sheet3 i{display:block;height:8px;border-radius:6px;background:var(--line2)}
+.sheet3 i:nth-of-type(2){width:80%}.sheet3 i:nth-of-type(3){width:60%}
+.sheet3 b{margin-top:auto;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--brand),hsl(275 80% 66%));opacity:.85}
+.sheet3 span{align-self:flex-start;padding:4px 10px;border-radius:8px;background:var(--brand);color:var(--on);font:800 12px/1 Syne,sans-serif;letter-spacing:.08em}
+.s3{transform:translateZ(-70px) translateX(34px);opacity:.55}
+.s2{transform:translateZ(-30px) translateX(17px);opacity:.8}
+.s1{transform:translateZ(20px)}
+.orb{position:absolute;border-radius:50%;background:radial-gradient(circle at 32% 28%,#fff9,var(--brand) 40%,hsl(275 70% 45%));box-shadow:0 20px 30px -10px rgba(80,90,220,.55)}
+.o1{width:54px;height:54px;left:6%;top:14%;transform:translateZ(110px);animation:bob 5s ease-in-out infinite}
+.o2{width:30px;height:30px;right:8%;top:58%;transform:translateZ(90px);animation:bob 6s ease-in-out -2s infinite}
+.o3{width:18px;height:18px;left:22%;bottom:10%;transform:translateZ(130px);animation:bob 4.5s ease-in-out -1s infinite}
+@keyframes float{50%{translate:0 -12px}}
+@keyframes bob{50%{translate:0 -16px}}
+
+.card,.row{--rx:0deg;--ry:0deg;--mx:50%;--my:50%;transform-style:preserve-3d;will-change:transform}
+.card{transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateZ(0)}
+.card.tilting{transition:transform .08s linear,border-color .3s,box-shadow .4s}
+.card:hover{transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(-6px) scale(1.02);box-shadow:0 30px 50px -24px hsl(var(--h) 80% 40%/.55),var(--shadow)}
+.card:active{transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) scale(.97)}
+.card .cdot{transform:translateZ(46px);box-shadow:0 14px 24px -10px hsl(var(--h) 80% 40%/.6)}
+.card .cn{transform:translateZ(30px)}
+.card .cf{transform:translateZ(20px)}
+.glare{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:0;transition:opacity .3s;border-radius:inherit;
+  background:radial-gradient(260px circle at var(--mx) var(--my),rgba(255,255,255,.22),transparent 60%)}
+:root.light .glare{background:radial-gradient(260px circle at var(--mx) var(--my),rgba(255,255,255,.7),transparent 60%)}
+.card:hover .glare{opacity:1}
+
+.row{transform:perspective(800px) rotateX(calc(var(--rx)*.25)) rotateY(calc(var(--ry)*.25))}
+.row:hover{transform:perspective(800px) rotateX(calc(var(--rx)*.25)) rotateY(calc(var(--ry)*.25)) translateX(5px) translateZ(12px);box-shadow:0 14px 30px -18px rgba(0,0,0,.6)}
+.vhead{transform-style:preserve-3d;animation:tiltin .8s var(--ease) backwards}
+@keyframes tiltin{from{opacity:0;transform:perspective(900px) rotateX(18deg) translateY(24px)}}
+.sheet{animation:flip .55s var(--ease)}
+@keyframes flip{from{opacity:0;transform:perspective(1200px) rotateX(14deg) translateY(40px) scale(.95)}}
+@media(max-width:720px){
+  .scene{position:relative;right:auto;top:auto;width:100%;height:230px;order:-1;margin-bottom:-8px}
+  .sheet3{width:130px;height:172px;margin:-86px 0 0 -65px;padding:15px 14px;gap:8px}
+  .sheet3 b{height:30px}
+}
+@media(hover:none){.card:hover{transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry))}}

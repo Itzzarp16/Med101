@@ -38,9 +38,41 @@ const SUN = 'M12 17a5 5 0 1 0 0-10 5 5 0 0 0 0 10zM12 1v2M12 21v2M4.2 4.2l1.4 1.
 const MOON = 'M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z'
 const BOOK = 'M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2zM4 19a2 2 0 0 1 2-2h13'
 
+// Pointer-driven 3D tilt: sets --rx/--ry (rotation) and --mx/--my (glare position) on the element.
+const tiltMove = (e) => {
+  const el = e.currentTarget
+  const r = el.getBoundingClientRect()
+  const x = (e.clientX - r.left) / r.width
+  const y = (e.clientY - r.top) / r.height
+  el.style.setProperty('--ry', ((x - 0.5) * 18).toFixed(2) + 'deg')
+  el.style.setProperty('--rx', ((0.5 - y) * 18).toFixed(2) + 'deg')
+  el.style.setProperty('--mx', (x * 100).toFixed(1) + '%')
+  el.style.setProperty('--my', (y * 100).toFixed(1) + '%')
+  el.classList.add('tilting')
+}
+const tiltEnd = (e) => {
+  const el = e.currentTarget
+  el.classList.remove('tilting')
+  ;['--rx', '--ry'].forEach((k) => el.style.removeProperty(k))
+}
+const tilt = { onPointerMove: tiltMove, onPointerLeave: tiltEnd, onPointerCancel: tiltEnd, onPointerUp: (e) => { if (e.pointerType !== 'mouse') tiltEnd(e) } }
+
+function Scene() {
+  return (
+    <div className="scene" {...tilt} aria-hidden="true">
+      <div className="stack">
+        <div className="sheet3 s3"><i /><i /><i /><b /></div>
+        <div className="sheet3 s2"><i /><i /><i /><b /></div>
+        <div className="sheet3 s1"><span>PDF</span><i /><i /><i /><b /></div>
+        <div className="orb o1" /><div className="orb o2" /><div className="orb o3" />
+      </div>
+    </div>
+  )
+}
+
 function Row({ n, icon, title, sub, badge, kind, dir, onClick }) {
   return (
-    <button className={'row' + (dir ? ' dir' : '')} style={{ '--n': Math.min(n, 10) }} onClick={onClick}>
+    <button className={'row' + (dir ? ' dir' : '')} style={{ '--n': Math.min(n, 10) }} onClick={onClick} {...tilt}>
       <span className="ri"><Icon d={icon} /></span>
       <span className="rt"><b>{title}</b>{sub && <small>{sub}</small>}</span>
       {kind && <span className="chip">{kind}</span>}
@@ -204,6 +236,7 @@ export default function App() {
         ) : (
           <>
             <section className="hero">
+              <Scene />
               <span className="eyebrow"><i /> Free study library for MBBS students</span>
               <h1><span className="ln"><span>Every PDF you need,</span></span><span className="ln"><span>one tap away.</span></span></h1>
               <div className="stats">
@@ -223,7 +256,8 @@ export default function App() {
               {subjects.map((s, i) => {
                 const n = count(s.folder)
                 return (
-                  <button key={s.name} className="card" style={{ '--h': s.hue, '--n': i }} onClick={() => open(s)}>
+                  <button key={s.name} className="card" style={{ '--h': s.hue, '--n': i }} onClick={() => open(s)} {...tilt}>
+                    <span className="glare" aria-hidden="true" />
                     <span className="cdot"><Icon d={BOOK} size={20} /></span>
                     <span className="cn">{s.name}</span>
                     <span className="cf">
