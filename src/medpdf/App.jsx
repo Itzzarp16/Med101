@@ -57,19 +57,6 @@ const tiltEnd = (e) => {
 }
 const tilt = { onPointerMove: tiltMove, onPointerLeave: tiltEnd, onPointerCancel: tiltEnd, onPointerUp: (e) => { if (e.pointerType !== 'mouse') tiltEnd(e) } }
 
-function Scene() {
-  return (
-    <div className="scene" {...tilt} aria-hidden="true">
-      <div className="stack">
-        <div className="sheet3 s3"><i /><i /><i /><b /></div>
-        <div className="sheet3 s2"><i /><i /><i /><b /></div>
-        <div className="sheet3 s1"><span>PDF</span><i /><i /><i /><b /></div>
-        <div className="orb o1" /><div className="orb o2" /><div className="orb o3" />
-      </div>
-    </div>
-  )
-}
-
 function Row({ n, icon, title, sub, badge, kind, dir, onClick }) {
   return (
     <button className={'row' + (dir ? ' dir' : '')} style={{ '--n': Math.min(n, 10) }} onClick={onClick} {...tilt}>
@@ -168,13 +155,24 @@ export default function App() {
     else if (!v.trim() && nav.s && !nav.f) window.history.back()              // emptied: leave the search entry
   }
 
-  const totalPdfs = useMemo(() => all.length, [all])
-  const yearCount = count(year)
   const toggleTheme = () => { const t = light ? 'dark' : 'light'; setTheme(t); setLight(t === 'light'); document.documentElement.classList.toggle('light', t === 'light') }
   const clearSearch = () => { setQuery(''); if (nav.s && !nav.f) window.history.back() }
 
+  useEffect(() => {
+    const root = document.documentElement
+    const move = (e) => {
+      root.style.setProperty('--px', ((e.clientX / window.innerWidth - 0.5) * 2).toFixed(3))
+      root.style.setProperty('--py', ((e.clientY / window.innerHeight - 0.5) * 2).toFixed(3))
+    }
+    const scroll = () => root.style.setProperty('--sy', String(window.scrollY))
+    window.addEventListener('pointermove', move, { passive: true })
+    window.addEventListener('scroll', scroll, { passive: true })
+    return () => { window.removeEventListener('pointermove', move); window.removeEventListener('scroll', scroll) }
+  }, [])
+
   return (
     <>
+      <div className="bg3d" aria-hidden="true"><i className="b1" /><i className="b2" /><i className="b3" /><i className="b4" /></div>
       <header className="top">
         <div className="mp-logo-stack">
           <button className="mp-logo" onClick={home} title="MedPDF home" aria-label="MedPDF home">MedPDF</button>
@@ -182,7 +180,7 @@ export default function App() {
         </div>
         <label className="search">
           <Icon d={SEARCH} size={18} />
-          <input type="search" value={query} onChange={onSearch} placeholder="Search all PDFs" aria-label="Search PDFs" />
+          <input type="search" value={query} onChange={onSearch} placeholder="Search" aria-label="Search PDFs" />
           {query && <button type="button" className="x" onClick={clearSearch} aria-label="Clear search"><Icon d={CLOSE} size={14} /></button>}
         </label>
         <button className="theme" onClick={toggleTheme} aria-label={light ? 'Switch to dark mode' : 'Switch to light mode'} title="Theme">
@@ -236,14 +234,7 @@ export default function App() {
         ) : (
           <>
             <section className="hero">
-              <Scene />
-              <span className="eyebrow"><i /> Free study library for MBBS students</span>
-              <h1><span className="ln"><span>Every PDF you need,</span></span><span className="ln"><span>one tap away.</span></span></h1>
-              <div className="stats">
-                <span className="stat"><b>{totalPdfs}</b>PDFs</span>
-                <span className="stat"><b>{manifest.reduce((n, y) => n + subjectsFor(y).length, 0)}</b>subjects</span>
-                <span className="stat"><b>{yearCount}</b>in {year.name}</span>
-              </div>
+              <h1><span className="ln"><span>Study library</span></span><span className="ln"><span>Pick a year, then a subject.</span></span></h1>
               <div className="years" style={{ '--i': yearIdx }} role="tablist">
                 <b className="pill" aria-hidden="true" />
                 {manifest.map((y, i) => (
