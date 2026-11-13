@@ -8,19 +8,99 @@
         "type": "folder",
         "id": "1st Year/Anatomy",
         "name": "Anatomy",
-        "children": []
+        "children": [
+          {
+            "type": "folder",
+            "id": "1st Year/Anatomy/Textbook",
+            "name": "Textbook",
+            "children": [
+              {
+                "type": "file",
+                "id": "1st Year/Anatomy/Textbook/BD chaurasiya 10th edition vol. 1",
+                "name": "BD chaurasiya 10th edition vol. 1",
+                "url": "https://drive.google.com/file/d/1oGdkslnwGo5sU7hdEIAiJ3-fOoSiQnqs/view?usp=drivesdk",
+                "external": true
+              },
+              {
+                "type": "file",
+                "id": "1st Year/Anatomy/Textbook/BD Chaurasiya 10th edition Vol. 2",
+                "name": "BD Chaurasiya 10th edition Vol. 2",
+                "url": "https://drive.google.com/file/d/1goQ7JPKENi-SM3D-FL9Pgqqu7UJOr7nK/view?usp=drivesdk",
+                "external": true
+              },
+              {
+                "type": "file",
+                "id": "1st Year/Anatomy/Textbook/BD chaurasiya 10th edition vol. 3",
+                "name": "BD chaurasiya 10th edition vol. 3",
+                "url": "https://drive.google.com/file/d/1iHkDqP-nfg2QGtGmlkuEUjoGYBBui0iM/view?usp=drivesdk",
+                "external": true
+              },
+              {
+                "type": "file",
+                "id": "1st Year/Anatomy/Textbook/Gray's Anatomy for Students 4th edition",
+                "name": "Gray's Anatomy for Students 4th edition",
+                "url": "https://drive.google.com/file/d/1ynceYuUaAYvYXtpGfANzjLubYdBh6Edw/view?usp=drivesdk",
+                "external": true
+              }
+            ]
+          }
+        ]
       },
       {
         "type": "folder",
         "id": "1st Year/Biochemistry",
         "name": "Biochemistry",
-        "children": []
+        "children": [
+          {
+            "type": "folder",
+            "id": "1st Year/Biochemistry/LECTURE NOTES",
+            "name": "LECTURE NOTES",
+            "children": [
+              {
+                "type": "file",
+                "id": "1st Year/Biochemistry/LECTURE NOTES/PW Mended 3.0",
+                "name": "PW Mended 3.0",
+                "url": "https://drive.google.com/file/d/1l6gnjsWjGh5waKKFdywAmkklNTIyv6EY/view?usp=drivesdk",
+                "external": true
+              }
+            ]
+          },
+          {
+            "type": "folder",
+            "id": "1st Year/Biochemistry/Textbook",
+            "name": "Textbook",
+            "children": [
+              {
+                "type": "file",
+                "id": "1st Year/Biochemistry/Textbook/DM Vasudevan 10th edition",
+                "name": "DM Vasudevan 10th edition",
+                "url": "https://drive.google.com/file/d/1No2n0IzPlqwJrqFUKC9L_GrsVYFUT3P0/view?usp=drivesdk",
+                "external": true
+              }
+            ]
+          }
+        ]
       },
       {
         "type": "folder",
         "id": "1st Year/Physiology",
         "name": "Physiology",
-        "children": []
+        "children": [
+          {
+            "type": "folder",
+            "id": "1st Year/Physiology/LECTURE NOTES",
+            "name": "LECTURE NOTES",
+            "children": [
+              {
+                "type": "file",
+                "id": "1st Year/Physiology/LECTURE NOTES/Physiology Prepladder XI",
+                "name": "Physiology Prepladder XI",
+                "url": "https://drive.google.com/file/d/1kNdwXh5yPdRwrlSOb2eNA72uOTPB0k5h/view?usp=drivesdk",
+                "external": true
+              }
+            ]
+          }
+        ]
       }
     ]
   },
@@ -39,7 +119,22 @@
         "type": "folder",
         "id": "2nd Year/Pathology",
         "name": "Pathology",
-        "children": []
+        "children": [
+          {
+            "type": "folder",
+            "id": "2nd Year/Pathology/LECTURE NOTES",
+            "name": "LECTURE NOTES",
+            "children": [
+              {
+                "type": "file",
+                "id": "2nd Year/Pathology/LECTURE NOTES/Prepladder Ver. XI",
+                "name": "Prepladder Ver. XI",
+                "url": "https://drive.google.com/file/d/149LH01R_44tSzoOBbLvl59bO8XqJ0_Br/view?usp=drivesdk",
+                "external": true
+              }
+            ]
+          }
+        ]
       },
       {
         "type": "folder",
