@@ -141,7 +141,7 @@ body.light-mode .adm-glare{background:radial-gradient(240px circle at var(--mx) 
 @media(prefers-reduced-motion:reduce){.admin-portal *,.admin-portal *::before,.admin-portal *::after,.admin-login-card{animation:none!important;transition:none!important}}
 
 /* ───── draggable 3D dice ───── */
-.adm-cube-wrap{--s:92px;position:relative;z-index:1;flex:none;width:var(--s);height:var(--s);margin-right:clamp(6px,3vw,30px);perspective:620px;
+.adm-cube-wrap{--s:92px;margin-bottom:22px;position:relative;z-index:1;flex:none;width:var(--s);height:var(--s);margin-right:clamp(6px,3vw,30px);perspective:620px;
   touch-action:none;cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .adm-cube-wrap.grab{cursor:grabbing}
 .adm-cube{position:relative;width:100%;height:100%;transform-style:preserve-3d;will-change:transform;transform:rotateX(-24deg) rotateY(32deg)}
@@ -154,7 +154,13 @@ body.light-mode .adm-glare{background:radial-gradient(240px circle at var(--mx) 
 .adm-cube .f4{transform:rotateY(-90deg) translateZ(calc(var(--s)/2))}
 .adm-cube .f5{transform:rotateX(90deg) translateZ(calc(var(--s)/2))}
 .adm-cube .f6{transform:rotateX(-90deg) translateZ(calc(var(--s)/2))}
-.adm-cube-wrap::after{content:"";position:absolute;left:12%;right:12%;bottom:-22px;height:14px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.45),transparent);filter:blur(3px);pointer-events:none}
+.adm-cube-wrap::after{content:"";position:absolute;left:4%;right:4%;bottom:-26px;height:18px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(0,0,0,.75),rgba(230,185,58,.22) 62%,transparent);filter:blur(4px);
+  transform:scaleX(var(--sh,1)) scaleY(var(--sh,1));opacity:calc(.55 + var(--sh,1)*.4)}
+.adm-cube-wrap::before{content:"";position:absolute;inset:-14px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(230,185,58,.18),transparent 70%)}
+.adm-cube{filter:drop-shadow(0 14px 14px rgba(0,0,0,.5))}
+body.light-mode .adm-cube-wrap::after{background:radial-gradient(closest-side,rgba(0,0,0,.4),transparent)}
 @media(max-width:860px){
   .adm-cube-wrap{--s:70px;margin-right:6px}
   .adm-hero h2{font-size:clamp(1.5rem,7vw,2.2rem)}

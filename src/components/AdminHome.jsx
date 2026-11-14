@@ -26,7 +26,10 @@ function Dice() {
         vx *= f; vy *= f;
         if (!calm) { ry += 0.42 * dt; rx += Math.sin(t / 70) * 0.12 * dt; }
       }
-      c.style.transform = `rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      // the dice hovers up and down; its floor shadow shrinks and fades as it rises
+      const lift = calm ? 0 : Math.sin(t / 38) * 5;
+      c.style.transform = `translateY(${(-lift).toFixed(2)}px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg)`;
+      el.style.setProperty('--sh', (1 - lift * 0.028).toFixed(3));
       raf = requestAnimationFrame(frame);
     };
     raf = requestAnimationFrame(frame);
