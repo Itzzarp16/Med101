@@ -3,6 +3,8 @@ import { useAuth } from '../lib/AuthContext';
 import { isLightMode, setTheme } from '../lib/theme';
 import { useSemesterData } from '../lib/useSemesterData';
 import useLockBodyScroll from '../lib/useLockBodyScroll';
+import AdminHome from './AdminHome';
+import { tiltHandlers } from '../lib/tilt';
 import AdminNoticeScreen from './AdminNoticeScreen';
 import AdminBroadcastScreen from './AdminBroadcastScreen';
 import AdminCalendarScreen from './AdminCalendarScreen';
@@ -21,6 +23,7 @@ import AdminBackupScreen from './AdminBackupScreen';
 import { enrolledTotpFactors } from '../lib/mfa';
 import './AdminPortal.css';
 import './AdminTheme.css';
+import './AdminRevamp.css';
 
 // Standalone admin-only surface, served at /admin. Separate from the
 // main app's screen-state navigation (App.jsx) on purpose - this is a
@@ -29,42 +32,46 @@ import './AdminTheme.css';
 // links to on the main site, so there's exactly one implementation of
 // each admin feature; this file just gives them their own home.
 const NAV_GROUPS = [
-  { title: 'Money', tabs: [
-    { id: 'payments', icon: '💳', label: 'Payments' },
-    { id: 'subscribers', icon: '✅', label: 'Subscribers' },
-    { id: 'invoices', icon: '🧾', label: 'Invoices' },
-    { id: 'backup', icon: '💾', label: 'Backups' },
+  { title: 'Overview', hue: 215, tabs: [
+    { id: 'home', icon: '🏠', label: 'Overview', desc: 'All tools in one place' },
   ] },
-  { title: 'Content', tabs: [
-    { id: 'notice', icon: '📢', label: 'Home Notice' },
-    { id: 'broadcast', icon: '🔔', label: 'Send Notification' },
-    { id: 'calendar', icon: '⚙️', label: 'Academic Calendar' },
-    { id: 'exams', icon: '📅', label: 'Exam Schedule' },
-    { id: 'upload', icon: '📤', label: 'Upload Questions' },
-    { id: 'answer-keys', icon: '📄', label: 'Answer Keys' },
-    { id: 'pdf-library', icon: '📚', label: 'PDF Library' },
-    { id: 'reports', icon: '🚩', label: 'Question Reports' },
+  { title: 'Money', hue: 45, tabs: [
+    { id: 'payments', icon: '💳', label: 'Payments', desc: 'Payments and the free-access switch' },
+    { id: 'subscribers', icon: '✅', label: 'Subscribers', desc: 'Who has premium access' },
+    { id: 'invoices', icon: '🧾', label: 'Invoices', desc: 'Find any invoice by its number' },
+    { id: 'backup', icon: '💾', label: 'Backups', desc: 'Keep a safe copy of your data' },
   ] },
-  { title: 'Students', tabs: [
-    { id: 'users', icon: '🔍', label: 'User Detail' },
-    { id: 'analytics', icon: '📊', label: 'Usage Analytics' },
+  { title: 'Content', hue: 215, tabs: [
+    { id: 'notice', icon: '📢', label: 'Home Notice', desc: 'The banner on the student home screen' },
+    { id: 'broadcast', icon: '🔔', label: 'Send Notification', desc: 'Push a message to students' },
+    { id: 'calendar', icon: '⚙️', label: 'Academic Calendar', desc: 'Semester rollover dates' },
+    { id: 'exams', icon: '📅', label: 'Exam Schedule', desc: 'Exam dates and when to reveal them' },
+    { id: 'upload', icon: '📤', label: 'Upload Questions', desc: 'Add questions from PDF or Word' },
+    { id: 'answer-keys', icon: '📄', label: 'Answer Keys', desc: 'Answer key PDFs for students' },
+    { id: 'pdf-library', icon: '📚', label: 'PDF Library', desc: 'Subject PDFs shown in MedPDF' },
+    { id: 'reports', icon: '🚩', label: 'Question Reports', desc: 'Questions students flagged' },
   ] },
-  { title: 'Account', tabs: [
-    { id: 'security', icon: '🔐', label: 'Two-step login' },
+  { title: 'Students', hue: 160, tabs: [
+    { id: 'users', icon: '🔍', label: 'User Detail', desc: 'Look up and manage a student' },
+    { id: 'analytics', icon: '📊', label: 'Usage Analytics', desc: 'See how the site is being used' },
+  ] },
+  { title: 'Account', hue: 280, tabs: [
+    { id: 'security', icon: '🔐', label: 'Two-step login', desc: 'Protect your admin account' },
   ] },
 ];
 const ALL_TABS = NAV_GROUPS.flatMap((g) => g.tabs);
 const tabFromHash = () => {
   const id = window.location.hash.replace('#', '');
-  return ALL_TABS.some((t) => t.id === id) ? id : 'payments';
+  return ALL_TABS.some((t) => t.id === id) ? id : 'home';
 };
 
-function AdminScreenFor({ tab, semesters, semesterMainSubjects }) {
+function AdminScreenFor({ tab, semesters, semesterMainSubjects, home }) {
   // Each screen still takes an onBack, since they're written as
   // full-screen views; here "back" just returns to the portal's own
   // tab bar instead of going anywhere.
   const noop = () => {};
   switch (tab) {
+    case 'home': return home;
     case 'notice': return <AdminNoticeScreen onBack={noop} hideBack semesters={semesters} />;
     case 'broadcast': return <AdminBroadcastScreen onBack={noop} hideBack />;
     case 'calendar': return <AdminCalendarScreen onBack={noop} hideBack />;
@@ -212,6 +219,21 @@ export default function AdminPortal() {
     window.history.replaceState(null, '', `#${id}`);
   };
   const { semesters, semesterMainSubjects } = useSemesterData();
+  // Ambient 3D background: the shapes drift with the pointer and with scrolling.
+  useEffect(() => {
+    const root = document.documentElement;
+    const move = (e) => {
+      root.style.setProperty('--apx', ((e.clientX / window.innerWidth - 0.5) * 2).toFixed(3));
+      root.style.setProperty('--apy', ((e.clientY / window.innerHeight - 0.5) * 2).toFixed(3));
+    };
+    const scroll = () => root.style.setProperty('--asy', String(window.scrollY));
+    window.addEventListener('pointermove', move, { passive: true });
+    window.addEventListener('scroll', scroll, { passive: true });
+    return () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('scroll', scroll);
+    };
+  }, []);
 
   if (loading) {
     return <div className="admin-portal-loading">Loading…</div>;
@@ -223,7 +245,8 @@ export default function AdminPortal() {
     // password, submit. No sign-up tab, no site branding.
     return (
       <div className="admin-portal-authwrap">
-        <div className="admin-login-card">
+        <div className="admin-bg3d" aria-hidden="true"><i className="a1" /><i className="a2" /><i className="a3" /></div>
+        <div className="admin-login-card" {...tiltHandlers(8)}>
           <span className="admin-portal-badge">ADMIN</span>
           <div className="admin-portal-authnote">Med101 Portal</div>
           <p className="admin-login-sub">Sign in with your admin account.</p>
@@ -255,8 +278,13 @@ export default function AdminPortal() {
 
   const current = ALL_TABS.find((t) => t.id === tab);
 
+  const bg = <div className="admin-bg3d" aria-hidden="true"><i className="a1" /><i className="a2" /><i className="a3" /></div>;
+  let navIdx = 0;
+  const displayName = (profile?.name || user.email || 'Admin').split(' ')[0].split('@')[0];
+
   return (
     <div className="admin-portal">
+      {bg}
       <div className="admin-mobilebar">
         <button
           className="admin-burger"
@@ -281,13 +309,14 @@ export default function AdminPortal() {
 
         <nav className="admin-side-nav" aria-label="Admin sections">
           {NAV_GROUPS.map((g) => (
-            <div key={g.title} className="admin-nav-group">
-              <div className="admin-nav-grouptitle">{g.title}</div>
+            <div key={g.title} className="admin-nav-group" style={{ '--h': g.hue }}>
+              {g.title !== 'Overview' && <div className="admin-nav-grouptitle">{g.title}</div>}
               <div className="admin-nav-items">
                 {g.tabs.map((t) => (
                   <button
                     key={t.id}
                     className={t.id === tab ? 'admin-nav-item active' : 'admin-nav-item'}
+                    style={{ '--i': navIdx++ }}
                     onClick={() => setTab(t.id)}
                     aria-current={t.id === tab ? 'page' : undefined}
                   >
@@ -320,11 +349,17 @@ export default function AdminPortal() {
       <div className="admin-main">
         <header className="admin-portal-header">
           <h1 className="admin-page-title">
-            <span aria-hidden="true">{current?.icon}</span> {current?.label}
+            <span className="admin-title-icon" aria-hidden="true">{current?.icon}</span>
+            <span>{current?.label}</span>
           </h1>
         </header>
-        <main className="admin-portal-content">
-          <AdminScreenFor tab={tab} semesters={semesters} semesterMainSubjects={semesterMainSubjects} />
+        <main className="admin-portal-content" key={tab}>
+          <AdminScreenFor
+            tab={tab}
+            semesters={semesters}
+            semesterMainSubjects={semesterMainSubjects}
+            home={<AdminHome groups={NAV_GROUPS} name={displayName} onOpen={setTab} />}
+          />
         </main>
       </div>
     </div>

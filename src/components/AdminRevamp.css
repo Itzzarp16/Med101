@@ -1,0 +1,155 @@
+/* Admin portal revamp: floating glass sidebar, 3D tilt tiles, raised buttons, animated page changes.
+   Rule of thumb used here: never leave a transform/perspective/filter on a wrapper that can contain
+   position:fixed modals (it would trap them), so page animations use backwards-fill only. */
+.admin-portal{
+  --ease:cubic-bezier(.2,.9,.3,1);
+  --glow:rgba(230,185,58,.16);
+  position:relative;isolation:isolate;
+}
+body.light-mode .admin-portal{--glow:rgba(168,115,10,.12)}
+
+/* ───── ambient 3D background ───── */
+.admin-bg3d{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;perspective:900px;--apx:0;--apy:0;--asy:0}
+.admin-bg3d::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(640px 420px at 90% -8%,hsl(40 90% 55%/.12),transparent 70%),
+             radial-gradient(560px 400px at -8% 12%,hsl(215 90% 60%/.12),transparent 70%),
+             radial-gradient(520px 380px at 55% 112%,hsl(280 70% 60%/.09),transparent 70%);
+  animation:adm-aurora 18s ease-in-out infinite alternate}
+.admin-bg3d i{position:absolute;display:block;border-radius:50%;will-change:transform;transition:transform .5s var(--ease)}
+.a1{width:190px;height:190px;left:-70px;top:14%;opacity:.35;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.4),hsl(40 90% 55%) 40%,hsl(25 80% 35%));
+  transform:translate3d(calc(var(--apx)*24px),calc(var(--apy)*24px - var(--asy)*.08px),60px)}
+.a2{width:110px;height:110px;right:-30px;top:40%;opacity:.3;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.4),hsl(215 85% 62%) 42%,hsl(250 70% 35%));
+  transform:translate3d(calc(var(--apx)*-36px),calc(var(--apy)*-28px - var(--asy)*.14px),120px)}
+.a3{width:56px;height:56px;left:46%;top:70%;opacity:.28;background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.4),hsl(160 70% 50%) 45%,hsl(190 70% 30%));
+  transform:translate3d(calc(var(--apx)*-50px),calc(var(--apy)*-40px - var(--asy)*.2px),160px)}
+body.light-mode .admin-bg3d i{opacity:.22}
+@keyframes adm-aurora{to{filter:hue-rotate(24deg);transform:scale(1.06)}}
+
+/* ───── sidebar ───── */
+@media(min-width:861px){
+  .admin-portal{padding:14px;gap:14px}
+  .admin-side{top:14px;height:calc(100vh - 28px);border:1px solid var(--border);border-radius:24px;
+    background:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);
+    box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 24px 50px -30px rgba(0,0,0,.7)}
+  .admin-portal-header{border-radius:20px;border:1px solid var(--border);margin-bottom:6px;top:14px;
+    background:color-mix(in srgb,var(--surface) 78%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+}
+.admin-side-brand{padding-bottom:20px}
+.admin-nav-items{perspective:700px}
+.admin-nav-item{border-radius:13px;padding:10px 12px;transform-origin:left center;
+  transition:transform .35s var(--ease),background .2s,color .2s,box-shadow .3s}
+.admin-nav-item:hover:not(.active){background:color-mix(in srgb,var(--text) 6%,transparent);transform:rotateY(-7deg) translateX(5px)}
+.admin-nav-item:active:not(.active){transform:rotateY(-7deg) translateX(5px) scale(.97);opacity:1}
+.admin-nav-icon{display:grid;place-items:center;width:30px;height:30px;border-radius:10px;font-size:15px;
+  background:color-mix(in srgb,var(--text) 6%,transparent);transition:transform .35s var(--ease),background .25s}
+.admin-nav-item:hover .admin-nav-icon{transform:translateZ(0) scale(1.12) rotate(-6deg)}
+.admin-nav-item.active{background:linear-gradient(135deg,hsl(var(--h,45) 80% 55%/.2),hsl(var(--h,45) 80% 55%/.05));
+  box-shadow:inset 0 0 0 1px hsl(var(--h,45) 80% 60%/.3),0 12px 24px -16px hsl(var(--h,45) 80% 50%/.7)}
+.admin-nav-item.active .admin-nav-icon{background:hsl(var(--h,45) 80% 58%/.3);box-shadow:0 8px 16px -8px hsl(var(--h,45) 80% 50%/.8)}
+.admin-nav-item.active::before{background:linear-gradient(var(--amber),hsl(var(--h,45) 90% 70%));box-shadow:0 0 12px var(--amber)}
+.admin-portal-badge{background:linear-gradient(135deg,#f3cf5c,#d99b17);box-shadow:0 6px 14px -6px rgba(230,170,30,.7),inset 0 1px 0 rgba(255,255,255,.5)}
+
+/* ───── header + page transitions ───── */
+.admin-page-title{display:flex;align-items:center;gap:12px;letter-spacing:-.01em}
+.admin-title-icon{display:grid;place-items:center;width:38px;height:38px;border-radius:12px;font-size:19px;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--amber) 35%,transparent),color-mix(in srgb,var(--amber) 8%,transparent));
+  border:1px solid color-mix(in srgb,var(--amber) 35%,transparent);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 10px 18px -10px var(--amber)}
+.admin-portal-content{animation:adm-page .6s var(--ease) backwards}
+@keyframes adm-page{from{opacity:0;transform:perspective(1100px) rotateX(7deg) translateY(26px)}}
+.admin-portal-content .std-card,.admin-portal-content .stat-card{animation:adm-rise .55s var(--ease) backwards}
+.admin-portal-content .std-card:nth-child(2),.admin-portal-content .stat-card:nth-child(2){animation-delay:.06s}
+.admin-portal-content .std-card:nth-child(3),.admin-portal-content .stat-card:nth-child(3){animation-delay:.12s}
+.admin-portal-content .std-card:nth-child(4),.admin-portal-content .stat-card:nth-child(4){animation-delay:.18s}
+.admin-portal-content .std-card:nth-child(n+5),.admin-portal-content .stat-card:nth-child(n+5){animation-delay:.24s}
+@keyframes adm-rise{from{opacity:0;transform:translateY(18px) scale(.985)}}
+.admin-portal .glass.std-card{border-radius:20px;transition:border-color .3s,box-shadow .4s}
+.admin-portal .glass.std-card:hover{border-color:var(--border2);box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 22px 40px -26px rgba(0,0,0,.7)}
+.admin-portal .stat-card{transition:transform .4s var(--ease),box-shadow .4s,border-color .3s}
+.admin-portal .stat-card:hover{transform:translateY(-4px);border-color:var(--border2);box-shadow:0 18px 30px -20px rgba(0,0,0,.7)}
+
+/* ───── raised, pressable buttons ───── */
+.admin-portal .btn-glow,.admin-login-btn{background:linear-gradient(180deg,#f3cf5c,#d99b17);color:#1a1405;
+  box-shadow:0 3px 0 #a87108,0 12px 22px -10px rgba(230,170,30,.65),inset 0 1px 0 rgba(255,255,255,.55);
+  transition:transform .15s,box-shadow .15s,filter .2s}
+body.light-mode .admin-portal .btn-glow{color:#1a1405}
+.admin-portal .btn-glow:hover:not(:disabled),.admin-login-btn:hover:not(:disabled){filter:brightness(1.06);transform:translateY(-1px)}
+.admin-portal .btn-glow:active:not(:disabled),.admin-login-btn:active:not(:disabled){transform:translateY(3px);box-shadow:0 0 0 #a87108,0 6px 12px -8px rgba(230,170,30,.6),inset 0 1px 0 rgba(255,255,255,.4)}
+.admin-portal .btn-ghost{transition:transform .15s,background .2s,color .2s,border-color .2s}
+.admin-portal .btn-ghost:active:not(:disabled){transform:scale(.96)}
+.admin-portal .auth-input:focus{box-shadow:0 0 0 4px color-mix(in srgb,var(--amber) 22%,transparent)}
+
+/* ───── Overview screen ───── */
+.adm-home{display:grid;gap:30px;padding-top:12px}
+.adm-hero{position:relative;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:clamp(20px,3.4vw,34px);overflow:hidden;
+  border-radius:28px;border:1px solid var(--border);
+  background:linear-gradient(130deg,color-mix(in srgb,var(--amber) 22%,transparent),transparent 62%),var(--surface);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 26px 50px -32px rgba(0,0,0,.8);animation:adm-rise .7s var(--ease) backwards}
+.adm-hero::after{content:"";position:absolute;right:-70px;top:-70px;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,color-mix(in srgb,var(--amber) 35%,transparent),transparent 70%);pointer-events:none}
+.adm-hero-text{position:relative;z-index:1;min-width:0}
+.adm-hello{color:var(--amber);font:600 .8rem/1 var(--font-mono);letter-spacing:.12em;text-transform:uppercase}
+.adm-hero h2{margin:10px 0 8px;font:700 clamp(1.9rem,6vw,3rem)/1.05 var(--font-heading);letter-spacing:-.03em;overflow-wrap:anywhere}
+.adm-hero p{margin:0;color:var(--text3);max-width:34ch}
+.adm-cube-wrap{position:relative;z-index:1;flex:none;width:92px;height:92px;perspective:520px;margin-right:clamp(6px,3vw,34px)}
+.adm-cube{position:relative;width:100%;height:100%;transform-style:preserve-3d;animation:adm-spin 16s linear infinite}
+.adm-cube span{position:absolute;inset:0;display:grid;place-items:center;font-size:36px;border-radius:18px;
+  background:linear-gradient(145deg,color-mix(in srgb,var(--surface2) 90%,transparent),color-mix(in srgb,var(--bg2) 90%,transparent));
+  border:1px solid var(--border2);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.adm-cube .f1{transform:translateZ(46px)}.adm-cube .f2{transform:rotateY(180deg) translateZ(46px)}
+.adm-cube .f3{transform:rotateY(90deg) translateZ(46px)}.adm-cube .f4{transform:rotateY(-90deg) translateZ(46px)}
+.adm-cube .f5{transform:rotateX(90deg) translateZ(46px)}.adm-cube .f6{transform:rotateX(-90deg) translateZ(46px)}
+@keyframes adm-spin{from{transform:rotateX(-22deg) rotateY(0)}to{transform:rotateX(-22deg) rotateY(360deg)}}
+
+.adm-group{--h:215;animation:adm-rise .6s var(--ease) backwards}
+.adm-group-title{margin:0 0 12px 4px;font:600 .72rem/1 var(--font-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--text3)}
+.adm-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.adm-tile{--rx:0deg;--ry:0deg;--mx:50%;--my:50%;position:relative;display:flex;flex-direction:column;gap:6px;min-height:150px;padding:18px;overflow:hidden;text-align:left;cursor:pointer;
+  border-radius:22px;color:var(--text);font:inherit;border:1px solid transparent;transform-style:preserve-3d;will-change:transform;
+  background:linear-gradient(155deg,hsl(var(--h) 70% 55%/.16),transparent 60%),linear-gradient(var(--surface),var(--surface));
+  box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 14px 28px -22px rgba(0,0,0,.8);
+  transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition:transform .5s var(--ease),box-shadow .4s;animation:adm-rise .55s var(--ease) calc(var(--n)*45ms) backwards}
+.adm-tile::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(150deg,hsl(var(--h) 85% 65%/.6),var(--border) 42%,transparent 85%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.adm-tile.tilting{transition:transform .08s linear,box-shadow .4s}
+.adm-tile:hover{box-shadow:0 30px 44px -24px hsl(var(--h) 80% 40%/.6),0 1px 0 rgba(255,255,255,.08) inset}
+.adm-tile:active{transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry)) scale(.97)}
+.adm-glare{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .3s;border-radius:inherit;
+  background:radial-gradient(240px circle at var(--mx) var(--my),rgba(255,255,255,.2),transparent 60%)}
+body.light-mode .adm-glare{background:radial-gradient(240px circle at var(--mx) var(--my),rgba(255,255,255,.7),transparent 60%)}
+.adm-tile:hover .adm-glare{opacity:1}
+.adm-tile-icon{display:grid;place-items:center;width:46px;height:46px;border-radius:15px;font-size:1.4rem;margin-bottom:10px;transform:translateZ(44px);
+  background:linear-gradient(145deg,hsl(var(--h) 80% 62%/.35),hsl(var(--h) 70% 45%/.1));border:1px solid hsl(var(--h) 80% 65%/.35);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.25),0 14px 22px -10px hsl(var(--h) 80% 40%/.65)}
+.adm-tile-name{font:700 1.08rem/1.2 var(--font-heading);letter-spacing:-.01em;transform:translateZ(28px)}
+.adm-tile-desc{color:var(--text3);font-size:.84rem;line-height:1.4;transform:translateZ(16px)}
+
+/* ───── login card ───── */
+.admin-login-card{--rx:0deg;--ry:0deg;transform:perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));transition:transform .5s var(--ease);
+  border-radius:28px;background:color-mix(in srgb,var(--surface) 82%,transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 40px 70px -30px rgba(0,0,0,.8);animation:adm-login .8s var(--ease) backwards}
+.admin-login-card.tilting{transition:transform .08s linear}
+@keyframes adm-login{from{opacity:0;transform:perspective(900px) rotateX(16deg) translateY(40px) scale(.94)}}
+
+/* ───── phones ───── */
+@media(max-width:860px){
+  .admin-mobilebar{backdrop-filter:blur(16px) saturate(1.3)}
+  .admin-side{border-radius:0 26px 26px 0;background:color-mix(in srgb,var(--bg2) 94%,transparent)}
+  .admin-side.open .admin-nav-item{animation:adm-slide .45s var(--ease) backwards;animation-delay:calc(var(--i)*28ms)}
+  @keyframes adm-slide{from{opacity:0;transform:translateX(-22px)}}
+  .admin-portal{padding:0}
+  .admin-portal-content{padding:8px 14px 56px}
+  .admin-hero{border-radius:24px}
+  .adm-cube-wrap{width:64px;height:64px;margin-right:8px}
+  .adm-cube span{font-size:26px;border-radius:13px}
+  .adm-cube .f1{transform:translateZ(32px)}.adm-cube .f2{transform:rotateY(180deg) translateZ(32px)}
+  .adm-cube .f3{transform:rotateY(90deg) translateZ(32px)}.adm-cube .f4{transform:rotateY(-90deg) translateZ(32px)}
+  .adm-cube .f5{transform:rotateX(90deg) translateZ(32px)}.adm-cube .f6{transform:rotateX(-90deg) translateZ(32px)}
+  .adm-tiles{grid-template-columns:repeat(2,1fr);gap:12px}
+  .adm-tile{min-height:136px;padding:14px;border-radius:20px}
+  .adm-tile-name{font-size:.98rem}
+  .adm-tile-desc{font-size:.78rem}
+}
+@media(hover:none){.adm-tile:hover{box-shadow:0 1px 0 rgba(255,255,255,.06) inset,0 14px 28px -22px rgba(0,0,0,.8)}}
+@media(prefers-reduced-motion:reduce){.admin-portal *,.admin-portal *::before,.admin-portal *::after,.admin-login-card{animation:none!important;transition:none!important}}
