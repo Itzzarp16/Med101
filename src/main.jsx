@@ -19,6 +19,11 @@ import LegalShell from './components/LegalShell'
 import ErrorBoundary from './components/ErrorBoundary'
 import { IS_ADMIN_HOST } from './lib/adminHost'
 
+// The root HTML file is shared by the main site and the MedPDF subdomain.
+// Select the correct application by hostname before rendering either app.
+if (window.location.hostname === 'medpdf.med101.space') {
+  import('./medpdf/main.jsx')
+} else {
 // App.jsx is what ~99% of visitors land on ("/"), so it stays a
 // normal static import - no reason to add a network round trip to
 // the common case. Everything below is a route only a handful of
@@ -115,3 +120,5 @@ createRoot(document.getElementById('root')).render(
     </ErrorBoundary>
   </StrictMode>,
 )
+
+}
