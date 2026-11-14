@@ -349,3 +349,7 @@
   .admin-side, .admin-side.open { transition: none; }
   .admin-drawer-overlay { animation: none; }
 }
+
+/* Med101 wordmark in the admin header is a real link back to the main site */
+.admin-logo-link { text-decoration: none; cursor: pointer; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; transition: transform .2s ease, opacity .2s ease; }
+.admin-logo-link:active { transform: scale(.95); opacity: .85; }

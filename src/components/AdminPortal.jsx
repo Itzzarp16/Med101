@@ -267,7 +267,7 @@ export default function AdminPortal() {
         >
           <span /><span /><span />
         </button>
-        <span className="admin-mobilebar-name topbar-logo">Med101</span>
+        <a className="admin-mobilebar-name topbar-logo admin-logo-link" href="/" aria-label="Go to Med101 home">Med101</a>
         <span className="admin-portal-badge">ADMIN</span>
       </div>
       {menuOpen && <div className="admin-drawer-overlay" onClick={() => setMenuOpen(false)} aria-hidden="true" />}
@@ -276,7 +276,7 @@ export default function AdminPortal() {
         <button className="admin-drawer-close" onClick={() => setMenuOpen(false)} aria-label="Close menu">✕</button>
         <div className="admin-side-brand">
           <span className="admin-portal-badge">ADMIN</span>
-          <span className="admin-side-name topbar-logo">Med101</span>
+          <a className="admin-side-name topbar-logo admin-logo-link" href="/" aria-label="Go to Med101 home">Med101</a>
         </div>
 
         <nav className="admin-side-nav" aria-label="Admin sections">
