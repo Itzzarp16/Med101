@@ -159,7 +159,6 @@ body.light-mode .adm-glare{background:radial-gradient(240px circle at var(--mx) 
   transform:scaleX(var(--sh,1)) scaleY(var(--sh,1));opacity:calc(.55 + var(--sh,1)*.4)}
 .adm-cube-wrap::before{content:"";position:absolute;inset:-14px;border-radius:50%;pointer-events:none;
   background:radial-gradient(closest-side,rgba(230,185,58,.18),transparent 70%)}
-.adm-cube{filter:drop-shadow(0 14px 14px rgba(0,0,0,.5))}
 body.light-mode .adm-cube-wrap::after{background:radial-gradient(closest-side,rgba(0,0,0,.4),transparent)}
 @media(max-width:860px){
   .adm-cube-wrap{--s:70px;margin-right:6px}
