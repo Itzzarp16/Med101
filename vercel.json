@@ -16,6 +16,16 @@
   },
   "rewrites": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "medpdf.med101.space"
+        }
+      ],
+      "destination": "/medpdf/index.html"
+    },
+    {
       "source": "/__/:path*",
       "has": [
         {
