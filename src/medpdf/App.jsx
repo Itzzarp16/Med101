@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import manifest from './manifest.json'
 import { SUBJECTS } from './subjects.js'
+import { haptic } from '../lib/haptics.js'
 import PdfPages from '../components/PdfPages'
 import { getTheme, setTheme } from '../lib/theme.js'
 
@@ -8,6 +9,8 @@ const find = (nodes, name) => nodes.find((n) => n.type === 'folder' && n.name.to
 const count = (n) => (n.type === 'file' ? 1 : n.children.reduce((s, c) => s + count(c), 0))
 const flat = (nodes, trail = []) =>
   nodes.flatMap((n) => (n.type === 'file' ? [{ ...n, trail }] : flat(n.children, [...trail, n.name])))
+const EMOJI = { physiology: '🫀', anatomy: '🦴', biochemistry: '🧪', pathology: '🔬', microbiology: '🦠', psm: '🌍', pharmacology: '💊' }
+const emojiFor = (n) => EMOJI[String(n).toLowerCase()] || '📘'
 const kindOf = (f) => (f.external ? (driveFileId(f.url) ? 'DRIVE' : 'LINK') : 'PDF')
 const plural = (n) => `${n} PDF${n === 1 ? '' : 's'}`
 
@@ -211,6 +214,7 @@ export default function App() {
               ))}
             </nav>
             <div className="vhead">
+              <span className="vemoji" aria-hidden="true">{emojiFor(subject.name || trail[0].name)}</span>
               <h2 className="title">{cur.name}</h2>
               <p className="meta">{count(cur) ? plural(count(cur)) : 'No PDFs yet'}</p>
             </div>
@@ -247,9 +251,9 @@ export default function App() {
               {subjects.map((s, i) => {
                 const n = count(s.folder)
                 return (
-                  <button key={s.name} className="card" style={{ '--h': s.hue, '--n': i }} onClick={() => open(s)} {...tilt}>
+                  <button key={s.name} className="card" style={{ '--h': s.hue, '--n': i }} onClick={() => { haptic(8); open(s) }} {...tilt}>
                     <span className="glare" aria-hidden="true" />
-                    <span className="cdot"><Icon d={BOOK} size={20} /></span>
+                    <span className="cdot" aria-hidden="true">{emojiFor(s.name)}</span>
                     <span className="cn">{s.name}</span>
                     <span className="cf">
                       <span className="cc">{n ? plural(n) : 'No PDFs yet'}</span>
