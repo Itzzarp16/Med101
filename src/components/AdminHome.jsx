@@ -2,10 +2,9 @@ import { useEffect, useRef } from 'react';
 import { tilt } from '../lib/tilt';
 import { haptic } from '../lib/haptics';
 
-// A real 3D dice (opposite faces add up to 7). It tumbles slowly by itself; drag or swipe it in
-// any direction to spin it yourself, and it keeps rolling with the speed you let go at.
-const PIPS = { 1: [5], 2: [1, 9], 3: [1, 5, 9], 4: [1, 3, 7, 9], 5: [1, 3, 5, 7, 9], 6: [1, 3, 4, 6, 7, 9] };
-const FACES = [['f1', 1], ['f2', 6], ['f3', 2], ['f4', 5], ['f5', 3], ['f6', 4]];
+// A 3D cube with an emoji on every face. It tumbles slowly by itself; drag or swipe it in any
+// direction to spin it yourself, and it keeps rolling with the speed you let go at.
+const FACES = [['f1', '🩺'], ['f2', '💊'], ['f3', '🧬'], ['f4', '🫀'], ['f5', '🔬'], ['f6', '📚']];
 
 function Dice() {
   const wrap = useRef(null);
@@ -55,11 +54,7 @@ function Dice() {
   return (
     <div className="adm-cube-wrap" ref={wrap} title="Drag to spin">
       <div className="adm-cube" ref={cube}>
-        {FACES.map(([cls, n]) => (
-          <span key={cls} className={`face ${cls} v${n}`}>
-            {PIPS[n].map((cell) => <i key={cell} style={{ gridArea: `${Math.ceil(cell / 3)} / ${((cell - 1) % 3) + 1}` }} />)}
-          </span>
-        ))}
+        {FACES.map(([cls, emoji]) => <span key={cls} className={`face ${cls}`}>{emoji}</span>)}
       </div>
     </div>
   );
