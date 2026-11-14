@@ -222,7 +222,7 @@ export default function App() {
               <div className="empty">
                 <Icon d={FOLDER} size={30} />
                 <b>Nothing here yet</b>
-                <span>Add files to <code>public/medpdf/pdfs/{year.name}/{trail.map((t) => t.name).join('/')}/</code></span>
+                <span>PDFs for this subject will appear here soon.</span>
               </div>
             )}
             <div className="rows">
