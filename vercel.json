@@ -16,6 +16,16 @@
   },
   "rewrites": [
     {
+      "source": "/__/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "auth.med101.space"
+        }
+      ],
+      "destination": "https://med101-1.firebaseapp.com/__/:path*"
+    },
+    {
       "source": "/medpdf",
       "destination": "/medpdf/index.html"
     },
@@ -84,6 +94,19 @@
     {
       "path": "/api/admin/send-broadcast",
       "schedule": "30 3 * * *"
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "auth.med101.space"
+        }
+      ],
+      "destination": "https://med101.space/",
+      "permanent": false
     }
   ]
 }
