@@ -175,7 +175,7 @@ export default function App() {
 
   return (
     <>
-      <div className="bg3d" aria-hidden="true"><i className="b1" /><i className="b2" /><i className="b3" /><i className="b4" /></div>
+      <div className="bg3d" aria-hidden="true"><i className="b1" /><i className="b2" /><i className="b4" /></div>
       <header className="top">
         <div className="mp-logo-stack">
           <button className="mp-logo" onClick={home} title="MedPDF home" aria-label="MedPDF home">MedPDF</button>
@@ -266,7 +266,6 @@ export default function App() {
           </>
         )}
       </main>
-      <footer>MedPDF is part of <a href="/">Med101</a> · Learn. Practice. Improve.</footer>
 
       {file && (
         <div className="viewer" onClick={goBack}>
