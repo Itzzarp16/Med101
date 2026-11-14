@@ -179,7 +179,7 @@ export default function App() {
       <header className="top">
         <div className="mp-logo-stack">
           <button className="mp-logo" onClick={home} title="MedPDF home" aria-label="MedPDF home">MedPDF</button>
-          <a className="mp-by" href="/" title="Go to Med101">by <b>Med101</b></a>
+          <a className="mp-by" href="https://med101.space/" title="Go to Med101">by <b>Med101</b></a>
         </div>
         <label className="search">
           <Icon d={SEARCH} size={18} />
