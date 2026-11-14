@@ -17,6 +17,7 @@ import { startVersionWatcher } from './lib/versionCheck'
 import OfflineGuard from './components/OfflineGuard.jsx'
 import LegalShell from './components/LegalShell'
 import ErrorBoundary from './components/ErrorBoundary'
+import { IS_ADMIN_HOST } from './lib/adminHost'
 
 // App.jsx is what ~99% of visitors land on ("/"), so it stays a
 // normal static import - no reason to add a network round trip to
@@ -39,11 +40,11 @@ const ResetPassword = lazy(() => import('./components/ResetPassword.jsx'))
 // their own dedicated page, without touching that existing navigation
 // system at all.
 const path = window.location.pathname.replace(/\/+$/, '');
-const isAdminRoute = path === '/admin';
-const isPrivacyRoute = path === '/privacy-policy';
-const isTermsRoute = path === '/terms';
-const isAboutRoute = path === '/about-us';
-const isContactRoute = path === '/contact';
+const isAdminRoute = IS_ADMIN_HOST || path === '/admin';
+const isPrivacyRoute = !IS_ADMIN_HOST && path === '/privacy-policy';
+const isTermsRoute = !IS_ADMIN_HOST && path === '/terms';
+const isAboutRoute = !IS_ADMIN_HOST && path === '/about-us';
+const isContactRoute = !IS_ADMIN_HOST && path === '/contact';
 const isResetPasswordRoute = path === '/reset-password';
 
 initTheme()

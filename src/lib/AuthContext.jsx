@@ -20,6 +20,10 @@ import MfaPrompt from '../components/MfaPrompt';
 // Must exactly match the emails your Firestore isAdmin() security rule checks.
 const ADMIN_EMAILS = ['admin.med101@gmail.com', 'admin1.med101@gmail.com', 'admin2.med101@gmail.com'];
 
+export function isAdminEmail(email) {
+  return ADMIN_EMAILS.includes(email);
+}
+
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({ prompt: 'select_account' });
 

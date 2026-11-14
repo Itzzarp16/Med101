@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '../lib/AuthContext';
+import { useAuth, isAdminEmail } from '../lib/AuthContext';
+import { IS_ADMIN_HOST, MAIN_SITE_URL } from '../lib/adminHost';
 import { isLightMode, setTheme } from '../lib/theme';
 import { useSemesterData } from '../lib/useSemesterData';
 import useLockBodyScroll from '../lib/useLockBodyScroll';
@@ -112,6 +113,12 @@ function AdminLogin() {
     setError(null);
     if (!email.trim() || !password) {
       setError('Enter your email and password.');
+      return;
+    }
+    // On admin.med101.space only admin emails may even attempt sign-in, so a
+    // student can never start a session (or take over their device lock) here.
+    if (IS_ADMIN_HOST && !isAdminEmail(email.trim())) {
+      setError('Invalid email or password.');
       return;
     }
     setBusy(true);
@@ -228,6 +235,10 @@ export default function AdminPortal() {
     return () => { window.removeEventListener('popstate', sync); window.removeEventListener('hashchange', sync); };
   }, []);
   const { semesters, semesterMainSubjects } = useSemesterData();
+  // admin.med101.space is admin-only: drop any signed-in non-admin account (e.g. Google).
+  useEffect(() => {
+    if (IS_ADMIN_HOST && !loading && user && !isAdminAccount) logOut();
+  }, [loading, user, isAdminAccount, logOut]);
   // Ambient 3D background: the shapes drift with the pointer and with scrolling.
   useEffect(() => {
     const root = document.documentElement;
@@ -279,7 +290,7 @@ export default function AdminPortal() {
         <div className="admin-login-card">
         <h1>🚫 Admins only</h1>
         <p>{profile?.name || user.email} isn't on the admin list for Med101.</p>
-        <a href="/" className="admin-portal-link">← Back to Med101</a>
+        <a href={IS_ADMIN_HOST ? MAIN_SITE_URL : '/'} className="admin-portal-link">← Back to Med101</a>
         </div>
       </div>
     );
