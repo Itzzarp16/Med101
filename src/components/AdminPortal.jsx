@@ -213,11 +213,20 @@ export default function AdminPortal() {
       mq.removeEventListener('change', onWide);
     };
   }, [menuOpen]);
+  // Each tab is a real history entry (like the main site and MedPDF), so the phone's
+  // back gesture / browser back button steps back through the tabs you visited.
   const setTab = (id) => {
+    if (id !== tabFromHash()) window.history.pushState(null, '', `#${id}`);
     setTabState(id);
     setMenuOpen(false);
-    window.history.replaceState(null, '', `#${id}`);
+    window.scrollTo(0, 0);
   };
+  useEffect(() => {
+    const sync = () => { setTabState(tabFromHash()); setMenuOpen(false); };
+    window.addEventListener('popstate', sync);
+    window.addEventListener('hashchange', sync);
+    return () => { window.removeEventListener('popstate', sync); window.removeEventListener('hashchange', sync); };
+  }, []);
   const { semesters, semesterMainSubjects } = useSemesterData();
   // Ambient 3D background: the shapes drift with the pointer and with scrolling.
   useEffect(() => {
