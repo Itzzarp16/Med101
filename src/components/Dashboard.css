@@ -132,3 +132,21 @@
 }
 .guest-sem-chip:hover { background: rgba(255, 255, 255, 0.16); }
 .guest-cta { text-align: center; margin: 0 auto 18px; padding: 0 16px; }
+
+/* ── "Account needed" prompt for visitors ── */
+.login-gate-overlay {
+  position: fixed; inset: 0; z-index: 200; display: flex; align-items: center; justify-content: center;
+  padding: 20px; background: rgba(4, 6, 18, 0.6); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  animation: login-gate-fade 0.18s ease-out;
+}
+.login-gate-card {
+  width: 100%; max-width: 380px; padding: 26px 24px 22px; border-radius: 24px; text-align: center;
+  display: flex; flex-direction: column; gap: 10px; animation: login-gate-pop 0.22s ease-out;
+}
+.login-gate-emoji { font-size: 34px; line-height: 1; }
+.login-gate-title { margin: 0; font-size: 20px; }
+.login-gate-text { margin: 0 0 8px; font-size: 14.5px; line-height: 1.55; opacity: 0.85; }
+.login-gate-primary, .login-gate-secondary { width: 100%; padding: 13px 16px; font-size: 15px; cursor: pointer; }
+@keyframes login-gate-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes login-gate-pop { from { opacity: 0; transform: translateY(10px) scale(0.97); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .login-gate-overlay, .login-gate-card { animation: none; } }

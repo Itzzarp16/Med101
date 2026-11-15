@@ -335,7 +335,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, s
                 hue={subjectHueIndex(name, mainSubjectMeta)}
                 exam={guest ? null : (examBySubject[name] || null)}
                 progress={prog && prog.answered > 0 ? { answered: prog.answered, pct: Math.round((prog.correct / prog.answered) * 100) } : null}
-                onClick={() => (guest ? onLoginRequired?.() : hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
+                onClick={() => (guest ? onLoginRequired?.(name) : hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
               />
             );
           })}

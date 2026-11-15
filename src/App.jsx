@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import TopBar from './components/TopBar';
 import GuestBar from './components/GuestBar';
+import LoginRequiredModal from './components/LoginRequiredModal';
 import Dashboard from './components/Dashboard';
 import SlideStack from './components/SlideStack';
 import StuckLoaderHelp from './components/StuckLoaderHelp';
@@ -214,10 +215,13 @@ export default function App() {
   // Visitors who aren't signed in see the dashboard (read-only). `showAuth` opens
   // the login screen on top the moment they try to use anything.
   const [showAuth, setShowAuth] = useState(false);
+  // 'Account needed' prompt shown first; the login screen only opens from its button.
+  const [gateFor, setGateFor] = useState(null);
+  const requireAccount = (label) => setGateFor({ label: typeof label === 'string' ? label : null });
   const [guestSemesterId, setGuestSemesterId] = useState(() => {
     try { return localStorage.getItem('med101_guest_semester') || null; } catch { return null; }
   });
-  useEffect(() => { if (user) setShowAuth(false); }, [user]);
+  useEffect(() => { if (user) { setShowAuth(false); setGateFor(null); } }, [user]);
   useEffect(() => { if (kickedMessage) setShowAuth(true); }, [kickedMessage]);
   // A visitor can only ever be on the dashboard (a restored/old screen is reset).
   useEffect(() => {
@@ -348,7 +352,7 @@ export default function App() {
 
   function goTo(screenName, extra = {}) {
     // Only the dashboard is open to visitors; anything else asks them to sign in first.
-    if (!user && screenName !== 'dashboard') { setShowAuth(true); return; }
+    if (!user && screenName !== 'dashboard') { requireAccount(); return; }
     const nextSubject = 'selectedSubject' in extra ? extra.selectedSubject : selectedSubject;
     const nextTopic = 'selectedTopic' in extra ? extra.selectedTopic : selectedTopic;
     // Slide direction: returning to the dashboard reads as "back", everything else as deeper.
@@ -1023,6 +1027,13 @@ export default function App() {
         )}
       </Suspense>
       {topBar}
+      {!user && gateFor && (
+        <LoginRequiredModal
+          label={gateFor.label}
+          onContinue={() => { setGateFor(null); setShowAuth(true); }}
+          onClose={() => setGateFor(null)}
+        />
+      )}
 
       {dataError && (
         <div className="offline-banner">
@@ -1069,7 +1080,7 @@ export default function App() {
               semesterId={activeSemesterId}
               onRefresh={semesterData.refresh}
               guest={!user}
-              onLoginRequired={() => setShowAuth(true)}
+              onLoginRequired={requireAccount}
               guestSemesters={guestSemesterIds.map((id) => ({ id, label: `Semester ${SEMESTER_ORDER.indexOf(id) + 1}` }))}
               onGuestSemester={pickGuestSemester}
               onSelectSubject={(name) => goTo('subtopic', { selectedSubject: name, selectedTopic: null })}
