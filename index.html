@@ -5,12 +5,12 @@
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#e9edf3" />
+    <meta name="theme-color" content="#050505" />
     <script>
       /* Apply the saved theme before first paint (light is the default), so the
          placeholder loader and the browser bar already match the real app. */
       try {
-        var dark = localStorage.getItem('med101_theme') === 'dark';
+        var dark = localStorage.getItem('med101_theme') !== 'light';
         if (!dark) document.documentElement.classList.add('light-mode');
         document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#050505' : '#e9edf3');
       } catch (e) {}
