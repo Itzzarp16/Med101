@@ -20,6 +20,7 @@ import AdminUploadQuestionsScreen from './AdminUploadQuestionsScreen';
 import AdminAnswerKeysScreen from './AdminAnswerKeysScreen';
 import AdminPdfLibraryScreen from './AdminPdfLibraryScreen';
 import AdminSecurityScreen from './AdminSecurityScreen';
+import AdminSignInPageScreen from './AdminSignInPageScreen';
 import AdminBackupScreen from './AdminBackupScreen';
 import { enrolledTotpFactors } from '../lib/mfa';
 import './AdminPortal.css';
@@ -58,6 +59,7 @@ const NAV_GROUPS = [
   ] },
   { title: 'Account', hue: 280, tabs: [
     { id: 'security', icon: '🔐', label: 'Two-step login', desc: 'Protect your admin account' },
+    { id: 'signin-page', icon: '🔑', label: 'Sign-in page', desc: 'Student login on auth.med101.space' },
   ] },
 ];
 const ALL_TABS = NAV_GROUPS.flatMap((g) => g.tabs);
@@ -88,6 +90,7 @@ function AdminScreenFor({ tab, semesters, semesterMainSubjects, home }) {
     case 'invoices': return <AdminInvoicesScreen />;
     case 'backup': return <AdminBackupScreen />;
     case 'security': return <AdminSecurityScreen />;
+    case 'signin-page': return <AdminSignInPageScreen />;
     default: return null;
   }
 }

@@ -18,6 +18,7 @@ import OfflineGuard from './components/OfflineGuard.jsx'
 import LegalShell from './components/LegalShell'
 import ErrorBoundary from './components/ErrorBoundary'
 import { IS_ADMIN_HOST } from './lib/adminHost'
+import { IS_AUTH_HOST } from './lib/authHandoff'
 
 // The root HTML file is shared by the main site and the MedPDF subdomain.
 // Select the correct application by hostname before rendering either app.
@@ -38,6 +39,7 @@ const TermsAndConditions = lazy(() => import('./components/TermsAndConditions.js
 const AboutUs = lazy(() => import('./components/AboutUs.jsx'))
 const ContactUs = lazy(() => import('./components/ContactUs.jsx'))
 const ResetPassword = lazy(() => import('./components/ResetPassword.jsx'))
+const AuthHostApp = lazy(() => import('./components/AuthHostApp.jsx'))
 
 // App.jsx's own navigation (screen state + pushState) never changes
 // the URL path - the whole student SPA lives at "/". So a real path
@@ -45,7 +47,7 @@ const ResetPassword = lazy(() => import('./components/ResetPassword.jsx'))
 // their own dedicated page, without touching that existing navigation
 // system at all.
 const path = window.location.pathname.replace(/\/+$/, '');
-const isAdminRoute = IS_ADMIN_HOST || path === '/admin';
+const isAdminRoute = IS_ADMIN_HOST || (!IS_AUTH_HOST && path === '/admin');
 const isPrivacyRoute = !IS_ADMIN_HOST && path === '/privacy-policy';
 const isTermsRoute = !IS_ADMIN_HOST && path === '/terms';
 const isAboutRoute = !IS_ADMIN_HOST && path === '/about-us';
@@ -68,7 +70,7 @@ startVersionWatcher();
 // instead of needing a manual hard refresh. We also poll for updates
 // periodically so a tab left open for a while still picks up a new
 // deploy, not just ones caught on next navigation.
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && !IS_AUTH_HOST) {
   // If there's already a controller, this page was previously served by
   // an older service worker - a controllerchange from here on means a
   // newer one just took over, i.e. a real update. On a brand-new
@@ -114,6 +116,8 @@ createRoot(document.getElementById('root')).render(
         <AuthProvider>
           {isAdminRoute ? (
             <Suspense fallback={<div className="std-loading">Loading…</div>}><AdminPortal /></Suspense>
+          ) : IS_AUTH_HOST ? (
+            <Suspense fallback={<div className="std-loading">Loading…</div>}><AuthHostApp /></Suspense>
           ) : <App />}
         </AuthProvider>
       )}

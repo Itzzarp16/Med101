@@ -105,18 +105,5 @@
       "path": "/api/admin/send-broadcast",
       "schedule": "30 3 * * *"
     }
-  ],
-  "redirects": [
-    {
-      "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "auth.med101.space"
-        }
-      ],
-      "destination": "https://med101.space/",
-      "permanent": false
-    }
   ]
 }

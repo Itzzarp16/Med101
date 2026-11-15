@@ -5,6 +5,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithRedirect,
+  signInWithCustomToken,
   getRedirectResult,
   signOut,
   updateProfile,
@@ -14,6 +15,12 @@ import { auth, db } from './firebase';
 import { startTimeTracking } from './timeTracking';
 import { claimUsername } from './profile';
 import { getDeviceId } from './deviceId';
+import { takeHandoffFromUrl } from './authHandoff';
+
+// A student who just signed in on auth.med101.space arrives with a one-time pass in
+// the address bar. Picked up once at load (and erased from the URL straight away).
+const HANDOFF = takeHandoffFromUrl();
+let handoffStarted = false;
 import { completeMfaChallenge, isMfaRequiredError, resolverFromError } from './mfa';
 import MfaPrompt from '../components/MfaPrompt';
 
@@ -131,7 +138,11 @@ export function AuthProvider({ children }) {
   const [secondFactor, setSecondFactor] = useState({ uid: null, ok: false });
 
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [authLoading, setLoading] = useState(true);
+  // Stay on the loading screen while the hand-off pass is being exchanged, so the
+  // student never sees a flash of the signed-out dashboard.
+  const [handoffBusy, setHandoffBusy] = useState(!!HANDOFF);
+  const loading = authLoading || handoffBusy;
 
   // updateProfile() mutates auth.currentUser in place rather than
   // replacing it, so setUser(auth.currentUser) after a photo/name
@@ -160,6 +171,26 @@ export function AuthProvider({ children }) {
   // showing AuthScreen while this is true, and AuthScreen renders the
   // short "finish setting up" form instead of the normal login/signup UI.
   const [needsGoogleProfileSetup, setNeedsGoogleProfileSetup] = useState(false);
+
+  // Finish a sign-in that started on auth.med101.space. The device lock was already
+  // claimed there with this browser's own device ID (passed along when the student
+  // left this site), so nothing else has to be claimed here.
+  useEffect(() => {
+    if (!HANDOFF || handoffStarted) return;
+    handoffStarted = true;
+    (async () => {
+      try {
+        await signInWithCustomToken(auth, HANDOFF.token);
+        if (HANDOFF.isNew) setShowOnboardingTour(true);
+        else setShowWhatsAppPrompt(true);
+      } catch (e) {
+        console.warn('Hand-off sign-in failed:', e);
+        setKickedMessage('We could not finish signing you in. Please try again.');
+      } finally {
+        setHandoffBusy(false);
+      }
+    })();
+  }, []);
 
   const deviceUnsubRef = useRef(null);
   const deviceClaimPendingRef = useRef(null);

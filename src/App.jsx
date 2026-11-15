@@ -3,6 +3,8 @@ import { Analytics } from '@vercel/analytics/react';
 import TopBar from './components/TopBar';
 import GuestBar from './components/GuestBar';
 import LoginRequiredModal from './components/LoginRequiredModal';
+import { getDeviceId } from './lib/deviceId';
+import { OPENED_DIRECT, canUseHandoffHere, directLoginRequested, fetchHandoffEnabled, startHandoffLogin } from './lib/authHandoff';
 import Dashboard from './components/Dashboard';
 import SlideStack from './components/SlideStack';
 import StuckLoaderHelp from './components/StuckLoaderHelp';
@@ -214,9 +216,20 @@ export default function App() {
   const [calendarLoading, setCalendarLoading] = useState(true);
   // Visitors who aren't signed in see the dashboard (read-only). `showAuth` opens
   // the login screen on top the moment they try to use anything.
-  const [showAuth, setShowAuth] = useState(false);
+  const [showAuth, setShowAuth] = useState(OPENED_DIRECT); // ?direct=1 = classic sign-in right here
   // 'Account needed' prompt shown first; the login screen only opens from its button.
   const [gateFor, setGateFor] = useState(null);
+  // Sign in: on med101.space, go to auth.med101.space when that page is switched on in the
+  // admin portal; otherwise (or if anything is off) show the sign-in screen right here.
+  async function openLogin() {
+    if (canUseHandoffHere() && !directLoginRequested()) {
+      let on = false;
+      try { on = await fetchHandoffEnabled(); } catch { on = false; }
+      if (on) { startHandoffLogin(getDeviceId()); return; }
+    }
+    setShowAuth(true);
+  }
+  useEffect(() => { if (!user && canUseHandoffHere()) fetchHandoffEnabled(); }, [user]);
   const requireAccount = (label) => setGateFor({ label: typeof label === 'string' ? label : null });
   const [guestSemesterId, setGuestSemesterId] = useState(() => {
     try { return localStorage.getItem('med101_guest_semester') || null; } catch { return null; }
@@ -660,7 +673,7 @@ export default function App() {
     screen,
   };
 
-  const topBar = user ? <TopBar {...topBarProps} /> : <GuestBar onSignIn={() => setShowAuth(true)} />;
+  const topBar = user ? <TopBar {...topBarProps} /> : <GuestBar onSignIn={openLogin} />;
 
   // Settings and admin calendar/notice screens are reachable regardless
   // of semester-data state - a student stuck on "content coming soon"
@@ -1030,7 +1043,7 @@ export default function App() {
       {!user && gateFor && (
         <LoginRequiredModal
           label={gateFor.label}
-          onContinue={() => { setGateFor(null); setShowAuth(true); }}
+          onContinue={() => { setGateFor(null); openLogin(); }}
           onClose={() => setGateFor(null)}
         />
       )}
