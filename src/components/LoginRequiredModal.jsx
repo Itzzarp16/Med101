@@ -12,7 +12,7 @@ export default function LoginRequiredModal({ label, onContinue, onClose }) {
   return (
     <div className="login-gate-overlay" onClick={onClose} role="presentation">
       <div
-        className="login-gate-card glass"
+        className="login-gate-card"
         role="dialog"
         aria-modal="true"
         aria-labelledby="login-gate-title"
