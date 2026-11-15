@@ -112,9 +112,17 @@ const ScreenFallback = AdminScreenFallback;
 // "back" action goes through goBack() (== history.back()), and a
 // popstate listener keeps `screen` in sync with whichever entry the
 // user lands on.
+// Screens a visitor without an account may open: the dashboard and the free preview
+// (topics -> mode -> the first 25 questions). Everything else asks them to sign in first.
+const GUEST_SCREENS = ['dashboard', 'subtopic', 'mode', 'quiz'];
+
 export default function App() {
   const { user, profile, loading, isAdmin, kickedMessage, setKickedMessage, signupNotice, setSignupNotice, showWhatsAppPrompt, setShowWhatsAppPrompt, showOnboardingTour, finishOnboardingTour, needsGoogleProfileSetup } = useAuth();
-  const semesterData = useSemesterData();
+  // Visitors without an account load the small free-preview files (first 25 questions per
+  // subject); anyone signed in, or who has signed in before on this device, gets everything.
+  const returningHint = (() => { try { return localStorage.getItem('med101_returning') === '1'; } catch { return false; } })();
+  const semesterData = useSemesterData(user || returningHint ? 'full' : 'preview');
+  useEffect(() => { if (user) { try { localStorage.setItem('med101_returning', '1'); } catch { /* private mode */ } } }, [user]);
   // A hard page refresh loses all in-memory React state, but the
   // student should land back on whatever screen they were on (e.g. a
   // quiz in progress) rather than being dumped to the dashboard. This
@@ -238,7 +246,7 @@ export default function App() {
   useEffect(() => { if (kickedMessage) setShowAuth(true); }, [kickedMessage]);
   // A visitor can only ever be on the dashboard (a restored/old screen is reset).
   useEffect(() => {
-    if (!loading && !user && screen !== 'dashboard') setScreen('dashboard');
+    if (!loading && !user && !GUEST_SCREENS.includes(screen)) setScreen('dashboard');
   }, [loading, user, screen]);
   const guestSemesterIds = SEMESTER_ORDER.filter((id) => semesterData.semesterMainSubjects?.[id]);
   // Visitors can't read the academic calendar, so they pick a semester themselves.
@@ -365,7 +373,7 @@ export default function App() {
 
   function goTo(screenName, extra = {}) {
     // Only the dashboard is open to visitors; anything else asks them to sign in first.
-    if (!user && screenName !== 'dashboard') { requireAccount(); return; }
+    if (!user && !GUEST_SCREENS.includes(screenName)) { requireAccount(); return; }
     const nextSubject = 'selectedSubject' in extra ? extra.selectedSubject : selectedSubject;
     const nextTopic = 'selectedTopic' in extra ? extra.selectedTopic : selectedTopic;
     // Slide direction: returning to the dashboard reads as "back", everything else as deeper.
@@ -641,7 +649,7 @@ export default function App() {
   }
 
   // Visitors only ever see the dashboard; this covers the one render before the reset effect runs.
-  if (!user && screen !== 'dashboard') return <ScreenFallback />;
+  if (!user && !GUEST_SCREENS.includes(screen)) return <ScreenFallback />;
 
   const topBarProps = {
     onHome: goHome,
@@ -1093,6 +1101,7 @@ export default function App() {
               semesterId={activeSemesterId}
               onRefresh={semesterData.refresh}
               guest={!user}
+              guestPreviewSubjects={user ? undefined : new Set(scopedQuestions.map((q) => subjectGroup[q.s]))}
               onLoginRequired={requireAccount}
               guestSemesters={guestSemesterIds.map((id) => ({ id, label: `Semester ${SEMESTER_ORDER.indexOf(id) + 1}` }))}
               onGuestSemester={pickGuestSemester}
@@ -1155,6 +1164,8 @@ export default function App() {
                 semesterId={activeSemesterId}
                 questions={finalQuiz.questions}
                 isPremium={isPremiumForCurrentSemester || isAdmin || premiumPaused}
+                guest={!user}
+                onSignIn={() => requireAccount()}
                 autoAdvance={finalQuiz.autoAdvance}
                 timerSeconds={finalQuiz.timerSeconds}
                 roomCode={finalQuiz.roomCode}

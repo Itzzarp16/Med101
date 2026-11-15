@@ -6,7 +6,7 @@
   "scripts": {
     "predev": "node scripts/build-medpdf-manifest.mjs",
     "dev": "vite",
-    "prebuild": "node scripts/build-medpdf-manifest.mjs",
+    "prebuild": "node scripts/build-medpdf-manifest.mjs && node scripts/build-guest-preview.mjs",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"

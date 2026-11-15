@@ -197,7 +197,7 @@ function getGreeting(kgNow, questionsToday) {
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
 // header, then the scrolling notice, then a centered max-width subj-grid.
-export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, subjectAddedAt, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, onRefresh, semesterId, guest = false, onLoginRequired, guestSemesters = [], onGuestSemester }) {
+export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, subjectAddedAt, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, onRefresh, semesterId, guest = false, guestPreviewSubjects, onLoginRequired, guestSemesters = [], onGuestSemester }) {
   const { user, profile } = useAuth();
   // Exam dates for this semester: one card at the top plus a date line on each subject.
   // (Visitors who aren't signed in can't read them, so skip the lookup.)
@@ -222,7 +222,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, s
   const questionsToday = profile?.questionsTodayDate === todayStr() ? (profile?.questionsToday || 0) : 0;
 
   const greeting = guest
-    ? { title: 'Welcome to Med101', emoji: '👋', nudge: 'Pick a subject to get started - you will be asked to sign in first.' }
+    ? { title: 'Welcome to Med101', emoji: '👋', nudge: 'Pick a subject to try its first 25 questions free. Sign in to unlock everything.' }
     : getGreeting(kgNow, questionsToday);
 
   const subjectStats = useMemo(() => {
@@ -335,7 +335,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, s
                 hue={subjectHueIndex(name, mainSubjectMeta)}
                 exam={guest ? null : (examBySubject[name] || null)}
                 progress={prog && prog.answered > 0 ? { answered: prog.answered, pct: Math.round((prog.correct / prog.answered) * 100) } : null}
-                onClick={() => (guest ? onLoginRequired?.(name) : hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
+                onClick={() => (guest ? (guestPreviewSubjects?.has(name) ? onSelectSubject?.(name) : onLoginRequired?.(name)) : hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
               />
             );
           })}

@@ -9,7 +9,10 @@ const SEMESTER_MANIFEST = [
   { id: 'y2s2', file: '/data/y2s2.json' },
 ];
 
-export function useSemesterData() {
+// mode 'preview' = visitors without an account: loads the small preview files (first 25
+// questions per subject/topic, built by scripts/build-guest-preview.mjs) and skips the
+// Firestore uploads they can't read. Falls back to the full file if a preview is missing.
+export function useSemesterData(mode = 'full') {
   const [state, setState] = useState({
     loading: true,
     error: null,
@@ -22,11 +25,12 @@ export function useSemesterData() {
     subjectAddedAt: {},
   });
 
-  const mountedRef = useRef(true);
   const loadRef = useRef(null);
 
   useEffect(() => {
-    mountedRef.current = true;
+    let cancelled = false;
+    // Switching between preview and full (e.g. a visitor signs in) starts a fresh load.
+    setState((s) => (s.loading ? s : { ...s, loading: true, error: null }));
 
     async function load(silent = false) {
       const semesters = [];
@@ -53,13 +57,20 @@ export function useSemesterData() {
         let data = null;
 
         try {
-          const res = await fetch(entry.file, { cache: 'no-store' });
+          let res = null;
+          if (mode === 'preview') {
+            try {
+              res = await fetch(`/data/preview/${entry.id}.json`, { cache: 'no-store' });
+              if (!res.ok) res = null;
+            } catch { res = null; }
+          }
+          if (!res) res = await fetch(entry.file, { cache: 'no-store' });
           if (!res.ok) throw new Error(`${entry.file} responded ${res.status}`);
           data = await res.json();
         } catch (err) {
           console.error('Failed to load question data:', entry.file, err);
           if (silent) return false;
-          if (mountedRef.current) {
+          if (!cancelled) {
             setState((s) => ({ ...s, loading: false, error: 'connection' }));
           }
           return false;
@@ -85,6 +96,7 @@ export function useSemesterData() {
         });
 
         try {
+          if (mode === 'preview') throw new Error('visitor preview: uploads need an account');
           const uploadSnap = await getDoc(doc(db, 'uploadedQuestions', entry.id));
           if (uploadSnap.exists()) {
             const subjects = uploadSnap.data().subjects || {};
@@ -108,7 +120,7 @@ export function useSemesterData() {
         }
       }
 
-      if (mountedRef.current) {
+      if (!cancelled) {
         setState({
           loading: false,
           error: null,
@@ -127,9 +139,9 @@ export function useSemesterData() {
     loadRef.current = load;
     load();
     return () => {
-      mountedRef.current = false;
+      cancelled = true;
     };
-  }, []);
+  }, [mode]);
 
   const refresh = useCallback(
     () => (loadRef.current ? loadRef.current(true) : Promise.resolve(false)),

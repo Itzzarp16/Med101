@@ -113,7 +113,7 @@ function CountNum({ to, delay = 0 }) {
   return <>{n}</>;
 }
 
-export default function QuizScreen({ mainSubject, topic, semesterId, questions, isPremium, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, mock, resumeAttemptId, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
+export default function QuizScreen({ guest = false, onSignIn, mainSubject, topic, semesterId, questions, isPremium, autoAdvance, timerSeconds, roomCode, totalTimeLimitMs, mock, resumeAttemptId, onExit, onViewRoomResults, onRestartSame, onRetryWrong }) {
   const { user, profile } = useAuth();
   // Work out once, on mount, whether this is a fresh attempt or a continuation
   // of a saved one: either the student tapped "Resume" on the dashboard
@@ -442,7 +442,7 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
 
   function toggleFlag() {
     if (mock) { toggleMarked(); return; }
-    if (!user) return;
+    if (!user) { if (guest) onSignIn?.(); return; }
     playTapSound();
     const key = `${cur}`;
     const isFlagged = flaggedKeys.has(key);
@@ -815,6 +815,18 @@ export default function QuizScreen({ mainSubject, topic, semesterId, questions, 
                 <button className="btn-ghost results-newquiz-btn" onClick={handleNewQuiz}>← New Quiz</button>
               </div>
             </>
+          )}
+
+          {guest && (
+            <div className="glass" style={{ padding: '16px 18px', borderRadius: 18, textAlign: 'center', margin: '4px 0 14px' }}>
+              <div style={{ fontWeight: 700, marginBottom: 4 }}>Want to keep practising?</div>
+              <p style={{ margin: '0 0 12px', fontSize: 13.5, lineHeight: 1.55, color: 'var(--text2)' }}>
+                Create a free account to save your progress, streak and wrong answers, and to open more subjects.
+              </p>
+              <button type="button" className="btn-glow" style={{ width: '100%' }} onClick={() => { playTapSound(); onSignIn?.(); }}>
+                Sign in / Create account
+              </button>
+            </div>
           )}
 
           <button className="results-review-toggle" onClick={() => { playTapSound(); setShowReview((v) => !v); }}>
