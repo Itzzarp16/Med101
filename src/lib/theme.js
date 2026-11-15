@@ -1,14 +1,13 @@
 // Dark/light theme - persisted the same way sound-mute already is
 // (a plain localStorage flag), toggling the `light-mode` class on
 // <body> that tokens.css already defines every color variable for.
-// Light is the default (applied unless the user has explicitly
-// switched to dark) so every fresh visitor - including on the
-// login/signup screen, before any account exists - sees light mode.
+// Dark is the default. A saved light preference is respected, so
+// visitors who deliberately chose light mode keep that choice.
 
 const KEY = 'med101_theme';
 
 export function getTheme() {
-  return localStorage.getItem(KEY) === 'dark' ? 'dark' : 'light';
+  return localStorage.getItem(KEY) === 'light' ? 'light' : 'dark';
 }
 
 export function isLightMode() {
