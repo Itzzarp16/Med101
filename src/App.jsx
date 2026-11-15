@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import { Analytics } from '@vercel/analytics/react';
 import TopBar from './components/TopBar';
+import GuestBar from './components/GuestBar';
 import Dashboard from './components/Dashboard';
 import SlideStack from './components/SlideStack';
 import StuckLoaderHelp from './components/StuckLoaderHelp';
@@ -9,7 +10,7 @@ import { subscribeToMyPremiumStatus, subscribeToSubscriptionConfig, premiumCover
 import { joinRoom } from './lib/rooms';
 import { useAuth } from './lib/AuthContext';
 import { useSemesterData } from './lib/useSemesterData';
-import { subscribeToAcademicCalendar, resolveCurrentSemester } from './lib/academicCalendar';
+import { subscribeToAcademicCalendar, resolveCurrentSemester, SEMESTER_ORDER } from './lib/academicCalendar';
 import { startPresenceHeartbeat } from './lib/presenceLazy';
 import { saveNavState, loadNavState, clearNavState } from './lib/navPersistence';
 import { loadResumeSnapshot, clearQuizProgress, saveQuizProgress } from './lib/quizProgress';
@@ -210,6 +211,31 @@ export default function App() {
   }, [user?.uid, profile?.enrolledYearSemester, premiumStatus, subscriptionConfig, premiumPaused, isPremiumForCurrentSemester]);
   const [activeSemesterId, setActiveSemesterId] = useState(null);
   const [calendarLoading, setCalendarLoading] = useState(true);
+  // Visitors who aren't signed in see the dashboard (read-only). `showAuth` opens
+  // the login screen on top the moment they try to use anything.
+  const [showAuth, setShowAuth] = useState(false);
+  const [guestSemesterId, setGuestSemesterId] = useState(() => {
+    try { return localStorage.getItem('med101_guest_semester') || null; } catch { return null; }
+  });
+  useEffect(() => { if (user) setShowAuth(false); }, [user]);
+  useEffect(() => { if (kickedMessage) setShowAuth(true); }, [kickedMessage]);
+  // A visitor can only ever be on the dashboard (a restored/old screen is reset).
+  useEffect(() => {
+    if (!loading && !user && screen !== 'dashboard') setScreen('dashboard');
+  }, [loading, user, screen]);
+  const guestSemesterIds = SEMESTER_ORDER.filter((id) => semesterData.semesterMainSubjects?.[id]);
+  // Visitors can't read the academic calendar, so they pick a semester themselves.
+  useEffect(() => {
+    if (loading || user) return;
+    if (guestSemesterIds.length === 0) { if (!semesterData.loading) setCalendarLoading(false); return; }
+    setActiveSemesterId(guestSemesterIds.includes(guestSemesterId) ? guestSemesterId : guestSemesterIds[0]);
+    setCalendarLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading, user, guestSemesterId, semesterData.semesterMainSubjects, semesterData.loading]);
+  function pickGuestSemester(id) {
+    setGuestSemesterId(id);
+    try { localStorage.setItem('med101_guest_semester', id); } catch { /* private mode */ }
+  }
   // Cinematic intro after the first loading screen (see lib/intro.js for when it plays).
   const [introDone, setIntroDone] = useState(() => !shouldPlayIntro());
   const [loaderPhase, setLoaderPhase] = useState('loading'); // 'loading' | 'completing' | 'done' - drives the loading-bar finish animation
@@ -321,6 +347,8 @@ export default function App() {
   }, [screen, user]);
 
   function goTo(screenName, extra = {}) {
+    // Only the dashboard is open to visitors; anything else asks them to sign in first.
+    if (!user && screenName !== 'dashboard') { setShowAuth(true); return; }
     const nextSubject = 'selectedSubject' in extra ? extra.selectedSubject : selectedSubject;
     const nextTopic = 'selectedTopic' in extra ? extra.selectedTopic : selectedTopic;
     // Slide direction: returning to the dashboard reads as "back", everything else as deeper.
@@ -381,6 +409,7 @@ export default function App() {
   // Settings, since `profile` updates live via the AuthContext listener.
   useEffect(() => {
     let cancelled = false;
+    if (!user) return undefined; // visitors: handled by the guest-semester effect above
     if (!profile) {
       // profile can legitimately stay null for a beat while its
       // Firestore listener is still resolving, but if it never arrives
@@ -407,7 +436,7 @@ export default function App() {
     });
 
     return () => { cancelled = true; unsubCalendar(); };
-  }, [profile, semesterData.semesterMainSubjects]);
+  }, [user, profile, semesterData.semesterMainSubjects]);
 
   // Loading-bar finish sequence: the moment both real loading steps
   // are actually done, snap the indeterminate sweep to a solid 100%
@@ -569,7 +598,7 @@ export default function App() {
     );
   }
 
-  if (!user || needsGoogleProfileSetup) {
+  if (needsGoogleProfileSetup || (!user && showAuth)) {
     return (
       <>
         {kickedMessage && (
@@ -577,12 +606,25 @@ export default function App() {
             {kickedMessage}
           </div>
         )}
+        {!user && !needsGoogleProfileSetup && (
+          <button
+            type="button"
+            className="btn-ghost"
+            style={{ position: 'fixed', top: 'calc(10px + env(safe-area-inset-top, 0px))', left: 12, zIndex: 60, padding: '8px 14px' }}
+            onClick={() => { setShowAuth(false); setKickedMessage(null); }}
+          >
+            ← Back to dashboard
+          </button>
+        )}
         <Suspense fallback={<ScreenFallback />}>
           <AuthScreen />
         </Suspense>
       </>
     );
   }
+
+  // Visitors only ever see the dashboard; this covers the one render before the reset effect runs.
+  if (!user && screen !== 'dashboard') return <ScreenFallback />;
 
   const topBarProps = {
     onHome: goHome,
@@ -613,6 +655,8 @@ export default function App() {
     onAdminSubscribers: () => goTo('admin-subscribers'),
     screen,
   };
+
+  const topBar = user ? <TopBar {...topBarProps} /> : <GuestBar onSignIn={() => setShowAuth(true)} />;
 
   // Settings and admin calendar/notice screens are reachable regardless
   // of semester-data state - a student stuck on "content coming soon"
@@ -912,7 +956,7 @@ export default function App() {
   if (!semesterSubjectNames && stillResolving) {
     return (
       <div>
-        <TopBar {...topBarProps} />
+        {topBar}
         <div className="screen-fade" key="still-resolving">
           <div className="app-loading-bar-row" style={{ margin: '80px auto' }}>
             <span className="app-loading-play">▶</span>
@@ -931,7 +975,7 @@ export default function App() {
   if (!semesterSubjectNames) {
     return (
       <div>
-        <TopBar {...topBarProps} />
+        {topBar}
         <div className="screen-fade coming-soon" key={screen}>
           <div className="coming-soon-emoji">📚</div>
           <h1>Content coming soon</h1>
@@ -978,7 +1022,7 @@ export default function App() {
           <NotificationGateModal uid={user.uid} />
         )}
       </Suspense>
-      <TopBar {...topBarProps} />
+      {topBar}
 
       {dataError && (
         <div className="offline-banner">
@@ -1024,6 +1068,10 @@ export default function App() {
               questions={scopedQuestions}
               semesterId={activeSemesterId}
               onRefresh={semesterData.refresh}
+              guest={!user}
+              onLoginRequired={() => setShowAuth(true)}
+              guestSemesters={guestSemesterIds.map((id) => ({ id, label: `Semester ${SEMESTER_ORDER.indexOf(id) + 1}` }))}
+              onGuestSemester={pickGuestSemester}
               onSelectSubject={(name) => goTo('subtopic', { selectedSubject: name, selectedTopic: null })}
               onComingSoon={(name) => goTo('subject-soon', { selectedSubject: name, selectedTopic: null })}
               onPracticeTopic={(subject, subtopic) => {

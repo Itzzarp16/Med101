@@ -116,3 +116,19 @@
 .dash-top .home-notice,
 .dash-top .resume-card { max-width: none; margin: 0; }
 .dash-invites { border-color: rgba(var(--cyan-rgb), 0.35); margin: 0; }
+
+/* ── Guest (not signed in) dashboard ── */
+.guest-signin-btn { padding: 8px 18px; font-size: 14px; white-space: nowrap; }
+.guest-sem-row {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  max-width: 760px; margin: 4px auto 16px; padding: 0 16px;
+}
+.guest-sem-chip {
+  border: 1px solid rgba(255, 255, 255, 0.18); background: rgba(255, 255, 255, 0.08);
+  color: inherit; font: inherit; font-size: 13.5px; padding: 7px 14px; border-radius: 999px; cursor: pointer;
+}
+.guest-sem-chip.active {
+  background: rgba(var(--cyan-rgb), 0.22); border-color: rgba(var(--cyan-rgb), 0.6); font-weight: 600;
+}
+.guest-sem-chip:hover { background: rgba(255, 255, 255, 0.16); }
+.guest-cta { text-align: center; margin: 0 auto 18px; padding: 0 16px; }

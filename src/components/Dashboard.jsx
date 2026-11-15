@@ -197,10 +197,11 @@ function getGreeting(kgNow, questionsToday) {
 
 // Matches the old site's #screen-subject layout: centered icon+title+sub
 // header, then the scrolling notice, then a centered max-width subj-grid.
-export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, subjectAddedAt, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, onRefresh, semesterId }) {
+export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, subjectAddedAt, questions, onSelectSubject, onComingSoon, onPracticeTopic, onAcceptInvite, onRefresh, semesterId, guest = false, onLoginRequired, guestSemesters = [], onGuestSemester }) {
   const { user, profile } = useAuth();
   // Exam dates for this semester: one card at the top plus a date line on each subject.
-  const exams = useExams(semesterId);
+  // (Visitors who aren't signed in can't read them, so skip the lookup.)
+  const exams = useExams(guest ? null : semesterId);
   const examBySubject = {};
   for (const e of exams) {
     const status = examStatus(e);
@@ -220,7 +221,9 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, s
   // here rather than showing yesterday's leftover count.
   const questionsToday = profile?.questionsTodayDate === todayStr() ? (profile?.questionsToday || 0) : 0;
 
-  const greeting = getGreeting(kgNow, questionsToday);
+  const greeting = guest
+    ? { title: 'Welcome to Med101', emoji: '👋', nudge: 'Pick a subject to get started - you will be asked to sign in first.' }
+    : getGreeting(kgNow, questionsToday);
 
   const subjectStats = useMemo(() => {
     const topicsBySubject = {};
@@ -268,22 +271,41 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, s
         {onRefresh && <PullToRefresh onRefresh={onRefresh} />}
         <div className="dashboard-greeting">
           <Mascot mood="wave" size={68} className="dashboard-mascot" />
-          <div className="dashboard-greeting-text">{greeting.title}, {firstName} {greeting.emoji}</div>
+          <div className="dashboard-greeting-text">{guest ? `${greeting.title} ${greeting.emoji}` : `${greeting.title}, ${firstName} ${greeting.emoji}`}</div>
           <div className="dashboard-nudge">{greeting.nudge}</div>
           {questionsToday > 0 && (
             <span className="dashboard-badge">📝 {questionsToday} question{questionsToday === 1 ? '' : 's'} today</span>
           )}
         </div>
-        <div className="dash-top">
-          {resumeCard}
-          <HomeNoticeBanner semesterId={semesterId} />
-          <PendingInvites onAccept={onAcceptInvite} />
-          <ExamCountdown exams={exams} />
-        </div>
+        {guest ? (
+          guestSemesters.length > 1 && (
+            <div className="guest-sem-row" role="group" aria-label="Choose semester">
+              {guestSemesters.map((g) => (
+                <button
+                  key={g.id}
+                  type="button"
+                  className={`guest-sem-chip${g.id === semesterId ? ' active' : ''}`}
+                  onClick={() => onGuestSemester?.(g.id)}
+                >
+                  {g.label}
+                </button>
+              ))}
+            </div>
+          )
+        ) : (
+          <div className="dash-top">
+            {resumeCard}
+            <HomeNoticeBanner semesterId={semesterId} />
+            <PendingInvites onAccept={onAcceptInvite} />
+            <ExamCountdown exams={exams} />
+          </div>
+        )}
 
         <div className="subj-grid">
           {orderedSubjects.map(([name, meta], idx) => {
-            const hasQuestions = (subjectStats[name]?.questionCount || 0) > 0;
+            // Visitors can't read admin-uploaded questions, so their counts would be
+            // wrong: show every subject as open and leave the counts off.
+            const hasQuestions = guest || (subjectStats[name]?.questionCount || 0) > 0;
             // The static "Content coming soon" desc lives in the semester
             // JSON (see y2s1/y2s2.json) - once an upload gives this subject
             // real questions, that label would be actively wrong, so drop
@@ -291,6 +313,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, s
             // clear it. The real topic/question counts already render
             // below regardless.
             const rawDesc = hasQuestions && meta.desc === 'Content coming soon' ? '' : meta.desc;
+            const hideDesc = guest && /coming soon/i.test(meta.desc || '');
             // The semester JSON bakes "– N topics, M questions" into the
             // desc, and the card's meta line shows the same counts, so
             // strip it here. Also hide a desc that just repeats the name.
@@ -303,16 +326,16 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, s
                 index={idx}
                 emoji={meta.emoji}
                 name={name}
-                desc={hasQuestions ? '' : desc}
-                questionCount={subjectStats[name]?.questionCount}
-                topicCount={subjectStats[name]?.topicCount}
-                addedAt={subjectAddedAt?.[name]}
+                desc={hasQuestions && !guest ? '' : (hideDesc ? '' : desc)}
+                questionCount={guest ? undefined : subjectStats[name]?.questionCount}
+                topicCount={guest ? undefined : subjectStats[name]?.topicCount}
+                addedAt={guest ? undefined : subjectAddedAt?.[name]}
                 trace
                 build
                 hue={subjectHueIndex(name, mainSubjectMeta)}
-                exam={examBySubject[name] || null}
+                exam={guest ? null : (examBySubject[name] || null)}
                 progress={prog && prog.answered > 0 ? { answered: prog.answered, pct: Math.round((prog.correct / prog.answered) * 100) } : null}
-                onClick={() => (hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
+                onClick={() => (guest ? onLoginRequired?.() : hasQuestions ? onSelectSubject?.(name) : onComingSoon?.(name))}
               />
             );
           })}
