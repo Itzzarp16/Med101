@@ -8,7 +8,7 @@ import LiquidSwitch from './LiquidSwitch';
 //        and are sent back signed in (api/auth/handoff.py hands over the login).
 // OFF -> the normal sign-in screen on med101.space, exactly as before.
 // Stored at config/authHandoff { enabled }, which the site reads through
-// api/auth/handoff-config.py (visitors who aren't signed in can't read Firestore).
+// api/auth/handoff.py (GET) (visitors who aren't signed in can't read Firestore).
 export default function AdminSignInPageScreen() {
   const [enabled, setEnabled] = useState(null); // null = still loading
   const [busy, setBusy] = useState(false);

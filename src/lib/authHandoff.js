@@ -1,6 +1,6 @@
 // Sign-in on auth.med101.space, then hand the login back to med101.space.
 // Switched on/off in Admin portal -> Sign-in page (config/authHandoff.enabled).
-// Server side: api/auth/handoff.py (one-time pass) + api/auth/handoff-config.py (the switch).
+// Server side: api/auth/handoff.py (GET = the switch, POST = one-time pass).
 
 export const AUTH_HOST = 'auth.med101.space';
 export const MAIN_SITE_URL = 'https://med101.space';
@@ -20,7 +20,7 @@ let flagAt = 0;
 export function fetchHandoffEnabled(fresh = false) {
   if (fresh || !flagPromise || Date.now() - flagAt > 15000) {
     flagAt = Date.now();
-    flagPromise = fetch('/api/auth/handoff-config', { cache: 'no-store' })
+    flagPromise = fetch('/api/auth/handoff', { cache: 'no-store' })
       .then((r) => (r.ok ? r.json() : {}))
       .then((j) => j.enabled === true)
       .catch(() => false);

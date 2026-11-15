@@ -1,4 +1,11 @@
 """
+One function, two methods (the Hobby plan allows only 12 functions):
+
+GET  /api/auth/handoff  ->  {"enabled": true|false}
+  Tells visitors who are not signed in whether the "sign in on auth.med101.space"
+  page is switched on (Admin portal -> Sign-in page). They cannot read Firestore
+  themselves, so this returns just that one flag. Any problem reads as "off".
+
 POST /api/auth/handoff   (Authorization: Bearer <Firebase ID token>)
   ->  {"token": "<Firebase custom token>"}
 
@@ -38,6 +45,21 @@ class handler(BaseHTTPRequestHandler):
             self.send_header('Access-Control-Allow-Origin', origin)
         self.end_headers()
         self.wfile.write(payload)
+
+    def do_GET(self):
+        enabled = False
+        try:
+            init_admin()
+            snap = firestore.client().collection('config').document('authHandoff').get()
+            enabled = bool(snap.exists and snap.to_dict().get('enabled') is True)
+        except Exception as e:  # noqa: BLE001
+            print('handoff switch read failed:', e)
+        body = json.dumps({'enabled': enabled}).encode('utf-8')
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.send_header('Cache-Control', 'public, s-maxage=5, stale-while-revalidate=20')
+        self.end_headers()
+        self.wfile.write(body)
 
     def do_OPTIONS(self):
         self.send_response(204)
