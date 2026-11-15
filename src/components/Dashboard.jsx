@@ -222,7 +222,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, s
   const questionsToday = profile?.questionsTodayDate === todayStr() ? (profile?.questionsToday || 0) : 0;
 
   const greeting = guest
-    ? { title: 'Welcome to Med101', emoji: '👋', nudge: 'Pick a subject to try its first 25 questions free. Sign in to unlock everything.' }
+    ? { title: 'Welcome to Med101', emoji: '👋', nudge: '' }
     : getGreeting(kgNow, questionsToday);
 
   const subjectStats = useMemo(() => {
@@ -272,7 +272,7 @@ export default function Dashboard({ resumeCard, mainSubjectMeta, subjectGroup, s
         <div className="dashboard-greeting">
           <Mascot mood="wave" size={68} className="dashboard-mascot" />
           <div className="dashboard-greeting-text">{guest ? `${greeting.title} ${greeting.emoji}` : `${greeting.title}, ${firstName} ${greeting.emoji}`}</div>
-          <div className="dashboard-nudge">{greeting.nudge}</div>
+          {greeting.nudge ? <div className="dashboard-nudge">{greeting.nudge}</div> : null}
           {questionsToday > 0 && (
             <span className="dashboard-badge">📝 {questionsToday} question{questionsToday === 1 ? '' : 's'} today</span>
           )}

@@ -26,7 +26,7 @@ const TIMER_PRESETS = [20, 30, 45, 60];
 // then Auto-advance/Timer settings and the Start Quiz button, then
 // multi-select topic chips at the very bottom (picking any chip
 // switches mode to "topic" and filters the pool to just those topics).
-export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, hueIndex, isPremium, onGetPremium, onStart, onBack }) {
+export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, hueIndex, isPremium, guest = false, onGetPremium, onStart, onBack }) {
   const { profile } = useAuth();
   const [mode, setMode] = useState('rand25');
   const [unseenOnly, setUnseenOnly] = useState(false);
@@ -175,12 +175,19 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
         <div className="qm-head-emoji">{emoji || '🧬'}</div>
         <div className="qm-head-text">
           <h1 className="qm-head-title">{subjectName}</h1>
-          <div className="qm-head-sub"><b>{pool.length}</b> questions · <b>{topics.length}</b> topics</div>
+          {guest
+            ? <div className="qm-head-sub"><b>{Math.min(25, pool.length)}</b> questions</div>
+            : <div className="qm-head-sub"><b>{pool.length}</b> questions · <b>{topics.length}</b> topics</div>}
         </div>
       </div>
 
       <div className="qmode-body">
-        {!isPremium ? (
+        {guest ? (
+          // Visitors without an account: just a Start button for the 25 free questions.
+          <button className="btn-glow qmode-start-btn" onClick={handleStart}>
+            Start Quiz →
+          </button>
+        ) : !isPremium ? (
           <>
             <div className="qmode-custom glass" style={{ textAlign: 'center' }}>
               <div style={{ fontSize: 15, fontWeight: 700, marginBottom: 6 }}>🔒 Free Preview</div>

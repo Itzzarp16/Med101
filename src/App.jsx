@@ -1105,7 +1105,7 @@ export default function App() {
               onLoginRequired={requireAccount}
               guestSemesters={guestSemesterIds.map((id) => ({ id, label: `Semester ${SEMESTER_ORDER.indexOf(id) + 1}` }))}
               onGuestSemester={pickGuestSemester}
-              onSelectSubject={(name) => goTo('subtopic', { selectedSubject: name, selectedTopic: null })}
+              onSelectSubject={(name) => goTo(user ? 'subtopic' : 'mode', { selectedSubject: name, selectedTopic: null })}
               onComingSoon={(name) => goTo('subject-soon', { selectedSubject: name, selectedTopic: null })}
               onPracticeTopic={(subject, subtopic) => {
                 // Quick-practice shortcut skips mode selection: jumps
@@ -1146,6 +1146,7 @@ export default function App() {
                 emoji={scopedMainSubjectMeta[selectedSubject]?.emoji}
               hueIndex={subjectHueIndex(selectedSubject, scopedMainSubjectMeta)}
                 isPremium={isPremiumForCurrentSemester || isAdmin || premiumPaused}
+                guest={!user}
                 onGetPremium={() => goTo('premium')}
                 onStart={(quizQuestions, settings) => {
                   setFinalQuiz({ questions: quizQuestions, ...settings });
