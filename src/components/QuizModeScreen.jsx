@@ -184,9 +184,14 @@ export default function QuizModeScreen({ pool, subjectMeta, subjectName, emoji, 
       <div className="qmode-body">
         {guest ? (
           // Visitors without an account: just a Start button for the 25 free questions.
-          <button className="btn-glow qmode-start-btn" onClick={handleStart}>
-            Start Quiz →
-          </button>
+          <>
+            <button className="btn-glow qmode-start-btn" onClick={handleStart}>
+              Start Quiz →
+            </button>
+            <p style={{ margin: '12px 4px 0', textAlign: 'center', fontSize: 13.5, lineHeight: 1.5, color: 'var(--text3)' }}>
+              Free preview: {Math.min(25, pool.length)} questions. Create a free account to unlock more.
+            </p>
+          </>
         ) : !isPremium ? (
           <>
             <div className="qmode-custom glass" style={{ textAlign: 'center' }}>

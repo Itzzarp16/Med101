@@ -819,9 +819,9 @@ export default function QuizScreen({ guest = false, onSignIn, mainSubject, topic
 
           {guest && (
             <div className="glass" style={{ padding: '16px 18px', borderRadius: 18, textAlign: 'center', margin: '4px 0 14px' }}>
-              <div style={{ fontWeight: 700, marginBottom: 4 }}>Want to keep practising?</div>
+              <div style={{ fontWeight: 700, marginBottom: 4 }}>You've finished the free preview</div>
               <p style={{ margin: '0 0 12px', fontSize: 13.5, lineHeight: 1.55, color: 'var(--text2)' }}>
-                Create a free account to save your progress, streak and wrong answers, and to open more subjects.
+                Create a free account to save your progress and wrong answers, and to unlock all questions and subjects.
               </p>
               <button type="button" className="btn-glow" style={{ width: '100%' }} onClick={() => { playTapSound(); onSignIn?.(); }}>
                 Sign in / Create account
